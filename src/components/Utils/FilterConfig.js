@@ -4,7 +4,7 @@ const Filters = () => {
       label: 'Approval Status',
       name: 'approval_status',
       cql: 'approval_status',
-      values: ['Approved', 'Pending', 'On hold', 'Not approved']
+      values: ['Approved', 'Pending', 'On hold']
     },
   ];
 };
