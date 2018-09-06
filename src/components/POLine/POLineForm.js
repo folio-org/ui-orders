@@ -152,7 +152,7 @@ class POLineForm extends Component {
     const showDeleteButton = initialValues.id || false;
     // Section Error Handling
     const { sectionErrors } = this.state;
-    const message = <em /* className={css.requiredIcon color: 'red', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
+    const message = <em className={css.requiredIcon} style={{color: 'red', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
     const POLineDetailsErr = this.getSectionError() ? message : null;
     const CostErr = sectionErrors.CostErr ? message : null;
 
