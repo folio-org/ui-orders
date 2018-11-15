@@ -18,16 +18,46 @@ class CostForm extends Component {
     return (
       <Row>
         <Col xs={6}>
-          <Field label="List Unit Price" name="cost.list_price" id="cost.list_price" type="number" component={TextField} fullWidth />
+          <Field
+            label="List Unit Price"
+            name="cost.list_price"
+            id="cost.list_price"
+            type="number"
+            component={TextField}
+            fullWidth
+          />
         </Col>
         <Col xs={6}>
-          <Field label="Currency&#42;" name="cost.currency" id="cost.currency" type="select" component={Select} validate={[Required]} dataOptions={currencyDD} fullWidth />
+          <Field
+            label="Currency&#42;"
+            name="cost.currency"
+            id="cost.currency"
+            type="select"
+            component={Select}
+            validate={[Required]}
+            dataOptions={currencyDD}
+            fullWidth
+          />
         </Col>
         <Col xs={6}>
-          <Field label="Quantity Physical" name="cost.quantity_physical" id="cost.quantity_physical" type="number" component={TextField} fullWidth />
+          <Field
+            label="Quantity Physical"
+            name="cost.quantity_physical"
+            id="cost.quantity_physical"
+            type="number"
+            component={TextField}
+            fullWidth
+          />
         </Col>
         <Col xs={6}>
-          <Field label="Quantity Electronic" name="cost.quantity_electronic" id="cost.quantity_electronic" type="number" component={TextField} fullWidth />
+          <Field
+            label="Quantity Electronic"
+            name="cost.quantity_electronic"
+            id="cost.quantity_electronic"
+            type="number"
+            component={TextField}
+            fullWidth
+          />
         </Col>
         <Col xs={6}>
           <Field
@@ -35,7 +65,7 @@ class CostForm extends Component {
               <div>
                 <span>Estimated Price</span>
                 <InfoPopover
-                  content="List Price x Quantity Ordered"
+                  content="List Unit Price x Quantity Ordered"
                   buttonLabel="Read more"
                 />
               </div>
