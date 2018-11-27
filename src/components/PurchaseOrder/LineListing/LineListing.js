@@ -8,7 +8,7 @@ class LineListing extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    poLines: PropTypes.array.isRequired,
+    poLines: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   constructor(props) {
