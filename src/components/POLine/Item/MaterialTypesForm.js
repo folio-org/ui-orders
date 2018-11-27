@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import {
   Field,
   FieldArray,
@@ -8,7 +10,7 @@ import {
   Button,
   Col,
   Row,
-  TextField,
+  Select,
 } from '@folio/stripes/components';
 
 class MaterialTypesForm extends Component {
@@ -53,14 +55,20 @@ class MaterialTypesForm extends Component {
   }
 
   renderSubForm(elem, index, fields) {
+    const { materialTypes } = this.props;
+    const typesOptions = get(materialTypes, 'records', []).map((t) => ({
+      label: t.name,
+      value: t.id,
+    }));
+
     return (
       <Row key={index}>
         <Col xs={10}>
           <Field
             label={<FormattedMessage id="ui-orders.itemDetails.materialTypes" />}
             name={elem}
-            id={elem}
-            component={TextField}
+            component={Select}
+            dataOptions={typesOptions}
             fullWidth
           />
         </Col>
@@ -88,5 +96,9 @@ class MaterialTypesForm extends Component {
     );
   }
 }
+
+MaterialTypesForm.propTypes = {
+  materialTypes: PropTypes.object.isRequired,
+};
 
 export default MaterialTypesForm;

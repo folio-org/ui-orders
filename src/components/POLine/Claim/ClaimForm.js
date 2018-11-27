@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { TextField, Row, Col, Checkbox } from '@folio/stripes/components';
-// import { Required } from '../../Utils/Validate';
+import {
+  Checkbox,
+  Col,
+  Row,
+  TextField,
+} from '@folio/stripes/components';
 
-class FundForm extends Component {
+class ClaimForm extends Component {
   render() {
     return (
       <Row>
@@ -21,4 +25,4 @@ class FundForm extends Component {
   }
 }
 
-export default FundForm;
+export default ClaimForm;

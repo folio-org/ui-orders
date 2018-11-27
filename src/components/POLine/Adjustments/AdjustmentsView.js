@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { KeyValue, Row, Col } from '@folio/stripes/components';
 
-class RenewalView extends React.Component {
+class AdjustmentsView extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object
   }
@@ -42,4 +42,4 @@ class RenewalView extends React.Component {
   }
 }
 
-export default RenewalView;
+export default AdjustmentsView;

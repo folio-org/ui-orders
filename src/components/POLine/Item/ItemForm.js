@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import {
   Col,
@@ -18,6 +19,8 @@ import {
 
 class ItemForm extends Component {
   render() {
+    const { parentResources } = this.props;
+
     return (
       <Row>
         <Col xs={12}>
@@ -98,7 +101,7 @@ class ItemForm extends Component {
           />
         </Col>
         <Col xs={6}>
-          <MaterialTypesForm />
+          <MaterialTypesForm materialTypes={parentResources.materialTypes} />
         </Col>
         <Col xs={12}>
           <ProductIdDetailsForm />
@@ -115,5 +118,11 @@ class ItemForm extends Component {
     );
   }
 }
+
+ItemForm.propTypes = {
+  parentResources: PropTypes.shape({
+    materialTypes: PropTypes.object.isRequired,
+  }).isRequired,
+};
 
 export default ItemForm;

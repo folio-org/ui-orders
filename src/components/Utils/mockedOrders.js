@@ -71,7 +71,7 @@ export default {
           'product_id': '10407849',
           'product_id_type': 'Vendor Item Number'
         }],
-        'material_types': ['fde2dc42-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['5ee11d91-f7e8-481d-b079-65d708582ccc'],
         'subscription_interval': 0,
         'po_line_id': '50fb4bfa-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
@@ -183,7 +183,7 @@ export default {
           'product_id': '9780820350790',
           'product_id_type': 'ISBN'
         }],
-        'material_types': ['fde2dc42-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['1a54b431-2e4f-452d-9cae-9cee66c9a892'],
         'subscription_interval': 0,
         'po_line_id': '50fb4e66-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
@@ -434,7 +434,7 @@ export default {
           'product_id': '9781118416068',
           'product_id_type': 'ISBN'
         }],
-        'material_types': ['fde2e958-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['615b8413-82d5-4203-aa6e-e37984cb5ac3'],
         'subscription_interval': 0,
         'po_line_id': '50fb63b0-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
@@ -476,7 +476,7 @@ export default {
         'po_line_id': '50fb63b0-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '268999-01',
       'po_line_workflow_status': 'Closed',
       'publication_date': '2017',
       'publisher': 'John Wiley & Sons, Inc.',
@@ -584,7 +584,7 @@ export default {
           'product_id': '4005000',
           'product_id_type': 'Vendor Title Number'
         }],
-        'material_types': ['fde2db02-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['615b8413-82d5-4203-aa6e-e37984cb5ac3'],
         'subscription_from': '2018-08-01T00:00:00.000+0000',
         'subscription_interval': 365,
         'subscription_to': '2019-07-31T00:00:00.000+0000',
@@ -709,7 +709,7 @@ export default {
           'product_id': '4008000',
           'product_id_type': 'Vendor Title Number'
         }],
-        'material_types': ['fde2db02-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['615b8413-82d5-4203-aa6e-e37984cb5ac3'],
         'subscription_from': '2018-08-01T00:00:00.000+0000',
         'subscription_interval': 365,
         'subscription_to': '2019-07-31T00:00:00.000+0000',
@@ -861,7 +861,7 @@ export default {
           'product_id': '807922',
           'product_id_type': 'Vendor Title Number'
         }],
-        'material_types': ['fde2dfb2-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['615b8413-82d5-4203-aa6e-e37984cb5ac3'],
         'subscription_from': '2019-01-01T00:00:00.000+0000',
         'subscription_interval': 365,
         'subscription_to': '2019-12-31T00:00:00.000+0000',
@@ -905,7 +905,7 @@ export default {
         'po_line_id': '50fb5514-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '80',
+      'po_line_number': '263758-08',
       'po_line_workflow_status': 'Closed',
       'publication_date': '2019',
       'publisher': 'American Chemical Society',
@@ -1011,7 +1011,7 @@ export default {
           'product_id': '5456',
           'product_id_type': 'Vendor Item Number'
         }],
-        'material_types': ['fde2ea7a-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['615b8413-82d5-4203-aa6e-e37984cb5ac3'],
         'subscription_interval': 0,
         'po_line_id': '50fb64dc-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
@@ -1053,7 +1053,7 @@ export default {
         'po_line_id': '50fb64dc-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '288758-011',
       'po_line_workflow_status': 'Closed',
       'publication_date': '',
       'publisher': '',
@@ -1159,7 +1159,7 @@ export default {
           'product_id': '43',
           'product_id_type': 'Vendor Item Number'
         }],
-        'material_types': ['fde2ea7a-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['5ee11d91-f7e8-481d-b079-65d708582ccc'],
         'subscription_from': '2018-07-23T00:00:00.000+0000',
         'subscription_interval': 365,
         'subscription_to': '2019-07-22T00:00:00.000+0000',
@@ -1202,7 +1202,7 @@ export default {
         'po_line_id': '50fb6608-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '368758-011',
       'po_line_workflow_status': 'Open',
       'publication_date': '2017',
       'publisher': '',
@@ -1308,7 +1308,7 @@ export default {
           'product_id': '1234-8675',
           'product_id_type': 'ISSN'
         }],
-        'material_types': ['fde2e0de-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['1a54b431-2e4f-452d-9cae-9cee66c9a892'],
         'subscription_interval': 0,
         'po_line_id': '50fb580c-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
@@ -1349,7 +1349,7 @@ export default {
         'po_line_id': '50fb580c-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '257758-011',
       'po_line_workflow_status': 'Open',
       'publication_date': '1956',
       'publisher': 'Tsuda College',
@@ -1456,7 +1456,7 @@ export default {
           'product_id': '12357',
           'product_id_type': 'Vendor Title Number'
         }],
-        'material_types': ['fde2de86-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['1a54b431-2e4f-452d-9cae-9cee66c9a892', 'dd0bf600-dbd9-44ab-9ff2-e2a61a6539f1'],
         'subscription_from': '2018-07-20T00:00:00.000+0000',
         'subscription_interval': 1095,
         'subscription_to': '2021-07-19T00:00:00.000+0000',
@@ -1501,7 +1501,7 @@ export default {
         'po_line_id': '50fb53f2-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '375758-01',
       'po_line_workflow_status': 'Open',
       'publication_date': '2016',
       'publisher': 'ro*co films',
@@ -1608,7 +1608,7 @@ export default {
           'product_id': '3257204',
           'product_id_type': 'Publisher Number'
         }],
-        'material_types': ['fde2ee44-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['30b3e36a-d3b2-415e-98c2-47fbdf878862'],
         'subscription_interval': 0,
         'po_line_id': '50fb695a-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
@@ -1650,7 +1650,7 @@ export default {
         'po_line_id': '50fb695a-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '333338-01',
       'po_line_workflow_status': 'Open',
       'publication_date': '2013',
       'publisher': 'Berkeley Films',
@@ -1757,7 +1757,7 @@ export default {
           'product_id': '7659CH',
           'product_id_type': 'Vendor Title Number'
         }],
-        'material_types': ['fde2e5ca-cde3-11e8-a8d5-f2801f1b9fd1'],
+        'material_types': ['fd6c6515-d470-4561-9c32-3e3290d4ca98'],
         'subscription_interval': 0,
         'po_line_id': '50fb5df2-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
@@ -1798,7 +1798,7 @@ export default {
         'po_line_id': '50fb5df2-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '1268758-01',
       'po_line_workflow_status': 'Pending',
       'publication_date': '1901',
       'publisher': 'London Topographical Society',
@@ -1950,7 +1950,7 @@ export default {
         'po_line_id': '50fb5aa0-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '1268758-02',
       'po_line_workflow_status': 'Pending',
       'publication_date': '2018',
       'publisher': 'Plenum Press',
@@ -2099,7 +2099,7 @@ export default {
         'po_line_id': '50fb5956-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '268758-02',
       'po_line_workflow_status': 'Pending',
       'publication_date': '2010',
       'publisher': 'Unisa Press',
@@ -2247,7 +2247,7 @@ export default {
         'po_line_id': '50fb6130-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
-      'po_line_number': '1',
+      'po_line_number': '268758-02',
       'po_line_workflow_status': 'Pending',
       'publication_date': '2015',
       'publisher': 'Pearson',

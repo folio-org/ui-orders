@@ -10,14 +10,18 @@ import {
 import FormatDate from '../../Utils/FormatDate';
 import ContributorView from './ContributorView';
 import ProductIdDetails from './ProductIdDetails';
+import MaterialType from './MaterialType';
 
 class ItemView extends Component {
   static propTypes = {
-    poLineDetails: PropTypes.object.isRequired
+    parentResources: PropTypes.shape({
+      materialTypes: PropTypes.object.isRequired,
+    }).isRequired,
+    poLineDetails: PropTypes.object.isRequired,
   }
 
   render() {
-    const { poLineDetails } = this.props;
+    const { parentResources, poLineDetails } = this.props;
 
     return (
       <Fragment>
@@ -68,9 +72,9 @@ class ItemView extends Component {
             />
           </Col>
           <Col xs={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.itemDetails.materialTypes" />}
-              value={toString(get(poLineDetails, ['details', 'material_types']))}
+            <MaterialType
+              materialTypes={parentResources.materialTypes}
+              materialTypesIds={get(poLineDetails, ['details', 'material_types'], [])}
             />
           </Col>
           <Col xs={6}>

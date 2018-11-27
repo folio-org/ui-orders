@@ -169,6 +169,12 @@ class Main extends Component {
       path: 'source?query=cql.allRecords=1 sortby desc',
       records: 'sources',
     },
+    materialTypes: {
+      type: 'okapi',
+      path: 'material-types',
+      records: 'mtypes',
+      perRequest: 1000,
+    },
   });
 
   static propTypes = {
