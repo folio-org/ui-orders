@@ -437,6 +437,12 @@
   "workflowStatus.closed": "Closed",
   "workflowStatus.open": "Open",
   "workflowStatus.pending": "Pending",
+  "settings.index.paneTitle": "Orders",
+  "settings.polines-limit": "Purchase Order Lines Limit",
+  "settings.saveBtn": "Save",
+  "settings.setPOLInesLimit": "Set Purchase Order Lines Limit",
+  "settings.setPOLInesLimit.changed": "The Limit of Purchase Order Lines has been successfully saved",
+  "settings.setPOLInesLimit.validatation": "Please enter a whole number greater than 0 and less than 1000 to continue",
 
   "errors.noMatch.oops": "Uh-oh!",
   "errors.noMatch.how": "How did you get to {location}?"

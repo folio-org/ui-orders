@@ -34,20 +34,6 @@ class FundDistributionForm extends Component {
     change: PropTypes.func.isRequired,
   };
 
-  render() {
-    return (
-      <Row>
-        <Col xs={12}>
-          <FieldArray
-            component={this.renderForm}
-            label="fund_distribution"
-            name="fund_distribution"
-          />
-        </Col>
-      </Row>
-    );
-  }
-
   addFields = (fields) => fields.push({});
 
   removeFields = (fields, index) => fields.remove(index);
@@ -157,6 +143,20 @@ class FundDistributionForm extends Component {
           >
             <FormattedMessage id="ui-orders.fundDistribution.removeBtn" />
           </Button>
+        </Col>
+      </Row>
+    );
+  }
+
+  render() {
+    return (
+      <Row>
+        <Col xs={12}>
+          <FieldArray
+            component={this.renderForm}
+            label="fund_distribution"
+            name="fund_distribution"
+          />
         </Col>
       </Row>
     );

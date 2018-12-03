@@ -231,6 +231,26 @@ class Main extends Component {
     this.state = {};
   }
 
+  massageNewRecord = (orderData) => {
+    orderData.created = moment.utc().format();
+    delete orderData.created_by_name;
+    delete orderData.assigned_to_user;
+    delete orderData.vendor_name;
+    delete orderData.bill_to;
+    delete orderData.ship_to;
+  }
+
+  create = (orderData) => {
+    const { mutator } = this.props;
+
+    mutator.records.POST(orderData).then(newOrder => {
+      mutator.query.update({
+        _path: `/orders/view/${newOrder.id}`,
+        layer: null,
+      });
+    });
+  }
+
   render() {
     const {
       browseOnly,
@@ -295,26 +315,6 @@ class Main extends Component {
         }}
       />
     );
-  }
-
-  massageNewRecord = (orderData) => {
-    orderData.created = moment.utc().format();
-    delete orderData.created_by_name;
-    delete orderData.assigned_to_user;
-    delete orderData.vendor_name;
-    delete orderData.bill_to;
-    delete orderData.ship_to;
-  }
-
-  create = (orderData) => {
-    const { mutator } = this.props;
-
-    mutator.records.POST(orderData).then(newOrder => {
-      mutator.query.update({
-        _path: `/orders/view/${newOrder.id}`,
-        layer: null,
-      });
-    });
   }
 }
 

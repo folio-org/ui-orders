@@ -204,6 +204,7 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^3.2.1",
+    "@folio/react-intl-safe-html": "^1.0.1",
     "@folio/stripes": "^1.0.0",
     "@folio/stripes-cli": "^1.6.0",
     "@folio/stripes-core": "^2.15.4",

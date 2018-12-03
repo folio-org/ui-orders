@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
+import Switch from 'react-router-dom/Switch';
 import { hot } from 'react-hot-loader';
+
 import Main from './routes/Main';
-import Settings from './settings';
+import OrdersSettings from './settings';
 
 /*
   STRIPES-NEW-APP
   This is the main entry point into your new app.
 */
 
-class Orders extends React.Component {
+class Orders extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     showSettings: PropTypes.bool,
@@ -28,8 +29,9 @@ class Orders extends React.Component {
 
   render() {
     if (this.props.showSettings) {
-      return <Settings {...this.props} />;
+      return <OrdersSettings {...this.props} />;
     }
+
     return (
       <Switch>
         <Route
