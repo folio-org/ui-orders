@@ -438,5 +438,21 @@
     "physical.addVolumes": "Please Add Volumes",
     "physical.addVolumesBtn": "Add Volumes",
     "physical.removeBtn": "Remove",
-    "physical.receiptDate": "Receipt Date"
+    "physical.receiptDate": "Receipt Date",
+    "paneMenu.editOrder": "Edit Order",
+    "physical.volume": "Volume",
+    "physical.addVolume": "Please Add Volume",
+    "physical.addVolumeBtn": "Add Volume",
+    "settings.index.paneTitle": "Orders",
+    "settings.polines-limit": "Purchase Order Lines Limit",
+    "settings.saveBtn": "Save",
+    "settings.setPOLInesLimit": "Set Purchase Order Lines Limit",
+    "settings.setPOLInesLimit.changed": "The Limit of Purchase Order Lines has been successfully saved",
+    "settings.setPOLInesLimit.validatation": "Please enter a whole number greater than 0 and less than 1000 to continue",
+    "paneBlock.closeBtn": "Close Order",
+    "closeOrderModal.reason": "Reason",
+    "closeOrderModal.notes": "Notes",
+    "closeOrderModal.cancel": "Cancel",
+    "closeOrderModal.submit": "Submit",
+    "closeOrderModal.title": "Close - Purchase Order #{orderId}"
 }
