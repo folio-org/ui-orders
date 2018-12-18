@@ -60,7 +60,7 @@ class POLinesLimit extends Component {
   onChangePOLinesLimitFormSubmit = values => {
     const record = this.props.resources.setPOLinesLimit.records[0];
     const { setPOLinesLimit, recordId } = this.props.mutator;
-    const polinesLimit = values.polines_limit;
+    const polinesLimit = values.records[0].value;
 
     if (record) {
       recordId.replace(record.id);
@@ -101,11 +101,12 @@ class POLinesLimit extends Component {
   };
 
   render() {
-    const { label } = this.props;
+    const { label, resources } = this.props;
 
     return (
       <div style={this.styles.poLineLimitFormWrapper}>
         <POLinesLimitForm
+          initialValues={resources.setPOLinesLimit}
           onSubmit={this.onChangePOLinesLimitFormSubmit}
           saveButtonText={<FormattedMessage id="ui-orders.settings.saveBtn" />}
           title={label}
@@ -116,8 +117,7 @@ class POLinesLimit extends Component {
                 <Field
                   component={TextField}
                   label={<FormattedMessage id="ui-orders.settings.setPOLInesLimit" />}
-                  name="polines_limit"
-                  placeholder="999"
+                  name="records[0].value"
                   type="number"
                   validate={this.validateField}
                 />
