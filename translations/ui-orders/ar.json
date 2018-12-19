@@ -454,5 +454,6 @@
     "closeOrderModal.notes": "Notes",
     "closeOrderModal.cancel": "Cancel",
     "closeOrderModal.submit": "Submit",
-    "closeOrderModal.title": "Close - Purchase Order #{orderId}"
+    "closeOrderModal.title": "Close - Purchase Order #{orderId}",
+    "settings.setPOLInesLimit.validation": "Please enter a whole number greater than 0 and less than 1000 to continue"
 }
