@@ -1,5 +1,5 @@
 {
-    "meta.title": "Pedidos",
+    "meta.title": "Aquisições",
     "search": "Pesquisa",
     "resultCount": "{count, number} {count, plural, one {Registro encontrado} other {Registros encontrados}}",
     "closedLoansCount": "{count, number} {count, plural, one {empréstimo devolvido} other {empréstimos devolvidos}}",
@@ -443,7 +443,7 @@
     "physical.volume": "Volume",
     "physical.addVolume": "Por favor, adicione o volume",
     "physical.addVolumeBtn": "Adicionar volume",
-    "settings.index.paneTitle": "Pedidos",
+    "settings.index.paneTitle": "Aquisições",
     "settings.polines-limit": "Limite de linhas de ordem de compra",
     "settings.saveBtn": "Salvar",
     "settings.setPOLInesLimit": "Definir limite de linhas de ordem de compra",
@@ -454,5 +454,16 @@
     "closeOrderModal.notes": "Notas",
     "closeOrderModal.cancel": "Cancelar",
     "closeOrderModal.submit": "Enviar",
-    "closeOrderModal.title": "Fechar - ordem de compra núm. {orderId}"
+    "closeOrderModal.title": "Fechar - ordem de compra núm. {orderId}",
+    "settings.setPOLInesLimit.validation": "Por favor insira um número inteiro maior que 0 e menor que 1000 para continuar",
+    "settings.closingReasons.add": "Adicionar razão",
+    "settings.closingReasons.addBtn": "Adicionar",
+    "settings.closingReasons.reason": "Razão",
+    "settings.closingReasons.remove.error": "Razão não foi removida",
+    "settings.closingReasons.remove.success": "Razão foi removida com sucesso",
+    "settings.closingReasons.removeBtn": "Remover",
+    "settings.closingReasons.save.error": "Razão não foi salva",
+    "settings.closingReasons.save.success": "Razão foi salva com sucesso",
+    "settings.closingReasons.saveBtn": "Salvar",
+    "settings.closingReasons": "Fechamento razões de ordem de compra"
 }
