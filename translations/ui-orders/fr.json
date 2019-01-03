@@ -487,5 +487,8 @@
     "closeOrderModal.closingReasons.titleWontBePublishedThisYear": "Title won’t be published this year",
     "closeOrderModal.closingReasons.titleWontBePublished": "Title won’t be published",
     "closeOrderModal.closingReasons.titleOutOtPrint": "Title is out of print",
-    "closeOrderModal.closingReasons.titleRecievedAsGift": "Title received as a gift"
+    "closeOrderModal.closingReasons.titleRecievedAsGift": "Title received as a gift",
+    "instance.title": "Title",
+    "instance.contributors": "Contributors",
+    "instance.publishers": "Publishers"
 }
