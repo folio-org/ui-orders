@@ -487,5 +487,11 @@
     "closeOrderModal.closingReasons.titleWontBePublishedThisYear": "Título não será publicado este ano",
     "closeOrderModal.closingReasons.titleWontBePublished": "Título não será publicado",
     "closeOrderModal.closingReasons.titleOutOtPrint": "O título está esgotado",
-    "closeOrderModal.closingReasons.titleRecievedAsGift": "Título recebido como presente"
+    "closeOrderModal.closingReasons.titleRecievedAsGift": "Título recebido como presente",
+    "instance.title": "Título",
+    "instance.contributors": "Colaboradores",
+    "instance.publishers": "Editoras",
+    "settings.poNumber": "Purchase Order Number",
+    "settings.poNumber.editPONumber": "User Can Edit",
+    "settings.poNumber.saveBtn": "Save"
 }
