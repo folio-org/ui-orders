@@ -515,5 +515,17 @@
     "settings.poNumber.prefixSuffix": "Prefixo e Sufixo",
     "settings.poNumber.addOption": "Add: ",
     "settings.poNumber.prefix": "Prefixo",
-    "settings.poNumber.suffix": "Sufixo"
+    "settings.poNumber.suffix": "Sufixo",
+    "button.addLine": "Add PO Line",
+    "order.paneTitle.details": "Purchase Order - PO#{orderNumber}",
+    "order.paneTitle.detailsLoading": "Details",
+    "order.paneTitle.edit": "Edit - PO#{orderNumber}",
+    "orderSummary.closingReason": "Reason for Closure",
+    "orderSummary.closingNote": "Notes on Closure",
+    "paneBlock.renewals": "Renewals",
+    "renewals.manualRenewal": "Manual Renewal",
+    "renewals.renewalDate": "Renewal Date",
+    "renewals.renewalInterval": "Renewal Interval",
+    "renewals.reviewPeriod": "Review Period",
+    "physical.expectedReceiptDate": "Expected Receipt Date"
 }

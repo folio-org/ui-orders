@@ -515,5 +515,17 @@
     "settings.poNumber.prefixSuffix": "Prefixo e sufixo",
     "settings.poNumber.addOption": "Adicionar: ",
     "settings.poNumber.prefix": "Prefixo",
-    "settings.poNumber.suffix": "Sufixo"
+    "settings.poNumber.suffix": "Sufixo",
+    "button.addLine": "Adicionar linha de pedido",
+    "order.paneTitle.details": "Pedido de compra - Número {orderNumber}",
+    "order.paneTitle.detailsLoading": "Detalhes",
+    "order.paneTitle.edit": "Editar - Pedido núm. {orderNumber}",
+    "orderSummary.closingReason": "Razão para o encerramento",
+    "orderSummary.closingNote": "Notas sobre o encerramento",
+    "paneBlock.renewals": "Renovações",
+    "renewals.manualRenewal": "Renovação manual",
+    "renewals.renewalDate": "Data de renovação",
+    "renewals.renewalInterval": "Intervalo de renovação",
+    "renewals.reviewPeriod": "Período de revisão",
+    "physical.expectedReceiptDate": "Expected Receipt Date"
 }
