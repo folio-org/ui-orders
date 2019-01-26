@@ -356,7 +356,7 @@
     "orderDetails.orderType": "Tipo de pedido*",
     "orderDetails.poNumber": "Número do pedido",
     "orderDetails.shipTo": "Enviar para",
-    "orderDetails.vendor": "Fornecedor",
+    "orderDetails.vendor": "Fornecedor*",
     "orderSummary.adjustments": "Ajustes",
     "orderSummary.approved": "Aprovado",
     "orderSummary.notes": "Notas",
@@ -409,7 +409,7 @@
     "orderDetails.manualPO": "Manual",
     "orderDetails.re_encumber": "Re-hipotecar",
     "orderDetails.note": "Nota",
-    "orderDetails.removeNoteBtn": "Remover nota",
+    "orderDetails.removeNoteBtn": "Remover",
     "cost.listPrice": "Preço unitário listado*",
     "cost.currency": "Moeda*",
     "cost.currency.usd": "USD",
@@ -527,5 +527,7 @@
     "renewals.renewalDate": "Data de renovação",
     "renewals.renewalInterval": "Intervalo de renovação",
     "renewals.reviewPeriod": "Período de revisão",
-    "physical.expectedReceiptDate": "Data de recebimento esperada"
+    "physical.expectedReceiptDate": "Data de recebimento esperada",
+    "errors.orderNumberIsNotValid": "Order Number is not valid",
+    "order.workflow_status": "Status"
 }
