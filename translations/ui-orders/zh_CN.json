@@ -527,5 +527,7 @@
     "renewals.renewalDate": "续借日期",
     "renewals.renewalInterval": "续借间隔",
     "renewals.reviewPeriod": "审核期间",
-    "physical.expectedReceiptDate": "Expected Receipt Date"
+    "physical.expectedReceiptDate": "预计收到日期",
+    "errors.orderNumberIsNotValid": "订单号无效",
+    "order.workflow_status": "状态"
 }
