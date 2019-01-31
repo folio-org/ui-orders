@@ -175,7 +175,7 @@ class LayerPOLine extends Component {
     // Due to not perfect component hierarchy, the 'real' new PO Line goes only if orderId is not falsy
     if (orderId) {
       newObj.purchase_order_id = orderId;
-      newObj.po_line_number = `${order.poNumber}-${lineSuffix}`;
+      newObj.po_line_number = `${order.po_number}-${lineSuffix}`;
     }
 
     return newObj;
