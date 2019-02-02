@@ -531,5 +531,5 @@
     "errors.orderNumberIsNotValid": "Order Number is not valid",
     "order.workflow_status": "Status",
     "paneBlock.receiveBtn": "Receive",
-    "buttons.orderForm.ariaCloseDialog": "Close New Purchase Order Dialog"
+    "buttons.orderForm.ariaCloseDialog": "Close new purchase order dialog"
 }

@@ -531,5 +531,5 @@
     "errors.orderNumberIsNotValid": "订单号无效",
     "order.workflow_status": "状态",
     "paneBlock.receiveBtn": "收到",
-    "buttons.orderForm.ariaCloseDialog": "Close New Purchase Order Dialog"
+    "buttons.orderForm.ariaCloseDialog": "关闭新采购订单对话框"
 }
