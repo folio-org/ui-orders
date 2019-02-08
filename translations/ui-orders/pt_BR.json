@@ -531,5 +531,21 @@
     "errors.orderNumberIsNotValid": "Número do pedido não é válido",
     "order.workflow_status": "Status",
     "paneBlock.receiveBtn": "Receber",
-    "buttons.orderForm.ariaCloseDialog": "Fechar a caixa de diálogo de nova ordem de compra"
+    "buttons.orderForm.ariaCloseDialog": "Fechar a caixa de diálogo de nova ordem de compra",
+    "receiving.paneTitle": "Receber itens",
+    "receiving.receiveBtn": "Receber",
+    "receiving.receiveAllBtn": "Receber todos",
+    "receiving.cancelBtn": "Cancelar",
+    "receiving.search": "Pesquisa",
+    "receiving.title": "Título",
+    "receiving.poLine": "Linha do pedido de compra",
+    "receiving.received": "Recebido",
+    "receiving.dateOrdered": "Data da compra",
+    "receiving.receivingItems": "Recebimento",
+    "receiving.note": "Nota",
+    "receiving.status": "Status",
+    "receiving.barcode": "Barcode",
+    "receiving.location": "Location",
+    "receiving.itemStatus": "Item Status",
+    "receiving.modalPaneTitle": "Update Item Details"
 }

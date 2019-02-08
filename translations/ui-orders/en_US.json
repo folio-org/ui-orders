@@ -531,5 +531,21 @@
     "errors.orderNumberIsNotValid": "Order Number is not valid",
     "order.workflow_status": "Status",
     "paneBlock.receiveBtn": "Receive",
-    "buttons.orderForm.ariaCloseDialog": "Close New Purchase Order Dialog"
+    "buttons.orderForm.ariaCloseDialog": "Close new purchase order dialog",
+    "receiving.paneTitle": "Receive Items",
+    "receiving.receiveBtn": "Receive",
+    "receiving.receiveAllBtn": "Receive All",
+    "receiving.cancelBtn": "Cancel",
+    "receiving.search": "Search",
+    "receiving.title": "Title",
+    "receiving.poLine": "POLine",
+    "receiving.received": "Received",
+    "receiving.dateOrdered": "Date Ordered",
+    "receiving.receivingItems": "Receiving",
+    "receiving.note": "Note",
+    "receiving.status": "Status",
+    "receiving.barcode": "Barcode",
+    "receiving.location": "Location",
+    "receiving.itemStatus": "Item Status",
+    "receiving.modalPaneTitle": "Update Item Details"
 }

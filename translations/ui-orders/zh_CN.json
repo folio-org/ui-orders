@@ -531,5 +531,21 @@
     "errors.orderNumberIsNotValid": "订单号无效",
     "order.workflow_status": "状态",
     "paneBlock.receiveBtn": "收到",
-    "buttons.orderForm.ariaCloseDialog": "Close New Purchase Order Dialog"
+    "buttons.orderForm.ariaCloseDialog": "关闭新采购订单对话框",
+    "receiving.paneTitle": "Receive Items",
+    "receiving.receiveBtn": "Receive",
+    "receiving.receiveAllBtn": "Receive All",
+    "receiving.cancelBtn": "Cancel",
+    "receiving.search": "Search",
+    "receiving.title": "Title",
+    "receiving.poLine": "POLine",
+    "receiving.received": "Received",
+    "receiving.dateOrdered": "Date Ordered",
+    "receiving.receivingItems": "Receiving",
+    "receiving.note": "Note",
+    "receiving.status": "Status",
+    "receiving.barcode": "Barcode",
+    "receiving.location": "Location",
+    "receiving.itemStatus": "Item Status",
+    "receiving.modalPaneTitle": "Update Item Details"
 }
