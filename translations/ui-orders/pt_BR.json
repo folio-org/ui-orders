@@ -544,8 +544,8 @@
     "receiving.receivingItems": "Recebimento",
     "receiving.note": "Nota",
     "receiving.status": "Status",
-    "receiving.barcode": "Barcode",
-    "receiving.location": "Location",
-    "receiving.itemStatus": "Item Status",
-    "receiving.modalPaneTitle": "Update Item Details"
+    "receiving.barcode": "Código de barras",
+    "receiving.location": "Localização",
+    "receiving.itemStatus": "Status do item",
+    "receiving.modalPaneTitle": "Atualizar detalhes do item"
 }
