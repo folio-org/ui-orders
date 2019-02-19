@@ -547,5 +547,12 @@
     "receiving.barcode": "Código de barras",
     "receiving.location": "Localização",
     "receiving.itemStatus": "Status do item",
-    "receiving.modalPaneTitle": "Atualizar detalhes do item"
+    "receiving.modalPaneTitle": "Atualizar detalhes do item",
+    "line.accordion.location": "Localização",
+    "location.button.addLocation": "Adicionar localização",
+    "location.nameCode": "Nome (Código)",
+    "location.quantityElectronic.exceeds": "Quantidade eletrônica excede a quantidade de detalhes de custo",
+    "location.quantityElectronic": "Quantidade eletrônica",
+    "location.quantityPhysical.exceeds": "A quantidade física excede a quantidade de detalhes de custo",
+    "location.quantityPhysical": "Quantidade física"
 }

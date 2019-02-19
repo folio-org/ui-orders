@@ -547,5 +547,12 @@
     "receiving.barcode": "Barcode",
     "receiving.location": "Location",
     "receiving.itemStatus": "Item Status",
-    "receiving.modalPaneTitle": "Update Item Details"
+    "receiving.modalPaneTitle": "Update Item Details",
+    "line.accordion.location": "Location",
+    "location.button.addLocation": "Add Location",
+    "location.nameCode": "Name (Code)",
+    "location.quantityElectronic.exceeds": "Quantity Electronic exceeds Cost Details quantity",
+    "location.quantityElectronic": "Quantity Electronic",
+    "location.quantityPhysical.exceeds": "Quantity Physical exceeds Cost Details quantity",
+    "location.quantityPhysical": "Quantity Physical"
 }
