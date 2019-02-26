@@ -1,3 +1,4 @@
+@Library ('folio_jenkins_shared_libs@folio-1818-sonar-coverage') _
 
 buildNPM {
   publishModDescriptor = true
