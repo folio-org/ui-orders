@@ -2,7 +2,6 @@ import { get } from 'lodash';
 
 const getOrderNumberSetting = (configs) => {
   let orderNumberSetting = get(configs, [0, 'value'], '{}');
-  let testSonar = 1;
   const config = {
     canUserEditOrderNumber: false,
     selectedPrefixes: [],

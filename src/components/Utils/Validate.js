@@ -46,4 +46,10 @@ export const validateYearIsPast = (value) => {
   return 'Field should be 4-digit year';
 };
 
+export const someNewValidation = (value) => {
+  return !value
+    ? undefined
+    : 'something wrong (validation message)';
+};
+
 export { required as Required };
