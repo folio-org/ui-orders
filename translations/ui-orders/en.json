@@ -484,6 +484,8 @@
   "renewals.renewalDate": "Renewal Date",
   "renewals.renewalInterval": "Renewal Interval",
   "renewals.reviewPeriod": "Review Period",
+  "receiving.links.items": "Receiving items",
+  "receiving.links.history": "Receiving history",
   "receiving.paneTitle": "Receive Items",
   "receiving.receiveBtn": "Receive",
   "receiving.receiveAllBtn": "Receive All",

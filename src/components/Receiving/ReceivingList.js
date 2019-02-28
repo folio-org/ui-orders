@@ -27,6 +27,7 @@ import {
   PIECE_STATUS_EXPECTED,
   PIECE_STATUS_RECEIVED,
 } from './const';
+import ReceivingLinks from './ReceivingLinks';
 
 import css from './ReceivingList.css';
 
@@ -71,14 +72,6 @@ class ReceivingList extends Component {
     };
   }
 
-  onCloseReceiving = () => {
-    const { location, mutator } = this.props;
-
-    mutator.query.update({
-      _path: location.pathname.replace('/receiving', ''),
-    });
-  }
-
   componentDidMount() {
     const { mutator, match: { params: { id, lineId } } } = this.props;
     const params = {
@@ -89,14 +82,22 @@ class ReceivingList extends Component {
     mutator.receiving_history.GET({ params });
   }
 
+  onCloseReceiving = () => {
+    const { location, mutator } = this.props;
+
+    mutator.query.update({
+      _path: location.pathname.replace('/receiving', ''),
+    });
+  }
+
   getFirstMenu = () => (
     <PaneMenu>
       <FormattedMessage id="ui-orders.buttons.line.close">
         {(title) => (
           <IconButton
             ariaLabel={title}
+            data-test-close-button
             icon="times"
-            id="clickable-close-new-line-dialog"
             onClick={this.onCloseReceiving}
           />
         )}
@@ -130,7 +131,7 @@ class ReceivingList extends Component {
   }
 
   render() {
-    const { resources } = this.props;
+    const { resources, mutator, location } = this.props;
     const receivingList = get(resources, ['receiving_history', 'records'], []);
     const uniqReceivingList = uniqBy(receivingList, 'poLineId');
     const resultsFormatter = {
@@ -162,7 +163,12 @@ class ReceivingList extends Component {
         <Paneset>
           <Pane
             defaultWidth="fill"
-            paneTitle={<FormattedMessage id="ui-orders.receiving.paneTitle" />}
+            paneTitle={(
+              <ReceivingLinks
+                location={location}
+                mutator={mutator}
+              />
+            )}
             firstMenu={this.getFirstMenu()}
           >
             <Row
@@ -187,6 +193,7 @@ class ReceivingList extends Component {
                 buttonStyle="primary"
                 disabled={isReceiveButtonDisabled}
                 onClick={this.openItemDetailsModal}
+                data-test-receive-pieces-button
               >
                 <FormattedMessage id="ui-orders.receiving.receiveBtn" />
               </Button>

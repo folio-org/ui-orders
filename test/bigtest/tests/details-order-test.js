@@ -9,14 +9,14 @@ import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import LineEditPage from '../interactors/line-edit-page';
-import LinesLimitModal from '../interactors/lines-limit-modal';
+// import LinesLimitModal from '../interactors/lines-limit-modal';
 
 describe('OrderDetailsPage', () => {
   setupApplication();
   const lineEditPage = new LineEditPage();
   const orderDetailsPage = new OrderDetailsPage();
   const orderEditPage = new OrderEditPage();
-  const linesLimitModal = new LinesLimitModal();
+  // const linesLimitModal = new LinesLimitModal();
   let order = null;
 
   beforeEach(function () {

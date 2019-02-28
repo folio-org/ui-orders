@@ -10,6 +10,8 @@ import {
   ORDERS_API,
 } from '../../../src/components/Utils/api';
 
+const RECEIVING_LIST_COUNT = 10;
+
 describe('Receiving', () => {
   setupApplication();
 
@@ -34,6 +36,8 @@ describe('Receiving', () => {
       compositePoLines: [line.attrs],
     });
 
+    this.server.createList('piece', RECEIVING_LIST_COUNT);
+
     await this.visit(`/orders/view/${order.id}`);
   });
 
@@ -52,6 +56,34 @@ describe('Receiving', () => {
 
     it('displays Receiving screen', () => {
       expect(receivingPage.$root).to.exist;
+    });
+  });
+
+  describe('displays Receiving page', () => {
+    beforeEach(async function () {
+      await this.visit(`/orders/view/${order.id}/receiving`);
+    });
+
+    it('displays Receive Pieces button', () => {
+      expect(receivingPage.receivePiecesButton.isButton).to.be.true;
+    });
+
+    it('displays Close button', () => {
+      expect(receivingPage.closeButton.isButton).to.be.true;
+    });
+
+    it('renders Receiving List', () => {
+      expect(receivingPage.receivingList().length).to.be.equal(RECEIVING_LIST_COUNT);
+    });
+
+    describe('go back from Receiving page to Order Details pane', () => {
+      beforeEach(async function () {
+        await receivingPage.closeButton.click();
+      });
+
+      it('go to Order Details pane', () => {
+        expect(orderDetailsPage.$root).to.exist;
+      });
     });
   });
 });

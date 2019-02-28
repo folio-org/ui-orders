@@ -5,6 +5,7 @@ import {
   ORDER_NUMBER_API,
   ORDERS_API,
   VENDORS_API,
+  RECEIVING_API,
 } from '../../../src/components/Utils/api';
 
 export default function config() {
@@ -49,5 +50,9 @@ export default function config() {
           value: '{"canUserEditOrderNumber":false,"selectedPrefixes":["PP"],"prefixes":["PP1","PP2","PP3","PP"],"selectedSuffixes":["SS"],"suffixes":["SS1","SS2","SS"]}',
         }],
       } : { configs: [] };
+  });
+
+  this.get(RECEIVING_API, (schema) => {
+    return schema.pieces.all();
   });
 }

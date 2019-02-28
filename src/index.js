@@ -9,12 +9,20 @@ import { stripesShape } from '@folio/stripes/core';
 
 import Main from './routes/Main';
 import OrdersSettings from './settings/OrdersSettings';
-import Receiving from './components/Receiving';
+import {
+  RECEIVING_HISTORY,
+  RECEIVING_ITEMS,
+  ReceivingHistory,
+  ReceivingList,
+} from './components/Receiving';
 
 /*
   STRIPES-NEW-APP
   This is the main entry point into your new app.
 */
+
+const ORDER_DETAIL_URL = '/orders/view/:id';
+const LINE_DETAIL_URL = `${ORDER_DETAIL_URL}/po-line/view/:lineId`;
 
 class Orders extends Component {
   static propTypes = {
@@ -27,7 +35,8 @@ class Orders extends Component {
   constructor(props, context) {
     super(props, context);
     this.connectedApp = props.stripes.connect(Main);
-    this.connectedReceiving = props.stripes.connect(Receiving);
+    this.connectedReceiving = props.stripes.connect(ReceivingList);
+    this.connectedReceivingHistory = props.stripes.connect(ReceivingHistory);
   }
 
   render() {
@@ -41,12 +50,22 @@ class Orders extends Component {
       <Switch>
         <Route
           exact
-          path="/orders/view/:id/po-line/view/:lineId/receiving"
+          path={`${LINE_DETAIL_URL}${RECEIVING_HISTORY}`}
+          render={props => <this.connectedReceivingHistory {...props} stripes={stripes} />}
+        />
+        <Route
+          exact
+          path={`${LINE_DETAIL_URL}${RECEIVING_ITEMS}`}
           render={props => <this.connectedReceiving {...props} stripes={stripes} />}
         />
         <Route
           exact
-          path="/orders/view/:id/receiving"
+          path={`${ORDER_DETAIL_URL}${RECEIVING_HISTORY}`}
+          render={props => <this.connectedReceivingHistory {...props} stripes={stripes} />}
+        />
+        <Route
+          exact
+          path={`${ORDER_DETAIL_URL}${RECEIVING_ITEMS}`}
           render={props => <this.connectedReceiving {...props} stripes={stripes} />}
         />
         <Route

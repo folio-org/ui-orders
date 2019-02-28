@@ -1,5 +1,8 @@
 # Change history for ui-orders
 
+## [1.3.0] - Unreleased
+* UIREC-14 Receiving: Access "Receiving History" for a PO
+
 ## [1.2.0](https://github.com/folio-org/ui-orders/tree/v1.2.0) (2019-02-22)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.1.1...v1.2.0)
 
