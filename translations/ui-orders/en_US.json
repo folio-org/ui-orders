@@ -555,5 +555,7 @@
     "location.quantityElectronic": "Quantity electronic",
     "location.quantityPhysical.exceeds": "Quantity physical exceeds Cost Details quantity",
     "location.quantityPhysical": "Quantity physical",
-    "button.edit": "Edit"
+    "button.edit": "Edit",
+    "receiving.links.items": "Receiving items",
+    "receiving.links.history": "Receiving history"
 }

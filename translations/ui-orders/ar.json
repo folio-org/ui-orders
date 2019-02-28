@@ -555,5 +555,7 @@
     "location.quantityElectronic": "الكمية الإلكترونية",
     "location.quantityPhysical.exceeds": "تتجاوز الكمية المادية كمية تفاصيل التكلفة",
     "location.quantityPhysical": "الكمية المادية",
-    "button.edit": "تحرير"
+    "button.edit": "تحرير",
+    "receiving.links.items": "استلام المواد",
+    "receiving.links.history": "سجل الاستلام"
 }
