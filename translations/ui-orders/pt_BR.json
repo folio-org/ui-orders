@@ -557,5 +557,13 @@
     "location.quantityPhysical": "Quantidade física",
     "button.edit": "Editar",
     "receiving.links.items": "Recebendo itens",
-    "receiving.links.history": "Histórico de recebimento"
+    "receiving.links.history": "Histórico de recebimento",
+    "receiving.format": "Format",
+    "receiving.itemStatus.received": "Received",
+    "receiving.nextBtn": "Next",
+    "receiving.previousBtn": "Previous",
+    "receiving.btn.remove": "Remove",
+    "receivingHistory.dateReceived": "Date Received",
+    "receivingHistory.note": "Receiving Note",
+    "receivingHistory.paneTitle": "Receiving History - PO {orderNumber}"
 }
