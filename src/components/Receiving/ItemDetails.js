@@ -31,43 +31,76 @@ class ItemDetails extends Component {
     super(props);
 
     this.state = {
-      allChecked: false,
+      allChecked: {},
       checkedItems: [],
+      currentLine: 0,
+      lineItems: this.props.linesItemList,
     };
   }
 
   isItemChecked = (item) => (
-    !!this.state.checkedItems.filter(el => el.id === item.id).length
+    Boolean(this.state.checkedItems.filter(id => id === item.id).length)
   );
 
-  toggleAll = () => {
-    this.setState((state, props) => {
-      const allChecked = !state.allChecked;
-      const checkedItems = allChecked ? props.linesItemList : [];
+  toggleAll = (poLineId) => {
+    this.setState(({ allChecked, checkedItems, lineItems }) => {
+      const allCheckedLine = !allChecked[poLineId];
+      const itemsToRemove = lineItems[poLineId].map(el => el.id);
+      const checkedLineItems = allCheckedLine
+        ? [...checkedItems, ...lineItems[poLineId].map(el => el.id)]
+        : [...checkedItems].filter(id => !itemsToRemove.includes(id));
+
+      allChecked[poLineId] = allCheckedLine;
 
       return {
         allChecked,
-        checkedItems,
+        checkedItems: checkedLineItems,
       };
     });
   }
 
   toggleItem = (item) => {
-    this.setState(({ checkedItems }) => {
-      const checkedItemList = checkedItems.filter(el => el.id !== item.id);
+    this.setState(({ allChecked, checkedItems }) => {
+      const checkedItemList = checkedItems.filter(id => id !== item.id);
+
+      allChecked[item.poLineId] = false;
 
       return {
-        allChecked: false,
-        checkedItems: this.isItemChecked(item) ? [...checkedItemList] : [...checkedItems, item],
+        allChecked,
+        checkedItems: this.isItemChecked(item) ? [...checkedItemList] : [...checkedItems, item.id],
       };
     });
   }
 
-  render() {
-    const { close, linesItemList, locationsOptions } = this.props;
-    const poLineNumber = get(linesItemList, [0, 'poLineNumber'], '');
-    const title = get(linesItemList, [0, 'title'], '');
-    const resultsFormatter = {
+  onClickNext = () => (
+    this.setState(({ currentLine }) => ({
+      currentLine: currentLine + 1,
+    }))
+  );
+
+  onClickPrevious = () => (
+    this.setState(({ currentLine }) => ({
+      currentLine: currentLine - 1,
+    }))
+  );
+
+  onChangeField = (item, value, key) => {
+    this.setState(({ lineItems }) => {
+      const updatedLineItems = { ...lineItems };
+      const selectedItem = updatedLineItems[item.poLineId].filter(el => el.id === item.id)[0];
+
+      selectedItem[key] = value;
+
+      return {
+        lineItems: updatedLineItems,
+      };
+    });
+  }
+
+  getResultsFormatter = () => {
+    const { locationsOptions } = this.props;
+
+    return ({
       'isChecked': (item) => (
         <Checkbox
           type="checkbox"
@@ -75,19 +108,23 @@ class ItemDetails extends Component {
           checked={this.isItemChecked(item)}
         />
       ),
-      'barcode': () => (
+      'barcode': (item) => (
         <div className={css.editableFieldWrapper}>
-          <TextField type="number" />
+          <TextField
+            onChange={(e) => this.onChangeField(item, e.target.value, 'barcode')}
+            type="number"
+            value={get(item, 'barcode', '')}
+          />
         </div>
       ),
       'format': (item) => <KeyValue value={get(item, 'orderFormat', '')} />,
-      'location': () => (
+      'location': (item) => (
         <div className={css.editableFieldWrapper}>
           <Select
             dataOptions={locationsOptions}
-            defaultValue=""
+            onChange={(e) => this.onChangeField(item, e.target.value, 'locationId')}
             fullWidth
-            placeholder=" "
+            value={get(item, 'locationId', '')}
           />
         </div>
       ),
@@ -108,33 +145,60 @@ class ItemDetails extends Component {
           </Select>
         </div>
       ),
-    };
+    });
+  }
+
+  render() {
+    const { close } = this.props;
+    const { allChecked, checkedItems, currentLine, lineItems } = this.state;
+    const poLineIdsList = Object.keys(lineItems);
+    const poLineId = poLineIdsList[currentLine];
+    const poLineNumber = get(lineItems, [poLineId, 0, 'poLineNumber'], '');
+    const title = get(lineItems, [poLineId, 0, 'title'], '');
 
     return (
       <Modal
-        label={<FormattedMessage id="ui-orders.receiving.modalPaneTitle" values={{ poLineNumber, title }} />}
-        footer={<ItemDetailsFooter close={close} />}
+        label={
+          (currentLine >= poLineIdsList.length)
+            ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
+            : <FormattedMessage id="ui-orders.receiving.modalPaneTitle" values={{ poLineNumber, title }} />
+        }
+        footer={
+          <ItemDetailsFooter
+            close={close}
+            onClickNext={this.onClickNext}
+            onClickPrevious={this.onClickPrevious}
+            poLineIdsListLenght={poLineIdsList.length}
+            currentLine={currentLine}
+            checkedItemsListLength={checkedItems.length}
+          />
+        }
         open
       >
-        <MultiColumnList
-          contentData={linesItemList}
-          formatter={resultsFormatter}
-          visibleColumns={['isChecked', 'barcode', 'format', 'location', 'itemStatus']}
-          columnMapping={{
-            isChecked: <Checkbox type="checkbox" checked={this.state.allChecked} onChange={this.toggleAll} />,
-            barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
-            format: <FormattedMessage id="ui-orders.receiving.format" />,
-            location: <FormattedMessage id="ui-orders.receiving.location" />,
-            itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
-          }}
-          columnWidths={{
-            isChecked: '5%',
-            barcode: '25%',
-            format: '20%',
-            location: '35%',
-            itemStatus: '15%',
-          }}
-        />
+        {(this.state.currentLine > poLineIdsList.length)
+          ? <div>Receive Details</div>
+          : (
+            <MultiColumnList
+              contentData={lineItems[poLineId]}
+              formatter={this.getResultsFormatter()}
+              visibleColumns={['isChecked', 'barcode', 'format', 'location', 'itemStatus']}
+              columnMapping={{
+                isChecked: <Checkbox type="checkbox" checked={allChecked[poLineId]} onChange={() => this.toggleAll(poLineId)} />,
+                barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
+                format: <FormattedMessage id="ui-orders.receiving.format" />,
+                location: <FormattedMessage id="ui-orders.receiving.location" />,
+                itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
+              }}
+              columnWidths={{
+                isChecked: '5%',
+                barcode: '25%',
+                format: '20%',
+                location: '35%',
+                itemStatus: '15%',
+              }}
+            />
+          )
+        }
       </Modal>
     );
   }

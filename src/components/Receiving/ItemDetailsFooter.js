@@ -7,7 +7,14 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-const ItemDetailsFooter = ({ close }) => (
+const ItemDetailsFooter = ({
+  checkedItemsListLength,
+  close,
+  currentLine,
+  onClickNext,
+  onClickPrevious,
+  poLineIdsListLenght,
+}) => (
   <Row end="xs">
     <Button
       onClick={close}
@@ -16,21 +23,40 @@ const ItemDetailsFooter = ({ close }) => (
     </Button>
     <Button
       buttonStyle="primary"
-      disabled
+      onClick={onClickPrevious}
+      disabled={!currentLine}
     >
       <FormattedMessage id="ui-orders.receiving.previousBtn" />
     </Button>
-    <Button
-      buttonStyle="primary"
-      disabled
-    >
-      <FormattedMessage id="ui-orders.receiving.nextBtn" />
-    </Button>
+    {(currentLine === poLineIdsListLenght)
+      ? (
+        <Button
+          buttonStyle="primary"
+          disabled
+        >
+          <FormattedMessage id="ui-orders.receiving.receiveBtn" />
+        </Button>
+      )
+      : (
+        <Button
+          buttonStyle="primary"
+          onClick={onClickNext}
+          disabled={!checkedItemsListLength}
+        >
+          <FormattedMessage id="ui-orders.receiving.nextBtn" />
+        </Button>
+      )
+    }
   </Row>
 );
 
 ItemDetailsFooter.propTypes = {
+  checkedItemsListLength: PropTypes.number.isRequired,
   close: PropTypes.func.isRequired,
+  currentLine: PropTypes.number.isRequired,
+  onClickNext: PropTypes.func.isRequired,
+  onClickPrevious: PropTypes.func.isRequired,
+  poLineIdsListLenght: PropTypes.number.isRequired,
 };
 
 export default ItemDetailsFooter;
