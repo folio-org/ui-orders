@@ -557,5 +557,19 @@
     "location.quantityPhysical": "الكمية المادية",
     "button.edit": "تحرير",
     "receiving.links.items": "استلام المواد",
-    "receiving.links.history": "سجل الاستلام"
+    "receiving.links.history": "سجل الاستلام",
+    "receiving.format": "تنسيق",
+    "receiving.itemStatus.received": "تم استلامه",
+    "receiving.nextBtn": "التالي",
+    "receiving.previousBtn": "السابق",
+    "receiving.btn.remove": "Remove",
+    "receivingHistory.dateReceived": "Date Received",
+    "receivingHistory.note": "Receiving Note",
+    "receivingHistory.paneTitle": "Receiving History - PO {orderNumber}",
+    "receivingHistory.confirmation.confirm": "Confirm",
+    "receivingHistory.confirmation.heading": "Remove from history",
+    "receivingHistory.confirmation.message": "Are you sure you want to remove the piece(s) from Receiving history? They will return to a status of Expected and any associated item will be set as On-Order.",
+    "receivingHistory.remove.error": "Remove error",
+    "receivingHistory.remove.success": "Remove success",
+    "receiving.reviewDetails": "Review Details"
 }
