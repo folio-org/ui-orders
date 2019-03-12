@@ -180,6 +180,14 @@ class ReceivingList extends Component {
     this.setState({ isItemDetailsModalOpened: false });
   }
 
+  getItemDetails = () => {
+    const { itemDetails } = this.state;
+
+    Object.keys(itemDetails).forEach(key => !itemDetails[key].length && delete itemDetails[key]);
+
+    return itemDetails;
+  }
+
   render() {
     const { resources, mutator, location } = this.props;
     const receivingList = get(resources, ['receivingHistory', 'records'], []);
@@ -253,7 +261,7 @@ class ReceivingList extends Component {
             />
             {this.state.isItemDetailsModalOpened && (
               <ItemDetails
-                linesItemList={this.state.itemDetails}
+                linesItemList={this.getItemDetails()}
                 close={this.closeItemDetailsModal}
                 locationsOptions={getLocationsForSelect(resources)}
               />
