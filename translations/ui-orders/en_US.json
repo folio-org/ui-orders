@@ -542,8 +542,8 @@
     "receiving.received": "Received",
     "receiving.dateOrdered": "Date Ordered",
     "receiving.receivingItems": "Receiving",
-    "receiving.note": "Note",
-    "receiving.status": "Status",
+    "receiving.note": "Receiving note",
+    "receiving.status": "Receipt status",
     "receiving.barcode": "Barcode",
     "receiving.location": "Location",
     "receiving.itemStatus": "Item Status",
@@ -571,5 +571,7 @@
     "receivingHistory.confirmation.message": "Are you sure you want to remove the piece(s) from Receiving history? They will return to a status of Expected and any associated item will be set as On-Order.",
     "receivingHistory.remove.error": "Remove error",
     "receivingHistory.remove.success": "Remove success",
-    "receiving.reviewDetails": "Review Details"
+    "receiving.reviewDetails": "Review details",
+    "receivingList.paneTitle": "Receive - PO {orderNumber}",
+    "receiving.lineStatus.expected": "Expected"
 }

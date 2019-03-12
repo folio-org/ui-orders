@@ -542,8 +542,8 @@
     "receiving.received": "Recebido",
     "receiving.dateOrdered": "Data da compra",
     "receiving.receivingItems": "Recebimento",
-    "receiving.note": "Nota",
-    "receiving.status": "Status",
+    "receiving.note": "Nota de recebimento",
+    "receiving.status": "Status de recebimento",
     "receiving.barcode": "Código de barras",
     "receiving.location": "Localização",
     "receiving.itemStatus": "Status do item",
@@ -571,5 +571,7 @@
     "receivingHistory.confirmation.message": "Tem certeza de que deseja remover a(s) peça(s) do histórico de recebimento? Eles retornarão ao status esperado e qualquer item associado será definido como por encomenda.",
     "receivingHistory.remove.error": "Remover histórico de erros",
     "receivingHistory.remove.success": "Remover histórico de sucesso",
-    "receiving.reviewDetails": "Review Details"
+    "receiving.reviewDetails": "Detalhes da revisão",
+    "receivingList.paneTitle": "Receber - PO {orderNumber}",
+    "receiving.lineStatus.expected": "Esperado"
 }

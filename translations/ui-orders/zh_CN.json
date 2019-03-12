@@ -571,5 +571,7 @@
     "receivingHistory.confirmation.message": "Are you sure you want to remove the piece(s) from Receiving history? They will return to a status of Expected and any associated item will be set as On-Order.",
     "receivingHistory.remove.error": "Remove error",
     "receivingHistory.remove.success": "Remove success",
-    "receiving.reviewDetails": "Review Details"
+    "receiving.reviewDetails": "Review Details",
+    "receivingList.paneTitle": "Receive - PO {orderNumber}",
+    "receiving.lineStatus.expected": "Expected"
 }
