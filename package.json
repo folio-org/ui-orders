@@ -17,6 +17,7 @@
     "okapiInterfaces": {
       "configuration": "2.0",
       "fund": "1.0",
+      "inventory": "8.3",
       "locations": "3.0",
       "material-types": "2.2",
       "orders": "3.0",
@@ -43,10 +44,11 @@
         "description": "",
         "subPermissions": [
           "fund.collection.get",
-          "vendor-storage.vendors.collection.get",
-          "users.collection.get",
+          "inventory-storage.locations.collection.get",
           "inventory-storage.material-types.collection.get",
-          "inventory-storage.locations.collection.get"
+          "inventory.items.collection.get",
+          "users.collection.get",
+          "vendor-storage.vendors.collection.get"
         ]
       },
       {

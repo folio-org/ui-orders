@@ -29,7 +29,7 @@ renderNotesField.propTypes = {
 const NotesForm = ({ fields }) => (
   <Fragment>
     {fields.map((note, index) => (
-      <Fragment>
+      <Fragment key={note.id || index}>
         <Col
           xs={8}
           md={10}
