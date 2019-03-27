@@ -16,20 +16,19 @@ import {
 import getLocationsForSelect from '../../Utils/getLocationsForSelect';
 import { required } from '../../Utils/Validate';
 import {
-  combineValidators,
-  positiveNumbers,
-  locationQuantityMatchToDetails,
+  validateRequiredNotNegative,
+  validateLocationQuantityMatchToDetails,
 } from '../../Utils/formFieldValidators';
 
-const validateQuantityElectronic = combineValidators([
-  positiveNumbers,
-  locationQuantityMatchToDetails('quantityElectronic'),
-]);
+const validateQuantityElectronic = [
+  validateRequiredNotNegative,
+  validateLocationQuantityMatchToDetails('quantityElectronic'),
+];
 
-const validateQuantityPhysical = combineValidators([
-  positiveNumbers,
-  locationQuantityMatchToDetails('quantityPhysical'),
-]);
+const validateQuantityPhysical = [
+  validateRequiredNotNegative,
+  validateLocationQuantityMatchToDetails('quantityPhysical'),
+];
 
 const parseQuantity = (value) => {
   return value ? Number(value) : 0;

@@ -2,22 +2,25 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
-export const combineValidators = (validators) => (...args) => validators
-  .map(item => item(...args))
-  .find(item => item);
-
-const reduceLocations = (locations, propName) => {
+const getTotalLocationsQuantity = (locations, propName) => {
   const reducer = (accumulator, d) => accumulator + (d[propName] || 0);
 
   return locations.reduce(reducer, 0);
 };
 
-export const positiveNumbers = value => (value && value < 0
+// Validation for Fields with type 'number' requires positive integer
+export const validateRequiredPositiveQuantity = value => ((parseFloat(value) && value < 1) || !value
   ? <FormattedMessage id="ui-orders.cost.validation.shouldBePositive" />
   : undefined);
 
-export const locationQuantityMatchToDetails = (poType) => (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = reduceLocations(locations, poType);
+export const validateRequiredNotNegative = (value) => {
+  return value === 0 || value > 0
+    ? undefined
+    : <FormattedMessage id="ui-orders.cost.validation.cantBeNegativeOrEmpty" />;
+};
+
+export const validateLocationQuantityMatchToDetails = (poType) => (value, { cost, locations = [] }) => {
+  const allLocationsQuantity = getTotalLocationsQuantity(locations, poType);
   const overallLineQuantity = get(cost, poType, 0);
 
   return allLocationsQuantity <= overallLineQuantity
