@@ -22,5 +22,5 @@ export const locationQuantityMatchToDetails = (poType) => (value, { cost, locati
 
   return allLocationsQuantity <= overallLineQuantity
     ? undefined
-    : <FormattedMessage id={`ui-orders.location.${poType}.not.match`} />;
+    : <FormattedMessage id={`ui-orders.location.${poType}.notMatch`} />;
 };
