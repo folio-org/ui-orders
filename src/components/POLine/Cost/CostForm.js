@@ -25,6 +25,7 @@ import calculateEstimatedPrice from '../calculateEstimatedPrice';
 import {
   validateRequiredPositiveQuantity,
   validateRequiredNotNegative,
+  validateNotNegative,
 } from '../../Utils/formFieldValidators';
 
 const disabled = true;
@@ -38,12 +39,6 @@ const FIELD_ATTRS_FOR_REQUIRED_QUANTITY = {
   validate: validateRequiredPositiveQuantity,
 };
 const ATTRS_TO_DISABLE_FIELD = { disabled };
-
-const validateNotNegative = (value) => {
-  return !value || value > 0
-    ? undefined
-    : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
-};
 
 class CostForm extends Component {
   static propTypes = {

@@ -27,3 +27,9 @@ export const validateLocationQuantityMatchToDetails = (poType) => (value, { cost
     ? undefined
     : <FormattedMessage id={`ui-orders.location.${poType}.notMatch`} />;
 };
+
+export const validateNotNegative = (value) => {
+  return !value || value > 0
+    ? undefined
+    : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
+};
