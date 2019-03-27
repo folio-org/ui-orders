@@ -597,8 +597,8 @@
     "cost.discount": "الخصم",
     "cost.unitPriceOfElectronic": "سعر الوحدة للإلكترونية",
     "cost.validation.cantBeNegative": "لا يمكن أن يكون سالبًا",
-    "receiving.itemStatus.inProcess": "In process",
-    "receiving.itemStatus.onOrder": "On order",
+    "receiving.itemStatus.inProcess": "قيد المعالجة",
+    "receiving.itemStatus.onOrder": "قيد الطلب",
     "cost.validation.shouldBePositive": "يجب أن يكون موجبًا",
     "cost.validation.cantBeNegativeOrEmpty": "لا يمكن أن يكون سالبًا أو فارغًا"
 }
