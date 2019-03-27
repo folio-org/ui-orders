@@ -5,7 +5,6 @@ import {
 } from 'redux-form';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
 
 import {
   Col,
@@ -16,30 +15,21 @@ import {
 
 import getLocationsForSelect from '../../Utils/getLocationsForSelect';
 import { required } from '../../Utils/Validate';
+import {
+  combineValidators,
+  positiveNumbers,
+  locationQuantityMatchToDetails,
+} from '../../Utils/formFieldValidators';
 
-const reduceLocations = (locations, propName) => {
-  const reducer = (accumulator, d) => accumulator + (d[propName] || 0);
+const validateQuantityElectronic = combineValidators([
+  positiveNumbers,
+  locationQuantityMatchToDetails('quantityElectronic'),
+]);
 
-  return locations.reduce(reducer, 0);
-};
-
-const validateQuantityPhysical = (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = reduceLocations(locations, 'quantityPhysical');
-  const overallLineQuantity = get(cost, 'quantityPhysical', 0);
-
-  return allLocationsQuantity <= overallLineQuantity
-    ? undefined
-    : <FormattedMessage id="ui-orders.location.quantityPhysical.exceeds" />;
-};
-
-const validateQuantityElectronic = (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = reduceLocations(locations, 'quantityElectronic');
-  const overallLineQuantity = get(cost, 'quantityElectronic', 0);
-
-  return allLocationsQuantity <= overallLineQuantity
-    ? undefined
-    : <FormattedMessage id="ui-orders.location.quantityElectronic.exceeds" />;
-};
+const validateQuantityPhysical = combineValidators([
+  positiveNumbers,
+  locationQuantityMatchToDetails('quantityPhysical'),
+]);
 
 const parseQuantity = (value) => {
   return value ? Number(value) : 0;
