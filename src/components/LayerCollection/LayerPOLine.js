@@ -13,7 +13,13 @@ import {
   Layer,
 } from '@folio/stripes/components';
 
-import { SOURCE_FOLIO_CODE } from '../Utils/const';
+import {
+  CONFIG_CREATE_INVENTORY,
+  MODULE_ORDERS,
+  SOURCE_FOLIO_CODE,
+} from '../Utils/const';
+import { CONFIG_API } from '../Utils/api';
+import getCreateInventorySetting from '../Utils/getCreateInventorySetting';
 import { DISCOUNT_TYPE } from '../POLine/const';
 import { cloneOrder } from '../Utils/orderResource';
 import {
@@ -43,11 +49,20 @@ const ERROR_CODES = {
 class LayerPOLine extends Component {
   static manifest = Object.freeze({
     order: ORDER,
-  });
+    createInventory: {
+      type: 'okapi',
+      records: 'configs',
+      path: CONFIG_API,
+      GET: {
+        params: {
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CREATE_INVENTORY})`,
+        },
+      },
+    },
+  })
 
   static propTypes = {
     location: ReactRouterPropTypes.location.isRequired,
-    history: ReactRouterPropTypes.history,
     match: ReactRouterPropTypes.match,
     parentMutator: PropTypes.shape({
       poLine: lineMutatorShape,
@@ -184,9 +199,10 @@ class LayerPOLine extends Component {
   }
 
   getCreatePOLIneInitialValues = (order) => {
-    const { parentResources } = this.props;
+    const { parentResources, resources } = this.props;
     const { id: orderId, vendor: vendorId } = order;
     const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
+    const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
 
     const newObj = {
       source: {
@@ -199,6 +215,12 @@ class LayerPOLine extends Component {
         instructions: '',
       },
       purchaseOrderId: orderId,
+      eresource: {
+        createInventory: createInventorySetting.eresource,
+      },
+      physical: {
+        createInventory: createInventorySetting.physical,
+      },
     };
 
     if (vendor && vendor.discount_percent) {
@@ -210,9 +232,14 @@ class LayerPOLine extends Component {
   }
 
   render() {
-    const { location } = this.props;
+    const {
+      location,
+      onCancel,
+      parentMutator,
+      parentResources,
+      stripes,
+    } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
-    const { resources, ...restProps } = this.props;
     const order = this.getOrder();
 
     if (!order) {
@@ -224,10 +251,13 @@ class LayerPOLine extends Component {
           contentLabel="Create PO Line Dialog"
         >
           <this.connectedPOLineForm
-            {...restProps}
             initialValues={this.getCreatePOLIneInitialValues(order)}
+            onCancel={onCancel}
             onSubmit={this.submitPOLine}
             order={order}
+            parentMutator={parentMutator}
+            parentResources={parentResources}
+            stripes={stripes}
           />
           {this.state.isLinesLimitExceededModalOpened && (
             <LinesLimit
@@ -245,11 +275,14 @@ class LayerPOLine extends Component {
           contentLabel="Edit PO Line Dialog"
         >
           <this.connectedPOLineForm
-            {...restProps}
-            initialValues={this.getLine()}
-            onSubmit={this.updatePOLine}
             deletePOLine={this.deletePOLine}
+            initialValues={this.getLine()}
+            onCancel={onCancel}
+            onSubmit={this.updatePOLine}
             order={order}
+            parentMutator={parentMutator}
+            parentResources={parentResources}
+            stripes={stripes}
           />
           <Callout ref={this.callout} />
         </Layer>

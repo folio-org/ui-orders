@@ -1,3 +1,9 @@
+import React from 'react';
+import { values } from 'lodash';
+import { FormattedMessage } from 'react-intl';
+
+import { WORKFLOW_STATUS } from '../PurchaseOrder/Summary/FieldWorkflowStatus';
+
 const Filters = () => {
   return [
     {
@@ -7,10 +13,10 @@ const Filters = () => {
       values: [],
     },
     {
-      label: 'Approval Status',
-      name: 'approvalStatus',
-      cql: 'approvalStatus',
-      values: ['Approved', 'Pending', 'On hold', 'Not approved'],
+      label: <FormattedMessage id="ui-orders.order.workflow_status" />,
+      name: 'workflowStatus',
+      cql: 'workflowStatus',
+      values: values(WORKFLOW_STATUS),
     },
   ];
 };

@@ -19,24 +19,21 @@ import {
   TIMEZONE,
 } from '../../Utils/const';
 import { Required } from '../../Utils/Validate';
+import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import css from './EresourcesForm.css';
 
 class EresourcesForm extends Component {
   static propTypes = {
-    parentResources: PropTypes.shape({
-      vendors: PropTypes.object,
-    }),
+    vendors: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })).isRequired,
     order: PropTypes.object,
   }
 
   render() {
-    const { parentResources, order } = this.props;
+    const { vendors, order } = this.props;
     const created = get(order, 'metadata.createdDate', '');
-    const vendors = get(parentResources, 'vendors.records', []);
-    const vendorOptions = vendors.map((v) => ({
-      label: v.name,
-      value: v.id,
-    }));
 
     return (
       <Row>
@@ -45,7 +42,7 @@ class EresourcesForm extends Component {
             {(placeholder) => (
               <Field
                 component={Select}
-                dataOptions={vendorOptions}
+                dataOptions={vendors}
                 fullWidth
                 label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
                 name="eresource.accessProvider"
@@ -88,13 +85,9 @@ class EresourcesForm extends Component {
           />
         </Col>
         <Col xs={6} md={3}>
-          <Field
-            className={css.checkboxValignCenter}
-            component={Checkbox}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.eresource.createItem" />}
+          <InventoryRecordTypeSelectField
+            label="ui-orders.eresource.createInventory"
             name="eresource.createInventory"
-            type="checkbox"
           />
         </Col>
         <Col xs={6} md={3}>

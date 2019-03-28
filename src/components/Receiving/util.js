@@ -1,9 +1,6 @@
 import { some } from 'lodash';
 
-import {
-  ITEM_STATUS,
-  PIECE_STATUS_RECEIVED,
-} from './const';
+import { ITEM_STATUS } from './const';
 import { LIMIT_MAX } from '../Utils/const';
 
 export const reducePieces = (pieces, isSelect = false) => {

@@ -35,3 +35,10 @@ export const DISCOUNT_TYPE = {
   amount: 'amount',
   percentage: 'percentage',
 };
+
+export const INVENTORY_RECORDS_TYPE = {
+  all: 'Instance, Holding, Item',
+  instance: 'Instance',
+  instanceAndHolding: 'Instance, Holding',
+  none: 'None',
+};

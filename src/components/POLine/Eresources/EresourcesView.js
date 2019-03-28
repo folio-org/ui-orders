@@ -41,9 +41,10 @@ export default function EresourcesView({ line: { eresource }, order, vendors }) 
         </KeyValue>
       </Col>
       <Col xs={3}>
-        <KeyValue label={<FormattedMessage id="ui-orders.eresource.createItem" />}>
-          <Checkbox checked={get(eresource, 'createInventory')} disabled />
-        </KeyValue>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.eresource.createInventory" />}
+          value={get(eresource, 'createInventory')}
+        />
       </Col>
       <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-orders.eresource.trial" />}>

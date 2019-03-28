@@ -14,6 +14,7 @@ import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
+import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import VolumesForm from './VolumesForm';
 
 const PhysicalForm = ({ vendors }) => (
@@ -60,6 +61,12 @@ const PhysicalForm = ({ vendors }) => (
     </Col>
     <Col xs={6}>
       <VolumesForm />
+    </Col>
+    <Col xs={6}>
+      <InventoryRecordTypeSelectField
+        label="ui-orders.physical.createInventory"
+        name="physical.createInventory"
+      />
     </Col>
   </Row>
 );

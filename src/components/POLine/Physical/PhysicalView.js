@@ -40,6 +40,12 @@ const PhysicalView = ({ physical, vendors }) => {
           value={toString(get(physical, 'volumes'))}
         />
       </Col>
+      <Col xs={6}>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.physical.createInventory" />}
+          value={get(physical, 'createInventory')}
+        />
+      </Col>
     </Row>
   );
 };

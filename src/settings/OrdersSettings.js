@@ -6,6 +6,7 @@ import { Settings } from '@folio/stripes/smart-components';
 import POLinesLimit from './POLinesLimit';
 import ClosingReasons from './ClosingReasons';
 import OrderNumber from './OrderNumber';
+import CreateInventory from './CreateInventory';
 
 class OrdersSettings extends Component {
   constructor(props) {
@@ -26,6 +27,11 @@ class OrdersSettings extends Component {
         component: OrderNumber,
         label: <FormattedMessage id="ui-orders.settings.poNumber" />,
         route: 'po-number',
+      },
+      {
+        component: CreateInventory,
+        label: <FormattedMessage id="ui-orders.settings.createInventory" />,
+        route: 'create-inventory',
       },
     ];
   }
