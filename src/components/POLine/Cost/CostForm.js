@@ -22,19 +22,11 @@ import {
   OTHER,
 } from '../const';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
-
-// Validation for Fields with type 'number' requires positive integer
-export const requiredPositiveQuantity = (value) => {
-  return value >= 1
-    ? undefined
-    : <FormattedMessage id="ui-orders.cost.validation.shouldBePositive" />;
-};
-
-const validateRequiredNotNegative = (value) => {
-  return value === 0 || value > 0
-    ? undefined
-    : <FormattedMessage id="ui-orders.cost.validation.cantBeNegativeOrEmpty" />;
-};
+import {
+  requiredPositiveQuantity,
+  validateNotNegative,
+  validateRequiredNotNegative,
+} from '../../Utils/formFieldsValidators';
 
 const disabled = true;
 const required = true;
@@ -48,18 +40,12 @@ const FIELD_ATTRS_FOR_REQUIRED_QUANTITY = {
 };
 const ATTRS_TO_DISABLE_FIELD = { disabled };
 
-const validateNotNegative = (value) => {
-  return !value || value > 0
-    ? undefined
-    : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
-};
-
 class CostForm extends Component {
   static propTypes = {
     formValues: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
-  }
+  };
 
   normalizeDiscount = (value, previousValue, allValues, previousAllValues) => {
     if (!value) {

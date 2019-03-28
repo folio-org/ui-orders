@@ -35,6 +35,7 @@ import {
   ERESOURCES,
   MAP_FIELD_ACCORDION,
   PHRESOURCES,
+  PO_LINE_FORM,
 } from './const';
 import getVendorsForSelect from '../Utils/getVendorsForSelect';
 import getFundsForSelect from '../Utils/getFundsForSelect';
@@ -58,7 +59,7 @@ class POLineForm extends Component {
     deletePOLine: PropTypes.func,
     change: PropTypes.func,
     dispatch: PropTypes.func,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -113,7 +114,7 @@ class POLineForm extends Component {
         </FormattedMessage>
       </PaneMenu>
     );
-  }
+  };
 
   getLastMenu = (id, label) => {
     const { pristine, submitting, handleSubmit } = this.props;
@@ -133,7 +134,7 @@ class POLineForm extends Component {
         </IfPermission>
       </PaneMenu>
     );
-  }
+  };
 
   onToggleSection = ({ id }) => {
     this.setState(({ sections }) => {
@@ -146,14 +147,24 @@ class POLineForm extends Component {
         },
       };
     });
-  }
+  };
 
   handleExpandAll = (sections) => {
     this.setState({ sections });
-  }
+  };
 
   render() {
-    const { change, dispatch, initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
+    const {
+      change,
+      dispatch,
+      initialValues,
+      onCancel,
+      deletePOLine,
+      stripes: {
+        store,
+      },
+      parentResources,
+    } = this.props;
     const lineId = get(initialValues, 'id');
     const lineNumber = get(initialValues, 'poLineNumber', '');
     const firstMenu = this.getAddFirstMenu();
@@ -281,7 +292,10 @@ class POLineForm extends Component {
                       label={<FormattedMessage id="ui-orders.line.accordion.location" />}
                       id={ACCORDION_ID.location}
                     >
-                      <LocationForm {...this.props} />
+                      <LocationForm
+                        parentResources={parentResources}
+                        orderFormat={orderFormat}
+                      />
                     </Accordion>
                   </AccordionSet>
                   <IfPermission perm="orders.po-lines.item.delete">
@@ -311,7 +325,7 @@ class POLineForm extends Component {
 }
 
 export default stripesForm({
-  form: 'POLineForm',
+  form: PO_LINE_FORM,
   navigationCheck: true,
   enableReinitialize: true,
 })(POLineForm);

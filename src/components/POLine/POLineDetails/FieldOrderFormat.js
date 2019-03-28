@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
+  arrayInsert,
   Field,
   getFormValues,
 } from 'redux-form';
@@ -16,6 +17,7 @@ import {
   OTHER,
   PE_MIX,
   PHYSICAL,
+  PO_LINE_FORM,
 } from '../const';
 
 const ORDER_FORMAT = {
@@ -32,7 +34,7 @@ class FieldOrderFormat extends Component {
     orderVendorId: PropTypes.string.isRequired,
     store: PropTypes.object.isRequired,
     vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }
+  };
 
   onChangeSelect = (_, value) => {
     const { dispatch, change, store, vendors, orderVendorId } = this.props;
@@ -41,9 +43,12 @@ class FieldOrderFormat extends Component {
     dispatch(change('cost.quantityElectronic', ''));
     dispatch(change('cost.listUnitPriceElectronic', ''));
     dispatch(change('cost.listUnitPrice', ''));
+    dispatch(change('locations', []));
+
+    const formValues = getFormValues(PO_LINE_FORM)(store.getState());
+    const { locations } = formValues;
 
     if (ERESOURCES.includes(value)) {
-      const formValues = getFormValues('POLineForm')(store.getState());
       const activationDue = get(formValues, 'eresource.activationDue');
       const vendor = vendors.find(v => v.id === orderVendorId);
 
@@ -51,7 +56,11 @@ class FieldOrderFormat extends Component {
         dispatch(change('eresource.activationDue', vendor.expected_activation_interval));
       }
     }
-  }
+
+    if (value !== ERESOURCE && (!locations || locations.length < 1)) {
+      dispatch(arrayInsert(PO_LINE_FORM, 'locations', 0, {}));
+    }
+  };
 
   render() {
     return (
