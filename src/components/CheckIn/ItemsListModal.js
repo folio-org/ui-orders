@@ -67,7 +67,7 @@ const ItemsListModal = ({
       <div className={css.fieldWrapper}>
         <Select
           fullWidth
-          defaultValue={ITEM_STATUS.received}
+          defaultValue={ITEM_STATUS.inProcess}
           onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
         >
           {Object.keys(ITEM_STATUS).map((key) => (

@@ -37,7 +37,7 @@ describe('OpenOrderConfirmationModal', () => {
 
   it('is rendered correctly', () => {
     expect(openOrderConfirmationModalInct.hasSubmitButton).to.be.true;
-    expect(openOrderConfirmationModalInct.hasCancelBUtton).to.be.true;
+    expect(openOrderConfirmationModalInct.hasCancelButton).to.be.true;
     expect(openOrderConfirmationModalInct.hasContent).to.be.true;
   });
 

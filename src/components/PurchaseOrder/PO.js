@@ -48,6 +48,7 @@ import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
 import { isReceiveAvailableForOrder } from './util';
+import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 
 import css from './PO.css';
 
@@ -78,7 +79,7 @@ class PO extends Component {
         },
       },
     },
-  })
+  });
 
   static propTypes = {
     mutator: PropTypes.shape({
@@ -99,7 +100,7 @@ class PO extends Component {
     editLink: PropTypes.string,
     paneWidth: PropTypes.string.isRequired,
     resources: PropTypes.object.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -112,6 +113,7 @@ class PO extends Component {
       },
       isCloseOrderModalOpened: false,
       isLinesLimitExceededModalOpened: false,
+      updateOrderErrorCode: null,
     };
     this.transitionToParams = transitionToParams.bind(this);
   }
@@ -127,21 +129,21 @@ class PO extends Component {
         },
       };
     });
-  }
+  };
 
   handleExpandAll = (sections) => {
     this.setState({ sections });
-  }
+  };
 
   openReceiveItem = (e) => {
     if (e) e.preventDefault();
     this.transitionToParams({ layer: 'receive-items' });
-  }
+  };
 
   openReceived = (e) => {
     if (e) e.preventDefault();
     this.transitionToParams({ layer: 'received' });
-  }
+  };
 
   onAddPOLine = () => {
     const { resources } = this.props;
@@ -153,7 +155,7 @@ class PO extends Component {
     } else {
       this.transitionToParams({ layer: 'create-po-line' });
     }
-  }
+  };
 
   closeOrder = (reason, note) => {
     const { mutator, resources } = this.props;
@@ -168,7 +170,7 @@ class PO extends Component {
 
     updateOrderResource(order, mutator.order, closeOrderProps);
     this.unmountCloseOrderModal();
-  }
+  };
 
   openOrder = async () => {
     const { mutator, resources } = this.props;
@@ -180,11 +182,11 @@ class PO extends Component {
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
     } catch (e) {
-      await showUpdateOrderError(e, this.callout);
+      await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
     } finally {
       this.toggleOpenOrderModal();
     }
-  }
+  };
 
   createNewOrder = async () => {
     const { resources, parentMutator } = this.props;
@@ -206,7 +208,7 @@ class PO extends Component {
     } finally {
       this.unmountLinesLimitExceededModal();
     }
-  }
+  };
 
   addPOLineButton = (isAbleToAddLines) => (
     <Button
@@ -220,23 +222,31 @@ class PO extends Component {
 
   toggleOpenOrderModal = () => {
     this.setState(prevState => ({ isOpenOrderModalOpened: !prevState.isOpenOrderModalOpened }));
-  }
+  };
 
   mountCloseOrderModal = () => {
     this.setState({ isCloseOrderModalOpened: true });
-  }
+  };
 
   unmountCloseOrderModal = () => {
     this.setState({ isCloseOrderModalOpened: false });
-  }
+  };
 
   mountLinesLimitExceededModal = () => {
     this.setState({ isLinesLimitExceededModalOpened: true });
-  }
+  };
 
   unmountLinesLimitExceededModal = () => {
     this.setState({ isLinesLimitExceededModalOpened: false });
-  }
+  };
+
+  closeErrorModal = () => {
+    this.setState({ updateOrderErrorCode: null });
+  };
+
+  openOrderErrorModalShow = (errorCode) => {
+    this.setState(() => ({ updateOrderErrorCode: errorCode }));
+  };
 
   createCalloutRef = ref => {
     this.callout = ref;
@@ -248,7 +258,7 @@ class PO extends Component {
     query.replace({
       _path: `/orders/view/${id}/receiving`,
     });
-  }
+  };
 
   render() {
     const {
@@ -320,6 +330,8 @@ class PO extends Component {
     order.createdByName = createdBy && createdBy.personal
       ? `${createdBy.personal.firstName} ${createdBy.personal.lastName}`
       : '';
+
+    const { updateOrderErrorCode } = this.state;
 
     return (
       <Pane
@@ -431,6 +443,13 @@ class PO extends Component {
           <LinesLimit
             cancel={this.unmountLinesLimitExceededModal}
             createOrder={this.createNewOrder}
+          />
+        )}
+        {updateOrderErrorCode && (
+          <UpdateOrderErrorModal
+            orderNumber={orderNumber}
+            errorCode={updateOrderErrorCode}
+            cancel={this.closeErrorModal}
           />
         )}
         <Callout ref={this.createCalloutRef} />

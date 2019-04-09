@@ -15,6 +15,8 @@ import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import LineEditPage from '../interactors/line-edit-page';
 import OpenOrderConfirmationModal from '../interactors/PurchaseOrder/open-order-confirmation-modal';
+import OpenOrderErrorModal from '../interactors/PurchaseOrder/open-order-error-modal';
+import { ERROR_CODES } from '../../../src/components/Utils/order';
 // import LinesLimitModal from '../interactors/lines-limit-modal';
 
 describe('OrderDetailsPage', () => {
@@ -108,6 +110,17 @@ describe('OrderDetailsPage', () => {
             quantityPhysical: 2,
           },
         });
+        const VENDOR_IS_INACTIVE_RESPONSE = {
+          'errors': [{
+            'message': 'Order cannot be open as the associated vendor is inactive',
+            'code': ERROR_CODES.vendorIsInactive,
+            'parameters': [],
+            'id': '68baa952-ce78-49bb-b495-646482cf3483',
+          }],
+          'total_records': 1,
+        };
+
+        this.server.put(`${ORDERS_API}/:id`, VENDOR_IS_INACTIVE_RESPONSE, 422);
 
         this.server.get(`${ORDERS_API}/${pendingOrder.id}`, {
           ...pendingOrder.attrs,
@@ -143,12 +156,15 @@ describe('OrderDetailsPage', () => {
       });
 
       describe('click submit action on modal', () => {
+        const openOrderErrorModal = new OpenOrderErrorModal();
+
         beforeEach(async () => {
           await orderDetailsPage.openOrderButton.click();
           await openOrderConfirmationModal.submitAction();
         });
 
-        it('should close Open Order Confirmation Modal', () => {
+        it('should close Open Order Confirmation Modal and open Error modal', () => {
+          expect(openOrderErrorModal.isPresent).to.be.true;
           expect(openOrderConfirmationModal.isPresent).to.be.false;
         });
       });

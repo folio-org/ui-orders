@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
-const ERROR_CODES = {
+export const ERROR_CODES = {
   vendorIsInactive: 'vendorIsInactive',
   accessProviderIsInactive: 'accessProviderIsInactive',
   vendorNotFound: 'vendorNotFound',
@@ -11,7 +11,7 @@ const ERROR_CODES = {
   accessProviderNotFound: 'accessProviderNotFound',
 };
 
-const showUpdateOrderError = async (response, callout) => {
+const showUpdateOrderError = async (response, callout, openModal) => {
   let error;
 
   try {
@@ -23,10 +23,14 @@ const showUpdateOrderError = async (response, callout) => {
   const errorCode = get(error, 'errors.0.code');
   const messageCode = get(ERROR_CODES, errorCode, 'orderGenericError1');
 
-  callout.sendCallout({
-    message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
-    type: 'error',
-  });
+  if (messageCode !== ERROR_CODES.vendorIsInactive && messageCode !== ERROR_CODES.vendorNotFound) {
+    callout.sendCallout({
+      message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
+      type: 'error',
+    });
+  } else {
+    openModal(messageCode);
+  }
 };
 
 export default showUpdateOrderError;
