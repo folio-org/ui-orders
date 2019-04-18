@@ -625,5 +625,6 @@
     "errors.locQtyElectronicExceedsCost": "Locations electronic quantity exceeds cost electronic quantity",
     "checkIn.history.confirmation.message": "Are you sure you want to remove the piece(s) from Check-in history? They will return to a status of Expected and any associated item will be set as On-Order.",
     "line.accordion.other": "Other Resource Details",
-    "poLine.materialType": "Material Type"
+    "poLine.materialType": "Material Type",
+    "errors.noCreateItemPlugin": "[no inventory create-item plugin]"
 }

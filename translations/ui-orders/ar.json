@@ -625,5 +625,6 @@
     "errors.locQtyElectronicExceedsCost": "الكمية الالكترونية للموقع تتجاوز الكمية الالكترونية للتكلفة",
     "checkIn.history.confirmation.message": "هل أنت متأكد من أنك تريد حذف هذه القطع من سجل الرد؟ سوف تعود إلى حالة متوقع وسيتم ضبط أي مواد مرتبطة بها إلى في الطلب.",
     "line.accordion.other": "تفاصيل الموارد الأخرى",
-    "poLine.materialType": "نوع المادة"
+    "poLine.materialType": "نوع المادة",
+    "errors.noCreateItemPlugin": "[no inventory create-item plugin]"
 }

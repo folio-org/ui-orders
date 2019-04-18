@@ -625,5 +625,6 @@
     "errors.locQtyElectronicExceedsCost": "A quantidade eletrônica dos locais excede a quantidade eletrônica de custo",
     "checkIn.history.confirmation.message": "Tem certeza de que deseja remover a(s) peça(s) do histórico de recebimento? Eles retornarão ao status de esperado e qualquer item associado será definido como encomendado.",
     "line.accordion.other": "Outros detalhes do recurso",
-    "poLine.materialType": "Tipo de material"
+    "poLine.materialType": "Tipo de material",
+    "errors.noCreateItemPlugin": "[no inventory create-item plugin]"
 }
