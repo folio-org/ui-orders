@@ -366,7 +366,6 @@
     "vendor.refNumber": "Numero di riferimento del fornitore",
     "vendor.refNumberType": "Tipo di rif. Fornitore *",
     "vendor.instructions": "Istruzioni per il fornitore",
-    "vendor.vendorAccount": "Conto del fornitore",
     "vendor.noteFromVendor": "Nota dal fornitore",
     "vendor.refNumberType.suppliersContinuation": "Ordine di continuazione del fornitore",
     "vendor.refNumberType.suppliersUnique": "Numero di riferimento del fornitore unico ordine linea",
@@ -625,5 +624,7 @@
     "errors.locQtyElectronicExceedsCost": "Locations electronic quantity exceeds cost electronic quantity",
     "checkIn.history.confirmation.message": "Are you sure you want to remove the piece(s) from Check-in history? They will return to a status of Expected and any associated item will be set as On-Order.",
     "line.accordion.other": "Other Resource Details",
-    "poLine.materialType": "Material Type"
+    "poLine.materialType": "Material Type",
+    "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
+    "vendor.accountNumber": "Account number"
 }
