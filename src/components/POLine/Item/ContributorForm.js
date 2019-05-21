@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
   Field,
@@ -12,6 +13,11 @@ import {
 } from '@folio/stripes/components';
 
 class ContributorForm extends Component {
+  static propTypes = {
+    onChangeField: PropTypes.func.isRequired,
+    setInstanceId: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.addFields = this.addFields.bind(this);
@@ -64,6 +70,7 @@ class ContributorForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
             name={`${elem}.contributor`}
+            onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributor`)}
           />
         </Col>
         <Col xs={2} style={{ paddingTop: '4px' }}>
@@ -71,7 +78,10 @@ class ContributorForm extends Component {
           <Button
             buttonStyle="danger"
             data-test-remove-contributor-button
-            onClick={() => this.removeFields(fields, index)}
+            onClick={() => {
+              this.removeFields(fields, index);
+              this.props.setInstanceId();
+            }}
           >
             {<FormattedMessage id="ui-orders.itemDetails.removeBtn" />}
           </Button>

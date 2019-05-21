@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
   Field,
   FieldArray,
 } from 'redux-form';
+
 import {
-  Row,
-  Col,
   Button,
-  TextField,
+  Col,
+  Row,
   Select,
+  TextField,
 } from '@folio/stripes/components';
+
 import { Required } from '../../Utils/Validate';
 
-const PRODUCTIDTYPE = {
-  ISBN: 'ISBN',
-  ISSN: 'ISSN',
-  ISMN: 'ISMN',
-  EAN: 'EAN',
-  otherStandartId: 'Other Standard Identifier',
-  standartTechReport: 'Standard Technical Report Number',
-  publisherNumber: 'Publisher Number',
-  CODEN: 'CODEN',
-  GPO: 'GPO Item Number',
-  locallyId: 'Locally-defined identifiers',
-  vendorTitle: 'Vendor Title Number',
-  vendorItem: 'Vendor Item Number',
-};
-
 class ProductIdDetailsForm extends Component {
+  static propTypes = {
+    identifierTypes: PropTypes.arrayOf(PropTypes.object),
+    onChangeField: PropTypes.func.isRequired,
+    setInstanceId: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.addFields = this.addFields.bind(this);
@@ -61,7 +55,9 @@ class ProductIdDetailsForm extends Component {
           {fields.map(this.renderSubForm)}
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
-          <Button onClick={() => this.addFields(fields)}>
+          <Button
+            onClick={() => this.addFields(fields)}
+          >
             <FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />
           </Button>
         </Col>
@@ -78,35 +74,30 @@ class ProductIdDetailsForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             name={`${elem}.productId`}
+            onChange={(e, value) => this.props.onChangeField(value, `${elem}.productId`)}
           />
         </Col>
         <Col xs={5}>
           <Field
             component={Select}
+            dataOptions={this.props.identifierTypes}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
             name={`${elem}.productIdType`}
+            onChange={(e, value) => this.props.onChangeField(value, `${elem}.productIdType`)}
+            placeholder=" "
             required
             validate={[Required]}
-          >
-            <FormattedMessage id="ui-orders.dropdown.select">
-              {(message) => <option value="">{message}</option>}
-            </FormattedMessage>
-            {Object.keys(PRODUCTIDTYPE).map((key) => (
-              <FormattedMessage
-                id={`ui-orders.itemDetails.productIdType.${key}`}
-                key={key}
-              >
-                {(message) => <option value={PRODUCTIDTYPE[key]}>{message}</option>}
-              </FormattedMessage>
-            ))}
-          </Field>
+          />
         </Col>
         <Col xs={1} style={{ paddingTop: '4px' }}>
           <br />
           <Button
-            onClick={() => this.removeFields(fields, index)}
             buttonStyle="danger"
+            onClick={() => {
+              this.removeFields(fields, index);
+              this.props.setInstanceId();
+            }}
           >
             {<FormattedMessage id="ui-orders.itemDetails.removeBtn" />}
           </Button>

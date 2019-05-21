@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import {
+  Field,
+  getFormValues,
+} from 'redux-form';
+
+import {
+  find,
+  get,
+  isEqual,
+} from 'lodash';
 
 import {
   Col,
@@ -30,23 +39,46 @@ class ItemForm extends Component {
     stripes: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
+    identifierTypes: PropTypes.arrayOf(PropTypes.object),
+    initialValues: PropTypes.object,
   };
 
-  onAddInstance = (instance) => {
-    const { dispatch, change } = this.props;
-    const { contributors, editions, publication, title } = instance;
+  constructor(props) {
+    super(props);
 
-    dispatch(change('title', title));
+    this.state = {
+      instanceId: '',
+      title: '',
+      publisher: '',
+      publicationDate: '',
+      edition: '',
+      contributors: [],
+      productIds: [],
+    };
+  }
+
+  onAddInstance = (instance) => {
+    const { dispatch, change, identifierTypes } = this.props;
+    const { contributors, editions, publication, title, identifiers, id } = instance;
+
+    dispatch(change('instanceId', id));
+    this.setState({ instanceId: id });
+    if (title) {
+      dispatch(change('title', title));
+      this.setState({ title });
+    }
     if (publication && publication.length) {
       const { publisher, dateOfPublication } = publication[0];
 
       dispatch(change('publisher', publisher));
       dispatch(change('publicationDate', dateOfPublication));
+      this.setState(({ publisher, publicationDate: dateOfPublication }));
     }
     if (editions && editions.length) {
       const edition = editions[0];
 
       dispatch(change('edition', edition));
+      this.setState(({ edition }));
     }
     if (contributors && contributors.length) {
       const lineContributors = contributors.map(({ name, contributorNameTypeId }) => ({
@@ -55,7 +87,61 @@ class ItemForm extends Component {
       }));
 
       dispatch(change('contributors', lineContributors));
+      this.setState(({ contributors: lineContributors }));
     }
+    if (identifiers && identifiers.length) {
+      const lineidentifiers = identifiers.map(({ identifierTypeId, value }) => ({
+        productId: value,
+        productIdType: find(identifierTypes, { id: identifierTypeId }).value,
+      }));
+
+      dispatch(change('details.productIds', lineidentifiers));
+      this.setState(({ productIds: lineidentifiers }));
+    }
+  };
+
+  setInstanceId = () => {
+    const { dispatch, change, initialValues, stripes: { store } } = this.props;
+    const formValues = getFormValues('POLineForm')(store.getState());
+    const instanceId = this.state.instanceId || get(initialValues, 'instanceId', '');
+    const title = this.state.title || get(initialValues, 'title', '');
+    const publisher = this.state.publisher || get(initialValues, 'publisher', '');
+    const publicationDate = this.state.publicationDate || get(initialValues, 'publicationDate', '');
+    const edition = this.state.edition || get(initialValues, 'edition', '');
+    const contributors = this.state.contributors.length ? this.state.contributors : get(initialValues, 'contributors', []);
+    const productIds = this.state.productIds.length ? this.state.productIds : get(initialValues, 'details.productIds', []);
+    const isEqualContributors = contributors.every(el => {
+      const contributor = find(get(formValues, 'contributors', []), { 'contributor': el.contributor });
+
+      return contributor ? isEqual(contributor, el) : false;
+    });
+    const isEqualProductIds = productIds.every(el => {
+      const productId = find(get(formValues, 'details.productIds', []), { 'productId': el.productId });
+
+      return productId ? isEqual(productId, el) : false;
+    });
+
+    if (
+      instanceId
+      && (title === formValues.title)
+      && (publisher === formValues.publisher)
+      && (publicationDate === formValues.publicationDate)
+      && (edition === formValues.edition)
+      && isEqualContributors
+      && isEqualProductIds
+    ) {
+      dispatch(change('instanceId', instanceId));
+    } else {
+      dispatch(change('instanceId', ''));
+    }
+  }
+
+  onChangeField = (value, fieldName) => {
+    const { dispatch, change } = this.props;
+
+    dispatch(change(fieldName, value));
+
+    this.setInstanceId();
   };
 
   selectInstanceModal = () => {
@@ -94,6 +180,7 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.title" />}
               name="title"
+              onChange={(e) => this.onChangeField(e.target.value, 'title')}
               required
               validate={Required}
             />
@@ -101,6 +188,15 @@ class ItemForm extends Component {
               {this.selectInstanceModal()}
             </div>
           </div>
+        </Col>
+        <Col xs={6}>
+          <Field
+            component={TextField}
+            fullWidth
+            label={<FormattedMessage id="ui-orders.itemDetails.instanceId" />}
+            name="instanceId"
+            readOnly
+          />
         </Col>
         <Col xs={12}>
           <Field
@@ -111,7 +207,10 @@ class ItemForm extends Component {
           />
         </Col>
         <Col xs={6}>
-          <ContributorForm />
+          <ContributorForm
+            onChangeField={this.onChangeField}
+            setInstanceId={this.setInstanceId}
+          />
         </Col>
         <Col xs={6}>
           <Field
@@ -130,6 +229,7 @@ class ItemForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
             name="publisher"
+            onChange={(e) => this.onChangeField(e.target.value, 'publisher')}
           />
         </Col>
         <Col xs={6}>
@@ -147,6 +247,7 @@ class ItemForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
             name="publicationDate"
+            onChange={(e) => this.onChangeField(e.target.value, 'publicationDate')}
             validate={validateYear}
           />
         </Col>
@@ -166,11 +267,16 @@ class ItemForm extends Component {
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
+            onChange={(e) => this.onChangeField(e.target.value, 'edition')}
             name="edition"
           />
         </Col>
         <Col xs={12}>
-          <ProductIdDetailsForm />
+          <ProductIdDetailsForm
+            identifierTypes={this.props.identifierTypes}
+            onChangeField={this.onChangeField}
+            setInstanceId={this.setInstanceId}
+          />
         </Col>
         <Col xs={12}>
           <Field

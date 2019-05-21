@@ -41,6 +41,7 @@ import {
 import getVendorsForSelect from '../Utils/getVendorsForSelect';
 import getFundsForSelect from '../Utils/getFundsForSelect';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
+import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -210,6 +211,7 @@ class POLineForm extends Component {
     const vendors = getVendorsForSelect(parentResources);
     const funds = getFundsForSelect(parentResources);
     const materialTypes = getMaterialTypesForSelect(parentResources);
+    const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const {
       accounts,
       vendorCurrencies,
@@ -249,9 +251,11 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.itemDetails}
                     >
                       <ItemForm
-                        stripes={stripes}
-                        dispatch={dispatch}
                         change={change}
+                        dispatch={dispatch}
+                        identifierTypes={identifierTypes}
+                        initialValues={initialValues}
+                        stripes={stripes}
                       />
                     </Accordion>
                     <Accordion

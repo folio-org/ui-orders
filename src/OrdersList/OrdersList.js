@@ -13,6 +13,7 @@ import {
   CONFIG_CREATE_INVENTORY,
   CONFIG_ORDER_NUMBER,
   MODULE_ORDERS,
+  LIMIT_MAX,
 } from '../components/Utils/const';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
@@ -97,6 +98,12 @@ class OrdersList extends Component {
       path: 'material-types',
       records: 'mtypes',
       perRequest: 1000,
+    },
+    identifierTypes: {
+      type: 'okapi',
+      path: 'identifier-types',
+      records: 'identifierTypes',
+      perRequest: LIMIT_MAX,
     },
     closingReasons: {
       type: 'okapi',

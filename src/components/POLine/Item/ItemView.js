@@ -76,7 +76,7 @@ class ItemView extends Component {
           </Col>
         </Row>
         <Row>
-          <ProductIdDetails itemIdDetails={get(poLineDetails, 'productIds', [])} />
+          <ProductIdDetails itemIdDetails={get(poLineDetails, ['details', 'productIds'], [])} />
         </Row>
         <Row>
           <Col xs={12}>

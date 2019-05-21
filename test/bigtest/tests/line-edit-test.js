@@ -25,6 +25,9 @@ const requiredField = 'Required!';
 const validationYearMessage = 'Field should be 4-digit year';
 const LIST_UNIT_PRICE = 1.1;
 const QUANTITY_PHYSICAL = 2;
+const INSTANCE_ID = '12345';
+const CONTRIBUTOR = 'Test Contributor';
+const EDITION = 'Test Edition';
 const cost = {
   currency: DEFAULT_CURRENCY,
   listUnitPrice: LIST_UNIT_PRICE,
@@ -331,6 +334,60 @@ describe('Line edit test', () => {
 
     it('displays updated PO Line Details pane', () => {
       expect(lineDetailsPage.$root).to.exist;
+    });
+  });
+
+  describe('Capture UUID from inventory', () => {
+    beforeEach(async function () {
+      line = this.server.create('line', {
+        order,
+        title: TITLE,
+        instanceId: INSTANCE_ID,
+        contributors: [{ contributor: CONTRIBUTOR }],
+        edition: EDITION,
+      });
+
+      this.server.get(`${ORDERS_API}/${order.id}`, {
+        ...order.attrs,
+        compositePoLines: [line.attrs],
+      });
+
+      this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
+    });
+
+    it('Item details fields are shown', () => {
+      expect(lineEditPage.instanceId).to.be.equal(INSTANCE_ID);
+    });
+
+    describe('Remove instance ID from form', () => {
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.inputTitle('');
+        await lineEditPage.itemDetailsAccordion.edition('');
+      });
+
+      it('instance id is not shown', () => {
+        expect(lineEditPage.instanceId).to.be.equal('');
+      });
+    });
+
+    describe('Instance Id is shown', () => {
+      beforeEach(async function () {
+        await lineEditPage.addContributorButton.click();
+      });
+
+      it('instance id is shown', () => {
+        expect(lineEditPage.instanceId).to.be.equal(INSTANCE_ID);
+      });
+    });
+
+    describe('Instance Id is not shown', () => {
+      beforeEach(async function () {
+        await lineEditPage.removeContributorButton.click();
+      });
+
+      it('instance id is not shown', () => {
+        expect(lineEditPage.instanceId).to.be.equal('');
+      });
     });
   });
 });

@@ -51,6 +51,7 @@ export default function config() {
   this.get('/fund');
   this.get('/users');
   this.get('/material-types');
+  this.get('/identifier-types');
 
   this.get(ORDER_NUMBER_API, () => {
     return { poNumber: '10001' };
