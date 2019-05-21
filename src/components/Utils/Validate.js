@@ -1,5 +1,8 @@
 import { get } from 'lodash';
-import { INVENTORY_RECORDS_TYPE } from '../POLine/const';
+import {
+  ALLOWED_YEAR_LENGTH,
+  INVENTORY_RECORDS_TYPE,
+} from '../POLine/const';
 
 const REQUIRED = 'Required!';
 
@@ -32,7 +35,7 @@ export const validateYear = (value) => {
   }
   const year = parseInt(value, 10);
 
-  if (year >= 1000 && year <= 9999) {
+  if (year >= 1000 && year <= 9999 && value.length === ALLOWED_YEAR_LENGTH) {
     return undefined;
   }
 

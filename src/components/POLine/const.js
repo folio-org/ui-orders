@@ -45,3 +45,5 @@ export const INVENTORY_RECORDS_TYPE = {
   instanceAndHolding: 'Instance, Holding',
   none: 'None',
 };
+
+export const ALLOWED_YEAR_LENGTH = 4;

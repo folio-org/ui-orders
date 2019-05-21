@@ -33,6 +33,7 @@ import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
 
 import css from './ItemForm.css';
+import { ALLOWED_YEAR_LENGTH } from '../const';
 
 class ItemForm extends Component {
   static propTypes = {
@@ -68,11 +69,15 @@ class ItemForm extends Component {
       this.setState({ title });
     }
     if (publication && publication.length) {
-      const { publisher, dateOfPublication } = publication[0];
+      const { publisher, dateOfPublication = '' } = publication[0];
 
       dispatch(change('publisher', publisher));
-      dispatch(change('publicationDate', dateOfPublication));
-      this.setState(({ publisher, publicationDate: dateOfPublication }));
+      this.setState(({ publisher }));
+
+      if (dateOfPublication.length === ALLOWED_YEAR_LENGTH) {
+        dispatch(change('publicationDate', dateOfPublication));
+        this.setState(({ publicationDate: dateOfPublication }));
+      }
     }
     if (editions && editions.length) {
       const edition = editions[0];
@@ -248,6 +253,7 @@ class ItemForm extends Component {
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
             name="publicationDate"
             onChange={(e) => this.onChangeField(e.target.value, 'publicationDate')}
+            normalize={v => (v || null)}
             validate={validateYear}
           />
         </Col>
