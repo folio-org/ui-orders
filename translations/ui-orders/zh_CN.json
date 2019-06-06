@@ -451,7 +451,6 @@
     "errors.lineWasNotCreated": "尚未创建采购订单行",
     "buttons.line.close": "关闭",
     "buttons.line.closeDialog": "关闭新行对话框",
-    "buttons.line.delete": "删除 -  采购订单行＃ {lineNumber}",
     "line.accordion.cost": "成本详情",
     "line.accordion.details": "采购订单行详情",
     "line.accordion.eresource": "电子资源详情",
@@ -659,5 +658,9 @@
     "renewal.date": "Renewal date",
     "renewal.manualRenewal": "Renewal manual",
     "renewal.reviewPeriod": "Renewal review period",
-    "search.productId": "Product ID"
+    "search.productId": "Product ID",
+    "line.delete.message": "Delete purchase order line?",
+    "line.delete.success": "The purchase order line {lineNumber} was successfully deleted",
+    "search.dateOrdered": "Date ordered",
+    "search.poNumber": "PO number"
 }

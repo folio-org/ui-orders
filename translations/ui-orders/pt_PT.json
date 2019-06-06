@@ -451,7 +451,6 @@
     "errors.lineWasNotCreated": "Não foi criada linha de ordem de compra",
     "buttons.line.close": "Fechar",
     "buttons.line.closeDialog": "Close New Line Dialog",
-    "buttons.line.delete": "Excluir - {lineNumber}",
     "line.accordion.cost": "Cost Details",
     "line.accordion.details": "PO Line Details",
     "line.accordion.eresource": "E-resources Details",
@@ -659,5 +658,9 @@
     "renewal.date": "Renewal date",
     "renewal.manualRenewal": "Renewal manual",
     "renewal.reviewPeriod": "Renewal review period",
-    "search.productId": "Product ID"
+    "search.productId": "Product ID",
+    "line.delete.message": "Delete purchase order line?",
+    "line.delete.success": "The purchase order line {lineNumber} was successfully deleted",
+    "search.dateOrdered": "Date ordered",
+    "search.poNumber": "PO number"
 }

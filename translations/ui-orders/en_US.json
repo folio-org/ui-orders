@@ -451,7 +451,6 @@
     "errors.lineWasNotCreated": "Purchase Order Line has not been created",
     "buttons.line.close": "Close",
     "buttons.line.closeDialog": "Close New Line Dialog",
-    "buttons.line.delete": "Delete - {lineNumber}",
     "line.accordion.cost": "Cost Details",
     "line.accordion.details": "PO Line Details",
     "line.accordion.eresource": "E-resources Details",
@@ -654,10 +653,14 @@
     "order.delete.confirmLabel": "Delete",
     "order.delete.heading": "Delete {orderNumber}?",
     "order.delete.message": "Delete purchase order?",
-    "order.delete.success": "The purchase order {orderNumber} was successfully deleted",
+    "order.delete.success": "The purchase order {orderNumber} was successfully deleted.",
     "poLine.actions.viewPO": "View PO",
     "renewal.date": "Renewal date",
     "renewal.manualRenewal": "Renewal manual",
     "renewal.reviewPeriod": "Renewal review period",
-    "search.productId": "Product ID"
+    "search.productId": "Product ID",
+    "line.delete.message": "Delete purchase order line?",
+    "line.delete.success": "The purchase order line {lineNumber} was successfully deleted",
+    "search.dateOrdered": "Date ordered",
+    "search.poNumber": "PO number"
 }

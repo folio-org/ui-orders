@@ -451,7 +451,6 @@
     "errors.lineWasNotCreated": "تم إنشاء خط أمر الشراء.",
     "buttons.line.close": "إغلاق",
     "buttons.line.closeDialog": "إغلاق المربع الحواري للخط الجديد",
-    "buttons.line.delete": "حذف - {lineNumber}",
     "line.accordion.cost": "تفاصيل التكلفة",
     "line.accordion.details": "تفاصيل خط أمر الشراء",
     "line.accordion.eresource": "تفاصيل الموارد الإلكترونية",
@@ -656,8 +655,12 @@
     "order.delete.message": "حذف أمر الشراء؟",
     "order.delete.success": "The purchase order {orderNumber} was successfully deleted",
     "poLine.actions.viewPO": "عرض أمر الشراء",
-    "renewal.date": "Renewal date",
-    "renewal.manualRenewal": "Renewal manual",
+    "renewal.date": "تاريخ التجديد",
+    "renewal.manualRenewal": "دليل التجديد",
     "renewal.reviewPeriod": "Renewal review period",
-    "search.productId": "Product ID"
+    "search.productId": "معرّف المنتج",
+    "line.delete.message": "Delete purchase order line?",
+    "line.delete.success": "The purchase order line {lineNumber} was successfully deleted",
+    "search.dateOrdered": "Date ordered",
+    "search.poNumber": "PO number"
 }
