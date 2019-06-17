@@ -14,6 +14,7 @@ import {
   Icon,
   IconButton,
   MenuSection,
+  MetaSection,
   Pane,
   PaneMenu,
   Row,
@@ -239,6 +240,8 @@ class POLineView extends Component {
     const checkInLocation = isWorkflowStatusOpen ? `${checkinURL}/items` : `${checkinURL}/history`;
     const receivingLocation = isWorkflowStatusOpen ? receivingURL : `${receivingURL}-history`;
 
+    const metadata = get(line, 'metadata');
+
     return (
       <Pane
         defaultWidth="fill"
@@ -289,6 +292,14 @@ class POLineView extends Component {
             label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
             id="ItemDetails"
           >
+            <MetaSection
+              id="polItemMeta"
+              lastUpdatedBy={get(metadata, 'updatedByUserId')}
+              lastUpdatedDate={get(metadata, 'updatedDate')}
+              createdBy={get(metadata, 'createdByUserId')}
+              createdDate={get(metadata, 'createdDate')}
+            />
+
             <ItemView
               identifierTypes={identifierTypes}
               poLineDetails={line}
