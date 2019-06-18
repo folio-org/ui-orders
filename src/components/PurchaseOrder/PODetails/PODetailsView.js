@@ -8,9 +8,9 @@ import {
   Checkbox,
   Col,
   KeyValue,
-  MetaSection,
   Row,
 } from '@folio/stripes/components';
+import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import FolioFormattedTime from '../../FolioFormattedTime';
 
@@ -33,13 +33,7 @@ class PODetailsView extends Component {
       <Fragment>
         <Row>
           <Col xs={12}>
-            <MetaSection
-              id="polItemMeta"
-              lastUpdatedBy={get(metadata, 'updatedByUserId')}
-              lastUpdatedDate={get(metadata, 'updatedDate')}
-              createdBy={get(metadata, 'createdByUserId')}
-              createdDate={get(metadata, 'createdDate')}
-            />
+            {metadata && <ViewMetaData metadata={metadata} />}
           </Col>
         </Row>
         <Row>

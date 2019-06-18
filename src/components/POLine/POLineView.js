@@ -14,11 +14,11 @@ import {
   Icon,
   IconButton,
   MenuSection,
-  MetaSection,
   Pane,
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
+import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import {
   isCheckInAvailableForLine,
@@ -292,13 +292,14 @@ class POLineView extends Component {
             label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
             id="ItemDetails"
           >
-            <MetaSection
+            {metadata && <ViewMetaData metadata={metadata} />}
+            {false && <MetaSection
               id="polItemMeta"
               lastUpdatedBy={get(metadata, 'updatedByUserId')}
               lastUpdatedDate={get(metadata, 'updatedDate')}
               createdBy={get(metadata, 'createdByUserId')}
               createdDate={get(metadata, 'createdDate')}
-            />
+            />}
 
             <ItemView
               identifierTypes={identifierTypes}
