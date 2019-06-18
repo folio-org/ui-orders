@@ -34,7 +34,7 @@ const LocationForm = ({ order, parentResources }) => {
       name="locations"
       validate={isLocationsRequired}
       props={{
-        candAdd: !isOpenedOrder,
+        canAdd: !isOpenedOrder,
         canRemove: !isOpenedOrder,
       }}
       renderField={(field) => (

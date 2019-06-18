@@ -99,7 +99,7 @@ class FundDistributionForm extends Component {
             component={RepeatableField}
             name="fundDistribution"
             props={{
-              candAdd: !isOpenedOrder,
+              canAdd: !isOpenedOrder,
               canRemove: !isOpenedOrder,
             }}
             renderField={this.renderSubForm}
