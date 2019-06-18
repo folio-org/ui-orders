@@ -24,7 +24,6 @@ import {
 } from '../../../src/components/Utils/const';
 
 const ADDRESS = 'TEST ADDRESS';
-const OWNER_TEST_VALUE = 'some team';
 
 describe('OrderDetailsPage', function () {
   setupApplication();
@@ -49,7 +48,6 @@ describe('OrderDetailsPage', function () {
       workflowStatus: WORKFLOW_STATUS.pending,
       orderType: ORDER_TYPE.ongoing,
       vendor: vendor.id,
-      owner: OWNER_TEST_VALUE,
       billTo: configs.id,
       shipTo: configs.id,
     });

@@ -9,8 +9,6 @@ import setupApplication from '../helpers/setup-application';
 import OrderEditPage from '../interactors/order-edit-page';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 
-const OWNER_TEST_VALUE = 'some team';
-
 describe('OrderEditPage', function () {
   setupApplication();
 
@@ -18,7 +16,7 @@ describe('OrderEditPage', function () {
   const orderEditPage = new OrderEditPage();
 
   beforeEach(async function () {
-    order = this.server.create('order', { owner: OWNER_TEST_VALUE });
+    order = this.server.create('order');
 
     this.visit(`/orders/view/${order.id}?layer=edit`);
     await orderEditPage.whenLoaded();

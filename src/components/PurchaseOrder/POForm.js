@@ -222,7 +222,6 @@ class POForm extends Component {
                             orderNumberSetting={orderNumberSetting}
                             prefixesSetting={prefixesSetting}
                             suffixesSetting={suffixesSetting}
-                            owner={initialValues.owner}
                             stripes={stripes}
                           />
                         </Accordion>
