@@ -278,7 +278,7 @@ class OrdersList extends Component {
           searchableIndexes={translatedSearchableIndexes}
           onChangeIndex={this.changeSearchIndex}
           selectedIndex={get(resources.query, 'qindex')}
-          visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'created', 'owner', 'assignedTo']}
+          visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'created', 'assignedTo']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
           editRecordComponent={POForm}
@@ -303,7 +303,6 @@ class OrdersList extends Component {
             workflowStatus: <FormattedMessage id="ui-orders.order.workflow_status" />,
             orderType: <FormattedMessage id="ui-orders.order.orderType" />,
             created: <FormattedMessage id="ui-orders.order.createdDate" />,
-            owner: <FormattedMessage id="ui-orders.poLine.owner" />,
             assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
           }}
           detailProps={{ showToast: this.showToast }}

@@ -31,20 +31,6 @@ describe('OrderEditPage', function () {
     expect(orderEditPage.notes().length).to.be.equal(1);
   });
 
-  it('displays owner', function () {
-    expect(orderEditPage.owner.value).to.equal(OWNER_TEST_VALUE);
-  });
-
-  describe('Click on select owner', function () {
-    beforeEach(async function () {
-      await orderEditPage.owner.click();
-    });
-
-    it('displays owner options', function () {
-      expect(orderEditPage.ownerOptions.isPresent).to.be.true;
-    });
-  });
-
   describe('Select order type Ongoing', function () {
     beforeEach(async function () {
       await orderEditPage.orderTypeSelect.select(ORDER_TYPE.ongoing);

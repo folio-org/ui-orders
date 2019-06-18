@@ -93,15 +93,6 @@ class PODetailsView extends Component {
             value={get(order, 'orderType')}
           />
         </Col>
-        <Col
-          data-test-order-details-owner
-          xs={6}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.poLine.owner" />}
-            value={get(order, 'owner')}
-          />
-        </Col>
         <Col xs={12}>
           {get(order, 'notes', []).map((note, index) => (
             <KeyValue

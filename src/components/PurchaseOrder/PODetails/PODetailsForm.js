@@ -326,21 +326,6 @@ class PODetailsForm extends Component {
           >
             <Field
               component={Selection}
-              dataOptions={ownerOptions}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.owner" />}
-              name="owner"
-              disabled={isOpenedOrder}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <Field
-              component={Selection}
               dataOptions={[{ label: '', value: null }, ...addressesOptions]}
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}

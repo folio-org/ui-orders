@@ -71,10 +71,6 @@ describe('OrderDetailsPage', function () {
     expect(orderDetailsPage.addLineButton.isDisabled).to.equal(false);
   });
 
-  it('displays the owner', () => {
-    expect(orderDetailsPage.owner.value).to.contain(OWNER_TEST_VALUE);
-  });
-
   it('displays billTo and shipTo', () => {
     expect(orderDetailsPage.billTo.value).to.contain(ADDRESS);
     expect(orderDetailsPage.shipTo.value).to.contain(ADDRESS);
