@@ -292,6 +292,7 @@
     "poLine.createdOn": "创建于",
     "poLine.donor": "捐赠者",
     "poLine.orderFormat": "订单格式",
+    "poLine.owner": "所有者",
     "poLine.paymentStatus": "支付状态",
     "poLine.poLineDescription": "行说明",
     "poLine.receiptDate": "发票日期",

@@ -292,6 +292,7 @@
     "poLine.createdOn": "Created On",
     "poLine.donor": "Donor",
     "poLine.orderFormat": "Formato dell'ordine",
+    "poLine.owner": "Owner",
     "poLine.paymentStatus": "Payment Status",
     "poLine.poLineDescription": "Line Description",
     "poLine.receiptDate": "Receipt Date",

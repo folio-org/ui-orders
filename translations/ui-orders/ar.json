@@ -292,6 +292,7 @@
     "poLine.createdOn": "تم إنشاؤه في",
     "poLine.donor": "الجهة المانحة",
     "poLine.orderFormat": "تنسيق الأمر",
+    "poLine.owner": "المالك",
     "poLine.paymentStatus": "حالة السداد",
     "poLine.poLineDescription": "وصف الخط",
     "poLine.receiptDate": "تاريخ الاستلام",
