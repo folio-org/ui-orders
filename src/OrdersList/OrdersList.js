@@ -56,7 +56,6 @@ const columnWidths = {
   workflowStatus: '10%',
   orderType: '10%',
   created: '15%',
-  owner: '15%',
   assignedTo: '20%',
 };
 
@@ -246,7 +245,6 @@ class OrdersList extends Component {
       'workflowStatus': order => get(order, 'workflowStatus', ''),
       'orderType': order => get(order, 'orderType', ''),
       'created': order => <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />,
-      'owner': ({ owner = '' }) => owner,
       'assignedTo': order => {
         const assignedToId = get(order, 'assignedTo', '');
         const assignedTo = users.find(d => d.id === assignedToId);
