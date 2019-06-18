@@ -293,13 +293,6 @@ class POLineView extends Component {
             id="ItemDetails"
           >
             {metadata && <ViewMetaData metadata={metadata} />}
-            {false && <MetaSection
-              id="polItemMeta"
-              lastUpdatedBy={get(metadata, 'updatedByUserId')}
-              lastUpdatedDate={get(metadata, 'updatedDate')}
-              createdBy={get(metadata, 'createdByUserId')}
-              createdDate={get(metadata, 'createdDate')}
-            />}
 
             <ItemView
               identifierTypes={identifierTypes}

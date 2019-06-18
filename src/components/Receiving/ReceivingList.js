@@ -7,8 +7,6 @@ import {
   some,
   sortBy,
   uniqBy,
-  each,
-  isEqual,
 } from 'lodash';
 
 import {
