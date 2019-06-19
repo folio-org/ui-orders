@@ -153,10 +153,12 @@ class OrderLinesList extends Component {
     const locations = get(resources, 'locations.records', []);
     const vendors = get(resources, 'vendors.records', []);
     const materialTypes = get(resources, 'materialTypes.records', []);
+    const funds = get(resources, 'funds.records', []);
 
     return (
       <OrderLinesFilters
         activeFilters={this.getActiveFilters()}
+        funds={funds}
         locations={locations}
         materialTypes={materialTypes}
         onChange={onChange}
