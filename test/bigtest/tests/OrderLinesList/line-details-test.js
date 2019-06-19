@@ -20,7 +20,7 @@ describe('Order lines list - Line details test', function () {
   const page = new LineDetailsPage();
   const orderPage = new OrderDetailsPage();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
@@ -39,6 +39,7 @@ describe('Order lines list - Line details test', function () {
     });
 
     this.visit(`/orders/lines/view/${line.id}`);
+    await page.whenLoaded();
   });
 
   it('displays Line details pane', function () {
