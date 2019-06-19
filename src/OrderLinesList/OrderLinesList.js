@@ -51,14 +51,6 @@ const resultsFormatter = {
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   vendorRefNumber: line => get(line, 'vendorDetail.refNumber', ''),
 };
-const columnMapping = {
-  poLineNumber: <FormattedMessage id="ui-orders.orderLineList.poLineNumber" />,
-  updatedDate: <FormattedMessage id="ui-orders.orderLineList.updatedDate" />,
-  title: <FormattedMessage id="ui-orders.orderLineList.title" />,
-  productIds: <FormattedMessage id="ui-orders.orderLineList.productIds" />,
-  vendorRefNumber: <FormattedMessage id="ui-orders.orderLineList.vendorRefNumber" />,
-  funCodes: <FormattedMessage id="ui-orders.orderLineList.funCodes" />,
-};
 const columnWidths = {
   poLineNumber: '9%',
   updatedDate: '9%',
@@ -66,6 +58,15 @@ const columnWidths = {
   productIds: '18%',
   vendorRefNumber: '14%',
   funCodes: '18%',
+};
+
+export const columnMapping = {
+  poLineNumber: <FormattedMessage id="ui-orders.orderLineList.poLineNumber" />,
+  updatedDate: <FormattedMessage id="ui-orders.orderLineList.updatedDate" />,
+  title: <FormattedMessage id="ui-orders.orderLineList.title" />,
+  productIds: <FormattedMessage id="ui-orders.orderLineList.productIds" />,
+  vendorRefNumber: <FormattedMessage id="ui-orders.orderLineList.vendorRefNumber" />,
+  funCodes: <FormattedMessage id="ui-orders.orderLineList.funCodes" />,
 };
 
 const OrderLinesSearchQueryTemplate = `(
@@ -78,7 +79,7 @@ const OrderLinesSearchQueryTemplate = `(
   details.productIds="%{query.query}*"
 )`;
 
-class OrderLinesList extends Component {
+export class OrderLinesList extends Component {
   static manifest = Object.freeze({
     query: {
       initialValue: {
@@ -139,6 +140,8 @@ class OrderLinesList extends Component {
     this.handleFilterChange = handleFilterChange.bind(this);
     this.callout = React.createRef();
     this.showToast = showToast.bind(this);
+    this.renderFilters = this.renderFilters.bind(this);
+    this.onChangeIndex = this.onChangeIndex.bind(this);
   }
 
   renderNavigation = () => (
@@ -148,15 +151,17 @@ class OrderLinesList extends Component {
     />
   );
 
-  renderFilters = (onChange) => {
+  renderFilters(onChange) {
     const { resources } = this.props;
     const locations = get(resources, 'locations.records', []);
     const vendors = get(resources, 'vendors.records', []);
     const materialTypes = get(resources, 'materialTypes.records', []);
+    const funds = get(resources, 'funds.records', []);
 
     return (
       <OrderLinesFilters
         activeFilters={this.getActiveFilters()}
+        funds={funds}
         locations={locations}
         materialTypes={materialTypes}
         onChange={onChange}
@@ -164,18 +169,41 @@ class OrderLinesList extends Component {
         vendors={vendors}
       />
     );
-  };
+  }
 
-  onChangeIndex = (e) => {
+  onChangeIndex(e) {
     const qindex = e.target.value;
 
     this.props.mutator.query.update({ qindex });
   }
 
+  getTranslateSearchableIndexes() {
+    const { intl: { formatMessage } } = this.props;
+
+    return searchableIndexes.map(index => {
+      const label = formatMessage({ id: `ui-orders.search.${index.label}` });
+
+      return { ...index, label };
+    });
+  }
+
+  getResultsFormatter() {
+    const { resources } = this.props;
+    const fundsMap = get(resources, 'funds.records', []).reduce((acc, fund) => {
+      acc[fund.id] = fund.code;
+
+      return acc;
+    }, {});
+
+    return {
+      ...resultsFormatter,
+      funCodes: line => get(line, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),
+    };
+  }
+
   render() {
     const {
       browseOnly,
-      intl: { formatMessage },
       mutator,
       onComponentWillUnmount,
       resources,
@@ -191,23 +219,6 @@ class OrderLinesList extends Component {
       },
     };
 
-    const translatedSearchableIndexes = searchableIndexes.map(index => {
-      const label = formatMessage({ id: `ui-orders.search.${index.label}` });
-
-      return { ...index, label };
-    });
-
-    const fundsMap = get(resources, 'funds.records', []).reduce((acc, fund) => {
-      acc[fund.id] = fund.code;
-
-      return acc;
-    }, {});
-
-    const connectedResultsFormatter = {
-      ...resultsFormatter,
-      funCodes: line => get(line, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),
-    };
-
     return (
       <div data-test-order-line-instances>
         <SearchAndSort
@@ -216,7 +227,7 @@ class OrderLinesList extends Component {
           baseRoute={ORDER_LINES_ROUTE}
           title={title}
           visibleColumns={visibleColumns}
-          resultsFormatter={connectedResultsFormatter}
+          resultsFormatter={this.getResultsFormatter()}
           columnMapping={columnMapping}
           columnWidths={columnWidths}
           massageNewRecord={this.massageNewRecord}
@@ -236,7 +247,7 @@ class OrderLinesList extends Component {
           renderFilters={this.renderFilters}
           renderNavigation={this.renderNavigation}
           onFilterChange={this.handleFilterChange}
-          searchableIndexes={translatedSearchableIndexes}
+          searchableIndexes={this.getTranslateSearchableIndexes()}
           onChangeIndex={this.onChangeIndex}
           maxSortKeys={1}
           sortableColumns={sortableColumns}

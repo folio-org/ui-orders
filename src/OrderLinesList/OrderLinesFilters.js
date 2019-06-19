@@ -12,6 +12,9 @@ import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
 import VendorFilter from '../common/VendorFilter';
 import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 import MaterialTypeFilter from '../common/MaterialTypeFilter';
+import OrdersTextFilter from '../common/OrdersTextFilter';
+import FundFilter from '../common/FundFilter';
+import SourceFilter from '../common/SourceFilter';
 import {
   ACQUISITION_METHOD_FILTER_OPTIONS,
   ORDER_FORMAT_FILTER_OPTIONS,
@@ -19,11 +22,15 @@ import {
   RECEIPT_STATUS_FILTER_OPTIONS,
 } from '../OrdersList/constants';
 import {
+  fundsShape,
   locationsShape,
   materialTypesShape,
   vendorsShape,
 } from '../common/shapes';
-import { FILTERS } from './constants';
+import {
+  BOOLEAN_OPTIONS,
+  FILTERS,
+} from './constants';
 
 const DEFAULT_FILTERS = [
   `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.partiallyReceived}`,
@@ -38,6 +45,7 @@ class OrderLinesFilters extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     activeFilters: PropTypes.object.isRequired,
+    funds: fundsShape,
     locations: locationsShape,
     vendors: vendorsShape,
     materialTypes: materialTypesShape,
@@ -52,7 +60,7 @@ class OrderLinesFilters extends Component {
   }
 
   render() {
-    const { activeFilters, onChange, locations, materialTypes, vendors } = this.props;
+    const { activeFilters, onChange, funds, locations, materialTypes, vendors } = this.props;
 
     return (
       <AccordionSet>
@@ -88,6 +96,13 @@ class OrderLinesFilters extends Component {
           onChange={onChange}
           locations={locations}
         />
+        <FundFilter
+          activeFilters={activeFilters[FILTERS.FUND_CODE]}
+          labelId="ui-orders.filter.fundCode"
+          name={FILTERS.FUND_CODE}
+          onChange={onChange}
+          funds={funds}
+        />
         <OrdersCheckboxFilter
           activeFilters={activeFilters[FILTERS.ORDER_FORMAT]}
           labelId="ui-orders.poLine.orderFormat"
@@ -121,6 +136,111 @@ class OrderLinesFilters extends Component {
           name={FILTERS.VENDOR}
           onChange={onChange}
           vendors={vendors}
+        />
+        <SourceFilter
+          activeFilters={activeFilters[FILTERS.SOURCE_CODE]}
+          labelId="ui-orders.poLine.source"
+          name={FILTERS.SOURCE_CODE}
+          onChange={onChange}
+        />
+        <OrdersCheckboxFilter
+          activeFilters={activeFilters[FILTERS.COLLECTION]}
+          labelId="ui-orders.filter.collection"
+          name={FILTERS.COLLECTION}
+          onChange={onChange}
+          options={BOOLEAN_OPTIONS}
+        />
+        <OrdersCheckboxFilter
+          activeFilters={activeFilters[FILTERS.RUSH]}
+          labelId="ui-orders.filter.rush"
+          name={FILTERS.RUSH}
+          onChange={onChange}
+          options={BOOLEAN_OPTIONS}
+        />
+        <VendorFilter
+          activeFilters={activeFilters[FILTERS.ACCESS_PROVIDER]}
+          labelId="ui-orders.eresource.accessProvider"
+          name={FILTERS.ACCESS_PROVIDER}
+          onChange={onChange}
+          vendors={vendors}
+        />
+        <OrdersCheckboxFilter
+          activeFilters={activeFilters[FILTERS.ACTIVATED]}
+          labelId="ui-orders.filter.activated"
+          name={FILTERS.ACTIVATED}
+          onChange={onChange}
+          options={BOOLEAN_OPTIONS}
+        />
+        <OrdersDateRangeFilter
+          activeFilters={activeFilters[FILTERS.EXPECTED_ACTIVATION_DATE]}
+          id={FILTERS.SUBSCRIPTION_FROM}
+          labelId="ui-orders.eresource.expectedActivation"
+          name={FILTERS.EXPECTED_ACTIVATION_DATE}
+          onChange={onChange}
+        />
+        <OrdersCheckboxFilter
+          activeFilters={activeFilters[FILTERS.TRIAL]}
+          labelId="ui-orders.filter.trial"
+          name={FILTERS.TRIAL}
+          onChange={onChange}
+          options={BOOLEAN_OPTIONS}
+        />
+        <OrdersDateRangeFilter
+          activeFilters={activeFilters[FILTERS.SUBSCRIPTION_FROM]}
+          id={FILTERS.SUBSCRIPTION_FROM}
+          labelId="ui-orders.itemDetails.subscriptionFrom"
+          name={FILTERS.SUBSCRIPTION_FROM}
+          onChange={onChange}
+        />
+        <OrdersDateRangeFilter
+          activeFilters={activeFilters[FILTERS.SUBSCRIPTION_TO]}
+          id={FILTERS.SUBSCRIPTION_TO}
+          labelId="ui-orders.itemDetails.subscriptionTo"
+          name={FILTERS.SUBSCRIPTION_TO}
+          onChange={onChange}
+        />
+        <OrdersDateRangeFilter
+          activeFilters={activeFilters[FILTERS.ACTUAL_RECEIPT_DATE]}
+          id={FILTERS.ACTUAL_RECEIPT_DATE}
+          labelId="ui-orders.filter.actualReceiptDate"
+          name={FILTERS.EXPECTED_ACTIVATION_DATE}
+          onChange={onChange}
+        />
+        <OrdersDateRangeFilter
+          activeFilters={activeFilters[FILTERS.EXPECTED_RECEIPT_DATE]}
+          id={FILTERS.EXPECTED_RECEIPT_DATE}
+          labelId="ui-orders.physical.expectedReceiptDate"
+          name={FILTERS.EXPECTED_RECEIPT_DATE}
+          onChange={onChange}
+        />
+        <OrdersDateRangeFilter
+          activeFilters={activeFilters[FILTERS.RECEIPT_DUE]}
+          id={FILTERS.RECEIPT_DUE}
+          labelId="ui-orders.physical.receiptDue"
+          name={FILTERS.RECEIPT_DUE}
+          onChange={onChange}
+        />
+        <OrdersCheckboxFilter
+          activeFilters={activeFilters[FILTERS.CLAIM]}
+          labelId="ui-orders.filter.claim"
+          name={FILTERS.CLAIM}
+          onChange={onChange}
+          options={BOOLEAN_OPTIONS}
+        />
+        <OrdersTextFilter
+          id={FILTERS.CLAIM_GRACE}
+          activeFilters={activeFilters[FILTERS.CLAIM_GRACE]}
+          labelId="ui-orders.filter.claimGrace"
+          name={FILTERS.CLAIM_GRACE}
+          type="number"
+          onChange={onChange}
+        />
+        <OrdersDateRangeFilter
+          activeFilters={activeFilters[FILTERS.CLAIM_SENT]}
+          id={FILTERS.CLAIM_SENT}
+          labelId="ui-orders.filter.claimSent"
+          name={FILTERS.CLAIM_SENT}
+          onChange={onChange}
         />
       </AccordionSet>
     );

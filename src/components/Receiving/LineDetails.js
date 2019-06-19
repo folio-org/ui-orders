@@ -55,7 +55,6 @@ const LineDetails = ({
       <div className={css.fieldWrapper}>
         <TextField
           data-test-comment
-          disabled={isLoading || itemsMap[item.itemId] === undefined}
           onChange={(e) => onChangeField(item, e.target.value, 'comment')}
           type="text"
           value={item.comment}

@@ -27,13 +27,6 @@ import { addEmptyOption, isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsForm.css';
 
-const OWNER_OPTIONS = [
-  { value: '', label: 'No owner' },
-  { value: 'Team 1', label: 'Team 1' },
-  { value: 'Team 2', label: 'Team 2' },
-  { value: 'Team 3', label: 'Team 3' },
-];
-
 class PODetailsForm extends Component {
   static propTypes = {
     generatedNumber: PropTypes.string,
@@ -44,7 +37,6 @@ class PODetailsForm extends Component {
     stripes: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
-    owner: PropTypes.string,
     addresses: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.object,
   }
@@ -181,14 +173,10 @@ class PODetailsForm extends Component {
       orderNumberSetting: { canUserEditOrderNumber },
       prefixesSetting,
       suffixesSetting,
-      owner,
       order,
     } = this.props;
 
     const isOpenedOrder = isWorkflowStatusOpen(order);
-    const ownerOptions = owner && !OWNER_OPTIONS.some(({ value }) => value === owner)
-      ? [...OWNER_OPTIONS, { value: owner, label: owner }]
-      : OWNER_OPTIONS;
     const addressesOptions = addresses.map(address => ({ value: address.id, label: address.name }));
     const addressBillTo = get(addresses.find(el => el.id === formValues.billTo), 'address', '');
     const addressShipTo = get(addresses.find(el => el.id === formValues.shipTo), 'address', '');
@@ -320,21 +308,6 @@ class PODetailsForm extends Component {
           >
             <FieldOrderType disabled={isOpenedOrder} />
           </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <Field
-              component={Selection}
-              dataOptions={ownerOptions}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.owner" />}
-              name="owner"
-              disabled={isOpenedOrder}
-            />
-          </Col>
-        </Row>
-        <Row>
           <Col
             xs={6}
             lg={3}
