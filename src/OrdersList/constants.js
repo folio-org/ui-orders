@@ -54,8 +54,3 @@ export const ORDER_TYPE_FILTER_OPTIONS = Object.keys(ORDER_TYPE).map(key => ({
   value: ORDER_TYPE[key],
   label: <FormattedMessage id={`ui-orders.order_type.${key}`} />,
 }));
-
-export const MANUAL_RENEWAL_FILTER_OPTIONS = [{
-  value: 'true',
-  label: <FormattedMessage id="ui-orders.renewal.manualRenewal" />,
-}];

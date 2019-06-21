@@ -22,7 +22,6 @@ import {
   FILTERS,
   STATUS_FILTER_OPTIONS,
   ORDER_TYPE_FILTER_OPTIONS,
-  MANUAL_RENEWAL_FILTER_OPTIONS,
 } from './constants';
 
 class OrdersListFilters extends Component {
@@ -155,7 +154,7 @@ class OrdersListFilters extends Component {
           labelId="ui-orders.renewal.manualRenewal"
           name={FILTERS.MANUAL_RENEWAL}
           onChange={onChange}
-          options={MANUAL_RENEWAL_FILTER_OPTIONS}
+          options={BOOLEAN_OPTIONS}
         />
         <OrdersTextFilter
           id={FILTERS.RENEWAL_REVIEW_PERIOD}
