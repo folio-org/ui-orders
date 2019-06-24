@@ -31,7 +31,7 @@ export default interactor(class OrdersInteractor {
 
   hasCreateOrderButton = isPresent('#clickable-neworder');
   hasPONumberField = isPresent('[name="poNumber"]');
-  hasVendorNameField = isPresent('[name="vendorName"]');
+  hasVendorNameField = isPresent('[name="vendor"]');
   hasCreatedByField = isPresent('[name="createdByName"]');
   orders = collection('[role=row] a');
   order = scoped('[data-test-order-details]');

@@ -18,8 +18,8 @@ import Button from './button';
   value = value();
 }
 
-@interactor class VendorInput {
-  static defaultScope = 'input[name="vendorName"]';
+@interactor class VendorSelect {
+  static defaultScope = '[name="vendor"]';
   value = value();
 }
 
@@ -36,7 +36,7 @@ export default interactor(class OrderEditPage {
   renewalsAccordion = isPresent('#renewals');
   orderTypeSelect = new OrderTypeSelect();
   createOrderButton = new Button('#clickable-create-new-purchase-order');
-  vendorInput = new VendorInput();
+  vendorSelect = new VendorSelect();
   addNoteButton = new Button('[data-test-add-note-button]');
   removeNoteButton = new Button('[data-test-remove-note-button]');
   notes = collection('[name*=notes]');

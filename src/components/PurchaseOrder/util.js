@@ -70,3 +70,11 @@ export const getAddresses = (addresses) => {
     };
   });
 };
+
+export const getVendors = (vendors) => {
+  return vendors.filter(vendor => !vendor.isVendor && vendor.status === 'Active')
+    .map(vendor => ({
+      value: vendor.id,
+      label: vendor.name,
+    }));
+};
