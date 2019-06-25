@@ -29,7 +29,7 @@ import FieldOrderType from './FieldOrderType';
 import { isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsForm.css';
-import { getVendorOptions } from "../../../common/utils";
+import { getVendorOptions } from '../../../common/utils';
 
 class PODetailsForm extends Component {
   static propTypes = {
