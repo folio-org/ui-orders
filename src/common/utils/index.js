@@ -9,3 +9,4 @@ export * from './getUserOptions';
 export * from './getVendorOptions';
 export * from './handleFilterChange';
 export * from './showToast';
+export { default as getCreateInventorySetting } from './getCreateInventorySetting';

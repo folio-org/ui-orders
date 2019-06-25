@@ -5,8 +5,10 @@ import {
   AccordionSet,
 } from '@folio/stripes/components';
 
-import { RECEIPT_STATUS } from '../components/POLine/POLineDetails/FieldReceiptStatus';
-import { PAYMENT_STATUS } from '../components/POLine/POLineDetails/FieldPaymentStatus';
+import {
+  RECEIPT_STATUS,
+  PAYMENT_STATUS,
+} from '../common/POLFields';
 import LocationFilter from '../common/LocationFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
 import VendorFilter from '../common/VendorFilter';

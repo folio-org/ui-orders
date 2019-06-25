@@ -1,34 +1,41 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
 import {
-  Checkbox,
   Col,
   KeyValue,
   Row,
-  TextArea,
-  TextField,
 } from '@folio/stripes/components';
 
+import {
+  FieldPOLineNumber,
+  FieldAcquisitionMethod,
+  FieldOrderFormat,
+  FieldReceiptDate,
+  FieldDonor,
+  FieldPaymentStatus,
+  FieldReceiptStatus,
+  FieldSelector,
+  FieldCancellationRestriction,
+  FieldRush,
+  FieldCollection,
+  FieldCheckInItems,
+  FieldRequester,
+  FieldCancellationRestrictionNote,
+  FieldPOLineDescription,
+} from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
 import FolioFormattedTime from '../../FolioFormattedTime';
-import FieldPaymentStatus from './FieldPaymentStatus';
-import FieldReceiptStatus from './FieldReceiptStatus';
-import FieldOrderFormat from './FieldOrderFormat';
-import FieldAcquisitionMethod from './FieldAcquisitionMethod';
 
 class POLineDetailsForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object.isRequired,
     change: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
-    stripes: PropTypes.shape({
-      store: PropTypes.object.isRequired,
-    }).isRequired,
+    formValues: PropTypes.object.isRequired,
     order: PropTypes.object,
     parentResources: PropTypes.shape({
       vendors: PropTypes.shape({
@@ -41,7 +48,7 @@ class POLineDetailsForm extends Component {
   };
 
   render() {
-    const { change, dispatch, initialValues: poLine, stripes: { store }, parentResources, order } = this.props;
+    const { change, dispatch, formValues, initialValues: poLine, parentResources, order } = this.props;
     const vendors = get(parentResources, 'vendors.records', []);
     const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
     const isOpenedOrder = isWorkflowStatusOpen(order);
@@ -50,16 +57,7 @@ class POLineDetailsForm extends Component {
       <Fragment>
         <Row>
           <Col xs={6}>
-            {poLine.id && (
-              <Field
-                component={TextField}
-                disabled
-                fullWidth
-                label={<FormattedMessage id="ui-orders.poLine.number" />}
-                name="poLineNumber"
-                type="text"
-              />
-            )}
+            {poLine.id && <FieldPOLineNumber />}
           </Col>
           <Col xs={6}>
             <FieldAcquisitionMethod disabled={isOpenedOrder} />
@@ -68,7 +66,7 @@ class POLineDetailsForm extends Component {
             <FieldOrderFormat
               change={change}
               dispatch={dispatch}
-              store={store}
+              formValues={formValues}
               vendors={vendors}
               orderVendorId={order.vendor}
               createInventorySetting={createInventorySetting}
@@ -83,13 +81,7 @@ class POLineDetailsForm extends Component {
             </KeyValue>
           </Col>
           <Col xs={6}>
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
-              name="receiptDate"
-              type="date"
-            />
+            <FieldReceiptDate />
           </Col>
           <Col xs={6}>
             <KeyValue
@@ -98,15 +90,7 @@ class POLineDetailsForm extends Component {
             />
           </Col>
           <Col xs={6}>
-            <Field
-              component={TextField}
-              fullWidth
-              id="donor"
-              label={<FormattedMessage id="ui-orders.poLine.donor" />}
-              name="donor"
-              type="text"
-              disabled={isOpenedOrder}
-            />
+            <FieldDonor disabled={isOpenedOrder} />
           </Col>
           <Col xs={6}>
             <FieldPaymentStatus workflowStatus={order.workflowStatus} />
@@ -115,85 +99,30 @@ class POLineDetailsForm extends Component {
             <FieldReceiptStatus workflowStatus={order.workflowStatus} />
           </Col>
           <Col xs={6}>
-            <Field
-              component={TextField}
-              fullWidth
-              id="selector"
-              label={<FormattedMessage id="ui-orders.poLine.selector" />}
-              name="selector"
-              type="text"
-              disabled={isOpenedOrder}
-            />
+            <FieldSelector disabled={isOpenedOrder} />
           </Col>
           <Col xs={6}>
-            <Field
-              component={TextField}
-              fullWidth
-              id="requester"
-              label={<FormattedMessage id="ui-orders.poLine.requester" />}
-              name="requester"
-              type="text"
-              disabled={isOpenedOrder}
-            />
+            <FieldRequester disabled={isOpenedOrder} />
           </Col>
           <Col xs={3}>
-            <Field
-              component={Checkbox}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}
-              name="cancellationRestriction"
-              type="checkbox"
-            />
+            <FieldCancellationRestriction />
           </Col>
           <Col xs={3}>
-            <Field
-              component={Checkbox}
-              fullWidth
-              id="rush"
-              label={<FormattedMessage id="ui-orders.poLine.rush" />}
-              name="rush"
-              type="checkbox"
-              disabled={isOpenedOrder}
-            />
+            <FieldRush disabled={isOpenedOrder} />
           </Col>
           <Col xs={3}>
-            <Field
-              component={Checkbox}
-              fullWidth
-              id="collection"
-              label={<FormattedMessage id="ui-orders.poLine.сollection" />}
-              name="collection"
-              type="checkbox"
-              disabled={isOpenedOrder}
-            />
+            <FieldCollection disabled={isOpenedOrder} />
           </Col>
           <Col xs={3}>
-            <Field
-              component={Checkbox}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.checkinItems" />}
-              name="checkinItems"
-              type="checkbox"
-              disabled={isOpenedOrder}
-            />
+            <FieldCheckInItems disabled={isOpenedOrder} />
           </Col>
         </Row>
         <Row>
           <Col xs={12}>
-            <Field
-              component={TextArea}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.cancellationRestrictionNote" />}
-              name="cancellationRestrictionNote"
-            />
+            <FieldCancellationRestrictionNote />
           </Col>
           <Col xs={12}>
-            <Field
-              component={TextArea}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.poLineDescription" />}
-              name="poLineDescription"
-            />
+            <FieldPOLineDescription />
           </Col>
         </Row>
       </Fragment>

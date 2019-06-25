@@ -260,7 +260,10 @@ class POLineForm extends Component {
                       label={<FormattedMessage id="ui-orders.line.accordion.details" />}
                       id={ACCORDION_ID.lineDetails}
                     >
-                      <POLineDetailsForm {...this.props} />
+                      <POLineDetailsForm
+                        {...this.props}
+                        formValues={formValues}
+                      />
                     </Accordion>
                     <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.cost" />}

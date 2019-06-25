@@ -9,7 +9,7 @@ import {
   INVENTORY_RECORDS_TYPE,
   PHYSICAL,
 } from '../../../src/components/POLine/const';
-import { ACQUISITION_METHOD } from '../../../src/components/POLine/POLineDetails/FieldAcquisitionMethod';
+import { ACQUISITION_METHOD } from '../../../src/common/POLFields';
 import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
