@@ -29,6 +29,7 @@ import FieldOrderType from './FieldOrderType';
 import { isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsForm.css';
+import { getVendorOptions } from '../../../common/utils';
 
 class PODetailsForm extends Component {
   static propTypes = {
@@ -124,6 +125,7 @@ class PODetailsForm extends Component {
     } = this.props;
 
     const isOpenedOrder = isWorkflowStatusOpen(order);
+    const vendorOptions = getVendorOptions(vendors);
     const addressesOptions = addresses.map(address => ({ value: address.id, label: address.name }));
     const addressBillTo = get(addresses.find(el => el.id === formValues.billTo), 'address', '');
     const addressShipTo = get(addresses.find(el => el.id === formValues.shipTo), 'address', '');
@@ -161,7 +163,7 @@ class PODetailsForm extends Component {
             className={css.pluginFieldWrapper}
           >
             <FieldVendor
-              vendors={vendors}
+              vendors={vendorOptions}
               name="vendor"
               required
               validate={required}

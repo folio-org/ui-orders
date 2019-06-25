@@ -2,7 +2,6 @@ import { some } from 'lodash';
 
 import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
 import { RECEIPT_STATUS } from '../POLine/POLineDetails/FieldReceiptStatus';
-import { ORGANIZATION_STATUS_ACTIVE } from '../../common/constants';
 
 const isLineAbleToBeReceived = (line = { cost: {} }) => {
   const isNotCheckin = !line.checkinItems;
@@ -71,10 +70,3 @@ export const getAddresses = (addresses) => {
     };
   });
 };
-
-export const getVendors = (vendors) => vendors
-  .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE)
-  .map(vendor => ({
-    value: vendor.id,
-    label: `${vendor.name} (${vendor.code})`,
-  }));
