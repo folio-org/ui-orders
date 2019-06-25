@@ -19,14 +19,20 @@ const SummaryView = ({ order }) => {
 
   return (
     <Fragment>
-      <Row>
-        <Col xs={6}>
+      <Row start="xs">
+        <Col
+          xs={6}
+          lg={3}
+        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
             value={get(order, 'totalItems')}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          lg={3}
+        >
           <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.approved" />}>
             <Checkbox
               checked={get(order, ['approved'])}
@@ -34,13 +40,19 @@ const SummaryView = ({ order }) => {
             />
           </KeyValue>
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          lg={3}
+        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}
             value={get(order, 'totalEstimatedPrice')}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          lg={3}
+        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.workflowStatus" />}
             value={workflowStatus}
@@ -48,7 +60,10 @@ const SummaryView = ({ order }) => {
         </Col>
       </Row>
       {(workflowStatus === WORKFLOW_STATUS.closed) && (
-        <Row data-test-close-reason-block>
+        <Row
+          data-test-close-reason-block
+          start="xs"
+        >
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}

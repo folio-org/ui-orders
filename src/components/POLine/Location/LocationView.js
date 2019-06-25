@@ -14,20 +14,29 @@ const Location = ({ location, locations }) => {
   const { name, code } = get(filteredLocation, '0', {});
 
   return (
-    <Row>
-      <Col md={6}>
+    <Row start="xs">
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.location.nameCode" />}
           value={`${name} (${code})`}
         />
       </Col>
-      <Col md={3}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
           value={location.quantityPhysical}
         />
       </Col>
-      <Col md={3}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
           value={location.quantityElectronic}
@@ -37,7 +46,7 @@ const Location = ({ location, locations }) => {
   );
 };
 
-const LocationView = ({ locations, lineLocations = [] }) => {
+const LocationView = ({ locations = {}, lineLocations = [] }) => {
   return lineLocations.map((location, i) => (
     <Location
       key={location.id || i}  // i is required when new row of Location is added by User

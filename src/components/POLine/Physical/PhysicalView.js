@@ -22,38 +22,56 @@ const PhysicalView = ({ materialTypes, physical, vendors }) => {
   const materialType = materialTypes.find(type => materialTypeId === type.id);
 
   return (
-    <Row>
-      <Col xs={6}>
+    <Row start="xs">
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
           value={get(materialSupplier, 'name', '')}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
           value={formatDate(get(physical, 'receiptDue'))}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
           value={formatDate(get(physical, 'expectedReceiptDate'))}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.volumes" />}
           value={toString(get(physical, 'volumes'))}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.createInventory" />}
           value={get(physical, 'createInventory')}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.poLine.materialType" />}
           value={get(materialType, 'name', '')}
@@ -64,12 +82,18 @@ const PhysicalView = ({ materialTypes, physical, vendors }) => {
 };
 
 PhysicalView.propTypes = {
-  materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  physical: PropTypes.object.isRequired,
+  materialTypes: PropTypes.arrayOf(PropTypes.object),
+  physical: PropTypes.object,
   vendors: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
-  })).isRequired,
+  })),
+};
+
+PhysicalView.defaultProps = {
+  materialTypes: [],
+  physical: {},
+  vendors: [],
 };
 
 export default PhysicalView;

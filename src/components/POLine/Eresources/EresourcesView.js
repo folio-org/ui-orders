@@ -25,7 +25,7 @@ const EresourcesView = ({ line: { eresource }, order, vendors, materialTypes }) 
   const materialType = materialTypes.find((type => materialTypeId === type.id));
 
   return (
-    <Row>
+    <Row start="xs">
       <Col xs={3}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
@@ -77,13 +77,21 @@ const EresourcesView = ({ line: { eresource }, order, vendors, materialTypes }) 
 EresourcesView.propTypes = {
   line: PropTypes.shape({
     eresource: PropTypes.object,
-  }).isRequired,
-  materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  order: PropTypes.object.isRequired,
+  }),
+  materialTypes: PropTypes.arrayOf(PropTypes.object),
+  order: PropTypes.object,
   vendors: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   })).isRequired,
+};
+
+EresourcesView.defaultProps = {
+  materialTypes: [],
+  line: {
+    eresource: {},
+  },
+  order: {},
 };
 
 export default EresourcesView;

@@ -1,54 +1,76 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+
 import { get } from 'lodash';
+
 import {
   Col,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
 
-class VendorView extends Component {
-  static propTypes = {
-    vendorDetail: PropTypes.object,
-  };
+const VendorView = ({ vendorDetail }) => (
+  <Row start="xs">
+    <Col
+      data-col-vendor-view-refnumber
+      xs={6}
+      lg={3}
+    >
+      <KeyValue
+        label={<FormattedMessage id="ui-orders.vendor.refNumber" />}
+        value={get(vendorDetail, 'refNumber')}
+      />
+    </Col>
+    <Col
+      data-col-vendor-view-refnumber-type
+      xs={6}
+      lg={3}
+    >
+      <KeyValue
+        label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
+        value={get(vendorDetail, 'refNumberType')}
+      />
+    </Col>
+    <Col
+      data-col-vendor-view-instructions
+      xs={6}
+      lg={3}
+    >
+      <KeyValue
+        label={<FormattedMessage id="ui-orders.vendor.instructions" />}
+        value={get(vendorDetail, 'instructions')}
+      />
+    </Col>
+    <Col
+      data-col-vendor-view-account-number
+      xs={6}
+      lg={3}
+    >
+      <KeyValue
+        label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
+        value={get(vendorDetail, 'vendorAccount')}
+      />
+    </Col>
+    <Col
+      data-col-vendor-view-note
+      xs={6}
+      lg={3}
+    >
+      <KeyValue
+        label={<FormattedMessage id="ui-orders.vendor.noteFromVendor" />}
+        value={get(vendorDetail, 'noteFromVendor')}
+      />
+    </Col>
+  </Row>
+);
 
-  render() {
-    const { vendorDetail } = this.props;
+VendorView.propTypes = {
+  vendorDetail: PropTypes.object,
+};
 
-    return (
-      <Row>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.vendor.refNumber" />}
-            value={get(vendorDetail, 'refNumber')}
-          />
-        </Col>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
-            value={get(vendorDetail, 'refNumberType')}
-          />
-        </Col>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.vendor.instructions" />}
-            value={get(vendorDetail, 'instructions')}
-          />
-        </Col>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
-            value={get(vendorDetail, 'vendorAccount')}
-          />
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.vendor.noteFromVendor" />}
-            value={get(vendorDetail, 'noteFromVendor')}
-          />
-        </Col>
-      </Row>
-    );
-  }
-}
+VendorView.defaultProps = {
+  vendorDetail: {},
+};
 
 export default VendorView;

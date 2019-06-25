@@ -661,6 +661,13 @@
   "settings.orderTemplates.editor.template.code": "Code",
   "settings.orderTemplates.editor.template.description": "Description",
 
+  "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",
+  "settings.orderTemplates.confirmDelete.heading": "Delete template",
+  "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
+
+  "settings.orderTemplates.remove.success": "The template was deleted",
+  "settings.orderTemplates.remove.error": "The template was not deleted",
+
   "settings.polinesLimit": "Purchase order lines limit",
   "settings.poNumber.addOption": "Add: ",
   "settings.poNumber.edit": "Edit",

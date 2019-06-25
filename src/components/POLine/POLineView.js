@@ -44,8 +44,6 @@ import {
 
 class POLineView extends Component {
   static propTypes = {
-    location: PropTypes.object,
-    history: PropTypes.object,
     poURL: PropTypes.string,
     locations: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.object,
@@ -311,28 +309,19 @@ class POLineView extends Component {
             label={<FormattedMessage id="ui-orders.line.accordion.poLine" />}
             id={ACCORDION_ID.poLine}
           >
-            <POLineDetails
-              initialValues={line}
-              {...this.props}
-            />
+            <POLineDetails line={line} />
           </Accordion>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
             id="CostDetails"
           >
-            <CostView
-              cost={line.cost}
-              {...this.props}
-            />
+            <CostView cost={line.cost} />
           </Accordion>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
             id="Vendor"
           >
-            <VendorView
-              vendorDetail={line.vendorDetail}
-              {...this.props}
-            />
+            <VendorView vendorDetail={line.vendorDetail} />
           </Accordion>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.fund" />}

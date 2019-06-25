@@ -46,6 +46,7 @@ class OrderTemplatesEditor extends Component {
     locations: PropTypes.arrayOf(PropTypes.object),
     funds: PropTypes.arrayOf(PropTypes.object),
     createInventorySetting: PropTypes.object,
+    title: PropTypes.string,
   };
 
   state = {
@@ -114,6 +115,7 @@ class OrderTemplatesEditor extends Component {
       stripes,
       dispatch,
       change,
+      title,
     } = this.props;
     const { sections } = this.state;
     const { store } = stripes;
@@ -128,7 +130,7 @@ class OrderTemplatesEditor extends Component {
           <Pane
             id="order-settings-order-templates-editor"
             defaultWidth="fill"
-            paneTitle={titleCreate}
+            paneTitle={title || titleCreate}
             dismissible
             onClose={close}
             lastMenu={this.getLastMenu()}

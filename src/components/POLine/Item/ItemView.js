@@ -15,8 +15,13 @@ import ProductIdDetails from './ProductIdDetails';
 
 class ItemView extends Component {
   static propTypes = {
-    poLineDetails: PropTypes.object.isRequired,
+    poLineDetails: PropTypes.object,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
+  }
+
+  static defaultProps = {
+    poLineDetails: {},
+    identifierTypes: [],
   }
 
   render() {
@@ -26,69 +31,97 @@ class ItemView extends Component {
     const titleValue = instanceId
       ? <Link to={`/inventory/view/${instanceId}`}>{title}</Link>
       : title;
+    const contributors = get(poLineDetails, 'contributors', []);
 
     return (
       <Fragment>
-        <Row>
-          <Col xs={6}>
+        <Row start="xs">
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.title" />}
               value={titleValue}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
               value={get(poLineDetails, ['details', 'receivingNote'])}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
               value={formatDate(get(poLineDetails, ['details', 'subscriptionFrom']))}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
               value={formatDate(get(poLineDetails, ['details', 'subscriptionTo']))}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
               value={get(poLineDetails, ['details', 'subscriptionInterval'])}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
               value={get(poLineDetails, 'publicationDate')}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
               value={get(poLineDetails, 'publisher')}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
               value={toString(get(poLineDetails, 'edition'))}
             />
           </Col>
-          <Col xs={6}>
-            <ContributorView contributors={poLineDetails.contributors} />
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <ContributorView contributors={contributors} />
           </Col>
         </Row>
-        <Row>
+        <Row start="xs">
           <ProductIdDetails
             identifierTypes={identifierTypes}
             itemIdDetails={get(poLineDetails, ['details', 'productIds'], [])}
           />
         </Row>
-        <Row>
+        <Row start="xs">
           <Col xs={12}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.description" />}

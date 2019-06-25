@@ -5,6 +5,7 @@ import {
   get,
   find,
 } from 'lodash';
+
 import {
   Col,
   KeyValue,
@@ -17,6 +18,11 @@ class ProductIdDetails extends Component {
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
   }
 
+  static defaultProps = {
+    itemIdDetails: {},
+    identifierTypes: [],
+  }
+
   constructor(props) {
     super(props);
     this.getProductDetails = this.getProductDetails.bind(this);
@@ -25,13 +31,19 @@ class ProductIdDetails extends Component {
   getProductDetails(val, key) {
     return (
       <Row key={key}>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          lg={3}
+        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             value={get(val, 'productId')}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          lg={3}
+        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
             value={get(val, 'productIdType')}

@@ -29,26 +29,38 @@ function FundDistributionView({ line = {}, funds = [] }) {
   const amount = fundsToDisplay.map(d => ((d.percentage / 100) * estimatedPrice).toFixed(2)).join(', ');
 
   return (
-    <Row>
-      <Col xs={6}>
+    <Row start="xs">
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
           value={names}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.fundDistribution.percent" />}
           value={percentages}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.fundDistribution.code" />}
           value={codes}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.fundDistribution.amount" />}
           value={amount}
@@ -60,10 +72,18 @@ function FundDistributionView({ line = {}, funds = [] }) {
 
 FundDistributionView.propTypes = {
   line: PropTypes.shape({
-    fundDistribution: PropTypes.arrayOf(PropTypes.object).isRequired,
-    cost: PropTypes.object.isRequired,
+    fundDistribution: PropTypes.arrayOf(PropTypes.object),
+    cost: PropTypes.object,
   }),
   funds: PropTypes.arrayOf(PropTypes.object),
+};
+
+FundDistributionView.defaultProps = {
+  line: {
+    fundDistribution: [],
+    cost: {},
+  },
+  funds: [],
 };
 
 export default FundDistributionView;
