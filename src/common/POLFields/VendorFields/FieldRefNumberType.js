@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import { Select } from '@folio/stripes/components';
-import { requiredRefNumber } from '../../Utils/Validate';
+import { requiredRefNumber } from '../../../components/Utils/Validate';
 
 const REF_NUMBER_TYPE = {
   suppliersContinuation: "Supplier's continuation order",

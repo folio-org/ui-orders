@@ -27,6 +27,7 @@ import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
+import POLineVendorForm from './POLineVendorForm';
 import POLineFundDistributionForm from './POLineFundDistributionForm';
 import POLineLocationsForm from './POLineLocationsForm';
 
@@ -190,7 +191,9 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
-                  />
+                  >
+                    <POLineVendorForm />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
