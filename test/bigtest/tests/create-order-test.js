@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import OrdersInteractor from '../interactors/orders';
 import OrderEditPage from '../interactors/order-edit-page';
-import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
+// import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 import {
   CONFIG_SUFFIXES,
   MODULE_ORDERS,
