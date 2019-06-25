@@ -13,6 +13,7 @@ import {
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
+import { getAddressOptions, getVendorOptions } from '../../../common/utils';
 import {
   FieldPrefix,
   FieldSuffix,
@@ -29,7 +30,6 @@ import FieldOrderType from './FieldOrderType';
 import { isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsForm.css';
-import { getVendorOptions } from '../../../common/utils';
 
 class PODetailsForm extends Component {
   static propTypes = {
@@ -126,7 +126,7 @@ class PODetailsForm extends Component {
 
     const isOpenedOrder = isWorkflowStatusOpen(order);
     const vendorOptions = getVendorOptions(vendors);
-    const addressesOptions = addresses.map(address => ({ value: address.id, label: address.name }));
+    const addressesOptions = getAddressOptions(addresses);
     const addressBillTo = get(addresses.find(el => el.id === formValues.billTo), 'address', '');
     const addressShipTo = get(addresses.find(el => el.id === formValues.shipTo), 'address', '');
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Row,
@@ -16,73 +17,85 @@ import {
 } from '../../../../common/POFields';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
 
-const PurchaseOrderInformationForm = () => {
+const PurchaseOrderInformationForm = ({
+  prefixesSetting,
+  suffixesSetting,
+  addresses,
+  vendors,
+}) => {
   return (
     <Row>
       <Col
         xs={3}
-        data-col-orde-template-prefix
+        data-col-order-template-prefix
       >
-        <FieldPrefix prefixes={[]} />
+        <FieldPrefix prefixes={prefixesSetting} />
       </Col>
 
       <Col
         xs={3}
-        data-col-orde-template-suffix
+        data-col-order-template-suffix
       >
-        <FieldSuffix suffixes={[]} />
+        <FieldSuffix suffixes={suffixesSetting} />
       </Col>
 
       <Col
         xs={3}
-        data-col-orde-template-vendor
+        data-col-order-template-vendor
       >
-        <FieldVendor vendors={[]} />
+        <FieldVendor vendors={vendors} />
       </Col>
 
       <Col
         xs={3}
-        data-col-orde-template-assign-to
+        data-col-order-template-assign-to
       >
         Assign to (TBD)
       </Col>
 
       <Col
         xs={3}
-        data-col-orde-template-bill-to
+        data-col-order-template-bill-to
       >
-        <FieldBillTo addresses={[]} />
+        <FieldBillTo addresses={addresses} />
       </Col>
 
       <Col
         xs={3}
-        data-col-orde-template-ship-to
+        data-col-order-template-ship-to
       >
-        <FieldShipTo addresses={[]} />
+        <FieldShipTo addresses={addresses} />
       </Col>
 
       <Col
         xs={3}
-        data-col-orde-template-order-type
+        data-col-order-template-order-type
       >
         <FieldOrderType />
       </Col>
 
       <Col
         xs={3}
-        data-col-orde-template-manual
+        data-col-order-template-manual
       >
         <FieldIsManualPO />
       </Col>
 
       <Col
         xs={3}
-        data-col-orde-template-reencumber
+        data-col-order-template-reencumber
       >
         <FieldIsReEncumber />
       </Col>
     </Row>
   );
+};
+
+PurchaseOrderInformationForm.propTypes = {
+  prefixesSetting: PropTypes.arrayOf(PropTypes.object),
+  suffixesSetting: PropTypes.arrayOf(PropTypes.object),
+  addresses: PropTypes.arrayOf(PropTypes.object),
+  vendors: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default PurchaseOrderInformationForm;

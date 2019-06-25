@@ -46,6 +46,10 @@ class OrderTemplatesEditor extends Component {
     locations: PropTypes.arrayOf(PropTypes.object),
     funds: PropTypes.arrayOf(PropTypes.object),
     createInventorySetting: PropTypes.object,
+    prefixesSetting: PropTypes.arrayOf(PropTypes.object),
+    suffixesSetting: PropTypes.arrayOf(PropTypes.object),
+    addresses: PropTypes.arrayOf(PropTypes.object),
+    vendors: PropTypes.arrayOf(PropTypes.object),
     title: PropTypes.string,
   };
 
@@ -108,6 +112,10 @@ class OrderTemplatesEditor extends Component {
   render() {
     const {
       createInventorySetting,
+      prefixesSetting,
+      suffixesSetting,
+      addresses,
+      vendors,
       funds,
       locations,
       handleSubmit,
@@ -165,7 +173,12 @@ class OrderTemplatesEditor extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_INFO]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_INFO}
                   >
-                    <PurchaseOrderInformationForm />
+                    <PurchaseOrderInformationForm
+                      prefixesSetting={prefixesSetting}
+                      suffixesSetting={suffixesSetting}
+                      addresses={addresses}
+                      vendors={vendors}
+                    />
                   </Accordion>
 
                   <Accordion

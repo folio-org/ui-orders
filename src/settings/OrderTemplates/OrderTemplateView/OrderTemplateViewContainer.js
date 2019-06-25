@@ -11,6 +11,9 @@ import {
 import { Callout } from '@folio/stripes/components';
 
 import {
+  getAddresses,
+} from '../../../common/utils';
+import {
   ADDRESSES,
   FUND,
   IDENTIFIER_TYPES,
@@ -19,7 +22,6 @@ import {
   ORDER_TEMPLATES,
   VENDORS,
 } from '../../../components/Utils/resources';
-import { getAddresses } from '../../../components/PurchaseOrder/util';
 import { getOrderTemplatesList } from '../util';
 import OrderTemplateView from './OrderTemplateView';
 

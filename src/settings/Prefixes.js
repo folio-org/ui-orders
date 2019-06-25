@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ConfigManager } from '@folio/stripes/smart-components';
 
 import { MODULE_ORDERS } from '../components/Utils/const';
-import getSettingsList from '../common/utils/getSettingsList';
+import { getSettingsList } from '../common/utils';
 import PrefixesForm from './PrefixesForm';
 import css from './Prefixes.css';
 

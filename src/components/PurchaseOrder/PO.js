@@ -24,6 +24,9 @@ import {
 } from '@folio/stripes/components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
+import {
+  getAddresses,
+} from '../../common/utils';
 import { LayerPO } from '../LayerCollection';
 import {
   LINES_LIMIT,
@@ -45,7 +48,6 @@ import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
 import {
-  getAddresses,
   isReceiveAvailableForOrder,
 } from './util';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';

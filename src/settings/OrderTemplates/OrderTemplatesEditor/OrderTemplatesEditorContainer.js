@@ -7,10 +7,14 @@ import {
 } from 'lodash';
 
 import {
+  ADDRESSES,
   ORDER_TEMPLATES,
   LOCATIONS,
   FUND,
   CREATE_INVENTORY,
+  PREFIXES_SETTING,
+  SUFFIXES_SETTING,
+  VENDORS,
 } from '../../../components/Utils/resources';
 import {
   MODULE_ORDERS,
@@ -18,7 +22,13 @@ import {
 } from '../../../components/Utils/const';
 import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 import getFundsForSelect from '../../../components/Utils/getFundsForSelect';
-import { getCreateInventorySetting } from '../../../common/utils';
+import {
+  getCreateInventorySetting,
+  getAddresses,
+  getAddressOptions,
+  getSettingsList,
+  getVendorOptions,
+} from '../../../common/utils';
 
 import { getOrderTemplatesList } from '../util';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
@@ -29,6 +39,10 @@ class OrderTemplatesEditorContainer extends Component {
     locations: LOCATIONS,
     fund: FUND,
     createInventory: CREATE_INVENTORY,
+    prefixesSetting: PREFIXES_SETTING,
+    suffixesSetting: SUFFIXES_SETTING,
+    addresses: ADDRESSES,
+    vendors: VENDORS,
   });
 
   static propTypes = {
@@ -67,6 +81,10 @@ class OrderTemplatesEditorContainer extends Component {
     const locations = getLocationsForSelect(resources);
     const funds = getFundsForSelect(resources);
     const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
+    const vendors = getVendorOptions(get(resources, 'vendors.records', []));
+    const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', {}));
+    const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
+    const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
     const orderTemplatesList = getOrderTemplatesList(get(resources, ['orderTemplates', 'records'], []));
     const id = get(match, ['params', 'id']);
     const template = id
@@ -76,13 +94,17 @@ class OrderTemplatesEditorContainer extends Component {
 
     return (
       <OrderTemplatesEditor
+        title={title}
+        onSubmit={this.saveOrderTemplate}
         close={close}
         funds={funds}
         initialValues={template.orderTemplate}
         locations={locations}
         createInventorySetting={createInventorySetting}
-        onSubmit={this.saveOrderTemplate}
-        title={title}
+        prefixesSetting={prefixesSetting.selectedItems}
+        suffixesSetting={suffixesSetting.selectedItems}
+        addresses={addresses}
+        vendors={vendors}
       />
     );
   }

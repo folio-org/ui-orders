@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 
-const getSettingsList = (configs) => {
+// eslint-disable-next-line import/prefer-default-export
+export const getSettingsList = (configs) => {
   let settingsList = get(configs, [0, 'value'], '{}');
   const config = {
     selectedItems: [],
@@ -19,5 +20,3 @@ const getSettingsList = (configs) => {
 
   return config;
 };
-
-export default getSettingsList;
