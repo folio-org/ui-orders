@@ -68,6 +68,7 @@ describe('Create order', function () {
     });
   });
 
+  // TODO: to fix test with selecting required vendor field
   // describe('Create new order', () => {
   //   beforeEach(async () => {
   //     await form.orderTypeSelect.select(ORDER_TYPE.oneTime);
