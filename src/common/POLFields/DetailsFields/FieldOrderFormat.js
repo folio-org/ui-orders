@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import {
-  Field,
-  getFormValues,
-} from 'redux-form';
+import { Field } from 'redux-form';
 import { get } from 'lodash';
 
 import { Select } from '@folio/stripes/components';
 
-import { Required } from '../../Utils/Validate';
+import { Required } from '../../../components/Utils/Validate';
 import {
   ERESOURCE,
   ERESOURCES,
   OTHER,
   PE_MIX,
   PHYSICAL,
-} from '../const';
+} from '../../../components/POLine/const';
 
 export const ORDER_FORMAT = {
   electronicResource: ERESOURCE,
@@ -29,15 +26,26 @@ class FieldOrderFormat extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
-    orderVendorId: PropTypes.string.isRequired,
-    store: PropTypes.object.isRequired,
-    vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
+    orderVendorId: PropTypes.string,
+    formValues: PropTypes.object.isRequired,
+    vendors: PropTypes.arrayOf(PropTypes.object),
     createInventorySetting: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
   }
 
+  static defaultProps = {
+    vendors: [],
+  };
+
   onChangeSelect = (_, value) => {
-    const { dispatch, change, createInventorySetting, store, vendors, orderVendorId } = this.props;
+    const {
+      dispatch,
+      change,
+      createInventorySetting,
+      vendors,
+      orderVendorId,
+      formValues,
+    } = this.props;
 
     dispatch(change('cost.quantityPhysical', ''));
     dispatch(change('cost.quantityElectronic', ''));
@@ -45,7 +53,6 @@ class FieldOrderFormat extends Component {
     dispatch(change('cost.listUnitPrice', ''));
 
     if (ERESOURCES.includes(value)) {
-      const formValues = getFormValues('POLineForm')(store.getState());
       const activationDue = get(formValues, 'eresource.activationDue');
       const vendor = vendors.find(v => v.id === orderVendorId);
 

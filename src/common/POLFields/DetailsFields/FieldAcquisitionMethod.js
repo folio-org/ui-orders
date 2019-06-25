@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 
 import { Select } from '@folio/stripes/components';
-import { Required } from '../../Utils/Validate';
+import { Required } from '../../../components/Utils/Validate';
 
 export const ACQUISITION_METHOD = {
   approvalPlan: 'Approval Plan',

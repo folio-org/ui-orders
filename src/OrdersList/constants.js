@@ -3,10 +3,12 @@ import { FormattedMessage } from 'react-intl';
 
 import { WORKFLOW_STATUS } from '../components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { ORDER_TYPE } from '../components/PurchaseOrder/PODetails/FieldOrderType';
-import { RECEIPT_STATUS } from '../components/POLine/POLineDetails/FieldReceiptStatus';
-import { PAYMENT_STATUS } from '../components/POLine/POLineDetails/FieldPaymentStatus';
-import { ACQUISITION_METHOD } from '../components/POLine/POLineDetails/FieldAcquisitionMethod';
-import { ORDER_FORMAT } from '../components/POLine/POLineDetails/FieldOrderFormat';
+import {
+  ACQUISITION_METHOD,
+  ORDER_FORMAT,
+  PAYMENT_STATUS,
+  RECEIPT_STATUS,
+} from '../common/POLFields';
 
 export const FILTERS = {
   APPROVED: 'approved',

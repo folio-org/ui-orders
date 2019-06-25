@@ -27,6 +27,7 @@ import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
+import POLineDetailsForm from './POLineDetailsForm';
 import POLineVendorForm from './POLineVendorForm';
 import POLineFundDistributionForm from './POLineFundDistributionForm';
 import POLineLocationsForm from './POLineLocationsForm';
@@ -36,12 +37,15 @@ const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.edit
 class OrderTemplatesEditor extends Component {
   static propTypes = {
     stripes: PropTypes.object.isRequired,
+    change: PropTypes.func,
+    dispatch: PropTypes.func,
     close: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     locations: PropTypes.arrayOf(PropTypes.object),
     funds: PropTypes.arrayOf(PropTypes.object),
+    createInventorySetting: PropTypes.object,
   };
 
   state = {
@@ -102,11 +106,14 @@ class OrderTemplatesEditor extends Component {
 
   render() {
     const {
+      createInventorySetting,
       funds,
       locations,
       handleSubmit,
       close,
       stripes,
+      dispatch,
+      change,
     } = this.props;
     const { sections } = this.state;
     const { store } = stripes;
@@ -181,7 +188,14 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DETAILS]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_DETAILS}
-                  />
+                  >
+                    <POLineDetailsForm
+                      change={change}
+                      dispatch={dispatch}
+                      formValues={formValues}
+                      createInventorySetting={createInventorySetting}
+                    />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]}
