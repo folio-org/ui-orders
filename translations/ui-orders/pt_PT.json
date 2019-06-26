@@ -699,5 +699,10 @@
     "settings.orderTemplates.editor.template.code": "Code",
     "settings.orderTemplates.editor.template.description": "Description",
     "line.accordion.poLine": "Purchase order line",
-    "settings.orderTemplates.editor.save": "Save"
+    "settings.orderTemplates.editor.save": "Save",
+    "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",
+    "settings.orderTemplates.confirmDelete.heading": "Delete template",
+    "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
+    "settings.orderTemplates.remove.success": "The template was deleted",
+    "settings.orderTemplates.remove.error": "The template was not deleted"
 }
