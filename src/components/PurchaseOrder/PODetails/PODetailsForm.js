@@ -24,7 +24,6 @@ import {
   FieldsNotes,
   FieldVendor,
 } from '../../../common/POFields';
-import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldOrderType from './FieldOrderType';
 import { isWorkflowStatusOpen } from '../util';
