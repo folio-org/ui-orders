@@ -168,7 +168,8 @@ class POForm extends Component {
     const prefixesSetting = getSettingsList(get(parentResources, 'prefixesSetting.records', {}));
     const suffixesSetting = getSettingsList(get(parentResources, 'suffixesSetting.records', {}));
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
-    const vendors = get(parentResources, 'vendors.records', []).filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
+    const vendors = get(parentResources, 'vendors.records', [])
+      .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
 
     if (!initialValues) {
       return (

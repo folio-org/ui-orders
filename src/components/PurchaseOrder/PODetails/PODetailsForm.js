@@ -164,9 +164,6 @@ class PODetailsForm extends Component {
           >
             <FieldVendor
               vendors={vendorOptions}
-              name="vendor"
-              required
-              validate={required}
             />
           </Col>
           <Col

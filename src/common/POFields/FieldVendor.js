@@ -2,23 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FieldSelection from '../FieldSelection';
+import { Required } from "../../components/Utils/Validate";
 
-const FieldVendor = ({ vendors, required, validate }) => {
+const FieldVendor = ({ vendors }) => {
   return (
     <FieldSelection
       dataOptions={vendors}
       labelId="ui-orders.orderDetails.vendor"
       name="vendor"
-      required={required}
-      validate={validate}
+      required
+      validate={[Required]}
     />
   );
 };
 
 FieldVendor.propTypes = {
   vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
-  required: PropTypes.bool,
-  validate: PropTypes.func,
 };
 
 export default FieldVendor;
