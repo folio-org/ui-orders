@@ -11,7 +11,7 @@ const TETHER_CONFIG = {
   attachment: 'middle center',
 };
 
-const filterValues = (value, dataOptions) => dataOptions.filter(({ label }) => {
+export const filterValues = (value, dataOptions) => dataOptions.filter(({ label }) => {
   return !value || label.includes(value);
 });
 
