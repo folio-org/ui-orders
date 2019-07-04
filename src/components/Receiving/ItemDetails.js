@@ -173,17 +173,24 @@ class ItemDetails extends Component {
   );
 
   onChangeField = (item, value, key) => {
-    this.setState(({ lineItems }) => {
+    this.setState(({ allChecked, lineItems }) => {
       const updatedLineItems = { ...lineItems };
+      const allCheckedItems = { ...allChecked };
+
       const selectedItem = updatedLineItems[item.poLineId].filter(el => el.id === item.id)[0];
 
       selectedItem[key] = value;
+      selectedItem.isSelected = key === 'barcode' && selectedItem[key].length > 0;
+      const isAllChecked = updatedLineItems[item.poLineId].find(line => !line.isSelected || line.isSelected === false);
+
+      allCheckedItems[item.poLineId] = !isAllChecked;
 
       return {
         lineItems: updatedLineItems,
+        allChecked: allCheckedItems,
       };
     });
-  }
+  };
 
   render() {
     const { close, locationsOptions, linesItemList } = this.props;
