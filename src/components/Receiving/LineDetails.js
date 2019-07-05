@@ -41,7 +41,6 @@ const LineDetails = ({
           data-test-barcode
           disabled={isLoading || itemsMap[item.itemId] === undefined}
           onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
-          onClearField={() => onChangeField(item, '', 'barcode')}
           type="text"
           value={item.barcode}
         />
