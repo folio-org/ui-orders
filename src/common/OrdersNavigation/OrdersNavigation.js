@@ -21,7 +21,7 @@ const OrdersNavigation = ({ isOrders, isOrderLines, queryMutator }) => (
     data-test-orders-navigation
   >
     <Button
-      onClick={() => goTo(queryMutator, '/orders', 'poNumber')}
+      onClick={() => goTo(queryMutator, '/orders', '-poNumber')}
       buttonStyle={`${isOrders ? 'primary' : 'default'}`}
     >
       <FormattedMessage id="ui-orders.navigation.orders" />

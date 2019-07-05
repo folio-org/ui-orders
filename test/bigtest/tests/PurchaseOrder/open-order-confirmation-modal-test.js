@@ -12,6 +12,18 @@ import { expect } from 'chai';
 
 import OpenOrderConfirmationModal from '../../../../src/components/PurchaseOrder/OpenOrderConfirmationModal';
 import OpenOrderConfirmationModalInteractor from '../../interactors/PurchaseOrder/open-order-confirmation-modal';
+import translations from '../../../../translations/ui-orders/en';
+
+// mimics the StripesTranslationPlugin in @folio/stripes-core
+function prefixKeys(obj) {
+  const res = {};
+
+  for (const key of Object.keys(obj)) {
+    res[`ui-orders.${key}`] = obj[key];
+  }
+
+  return res;
+}
 
 describe('OpenOrderConfirmationModal', () => {
   let submitFake;
@@ -23,7 +35,7 @@ describe('OpenOrderConfirmationModal', () => {
     submitFake = sinon.fake();
 
     mount(() => (
-      <IntlProvider locale="en">
+      <IntlProvider locale="en" key="en" timeZone="UTC" messages={prefixKeys(translations)}>
         <OpenOrderConfirmationModal
           submit={submitFake}
           cancel={cancelFake}
