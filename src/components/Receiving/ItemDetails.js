@@ -182,7 +182,7 @@ class ItemDetails extends Component {
 
       selectedItem[key] = value;
 
-      if (key === 'barcode') {
+      if (value && key === 'barcode') {
         if (!item.isSelected && value.length > 0) this.toggleItem(item);
         if (item.isSelected && value.length === 0) this.toggleItem(item);
       }
