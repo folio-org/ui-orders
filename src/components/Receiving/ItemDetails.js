@@ -84,7 +84,7 @@ class ItemDetails extends Component {
 
       piece.isSelected = !piece.isSelected;
 
-      const isAllChecked = lineItems[item.poLineId].find(line => !line.isSelected || line.isSelected === false);
+      const isAllChecked = lineItems[item.poLineId].find(line => !line.isSelected);
 
       allChecked[item.poLineId] = !isAllChecked;
       allChecked.reviewDetails = false;
