@@ -83,7 +83,10 @@ class ItemDetails extends Component {
       const piece = lineItems[item.poLineId].filter(el => el.id === item.id)[0];
 
       piece.isSelected = !piece.isSelected;
-      allChecked[item.poLineId] = false;
+
+      const isAllChecked = lineItems[item.poLineId].find(line => !line.isSelected || line.isSelected === false);
+
+      allChecked[item.poLineId] = !isAllChecked;
       allChecked.reviewDetails = false;
 
       return {
@@ -91,7 +94,7 @@ class ItemDetails extends Component {
         lineItems,
       };
     });
-  }
+  };
 
   toggleAll = (poLineId) => (
     this.setState(state => {
@@ -183,7 +186,13 @@ class ItemDetails extends Component {
         lineItems: updatedLineItems,
       };
     });
-  }
+  };
+
+  onChangeBarcode = (item, value, key) => {
+    this.onChangeField(item, value, key);
+    if (!item.isSelected && value.length > 0) this.toggleItem(item);
+    if (item.isSelected && value.length === 0) this.toggleItem(item);
+  };
 
   render() {
     const { close, locationsOptions, linesItemList } = this.props;
@@ -232,6 +241,7 @@ class ItemDetails extends Component {
               lineItems={lineItems}
               locationsOptions={locationsOptions}
               onChangeField={this.onChangeField}
+              onChangeBarcode={this.onChangeBarcode}
               poLineId={poLineId}
               toggleAll={this.toggleAll}
               toggleItem={this.toggleItem}
