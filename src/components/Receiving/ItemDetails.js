@@ -182,16 +182,15 @@ class ItemDetails extends Component {
 
       selectedItem[key] = value;
 
+      if (key === 'barcode') {
+        if (!item.isSelected && value.length > 0) this.toggleItem(item);
+        if (item.isSelected && value.length === 0) this.toggleItem(item);
+      }
+
       return {
         lineItems: updatedLineItems,
       };
     });
-  };
-
-  onChangeBarcode = (item, value, key) => {
-    this.onChangeField(item, value, key);
-    if (!item.isSelected && value.length > 0) this.toggleItem(item);
-    if (item.isSelected && value.length === 0) this.toggleItem(item);
   };
 
   render() {
@@ -241,7 +240,6 @@ class ItemDetails extends Component {
               lineItems={lineItems}
               locationsOptions={locationsOptions}
               onChangeField={this.onChangeField}
-              onChangeBarcode={this.onChangeBarcode}
               poLineId={poLineId}
               toggleAll={this.toggleAll}
               toggleItem={this.toggleItem}

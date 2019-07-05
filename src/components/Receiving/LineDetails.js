@@ -23,7 +23,6 @@ const LineDetails = ({
   lineItems,
   locationsOptions,
   onChangeField,
-  onChangeBarcode,
   poLineId,
   toggleAll,
   toggleItem,
@@ -41,8 +40,8 @@ const LineDetails = ({
         <TextField
           data-test-barcode
           disabled={isLoading || itemsMap[item.itemId] === undefined}
-          onChange={(e) => onChangeBarcode(item, e.target.value, 'barcode')}
-          onClearField={() => onChangeBarcode(item, '', 'barcode')}
+          onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
+          onClearField={() => onChangeField(item, '', 'barcode')}
           type="text"
           value={item.barcode}
         />
@@ -114,7 +113,6 @@ LineDetails.propTypes = {
   lineItems: PropTypes.object.isRequired,
   locationsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChangeField: PropTypes.func.isRequired,
-  onChangeBarcode: PropTypes.func.isRequired,
   poLineId: PropTypes.string.isRequired,
   toggleAll: PropTypes.func.isRequired,
   toggleItem: PropTypes.func.isRequired,
