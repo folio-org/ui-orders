@@ -52,6 +52,7 @@
   "closedLoansCount": "{count, number} {count, plural, one {closed loan} other {closed loans}}",
   "closeOrderModal.cancel": "Cancel",
   "closeOrderModal.closingReasons.ceased": "Ceased",
+  "closeOrderModal.closingReasons.complete": "Complete",
   "closeOrderModal.closingReasons.dublication": "Duplication",
   "closeOrderModal.closingReasons.error": "Error",
   "closeOrderModal.closingReasons.lackOfFunds": "Lack of funds",

@@ -1,5 +1,6 @@
 export default {
   ceased: 'Ceased',
+  complete: 'Complete',
   transferred: 'Transferred to another publisher',
   merged: 'Merged with another title',
   split: 'Split into other titles',
