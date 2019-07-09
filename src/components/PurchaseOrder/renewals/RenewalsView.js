@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  FormattedDate,
   FormattedMessage,
 } from 'react-intl';
 
@@ -11,6 +10,8 @@ import {
   Row,
   KeyValue,
 } from '@folio/stripes/components';
+
+import FolioFormattedDate from '../../FolioFormattedDate';
 
 const RenewalsView = ({ order: { renewal = {} } }) => {
   return (
@@ -29,7 +30,7 @@ const RenewalsView = ({ order: { renewal = {} } }) => {
         lg={3}
       >
         <KeyValue label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}>
-          <FormattedDate value={renewal.renewalDate} />
+          <FolioFormattedDate value={renewal.renewalDate} />
         </KeyValue>
       </Col>
       <Col

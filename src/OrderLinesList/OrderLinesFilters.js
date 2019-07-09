@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   AccordionSet,
 } from '@folio/stripes/components';
+import { SourceFilter } from '@folio/stripes-acq-components';
 
 import {
   RECEIPT_STATUS,
@@ -16,7 +17,6 @@ import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 import MaterialTypeFilter from '../common/MaterialTypeFilter';
 import OrdersTextFilter from '../common/OrdersTextFilter';
 import FundFilter from '../common/FundFilter';
-import SourceFilter from '../common/SourceFilter';
 import {
   ACQUISITION_METHOD_FILTER_OPTIONS,
   ORDER_FORMAT_FILTER_OPTIONS,
@@ -141,7 +141,6 @@ class OrderLinesFilters extends Component {
         />
         <SourceFilter
           activeFilters={activeFilters[FILTERS.SOURCE_CODE]}
-          labelId="ui-orders.poLine.source"
           name={FILTERS.SOURCE_CODE}
           onChange={onChange}
         />

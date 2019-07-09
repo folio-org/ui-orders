@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
-  FormattedDate,
   FormattedMessage,
 } from 'react-intl';
 
@@ -14,6 +13,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import FolioFormattedDate from '../../FolioFormattedDate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 
 const POLineDetails = ({ line }) => {
@@ -69,7 +69,7 @@ const POLineDetails = ({ line }) => {
           lg={3}
         >
           <KeyValue label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}>
-            {receiptDate && <FormattedDate value={receiptDate} />}
+            <FolioFormattedDate value={receiptDate} />
           </KeyValue>
         </Col>
         <Col

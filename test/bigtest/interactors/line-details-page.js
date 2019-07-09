@@ -24,6 +24,6 @@ export default interactor(class LineDetailsPage {
 
   actions = new LineDetailsPageActions();
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(7000).when(() => this.isLoaded);
   }
 });

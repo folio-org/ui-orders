@@ -16,13 +16,15 @@
     "hasSettings": true,
     "okapiInterfaces": {
       "configuration": "2.0",
+      "contributor-name-types": "1.2",
       "finance-storage.funds": "1.0",
-      "inventory": "8.3",
+      "identifier-types": "1.1",
+      "inventory": "8.3,9.0",
       "locations": "3.0",
       "material-types": "2.2",
       "orders": "6.0",
-      "users": "15.0",
-      "organizations-storage.organizations": "1.0"
+      "organizations-storage.organizations": "1.0",
+      "users": "15.0"
     },
     "queryResource": "query",
     "icons": [
@@ -45,11 +47,13 @@
         "subPermissions": [
           "configuration.entries.collection.get",
           "finance-storage.funds.collection.get",
-          "organizations-storage.organizations.collection.get",
-          "users.collection.get",
-          "inventory.items.collection.get",
+          "inventory-storage.contributor-name-types.collection.get",
+          "inventory-storage.identifier-types.collection.get",
+          "inventory-storage.locations.collection.get",
           "inventory-storage.material-types.collection.get",
-          "inventory-storage.locations.collection.get"
+          "inventory.items.collection.get",
+          "organizations-storage.organizations.collection.get",
+          "users.collection.get"
         ]
       },
       {

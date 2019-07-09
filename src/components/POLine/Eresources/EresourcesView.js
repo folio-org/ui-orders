@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
-  FormattedDate,
   FormattedMessage,
 } from 'react-intl';
 import moment from 'moment';
@@ -13,6 +12,8 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+
+import FolioFormattedDate from '../../FolioFormattedDate';
 
 const EresourcesView = ({ line: { eresource }, order, vendors, materialTypes }) => {
   const expectedActivation = get(eresource, 'expectedActivation');
@@ -39,7 +40,7 @@ const EresourcesView = ({ line: { eresource }, order, vendors, materialTypes }) 
       </Col>
       <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-orders.eresource.activationDue" />}>
-          {activationDueDate && <FormattedDate value={activationDueDate} />}
+          <FolioFormattedDate value={activationDueDate} />
         </KeyValue>
       </Col>
       <Col xs={3}>
@@ -61,7 +62,7 @@ const EresourcesView = ({ line: { eresource }, order, vendors, materialTypes }) 
       </Col>
       <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-orders.eresource.expectedActivation" />}>
-          {expectedActivation && <FormattedDate value={expectedActivation} />}
+          <FolioFormattedDate value={expectedActivation} />
         </KeyValue>
       </Col>
       <Col xs={3}>

@@ -12,6 +12,8 @@ import { expect } from 'chai';
 import OpenOrderErrorModal from '../../interactors/PurchaseOrder/open-order-error-modal';
 import { UpdateOrderErrorModal } from '../../../../src/components/PurchaseOrder/UpdateOrderErrorModal';
 import { ERROR_CODES } from '../../../../src/components/Utils/order';
+import translations from '../../../../translations/ui-orders/en';
+import { prefixKeys } from '../../helpers/prefixKeys';
 
 describe('Update Order Error modal', () => {
   let cancelFake;
@@ -22,7 +24,7 @@ describe('Update Order Error modal', () => {
     updateOrderErrorModal = new OpenOrderErrorModal();
 
     mount(() => (
-      <IntlProvider locale="en">
+      <IntlProvider locale="en" key="en" timeZone="UTC" messages={prefixKeys(translations, 'ui-orders')}>
         <UpdateOrderErrorModal
           cancel={cancelFake}
           orderNumber="123"
