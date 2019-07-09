@@ -35,11 +35,15 @@ describe('Line edit test', function () {
   let location = null;
   let locations = null;
   let vendor = null;
+  let contributorNameType = null;
+  let identifierType = null;
   const lineEditPage = new LineEditPage();
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
     location = this.server.create('location');
+    contributorNameType = this.server.create('contributor-name-type');
+    identifierType = this.server.create('identifier-type');
 
     locations = [
       {
@@ -198,10 +202,9 @@ describe('Line edit test', function () {
 
     describe('contributor can be updated', function () {
       const testName = 'test name';
-      const testType = 'Test 2';
 
       beforeEach(async function () {
-        await lineEditPage.itemDetailsAccordion.contributorType.select(testType);
+        await lineEditPage.itemDetailsAccordion.contributorType.select(contributorNameType.name);
         await lineEditPage.itemDetailsAccordion.contributorName.fill(testName);
       });
 
@@ -210,7 +213,7 @@ describe('Line edit test', function () {
       });
 
       it('contributor type is updated', function () {
-        expect(lineEditPage.itemDetailsAccordion.contributorType.value).to.be.equal(testType);
+        expect(lineEditPage.itemDetailsAccordion.contributorType.value).to.be.equal(contributorNameType.id);
       });
     });
 
@@ -246,10 +249,9 @@ describe('Line edit test', function () {
 
     describe('product Ids can be updated', function () {
       const testName = 'test name';
-      const testType = 'Test 2';
 
       beforeEach(async function () {
-        await lineEditPage.itemDetailsAccordion.productIdType.select(testType);
+        await lineEditPage.itemDetailsAccordion.productIdType.select(identifierType.name);
         await lineEditPage.itemDetailsAccordion.productId.fill(testName);
       });
 
@@ -258,7 +260,7 @@ describe('Line edit test', function () {
       });
 
       it('product Ids type is updated', function () {
-        expect(lineEditPage.itemDetailsAccordion.productIdType.value).to.be.equal(testType);
+        expect(lineEditPage.itemDetailsAccordion.productIdType.value).to.be.equal(identifierType.id);
       });
     });
 

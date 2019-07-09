@@ -49,19 +49,8 @@ export default function config() {
   this.get(FUND_API);
   this.get('/users');
   this.get('/material-types');
+  this.get('/contributor-name-types');
   this.get('/identifier-types');
-  this.get('/contributor-name-types', () => ({
-    contributorNameTypes: [
-      { id: 'Test 1', name: 'Test 1' },
-      { id: 'Test 2', name: 'Test 2' },
-    ],
-  }));
-  this.get('/identifier-types', () => ({
-    identifierTypes: [
-      { id: 'Test 1', name: 'Test 1' },
-      { id: 'Test 2', name: 'Test 2' },
-    ],
-  }));
 
   this.get(ORDER_NUMBER_API, () => {
     return { poNumber: '10001' };
