@@ -184,19 +184,45 @@ describe('Line edit test', function () {
     });
 
     it('contributor is added', function () {
-      expect(lineEditPage.itemDetailsAccordion.contributors().length).to.be.equal(2);
+      expect(lineEditPage.itemDetailsAccordion.contributorNames().length).to.be.equal(1);
+      expect(lineEditPage.itemDetailsAccordion.contributorTypes().length).to.be.equal(1);
     });
 
-    // TODO: fix tests
-    // describe('contributor can be removed', function () {
-    //   beforeEach(async function () {
-    //     await lineEditPage.removeContributorButton.click();
-    //   });
+    it('contributor type is select', function () {
+      expect(lineEditPage.itemDetailsAccordion.contributorType.isSelect).to.be.true;
+    });
 
-    //   it('contributor is removed', function () {
-    //     expect(lineEditPage.removeContributorButton.isPresent).to.be.false;
-    //   });
-    // });
+    it('contributor name is input', function () {
+      expect(lineEditPage.itemDetailsAccordion.contributorName.isInput).to.be.true;
+    });
+
+    describe('contributor can be updated', function () {
+      const testName = 'test name';
+      const testType = 'Test 2';
+
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.contributorType.select(testType);
+        await lineEditPage.itemDetailsAccordion.contributorName.fill(testName);
+      });
+
+      it('contributor name is updated', function () {
+        expect(lineEditPage.itemDetailsAccordion.contributorName.value).to.be.equal(testName);
+      });
+
+      it('contributor type is updated', function () {
+        expect(lineEditPage.itemDetailsAccordion.contributorType.value).to.be.equal(testType);
+      });
+    });
+
+    describe('contributor can be removed', function () {
+      beforeEach(async function () {
+        await lineEditPage.removeContributorButton.click();
+      });
+
+      it('contributor is removed', function () {
+        expect(lineEditPage.removeContributorButton.isPresent).to.be.false;
+      });
+    });
   });
 
   describe('Product Ids can be added', function () {
@@ -206,7 +232,34 @@ describe('Line edit test', function () {
     });
 
     it('product Ids fields are added', function () {
-      expect(lineEditPage.itemDetailsAccordion.productIds().length).to.be.equal(2);
+      expect(lineEditPage.itemDetailsAccordion.productIds().length).to.be.equal(1);
+      expect(lineEditPage.itemDetailsAccordion.productIdTypes().length).to.be.equal(1);
+    });
+
+    it('product Ids type is select', function () {
+      expect(lineEditPage.itemDetailsAccordion.productIdType.isSelect).to.be.true;
+    });
+
+    it('product Id is input', function () {
+      expect(lineEditPage.itemDetailsAccordion.productId.isInput).to.be.true;
+    });
+
+    describe('product Ids can be updated', function () {
+      const testName = 'test name';
+      const testType = 'Test 2';
+
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.productIdType.select(testType);
+        await lineEditPage.itemDetailsAccordion.productId.fill(testName);
+      });
+
+      it('product Id is updated', function () {
+        expect(lineEditPage.itemDetailsAccordion.productId.value).to.be.equal(testName);
+      });
+
+      it('product Ids type is updated', function () {
+        expect(lineEditPage.itemDetailsAccordion.productIdType.value).to.be.equal(testType);
+      });
     });
 
     describe('Product Ids can be removed', function () {

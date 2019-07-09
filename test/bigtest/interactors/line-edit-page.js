@@ -92,15 +92,46 @@ const ITEM_DETAILS = {
   funds = collection('[data-test-repeatable-field] [class*=repeatableFieldItem---]');
 }
 
+@interactor class ContributorType {
+  static defaultScope = '[name$="contributorNameTypeId"]';
+  isSelect = is('select');
+  value = value();
+}
+
+@interactor class ContributorName {
+  static defaultScope = '[name$="contributor"]';
+  isInput = is('input');
+  value = value();
+}
+
+@interactor class ProductId {
+  static defaultScope = '[name$="productId"]';
+  isInput = is('input');
+  value = value();
+}
+
+@interactor class ProductIdType {
+  static defaultScope = '[name$="productIdType"]';
+  isSelect = is('select');
+  value = value();
+}
+
 @interactor class ItemDetailsAccordion {
   static defaultScope = ITEM_DETAILS.root;
   toggle = clickable('[class*=defaultCollapseButton---]');
   inputTitle = fillable(ITEM_DETAILS.inputTitle);
   errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
-  contributors = collection('[name*="contributors"]');
+  contributorTypes = collection(ContributorType.defaultScope);
+  contributorNames = collection(ContributorName.defaultScope);
+  contributorName = new ContributorName();
+  contributorType = new ContributorType();
+  productIds = collection(ProductId.defaultScope);
+  productId = new ProductId();
+  productIdTypes = collection(ProductIdType.defaultScope);
+  productIdType = new ProductIdType();
+
   edition = fillable('[name="edition"]');
   publisher = fillable('[name="publisher"]');
-  productIds = collection('[name*="productIds"]');
 }
 
 @interactor class OrderFormat {
@@ -161,7 +192,7 @@ export default interactor(class LineEditPage {
   addVolumeButton = new Button('[data-test-add-volume-button]');
   removeVolumeButton = new Button('[data-test-remove-volume-button]');
   addContributorButton = new Button('[data-test-add-contributor-button]');
-  removeContributorButton = new Button('[data-test-remove-contributor-button]');
+  removeContributorButton = new Button('button[data-test-remove-contributor-button]');
   accountNumber = value('[name="vendorDetail.vendorAccount"]');
   currency = value('[name="cost.currency"]');
   subscriptionInterval = value('[name="details.subscriptionInterval"]');

@@ -89,15 +89,14 @@ describe('Line edit test - Capture UUID from inventory', function () {
     });
   });
 
-  // TODO: fix the test
-  // describe('Remove contributor and product id', () => {
-  //   beforeEach(async function () {
-  //     await lineEditPage.removeContributorButton.click();
-  //     await lineEditPage.removeProductIdsButton.click();
-  //   });
+  describe('Remove contributor and product id', () => {
+    beforeEach(async function () {
+      await lineEditPage.removeContributorButton.click();
+      await lineEditPage.removeProductIdsButton.click();
+    });
 
-  //   it('instance id is not shown', () => {
-  //     expect(lineEditPage.instanceId).to.be.equal('');
-  //   });
-  // });
+    it('instance id is not shown', () => {
+      expect(lineEditPage.instanceId).to.be.equal('');
+    });
+  });
 });

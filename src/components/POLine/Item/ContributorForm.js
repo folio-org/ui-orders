@@ -10,9 +10,9 @@ import {
   Col,
   IconButton,
   Row,
+  Select,
   TextField,
 } from '@folio/stripes/components';
-import { FieldSelection } from '@folio/stripes-acq-components';
 
 import { Required } from '../../Utils/Validate';
 
@@ -76,7 +76,7 @@ class ContributorForm extends Component {
         <Col xs={5}>
           <Field
             dataOptions={this.props.contributorNameTypes}
-            component={FieldSelection}
+            component={Select}
             fullWidth
             required
             label={<FormattedMessage id="ui-orders.itemDetails.contributorType" />}
