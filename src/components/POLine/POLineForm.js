@@ -21,6 +21,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import { FieldSelection } from '@folio/stripes-acq-components';
 
 import {
   isEresource,
@@ -45,6 +46,7 @@ import getFundsForSelect from '../Utils/getFundsForSelect';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
+import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -213,6 +215,7 @@ class POLineForm extends Component {
     const materialTypes = getMaterialTypesForSelect(parentResources);
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
+    const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const {
       accounts,
       vendorCurrencies,
@@ -242,6 +245,19 @@ class POLineForm extends Component {
                     </Col>
                   </Row>
                 </Col>
+
+                <Col xs={12} md={8}>
+                  <Row>
+                    <Col xs={4}>
+                      <FieldSelection
+                        dataOptions={orderTemplates}
+                        label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                        readOnly
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet
                     accordionStatus={this.state.sections}

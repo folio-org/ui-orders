@@ -21,6 +21,7 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
+import { FieldSelection } from '@folio/stripes-acq-components';
 
 import {
   getAddresses,
@@ -28,6 +29,7 @@ import {
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
+import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
@@ -169,6 +171,7 @@ class POForm extends Component {
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const vendors = get(parentResources, 'vendors.records', [])
       .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
+    const orderTemplates = getOrderTemplatesForSelect(parentResources);
 
     if (!initialValues) {
       return (
@@ -210,8 +213,20 @@ class POForm extends Component {
                         </Col>
                       </Row>
                     </Col>
+
+                    <Col xs={12} md={8}>
+                      <Row>
+                        <Col xs={4}>
+                          <FieldSelection
+                            dataOptions={orderTemplates}
+                            label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                          />
+                        </Col>
+                      </Row>
+                    </Col>
+
                     <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                      <AccordionSet accordionStatus={sections} onToggle={this.onToggleSection}>
+                      <AccordionSet accordionStatus={sections} onToggle={this.onToggleSectiFon}>
                         <Accordion
                           id="purchaseOrder"
                           label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
