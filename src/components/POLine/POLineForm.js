@@ -246,17 +246,19 @@ class POLineForm extends Component {
                   </Row>
                 </Col>
 
-                <Col xs={12} md={8}>
-                  <Row>
-                    <Col xs={4}>
-                      <FieldSelection
-                        dataOptions={orderTemplates}
-                        label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
-                        readOnly
-                      />
-                    </Col>
-                  </Row>
-                </Col>
+                {!initialValues.id && (
+                  <Col xs={12} md={8}>
+                    <Row>
+                      <Col xs={4}>
+                        <FieldSelection
+                          dataOptions={orderTemplates}
+                          label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                          readOnly
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+                )}
 
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet

@@ -152,6 +152,20 @@ class POForm extends Component {
     this.setState({ sections });
   }
 
+  onChangeTemplate = (e, value) => {
+    const { change, dispatch, parentResources } = this.props;
+    const orderTemplates = get(parentResources, 'orderTemplates.records', []);
+    const template = orderTemplates.find(orderTemplate => orderTemplate.id === value);
+
+    if (template) {
+      const templateValue = JSON.parse(template.value);
+
+      dispatch(change('template', value));
+
+      Object.keys(templateValue).forEach(key => dispatch(change(key, templateValue[key])));
+    }
+  };
+
   render() {
     const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
     const { sections } = this.state;
@@ -214,16 +228,20 @@ class POForm extends Component {
                       </Row>
                     </Col>
 
-                    <Col xs={12} md={8}>
-                      <Row>
-                        <Col xs={4}>
-                          <FieldSelection
-                            dataOptions={orderTemplates}
-                            label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
-                          />
-                        </Col>
-                      </Row>
-                    </Col>
+                    {!initialValues.id && (
+                      <Col xs={12} md={8}>
+                        <Row>
+                          <Col xs={4}>
+                            <FieldSelection
+                              dataOptions={orderTemplates}
+                              onChange={this.onChangeTemplate}
+                              label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                              name="template"
+                            />
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
 
                     <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                       <AccordionSet accordionStatus={sections} onToggle={this.onToggleSectiFon}>
