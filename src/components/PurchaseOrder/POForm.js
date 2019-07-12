@@ -165,7 +165,7 @@ class POForm extends Component {
 
       dispatch(change('template', value));
       Object.keys(registeredFields)
-        .forEach(field => templateValue[field] && dispatch(change(field, templateValue[field])));
+        .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
     }
   };
 

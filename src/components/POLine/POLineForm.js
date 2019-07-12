@@ -253,6 +253,7 @@ class POLineForm extends Component {
                         <FieldSelection
                           dataOptions={orderTemplates}
                           label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                          name="template"
                           readOnly
                         />
                       </Col>
