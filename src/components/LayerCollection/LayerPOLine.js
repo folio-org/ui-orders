@@ -26,6 +26,7 @@ import { ORDER } from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import { DEFAULT_CURRENCY } from '../POLine/Cost/FieldCurrency';
+import getOrderTemplateValue from "../Utils/getOrderTemplateValue";
 
 const ERROR_CODES = {
   accessProviderIsInactive: 'accessProviderIsInactive',
@@ -214,12 +215,9 @@ class LayerPOLine extends Component {
         newObj.cost.discount = vendor.discountPercent;
       }
     }
+    const templateValue = getOrderTemplateValue(parentResources, order.template);
 
-    const orderTemplates = get(parentResources, 'orderTemplates.records', []);
-    const template = orderTemplates.find(orderTemplate => orderTemplate.id === order.template);
-
-    if (template) {
-      const templateValue = JSON.parse(template.value);
+    if (templateValue) {
       const { form } = stripes.store.getState();
 
       if (form.POLineForm) {

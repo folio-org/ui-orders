@@ -34,6 +34,7 @@ import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
 import { ORGANIZATION_STATUS_ACTIVE } from '../../common/constants';
+import getOrderTemplateValue from "../Utils/getOrderTemplateValue";
 
 const throwError = () => {
   const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
@@ -154,11 +155,9 @@ class POForm extends Component {
 
   onChangeTemplate = (e, value) => {
     const { change, dispatch, parentResources, stripes } = this.props;
-    const orderTemplates = get(parentResources, 'orderTemplates.records', []);
-    const template = orderTemplates.find(orderTemplate => orderTemplate.id === value);
+    const templateValue = getOrderTemplateValue(parentResources, value);
 
-    if (template) {
-      const templateValue = JSON.parse(template.value);
+    if (templateValue) {
       const { form: { FormPO } } = stripes.store.getState();
       const { registeredFields } = FormPO;
 
