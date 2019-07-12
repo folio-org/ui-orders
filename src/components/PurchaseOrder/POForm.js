@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
   getFormValues,
+  getFormMeta,
   isDirty,
 } from 'redux-form';
 
@@ -153,16 +154,18 @@ class POForm extends Component {
   }
 
   onChangeTemplate = (e, value) => {
-    const { change, dispatch, parentResources } = this.props;
+    const { change, dispatch, parentResources, stripes } = this.props;
     const orderTemplates = get(parentResources, 'orderTemplates.records', []);
     const template = orderTemplates.find(orderTemplate => orderTemplate.id === value);
 
     if (template) {
       const templateValue = JSON.parse(template.value);
+      const { form: { FormPO } } = stripes.store.getState();
+      const { registeredFields } = FormPO;
 
       dispatch(change('template', value));
-
-      Object.keys(templateValue).forEach(key => dispatch(change(key, templateValue[key])));
+      Object.keys(registeredFields)
+        .forEach(field => templateValue[field] && dispatch(change(field, templateValue[field])));
     }
   };
 
