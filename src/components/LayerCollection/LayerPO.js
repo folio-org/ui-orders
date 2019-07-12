@@ -28,12 +28,7 @@ class LayerPO extends Component {
     this.callout = React.createRef();
     this.state = {
       updateOrderError: null,
-      data: this.props.order,
     };
-  }
-
-  componentDidMount() {
-    this.setState({ data: this.props.order });
   }
 
   closeErrorModal = () => {
@@ -54,10 +49,6 @@ class LayerPO extends Component {
       });
   };
 
-  updateInitialData = (data) => this.setState(prevState => ({
-    data: { ...prevState.data, ...data },
-  }));
-
   render() {
     const { order, location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
@@ -72,7 +63,6 @@ class LayerPO extends Component {
           <this.connectedPOForm
             {...this.props}
             initialValues={order}
-            updateInitialData={this.updateInitialData}
             onSubmit={this.updatePO}
           />
           {updateOrderError && (
