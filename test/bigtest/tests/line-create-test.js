@@ -9,7 +9,7 @@ import { PHYSICAL, ERESOURCE } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 
-describe.only('Create POL', function () {
+describe('Create POL', function () {
   setupApplication();
 
   let vendor = null;
