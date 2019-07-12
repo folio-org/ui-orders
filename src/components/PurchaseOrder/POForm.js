@@ -34,7 +34,7 @@ import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
 import { ORGANIZATION_STATUS_ACTIVE } from '../../common/constants';
-import getOrderTemplateValue from "../Utils/getOrderTemplateValue";
+import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 const throwError = () => {
   const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };

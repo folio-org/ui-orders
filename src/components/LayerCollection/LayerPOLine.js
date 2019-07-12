@@ -26,7 +26,7 @@ import { ORDER } from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import { DEFAULT_CURRENCY } from '../POLine/Cost/FieldCurrency';
-import getOrderTemplateValue from "../Utils/getOrderTemplateValue";
+import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 const ERROR_CODES = {
   accessProviderIsInactive: 'accessProviderIsInactive',
