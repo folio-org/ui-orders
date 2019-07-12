@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { get, set } from 'lodash';
 import {
   getFormValues,
   isDirty,
@@ -157,14 +157,12 @@ class POForm extends Component {
     const { change, dispatch, parentResources, stripes } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
 
-    if (templateValue) {
-      const { form: { FormPO } } = stripes.store.getState();
-      const { registeredFields } = FormPO;
+    const { form } = stripes.store.getState();
+    const registeredFields = get(form, 'POLineForm.registeredFields', {});
 
-      dispatch(change('template', value));
-      Object.keys(registeredFields)
-        .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
-    }
+    dispatch(change('template', value));
+    Object.keys(registeredFields)
+      .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
   };
 
   render() {

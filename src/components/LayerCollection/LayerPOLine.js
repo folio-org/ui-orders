@@ -217,16 +217,12 @@ class LayerPOLine extends Component {
     }
     const templateValue = getOrderTemplateValue(parentResources, order.template);
 
-    if (templateValue) {
-      const { form } = stripes.store.getState();
+    const { form } = stripes.store.getState();
 
-      if (form.POLineForm) {
-        const { registeredFields } = form.POLineForm;
+    const registeredFields = get(form, 'POLineForm.registeredFields', {});
 
-        Object.keys(registeredFields)
-          .forEach(field => get(templateValue, field) && set(newObj, field, get(templateValue, field)));
-      }
-    }
+    Object.keys(registeredFields)
+      .forEach(field => get(templateValue, field) && set(newObj, field, get(templateValue, field)));
 
     return newObj;
   };
