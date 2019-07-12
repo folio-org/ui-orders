@@ -713,7 +713,7 @@
     "search.physical.volumes": "Volumes",
     "search.metadata.createdDate": "Data de criação",
     "closeOrderModal.closingReasons.complete": "Completo",
-    "closeOrderModal.closingReasons.duplication": "Duplication",
-    "itemDetails.contributorType": "Contributor type",
-    "poLine.source": "Source"
+    "closeOrderModal.closingReasons.duplication": "Duplicação",
+    "itemDetails.contributorType": "Tipo de autor",
+    "poLine.source": "Fonte"
 }

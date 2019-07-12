@@ -371,7 +371,7 @@
     "cost.quantityPhysical": "Quantità fisica",
     "cost.quantityElectronic": "Quantità elettronica",
     "cost.estimatedPrice": "Prezzo stimato",
-    "cost.info": "Elenco Prezzo Unitario x Quantità Ordinata",
+    "cost.info": "Listino Prezzi (s) x Quantità ordinate + Costo aggiuntivo - Sconto",
     "cost.buttonLabel": "Ulteriori informazioni",
     "paneBlock.POLines": "Righe d'ordine",
     "order_format.other": "Altro",
