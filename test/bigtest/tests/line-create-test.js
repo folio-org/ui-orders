@@ -9,7 +9,7 @@ import { PHYSICAL, ERESOURCE } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 
-describe('Create POL', function () {
+describe.only('Create POL', function () {
   setupApplication();
 
   let vendor = null;
@@ -34,6 +34,12 @@ describe('Create POL', function () {
 
     this.visit(`/orders/view/${order.id}?layer=create-po-line`);
     await lineEditPage.whenLoaded();
+  });
+
+  describe('Template name', function () {
+    it('should be displayed', () => {
+      expect(lineEditPage.hasTemplateField).to.be.true;
+    });
   });
 
   describe('Physical Details', function () {

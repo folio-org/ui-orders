@@ -32,6 +32,7 @@ export default interactor(class OrderEditPage {
   }
 
   title = text('[class*=paneTitleLabel---]');
+  hasTemplateField = isPresent('[name="template"]');
   suffixSelect = new SuffixSelect();
   renewalsAccordion = isPresent('#renewals');
   orderTypeSelect = new OrderTypeSelect();

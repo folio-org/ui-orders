@@ -27,6 +27,10 @@ describe('Create order', function () {
     await form.whenLoaded();
   });
 
+  it('has a Template name field', () => {
+    expect(orders.hasTemplateField).to.be.true;
+  });
+
   it('has a PO number field', () => {
     expect(orders.hasPONumberField).to.be.true;
   });

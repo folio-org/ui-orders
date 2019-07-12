@@ -27,7 +27,7 @@ const cost = {
 };
 const LINE_ESTIMATED_PRICE = calculateEstimatedPrice({ cost });
 
-describe('Line edit test', function () {
+describe.only('Line edit test', function () {
   setupApplication();
 
   let order = null;
@@ -76,6 +76,12 @@ describe('Line edit test', function () {
     expect(lineEditPage.updateLineButton.isButton).to.be.true;
     expect(lineEditPage.publicationDateField.isInput).to.be.true;
     expect(lineEditPage.orderFormat.isSelect).to.be.true;
+  });
+
+  describe('Template name', function () {
+    it('should not be displayed', () => {
+      expect(lineEditPage.hasTemplateField).to.be.false;
+    });
   });
 
   describe('Location can be added', function () {

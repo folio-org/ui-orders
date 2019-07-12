@@ -200,6 +200,7 @@ export default interactor(class LineEditPage {
   addProductIdsButton = new Button('[data-test-add-product-ids-button]');
   removeProductIdsButton = new Button('[data-test-remove-product-ids-button]');
   isLoaded = isPresent('[class*=paneTitleLabel---]');
+  hasTemplateField = isPresent('[name="template"]');
 
   whenLoaded() {
     return this.timeout(9000).when(() => this.isLoaded);

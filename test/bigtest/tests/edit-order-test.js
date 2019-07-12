@@ -29,6 +29,10 @@ describe('OrderEditPage', function () {
     expect(orderEditPage.notes().length).to.be.equal(1);
   });
 
+  it('should haven\'t Template name field', () => {
+    expect(orderEditPage.hasTemplateField).to.be.false;
+  });
+
   describe('Select order type Ongoing', function () {
     beforeEach(async function () {
       await orderEditPage.orderTypeSelect.select(ORDER_TYPE.ongoing);

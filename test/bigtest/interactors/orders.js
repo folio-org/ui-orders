@@ -30,6 +30,7 @@ export default interactor(class OrdersInteractor {
   static defaultScope = '[data-test-order-instances]';
 
   hasCreateOrderButton = isPresent('#clickable-neworder');
+  hasTemplateField = isPresent('[name="template"]');
   hasPONumberField = isPresent('[name="poNumber"]');
   hasVendorNameField = isPresent('[name="vendor"]');
   hasCreatedByField = isPresent('[name="createdByName"]');
