@@ -11,6 +11,7 @@ import { get } from 'lodash';
 import { Callout } from '@folio/stripes/components';
 import { stripesShape } from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
+import { changeSearchIndex } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
 import Panes from '../components/Panes';
@@ -160,6 +161,7 @@ class OrdersList extends Component {
 
   constructor(props, context) {
     super(props, context);
+    this.changeSearchIndex = changeSearchIndex.bind(this);
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
     this.callout = React.createRef();
@@ -174,12 +176,6 @@ class OrdersList extends Component {
         filters: `${FILTERS.STATUS}.${WORKFLOW_STATUS.open},${FILTERS.STATUS}.${WORKFLOW_STATUS.pending}`,
       });
     }
-  }
-
-  changeSearchIndex = (e) => {
-    const qindex = e.target.value;
-
-    this.props.mutator.query.update({ qindex });
   }
 
   create = async (order) => {

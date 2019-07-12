@@ -56,33 +56,21 @@ describe('Check-in items', function () {
     await lineDetailsPage.whenLoaded();
   });
 
-  it('displays Line Details pane', function () {
+  it('displays Line Details pane, Check-in button', function () {
     expect(lineDetailsPage.$root).to.exist;
-  });
-
-  it('displays the Check-in button', function () {
     expect(lineDetailsPage.checkInButton.$root).to.exist;
-  });
+  }).timeout(5000);
 
   describe('go to check-in items page', function () {
     beforeEach(async function () {
       await lineDetailsPage.checkInButton.click();
     });
 
-    it('displays Check in items page', function () {
+    it('displays Check in items page, Add Piece button, disabled Check-in button, Pieces List', function () {
       expect(page.$root).to.exist;
-    });
-
-    it('displays Add Piece button', function () {
       expect(page.addPieceButton.isButton).to.be.true;
-    });
-
-    it('displays disabled Check-in button', function () {
       expect(page.checkInButton.isButton).to.be.true;
       expect(page.checkInButton.isDisabled).to.be.true;
-    });
-
-    it('renders Pieces List', function () {
       expect(page.pieces().length).to.be.equal(RECEIVING_LIST_COUNT);
     });
 
@@ -91,15 +79,9 @@ describe('Check-in items', function () {
         await page.addPieceButton.click();
       });
 
-      it('Add Piece modal is displayed', function () {
+      it('displays Add Piece modal, enabled Cancel button, disabled Add Item button', function () {
         expect(addPieceModal.$root).to.exist;
-      });
-
-      it('Add Piece modal Cancel button is enabled', function () {
         expect(addPieceModal.cancelButton.isDisabled).to.be.false;
-      });
-
-      it('Add Item button is disabled', function () {
         expect(addPieceModal.addItemButton.disabled).to.be.empty;
       });
 
@@ -120,11 +102,8 @@ describe('Check-in items', function () {
           await addPieceModal.saveButton.click();
         });
 
-        it('Add Item button is disabled', function () {
+        it('Add Item button is disabled, Add Piece modal is displayed since Location is required and empty', function () {
           expect(addPieceModal.addItemButton.disabled).to.be.empty;
-        });
-
-        it('Add Piece modal is displayed since Location is required and empty', function () {
           expect(addPieceModal.$root).to.exist;
         });
 

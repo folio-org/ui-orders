@@ -31,23 +31,11 @@ describe('Create order', function () {
     expect(orders.hasTemplateField).to.be.true;
   });
 
-  it('has a PO number field', () => {
+  it('has fields and Create button', () => {
     expect(orders.hasPONumberField).to.be.true;
-  });
-
-  it('has a vendor field', () => {
     expect(orders.hasVendorNameField).to.be.true;
-  });
-
-  it('has a created by field', () => {
     expect(orders.hasCreatedByField).to.be.true;
-  });
-
-  it('suffix select is available', () => {
     expect(form.suffixSelect.value).to.be.equal('');
-  });
-
-  it('has create order button', () => {
     expect(form.createOrderButton.isPresent).to.be.true;
   });
 

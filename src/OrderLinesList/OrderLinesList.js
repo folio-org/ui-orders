@@ -11,6 +11,7 @@ import moment from 'moment';
 import { stripesShape } from '@folio/stripes/core';
 import { Callout } from '@folio/stripes/components';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
+import { changeSearchIndex } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
 import OrdersNavigation from '../common/OrdersNavigation';
@@ -147,7 +148,7 @@ export class OrderLinesList extends Component {
     this.callout = React.createRef();
     this.showToast = showToast.bind(this);
     this.renderFilters = this.renderFilters.bind(this);
-    this.onChangeIndex = this.onChangeIndex.bind(this);
+    this.changeSearchIndex = changeSearchIndex.bind(this);
   }
 
   renderNavigation = () => (
@@ -175,12 +176,6 @@ export class OrderLinesList extends Component {
         vendors={vendors}
       />
     );
-  }
-
-  onChangeIndex(e) {
-    const qindex = e.target.value;
-
-    this.props.mutator.query.update({ qindex });
   }
 
   getTranslateSearchableIndexes() {
@@ -254,7 +249,7 @@ export class OrderLinesList extends Component {
           renderNavigation={this.renderNavigation}
           onFilterChange={this.handleFilterChange}
           searchableIndexes={this.getTranslateSearchableIndexes()}
-          onChangeIndex={this.onChangeIndex}
+          onChangeIndex={this.changeSearchIndex}
           maxSortKeys={1}
           sortableColumns={sortableColumns}
           selectedIndex={get(resources.query, 'qindex')}

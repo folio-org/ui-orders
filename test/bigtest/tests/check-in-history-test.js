@@ -40,19 +40,10 @@ describe('Check-in history', function () {
     await page.whenLoaded();
   });
 
-  it('displays Check-in History screen', () => {
+  it('displays Check-in History screen, pieces, Close button, Remove button disabled', () => {
     expect(page.$root).to.exist;
-  });
-
-  it('displays pieces', () => {
     expect(page.pieces().length).to.be.equal(RECEIVING_LIST_COUNT);
-  });
-
-  it('displays Close button', () => {
     expect(page.closeButton.isButton).to.be.true;
-  });
-
-  it('displays Remove button disabled', () => {
     expect(page.removeButton.isButton).to.be.true;
     expect(page.removeButton.isDisabled).to.be.true;
   });

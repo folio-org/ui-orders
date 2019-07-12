@@ -45,6 +45,6 @@ export default interactor(class OrderDetailsPage {
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(7000).when(() => this.isLoaded);
   }
 });

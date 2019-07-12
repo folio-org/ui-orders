@@ -9,11 +9,10 @@
     "node": ">=8.9.4"
   },
   "stripes": {
-    "type": "app",
+    "actsAs": ["app", "settings"],
     "displayName": "ui-orders.meta.title",
     "route": "/orders",
     "home": "/orders/lines?sort=-poLineNumber",
-    "hasSettings": true,
     "okapiInterfaces": {
       "configuration": "2.0",
       "contributor-name-types": "1.2",
