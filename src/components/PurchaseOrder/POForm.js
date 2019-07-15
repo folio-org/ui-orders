@@ -244,7 +244,7 @@ class POForm extends Component {
                     )}
 
                     <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                      <AccordionSet accordionStatus={sections} onToggle={this.onToggleSectiFon}>
+                      <AccordionSet accordionStatus={sections} onToggle={this.onToggleSection}>
                         <Accordion
                           id="purchaseOrder"
                           label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
