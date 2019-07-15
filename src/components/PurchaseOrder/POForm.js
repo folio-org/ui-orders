@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get, set } from 'lodash';
+import { get } from 'lodash';
 import {
   getFormValues,
   isDirty,
@@ -153,13 +153,12 @@ class POForm extends Component {
     this.setState({ sections });
   }
 
-  // NOSONAR
   onChangeTemplate = (e, value) => {
     const { change, dispatch, parentResources, stripes } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
 
     const { form } = stripes.store.getState();
-    const registeredFields = get(form, 'POLineForm.registeredFields', {});
+    const registeredFields = get(form, 'FormPO.registeredFields', {});
 
     dispatch(change('template', value));
     Object.keys(registeredFields)
@@ -237,6 +236,7 @@ class POForm extends Component {
                               onChange={this.onChangeTemplate}
                               label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
                               name="template"
+                              id="order-template"
                             />
                           </Col>
                         </Row>
