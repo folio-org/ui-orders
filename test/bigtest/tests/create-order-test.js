@@ -11,8 +11,6 @@ import {
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';
 
-const wait = (ms = 1000) => new Promise(resolve => { setTimeout(resolve, ms); });
-
 describe('Create order', function () {
   setupApplication();
 
@@ -41,10 +39,9 @@ describe('Create order', function () {
       expect(orders.hasTemplateField).to.be.true;
     });
 
-    describe('Should change form', function () {
+    describe.only('Should change form', function () {
       beforeEach(async function () {
         await orders.orderTemplate.template.click();
-        await wait();
         await orders.orderTemplate.options.list(2).click();
       });
 
