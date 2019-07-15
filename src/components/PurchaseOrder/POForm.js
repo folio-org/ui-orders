@@ -153,6 +153,7 @@ class POForm extends Component {
     this.setState({ sections });
   }
 
+  // NOSONAR
   onChangeTemplate = (e, value) => {
     const { change, dispatch, parentResources, stripes } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
