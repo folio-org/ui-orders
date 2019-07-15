@@ -39,7 +39,7 @@ describe('Create order', function () {
       expect(orders.hasTemplateField).to.be.true;
     });
 
-    describe.only('Should change form', function () {
+    describe('Should change form', function () {
       beforeEach(async function () {
         await orders.orderTemplate.template.click();
         await orders.orderTemplate.options.list(2).click();
