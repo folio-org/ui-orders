@@ -46,6 +46,8 @@
   "checkIn.pieceStatus": "Piece status",
   "checkIn.receivedDate": "Received date",
   "checkIn.supplement": "Supplement",
+  "closeOrder.error": "Order failed to close",
+  "closeOrder.success": "Order was closed",
   "closeOrderModal.cancel": "Cancel",
   "closeOrderModal.closingReasons.canceled": "Canceled",
   "closeOrderModal.closingReasons.ceased": "Ceased",

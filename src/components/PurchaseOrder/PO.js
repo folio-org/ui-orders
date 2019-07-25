@@ -194,7 +194,7 @@ class PO extends Component {
   };
 
   closeOrder = (reason, note) => {
-    const { mutator, resources } = this.props;
+    const { mutator, resources, showToast } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const closeOrderProps = {
       workflowStatus: WORKFLOW_STATUS.closed,
@@ -204,8 +204,10 @@ class PO extends Component {
       },
     };
 
-    updateOrderResource(order, mutator.order, closeOrderProps);
-    this.unmountCloseOrderModal();
+    updateOrderResource(order, mutator.order, closeOrderProps)
+      .then(() => showToast('ui-orders.closeOrder.success', 'success'))
+      .catch(() => showToast('ui-orders.closeOrder.error', 'error'))
+      .finally(() => this.unmountCloseOrderModal());
   };
 
   approveOrder = () => {
