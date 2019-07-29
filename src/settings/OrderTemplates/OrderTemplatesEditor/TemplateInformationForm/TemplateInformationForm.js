@@ -8,6 +8,7 @@ import {
   TextField,
   TextArea,
 } from '@folio/stripes/components';
+import { Required } from '../../../../components/Utils/Validate';
 
 const TemplateInformationForm = () => {
   return (
@@ -16,9 +17,11 @@ const TemplateInformationForm = () => {
         <Field
           component={TextField}
           fullWidth
+          required
           label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
           name="templateName"
           type="text"
+          validate={Required}
         />
       </Col>
 
