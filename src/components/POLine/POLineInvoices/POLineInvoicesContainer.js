@@ -8,7 +8,6 @@ import { Accordion } from '@folio/stripes/components';
 
 import {
   INVOICE_LINES,
-  INVOICES,
   RECEIVING_HISTORY,
 } from '../../Utils/resources';
 
@@ -20,7 +19,6 @@ const POLineInvoicesContainer = ({
   resources,
   vendors,
 }) => {
-  const lineInvoices = get(resources, ['invoices', 'records'], []);
   const invoiceLines = get(resources, ['invoiceLines', 'records'], []);
   const pieces = get(resources, ['pieces', 'records'], []);
 
@@ -30,7 +28,6 @@ const POLineInvoicesContainer = ({
       id={accordionId}
     >
       <POLineInvoices
-        lineInvoices={lineInvoices}
         invoiceLines={invoiceLines}
         pieces={pieces}
         vendors={vendors}
@@ -70,17 +67,6 @@ POLineInvoicesContainer.manifest = Object.freeze({
     ...INVOICE_LINES,
     params: {
       query: 'poLineId==!{lineId}',
-    },
-  },
-  invoices: {
-    ...INVOICES,
-    params: {
-      query: (queryParams, pathComponents, resourceData, logger, props) => {
-        const invoiceLines = get(props, ['resources', 'invoiceLines', 'records'], []);
-        const invoicesIds = invoiceLines.map(item => item.invoiceId);
-
-        return invoicesIds.length ? invoicesIds.map(id => `id==${id}`).join(' or ') : 'id==null';
-      },
     },
   },
 });
