@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 
 import {
   Col,
