@@ -25,11 +25,13 @@ const POLineInvoicesContainer = ({ accordionId, label, resources, vendors, mutat
     mutator.invoiceLines.GET().then(response => {
       const invoicesIds = response.map(item => item.invoiceId);
 
-      mutator.invoices.GET({
-        params: {
-          query: invoicesIds.length ? invoicesIds.map(id => `id==${id}`).join(' or ') : 'id==null',
-        },
-      });
+      if (invoicesIds.length) {
+        mutator.invoices.GET({
+          params: {
+            query: invoicesIds.map(id => `id==${id}`).join(' or '),
+          },
+        });
+      }
     });
   }, []);
 
