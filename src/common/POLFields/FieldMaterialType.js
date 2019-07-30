@@ -17,6 +17,7 @@ const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}
     name={name}
     normalize={normalizeEmptySelect}
+    required={required}
     validate={required && [requiredMaterialType]}
     disabled={disabled}
   />
@@ -33,7 +34,7 @@ FieldMaterialType.propTypes = {
 };
 
 FieldMaterialType.defaultProps = {
-  required: true,
+  required: false,
 };
 
 export default FieldMaterialType;

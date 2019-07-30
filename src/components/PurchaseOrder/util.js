@@ -1,7 +1,8 @@
-import { some } from 'lodash';
+import { get, some } from 'lodash';
 
 import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
 import { RECEIPT_STATUS } from '../../common/POLFields';
+import { INVENTORY_RECORDS_TYPE } from "../POLine/const";
 
 const isLineAbleToBeReceived = (line = { cost: {} }) => {
   const isNotCheckin = !line.checkinItems;
@@ -42,6 +43,8 @@ export const isReceiveAvailableForOrder = (order = {}) => {
 
   return hasLineItemsToReceive && isWorkflowStatusNotPending(order);
 };
+
+export const isRequiredWithFieldValue = (form, field, value) => get(form, field, '') === value;
 
 const EMPTY_OPTION = {
   label: '',

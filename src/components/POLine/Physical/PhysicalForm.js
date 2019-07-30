@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import {
   Col,
@@ -13,10 +14,11 @@ import {
   FieldExpectedReceiptDate,
   FieldsVolume,
 } from '../../../common/POLFields';
-import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isRequiredWithFieldValue, isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
+import { INVENTORY_RECORDS_TYPE } from '../const';
 
-const PhysicalForm = ({ order, materialTypes, vendors }) => {
+const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
 
   return (
@@ -44,6 +46,7 @@ const PhysicalForm = ({ order, materialTypes, vendors }) => {
         <FieldMaterialType
           materialTypes={materialTypes}
           name="physical.materialType"
+          required={isRequiredWithFieldValue(formValues, 'physical.createInventory', INVENTORY_RECORDS_TYPE.all)}
           disabled={isOpenedOrder}
         />
       </Col>
@@ -64,6 +67,7 @@ PhysicalForm.propTypes = {
     value: PropTypes.string,
   })),
   order: PropTypes.object.isRequired,
+  formValues: PropTypes.object.isRequired,
 };
 
 export default PhysicalForm;

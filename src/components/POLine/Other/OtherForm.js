@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import {
   Col,
@@ -13,16 +14,17 @@ import {
 import {
   FieldMaterialType,
 } from '../../../common/POLFields';
-import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isRequiredWithFieldValue, isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import {
   EMPTY_OPTION,
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
+import { INVENTORY_RECORDS_TYPE } from '../const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
 
-const OtherForm = ({ order, materialTypes, vendors }) => {
+const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
 
   return (
@@ -71,6 +73,7 @@ const OtherForm = ({ order, materialTypes, vendors }) => {
         <FieldMaterialType
           materialTypes={materialTypes}
           name="physical.materialType"
+          required={isRequiredWithFieldValue(formValues, 'physical.createInventory', INVENTORY_RECORDS_TYPE.all)}
           disabled={isOpenedOrder}
         />
       </Col>
@@ -88,6 +91,7 @@ OtherForm.propTypes = {
     value: PropTypes.string,
   })),
   order: PropTypes.object.isRequired,
+  formValues: PropTypes.object.isRequired,
 };
 
 export default OtherForm;
