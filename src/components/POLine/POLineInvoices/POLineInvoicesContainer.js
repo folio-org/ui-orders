@@ -46,7 +46,7 @@ const POLineInvoicesContainer = ({ accordionId, label, resources, vendors, mutat
       />
     </Accordion>
   );
-}
+};
 
 POLineInvoicesContainer.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types

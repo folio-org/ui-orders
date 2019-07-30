@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { get } from 'lodash';
@@ -7,13 +7,29 @@ import { stripesConnect } from '@folio/stripes/core';
 import { Accordion } from '@folio/stripes/components';
 
 import {
+  INVOICES,
   ORDER_INVOICES,
 } from '../../Utils/resources';
 
 import POInvoices from './POInvoices';
 
-const POInvoicesContainer = ({ label, accordionId, resources, vendors }) => {
-  const orderInvoicesRelns = get(resources, ['orderInvoicesRelns', 'records'], []);
+const POInvoicesContainer = ({ label, orderId, accordionId, resources, vendors, mutator }) => {
+  const orderInvoices = get(resources, ['invoices', 'records'], []);
+
+  useEffect(() => {
+    mutator.orderInvoicesRelns.reset();
+    mutator.invoices.reset();
+
+    mutator.orderInvoicesRelns.GET().then(response => {
+      const invoicesIds = response.map(item => item.invoiceId);
+
+      mutator.invoices.GET({
+        params: {
+          query: invoicesIds.length ? invoicesIds.map(id => `id==${id}`).join(' or ') : 'id==null',
+        },
+      });
+    });
+  }, [orderId]);
 
   return (
     <Accordion
@@ -21,7 +37,7 @@ const POInvoicesContainer = ({ label, accordionId, resources, vendors }) => {
       id={accordionId}
     >
       <POInvoices
-        orderInvoicesRelns={orderInvoicesRelns}
+        orderInvoices={orderInvoices}
         vendors={vendors}
       />
     </Accordion>
@@ -48,9 +64,16 @@ POInvoicesContainer.defaultProps = {
 POInvoicesContainer.manifest = Object.freeze({
   orderInvoicesRelns: {
     ...ORDER_INVOICES,
+    fetch: false,
+    accumulate: true,
     params: {
       query: 'purchaseOrderId==!{orderId}',
     },
+  },
+  invoices: {
+    ...INVOICES,
+    fetch: false,
+    accumulate: true,
   },
 });
 
