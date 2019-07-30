@@ -715,5 +715,14 @@
     "closeOrderModal.closingReasons.complete": "Complete",
     "closeOrderModal.closingReasons.duplication": "Duplication",
     "itemDetails.contributorType": "Contributor type",
-    "poLine.source": "Source"
+    "poLine.source": "Source",
+    "line.accordion.relatedInvoices": "Related Invoices",
+    "paneBlock.relatedInvoices": "Related Invoices",
+    "relatedInvoices.expendedAmount": "Expended Amount",
+    "relatedInvoices.invoice": "Invoice #",
+    "relatedInvoices.invoiceDate": "Invoice Date",
+    "relatedInvoices.pieces": "Piece(s)",
+    "relatedInvoices.quantity": "Quantity",
+    "relatedInvoices.status": "Status",
+    "relatedInvoices.vendorName": "Vendor Name"
 }

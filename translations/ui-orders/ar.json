@@ -715,5 +715,14 @@
     "closeOrderModal.closingReasons.complete": "أكمل",
     "closeOrderModal.closingReasons.duplication": "تكرار",
     "itemDetails.contributorType": "نوع المساهم",
-    "poLine.source": "المصدر"
+    "poLine.source": "المصدر",
+    "line.accordion.relatedInvoices": "فواتير ذات صلة",
+    "paneBlock.relatedInvoices": "فواتير ذات صلة",
+    "relatedInvoices.expendedAmount": "المبلغ المنفق",
+    "relatedInvoices.invoice": "الفاتورة #",
+    "relatedInvoices.invoiceDate": "تاريخ الفاتورة",
+    "relatedInvoices.pieces": "قطعة",
+    "relatedInvoices.quantity": "الكمية",
+    "relatedInvoices.status": "الحالة",
+    "relatedInvoices.vendorName": "اسم الموّرد"
 }

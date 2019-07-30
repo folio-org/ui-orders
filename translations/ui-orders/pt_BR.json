@@ -715,5 +715,14 @@
     "closeOrderModal.closingReasons.complete": "Completo",
     "closeOrderModal.closingReasons.duplication": "Duplicação",
     "itemDetails.contributorType": "Tipo de autor",
-    "poLine.source": "Fonte"
+    "poLine.source": "Fonte",
+    "line.accordion.relatedInvoices": "Faturas relacionadas",
+    "paneBlock.relatedInvoices": "Faturas relacionadas",
+    "relatedInvoices.expendedAmount": "Valor gasto",
+    "relatedInvoices.invoice": "Núm. da fatura",
+    "relatedInvoices.invoiceDate": "Data da fatura",
+    "relatedInvoices.pieces": "Peça(s)",
+    "relatedInvoices.quantity": "Quantidade",
+    "relatedInvoices.status": "Status",
+    "relatedInvoices.vendorName": "Nome do fornecedor"
 }
