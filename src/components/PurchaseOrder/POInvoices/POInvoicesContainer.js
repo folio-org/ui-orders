@@ -7,14 +7,13 @@ import { stripesConnect } from '@folio/stripes/core';
 import { Accordion } from '@folio/stripes/components';
 
 import {
-  INVOICES,
   ORDER_INVOICES,
 } from '../../Utils/resources';
 
 import POInvoices from './POInvoices';
 
 const POInvoicesContainer = ({ label, accordionId, resources, vendors }) => {
-  const orderInvoices = get(resources, ['invoices', 'records'], []);
+  const orderInvoicesRelns = get(resources, ['orderInvoicesRelns', 'records'], []);
 
   return (
     <Accordion
@@ -22,7 +21,7 @@ const POInvoicesContainer = ({ label, accordionId, resources, vendors }) => {
       id={accordionId}
     >
       <POInvoices
-        orderInvoices={orderInvoices}
+        orderInvoicesRelns={orderInvoicesRelns}
         vendors={vendors}
       />
     </Accordion>
@@ -51,17 +50,6 @@ POInvoicesContainer.manifest = Object.freeze({
     ...ORDER_INVOICES,
     params: {
       query: 'purchaseOrderId==!{orderId}',
-    },
-  },
-  invoices: {
-    ...INVOICES,
-    params: {
-      query: (queryParams, pathComponents, resourceData, logger, props) => {
-        const orderInvoicesRelns = get(props, ['resources', 'orderInvoicesRelns', 'records'], []);
-        const invoicesIds = orderInvoicesRelns.map(item => item.invoiceId);
-
-        return invoicesIds.length ? invoicesIds.map(id => `id==${id}`).join(' or ') : 'id==null';
-      },
     },
   },
 });

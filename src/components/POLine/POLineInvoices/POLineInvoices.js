@@ -116,5 +116,3 @@ POLineInvoices.defaultProps = {
 };
 
 export default stripesConnect(POLineInvoices);
-
-// export default POLineInvoices;
