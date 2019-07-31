@@ -8,6 +8,7 @@ import {
   TextField,
   TextArea,
 } from '@folio/stripes/components';
+import { validateRequired } from '@folio/stripes-acq-components';
 
 const TemplateInformationForm = () => {
   return (
@@ -18,6 +19,8 @@ const TemplateInformationForm = () => {
           fullWidth
           label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
           name="templateName"
+          required
+          validate={validateRequired}
           type="text"
         />
       </Col>
