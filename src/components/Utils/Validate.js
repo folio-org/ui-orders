@@ -51,9 +51,3 @@ export const isMaterialTypeRequired = (allValues, name) => {
 
   return createInventory === INVENTORY_RECORDS_TYPE.all;
 };
-
-export const requiredMaterialType = (value, allValues, props, name) => {
-  return isMaterialTypeRequired(allValues, name) && !value
-    ? REQUIRED
-    : undefined;
-};

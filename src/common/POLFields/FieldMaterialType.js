@@ -2,10 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
-
-import normalizeEmptySelect from '../../components/Utils/normalizeEmptySelect';
-import { requiredMaterialType } from '../../components/Utils/Validate';
+import { FieldSelect, validateRequired } from '@folio/stripes-acq-components';
 
 const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
   <FieldSelect
@@ -13,9 +10,8 @@ const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
     fullWidth
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}
     name={name}
-    normalize={normalizeEmptySelect}
     required={required}
-    validate={required && [requiredMaterialType]}
+    validate={required && validateRequired}
     disabled={disabled}
   />
 );
