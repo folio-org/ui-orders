@@ -45,11 +45,9 @@ export const validateYear = (value) => {
 export { required as Required };
 
 // Field is required only if 'createInventory' includes 'Instanse, Holding, Item'
-export const requiredMaterialType = (value, allValues, props, name) => {
+export const isMaterialTypeRequired = (allValues, name) => {
   const fieldName = name.split('.')[0];
   const createInventory = get(allValues, `${fieldName}.createInventory`);
 
-  return createInventory === INVENTORY_RECORDS_TYPE.all && !value
-    ? REQUIRED
-    : undefined;
+  return createInventory === INVENTORY_RECORDS_TYPE.all;
 };

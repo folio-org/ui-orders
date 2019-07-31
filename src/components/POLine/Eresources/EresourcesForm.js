@@ -18,8 +18,9 @@ import {
 } from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
+import { isMaterialTypeRequired } from '../../Utils/Validate';
 
-const EresourcesForm = ({ vendors, materialTypes, order }) => {
+const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
   const created = get(order, 'metadata.createdDate', '');
   const isOpenedOrder = isWorkflowStatusOpen(order);
 
@@ -48,6 +49,7 @@ const EresourcesForm = ({ vendors, materialTypes, order }) => {
         <FieldMaterialType
           materialTypes={materialTypes}
           name="eresource.materialType"
+          required={isMaterialTypeRequired(formValues, 'eresource.createInventory')}
           disabled={isOpenedOrder}
         />
       </Col>
@@ -70,6 +72,7 @@ EresourcesForm.propTypes = {
     value: PropTypes.string,
   })).isRequired,
   order: PropTypes.object,
+  formValues: PropTypes.object.isRequired,
   materialTypes: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string,

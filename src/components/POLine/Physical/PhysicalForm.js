@@ -15,8 +15,9 @@ import {
 } from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
+import { isMaterialTypeRequired } from '../../Utils/Validate';
 
-const PhysicalForm = ({ order, materialTypes, vendors }) => {
+const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
 
   return (
@@ -44,6 +45,7 @@ const PhysicalForm = ({ order, materialTypes, vendors }) => {
         <FieldMaterialType
           materialTypes={materialTypes}
           name="physical.materialType"
+          required={isMaterialTypeRequired(formValues, 'physical.createInventory')}
           disabled={isOpenedOrder}
         />
       </Col>
@@ -64,6 +66,7 @@ PhysicalForm.propTypes = {
     value: PropTypes.string,
   })),
   order: PropTypes.object.isRequired,
+  formValues: PropTypes.object.isRequired,
 };
 
 export default PhysicalForm;

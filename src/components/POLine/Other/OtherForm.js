@@ -21,8 +21,9 @@ import {
 } from '../../Utils/const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
+import { isMaterialTypeRequired } from '../../Utils/Validate';
 
-const OtherForm = ({ order, materialTypes, vendors }) => {
+const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
 
   return (
@@ -71,6 +72,7 @@ const OtherForm = ({ order, materialTypes, vendors }) => {
         <FieldMaterialType
           materialTypes={materialTypes}
           name="physical.materialType"
+          required={isMaterialTypeRequired(formValues, 'physical.createInventory')}
           disabled={isOpenedOrder}
         />
       </Col>
@@ -88,6 +90,7 @@ OtherForm.propTypes = {
     value: PropTypes.string,
   })),
   order: PropTypes.object.isRequired,
+  formValues: PropTypes.object.isRequired,
 };
 
 export default OtherForm;

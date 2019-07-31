@@ -329,6 +329,7 @@ class POLineForm extends Component {
                           materialTypes={materialTypes}
                           order={order}
                           vendors={vendors}
+                          formValues={formValues}
                         />
                       </Accordion>
                     )}
@@ -341,6 +342,7 @@ class POLineForm extends Component {
                           materialTypes={materialTypes}
                           vendors={vendors}
                           order={order}
+                          formValues={formValues}
                         />
                       </Accordion>
                     )}
@@ -353,6 +355,7 @@ class POLineForm extends Component {
                           materialTypes={materialTypes}
                           vendors={vendors}
                           order={order}
+                          formValues={formValues}
                         />
                       </Accordion>
                     )}

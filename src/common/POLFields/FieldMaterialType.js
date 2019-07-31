@@ -1,23 +1,17 @@
 import React from 'react';
-import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { Select } from '@folio/stripes/components';
-
-import { EMPTY_OPTION } from '../../components/Utils/const';
-import normalizeEmptySelect from '../../components/Utils/normalizeEmptySelect';
-import { requiredMaterialType } from '../../components/Utils/Validate';
+import { FieldSelect, validateRequired } from '@folio/stripes-acq-components';
 
 const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
-  <Field
-    component={Select}
-    dataOptions={[EMPTY_OPTION, ...materialTypes]}
+  <FieldSelect
+    dataOptions={materialTypes}
     fullWidth
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}
     name={name}
-    normalize={normalizeEmptySelect}
-    validate={required && [requiredMaterialType]}
+    required={required}
+    validate={required && validateRequired}
     disabled={disabled}
   />
 );
@@ -33,7 +27,7 @@ FieldMaterialType.propTypes = {
 };
 
 FieldMaterialType.defaultProps = {
-  required: true,
+  required: false,
 };
 
 export default FieldMaterialType;
