@@ -13,7 +13,7 @@ import {
 
 import POInvoices from './POInvoices';
 
-const POInvoicesContainer = ({ label, orderId, accordionId, resources, vendors, mutator }) => {
+const POInvoicesContainer = ({ label, orderId, accordionId, resources, vendors, mutator, stripes }) => {
   const orderInvoices = get(resources, ['invoices', 'records'], []);
 
   useEffect(() => {
@@ -39,6 +39,7 @@ const POInvoicesContainer = ({ label, orderId, accordionId, resources, vendors, 
       id={accordionId}
     >
       <POInvoices
+        stripes={stripes}
         orderInvoices={orderInvoices}
         vendors={vendors}
       />
@@ -50,6 +51,7 @@ POInvoicesContainer.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   orderId: PropTypes.string.isRequired,
   label: PropTypes.object.isRequired,
+  stripes: PropTypes.object.isRequired,
   accordionId: PropTypes.string.isRequired,
   mutator: PropTypes.shape({
     orderInvoicesRelns: PropTypes.object.isRequired,
