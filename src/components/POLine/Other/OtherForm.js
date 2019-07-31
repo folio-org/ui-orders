@@ -13,15 +13,15 @@ import {
 import {
   FieldMaterialType,
 } from '../../../common/POLFields';
-import { isRequiredWithFieldValue, isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import {
   EMPTY_OPTION,
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
-import { INVENTORY_RECORDS_TYPE } from '../const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
+import { isMaterialTypeRequired } from '../../Utils/Validate';
 
 const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
@@ -72,7 +72,7 @@ const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
         <FieldMaterialType
           materialTypes={materialTypes}
           name="physical.materialType"
-          required={isRequiredWithFieldValue(formValues, 'physical.createInventory', INVENTORY_RECORDS_TYPE.all)}
+          required={isMaterialTypeRequired(formValues, 'physical.createInventory')}
           disabled={isOpenedOrder}
         />
       </Col>

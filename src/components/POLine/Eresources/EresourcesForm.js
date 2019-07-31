@@ -16,9 +16,9 @@ import {
   FieldExpectedActivation,
   FieldActivationDue,
 } from '../../../common/POLFields';
-import { isRequiredWithFieldValue, isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
-import { INVENTORY_RECORDS_TYPE } from '../const';
+import { isMaterialTypeRequired } from '../../Utils/Validate';
 
 const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
   const created = get(order, 'metadata.createdDate', '');
@@ -49,7 +49,7 @@ const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
         <FieldMaterialType
           materialTypes={materialTypes}
           name="eresource.materialType"
-          required={isRequiredWithFieldValue(formValues, 'eresource.createInventory', INVENTORY_RECORDS_TYPE.all)}
+          required={isMaterialTypeRequired(formValues, 'eresource.createInventory')}
           disabled={isOpenedOrder}
         />
       </Col>

@@ -1,4 +1,4 @@
-import { get, some } from 'lodash';
+import { some } from 'lodash';
 
 import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
 import { RECEIPT_STATUS } from '../../common/POLFields';
@@ -42,8 +42,6 @@ export const isReceiveAvailableForOrder = (order = {}) => {
 
   return hasLineItemsToReceive && isWorkflowStatusNotPending(order);
 };
-
-export const isRequiredWithFieldValue = (form, field, value) => get(form, field, '') === value;
 
 const EMPTY_OPTION = {
   label: '',
