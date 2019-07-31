@@ -34,7 +34,7 @@ const columnWidths = {
   pieces: '15%',
 };
 
-const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces, stripes }) => {
+const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
   const captionsList = pieces.map(item => item.caption).join(', ');
   const resultFormatter = {
     invoice: invoice => (
@@ -51,7 +51,6 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces, stripes }
     quantity: (invoice) => sum(invoiceLines.filter(invoiceLine => invoiceLine.invoiceId === invoice.id).map(inv => get(inv, 'quantity', 0))),
     expendedAmount: invoice => (
       <AmountWithCurrencyField
-        stripes={stripes}
         currency={invoice.currency}
         amount={get(invoice, 'total', 0)}
       />
@@ -75,7 +74,6 @@ POLineInvoices.propTypes = {
   invoiceLines: PropTypes.arrayOf(PropTypes.object),
   vendors: PropTypes.arrayOf(PropTypes.object),
   pieces: PropTypes.arrayOf(PropTypes.object),
-  stripes: PropTypes.object.isRequired,
 };
 
 POLineInvoices.defaultProps = {

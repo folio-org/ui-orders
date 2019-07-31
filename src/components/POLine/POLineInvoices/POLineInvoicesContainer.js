@@ -12,8 +12,9 @@ import {
 } from '../../Utils/resources';
 
 import POLineInvoices from './POLineInvoices';
+import { ACCORDION_ID } from '../const';
 
-const POLineInvoicesContainer = ({ lineId, stripes, accordionId, label, resources, vendors, mutator }) => {
+const POLineInvoicesContainer = ({ lineId, label, resources, vendors, mutator }) => {
   const lineInvoices = get(resources, ['invoices', 'records'], []);
   const invoiceLines = get(resources, ['invoiceLines', 'records'], []);
   const pieces = get(resources, ['pieces', 'records'], []);
@@ -38,10 +39,9 @@ const POLineInvoicesContainer = ({ lineId, stripes, accordionId, label, resource
   return (
     <Accordion
       label={label}
-      id={accordionId}
+      id={ACCORDION_ID.relatedInvoices}
     >
       <POLineInvoices
-        stripes={stripes}
         lineInvoices={lineInvoices}
         invoiceLines={invoiceLines}
         pieces={pieces}
@@ -55,8 +55,6 @@ POLineInvoicesContainer.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   lineId: PropTypes.string.isRequired,
   label: PropTypes.object.isRequired,
-  stripes: PropTypes.object.isRequired,
-  accordionId: PropTypes.string.isRequired,
   mutator: PropTypes.shape({
     pieces: PropTypes.object.isRequired,
     invoices: PropTypes.object.isRequired,

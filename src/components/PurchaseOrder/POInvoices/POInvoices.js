@@ -29,7 +29,7 @@ const columnWidths = {
   expendedAmount: '25%',
 };
 
-const POInvoices = ({ orderInvoices, vendors, stripes }) => {
+const POInvoices = ({ orderInvoices, vendors }) => {
   const resultFormatter = {
     invoice: invoice => (
       <Link
@@ -44,7 +44,6 @@ const POInvoices = ({ orderInvoices, vendors, stripes }) => {
     status: invoice => get(invoice, 'status', ''),
     expendedAmount: invoice => (
       <AmountWithCurrencyField
-        stripes={stripes}
         currency={invoice.currency}
         amount={get(invoice, 'total', 0)}
       />
@@ -65,7 +64,6 @@ const POInvoices = ({ orderInvoices, vendors, stripes }) => {
 POInvoices.propTypes = {
   orderInvoices: PropTypes.arrayOf(PropTypes.object),
   vendors: PropTypes.arrayOf(PropTypes.object),
-  stripes: PropTypes.object.isRequired,
 };
 
 POInvoices.defaultProps = {

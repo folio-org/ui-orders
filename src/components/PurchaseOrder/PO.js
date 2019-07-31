@@ -477,7 +477,6 @@ class PO extends Component {
             <SummaryView order={order} {...this.props} />
           </Accordion>
           <POInvoicesContainer
-            accordionId="relatedInvoices"
             label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
             orderId={order.id}
             vendors={vendors}

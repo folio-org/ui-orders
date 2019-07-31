@@ -376,7 +376,6 @@ class POLineView extends Component {
             </Accordion>
           )}
           <POLineInvoicesContainer
-            accordionId={ACCORDION_ID.relatedInvoices}
             label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoices" />}
             lineId={get(line, 'id')}
             vendors={vendors}
