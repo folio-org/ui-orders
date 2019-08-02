@@ -40,7 +40,7 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
     invoice: invoice => (
       <Link
         data-test-link-to-invoice
-        to={`/invoices/view/${invoice.id}`}
+        to={`/invoice/view/${invoice.id}`}
       >
         {get(invoice, 'folioInvoiceNo', '')}
       </Link>

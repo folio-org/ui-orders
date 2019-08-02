@@ -34,7 +34,7 @@ const POInvoices = ({ orderInvoices, vendors }) => {
     invoice: invoice => (
       <Link
         data-test-link-to-invoice
-        to={`/invoices/view/${invoice.id}`}
+        to={`/invoice/view/${invoice.id}`}
       >
         {get(invoice, 'folioInvoiceNo', '')}
       </Link>
