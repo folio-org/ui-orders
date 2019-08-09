@@ -8,6 +8,7 @@ import ClosingReasons from './ClosingReasons';
 import OrderNumber from './OrderNumber';
 import CreateInventory from './CreateInventory';
 import OrderTemplates from './OrderTemplates';
+import OrderApprovals from './OrderApprovals/OrderApprovals';
 import Suffixes from './Suffixes';
 import Prefixes from './Prefixes';
 
@@ -19,6 +20,11 @@ class OrdersSettings extends Component {
       {
         label: <FormattedMessage id="ui-orders.settings.general.label" />,
         pages: [
+          {
+            component: OrderApprovals,
+            label: <FormattedMessage id="ui-orders.settings.approvals" />,
+            route: 'approvals',
+          },
           {
             component: ClosingReasons,
             label: <FormattedMessage id="ui-orders.settings.closingOrderReasons" />,

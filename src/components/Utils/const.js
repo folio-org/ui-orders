@@ -5,6 +5,7 @@ export const MODULE_TENANT = 'TENANT';
 export const CONFIG_CLOSING_REASONS = 'closing-reasons';
 export const CONFIG_CREATE_INVENTORY = 'createInventory';
 export const CONFIG_LINES_LIMIT = 'poLines-limit';
+export const CONFIG_APPROVALS = 'approvals';
 export const CONFIG_ORDER_NUMBER = 'orderNumber';
 export const CONFIG_ADDRESSES = 'addresses';
 export const CONFIG_PREFIXES = 'prefixes';

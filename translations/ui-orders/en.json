@@ -688,6 +688,8 @@
   "settings.orderTemplates.remove.success": "The template was deleted",
   "settings.orderTemplates.remove.error": "The template was not deleted",
 
+  "settings.approvals": "Approvals",
+  "settings.setOrderApprovals": "'Approval required' to open orders",
   "settings.polinesLimit": "Purchase order lines limit",
   "settings.poNumber.addOption": "Add: ",
   "settings.poNumber.edit": "Edit",
