@@ -22,9 +22,9 @@ class OrderApprovals extends Component {
     this.configManager = props.stripes.connect(ConfigManager);
   }
 
-  beforeSave = (canUserEditOrderNumber) => (
-    JSON.stringify(canUserEditOrderNumber)
-  )
+  beforeSave = (isApprovalRequired) => (
+    JSON.stringify(isApprovalRequired)
+  );
 
   render() {
     const { label } = this.props;
