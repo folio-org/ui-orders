@@ -6,7 +6,7 @@ import { ConfigManager } from '@folio/stripes/smart-components';
 import {
   MODULE_ORDERS,
 } from '../../components/Utils/const';
-import getApprovalsSetting from '../../common/utils/getApprovalsSetting';
+import { getOrderApprovalsSetting } from '../../common/utils/getOrderApprovalsSetting';
 import OrderApprovalsForm from './OrderApprovalsForm';
 import css from './OrderApprovals.css';
 
@@ -36,7 +36,7 @@ class OrderApprovals extends Component {
       >
         <this.configManager
           configName="approvals"
-          getInitialValues={getApprovalsSetting}
+          getInitialValues={getOrderApprovalsSetting}
           label={label}
           moduleName={MODULE_ORDERS}
           onBeforeSave={this.beforeSave}

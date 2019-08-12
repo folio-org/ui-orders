@@ -1,6 +1,6 @@
 import { get } from 'lodash';
-
-const getOrderNumberSetting = (configs) => {
+// eslint-disable-next-line import/prefer-default-export
+export const getOrderApprovalsSetting = (configs) => {
   let orderApprovalsSetting = get(configs, [0, 'value'], '{}');
   const config = {
     isApprovalRequired: false,
@@ -16,5 +16,3 @@ const getOrderNumberSetting = (configs) => {
 
   return config;
 };
-
-export default getOrderNumberSetting;
