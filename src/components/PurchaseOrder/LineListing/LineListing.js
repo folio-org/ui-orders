@@ -10,6 +10,7 @@ class LineListing extends Component {
     baseUrl: PropTypes.string.isRequired,
     poLines: PropTypes.arrayOf(PropTypes.object).isRequired,
     queryMutator: PropTypes.object,
+    funds: PropTypes.arrayOf(PropTypes.object),
   };
 
   onSelectRow = (e, meta) => {
@@ -20,13 +21,18 @@ class LineListing extends Component {
   };
 
   render() {
-    const { poLines } = this.props;
+    const { funds, poLines } = this.props;
+    const fundsMap = funds.reduce((acc, fund) => {
+      acc[fund.id] = fund.code;
+
+      return acc;
+    }, {});
     const resultsFormatter = {
       'poLineNumber': ({ poLineNumber }) => poLineNumber,
       'title': ({ title }) => title || '',
       'productId': item => map(get(item, 'details.productIds', []), 'productId').join(', '),
       'vendorRefNumber': item => get(item, 'vendorDetail.refNumber', ''),
-      'fundCode': item => map(get(item, 'fundDistribution', []), 'code').join(', '),
+      'fundCode': item => get(item, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),
     };
 
     return (
@@ -50,5 +56,9 @@ class LineListing extends Component {
     );
   }
 }
+
+LineListing.defaultProps = {
+  funds: [],
+};
 
 export default LineListing;

@@ -11,6 +11,7 @@ import {
 } from '../common/POLFields';
 
 export const FILTERS = {
+  ACQUISITIONS_UNIT: 'acqUnitIds',
   APPROVED: 'approved',
   ASSIGNED_TO: 'assignedTo',
   CLOSE_REASON: 'closeReason',

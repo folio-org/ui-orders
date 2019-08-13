@@ -1,4 +1,5 @@
 import {
+  ACQUISITIONS_UNITS_API,
   CHECKIN_API,
   CONFIG_API,
   CONTRIBUTOR_NAME_TYPES_API,
@@ -252,4 +253,10 @@ export const INVOICE_LINES = {
   ...BASE_RESOURCE,
   path: INVOICE_LINES_API,
   records: 'invoiceLines',
+};
+
+export const ACQUISITIONS_UNITS = {
+  ...BASE_RESOURCE,
+  path: ACQUISITIONS_UNITS_API,
+  records: 'acquisitionsUnits',
 };

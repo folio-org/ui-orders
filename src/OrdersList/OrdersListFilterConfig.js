@@ -78,4 +78,9 @@ export const filterConfig = [
     cql: FILTERS.PO_NUMBER,
     values: [],
   },
+  {
+    name: FILTERS.ACQUISITIONS_UNIT,
+    cql: FILTERS.ACQUISITIONS_UNIT,
+    values: [],
+  },
 ];

@@ -366,6 +366,7 @@ class PO extends Component {
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
     const orderType = get(order, 'orderType');
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
+    const funds = get(parentResources, 'fund.records', []);
 
     order.vendorName = get(vendor, 'name');
     order.assignedToUser = assignedTo && assignedTo.personal
@@ -488,6 +489,7 @@ class PO extends Component {
           >
             <LineListing
               baseUrl={match.url}
+              funds={funds}
               poLines={poLines}
               queryMutator={parentMutator.query}
             />

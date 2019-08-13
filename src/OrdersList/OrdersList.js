@@ -26,6 +26,7 @@ import {
   VENDORS_API,
 } from '../components/Utils/api';
 import {
+  ACQUISITIONS_UNITS,
   ADDRESSES,
   CLOSING_REASONS,
   CONTRIBUTOR_NAME_TYPES,
@@ -141,6 +142,7 @@ class OrdersList extends Component {
     identifierTypes: IDENTIFIER_TYPES,
     createInventory: CREATE_INVENTORY,
     addresses: ADDRESSES,
+    acqUnits: ACQUISITIONS_UNITS,
   });
 
   static propTypes = {
@@ -198,10 +200,12 @@ class OrdersList extends Component {
     const closingReasons = get(resources, 'closingReasons.records', []);
     const users = get(resources, 'users.records', []);
     const vendors = get(resources, 'vendors.records', []);
+    const acqUnits = get(resources, 'acqUnits.records', []);
 
     return resources.query
       ? (
         <OrdersListFilters
+          acqUnits={acqUnits}
           activeFilters={this.getActiveFilters()}
           closingReasons={closingReasons}
           init={this.initFilters}

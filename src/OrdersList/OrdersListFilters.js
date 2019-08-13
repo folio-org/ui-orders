@@ -5,6 +5,10 @@ import { noop } from 'lodash';
 import {
   AccordionSet,
 } from '@folio/stripes/components';
+import {
+  AcqUnitFilter,
+  acqUnitsShape,
+} from '@folio/stripes-acq-components';
 
 import ClosingReasonFilter from '../common/ClosingReasonFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
@@ -32,6 +36,7 @@ class OrdersListFilters extends Component {
     init: PropTypes.func,
     closingReasons: closingReasonsShape,
     users: usersShape,
+    acqUnits: acqUnitsShape,
   };
 
   static defaultProps = {
@@ -58,7 +63,7 @@ class OrdersListFilters extends Component {
   }
 
   render() {
-    const { activeFilters, closingReasons, onChange, vendors, users } = this.props;
+    const { activeFilters, closingReasons, onChange, vendors, users, acqUnits } = this.props;
 
     return (
       <AccordionSet>
@@ -78,6 +83,14 @@ class OrdersListFilters extends Component {
           name={FILTERS.APPROVED}
           onChange={onChange}
           options={BOOLEAN_OPTIONS}
+        />
+        <AcqUnitFilter
+          id={FILTERS.ACQUISITIONS_UNIT}
+          activeFilters={activeFilters[FILTERS.ACQUISITIONS_UNIT]}
+          labelId="ui-orders.order.acquisitionsUnit"
+          name={FILTERS.ACQUISITIONS_UNIT}
+          onChange={onChange}
+          acqUnits={acqUnits}
         />
         <UserFilter
           id={FILTERS.ASSIGNED_TO}

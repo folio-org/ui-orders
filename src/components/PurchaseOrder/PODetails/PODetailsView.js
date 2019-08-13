@@ -11,6 +11,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
+import { AcqUnitsView } from '@folio/stripes-acq-components';
 
 import FolioFormattedTime from '../../FolioFormattedTime';
 
@@ -131,6 +132,12 @@ class PODetailsView extends Component {
               label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
               value={get(order, 'orderType')}
             />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <AcqUnitsView units={order.acqUnitIds} />
           </Col>
           <Col xs={12}>
             {get(order, 'notes', []).map((note, index) => (
