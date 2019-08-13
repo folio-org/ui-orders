@@ -1,8 +1,0 @@
-.formWrapper {
-  width: 100%;
-}
-
-.formWrapper > div,
-.formWrapper > div > form {
-  height: 100%;
-}
