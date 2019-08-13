@@ -405,6 +405,17 @@ class PO extends Component {
           </IfPermission>
 
           <IfPermission perm="orders.item.put">
+            <IfPermission perm="orders.item.approve">
+              <div className={css.buttonWrapper}>
+                <Button
+                  buttonStyle="default"
+                  className={css.button}
+                  data-test-approve-order-button
+                >
+                  <FormattedMessage id="ui-orders.paneBlock.approveBtn" />
+                </Button>
+              </div>
+            </IfPermission>
             {isCloseOrderButtonVisible && (
               <div className={css.buttonWrapper}>
                 <Button

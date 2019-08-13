@@ -398,6 +398,7 @@
     "settings.saveBtn": "Save",
     "settings.setPOLInesLimit": "Set purchase order lines limit",
     "settings.setPOLInesLimit.changed": "The limit of purchase order lines has been successfully saved",
+    "paneBlock.approveBtn": "Approve",
     "paneBlock.closeBtn": "Close order",
     "closeOrderModal.reason": "Reason",
     "closeOrderModal.notes": "Notes",
