@@ -38,7 +38,7 @@ class OrderApprovals extends Component {
 }
 
 OrderApprovals.propTypes = {
-  label: PropTypes.element.isRequired,
+  label: PropTypes.node.isRequired,
   stripes: PropTypes.object.isRequired,
 };
 
