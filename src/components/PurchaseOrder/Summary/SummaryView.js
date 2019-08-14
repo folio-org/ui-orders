@@ -45,14 +45,6 @@ const SummaryView = ({ order }) => {
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.approvalDate" />}>
-            <FolioFormattedTime dateString={get(order, 'approvalDate')} />
-          </KeyValue>
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}
             value={get(order, 'totalEstimatedPrice')}
