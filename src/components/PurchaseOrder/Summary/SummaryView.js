@@ -12,6 +12,7 @@ import {
 } from '@folio/stripes/components';
 
 import { WORKFLOW_STATUS } from './FieldWorkflowStatus';
+import FolioFormattedTime from "../../FolioFormattedTime";
 // import css from './SummaryView.css';
 
 const SummaryView = ({ order }) => {
@@ -38,6 +39,14 @@ const SummaryView = ({ order }) => {
               checked={get(order, ['approved'])}
               disabled
             />
+          </KeyValue>
+        </Col>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.approvalDate" />}>
+            <FolioFormattedTime dateString={get(order, 'approvalDate')} />
           </KeyValue>
         </Col>
         <Col

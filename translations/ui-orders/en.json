@@ -500,6 +500,7 @@
   "orderDetails.vendor": "Vendor",
   "orderSummary.adjustments": "Adjustments",
   "orderSummary.approved": "Approved",
+  "orderSummary.approvalDate": "Approval Date",
   "orderSummary.closingNote": "Notes on Closure",
   "orderSummary.closingReason": "Reason for Closure",
   "orderSummary.totalEstimatedPrice": "Total Estimated Price",
