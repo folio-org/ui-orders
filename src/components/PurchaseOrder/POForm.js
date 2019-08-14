@@ -179,6 +179,7 @@ class POForm extends Component {
       this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder') :
       this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
     const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', {}));
+
     const prefixesSetting = getSettingsList(get(parentResources, 'prefixesSetting.records', {}));
     const suffixesSetting = getSettingsList(get(parentResources, 'suffixesSetting.records', {}));
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));

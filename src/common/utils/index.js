@@ -8,7 +8,6 @@ export * from './getMaterialTypesOptions';
 export * from './getUserOptions';
 export * from './getVendorOptions';
 export * from './handleFilterChange';
-export * from './showToast';
 export * from './getSettingsList';
 export * from './getAddresses';
 export * from './getAddressOptions';

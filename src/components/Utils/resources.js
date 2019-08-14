@@ -30,7 +30,7 @@ import {
   CONFIG_ORDER_TEMPLATES,
   LIMIT_MAX,
   MODULE_ORDERS,
-  MODULE_TENANT,
+  MODULE_TENANT, CONFIG_APPROVALS,
 } from './const';
 
 const BASE_RESOURCE = {
@@ -195,6 +195,17 @@ export const ORDER_NUMBER_SETTING = {
   GET: {
     params: {
       query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`,
+    },
+  },
+};
+
+export const APPROVALS_SETTING = {
+  ...BASE_RESOURCE,
+  path: CONFIG_API,
+  records: 'configs',
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_APPROVALS})`,
     },
   },
 };

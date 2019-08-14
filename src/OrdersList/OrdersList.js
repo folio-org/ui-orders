@@ -11,7 +11,7 @@ import { get } from 'lodash';
 import { Callout } from '@folio/stripes/components';
 import { stripesShape } from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
-import { changeSearchIndex } from '@folio/stripes-acq-components';
+import { changeSearchIndex, showToast } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
 import Panes from '../components/Panes';
@@ -36,6 +36,7 @@ import {
   LOCATIONS,
   MATERIAL_TYPES,
   ORDER_NUMBER_SETTING,
+  APPROVALS_SETTING,
   ORDER_TEMPLATES,
   PREFIXES_SETTING,
   SUFFIXES_SETTING,
@@ -45,7 +46,6 @@ import OrdersNavigation from '../common/OrdersNavigation';
 import {
   getActiveFilters,
   handleFilterChange,
-  showToast,
 } from '../common/utils';
 import { WORKFLOW_STATUS } from '../components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import OrdersListFilters from './OrdersListFilters';
@@ -104,6 +104,7 @@ class OrdersList extends Component {
     materialTypes: MATERIAL_TYPES,
     closingReasons: CLOSING_REASONS,
     orderNumberSetting: ORDER_NUMBER_SETTING,
+    approvalsSetting: APPROVALS_SETTING,
     prefixesSetting: PREFIXES_SETTING,
     suffixesSetting: SUFFIXES_SETTING,
     orderTemplates: ORDER_TEMPLATES,

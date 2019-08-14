@@ -11,7 +11,7 @@ import moment from 'moment';
 import { stripesShape } from '@folio/stripes/core';
 import { Callout } from '@folio/stripes/components';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
-import { changeSearchIndex } from '@folio/stripes-acq-components';
+import { changeSearchIndex, showToast } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
 import OrdersNavigation from '../common/OrdersNavigation';
@@ -23,7 +23,6 @@ import {
 import {
   getActiveFilters,
   handleFilterChange,
-  showToast,
 } from '../common/utils';
 import {
   CONTRIBUTOR_NAME_TYPES,

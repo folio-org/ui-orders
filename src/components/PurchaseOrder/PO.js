@@ -55,6 +55,7 @@ import {
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 
 import css from './PO.css';
+import { getOrderApprovalsSetting } from '../../common/utils/getOrderApprovalsSetting';
 
 class PO extends Component {
   static manifest = Object.freeze({
@@ -204,6 +205,20 @@ class PO extends Component {
     this.unmountCloseOrderModal();
   };
 
+  approveOrder = async (e) => {
+    const { showToast, mutator, resources } = this.props;
+    const order = get(resources, ['order', 'records', 0]);
+    const orderNumber = get(order, 'poNumber', '');
+
+    try {
+      await updateOrderResource(order, mutator.order, { approved: true });
+    } catch (error) {
+      await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
+    } finally {
+      showToast('ui-orders.order.approved.success', 'success', { orderNumber });
+    }
+  };
+
   openOrder = async () => {
     const { mutator, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
@@ -316,12 +331,16 @@ class PO extends Component {
       stripes,
     } = this.props;
     const order = this.getOrder();
+    const isApproved = get(order, 'approved');
+    const approvalsSetting = getOrderApprovalsSetting(get(parentResources, 'approvalsSetting.records', {}));
+    const { isApprovalRequired } = approvalsSetting;
     const closingReasons = get(parentResources, 'closingReasons.records', []);
     const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
-    const isOpenOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.pending && poLines.length > 0;
+    const workflowIsPending = workflowStatus === WORKFLOW_STATUS.pending;
+    const isOpenOrderButtonVisible = workflowIsPending && poLines.length > 0 && (isApproved || !isApprovalRequired);
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
 
@@ -364,6 +383,7 @@ class PO extends Component {
     const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assignedTo);
     const createdByUserId = get(order, 'metadata.createdByUserId');
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
+
     const orderType = get(order, 'orderType');
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const funds = get(parentResources, 'fund.records', []);
@@ -406,15 +426,18 @@ class PO extends Component {
 
           <IfPermission perm="orders.item.put">
             <IfPermission perm="orders.item.approve">
-              <div className={css.buttonWrapper}>
-                <Button
-                  buttonStyle="default"
-                  className={css.button}
-                  data-test-approve-order-button
-                >
-                  <FormattedMessage id="ui-orders.paneBlock.approveBtn" />
-                </Button>
-              </div>
+              {isApprovalRequired && !isApproved && (
+                <div className={css.buttonWrapper}>
+                  <Button
+                    buttonStyle="default"
+                    className={css.button}
+                    data-test-approve-order-button
+                    onClick={this.approveOrder}
+                  >
+                    <FormattedMessage id="ui-orders.paneBlock.approveBtn" />
+                  </Button>
+                </div>
+              )}
             </IfPermission>
             {isCloseOrderButtonVisible && (
               <div className={css.buttonWrapper}>
