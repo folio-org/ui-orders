@@ -85,6 +85,7 @@
         "visible": true,
         "subPermissions": [
           "orders.item.put",
+          "orders.item.approve",
           "orders.po-number.item.post",
           "orders.po-number.item.get"
         ]
