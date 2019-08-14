@@ -12,7 +12,6 @@ import {
 } from '@folio/stripes/components';
 
 import { WORKFLOW_STATUS } from './FieldWorkflowStatus';
-import FolioFormattedTime from "../../FolioFormattedTime";
 // import css from './SummaryView.css';
 
 const SummaryView = ({ order }) => {
