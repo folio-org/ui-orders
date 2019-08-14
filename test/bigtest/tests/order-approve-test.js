@@ -12,7 +12,7 @@ import {
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';
 
-describe.only('Approve order action', function () {
+describe('Approve order action', function () {
   setupApplication();
 
   const orderDetailsPage = new OrderDetailsPage();
@@ -47,6 +47,16 @@ describe.only('Approve order action', function () {
 
     it('should be visible ', () => {
       expect(orderDetailsPage.approveOrderButton.isPresent).to.be.true;
+    });
+
+    describe('click for approve', () => {
+      beforeEach(async function () {
+        await orderDetailsPage.approveOrderButton.click();
+      });
+
+      it('should be hide after click ', () => {
+        expect(orderDetailsPage.approveOrderButton.isPresent).to.be.false;
+      });
     });
   });
 
