@@ -724,5 +724,7 @@
     "relatedInvoices.pieces": "Piece(s)",
     "relatedInvoices.quantity": "Quantity",
     "relatedInvoices.status": "Status",
-    "relatedInvoices.vendorName": "Vendor Name"
+    "relatedInvoices.vendorName": "Vendor Name",
+    "settings.approvals": "Approvals",
+    "settings.approvals.isApprovalRequired": "\"Approval required\" to open orders"
 }

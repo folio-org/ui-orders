@@ -724,5 +724,7 @@
     "relatedInvoices.pieces": "قطعة",
     "relatedInvoices.quantity": "الكمية",
     "relatedInvoices.status": "الحالة",
-    "relatedInvoices.vendorName": "اسم المورّد"
+    "relatedInvoices.vendorName": "اسم المورّد",
+    "settings.approvals": "الموافقات",
+    "settings.approvals.isApprovalRequired": "\"الموافقة مطلوبة\" لفتح الطلبيات"
 }

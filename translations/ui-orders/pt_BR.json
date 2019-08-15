@@ -724,5 +724,7 @@
     "relatedInvoices.pieces": "Peça(s)",
     "relatedInvoices.quantity": "Quantidade",
     "relatedInvoices.status": "Status",
-    "relatedInvoices.vendorName": "Nome do fornecedor"
+    "relatedInvoices.vendorName": "Nome do fornecedor",
+    "settings.approvals": "Aprovações",
+    "settings.approvals.isApprovalRequired": "\"Aprovação necessária\" para abrir pedidos"
 }
