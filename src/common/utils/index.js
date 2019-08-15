@@ -11,4 +11,5 @@ export * from './handleFilterChange';
 export * from './getSettingsList';
 export * from './getAddresses';
 export * from './getAddressOptions';
+export * from './getOrderApprovalsSetting';
 export { default as getCreateInventorySetting } from './getCreateInventorySetting';

@@ -27,6 +27,7 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 
 import {
   getAddresses,
+  getOrderApprovalsSetting,
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import { LayerPO } from '../LayerCollection';
@@ -56,7 +57,6 @@ import {
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 
 import css from './PO.css';
-import { getOrderApprovalsSetting } from '../../common/utils/getOrderApprovalsSetting';
 
 class PO extends Component {
   static manifest = Object.freeze({
@@ -215,7 +215,7 @@ class PO extends Component {
       await updateOrderResource(order, mutator.order, { approved: true });
       showToast('ui-orders.order.approved.success', 'success', { orderNumber });
     } catch (e) {
-      await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
+      await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
     }
   };
 
@@ -229,7 +229,7 @@ class PO extends Component {
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
     } catch (e) {
-      await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
+      await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
     } finally {
       this.toggleOpenOrderModal();
     }
@@ -293,7 +293,7 @@ class PO extends Component {
     this.setState({ updateOrderError: null });
   };
 
-  openOrderErrorModalShow = (errors) => {
+  orderErrorModalShow = (errors) => {
     this.setState(() => ({ updateOrderError: errors }));
   };
 
