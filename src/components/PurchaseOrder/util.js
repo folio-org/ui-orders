@@ -20,6 +20,12 @@ const isWorkflowStatusNotPending = (order) => {
   return workflowStatus !== WORKFLOW_STATUS.pending;
 };
 
+const isWorkflowStatusIsPending = (order) => {
+  const { workflowStatus } = order;
+
+  return workflowStatus === WORKFLOW_STATUS.pending;
+};
+
 export const isWorkflowStatusOpen = (order) => {
   const { workflowStatus } = order;
 
@@ -41,6 +47,12 @@ export const isReceiveAvailableForOrder = (order = {}) => {
   const hasLineItemsToReceive = some(compositePoLines, isLineAbleToBeReceived);
 
   return hasLineItemsToReceive && isWorkflowStatusNotPending(order);
+};
+
+export const isOpenAvailableForOrder = (isApprovalRequired, order = {}) => {
+  const { approved, compositePoLines = [] } = order;
+
+  return isWorkflowStatusIsPending(order) && compositePoLines.length > 0 && (approved || !isApprovalRequired);
 };
 
 const EMPTY_OPTION = {

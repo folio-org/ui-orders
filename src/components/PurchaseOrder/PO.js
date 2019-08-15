@@ -50,6 +50,7 @@ import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
 import {
+  isOpenAvailableForOrder,
   isReceiveAvailableForOrder,
 } from './util';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
@@ -212,10 +213,9 @@ class PO extends Component {
 
     try {
       await updateOrderResource(order, mutator.order, { approved: true });
+      showToast('ui-orders.order.approved.success', 'success', { orderNumber });
     } catch (error) {
       await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
-    } finally {
-      showToast('ui-orders.order.approved.success', 'success', { orderNumber });
     }
   };
 
@@ -331,16 +331,14 @@ class PO extends Component {
       stripes,
     } = this.props;
     const order = this.getOrder();
+    const { isApprovalRequired } = getOrderApprovalsSetting(get(parentResources, 'approvalsSetting.records', {}));
     const isApproved = get(order, 'approved');
-    const approvalsSetting = getOrderApprovalsSetting(get(parentResources, 'approvalsSetting.records', {}));
-    const { isApprovalRequired } = approvalsSetting;
     const closingReasons = get(parentResources, 'closingReasons.records', []);
     const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
-    const workflowIsPending = workflowStatus === WORKFLOW_STATUS.pending;
-    const isOpenOrderButtonVisible = workflowIsPending && poLines.length > 0 && (isApproved || !isApprovalRequired);
+    const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
 
