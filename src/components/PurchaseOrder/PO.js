@@ -206,15 +206,15 @@ class PO extends Component {
     this.unmountCloseOrderModal();
   };
 
-  approveOrder = async (e) => {
-    const { showToast, mutator, resources } = this.props;
-    const order = get(resources, ['order', 'records', 0]);
+  approveOrder = async () => {
+    const { showToast, mutator } = this.props;
+    const order = this.getOrder();
     const orderNumber = get(order, 'poNumber', '');
 
     try {
       await updateOrderResource(order, mutator.order, { approved: true });
       showToast('ui-orders.order.approved.success', 'success', { orderNumber });
-    } catch (error) {
+    } catch (e) {
       await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
     }
   };
@@ -339,6 +339,7 @@ class PO extends Component {
     const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
     const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
+    const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
 
@@ -424,7 +425,7 @@ class PO extends Component {
 
           <IfPermission perm="orders.item.put">
             <IfPermission perm="orders.item.approve">
-              {isApprovalRequired && !isApproved && (
+              {isApproveOrderButtonVisible && (
                 <div className={css.buttonWrapper}>
                   <Button
                     buttonStyle="default"
