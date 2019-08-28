@@ -220,6 +220,7 @@ class PO extends Component {
     };
 
     updateOrderResource(order, mutator.order, closeOrderProps);
+    this.loadOrder();
     this.unmountCloseOrderModal();
   };
 
@@ -230,6 +231,7 @@ class PO extends Component {
 
     try {
       await updateOrderResource(order, mutator.order, { approved: true });
+      this.loadOrder();
       showToast('ui-orders.order.approved.success', 'success', { orderNumber });
     } catch (e) {
       await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
@@ -245,6 +247,7 @@ class PO extends Component {
 
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
+      this.loadOrder();
     } catch (e) {
       await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
     } finally {
