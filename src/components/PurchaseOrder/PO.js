@@ -60,7 +60,11 @@ import css from './PO.css';
 
 class PO extends Component {
   static manifest = Object.freeze({
-    order: ORDER,
+    order: {
+      ...ORDER,
+      fetch: false,
+      accumulate: true,
+    },
     linesLimit: LINES_LIMIT,
   });
 
@@ -103,6 +107,19 @@ class PO extends Component {
       showConfirmDelete: false,
     };
     this.transitionToParams = transitionToParams.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadOrder();
+  }
+
+  componentDidUpdate(prevProps) {
+    const orderId = get(this.props, ['match', 'params', 'id']);
+    const prevOrderId = get(prevProps, ['match', 'params', 'id']);
+
+    if (orderId !== prevOrderId) {
+      this.loadOrder();
+    }
   }
 
   deletePO = () => {
@@ -315,6 +332,13 @@ class PO extends Component {
   mountDeleteOrderConfirm = () => this.setState({ showConfirmDelete: true });
 
   unmountDeleteOrderConfirm = () => this.setState({ showConfirmDelete: false });
+
+  loadOrder = () => {
+    const { showToast, mutator } = this.props;
+
+    mutator.order.reset();
+    mutator.order.GET().catch(() => showToast('ui-orders.errors.orderUnitsNotFound', 'error'));
+  };
 
   render() {
     const {
