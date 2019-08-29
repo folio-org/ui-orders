@@ -347,7 +347,7 @@
   "eresource.expectedActivation": "Expected Activation",
   "eresource.trial": "Trial",
   "eresource.userLimit": "User Limit",
-  "errors.orderUnitsNotFound": "Units not found.",
+  "errors.orderNotLoaded": "Purchase Order was not loaded.",
   "errors.accessProviderIsInactive": "POL {poLineNumber} is using an Access Provider that is inactive or has been removed, please select an active Access Provider to continue.",
   "errors.accessProviderNotFound": "POL {poLineNumber} is using an Access Provider that is inactive or has been removed, please select an active Access Provider to continue.",
   "errors.costQtyPhysicalExceedsLoc": "Cost's physical quantity exceeds locations' physical quantity",

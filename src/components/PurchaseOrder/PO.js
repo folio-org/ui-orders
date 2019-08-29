@@ -60,11 +60,7 @@ import css from './PO.css';
 
 class PO extends Component {
   static manifest = Object.freeze({
-    order: {
-      ...ORDER,
-      fetch: false,
-      accumulate: true,
-    },
+    order: ORDER,
     linesLimit: LINES_LIMIT,
   });
 
@@ -107,19 +103,7 @@ class PO extends Component {
       showConfirmDelete: false,
     };
     this.transitionToParams = transitionToParams.bind(this);
-  }
-
-  componentDidMount() {
-    this.loadOrder();
-  }
-
-  componentDidUpdate(prevProps) {
-    const orderId = get(this.props, ['match', 'params', 'id']);
-    const prevOrderId = get(prevProps, ['match', 'params', 'id']);
-
-    if (orderId !== prevOrderId) {
-      this.loadOrder();
-    }
+    this.hasError = false;
   }
 
   deletePO = () => {
@@ -336,13 +320,6 @@ class PO extends Component {
 
   unmountDeleteOrderConfirm = () => this.setState({ showConfirmDelete: false });
 
-  loadOrder = () => {
-    const { showToast, mutator } = this.props;
-
-    mutator.order.reset();
-    mutator.order.GET().catch(() => showToast('ui-orders.errors.orderUnitsNotFound', 'error'));
-  };
-
   render() {
     const {
       connectedSource,
@@ -356,6 +333,8 @@ class PO extends Component {
       parentMutator,
       parentResources,
       stripes,
+      resources,
+      showToast,
     } = this.props;
     const order = this.getOrder();
     const { isApprovalRequired } = getOrderApprovalsSetting(get(parentResources, 'approvalsSetting.records', {}));
@@ -369,6 +348,7 @@ class PO extends Component {
     const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
+    const hasError = get(resources, ['order', 'failed']);
 
     const lastMenu = (
       <PaneMenu>
@@ -389,7 +369,13 @@ class PO extends Component {
       </PaneMenu>
     );
 
-    if (!order) {
+    if (hasError && !this.hasError) {
+      showToast('ui-orders.errors.orderNotLoaded', 'error');
+    }
+
+    this.hasError = hasError;
+
+    if (!order || hasError) {
       return (
         <Pane
           defaultWidth="fill"
