@@ -13,7 +13,6 @@ import {
 import {
   ADDRESSES,
   CONTRIBUTOR_NAME_TYPES,
-  FUND,
   IDENTIFIER_TYPES,
   LOCATIONS,
   MATERIAL_TYPES,
@@ -27,7 +26,6 @@ import OrderTemplateView from './OrderTemplateView';
 class OrderTemplateViewContainer extends Component {
   static manifest = Object.freeze({
     addresses: ADDRESSES,
-    funds: FUND,
     identifierTypes: IDENTIFIER_TYPES,
     contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
     locations: LOCATIONS,

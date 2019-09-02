@@ -14,6 +14,9 @@ import {
   Button,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import {
+  FundDistributionFields,
+} from '@folio/stripes-acq-components';
 
 import {
   ORDER_TEMPLATES_ACCORDION,
@@ -37,11 +40,11 @@ import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
 import POLineDetailsForm from './POLineDetailsForm';
 import POLineVendorForm from './POLineVendorForm';
-import POLineFundDistributionForm from './POLineFundDistributionForm';
 import POLineEresourcesForm from './POLineEresourcesForm';
 import POLinePhysicalForm from './POLinePhysicalForm';
 import POLineOtherResourcesForm from './POLineOtherResourcesForm';
 import POLineLocationsForm from './POLineLocationsForm';
+import calculateEstimatedPrice from '../../../components/POLine/calculateEstimatedPrice';
 
 const ORDER = {};
 
@@ -57,7 +60,6 @@ class OrderTemplatesEditor extends Component {
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
     locations: PropTypes.arrayOf(PropTypes.object),
-    funds: PropTypes.arrayOf(PropTypes.object),
     createInventorySetting: PropTypes.object,
     prefixesSetting: PropTypes.arrayOf(PropTypes.object),
     suffixesSetting: PropTypes.arrayOf(PropTypes.object),
@@ -134,7 +136,6 @@ class OrderTemplatesEditor extends Component {
       suffixesSetting,
       addresses,
       vendors,
-      funds,
       locations,
       materialTypes,
       handleSubmit,
@@ -146,6 +147,7 @@ class OrderTemplatesEditor extends Component {
     } = this.props;
     const { sections } = this.state;
     const orderFormat = formValues.orderFormat;
+    const estimatedPrice = calculateEstimatedPrice(formValues);
 
     return (
       <Layer
@@ -281,9 +283,10 @@ class OrderTemplatesEditor extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
                   >
-                    <POLineFundDistributionForm
+                    <FundDistributionFields
                       formValues={formValues}
-                      funds={funds}
+                      name="fundDistribution"
+                      totalAmount={estimatedPrice}
                     />
                   </Accordion>
 

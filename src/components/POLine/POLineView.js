@@ -20,6 +20,8 @@ import {
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
+import { FundDistributionView } from '@folio/stripes-acq-components';
+
 import {
   isCheckInAvailableForLine,
   isReceiveAvailableForLine,
@@ -30,7 +32,6 @@ import LocationView from './Location/LocationView';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
 import VendorView from './Vendor/VendorView';
-import FundDistributionView from './FundDistribution/FundDistributionView';
 import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
@@ -51,7 +52,6 @@ class POLineView extends Component {
     line: PropTypes.object,
     materialTypes: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
-    funds: PropTypes.arrayOf(PropTypes.object),
     receivingURL: PropTypes.string.isRequired,
     checkinURL: PropTypes.string.isRequired,
     onClose: PropTypes.func,
@@ -67,7 +67,6 @@ class POLineView extends Component {
     locations: [],
     materialTypes: [],
     vendors: [],
-    funds: [],
     editable: true,
     identifierTypes: [],
     contributorNameTypes: [],
@@ -191,7 +190,6 @@ class POLineView extends Component {
       materialTypes,
       locations,
       vendors,
-      funds,
       editable,
       deleteLine,
       identifierTypes,
@@ -242,6 +240,8 @@ class POLineView extends Component {
     const isWorkflowStatusOpen = order.workflowStatus === WORKFLOW_STATUS.open;
     const checkInLocation = isWorkflowStatusOpen ? `${checkinURL}/items` : `${checkinURL}/history`;
     const receivingLocation = isWorkflowStatusOpen ? receivingURL : `${receivingURL}-history`;
+    const estimatedPrice = get(line, ['cost', 'poLineEstimatedPrice'], 0);
+    const fundDistributions = get(line, ['fundDistribution'], []);
 
     const metadata = get(line, 'metadata');
 
@@ -334,8 +334,8 @@ class POLineView extends Component {
             id="FundDistribution"
           >
             <FundDistributionView
-              line={line}
-              funds={funds}
+              fundDistributions={fundDistributions}
+              totalAmount={estimatedPrice}
             />
           </Accordion>
           {showEresources && (

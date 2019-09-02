@@ -1,5 +1,4 @@
 export { default as FieldsLocation } from './FieldsLocation';
-export { default as FieldsFundDistribution } from './FieldsFundDistribution';
 export { default as FieldMaterialType } from './FieldMaterialType';
 
 // details

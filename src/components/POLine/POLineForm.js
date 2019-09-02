@@ -21,7 +21,10 @@ import {
   Row,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
-import { FieldSelection } from '@folio/stripes-acq-components';
+import {
+  FieldSelection,
+  FundDistributionFields,
+} from '@folio/stripes-acq-components';
 
 import {
   isEresource,
@@ -34,7 +37,6 @@ import { PhysicalForm } from './Physical';
 import { POLineDetailsForm } from './POLineDetails';
 import { VendorForm } from './Vendor';
 import { CostForm } from './Cost';
-import { FundDistributionForm } from './FundDistribution';
 import { ItemForm } from './Item';
 import { OtherForm } from './Other';
 import {
@@ -42,11 +44,12 @@ import {
   MAP_FIELD_ACCORDION,
 } from './const';
 import getVendorsForSelect from '../Utils/getVendorsForSelect';
-import getFundsForSelect from '../Utils/getFundsForSelect';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
+import { isWorkflowStatusOpen } from '../PurchaseOrder/util';
+import calculateEstimatedPrice from './calculateEstimatedPrice';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -211,11 +214,12 @@ class POLineForm extends Component {
     const showPhresources = isFresource(orderFormat);
     const showOther = isOtherResource(orderFormat);
     const vendors = getVendorsForSelect(parentResources);
-    const funds = getFundsForSelect(parentResources);
     const materialTypes = getMaterialTypesForSelect(parentResources);
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
+    const isOpenedOrder = isWorkflowStatusOpen(order);
+    const estimatedPrice = calculateEstimatedPrice(formValues);
     const {
       accounts,
       vendorCurrencies,
@@ -314,10 +318,11 @@ class POLineForm extends Component {
                       label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
                       id={ACCORDION_ID.fundDistribution}
                     >
-                      <FundDistributionForm
+                      <FundDistributionFields
                         formValues={formValues}
-                        funds={funds}
-                        order={order}
+                        name="fundDistribution"
+                        disabled={isOpenedOrder}
+                        totalAmount={estimatedPrice}
                       />
                     </Accordion>
                     {showEresources && (

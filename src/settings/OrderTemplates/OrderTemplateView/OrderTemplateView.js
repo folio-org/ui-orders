@@ -17,6 +17,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import { FundDistributionView } from '@folio/stripes-acq-components';
+
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
 import { SummaryView } from '../../../components/PurchaseOrder/Summary';
 import { RenewalsView } from '../../../components/PurchaseOrder/renewals';
@@ -24,7 +26,6 @@ import { ItemView } from '../../../components/POLine/Item';
 import { POLineDetails } from '../../../components/POLine/POLineDetails';
 import { CostView } from '../../../components/POLine/Cost';
 import { VendorView } from '../../../components/POLine/Vendor';
-import { FundDistributionView } from '../../../components/POLine/FundDistribution';
 import { EresourcesView } from '../../../components/POLine/Eresources';
 import { PhysicalView } from '../../../components/POLine/Physical';
 import { OtherView } from '../../../components/POLine/Other';
@@ -48,7 +49,6 @@ class OrderTemplateView extends Component {
     template: PropTypes.object,
     rootPath: PropTypes.string,
     addresses: PropTypes.arrayOf(PropTypes.object),
-    funds: PropTypes.arrayOf(PropTypes.object),
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     locations: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object),
@@ -59,7 +59,6 @@ class OrderTemplateView extends Component {
 
   static defaultProps = {
     addresses: [],
-    funds: [],
     identifierTypes: [],
     locations: [],
     materialTypes: [],
@@ -152,7 +151,6 @@ class OrderTemplateView extends Component {
       close,
       template,
       addresses,
-      funds,
       identifierTypes,
       locations,
       materialTypes,
@@ -170,6 +168,9 @@ class OrderTemplateView extends Component {
     const orderType = get(orderTemplate, 'orderType');
     const vendor = vendors.find(d => d.id === orderTemplate.vendor);
     const assignedTo = users.find(d => d.id === orderTemplate.assignedTo);
+
+    const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
+    const fundDistributions = get(orderTemplate, ['fundDistribution'], []);
 
     orderTemplate.vendorName = get(vendor, 'name');
     orderTemplate.assignedToUser = assignedTo && assignedTo.personal
@@ -281,8 +282,8 @@ class OrderTemplateView extends Component {
                   id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
                 >
                   <FundDistributionView
-                    line={orderTemplate}
-                    funds={funds}
+                    fundDistributions={fundDistributions}
+                    totalAmount={estimatedPrice}
                   />
                 </Accordion>
 
