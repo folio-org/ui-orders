@@ -729,5 +729,6 @@
     "settings.approvals.isApprovalRequired": "\"Aprovação necessária\" para abrir pedidos",
     "order.approved.success": "O <b>pedido de compra - {orderNumber}</b> foi <b>aprovado com sucesso</b>",
     "orderDetails.approvalDate": "Data de aprovação",
-    "paneBlock.approveBtn": "Aprovar"
+    "paneBlock.approveBtn": "Aprovar",
+    "errors.orderNotLoaded": "O pedido de compra não foi carregado."
 }
