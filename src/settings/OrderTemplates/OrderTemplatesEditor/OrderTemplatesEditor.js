@@ -287,6 +287,7 @@ class OrderTemplatesEditor extends Component {
                       formValues={formValues}
                       name="fundDistribution"
                       totalAmount={estimatedPrice}
+                      required={false}
                     />
                   </Accordion>
 
