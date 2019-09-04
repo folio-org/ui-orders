@@ -170,7 +170,7 @@ class OrderTemplateView extends Component {
     const assignedTo = users.find(d => d.id === orderTemplate.assignedTo);
 
     const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
-    const fundDistributions = get(orderTemplate, ['fundDistribution'], []);
+    const fundDistributions = get(orderTemplate, 'fundDistribution', []);
 
     orderTemplate.vendorName = get(vendor, 'name');
     orderTemplate.assignedToUser = assignedTo && assignedTo.personal

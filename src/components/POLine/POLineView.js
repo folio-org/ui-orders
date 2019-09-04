@@ -241,7 +241,7 @@ class POLineView extends Component {
     const checkInLocation = isWorkflowStatusOpen ? `${checkinURL}/items` : `${checkinURL}/history`;
     const receivingLocation = isWorkflowStatusOpen ? receivingURL : `${receivingURL}-history`;
     const estimatedPrice = get(line, ['cost', 'poLineEstimatedPrice'], 0);
-    const fundDistributions = get(line, ['fundDistribution'], []);
+    const fundDistributions = get(line, 'fundDistribution', []);
 
     const metadata = get(line, 'metadata');
 
