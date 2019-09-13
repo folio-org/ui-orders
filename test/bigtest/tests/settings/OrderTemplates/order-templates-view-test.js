@@ -5,10 +5,6 @@ import setupApplication from '../../../helpers/setup-application';
 import OrderTemplatesList from '../../../interactors/settings/OrderTemplates/OrderTemplatesList';
 import OrderTemplateView from '../../../interactors/settings/OrderTemplates/OrderTemplateView';
 import OrderTemplatesEditor from '../../../interactors/settings/OrderTemplates/OrderTemplatesEditor';
-import {
-  CONFIG_ORDER_TEMPLATES,
-  MODULE_ORDERS,
-} from '../../../../../src/components/Utils/const';
 import ConfirmationModal from '../../../interactors/confirmation';
 
 describe('Order template view', function () {
@@ -17,14 +13,10 @@ describe('Order template view', function () {
   const orderTemplateView = new OrderTemplateView();
   const orderTemplateForm = new OrderTemplatesEditor();
   const orderTemplatesList = new OrderTemplatesList();
+  let template = null;
 
   beforeEach(async function () {
-    const template = this.server.create('configs', {
-      module: MODULE_ORDERS,
-      configName: CONFIG_ORDER_TEMPLATES,
-      enabled: true,
-      value: '{"templateName":"TEST TEMPLATE", "orderFormat":"Other"}',
-    });
+    template = this.server.create('orderTemplate');
 
     this.visit(`/settings/orders/order-templates/${template.id}/view`);
     await orderTemplateView.whenLoaded();
@@ -83,7 +75,7 @@ describe('Order template view', function () {
 
     it('should redirect to edit screen', () => {
       expect(orderTemplateForm.isPresent).to.be.true;
-      expect(orderTemplateForm.title).to.include('TEST TEMPLATE');
+      expect(orderTemplateForm.title).to.include(template.templateName);
     });
   });
 

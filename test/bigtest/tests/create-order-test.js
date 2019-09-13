@@ -24,11 +24,9 @@ describe('Create order', function () {
       enabled: true,
       value: '{"selectedItems":["SS"],"suffixes":["SS1","SS2","SS"]}',
     });
-    this.server.create('configs', {
-      module: MODULE_ORDERS,
-      configName: CONFIG_ORDER_TEMPLATES,
-      enabled: true,
-      value: '{"templateName": "Test Template","templateCode": "TT","orderType":"One-Time"}',
+    this.server.create('orderTemplate', {
+      orderType: 'One-Time',
+      templateCode: 'TT',
     });
     this.visit('/orders?layer=create');
     await form.whenLoaded();

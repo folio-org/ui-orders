@@ -14,6 +14,8 @@ import {
   ORDER_DETAIL_API,
   ORDER_INVOICE_RELNS_API,
   ORDER_PIECES_API,
+  ORDER_TEMPLATES_API,
+  ORDER_TEMPLATE_DETAIL_API,
   RECEIVE_API,
   RECEIVING_API,
   USERS_API,
@@ -235,18 +237,13 @@ export const SUFFIXES_SETTING = {
 
 export const ORDER_TEMPLATES = {
   ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
-  GET: {
-    params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_TEMPLATES})`,
-    },
-  },
+  path: ORDER_TEMPLATES_API,
+  records: 'orderTemplates',
 };
 
 export const ORDER_TEMPLATE = {
   ...BASE_RESOURCE,
-  path: `${CONFIG_API}/:{id}`,
+  path: ORDER_TEMPLATE_DETAIL_API,
 };
 
 export const ORDER_INVOICES = {

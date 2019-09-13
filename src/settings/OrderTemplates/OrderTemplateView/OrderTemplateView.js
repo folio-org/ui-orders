@@ -159,21 +159,20 @@ class OrderTemplateView extends Component {
       contributorNameTypes,
     } = this.props;
     const { sections, showConfirmDelete } = this.state;
-    const orderTemplate = get(template, 'orderTemplate', {});
-    const title = get(template, 'title', '');
-    const orderFormat = get(orderTemplate, 'orderFormat');
+    const title = get(template, 'templateName', '');
+    const orderFormat = get(template, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const showOther = orderFormat === OTHER;
-    const orderType = get(orderTemplate, 'orderType');
-    const vendor = vendors.find(d => d.id === orderTemplate.vendor);
-    const assignedTo = users.find(d => d.id === orderTemplate.assignedTo);
+    const orderType = get(template, 'orderType');
+    const vendor = vendors.find(d => d.id === template.vendor);
+    const assignedTo = users.find(d => d.id === template.assignedTo);
 
-    const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
-    const fundDistributions = get(orderTemplate, 'fundDistribution', []);
+    const estimatedPrice = get(template, ['cost', 'poLineEstimatedPrice'], 0);
+    const fundDistributions = get(template, 'fundDistribution', []);
 
-    orderTemplate.vendorName = get(vendor, 'name');
-    orderTemplate.assignedToUser = assignedTo && assignedTo.personal
+    template.vendorName = get(vendor, 'name');
+    template.assignedToUser = assignedTo && assignedTo.personal
       ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
       : '';
 
@@ -215,7 +214,7 @@ class OrderTemplateView extends Component {
                   id={ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO}
                 >
                   <TemplateInformationView
-                    orderTemplate={orderTemplate}
+                    orderTemplate={template}
                   />
                 </Accordion>
 
@@ -225,7 +224,7 @@ class OrderTemplateView extends Component {
                 >
                   <PODetailsView
                     addresses={addresses}
-                    order={orderTemplate}
+                    order={template}
                   />
                 </Accordion>
 
@@ -233,7 +232,7 @@ class OrderTemplateView extends Component {
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]}
                   id={ORDER_TEMPLATES_ACCORDION.PO_SUMMARY}
                 >
-                  <SummaryView order={orderTemplate} />
+                  <SummaryView order={template} />
                 </Accordion>
 
                 {isOngoing(orderType) && (
@@ -241,7 +240,7 @@ class OrderTemplateView extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_RENEWALS}
                   >
-                    <RenewalsView order={orderTemplate} />
+                    <RenewalsView order={template} />
                   </Accordion>
                 )}
 
@@ -250,7 +249,7 @@ class OrderTemplateView extends Component {
                   id={ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS}
                 >
                   <ItemView
-                    poLineDetails={orderTemplate}
+                    poLineDetails={template}
                     identifierTypes={identifierTypes}
                     contributorNameTypes={contributorNameTypes}
                   />
@@ -260,21 +259,21 @@ class OrderTemplateView extends Component {
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DETAILS]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_DETAILS}
                 >
-                  <POLineDetails line={orderTemplate} />
+                  <POLineDetails line={template} />
                 </Accordion>
 
                 <Accordion
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS}
                 >
-                  <CostView cost={orderTemplate.cost} />
+                  <CostView cost={template.cost} />
                 </Accordion>
 
                 <Accordion
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
                 >
-                  <VendorView vendorDetail={orderTemplate.vendorDetail} />
+                  <VendorView vendorDetail={template.vendorDetail} />
                 </Accordion>
 
                 <Accordion
@@ -293,7 +292,7 @@ class OrderTemplateView extends Component {
                     id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
                   >
                     <EresourcesView
-                      line={orderTemplate}
+                      line={template}
                       materialTypes={materialTypes}
                       vendors={vendors}
                     />
@@ -307,7 +306,7 @@ class OrderTemplateView extends Component {
                   >
                     <PhysicalView
                       materialTypes={materialTypes}
-                      physical={orderTemplate.physical}
+                      physical={template.physical}
                       vendors={vendors}
                     />
                   </Accordion>
@@ -320,7 +319,7 @@ class OrderTemplateView extends Component {
                   >
                     <OtherView
                       materialTypes={materialTypes}
-                      physical={orderTemplate.physical}
+                      physical={template.physical}
                       vendors={vendors}
                     />
                   </Accordion>
@@ -331,7 +330,7 @@ class OrderTemplateView extends Component {
                   id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
                 >
                   <LocationView
-                    lineLocations={orderTemplate.locations}
+                    lineLocations={template.locations}
                     locations={locations}
                   />
                 </Accordion>

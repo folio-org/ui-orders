@@ -46,7 +46,7 @@ class OrderTemplatesList extends Component {
               key={template.id}
               to={`${rootPath}/${template.id}/view`}
             >
-              {template.title}
+              {template.templateName}
             </NavListItem>
           ))}
         </NavList>

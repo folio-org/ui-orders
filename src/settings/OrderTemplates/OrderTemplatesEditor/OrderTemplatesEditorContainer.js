@@ -75,22 +75,11 @@ class OrderTemplatesEditorContainer extends Component {
     const { close, mutator: { orderTemplates, orderTemplate }, match, resources } = this.props;
     const id = get(match, ['params', 'id']);
     const mutator = id ? orderTemplate.PUT : orderTemplates.POST;
-    const value = JSON.stringify(values);
-    let orderTemplateBody;
+    let orderTemplateBody = get(resources, ['orderTemplate', 'records', 0], {});
 
-    if (id) {
-      orderTemplateBody = get(resources, ['orderTemplate', 'records', 0], {});
-    } else {
-      orderTemplateBody = {
-        module: MODULE_ORDERS,
-        configName: `${MODULE_ORDERS}.${CONFIG_ORDER_TEMPLATES}`,
-        code: (new Date()).valueOf(),
-      };
-    }
+    orderTemplateBody = { ...values };
 
-    orderTemplateBody = { ...orderTemplateBody, value };
-
-    mutator(orderTemplateBody).then(close);
+    mutator(values).then(close);
   };
 
   render() {
@@ -107,12 +96,12 @@ class OrderTemplatesEditorContainer extends Component {
     const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
     const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
     const materialTypes = getMaterialTypesForSelect(resources);
-    const orderTemplate = getOrderTemplatesList(get(resources, 'orderTemplate.records', []));
+    const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
     const id = get(match, ['params', 'id']);
     const template = id
-      ? get(orderTemplate, 0, {})
+      ? { orderTemplate }
       : { orderTemplate: INITIAL_VALUES };
-    const title = get(template, 'title') || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
+    const title = get(template, ['orderTemplate', 'templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
     return (
       <OrderTemplatesEditor
