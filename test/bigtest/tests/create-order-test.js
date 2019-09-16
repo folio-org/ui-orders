@@ -6,7 +6,6 @@ import OrdersInteractor from '../interactors/orders';
 import OrderEditPage from '../interactors/order-edit-page';
 // import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 import {
-  CONFIG_ORDER_TEMPLATES,
   CONFIG_SUFFIXES,
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';

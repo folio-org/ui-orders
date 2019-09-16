@@ -13,7 +13,8 @@ import {
   ORDER_INVOICE_RELNS_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
-  ORDER_PIECES_API, ORDER_TEMPLATE_DETAIL_API, ORDER_TEMPLATES_API,
+  ORDER_PIECES_API,
+  ORDER_TEMPLATES_API,
   ORDERS_API,
   RECEIVE_API,
   RECEIVING_API,
@@ -23,7 +24,6 @@ import {
   CONFIG_CLOSING_REASONS,
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';
-import { BUDGETS_API } from '../../../../ui-finance/src/common/const';
 
 export default function config() {
   this.get(ORDERS_API, (schema) => {

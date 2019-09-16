@@ -22,10 +22,6 @@ import {
   ORDER_TEMPLATE,
   CONTRIBUTOR_NAME_TYPES,
 } from '../../../components/Utils/resources';
-import {
-  MODULE_ORDERS,
-  CONFIG_ORDER_TEMPLATES,
-} from '../../../components/Utils/const';
 import getIdentifierTypesForSelect from '../../../components/Utils/getIdentifierTypesForSelect';
 import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 import getFundsForSelect from '../../../components/Utils/getFundsForSelect';
@@ -39,7 +35,6 @@ import {
   getVendorOptions,
 } from '../../../common/utils';
 
-import { getOrderTemplatesList } from '../util';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 const INITIAL_VALUES = {};
@@ -72,12 +67,9 @@ class OrderTemplatesEditorContainer extends Component {
   };
 
   saveOrderTemplate = (values) => {
-    const { close, mutator: { orderTemplates, orderTemplate }, match, resources } = this.props;
+    const { close, mutator: { orderTemplates, orderTemplate }, match } = this.props;
     const id = get(match, ['params', 'id']);
     const mutator = id ? orderTemplate.PUT : orderTemplates.POST;
-    let orderTemplateBody = get(resources, ['orderTemplate', 'records', 0], {});
-
-    orderTemplateBody = { ...values };
 
     mutator(values).then(close);
   };
