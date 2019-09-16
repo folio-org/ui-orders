@@ -200,4 +200,6 @@ export default function config() {
 
     return schema.orderTemplates.create(attrs);
   });
+
+  this.delete(`${ORDER_TEMPLATES_API}/:id`, 'orderTemplates');
 }
