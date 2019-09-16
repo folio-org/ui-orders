@@ -46,7 +46,7 @@ class OrderTemplateView extends Component {
   static propTypes = {
     close: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    template: PropTypes.object,
+    orderTemplate: PropTypes.object,
     rootPath: PropTypes.string,
     addresses: PropTypes.arrayOf(PropTypes.object),
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
@@ -62,7 +62,7 @@ class OrderTemplateView extends Component {
     identifierTypes: [],
     locations: [],
     materialTypes: [],
-    template: {},
+    orderTemplate: {},
     vendors: [],
     users: [],
     contributorNameTypes: [],
@@ -116,8 +116,8 @@ class OrderTemplateView extends Component {
   hideConfirmDelete = () => this.setState({ showConfirmDelete: false });
 
   getActionMenu = ({ onToggle }) => {
-    const { rootPath, template } = this.props;
-    const id = get(template, 'id');
+    const { rootPath, orderTemplate } = this.props;
+    const id = get(orderTemplate, 'id');
 
     return (
       <div data-test-view-order-template-actions>
@@ -149,7 +149,7 @@ class OrderTemplateView extends Component {
   render() {
     const {
       close,
-      template,
+      orderTemplate,
       addresses,
       identifierTypes,
       locations,
@@ -159,20 +159,20 @@ class OrderTemplateView extends Component {
       contributorNameTypes,
     } = this.props;
     const { sections, showConfirmDelete } = this.state;
-    const title = get(template, 'templateName', '');
-    const orderFormat = get(template, 'orderFormat');
+    const title = get(orderTemplate, 'templateName', '');
+    const orderFormat = get(orderTemplate, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const showOther = orderFormat === OTHER;
-    const orderType = get(template, 'orderType');
-    const vendor = vendors.find(d => d.id === template.vendor);
-    const assignedTo = users.find(d => d.id === template.assignedTo);
+    const orderType = get(orderTemplate, 'orderType');
+    const vendor = vendors.find(d => d.id === orderTemplate.vendor);
+    const assignedTo = users.find(d => d.id === orderTemplate.assignedTo);
 
-    const estimatedPrice = get(template, ['cost', 'poLineEstimatedPrice'], 0);
-    const fundDistributions = get(template, 'fundDistribution', []);
+    const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
+    const fundDistributions = get(orderTemplate, 'fundDistribution', []);
 
-    template.vendorName = get(vendor, 'name');
-    template.assignedToUser = assignedTo && assignedTo.personal
+    orderTemplate.vendorName = get(vendor, 'name');
+    orderTemplate.assignedToUser = assignedTo && assignedTo.personal
       ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
       : '';
 
@@ -214,7 +214,7 @@ class OrderTemplateView extends Component {
                   id={ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO}
                 >
                   <TemplateInformationView
-                    orderTemplate={template}
+                    orderTemplate={orderTemplate}
                   />
                 </Accordion>
 
@@ -224,7 +224,7 @@ class OrderTemplateView extends Component {
                 >
                   <PODetailsView
                     addresses={addresses}
-                    order={template}
+                    order={orderTemplate}
                   />
                 </Accordion>
 
@@ -232,7 +232,7 @@ class OrderTemplateView extends Component {
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]}
                   id={ORDER_TEMPLATES_ACCORDION.PO_SUMMARY}
                 >
-                  <SummaryView order={template} />
+                  <SummaryView order={orderTemplate} />
                 </Accordion>
 
                 {isOngoing(orderType) && (
@@ -240,7 +240,7 @@ class OrderTemplateView extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_RENEWALS}
                   >
-                    <RenewalsView order={template} />
+                    <RenewalsView order={orderTemplate} />
                   </Accordion>
                 )}
 
@@ -249,7 +249,7 @@ class OrderTemplateView extends Component {
                   id={ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS}
                 >
                   <ItemView
-                    poLineDetails={template}
+                    poLineDetails={orderTemplate}
                     identifierTypes={identifierTypes}
                     contributorNameTypes={contributorNameTypes}
                   />
@@ -259,21 +259,21 @@ class OrderTemplateView extends Component {
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DETAILS]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_DETAILS}
                 >
-                  <POLineDetails line={template} />
+                  <POLineDetails line={orderTemplate} />
                 </Accordion>
 
                 <Accordion
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS}
                 >
-                  <CostView cost={template.cost} />
+                  <CostView cost={orderTemplate.cost} />
                 </Accordion>
 
                 <Accordion
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
                 >
-                  <VendorView vendorDetail={template.vendorDetail} />
+                  <VendorView vendorDetail={orderTemplate.vendorDetail} />
                 </Accordion>
 
                 <Accordion
@@ -292,7 +292,7 @@ class OrderTemplateView extends Component {
                     id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
                   >
                     <EresourcesView
-                      line={template}
+                      line={orderTemplate}
                       materialTypes={materialTypes}
                       vendors={vendors}
                     />
@@ -306,7 +306,7 @@ class OrderTemplateView extends Component {
                   >
                     <PhysicalView
                       materialTypes={materialTypes}
-                      physical={template.physical}
+                      physical={orderTemplate.physical}
                       vendors={vendors}
                     />
                   </Accordion>
@@ -319,7 +319,7 @@ class OrderTemplateView extends Component {
                   >
                     <OtherView
                       materialTypes={materialTypes}
-                      physical={template.physical}
+                      physical={orderTemplate.physical}
                       vendors={vendors}
                     />
                   </Accordion>
@@ -330,7 +330,7 @@ class OrderTemplateView extends Component {
                   id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
                 >
                   <LocationView
-                    lineLocations={template.locations}
+                    lineLocations={orderTemplate.locations}
                     locations={locations}
                   />
                 </Accordion>

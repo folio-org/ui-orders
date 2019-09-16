@@ -75,7 +75,7 @@ class OrderTemplatesEditorContainer extends Component {
   };
 
   render() {
-    const { close, resources, match, stripes } = this.props;
+    const { close, resources, stripes } = this.props;
     const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
 
     const locations = getLocationsForSelect(resources);
@@ -88,12 +88,8 @@ class OrderTemplatesEditorContainer extends Component {
     const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
     const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
     const materialTypes = getMaterialTypesForSelect(resources);
-    const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
-    const id = get(match, ['params', 'id']);
-    const template = id
-      ? { orderTemplate }
-      : { orderTemplate: INITIAL_VALUES };
-    const title = get(template, ['orderTemplate', 'templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
+    const orderTemplate = get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES);
+    const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
     return (
       <OrderTemplatesEditor
@@ -101,7 +97,7 @@ class OrderTemplatesEditorContainer extends Component {
         onSubmit={this.saveOrderTemplate}
         close={close}
         funds={funds}
-        initialValues={template.orderTemplate}
+        initialValues={orderTemplate}
         identifierTypes={identifierTypes}
         locations={locations}
         createInventorySetting={createInventorySetting}

@@ -85,7 +85,7 @@ class OrderTemplateViewContainer extends Component {
           materialTypes={materialTypes}
           onDelete={this.onDeleteOrderTemplate}
           rootPath={rootPath}
-          template={orderTemplate}
+          orderTemplate={orderTemplate}
           vendors={vendors}
           users={users}
           contributorNameTypes={contributorNameTypes}

@@ -238,6 +238,11 @@ export const ORDER_TEMPLATES = {
   ...BASE_RESOURCE,
   path: ORDER_TEMPLATES_API,
   records: 'orderTemplates',
+  GET: {
+    params: {
+      query: 'cql.allRecords=1 sortby templateName',
+    },
+  },
 };
 
 export const ORDER_TEMPLATE = {
