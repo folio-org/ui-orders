@@ -28,10 +28,13 @@ export const checkInstanceIdField = (formValues, inventoryData) => {
 
     return contributor ? isEqual(contributor, el) : false;
   });
-  const isEqualProductIds = inventoryData.productIds.every(el => {
-    const productId = find(get(formValues, 'details.productIds', []), { 'productId': el.productId });
 
-    return productId ? isEqual(productId, el) : false;
+  const formProductIds = get(formValues, 'details.productIds', []);
+
+  const isEqualProductIds = formProductIds.every(item => {
+    const productId = find(inventoryData.productIds, { 'productId': item.productId });
+
+    return productId ? isEqual(productId, item) : false;
   });
 
   return (
