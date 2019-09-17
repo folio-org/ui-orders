@@ -6,19 +6,21 @@ import {
 } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import moment from 'moment';
 
 import { stripesConnect, stripesShape } from '@folio/stripes/core';
 import { Callout } from '@folio/stripes/components';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
-import { changeSearchIndex, showToast } from '@folio/stripes-acq-components';
+import {
+  changeSearchIndex,
+  FolioFormattedDate,
+  showToast,
+} from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
 import OrdersNavigation from '../common/OrdersNavigation';
 import {
   ORDER_LINES_ROUTE,
   LINES_API,
-  DATE_FORMAT,
 } from '../common/constants';
 import {
   getActiveFilters,
@@ -44,11 +46,7 @@ const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
 const visibleColumns = ['poLineNumber', 'updatedDate', 'title', 'productIds', 'vendorRefNumber', 'funCodes'];
 const sortableColumns = ['poLineNumber', 'updatedDate', 'title', 'vendorRefNumber'];
 const resultsFormatter = {
-  updatedDate: line => {
-    const updatedDate = moment.utc(get(line, 'metadata.updatedDate', ''));
-
-    return updatedDate.isValid() ? updatedDate.format(DATE_FORMAT) : '';
-  },
+  updatedDate: line => <FolioFormattedDate value={get(line, 'metadata.updatedDate')} />,
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   vendorRefNumber: line => get(line, 'vendorDetail.refNumber', ''),
 };

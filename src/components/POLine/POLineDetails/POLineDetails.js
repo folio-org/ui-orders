@@ -12,10 +12,11 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { sourceLabels } from '@folio/stripes-acq-components';
-
-import FolioFormattedDate from '../../FolioFormattedDate';
-import FolioFormattedTime from '../../FolioFormattedTime';
+import {
+  FolioFormattedDate,
+  FolioFormattedTime,
+  sourceLabels,
+} from '@folio/stripes-acq-components';
 
 const POLineDetails = ({ line }) => {
   const receiptDate = get(line, 'receiptDate');

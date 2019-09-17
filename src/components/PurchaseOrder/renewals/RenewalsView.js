@@ -10,8 +10,7 @@ import {
   Row,
   KeyValue,
 } from '@folio/stripes/components';
-
-import FolioFormattedDate from '../../FolioFormattedDate';
+import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
 const RenewalsView = ({ order: { renewal = {} } }) => {
   return (

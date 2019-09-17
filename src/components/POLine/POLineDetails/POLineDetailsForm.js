@@ -8,7 +8,10 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { sourceLabels } from '@folio/stripes-acq-components';
+import {
+  FolioFormattedTime,
+  sourceLabels,
+} from '@folio/stripes-acq-components';
 
 import {
   FieldPOLineNumber,
@@ -29,7 +32,6 @@ import {
 } from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
-import FolioFormattedTime from '../../FolioFormattedTime';
 
 class POLineDetailsForm extends Component {
   static propTypes = {

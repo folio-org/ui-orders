@@ -1,24 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 import moment from 'moment';
 
 import {
-  Datepicker,
-} from '@folio/stripes/components';
-
-import {
   DATE_FORMAT,
-  TIMEZONE,
-} from '../../../components/Utils/const';
+  FieldDatepicker,
+} from '@folio/stripes-acq-components';
 
 const FieldActivationDue = ({ created }) => {
   return (
-    <Field
-      backendDateStandard={DATE_FORMAT}
-      component={Datepicker}
-      dateFormat={DATE_FORMAT}
+    <FieldDatepicker
       format={(value) => {
         return Number.isInteger(value)
           ? moment.utc(created).add(value, 'days').format(DATE_FORMAT)
@@ -29,10 +21,8 @@ const FieldActivationDue = ({ created }) => {
           ? moment.utc(value).diff(moment(created), 'days') + 1
           : undefined;
       }}
-      fullWidth
       label={<FormattedMessage id="ui-orders.eresource.activationDue" />}
       name="eresource.activationDue"
-      timeZone={TIMEZONE}
     />
   );
 };

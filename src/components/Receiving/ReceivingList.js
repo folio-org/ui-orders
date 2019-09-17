@@ -21,6 +21,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import { stripesConnect, stripesShape } from '@folio/stripes/core';
+import { FolioFormattedTime } from '@folio/stripes-acq-components';
 
 import { EXTENDED_MUTATOR } from '../Utils/mutators';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
@@ -29,7 +30,6 @@ import {
   RECEIVING_HISTORY,
 } from '../Utils/resources';
 import { LIMIT_MAX } from '../Utils/const';
-import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
 import {
   PIECE_STATUS_RECEIVED,

@@ -12,8 +12,7 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-
-import formatDate from '../../Utils/formatDate';
+import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
 const PhysicalView = ({ materialTypes, physical, vendors }) => {
   const materialSupplierId = get(physical, 'materialSupplier');
@@ -38,7 +37,7 @@ const PhysicalView = ({ materialTypes, physical, vendors }) => {
       >
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
-          value={formatDate(get(physical, 'receiptDue'))}
+          value={<FolioFormattedDate value={get(physical, 'receiptDue')} />}
         />
       </Col>
       <Col
@@ -47,7 +46,7 @@ const PhysicalView = ({ materialTypes, physical, vendors }) => {
       >
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
-          value={formatDate(get(physical, 'expectedReceiptDate'))}
+          value={<FolioFormattedDate value={get(physical, 'expectedReceiptDate')} />}
         />
       </Col>
       <Col

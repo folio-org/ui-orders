@@ -9,9 +9,10 @@ import {
 } from 'lodash';
 
 import { MultiColumnList } from '@folio/stripes/components';
-import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
-
-import FolioFormattedDate from '../../FolioFormattedDate';
+import {
+  AmountWithCurrencyField,
+  FolioFormattedDate,
+} from '@folio/stripes-acq-components';
 
 const visibleColumns = ['invoice', 'invoiceDate', 'vendorName', 'status', 'expendedAmount'];
 const columnMapping = {

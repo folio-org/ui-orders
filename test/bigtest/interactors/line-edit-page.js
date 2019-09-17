@@ -1,9 +1,9 @@
 import {
-  attribute,
   clickable,
   collection,
   fillable,
   interactor,
+  Interactor,
   is,
   isPresent,
   property,
@@ -120,7 +120,8 @@ const ITEM_DETAILS = {
   static defaultScope = ITEM_DETAILS.root;
   toggle = clickable('[class*=defaultCollapseButton---]');
   inputTitle = fillable(ITEM_DETAILS.inputTitle);
-  errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
+  inputTitleError = new Interactor('[class*=titleWrapper---] [class*=feedbackError---]');
+  inputTitleErrorText = text('[class*=titleWrapper---] [class*=feedbackError---]');
   contributorTypes = collection(ContributorType.defaultScope);
   contributorNames = collection(ContributorName.defaultScope);
   contributorName = new ContributorName();
