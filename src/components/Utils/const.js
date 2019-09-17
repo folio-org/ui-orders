@@ -1,5 +1,3 @@
-export const DATE_FORMAT = 'YYYY-MM-DD';
-export const TIMEZONE = 'UTC';
 export const MODULE_ORDERS = 'ORDERS';
 export const MODULE_TENANT = 'TENANT';
 export const CONFIG_CLOSING_REASONS = 'closing-reasons';

@@ -10,7 +10,10 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { AcqUnitsField } from '@folio/stripes-acq-components';
+import {
+  AcqUnitsField,
+  FolioFormattedTime,
+} from '@folio/stripes-acq-components';
 
 import { getAddressOptions, getVendorOptions } from '../../../common/utils';
 import {
@@ -24,7 +27,6 @@ import {
   FieldVendor,
   FieldAssignedTo,
 } from '../../../common/POFields';
-import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldOrderType from './FieldOrderType';
 import { isWorkflowStatusOpen } from '../util';
 

@@ -1,17 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 
-import { TextField } from '@folio/stripes/components';
+import { FieldDatepicker } from '@folio/stripes-acq-components';
 
 const FieldReceiptDate = () => {
   return (
-    <Field
-      component={TextField}
-      fullWidth
+    <FieldDatepicker
       label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
       name="receiptDate"
-      type="date"
     />
   );
 };

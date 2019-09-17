@@ -12,18 +12,16 @@ import {
 
 import {
   Col,
-  Datepicker,
   Row,
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import {
+  FieldDatepicker,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
 import {
-  DATE_FORMAT,
-  TIMEZONE,
-} from '../../Utils/const';
-import {
-  Required,
   validateYear,
 } from '../../Utils/Validate';
 import ContributorForm from './ContributorForm';
@@ -160,7 +158,7 @@ class ItemForm extends Component {
                 name="title"
                 onChange={(e, value) => this.onChangeField(value, 'title')}
                 required={required}
-                validate={required && Required}
+                validate={required && validateRequired}
                 disabled={isOpenedOrder}
               />
               <div className={css.addButton}>
@@ -186,25 +184,15 @@ class ItemForm extends Component {
             />
           </Col>
           <Col xs={6}>
-            <Field
-              backendDateStandard={DATE_FORMAT}
-              component={Datepicker}
-              dateFormat={DATE_FORMAT}
-              fullWidth
+            <FieldDatepicker
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
               name="details.subscriptionFrom"
-              timeZone={TIMEZONE}
             />
           </Col>
           <Col xs={6}>
-            <Field
-              backendDateStandard={DATE_FORMAT}
-              component={Datepicker}
-              dateFormat={DATE_FORMAT}
-              fullWidth
+            <FieldDatepicker
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
               name="details.subscriptionTo"
-              timeZone={TIMEZONE}
               disabled={isOpenedOrder}
             />
           </Col>

@@ -11,12 +11,15 @@ import { get } from 'lodash';
 import { Callout } from '@folio/stripes/components';
 import { stripesConnect, stripesShape } from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
-import { changeSearchIndex, showToast } from '@folio/stripes-acq-components';
+import {
+  changeSearchIndex,
+  FolioFormattedDate,
+  showToast,
+} from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
-import FolioFormattedDate from '../components/FolioFormattedDate';
 import { createOrderResource } from '../components/Utils/orderResource';
 import {
   LINES_API,

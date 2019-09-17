@@ -11,9 +11,10 @@ import {
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import { AcqUnitsView } from '@folio/stripes-acq-components';
-
-import FolioFormattedTime from '../../FolioFormattedTime';
+import {
+  AcqUnitsView,
+  FolioFormattedTime,
+} from '@folio/stripes-acq-components';
 
 import css from './PODetailsView.css';
 
