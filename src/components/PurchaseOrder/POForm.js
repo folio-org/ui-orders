@@ -33,7 +33,7 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
-import { ORGANIZATION_STATUS_ACTIVE } from '../../common/constants';
+import { ORGANIZATION_STATUS_ACTIVE, PO_FORM_NAME } from '../../common/constants';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 const throwError = () => {
@@ -46,7 +46,7 @@ const asyncValidate = (values, dispatchRedux, props) => {
   const { poNumber, numberPrefix = '', numberSuffix = '' } = values;
   const fullOrderNumber = `${numberPrefix}${poNumber}${numberSuffix}`.trim();
   const { parentMutator: { orderNumber: validator }, stripes: { store } } = props;
-  const orderNumberFieldIsDirty = isDirty('FormPO')(store.getState(), ['poNumber']);
+  const orderNumberFieldIsDirty = isDirty(PO_FORM_NAME)(store.getState(), ['poNumber']);
 
   return orderNumberFieldIsDirty && poNumber
     ? validator.POST({ poNumber: fullOrderNumber })
@@ -160,13 +160,13 @@ class POForm extends Component {
 
     dispatch(change('template', value));
 
-    Object.keys(get(form, 'FormPO.registeredFields', {}))
+    Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))
       .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
 
     if (isOngoing(templateValue.orderType)) {
       setTimeout(() => {
         form = get(stripes.store.getState(), 'form', {});
-        Object.keys(get(form, 'FormPO.registeredFields', {}))
+        Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))
           .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
       });
     }
@@ -176,7 +176,7 @@ class POForm extends Component {
     const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
     const { sections } = this.state;
     const generatedNumber = get(parentResources, 'orderNumber.records.0.poNumber');
-    const formValues = getFormValues('FormPO')(stripes.store.getState());
+    const formValues = getFormValues(PO_FORM_NAME)(stripes.store.getState());
     const firstMenu = this.getAddFirstMenu();
     const orderNumber = get(initialValues, 'poNumber', '');
     const paneTitle = initialValues.id
@@ -302,6 +302,6 @@ export default stripesForm({
   asyncBlurFields: ['poNumber'],
   asyncValidate,
   enableReinitialize: true,
-  form: 'FormPO',
+  form: PO_FORM_NAME,
   navigationCheck: true,
 })(POForm);
