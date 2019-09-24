@@ -156,13 +156,20 @@ class POForm extends Component {
   onChangeTemplate = (e, value) => {
     const { change, dispatch, parentResources, stripes } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
-
-    const { form } = stripes.store.getState();
-    const registeredFields = get(form, 'FormPO.registeredFields', {});
+    let form = get(stripes.store.getState(), 'form', {});
 
     dispatch(change('template', value));
-    Object.keys(registeredFields)
+
+    Object.keys(get(form, 'FormPO.registeredFields', {}))
       .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
+
+    if (isOngoing(templateValue.orderType)) {
+      setTimeout(() => {
+        form = get(stripes.store.getState(), 'form', {});
+        Object.keys(get(form, 'FormPO.registeredFields', {}))
+          .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
+      });
+    }
   };
 
   render() {
