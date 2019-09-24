@@ -618,6 +618,7 @@
   "search.physical.volumes": "Volumes",
   "search.poLineNumber": "PO line number",
   "search.poNumber": "PO number",
+  "search.productIdISBN": "ISBN",
   "search.publisher": "Publisher",
   "search.requester": "Requester",
   "search.selector": "Selector",
