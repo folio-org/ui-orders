@@ -17,6 +17,7 @@ import {
 
 import {
   ERESOURCE,
+  OTHER,
   PE_MIX,
   PHYSICAL,
 } from '../POLine/const';
@@ -31,6 +32,7 @@ import CheckInItemsActions from './CheckInItemsActions';
 const ORDER_FORMAT_TO_PIECE_FORMAT = {
   [ERESOURCE]: PIECE_FORMAT.electronic,
   [PHYSICAL]: PIECE_FORMAT.physical,
+  [OTHER]: PIECE_FORMAT.other,
 };
 
 class CheckInItems extends Component {
@@ -178,9 +180,10 @@ class CheckInItems extends Component {
       return null;
     }
 
-    const { orderFormat, id: poLineId, instanceId } = poLine;
+    const { orderFormat, id: poLineId, instanceId, receiptDate } = poLine;
     const initialValuesPiece = {
       ...addPieceInitialValues,
+      receivedDate: receiptDate,
       poLineId,
     };
     const items = this.getItems();

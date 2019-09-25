@@ -306,7 +306,7 @@ describe('Line edit test', function () {
     });
 
     it('Doesn\'t provide any warning message', function () {
-      expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal('');
+      expect(lineEditPage.itemDetailsAccordion.inputTitleError.isPresent).to.be.false;
     });
   });
 
@@ -318,7 +318,7 @@ describe('Line edit test', function () {
     });
 
     it('Provides title warning message in case if tile is empty', function () {
-      expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal(requiredField);
+      expect(lineEditPage.itemDetailsAccordion.inputTitleErrorText).to.be.equal(requiredField);
     });
   });
   describe('Other Resource Details accordion is shown', function () {
@@ -336,7 +336,7 @@ describe('Line edit test', function () {
     });
 
     beforeEach(async function () {
-      await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.all);
+      await lineEditPage.physicalCreateInventory.select('Instance, holding, item');
       await lineEditPage.updateLineButton.click();
     });
 

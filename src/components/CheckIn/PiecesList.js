@@ -6,6 +6,7 @@ import {
   Checkbox,
   MultiColumnList,
 } from '@folio/stripes/components';
+import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
 const VISIBLE_COLUMNS = ['isChecked', 'title', 'piece', 'format', 'supplement', 'poLineNumber', 'comment', 'pieceStatus'];
 
@@ -32,9 +33,10 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
     'poLineNumber': piece => piece.poLineNumber,
     'comment': piece => piece.comment,
     'pieceStatus': piece => piece.receivingStatus,
+    'expectedReceiptDate': piece => <FolioFormattedDate value={piece.receivedDate} />,
     'actions': renderActions,
   };
-  const visibleColumns = renderActions ? [...VISIBLE_COLUMNS, 'actions'] : VISIBLE_COLUMNS;
+  const visibleColumns = renderActions ? [...VISIBLE_COLUMNS, 'expectedReceiptDate', 'actions'] : VISIBLE_COLUMNS;
 
   return (
     <MultiColumnList
@@ -57,18 +59,8 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
         poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
         comment: <FormattedMessage id="ui-orders.checkIn.comment" />,
         pieceStatus: <FormattedMessage id="ui-orders.checkIn.pieceStatus" />,
+        expectedReceiptDate: <FormattedMessage id="ui-orders.checkIn.expectedReceiptDate" />,
         actions: null,
-      }}
-      columnWidths={{
-        isChecked: '2%',
-        title: '30%',
-        piece: '22%',
-        format: '7%',
-        supplement: '8%',
-        poLineNumber: '10%',
-        comment: '10%',
-        pieceStatus: '8%',
-        actions: '2%',
       }}
       onRowClick={undefined}
       isSelected={isSelected}

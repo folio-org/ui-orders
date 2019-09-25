@@ -12,4 +12,5 @@ export default Factory.extend({
   details: {
     productIds: [],
   },
+  receiptDate: faker.date.future(),
 });

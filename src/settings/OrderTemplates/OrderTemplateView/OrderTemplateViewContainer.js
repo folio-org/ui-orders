@@ -20,7 +20,6 @@ import {
   VENDORS,
   USERS,
 } from '../../../components/Utils/resources';
-import { getOrderTemplatesList } from '../util';
 import OrderTemplateView from './OrderTemplateView';
 
 class OrderTemplateViewContainer extends Component {
@@ -65,7 +64,7 @@ class OrderTemplateViewContainer extends Component {
 
   render() {
     const { close, resources, rootPath } = this.props;
-    const orderTemplate = get(getOrderTemplatesList(get(resources, 'orderTemplate.records', [])), 0, {});
+    const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
     const addresses = getAddresses(get(resources, 'addresses.records', []));
     const funds = get(resources, 'funds.records', []);
     const identifierTypes = get(resources, 'identifierTypes.records', []);
@@ -86,7 +85,7 @@ class OrderTemplateViewContainer extends Component {
           materialTypes={materialTypes}
           onDelete={this.onDeleteOrderTemplate}
           rootPath={rootPath}
-          template={orderTemplate}
+          orderTemplate={orderTemplate}
           vendors={vendors}
           users={users}
           contributorNameTypes={contributorNameTypes}

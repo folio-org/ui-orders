@@ -22,10 +22,6 @@ import {
   ORDER_TEMPLATE,
   CONTRIBUTOR_NAME_TYPES,
 } from '../../../components/Utils/resources';
-import {
-  MODULE_ORDERS,
-  CONFIG_ORDER_TEMPLATES,
-} from '../../../components/Utils/const';
 import getIdentifierTypesForSelect from '../../../components/Utils/getIdentifierTypesForSelect';
 import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 import getFundsForSelect from '../../../components/Utils/getFundsForSelect';
@@ -39,7 +35,6 @@ import {
   getVendorOptions,
 } from '../../../common/utils';
 
-import { getOrderTemplatesList } from '../util';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 const INITIAL_VALUES = {};
@@ -72,29 +67,15 @@ class OrderTemplatesEditorContainer extends Component {
   };
 
   saveOrderTemplate = (values) => {
-    const { close, mutator: { orderTemplates, orderTemplate }, match, resources } = this.props;
+    const { close, mutator: { orderTemplates, orderTemplate }, match } = this.props;
     const id = get(match, ['params', 'id']);
     const mutator = id ? orderTemplate.PUT : orderTemplates.POST;
-    const value = JSON.stringify(values);
-    let orderTemplateBody;
 
-    if (id) {
-      orderTemplateBody = get(resources, ['orderTemplate', 'records', 0], {});
-    } else {
-      orderTemplateBody = {
-        module: MODULE_ORDERS,
-        configName: `${MODULE_ORDERS}.${CONFIG_ORDER_TEMPLATES}`,
-        code: (new Date()).valueOf(),
-      };
-    }
-
-    orderTemplateBody = { ...orderTemplateBody, value };
-
-    mutator(orderTemplateBody).then(close);
+    mutator(values).then(close);
   };
 
   render() {
-    const { close, resources, match, stripes } = this.props;
+    const { close, resources, stripes } = this.props;
     const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
 
     const locations = getLocationsForSelect(resources);
@@ -107,12 +88,8 @@ class OrderTemplatesEditorContainer extends Component {
     const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
     const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
     const materialTypes = getMaterialTypesForSelect(resources);
-    const orderTemplate = getOrderTemplatesList(get(resources, 'orderTemplate.records', []));
-    const id = get(match, ['params', 'id']);
-    const template = id
-      ? get(orderTemplate, 0, {})
-      : { orderTemplate: INITIAL_VALUES };
-    const title = get(template, 'title') || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
+    const orderTemplate = get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES);
+    const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
     return (
       <OrderTemplatesEditor
@@ -120,7 +97,7 @@ class OrderTemplatesEditorContainer extends Component {
         onSubmit={this.saveOrderTemplate}
         close={close}
         funds={funds}
-        initialValues={template.orderTemplate}
+        initialValues={orderTemplate}
         identifierTypes={identifierTypes}
         locations={locations}
         createInventorySetting={createInventorySetting}

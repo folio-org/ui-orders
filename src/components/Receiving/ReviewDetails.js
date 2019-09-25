@@ -50,16 +50,6 @@ const ReviewDetails = ({
         location: <FormattedMessage id="ui-orders.receiving.location" />,
         itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
       }}
-      columnWidths={{
-        isChecked: '5%',
-        poLine: '20%',
-        title: '15%',
-        barcode: '10%',
-        comment: '14%',
-        format: '10%',
-        location: '15%',
-        itemStatus: '10%',
-      }}
       onRowClick={undefined}
       isSelected={isSelected}
     />

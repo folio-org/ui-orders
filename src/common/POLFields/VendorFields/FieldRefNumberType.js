@@ -5,11 +5,11 @@ import { Select } from '@folio/stripes/components';
 import { requiredRefNumber } from '../../../components/Utils/Validate';
 
 const REF_NUMBER_TYPE = {
+  agentsUnique: "Agent's unique subscription reference number",
+  internalNumber: 'Internal vendor number',
+  librarysContinuation: "Library's continuation order number",
   suppliersContinuation: "Supplier's continuation order",
   suppliersUnique: "Supplier's unique order line reference number",
-  agentsUnique: "Agent's unique subscription reference number",
-  librarysContinuation: "Library's continuation order number",
-  internalNumber: 'Internal vendor number',
 };
 
 const FieldRefNumberType = () => (

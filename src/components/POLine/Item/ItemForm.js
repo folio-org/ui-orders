@@ -5,25 +5,21 @@ import {
   Field,
 } from 'redux-form';
 
-import {
-  find,
-  get,
-} from 'lodash';
+import { get } from 'lodash';
 
 import {
   Col,
-  Datepicker,
   Row,
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import {
+  FieldDatepicker,
+  selectOptionsShape,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
 import {
-  DATE_FORMAT,
-  TIMEZONE,
-} from '../../Utils/const';
-import {
-  Required,
   validateYear,
 } from '../../Utils/Validate';
 import ContributorForm from './ContributorForm';
@@ -38,11 +34,24 @@ import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
 
+const ALLOWED_RES_ID_TYPE_NAMES = [
+  'ASIN',
+  'CODEN',
+  'DOI',
+  'GPO item number',
+  'ISBN',
+  'ISSN',
+  'Publisher or distributor number',
+  'Report number',
+  'Standard technical report number',
+  'URN',
+];
+
 class ItemForm extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
-    identifierTypes: PropTypes.arrayOf(PropTypes.object),
+    identifierTypes: selectOptionsShape,
     contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
     order: PropTypes.object.isRequired,
@@ -103,11 +112,17 @@ class ItemForm extends Component {
       dispatch(change('contributors', lineContributors));
       inventoryData.contributors = lineContributors;
     }
+
     if (identifiers && identifiers.length) {
-      const lineidentifiers = identifiers.map(({ identifierTypeId, value }) => ({
-        productId: value,
-        productIdType: find(identifierTypes, { value: identifierTypeId }).value,
-      }));
+      const allowedResIdentifierTypeIds = identifierTypes
+        .filter(({ label }) => ALLOWED_RES_ID_TYPE_NAMES.includes(label))
+        .map(({ value }) => value);
+      const lineidentifiers = identifiers
+        .filter(({ identifierTypeId }) => allowedResIdentifierTypeIds.includes(identifierTypeId))
+        .map(({ identifierTypeId, value }) => ({
+          productId: value,
+          productIdType: identifierTypeId,
+        }));
 
       dispatch(change('details.productIds', lineidentifiers));
       inventoryData.productIds = lineidentifiers;
@@ -160,7 +175,7 @@ class ItemForm extends Component {
                 name="title"
                 onChange={(e, value) => this.onChangeField(value, 'title')}
                 required={required}
-                validate={required && Required}
+                validate={required && validateRequired}
                 disabled={isOpenedOrder}
               />
               <div className={css.addButton}>
@@ -186,25 +201,15 @@ class ItemForm extends Component {
             />
           </Col>
           <Col xs={6}>
-            <Field
-              backendDateStandard={DATE_FORMAT}
-              component={Datepicker}
-              dateFormat={DATE_FORMAT}
-              fullWidth
+            <FieldDatepicker
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
               name="details.subscriptionFrom"
-              timeZone={TIMEZONE}
             />
           </Col>
           <Col xs={6}>
-            <Field
-              backendDateStandard={DATE_FORMAT}
-              component={Datepicker}
-              dateFormat={DATE_FORMAT}
-              fullWidth
+            <FieldDatepicker
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
               name="details.subscriptionTo"
-              timeZone={TIMEZONE}
               disabled={isOpenedOrder}
             />
           </Col>

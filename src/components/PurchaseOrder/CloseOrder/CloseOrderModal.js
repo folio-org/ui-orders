@@ -12,6 +12,7 @@ import {
 } from '@folio/stripes/components';
 
 import { DEFAULT_CLOSE_ORDER_REASONS } from '../../../common/constants';
+import { getClosingReasonsOptions } from '../../../common/utils';
 
 import css from './CloseOrderModal.css';
 
@@ -42,10 +43,7 @@ class CloseOrderModal extends Component {
 
   render() {
     const { orderNumber, closingReasons, closeOrder, cancel } = this.props;
-    const reasons = closingReasons.map((reason) => ({
-      label: reason.value,
-      value: reason.value,
-    }));
+    const reasons = getClosingReasonsOptions(closingReasons);
 
     return (
       <Modal

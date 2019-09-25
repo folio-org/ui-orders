@@ -19,6 +19,7 @@ import {
   SearchField,
 } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
+import { FolioFormattedTime } from '@folio/stripes-acq-components';
 
 import {
   ITEMS,
@@ -26,7 +27,6 @@ import {
   RECEIVE,
   RECEIVING_HISTORY as RECEIVING_HISTORY_RESOURCE,
 } from '../Utils/resources';
-import FolioFormattedTime from '../FolioFormattedTime';
 import ReceivingLinks, { RECEIVING_HISTORY } from './ReceivingLinks';
 import { PIECE_STATUS_RECEIVED } from './const';
 import {
@@ -281,7 +281,6 @@ class ReceivingHistory extends Component {
                 receivingNote: <FormattedMessage id="ui-orders.receivingHistory.note" />,
                 receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
-              columnWidths={{ isChecked: 35, comment: '15%' }}
               visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'comment', 'receivingNote', 'receivingStatus']}
               onRowClick={undefined}
               isSelected={this.isSelected}

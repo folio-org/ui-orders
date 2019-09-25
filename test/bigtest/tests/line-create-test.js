@@ -5,9 +5,11 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { PHYSICAL, ERESOURCE } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
+
+const PHYSICAL = 'Physical resource';
+const ERESOURCE = 'Electronic resource';
 
 describe('Create POL', function () {
   setupApplication();

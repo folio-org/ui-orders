@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
   Field,
 } from 'redux-form';
-
 import { includes } from 'lodash';
 
 import {
@@ -20,6 +19,7 @@ import {
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
+import { FieldDatepicker } from '@folio/stripes-acq-components';
 
 import { EMPTY_OPTION } from '../Utils/const';
 import { INVENTORY_RECORDS_TYPE } from '../POLine/const';
@@ -116,14 +116,15 @@ class AddPieceModal extends Component {
 
     return (
       <Modal
+        enforceFocus={false}
+        footer={footer(close, handleSubmit, checkIn)}
         id="add-piece-modal"
         label={<FormattedMessage id={labelId} />}
-        footer={footer(close, handleSubmit, checkIn)}
         open
       >
         <form>
           <Row>
-            <Col xs>
+            <Col xs={6}>
               <Field
                 component={TextField}
                 fullWidth
@@ -131,6 +132,21 @@ class AddPieceModal extends Component {
                 name="caption"
                 required
                 type="text"
+                validate={Required}
+              />
+            </Col>
+            {showPieceFormatField && (
+              <Col xs>
+                <FieldPieceFormat />
+              </Col>
+            )}
+          </Row>
+          <Row>
+            <Col xs>
+              <FieldDatepicker
+                labelId="ui-orders.checkIn.expectedReceiptDate"
+                name="receivedDate"
+                required
                 validate={Required}
               />
             </Col>
@@ -185,11 +201,6 @@ class AddPieceModal extends Component {
                 </span>
               </Pluggable>
             </Col>
-            {showPieceFormatField && (
-              <Col xs>
-                <FieldPieceFormat />
-              </Col>
-            )}
           </Row>
         </form>
       </Modal>

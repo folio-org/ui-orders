@@ -9,7 +9,8 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import formatDate from '../../Utils/formatDate';
+import { FolioFormattedDate } from '@folio/stripes-acq-components';
+
 import ContributorView from './ContributorView';
 import ProductIdDetails from './ProductIdDetails';
 
@@ -62,7 +63,7 @@ class ItemView extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-              value={formatDate(get(poLineDetails, ['details', 'subscriptionFrom']))}
+              value={<FolioFormattedDate value={get(poLineDetails, ['details', 'subscriptionFrom'])} />}
             />
           </Col>
           <Col
@@ -71,7 +72,7 @@ class ItemView extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-              value={formatDate(get(poLineDetails, ['details', 'subscriptionTo']))}
+              value={<FolioFormattedDate value={get(poLineDetails, ['details', 'subscriptionTo'])} />}
             />
           </Col>
           <Col

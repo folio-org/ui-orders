@@ -4,12 +4,10 @@ import {
 } from 'lodash';
 
 export default (resources) => sortBy(
-  get(resources, 'orderTemplates.records', []).map((v) => {
-    const { templateName, templateCode } = JSON.parse(v.value);
-
+  get(resources, 'orderTemplates.records', []).map(({ templateName, templateCode, id }) => {
     return {
       label: templateCode ? `${templateName} (${templateCode})` : templateName,
-      value: v.id,
+      value: id,
     };
   }), 'label',
 );

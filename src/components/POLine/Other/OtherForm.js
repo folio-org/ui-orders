@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 
 import {
   Col,
-  Datepicker,
   Row,
   Select,
 } from '@folio/stripes/components';
+import { FieldDatepicker } from '@folio/stripes-acq-components';
 
 import {
   FieldMaterialType,
@@ -16,8 +16,6 @@ import {
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import {
   EMPTY_OPTION,
-  DATE_FORMAT,
-  TIMEZONE,
 } from '../../Utils/const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
@@ -40,25 +38,15 @@ const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
         />
       </Col>
       <Col xs={6}>
-        <Field
-          backendDateStandard={DATE_FORMAT}
-          component={Datepicker}
-          dateFormat={DATE_FORMAT}
-          fullWidth
+        <FieldDatepicker
           label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
           name="physical.receiptDue"
-          timeZone={TIMEZONE}
         />
       </Col>
       <Col xs={6}>
-        <Field
-          backendDateStandard={DATE_FORMAT}
-          component={Datepicker}
-          dateFormat={DATE_FORMAT}
-          fullWidth
+        <FieldDatepicker
           label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
           name="physical.expectedReceiptDate"
-          timeZone={TIMEZONE}
         />
       </Col>
       <Col xs={6}>

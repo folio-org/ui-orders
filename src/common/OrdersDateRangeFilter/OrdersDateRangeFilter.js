@@ -8,11 +8,13 @@ import {
   FilterAccordionHeader,
 } from '@folio/stripes/components';
 import { DateRangeFilter } from '@folio/stripes/smart-components';
+import {
+  DATE_FORMAT,
+} from '@folio/stripes-acq-components';
 
 import {
   createClearFilterHandler,
 } from '../utils';
-import { DATE_FORMAT } from '../constants';
 
 const retrieveDatesFromDateRangeFilterString = filterValue => {
   let dateRange = {

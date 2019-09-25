@@ -11,12 +11,15 @@ import { get } from 'lodash';
 import { Callout } from '@folio/stripes/components';
 import { stripesConnect, stripesShape } from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
-import { changeSearchIndex, showToast } from '@folio/stripes-acq-components';
+import {
+  changeSearchIndex,
+  FolioFormattedDate,
+  showToast,
+} from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
-import FolioFormattedDate from '../components/FolioFormattedDate';
 import { createOrderResource } from '../components/Utils/orderResource';
 import {
   LINES_API,
@@ -55,15 +58,6 @@ import { FILTERS } from './constants';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-const columnWidths = {
-  poNumber: '15%',
-  vendorCode: '15%',
-  workflowStatus: '10%',
-  orderType: '15%',
-  lastUpdated: '10%',
-  acquisitionsUnit: '20%',
-  assignedTo: '15%',
-};
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', 'lastUpdated'];
 
 class OrdersList extends Component {
@@ -321,7 +315,6 @@ class OrdersList extends Component {
           }}
           detailProps={{ showToast: this.showToast }}
           maxSortKeys={1}
-          columnWidths={columnWidths}
           sortableColumns={sortableColumns}
         />
         <Callout ref={this.callout} />

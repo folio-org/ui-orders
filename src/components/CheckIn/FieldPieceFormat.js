@@ -1,34 +1,30 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 
-import { Select } from '@folio/stripes/components';
+import { FieldSelect } from '@folio/stripes-acq-components';
 
 import { Required } from '../Utils/Validate';
 
 export const PIECE_FORMAT = {
   electronic: 'Electronic',
   physical: 'Physical',
+  other: 'Other',
 };
 
+const PIECE_FORMAT_OPTIONS = [
+  { label: 'ui-orders.checkIn.pieceFormat.electronic', value: PIECE_FORMAT.electronic },
+  { label: 'ui-orders.checkIn.pieceFormat.physical', value: PIECE_FORMAT.physical },
+];
+
 const FieldPieceFormat = () => (
-  <Field
-    component={Select}
+  <FieldSelect
+    dataOptions={PIECE_FORMAT_OPTIONS}
+    fullWidth
     label={<FormattedMessage id="ui-orders.checkIn.pieceFormat" />}
     name="format"
-    placeholder=" "
     required
     validate={Required}
-  >
-    {Object.keys(PIECE_FORMAT).map((key) => (
-      <FormattedMessage
-        id={`ui-orders.pieceFormat.${key}`}
-        key={key}
-      >
-        {(message) => <option value={PIECE_FORMAT[key]}>{message}</option>}
-      </FormattedMessage>
-    ))}
-  </Field>
+  />
 );
 
 export default FieldPieceFormat;

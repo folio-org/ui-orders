@@ -100,15 +100,6 @@ const ItemsListModal = ({
           location: <FormattedMessage id="ui-orders.receiving.location" />,
           itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
         }}
-        columnWidths={{
-          isChecked: '5%',
-          title: '10%',
-          piece: '10%',
-          barcode: '14%',
-          format: '15%',
-          location: '30%',
-          itemStatus: '15%',
-        }}
         onRowClick={undefined}
         isSelected={isSelected}
       />

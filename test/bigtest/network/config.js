@@ -14,6 +14,7 @@ import {
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
   ORDER_PIECES_API,
+  ORDER_TEMPLATES_API,
   ORDERS_API,
   RECEIVE_API,
   RECEIVING_API,
@@ -174,4 +175,31 @@ export default function config() {
       totalRecords: 1,
     };
   });
+
+  this.get(ORDER_TEMPLATES_API, (schema) => {
+    return schema.orderTemplates.all();
+  });
+
+  this.get(`${ORDER_TEMPLATES_API}/:id`, (schema, request) => {
+    return request.params.id
+      ? schema.orderTemplates.find(request.params.id).attrs
+      : null;
+  });
+
+  this.put(`${ORDER_TEMPLATES_API}/:id`, (schema, request) => {
+    const id = request.params.id;
+    const attrs = JSON.parse(request.requestBody);
+
+    schema.orderTemplates.find(id).update(attrs);
+
+    return null;
+  });
+
+  this.post(ORDER_TEMPLATES_API, (schema, request) => {
+    const attrs = JSON.parse(request.requestBody) || {};
+
+    return schema.orderTemplates.create(attrs);
+  });
+
+  this.delete(`${ORDER_TEMPLATES_API}/:id`, 'orderTemplates');
 }

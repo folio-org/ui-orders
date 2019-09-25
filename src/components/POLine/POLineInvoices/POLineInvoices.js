@@ -10,9 +10,10 @@ import {
 } from 'lodash';
 
 import { MultiColumnList } from '@folio/stripes/components';
-import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
-
-import FolioFormattedDate from '../../FolioFormattedDate';
+import {
+  AmountWithCurrencyField,
+  FolioFormattedDate,
+} from '@folio/stripes-acq-components';
 
 const visibleColumns = ['invoice', 'invoiceDate', 'vendorName', 'status', 'quantity', 'expendedAmount', 'pieces'];
 const columnMapping = {
@@ -23,15 +24,6 @@ const columnMapping = {
   quantity: <FormattedMessage id="ui-orders.relatedInvoices.quantity" />,
   expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
   pieces: <FormattedMessage id="ui-orders.relatedInvoices.pieces" />,
-};
-const columnWidths = {
-  invoice: '20%',
-  invoiceDate: '15%',
-  vendorName: '15%',
-  status: '10%',
-  quantity: '10%',
-  expendedAmount: '15%',
-  pieces: '15%',
 };
 
 const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
@@ -64,7 +56,6 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
       formatter={resultFormatter}
       visibleColumns={visibleColumns}
       columnMapping={columnMapping}
-      columnWidths={columnWidths}
     />
   );
 };

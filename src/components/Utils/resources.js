@@ -14,6 +14,8 @@ import {
   ORDER_DETAIL_API,
   ORDER_INVOICE_RELNS_API,
   ORDER_PIECES_API,
+  ORDER_TEMPLATES_API,
+  ORDER_TEMPLATE_DETAIL_API,
   RECEIVE_API,
   RECEIVING_API,
   USERS_API,
@@ -27,7 +29,6 @@ import {
   CONFIG_ORDER_NUMBER,
   CONFIG_PREFIXES,
   CONFIG_SUFFIXES,
-  CONFIG_ORDER_TEMPLATES,
   LIMIT_MAX,
   MODULE_ORDERS,
   MODULE_TENANT,
@@ -52,6 +53,9 @@ export const RECEIVING_HISTORY = {
 export const LOCATIONS = {
   ...BASE_RESOURCE,
   path: LOCATIONS_API,
+  params: {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'locations',
   throwErrors: false,
 };
@@ -107,12 +111,18 @@ export const LINE = {
 export const IDENTIFIER_TYPES = {
   ...BASE_RESOURCE,
   path: IDENTIFIER_TYPES_API,
+  params: {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'identifierTypes',
 };
 
 export const MATERIAL_TYPES = {
   ...BASE_RESOURCE,
   path: MATERIAL_TYPES_API,
+  params: {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'mtypes',
 };
 
@@ -163,18 +173,27 @@ export const ADDRESSES = {
 export const FUND = {
   ...BASE_RESOURCE,
   path: FUND_API,
+  params: {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'funds',
 };
 
 export const USERS = {
   ...BASE_RESOURCE,
   path: USERS_API,
+  params: {
+    query: 'cql.allRecords=1 sortby personal.firstName personal.lastName',
+  },
   records: 'users',
 };
 
 export const CONTRIBUTOR_NAME_TYPES = {
   ...BASE_RESOURCE,
   path: CONTRIBUTOR_NAME_TYPES_API,
+  params: {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'contributorNameTypes',
 };
 
@@ -235,18 +254,18 @@ export const SUFFIXES_SETTING = {
 
 export const ORDER_TEMPLATES = {
   ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
+  path: ORDER_TEMPLATES_API,
+  records: 'orderTemplates',
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_TEMPLATES})`,
+      query: 'cql.allRecords=1 sortby templateName',
     },
   },
 };
 
 export const ORDER_TEMPLATE = {
   ...BASE_RESOURCE,
-  path: `${CONFIG_API}/:{id}`,
+  path: ORDER_TEMPLATE_DETAIL_API,
 };
 
 export const ORDER_INVOICES = {

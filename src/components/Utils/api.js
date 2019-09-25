@@ -1,5 +1,7 @@
 export const ORDERS_API = 'orders/composite-orders';
 export const ORDER_DETAIL_API = `${ORDERS_API}/:{id}`;
+export const ORDER_TEMPLATES_API = 'orders/order-templates';
+export const ORDER_TEMPLATE_DETAIL_API = `${ORDER_TEMPLATES_API}/:{id}`;
 export const LINES_API = 'orders/order-lines';
 export const LINE_DETAIL_API = `${LINES_API}/:{lineId}`;
 export const CONFIG_API = 'configurations/entries';

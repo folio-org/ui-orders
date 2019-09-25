@@ -12,8 +12,7 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-
-import FolioFormattedDate from '../../FolioFormattedDate';
+import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
 const EresourcesView = ({ line: { eresource }, order, vendors, materialTypes }) => {
   const expectedActivation = get(eresource, 'expectedActivation');

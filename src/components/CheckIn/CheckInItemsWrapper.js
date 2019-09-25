@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
+import { get, sortBy } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
 
@@ -134,6 +134,7 @@ class CheckInItemsWrapper extends Component {
     const { resources, stripes, location } = this.props;
     const poLine = get(resources, 'LINE.records.0');
     const locations = getLocationsForSelect(resources);
+    const sortedItems = sortBy(items, 'receivedDate');
 
     return (
       <div data-test-check-in-items-wrapper>
@@ -141,7 +142,7 @@ class CheckInItemsWrapper extends Component {
           addPiece={this.addPiece}
           checkInItem={this.checkInItem}
           deletePiece={this.deletePiece}
-          items={items}
+          items={sortedItems}
           location={location}
           locations={locations}
           poLine={poLine}

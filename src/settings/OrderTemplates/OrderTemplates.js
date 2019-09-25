@@ -14,7 +14,6 @@ import { ORDER_TEMPLATES } from '../../components/Utils/resources';
 import OrderTemplatesList from './OrderTemplatesList';
 import OrderTemplatesEditorContainer from './OrderTemplatesEditor';
 import OrderTemplateViewContainer from './OrderTemplateView';
-import { getOrderTemplatesList } from './util';
 
 class OrderTemplates extends Component {
   static manifest = Object.freeze({
@@ -55,7 +54,7 @@ class OrderTemplates extends Component {
 
   render() {
     const { label, match: { path }, resources } = this.props;
-    const orderTemplatesList = getOrderTemplatesList(get(resources, ['orderTemplates', 'records'], []));
+    const orderTemplatesList = get(resources, ['orderTemplates', 'records'], []);
 
     return (
       <Fragment>

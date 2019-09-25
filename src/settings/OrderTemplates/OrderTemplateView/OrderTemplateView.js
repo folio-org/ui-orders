@@ -46,7 +46,7 @@ class OrderTemplateView extends Component {
   static propTypes = {
     close: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    template: PropTypes.object,
+    orderTemplate: PropTypes.object,
     rootPath: PropTypes.string,
     addresses: PropTypes.arrayOf(PropTypes.object),
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
@@ -62,7 +62,7 @@ class OrderTemplateView extends Component {
     identifierTypes: [],
     locations: [],
     materialTypes: [],
-    template: {},
+    orderTemplate: {},
     vendors: [],
     users: [],
     contributorNameTypes: [],
@@ -116,8 +116,8 @@ class OrderTemplateView extends Component {
   hideConfirmDelete = () => this.setState({ showConfirmDelete: false });
 
   getActionMenu = ({ onToggle }) => {
-    const { rootPath, template } = this.props;
-    const id = get(template, 'id');
+    const { rootPath, orderTemplate } = this.props;
+    const id = get(orderTemplate, 'id');
 
     return (
       <div data-test-view-order-template-actions>
@@ -149,7 +149,7 @@ class OrderTemplateView extends Component {
   render() {
     const {
       close,
-      template,
+      orderTemplate,
       addresses,
       identifierTypes,
       locations,
@@ -159,8 +159,7 @@ class OrderTemplateView extends Component {
       contributorNameTypes,
     } = this.props;
     const { sections, showConfirmDelete } = this.state;
-    const orderTemplate = get(template, 'orderTemplate', {});
-    const title = get(template, 'title', '');
+    const title = get(orderTemplate, 'templateName', '');
     const orderFormat = get(orderTemplate, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
