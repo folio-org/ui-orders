@@ -84,7 +84,7 @@ class OrderLineDetails extends Component {
   };
 
   render() {
-    const { match: { params: { id } }, parentResources } = this.props;
+    const { match: { params: { id } }, parentResources, parentMutator } = this.props;
     const line = this.getLine();
     const order = this.getOrder();
     const locations = get(parentResources, 'locations.records', []);
@@ -108,8 +108,8 @@ class OrderLineDetails extends Component {
         receivingURL={receivingURL}
         checkinURL={checkinURL}
         funds={funds}
-        editable={false}
         goToOrderDetails={this.goToOrderDetails}
+        queryMutator={parentMutator.query}
         deleteLine={this.deleteLine}
         identifierTypes={identifierTypes}
         contributorNameTypes={contributorNameTypes}
