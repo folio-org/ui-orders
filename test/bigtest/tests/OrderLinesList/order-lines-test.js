@@ -132,4 +132,16 @@ describe('Order lines', function () {
       expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
     });
   });
+
+  describe('search by product ID type ISBN', function () {
+    beforeEach(async function () {
+      await orderLines.filter.selectSearchOption('- ISBN');
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('search results are shown', () => {
+      expect(orderLines.isVisible).to.be.true;
+    });
+  });
 });
