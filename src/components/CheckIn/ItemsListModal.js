@@ -30,6 +30,7 @@ const ItemsListModal = ({
   toggleAll,
   toggleItem,
 }) => {
+  const isSelected = ({ item }) => item.isChecked;
   const resultFormatter = {
     'isChecked': (item) => (
       <Checkbox
@@ -99,6 +100,8 @@ const ItemsListModal = ({
           location: <FormattedMessage id="ui-orders.receiving.location" />,
           itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
         }}
+        onRowClick={undefined}
+        isSelected={isSelected}
       />
     </Modal>
   );

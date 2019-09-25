@@ -183,6 +183,8 @@ class ReceivingList extends Component {
     this.setState({ isItemDetailsModalOpened: false });
   }
 
+  isSelected = ({ item }) => Boolean(this.state.itemDetails[item.poLineId]);
+
   render() {
     const { resources, mutator, location } = this.props;
     const { itemDetails } = this.state;
@@ -254,6 +256,8 @@ class ReceivingList extends Component {
                 receivingNote: <FormattedMessage id="ui-orders.receiving.note" />,
                 receiptStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
+              onRowClick={undefined}
+              isSelected={this.isSelected}
             />
             {this.state.isItemDetailsModalOpened && (
               <this.connectedItemDetails

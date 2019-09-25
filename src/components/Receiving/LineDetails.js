@@ -27,6 +27,7 @@ const LineDetails = ({
   toggleAll,
   toggleItem,
 }) => {
+  const isSelected = ({ item }) => isItemChecked(item);
   const resultFormatter = {
     'isChecked': (item) => (
       <Checkbox
@@ -92,6 +93,8 @@ const LineDetails = ({
         location: <FormattedMessage id="ui-orders.receiving.location" />,
         itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
       }}
+      onRowClick={undefined}
+      isSelected={isSelected}
     />
   );
 };
