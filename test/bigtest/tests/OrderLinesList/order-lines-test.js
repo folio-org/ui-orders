@@ -13,6 +13,7 @@ describe('Order lines', function () {
 
   beforeEach(async function () {
     this.server.createList('line', ORDER_LINES_COUNT);
+    this.server.create('identifierType', { name: 'ISBN' });
     this.visit('/orders/lines');
     await orderLines.whenLoaded();
   });
@@ -141,7 +142,7 @@ describe('Order lines', function () {
     });
 
     it('search results are shown', () => {
-      expect(orderLines.isVisible).to.be.true;
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
     });
   });
 });
