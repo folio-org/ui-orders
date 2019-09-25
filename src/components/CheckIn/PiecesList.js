@@ -11,6 +11,7 @@ import { FolioFormattedDate } from '@folio/stripes-acq-components';
 const VISIBLE_COLUMNS = ['isChecked', 'title', 'piece', 'format', 'supplement', 'poLineNumber', 'comment', 'pieceStatus'];
 
 const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, toggleAll, isAllChecked = false }) => {
+  const isSelected = ({ item }) => checkedItemsMap[item.id];
   const resultsFormatter = {
     'isChecked': piece => (
       <Checkbox
@@ -61,6 +62,8 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
         expectedReceiptDate: <FormattedMessage id="ui-orders.checkIn.expectedReceiptDate" />,
         actions: null,
       }}
+      onRowClick={undefined}
+      isSelected={isSelected}
     />
   );
 };
