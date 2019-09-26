@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
@@ -143,6 +144,7 @@ class OrdersList extends Component {
   static propTypes = {
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
     stripes: stripesShape.isRequired,
     showSingleResult: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
     browseOnly: PropTypes.bool,
@@ -223,6 +225,7 @@ class OrdersList extends Component {
   render() {
     const {
       browseOnly,
+      location,
       intl: { formatMessage },
       disableRecordCreation,
       mutator,
@@ -264,6 +267,9 @@ class OrdersList extends Component {
       },
     };
 
+    const { search } = location;
+    const useSingleResult = search.includes('edit-po-line') ? false : showSingleResult;
+
     const newRecordInitialValues = {
       createdByName: `${firstName} ${lastName}` || '',
     };
@@ -302,7 +308,7 @@ class OrdersList extends Component {
           newRecordPerms="orders.item.post"
           parentResources={resources}
           parentMutator={mutator}
-          showSingleResult={showSingleResult}
+          showSingleResult={useSingleResult}
           browseOnly={browseOnly}
           columnMapping={{
             poNumber: <FormattedMessage id="ui-orders.order.poNumber" />,

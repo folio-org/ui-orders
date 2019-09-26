@@ -43,7 +43,7 @@ import {
   PHRESOURCES,
   OTHER,
 } from './const';
-import { FILTERS } from '../../OrdersList';
+import { FILTERS as ORDER_FILTERS, FILTERS } from '../../OrdersList';
 
 class POLineView extends Component {
   static propTypes = {
@@ -116,7 +116,7 @@ class POLineView extends Component {
     queryMutator.update({
       _path: `/orders/view/${order.id}/po-line/view/${line.id}`,
       layer: 'edit-po-line',
-      filters: `${FILTERS.STATUS}.${WORKFLOW_STATUS.open},${FILTERS.STATUS}.${WORKFLOW_STATUS.pending}`,
+      filters: `${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
     });
   };
 
