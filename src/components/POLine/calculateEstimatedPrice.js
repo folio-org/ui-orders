@@ -13,7 +13,7 @@ const calculateEstimatedPrice = (formValues) => {
   const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
   const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
   const discountAmount = isAmountDiscountType ? discount : baseListPrice * discount / 100;
-  const poLineEstimatedPrice = (baseListPrice + additionalCost - discountAmount).toFixed(2);
+  const poLineEstimatedPrice = baseListPrice + additionalCost - discountAmount;
 
   return poLineEstimatedPrice;
 };
