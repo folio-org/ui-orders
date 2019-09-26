@@ -714,5 +714,9 @@
     "order.approved.success": "The <b>Purchase order - {orderNumber}</b> was successfully <b>approved</b>",
     "orderDetails.approvalDate": "Approval date",
     "paneBlock.approveBtn": "Approve",
-    "errors.orderNotLoaded": "La orden de compra no se cargó."
+    "errors.orderNotLoaded": "La orden de compra no se cargó.",
+    "checkIn.expectedReceiptDate": "Expected receipt date",
+    "checkIn.pieceFormat.electronic": "Electronic",
+    "checkIn.pieceFormat.physical": "Physical",
+    "search.productIdISBN": "ISBN"
 }

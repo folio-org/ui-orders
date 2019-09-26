@@ -5,7 +5,7 @@ import {
   intlShape,
 } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { get, template } from 'lodash';
 
 import { stripesConnect, stripesShape } from '@folio/stripes/core';
 import { Callout } from '@folio/stripes/components';
@@ -37,10 +37,15 @@ import {
 import OrderLinesFilters from './OrderLinesFilters';
 import Details from './Details';
 import { filterConfig } from './OrdersLinesFilterConfig';
-import { searchableIndexes, queryTemplate } from './OrdersLinesSearchConfig';
+import {
+  indexISBN,
+  queryTemplate as linesQT,
+  searchableIndexes,
+} from './OrdersLinesSearchConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
+const QUALIFIER_SEPARATOR = ' ';
 
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
 const visibleColumns = ['poLineNumber', 'updatedDate', 'title', 'productIds', 'vendorRefNumber', 'funCodes'];
@@ -70,6 +75,22 @@ export class OrderLinesList extends Component {
         sort: 'poLineNumber',
       },
     },
+    normalizedISBN: {
+      initialValue: { value: '' },
+    },
+    normalizeISBN: {
+      type: 'okapi',
+      throwErrors: false,
+      path: (queryParams) => {
+        if (queryParams.qindex === 'productIdISBN' && queryParams.query) {
+          const isbnNumber = queryParams.query.split(QUALIFIER_SEPARATOR)[0];
+
+          return isbnNumber && `isbn/convertTo13?isbn=${isbnNumber}&hyphens=false`;
+        }
+
+        return undefined;
+      },
+    },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
@@ -80,15 +101,50 @@ export class OrderLinesList extends Component {
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
-          query: makeQueryFunction(
-            'cql.allRecords=1',
-            queryTemplate,
-            {
-              updatedDate: 'metadata.updatedDate',
-              vendorRefNumber: 'vendorDetail.refNumber',
-            },
-            filterConfig,
-          ),
+          query: (...args) => {
+            const [
+              queryParams,
+              pathComponents,
+              resourceData,
+              logger,
+            ] = args;
+            const isISBNSearch = get(resourceData, 'query.qindex') === 'productIdISBN';
+            let queryTemplate = '';
+
+            if (isISBNSearch) {
+              const identifierType = resourceData.identifier_types.records.find(type => type.name.toLowerCase() === 'isbn');
+              const identifierTypeId = identifierType ? identifierType.id : null;
+              const normalizedISBNValue = get(resourceData, 'normalizedISBN.value');
+
+              if (!normalizedISBNValue || !identifierTypeId) return null;
+
+              queryTemplate = template(indexISBN.queryTemplate)({ identifierTypeId, normalizedISBNValue });
+            } else {
+              queryTemplate = linesQT;
+            }
+
+            const newQindex = isISBNSearch
+              ? ''
+              : get(resourceData, 'query.qindex');
+
+            const newResourceValues = {
+              ...resourceData,
+              query: {
+                ...resourceData.query,
+                qindex: newQindex,
+              },
+            };
+
+            return makeQueryFunction(
+              'cql.allRecords=1',
+              queryTemplate,
+              {
+                updatedDate: 'metadata.updatedDate',
+                vendorRefNumber: 'vendorDetail.refNumber',
+              },
+              filterConfig,
+            )(queryParams, pathComponents, newResourceValues, logger);
+          },
         },
         staticFallback: { params: {} },
       },
@@ -104,6 +160,7 @@ export class OrderLinesList extends Component {
   static propTypes = {
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
+    refreshRemote: PropTypes.func.isRequired,
     stripes: stripesShape.isRequired,
     showSingleResult: PropTypes.bool,
     browseOnly: PropTypes.bool,
@@ -124,6 +181,16 @@ export class OrderLinesList extends Component {
     this.showToast = showToast.bind(this);
     this.renderFilters = this.renderFilters.bind(this);
     this.changeSearchIndex = changeSearchIndex.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevValue = get(prevProps.resources, 'normalizeISBN.records.0.isbn');
+    const currentValue = get(this.props.resources, 'normalizeISBN.records.0.isbn');
+
+    if (currentValue && prevValue !== currentValue) {
+      this.props.mutator.normalizedISBN.replace({ value: currentValue });
+      this.props.refreshRemote(this.props);
+    }
   }
 
   renderNavigation = () => (
@@ -158,8 +225,9 @@ export class OrderLinesList extends Component {
 
     return searchableIndexes.map(index => {
       const label = formatMessage({ id: `ui-orders.search.${index.label}` });
+      const { prefix = '' } = index;
 
-      return { ...index, label };
+      return { ...index, label: `${prefix}${label}` };
     });
   }
 
