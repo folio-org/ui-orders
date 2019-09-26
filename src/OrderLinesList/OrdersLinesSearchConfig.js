@@ -3,7 +3,6 @@ import { generateQueryTemplate } from '@folio/stripes-acq-components';
 const indexes = [
   'contributors',
   'poLineNumber',
-  'details.productIds',
   'requester',
   'title',
   'publisher',
@@ -12,6 +11,7 @@ const indexes = [
   'donor',
   'selector',
   'physical.volumes',
+  'details.productIds',
 ];
 
 const keywordIndex = {
@@ -19,5 +19,17 @@ const keywordIndex = {
   value: '',
 };
 
-export const searchableIndexes = [keywordIndex, ...indexes.map(index => ({ label: index, value: index }))];
+export const indexISBN = {
+  label: 'productIdISBN',
+  prefix: '- ',
+  value: 'productIdISBN',
+  queryTemplate: 'details.productIds == "*\\"productId\\": \\"<%= normalizedISBNValue %>\\", \\"productIdType\\": \\"<%= identifierTypeId %>\\"*"',
+};
+
+export const searchableIndexes = [
+  keywordIndex,
+  ...indexes.map(index => ({ label: index, value: index })),
+  indexISBN,
+];
+
 export const queryTemplate = generateQueryTemplate(indexes);

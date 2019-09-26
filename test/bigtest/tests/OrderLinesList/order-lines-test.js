@@ -13,6 +13,7 @@ describe('Order lines', function () {
 
   beforeEach(async function () {
     this.server.createList('line', ORDER_LINES_COUNT);
+    this.server.create('identifierType', { name: 'ISBN' });
     this.visit('/orders/lines');
     await orderLines.whenLoaded();
   });
@@ -124,6 +125,18 @@ describe('Order lines', function () {
   describe('search by volume', function () {
     beforeEach(async function () {
       await orderLines.filter.selectSearchOption('Volumes');
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('search results are shown', () => {
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+    });
+  });
+
+  describe('search by product ID type ISBN', function () {
+    beforeEach(async function () {
+      await orderLines.filter.selectSearchOption('- ISBN');
       await orderLines.filter.searchInput('TEST');
       await orderLines.filter.searchButton.click();
     });

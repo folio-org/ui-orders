@@ -1,7 +1,7 @@
 {
     "meta.title": "订单",
     "search": "搜索",
-    "resultCount": "{count, number} {count, plural, one {已找到记录} other {已找到记录}}",
+    "resultCount": "{count, number} {count, plural, one {记录找到} other {记录找到}}",
     "data.countries.AFG": "阿富汗",
     "data.countries.ALA": "ALA奥兰群岛",
     "data.countries.ALB": "阿尔巴尼亚",
@@ -595,7 +595,7 @@
     "errors.missingInstanceType": "由于{value}的类型未定义，因此无法打开订单",
     "errors.missingLoanType": "由于订单设置中未配置借阅类型或配置的类型{value}不再存在，因此无法打开订单",
     "dateOrdered": "订购日期",
-    "assignedToMe": "分配给我",
+    "assignedToMe": "已分配给我",
     "workflowStatus": "状态",
     "navigation.orders": "订单",
     "navigation.orderLines": "订单行",
@@ -714,5 +714,9 @@
     "order.approved.success": "<b>采购订单 - {orderNumber} </b>已成功<b>批准</b>",
     "orderDetails.approvalDate": "批准日期",
     "paneBlock.approveBtn": "批准",
-    "errors.orderNotLoaded": "未加载采购订单。"
+    "errors.orderNotLoaded": "未加载采购订单。",
+    "checkIn.expectedReceiptDate": "Expected receipt date",
+    "checkIn.pieceFormat.electronic": "Electronic",
+    "checkIn.pieceFormat.physical": "Physical",
+    "search.productIdISBN": "ISBN"
 }

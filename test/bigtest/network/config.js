@@ -202,4 +202,8 @@ export default function config() {
   });
 
   this.delete(`${ORDER_TEMPLATES_API}/:id`, 'orderTemplates');
+
+  this.get('/isbn/convertTo13', () => {
+    return { isbn: '1234567890123' };
+  });
 }
