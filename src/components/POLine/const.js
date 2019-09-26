@@ -48,4 +48,11 @@ export const INVENTORY_RECORDS_TYPE = {
   none: 'None',
 };
 
+export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [
+  { labelId: 'ui-orders.settings.createInventory.recordType.all', value: INVENTORY_RECORDS_TYPE.all },
+  { labelId: 'ui-orders.settings.createInventory.recordType.instance', value: INVENTORY_RECORDS_TYPE.instance },
+  { labelId: 'ui-orders.settings.createInventory.recordType.instanceAndHolding', value: INVENTORY_RECORDS_TYPE.instanceAndHolding },
+  { labelId: 'ui-orders.settings.createInventory.recordType.none', value: INVENTORY_RECORDS_TYPE.none },
+];
+
 export const ALLOWED_YEAR_LENGTH = 4;
