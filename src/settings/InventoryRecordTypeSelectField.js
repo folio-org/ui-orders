@@ -1,29 +1,18 @@
 import React from 'react';
-import { Field } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
-import { Select } from '@folio/stripes/components';
-
-import { INVENTORY_RECORDS_TYPE } from '../components/POLine/const';
+import { FieldSelect } from '@folio/stripes-acq-components';
+import { INVENTORY_RECORDS_TYPE_FOR_SELECT } from '../components/POLine/const';
 
 const InventoryRecordTypeSelectField = ({ label, name, disabled }) => (
-  <Field
-    component={Select}
+  <FieldSelect
+    dataOptions={INVENTORY_RECORDS_TYPE_FOR_SELECT}
     fullWidth
     label={<FormattedMessage id={label} />}
     name={name}
     disabled={disabled}
-  >
-    {Object.keys(INVENTORY_RECORDS_TYPE).map((key) => (
-      <FormattedMessage
-        id={`ui-orders.settings.createInventory.recordType.${key}`}
-        key={key}
-      >
-        {(message) => <option value={INVENTORY_RECORDS_TYPE[key]}>{message}</option>}
-      </FormattedMessage>
-    ))}
-  </Field>
+  />
 );
 
 InventoryRecordTypeSelectField.propTypes = {

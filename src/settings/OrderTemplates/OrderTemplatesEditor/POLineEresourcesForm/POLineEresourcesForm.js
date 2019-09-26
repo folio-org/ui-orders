@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+import { Field } from 'redux-form';
 
 import {
   Row,
-  Col,
+  Col, TextField,
 } from '@folio/stripes/components';
 
 import {
@@ -13,9 +15,9 @@ import {
   FieldTrial,
   FieldUserLimit,
   FieldExpectedActivation,
-  FieldActivationDue,
 } from '../../../../common/POLFields';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
+import parseNumber from '../../../../components/Utils/parseNumber';
 
 const POLineEresourcesForm = ({ materialTypes, vendors }) => {
   return (
@@ -44,7 +46,15 @@ const POLineEresourcesForm = ({ materialTypes, vendors }) => {
         xs={3}
         data-col-order-template-eresources-activation-due
       >
-        <FieldActivationDue />
+        <Field
+          component={TextField}
+          fullWidth
+          parse={parseNumber}
+          label={<FormattedMessage id="ui-orders.eresource.activationDue" />}
+          name="eresource.activationDue"
+          type="number"
+          min={0}
+        />
       </Col>
 
       <Col
