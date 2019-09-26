@@ -5,7 +5,8 @@ import { Field } from 'redux-form';
 
 import {
   Row,
-  Col, TextField,
+  Col,
+  TextField,
 } from '@folio/stripes/components';
 
 import {
