@@ -117,6 +117,7 @@ class POLineView extends Component {
       _path: `/orders/view/${order.id}/po-line/view/${line.id}`,
       layer: 'edit-po-line',
       filters: `${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
+      sort: `-${ORDER_FILTERS.PO_NUMBER}`,
     });
   };
 
