@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 
-import { Select } from '@folio/stripes/components';
+import { FieldSelect } from '@folio/stripes-acq-components';
+
 import { PO_WORKFLOW_STATUSES } from '../../constants';
 
 export const RECEIPT_STATUS = {
@@ -32,25 +32,18 @@ const RECEIPT_STATUSES_BY_ORDER_STATUS = {
 };
 
 const FieldReceiptStatus = ({ workflowStatus }) => {
-  const statuses = RECEIPT_STATUSES_BY_ORDER_STATUS[workflowStatus] || [];
+  const statuses = (RECEIPT_STATUSES_BY_ORDER_STATUS[workflowStatus] || []).map((key) => ({
+    labelId: `ui-orders.receipt_status.${key}`,
+    value: RECEIPT_STATUS[key],
+  }));
 
   return (
-    <Field
-      component={Select}
+    <FieldSelect
+      dataOptions={statuses}
       label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
       name="receiptStatus"
       disabled={!statuses.length}
-    >
-      <option value="" />
-      {statuses.map((key) => (
-        <FormattedMessage
-          id={`ui-orders.receipt_status.${key}`}
-          key={key}
-        >
-          {(message) => <option value={RECEIPT_STATUS[key]}>{message}</option>}
-        </FormattedMessage>
-      ))}
-    </Field>
+    />
   );
 };
 

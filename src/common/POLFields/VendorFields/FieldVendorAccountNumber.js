@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 
-import { Select } from '@folio/stripes/components';
-
-import { addEmptyOption } from '../../../components/PurchaseOrder/util';
+import {
+  FieldSelect,
+  fieldSelectOptionsShape,
+} from '@folio/stripes-acq-components';
 
 const FieldVendorAccountNumber = ({ accounts, disabled }) => {
   return (
-    <Field
-      component={Select}
-      dataOptions={addEmptyOption(accounts)}
+    <FieldSelect
+      dataOptions={accounts}
       fullWidth
       label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
       name="vendorDetail.vendorAccount"
@@ -21,7 +20,7 @@ const FieldVendorAccountNumber = ({ accounts, disabled }) => {
 };
 
 FieldVendorAccountNumber.propTypes = {
-  accounts: PropTypes.arrayOf(PropTypes.object),
+  accounts: fieldSelectOptionsShape,
   disabled: PropTypes.bool,
 };
 

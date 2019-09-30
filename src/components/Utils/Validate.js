@@ -6,11 +6,6 @@ import {
 
 const REQUIRED = 'Required!';
 
-// Validate Required Field
-export const required = (value) => {
-  return value ? undefined : REQUIRED;
-};
-
 // Field is required only if 'vendorDetail.refNumber' isn't empty
 export const requiredRefNumber = (value, allValues) => {
   const refNumber = get(allValues, 'vendorDetail.refNumber');
@@ -41,8 +36,6 @@ export const validateYear = (value) => {
 
   return 'Field should be 4-digit year';
 };
-
-export { required as Required };
 
 // Field is required only if 'createInventory' includes 'Instanse, Holding, Item'
 export const isMaterialTypeRequired = (allValues, name) => {

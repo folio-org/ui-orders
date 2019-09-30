@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
-import { Select } from '@folio/stripes/components';
-import { Required } from '../../Utils/Validate';
+
+import { FieldSelect } from '@folio/stripes-acq-components';
 
 export const DEFAULT_CURRENCY = 'USD';
 
@@ -15,15 +14,11 @@ const FieldCurrency = ({ required, disabled, currencies = [] }) => {
     : DEFAULT_CURRENCY_OPTIONS;
 
   return (
-    <Field
-      component={Select}
+    <FieldSelect
       dataOptions={currenciesOptions}
-      placeholder=" "
-      fullWidth
       label={<FormattedMessage id="ui-orders.cost.currency" />}
       name="cost.currency"
       required={required}
-      validate={required && [Required]}
       disabled={disabled}
     />
   );

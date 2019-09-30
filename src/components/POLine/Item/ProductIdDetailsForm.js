@@ -11,11 +11,9 @@ import {
   Col,
   IconButton,
   Row,
-  Select,
   TextField,
 } from '@folio/stripes/components';
-
-import { Required } from '../../Utils/Validate';
+import { FieldSelect } from '@folio/stripes-acq-components';
 
 class ProductIdDetailsForm extends Component {
   static propTypes = {
@@ -82,16 +80,13 @@ class ProductIdDetailsForm extends Component {
           />
         </Col>
         <Col xs={5}>
-          <Field
-            component={Select}
+          <FieldSelect
             dataOptions={this.props.identifierTypes}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
             name={`${elem}.productIdType`}
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.productIdType`)}
-            placeholder=" "
             required={required}
-            validate={required && [Required]}
             disabled={disabled}
           />
         </Col>

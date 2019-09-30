@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { FieldSelect, validateRequired } from '@folio/stripes-acq-components';
+import { FieldSelect } from '@folio/stripes-acq-components';
 
 const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
   <FieldSelect
@@ -11,7 +11,6 @@ const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}
     name={name}
     required={required}
-    validate={required && validateRequired}
     disabled={disabled}
   />
 );

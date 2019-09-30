@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 
-import { Select } from '@folio/stripes/components';
+import { FieldSelect } from '@folio/stripes-acq-components';
 
 export const WORKFLOW_STATUS = {
   closed: 'Closed',
@@ -10,26 +9,19 @@ export const WORKFLOW_STATUS = {
   pending: 'Pending',
 };
 
+const WORKFLOW_STATUS_OPTIONS = Object.keys(WORKFLOW_STATUS).map((key) => ({
+  labelId: `ui-orders.workflowStatus.${key}`,
+  value: WORKFLOW_STATUS[key],
+}));
+
 class FieldWorkflowStatus extends Component {
   render() {
     return (
-      <Field
-        component={Select}
+      <FieldSelect
+        dataOptions={WORKFLOW_STATUS_OPTIONS}
         label={<FormattedMessage id="ui-orders.orderSummary.workflowStatus" />}
         name="workflowStatus"
-      >
-        <FormattedMessage id="ui-orders.dropdown.select">
-          {(message) => <option value="">{message}</option>}
-        </FormattedMessage>
-        {Object.keys(WORKFLOW_STATUS).map((key) => (
-          <FormattedMessage
-            id={`ui-orders.workflowStatus.${key}`}
-            key={key}
-          >
-            {(message) => <option value={WORKFLOW_STATUS[key]}>{message}</option>}
-          </FormattedMessage>
-        ))}
-      </Field>
+      />
     );
   }
 }

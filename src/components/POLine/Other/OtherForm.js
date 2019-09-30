@@ -6,17 +6,16 @@ import PropTypes from 'prop-types';
 import {
   Col,
   Row,
-  Select,
 } from '@folio/stripes/components';
-import { FieldDatepicker } from '@folio/stripes-acq-components';
+import {
+  FieldDatepicker,
+  FieldSelect,
+} from '@folio/stripes-acq-components';
 
 import {
   FieldMaterialType,
 } from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
-import {
-  EMPTY_OPTION,
-} from '../../Utils/const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
@@ -27,9 +26,8 @@ const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
   return (
     <Row>
       <Col xs={6}>
-        <Field
-          component={Select}
-          dataOptions={[EMPTY_OPTION, ...vendors]}
+        <FieldSelect
+          dataOptions={vendors}
           fullWidth
           label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
           name="physical.materialSupplier"

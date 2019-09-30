@@ -10,11 +10,9 @@ import {
   Col,
   IconButton,
   Row,
-  Select,
   TextField,
 } from '@folio/stripes/components';
-
-import { Required } from '../../Utils/Validate';
+import { FieldSelect } from '@folio/stripes-acq-components';
 
 class ContributorForm extends Component {
   static propTypes = {
@@ -81,15 +79,13 @@ class ContributorForm extends Component {
           />
         </Col>
         <Col xs={5}>
-          <Field
+          <FieldSelect
             dataOptions={this.props.contributorNameTypes}
-            component={Select}
             fullWidth
             required={required}
             label={<FormattedMessage id="ui-orders.itemDetails.contributorType" />}
             name={`${elem}.contributorNameTypeId`}
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributorNameTypeId`)}
-            validate={required && Required}
             disabled={this.props.disabled}
           />
         </Col>

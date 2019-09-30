@@ -1,38 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 
-import { Select } from '@folio/stripes/components';
-import { Required } from '../../Utils/Validate';
+import { FieldSelect } from '@folio/stripes-acq-components';
 
 export const ORDER_TYPE = {
   oneTime: 'One-Time',
   ongoing: 'Ongoing',
 };
 
+const ORDER_TYPE_OPTIONS = Object.keys(ORDER_TYPE).map((key) => ({
+  labelId: `ui-orders.order_type.${key}`,
+  value: ORDER_TYPE[key],
+}));
+
 const FieldOrderType = ({ disabled, required }) => {
   return (
-    <Field
-      component={Select}
+    <FieldSelect
+      dataOptions={ORDER_TYPE_OPTIONS}
       label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
       name="orderType"
       required={required}
-      validate={required && [Required]}
       disabled={disabled}
-    >
-      <FormattedMessage id="ui-orders.dropdown.select">
-        {(message) => <option value="">{message}</option>}
-      </FormattedMessage>
-      {Object.keys(ORDER_TYPE).map((key) => (
-        <FormattedMessage
-          id={`ui-orders.order_type.${key}`}
-          key={key}
-        >
-          {(message) => <option value={ORDER_TYPE[key]}>{message}</option>}
-        </FormattedMessage>
-      ))}
-    </Field>
+    />
   );
 };
 

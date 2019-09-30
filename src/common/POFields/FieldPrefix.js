@@ -1,26 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
-import { Select } from '@folio/stripes/components';
-
-import { addEmptyOption } from '../../components/PurchaseOrder/util';
+import {
+  FieldSelect,
+  fieldSelectOptionsShape,
+} from '@folio/stripes-acq-components';
 
 const FieldPrefix = ({ prefixes, disabled }) => {
   return (
-    <Field
-      component={Select}
+    <FieldSelect
       label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
       name="numberPrefix"
-      dataOptions={addEmptyOption(prefixes)}
+      dataOptions={prefixes}
       disabled={disabled}
     />
   );
 };
 
 FieldPrefix.propTypes = {
-  prefixes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  prefixes: fieldSelectOptionsShape.isRequired,
   disabled: PropTypes.bool,
 };
 

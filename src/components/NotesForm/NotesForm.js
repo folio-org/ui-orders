@@ -10,8 +10,7 @@ import {
   Row,
   TextArea,
 } from '@folio/stripes/components';
-
-import { required } from '../Utils/Validate';
+import { validateRequired } from '@folio/stripes-acq-components';
 
 const renderNotesField = ({ input, label }) => (
   <Field
@@ -38,7 +37,7 @@ const NotesForm = ({ fields }) => (
             name={note}
             type="text"
             component={renderNotesField}
-            validate={required}
+            validate={validateRequired}
           />
         </Col>
         <Col xs={1}>

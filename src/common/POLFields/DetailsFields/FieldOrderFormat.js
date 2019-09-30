@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 import { get } from 'lodash';
 
-import { Select } from '@folio/stripes/components';
+import { FieldSelect } from '@folio/stripes-acq-components';
 
-import { Required } from '../../../components/Utils/Validate';
 import {
   ERESOURCE,
   ERESOURCES,
@@ -21,6 +19,11 @@ export const ORDER_FORMAT = {
   PEMix: PE_MIX,
   other: OTHER,
 };
+
+const ORDER_FORMAT_OPTIONS = Object.keys(ORDER_FORMAT).map((key) => ({
+  labelId: `ui-orders.order_format.${key}`,
+  value: ORDER_FORMAT[key],
+}));
 
 class FieldOrderFormat extends Component {
   static propTypes = {
@@ -77,27 +80,14 @@ class FieldOrderFormat extends Component {
     } = this.props;
 
     return (
-      <Field
-        component={Select}
+      <FieldSelect
+        dataOptions={ORDER_FORMAT_OPTIONS}
         label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
         name="orderFormat"
         onChange={this.onChangeSelect}
         required={required}
-        validate={required && [Required]}
         disabled={disabled}
-      >
-        <FormattedMessage id="ui-orders.dropdown.select">
-          {(message) => <option value="">{message}</option>}
-        </FormattedMessage>
-        {Object.keys(ORDER_FORMAT).map((key) => (
-          <FormattedMessage
-            id={`ui-orders.order_format.${key}`}
-            key={key}
-          >
-            {(message) => <option value={ORDER_FORMAT[key]}>{message}</option>}
-          </FormattedMessage>
-        ))}
-      </Field>
+      />
     );
   }
 }

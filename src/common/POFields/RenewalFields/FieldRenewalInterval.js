@@ -4,8 +4,7 @@ import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
-
-import { Required } from '../../../components/Utils/Validate';
+import { validateRequired } from '@folio/stripes-acq-components';
 
 const FieldRenewalInterval = ({ required, disabled }) => {
   return (
@@ -16,7 +15,7 @@ const FieldRenewalInterval = ({ required, disabled }) => {
       name="renewal.interval"
       type="number"
       required={required}
-      validate={required && Required}
+      validate={required && validateRequired}
       disabled={disabled}
     />
   );

@@ -9,11 +9,13 @@ import { FormattedMessage } from 'react-intl';
 import {
   Col,
   Row,
-  Select,
   TextField,
 } from '@folio/stripes/components';
+import {
+  FieldSelect,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
-import { required } from '../../../components/Utils/Validate';
 import { RepeatableFieldWithErrorMessage } from '../../RepeatableFieldWithErrorMessage/RepeatableFieldWithErrorMessage';
 import {
   isLocationsRequired,
@@ -40,15 +42,13 @@ const FieldsLocation = ({ locations, disabled, withValidation }) => {
       renderField={(field) => (
         <Row>
           <Col xs={6}>
-            <Field
-              component={Select}
+            <FieldSelect
               dataOptions={locations}
               fullWidth
               label={<FormattedMessage id="ui-orders.location.nameCode" />}
               name={`${field}.locationId`}
-              placeholder=" "
               required={withValidation}
-              validate={withValidation ? [required, validateLocation] : NO_VALIDATE}
+              validate={withValidation ? [validateRequired, validateLocation] : NO_VALIDATE}
               disabled={disabled}
             />
           </Col>

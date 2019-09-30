@@ -65,7 +65,7 @@ describe('Line details test', function () {
   it('displays Line details pane', function () {
     expect(page.$root).to.exist;
     expect(page.receiveButton.isPresent).to.be.true;
-  });
+  }).timeout(5000);
 
   it('does not display actions', function () {
     expect(page.actions.isPresent).to.be.false;

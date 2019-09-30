@@ -242,7 +242,7 @@ class POForm extends Component {
                             <FieldSelection
                               dataOptions={orderTemplates}
                               onChange={this.onChangeTemplate}
-                              label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                              labelId="ui-orders.settings.orderTemplates.editor.template.name"
                               name="template"
                               id="order-template"
                             />

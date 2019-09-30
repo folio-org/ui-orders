@@ -1,26 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
-import { Select } from '@folio/stripes/components';
-
-import { addEmptyOption } from '../../components/PurchaseOrder/util';
+import {
+  FieldSelect,
+  fieldSelectOptionsShape,
+} from '@folio/stripes-acq-components';
 
 const FieldSuffix = ({ suffixes, disabled }) => {
   return (
-    <Field
-      component={Select}
+    <FieldSelect
       label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
       name="numberSuffix"
-      dataOptions={addEmptyOption(suffixes)}
+      dataOptions={suffixes}
       disabled={disabled}
     />
   );
 };
 
 FieldSuffix.propTypes = {
-  suffixes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  suffixes: fieldSelectOptionsShape.isRequired,
   disabled: PropTypes.bool,
 };
 

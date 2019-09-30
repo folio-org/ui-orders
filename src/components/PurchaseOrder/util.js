@@ -54,10 +54,3 @@ export const isOpenAvailableForOrder = (isApprovalRequired, order = {}) => {
 
   return isWorkflowStatusIsPending(order) && compositePoLines.length > 0 && (approved || !isApprovalRequired);
 };
-
-const EMPTY_OPTION = {
-  label: '',
-  value: '',
-};
-
-export const addEmptyOption = (options = []) => [EMPTY_OPTION, ...options];

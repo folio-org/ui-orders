@@ -13,17 +13,18 @@ import {
   Modal,
   ModalFooter,
   Row,
-  Select,
   TextArea,
   TextField,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
-import { FieldDatepicker } from '@folio/stripes-acq-components';
+import {
+  FieldDatepicker,
+  FieldSelect,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
-import { EMPTY_OPTION } from '../Utils/const';
 import { INVENTORY_RECORDS_TYPE } from '../POLine/const';
-import { Required } from '../Utils/Validate';
 import { ADD_PIECE_MODAL_FORM } from './const';
 import FieldPieceFormat from './FieldPieceFormat';
 
@@ -94,18 +95,6 @@ class AddPieceModal extends Component {
     const isLocationRequired = includes(createInventoryValues[format], INVENTORY_RECORDS_TYPE.instanceAndHolding);
     const isAddItemRequired = includes(createInventoryValues[format], INVENTORY_RECORDS_TYPE.all);
     let isAddItemButtonDisabled = true;
-    let locationFieldProps = {
-      dataOptions: [EMPTY_OPTION, ...locations],
-    };
-
-    if (isLocationRequired) {
-      locationFieldProps = {
-        dataOptions: locations,
-        placeholder: ' ',
-        required: true,
-        validate: Required,
-      };
-    }
 
     if (!itemId && locationId && isAddItemRequired) {
       isAddItemButtonDisabled = false;
@@ -132,7 +121,7 @@ class AddPieceModal extends Component {
                 name="caption"
                 required
                 type="text"
-                validate={Required}
+                validate={validateRequired}
               />
             </Col>
             {showPieceFormatField && (
@@ -147,7 +136,7 @@ class AddPieceModal extends Component {
                 labelId="ui-orders.checkIn.expectedReceiptDate"
                 name="receivedDate"
                 required
-                validate={Required}
+                validate={validateRequired}
               />
             </Col>
             <Col xs>
@@ -161,12 +150,12 @@ class AddPieceModal extends Component {
           </Row>
           <Row>
             <Col xs>
-              <Field
-                component={Select}
+              <FieldSelect
+                dataOptions={locations}
                 fullWidth
                 label={<FormattedMessage id="ui-orders.checkIn.location" />}
                 name="locationId"
-                {...locationFieldProps}
+                required={isLocationRequired}
               />
             </Col>
             <Col xs>

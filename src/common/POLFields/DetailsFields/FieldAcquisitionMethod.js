@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 
-import { Select } from '@folio/stripes/components';
-import { Required } from '../../../components/Utils/Validate';
+import { FieldSelect } from '@folio/stripes-acq-components';
 
 export const ACQUISITION_METHOD = {
   approvalPlan: 'Approval Plan',
@@ -18,27 +16,19 @@ export const ACQUISITION_METHOD = {
   technical: 'Technical',
 };
 
+const ACQUISITION_METHOD_OPTIONS = Object.keys(ACQUISITION_METHOD).map((key) => ({
+  labelId: `ui-orders.acquisition_method.${key}`,
+  value: ACQUISITION_METHOD[key],
+}));
+
 const FieldAcquisitionMethod = ({ disabled, required }) => (
-  <Field
-    component={Select}
+  <FieldSelect
+    dataOptions={ACQUISITION_METHOD_OPTIONS}
     label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
     name="acquisitionMethod"
     required={required}
-    validate={required && [Required]}
     disabled={disabled}
-  >
-    <FormattedMessage id="ui-orders.dropdown.select">
-      {(message) => <option value="">{message}</option>}
-    </FormattedMessage>
-    {Object.keys(ACQUISITION_METHOD).map((key) => (
-      <FormattedMessage
-        id={`ui-orders.acquisition_method.${key}`}
-        key={key}
-      >
-        {(message) => <option value={ACQUISITION_METHOD[key]}>{message}</option>}
-      </FormattedMessage>
-    ))}
-  </Field>
+  />
 );
 
 FieldAcquisitionMethod.propTypes = {
