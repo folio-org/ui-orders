@@ -22,7 +22,10 @@ import {
 import {
   validateYear,
 } from '../../Utils/Validate';
-import { PRODUCT_ID_TYPE } from '../../../common/constants';
+import {
+  PRODUCT_ID_TYPE,
+  QUALIFIER_SEPARATOR,
+} from '../../../common/constants';
 import ContributorForm from './ContributorForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import InstancePlugin from './InstancePlugin';
@@ -115,15 +118,22 @@ class ItemForm extends Component {
     }
 
     if (identifiers && identifiers.length) {
+      const isbnTypeUUID = identifierTypes.find(({ label }) => label === PRODUCT_ID_TYPE.isbn).id;
       const allowedResIdentifierTypeIds = identifierTypes
         .filter(({ label }) => ALLOWED_RES_ID_TYPE_NAMES.includes(label))
         .map(({ value }) => value);
       const lineidentifiers = identifiers
         .filter(({ identifierTypeId }) => allowedResIdentifierTypeIds.includes(identifierTypeId))
-        .map(({ identifierTypeId, value }) => ({
-          productId: value,
-          productIdType: identifierTypeId,
-        }));
+        .map(({ identifierTypeId, value }) => {
+          const productId = isbnTypeUUID === identifierTypeId
+            ? value.split(QUALIFIER_SEPARATOR)[0]
+            : value;
+
+          return {
+            productId,
+            productIdType: identifierTypeId,
+          };
+        });
 
       dispatch(change('details.productIds', lineidentifiers));
       inventoryData.productIds = lineidentifiers;

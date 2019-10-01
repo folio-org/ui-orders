@@ -364,6 +364,7 @@
   "errors.zeroCostQty": "Physical and electronic cost quantity must be specified",
   "errors.zeroCostQtyElectronic": "Electronic cost quantity must be specified",
   "errors.zeroCostQtyPhysical": "Physical cost quantity must be specified",
+  "errors.invalidISBN" : "ISBN value is invalid",
   "filter.activated": "Activated",
   "filter.actualReceiptDate": "Actual receipt date",
   "filter.claim": "Claim",

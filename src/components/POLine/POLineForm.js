@@ -50,6 +50,7 @@ import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesFo
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { isWorkflowStatusOpen } from '../PurchaseOrder/util';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
+import asyncValidate from './asyncValidate';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -382,6 +383,8 @@ class POLineForm extends Component {
 }
 
 export default stripesForm({
+  asyncValidate,
+  asyncBlurFields: ['details.productIds[].productId', 'details.productIds[].productIdType'],
   enableReinitialize: true,
   form: 'POLineForm',
   navigationCheck: true,

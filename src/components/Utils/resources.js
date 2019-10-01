@@ -291,3 +291,10 @@ export const ACQUISITIONS_UNITS = {
   path: ACQUISITIONS_UNITS_API,
   records: 'acquisitionsUnits',
 };
+
+export const VALIDATE_ISBN = {
+  ...BASE_RESOURCE,
+  fetch: false,
+  accumulate: true,
+  path: 'isbn/validator',
+};

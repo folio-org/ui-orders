@@ -32,6 +32,7 @@ import {
 import {
   ACQUISITIONS_UNITS,
   ADDRESSES,
+  APPROVALS_SETTING,
   CLOSING_REASONS,
   CONTRIBUTOR_NAME_TYPES,
   CREATE_INVENTORY,
@@ -40,11 +41,11 @@ import {
   LOCATIONS,
   MATERIAL_TYPES,
   ORDER_NUMBER_SETTING,
-  APPROVALS_SETTING,
   ORDER_TEMPLATES,
   PREFIXES_SETTING,
   SUFFIXES_SETTING,
   USERS,
+  VALIDATE_ISBN,
 } from '../components/Utils/resources';
 import OrdersNavigation from '../common/OrdersNavigation';
 import {
@@ -139,6 +140,7 @@ class OrdersList extends Component {
     createInventory: CREATE_INVENTORY,
     addresses: ADDRESSES,
     acqUnits: ACQUISITIONS_UNITS,
+    validateISBN: VALIDATE_ISBN,
   });
 
   static propTypes = {

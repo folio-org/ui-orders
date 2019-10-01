@@ -13,7 +13,10 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { FieldSelect } from '@folio/stripes-acq-components';
+import {
+  FieldSelect,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
 class ProductIdDetailsForm extends Component {
   static propTypes = {
@@ -77,6 +80,8 @@ class ProductIdDetailsForm extends Component {
             name={`${elem}.productId`}
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.productId`)}
             disabled={disabled}
+            required={required}
+            validate={required ? validateRequired : undefined}
           />
         </Col>
         <Col xs={5}>
@@ -88,6 +93,7 @@ class ProductIdDetailsForm extends Component {
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.productIdType`)}
             required={required}
             disabled={disabled}
+            validate={required ? validateRequired : undefined}
           />
         </Col>
         <Col

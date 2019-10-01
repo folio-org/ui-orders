@@ -21,6 +21,7 @@ import OrdersNavigation from '../common/OrdersNavigation';
 import {
   ORDER_LINES_ROUTE,
   LINES_API,
+  QUALIFIER_SEPARATOR,
 } from '../common/constants';
 import {
   getActiveFilters,
@@ -45,8 +46,6 @@ import {
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-const QUALIFIER_SEPARATOR = ' ';
-
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
 const visibleColumns = ['poLineNumber', 'updatedDate', 'title', 'productIds', 'vendorRefNumber', 'funCodes'];
 const sortableColumns = ['poLineNumber', 'updatedDate', 'title', 'vendorRefNumber'];
