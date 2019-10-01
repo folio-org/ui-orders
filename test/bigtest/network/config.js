@@ -7,6 +7,7 @@ import {
   FUND_API,
   INVOICE_LINES_API,
   INVOICES_API,
+  ISBN_VALIDATOR,
   ITEMS_API,
   LINES_API,
   LOCATIONS_API,
@@ -205,5 +206,9 @@ export default function config() {
 
   this.get('/isbn/convertTo13', () => {
     return { isbn: '1234567890123' };
+  });
+
+  this.get(ISBN_VALIDATOR, () => {
+    return { isValid: true };
   });
 }

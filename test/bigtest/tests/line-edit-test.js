@@ -12,6 +12,7 @@ import {
 } from '../../../src/components/POLine/const';
 import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
 import calculateEstimatedPrice from '../../../src/components/POLine/calculateEstimatedPrice';
+import { PRODUCT_ID_TYPE } from '../../../src/common/constants';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 
@@ -27,7 +28,7 @@ const cost = {
 };
 const LINE_ESTIMATED_PRICE = calculateEstimatedPrice({ cost });
 
-describe('Line edit test', function () {
+describe.only('Line edit test', function () {
   setupApplication();
 
   let order = null;
@@ -43,7 +44,9 @@ describe('Line edit test', function () {
     vendor = this.server.create('vendor');
     location = this.server.create('location');
     contributorNameType = this.server.create('contributor-name-type');
-    identifierType = this.server.create('identifier-type');
+    identifierType = this.server.create('identifier-type', {
+      name: PRODUCT_ID_TYPE.isbn,
+    });
 
     locations = [
       {

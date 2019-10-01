@@ -7,6 +7,7 @@ import {
   IDENTIFIER_TYPES_API,
   INVOICE_LINES_API,
   INVOICES_API,
+  ISBN_VALIDATOR,
   ITEMS_API,
   LINE_DETAIL_API,
   LOCATIONS_API,
@@ -14,8 +15,8 @@ import {
   ORDER_DETAIL_API,
   ORDER_INVOICE_RELNS_API,
   ORDER_PIECES_API,
-  ORDER_TEMPLATES_API,
   ORDER_TEMPLATE_DETAIL_API,
+  ORDER_TEMPLATES_API,
   RECEIVE_API,
   RECEIVING_API,
   USERS_API,
@@ -294,7 +295,7 @@ export const ACQUISITIONS_UNITS = {
 
 export const VALIDATE_ISBN = {
   ...BASE_RESOURCE,
-  fetch: false,
   accumulate: true,
-  path: 'isbn/validator',
+  fetch: false,
+  path: ISBN_VALIDATOR,
 };
