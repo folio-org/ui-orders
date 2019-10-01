@@ -261,7 +261,7 @@ describe('Line edit test', function () {
 
       beforeEach(async function () {
         await lineEditPage.itemDetailsAccordion.productIdType.select(identifierType.name);
-        await lineEditPage.itemDetailsAccordion.productId.fill(testName);
+        await lineEditPage.itemDetailsAccordion.productId.fillAndBlur(testName);
       });
 
       it('product Id is updated', function () {

@@ -34,7 +34,7 @@ const POLineInvoicesContainer = ({ lineId, label, resources, vendors, mutator })
         });
       }
     });
-  }, [lineId, mutator.invoiceLines, mutator.invoices]);
+  }, [lineId]);
 
   return (
     <Accordion

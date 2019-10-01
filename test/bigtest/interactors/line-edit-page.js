@@ -108,6 +108,12 @@ const ITEM_DETAILS = {
   static defaultScope = '[name$="productId"]';
   isInput = is('input');
   value = value();
+
+  fillAndBlur(val) {
+    return this
+      .fill(val)
+      .blur();
+  }
 }
 
 @interactor class ProductIdType {

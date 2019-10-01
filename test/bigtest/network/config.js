@@ -1,10 +1,16 @@
-// typical mirage config export
-// http://www.ember-cli-mirage.com/docs/v0.4.x/configuration/
 import { noop } from 'lodash';
+
+import {
+  configFunds,
+  configMemberships,
+  configUnits,
+  configUsers,
+  configVendors,
+} from '@folio/stripes-acq-components/test/bigtest/network';
+
 import {
   CHECKIN_API,
   CONFIG_API,
-  FUND_API,
   INVOICE_LINES_API,
   INVOICES_API,
   ISBN_VALIDATOR,
@@ -19,7 +25,6 @@ import {
   ORDERS_API,
   RECEIVE_API,
   RECEIVING_API,
-  VENDORS_API,
 } from '../../../src/components/Utils/api';
 import {
   CONFIG_CLOSING_REASONS,
@@ -27,6 +32,12 @@ import {
 } from '../../../src/components/Utils/const';
 
 export default function config() {
+  configFunds(this);
+  configMemberships(this);
+  configUnits(this);
+  configUsers(this);
+  configVendors(this);
+
   this.get(ORDERS_API, (schema) => {
     return schema.orders.all();
   });
@@ -46,13 +57,6 @@ export default function config() {
 
   this.post(ORDERS_API, 'order');
   this.delete(`${ORDERS_API}/:id`, 'order');
-
-  this.get(VENDORS_API, (schema) => {
-    return schema.vendors.all();
-  });
-
-  this.get(FUND_API);
-  this.get('/users');
   this.get('/material-types');
   this.get('/contributor-name-types');
   this.get('/identifier-types');
@@ -73,11 +77,6 @@ export default function config() {
 
   this.put(`${LINES_API}/:id`, 'line');
   this.delete(`${LINES_API}/:id`, 'line');
-
-  this.get(VENDORS_API, (schema) => {
-    return schema.vendors.all();
-  });
-
   this.get(LOCATIONS_API);
 
   this.get(CONFIG_API, (schema) => {
