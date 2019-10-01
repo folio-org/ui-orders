@@ -49,7 +49,10 @@ describe('Line edit test - Capture UUID from inventory', function () {
       edition: EDITION,
       publisher: PUBLISHER,
       details: {
-        productIds: [{ productId: PRODUCT_ID }],
+        productIds: [{
+          productId: PRODUCT_ID,
+          qualifier: 'qualifier',
+        }],
       },
     });
 

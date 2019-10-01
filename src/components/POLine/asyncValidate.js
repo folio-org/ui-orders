@@ -15,7 +15,8 @@ function asyncValidate(values, dispatch, props, blurredField) {
   const { parentMutator: { validateISBN }, parentResources: { identifierTypes } } = props;
   const isbnType = get(identifierTypes, 'records', []).find(({ name }) => name === PRODUCT_ID_TYPE.isbn);
   const isbnTypeUUID = get(isbnType, 'id');
-  const isbnProductIds = get(values, 'details.productIds', []).filter(({ productIdType }) => productIdType === isbnTypeUUID);
+  const productIds = get(values, 'details.productIds', []);
+  const hasISBNProductIds = productIds.some(({ productIdType }) => productIdType === isbnTypeUUID);
 
   if (blurredField) {
     const blurredFieldArray = blurredField.split('.');
@@ -43,8 +44,15 @@ function asyncValidate(values, dispatch, props, blurredField) {
         }
       });
     }
-  } else if (isbnProductIds.length > 0) {
-    return Promise.all(isbnProductIds.map(({ productId: isbn }) => validateISBN.GET({ params: { isbn } })))
+  } else if (hasISBNProductIds) {
+    const validationCalls = productIds
+      .map(({ productId: isbn, productIdType }) => {
+        return productIdType === isbnTypeUUID
+          ? validateISBN.GET({ params: { isbn } })
+          : Promise.resolve({ isValid: true });
+      });
+
+    return Promise.all(validationCalls)
       .then((responses) => {
         const errors = responses.reduce((accumulator, { isValid }, index) => {
           if (!isValid) set(accumulator, `details.productIds[${index}].productId`, <FormattedMessage id="ui-orders.errors.invalidISBN" />);

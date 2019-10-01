@@ -118,21 +118,26 @@ class ItemForm extends Component {
     }
 
     if (identifiers && identifiers.length) {
-      const isbnTypeUUID = identifierTypes.find(({ label }) => label === PRODUCT_ID_TYPE.isbn).id;
+      const isbnTypeUUID = identifierTypes.find(({ label }) => label === PRODUCT_ID_TYPE.isbn).value;
       const allowedResIdentifierTypeIds = identifierTypes
         .filter(({ label }) => ALLOWED_RES_ID_TYPE_NAMES.includes(label))
         .map(({ value }) => value);
       const lineidentifiers = identifiers
         .filter(({ identifierTypeId }) => allowedResIdentifierTypeIds.includes(identifierTypeId))
         .map(({ identifierTypeId, value }) => {
-          const productId = isbnTypeUUID === identifierTypeId
-            ? value.split(QUALIFIER_SEPARATOR)[0]
-            : value;
-
-          return {
-            productId,
+          const result = {
+            productId: value,
             productIdType: identifierTypeId,
           };
+
+          if (isbnTypeUUID === identifierTypeId) {
+            const [productId, ...qualifier] = value.split(QUALIFIER_SEPARATOR);
+
+            result.productId = productId;
+            result.qualifier = qualifier.join(QUALIFIER_SEPARATOR);
+          }
+
+          return result;
         });
 
       dispatch(change('details.productIds', lineidentifiers));

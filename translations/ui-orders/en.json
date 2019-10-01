@@ -409,6 +409,7 @@
   "itemDetails.subscriptionInterval": "Subscription interval",
   "itemDetails.subscriptionTo": "Subscription to",
   "itemDetails.title": "Title",
+  "itemDetails.qualifier": "Qualifier",
   "line.accordion.cost": "Cost details",
   "line.accordion.details": "PO line details",
   "line.accordion.eresource": "E-resources details",

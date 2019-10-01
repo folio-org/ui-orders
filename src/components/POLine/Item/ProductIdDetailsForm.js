@@ -72,7 +72,7 @@ class ProductIdDetailsForm extends Component {
 
     return (
       <Row key={index}>
-        <Col xs={6}>
+        <Col xs={4}>
           <Field
             component={TextField}
             fullWidth
@@ -84,7 +84,17 @@ class ProductIdDetailsForm extends Component {
             validate={required ? validateRequired : undefined}
           />
         </Col>
-        <Col xs={5}>
+        <Col xs={4}>
+          <Field
+            component={TextField}
+            fullWidth
+            label={<FormattedMessage id="ui-orders.itemDetails.qualifier" />}
+            name={`${elem}.qualifier`}
+            onChange={(e, value) => this.props.onChangeField(value, `${elem}.qualifier`)}
+            disabled={disabled}
+          />
+        </Col>
+        <Col xs={3}>
           <FieldSelect
             dataOptions={this.props.identifierTypes}
             fullWidth
