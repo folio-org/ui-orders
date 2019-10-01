@@ -28,7 +28,7 @@ const cost = {
 };
 const LINE_ESTIMATED_PRICE = calculateEstimatedPrice({ cost });
 
-describe.only('Line edit test', function () {
+describe('Line edit test', function () {
   setupApplication();
 
   let order = null;

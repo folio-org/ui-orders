@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 
 import { FieldSelect } from '@folio/stripes-acq-components';
 
