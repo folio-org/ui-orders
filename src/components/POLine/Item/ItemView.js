@@ -112,17 +112,23 @@ class ItemView extends Component {
             />
           </Col>
           <Col xs={12}>
-            <ContributorView
-              contributors={contributors}
-              contributorNameTypes={contributorNameTypes}
-            />
+            <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}>
+              <ContributorView
+                contributors={contributors}
+                contributorNameTypes={contributorNameTypes}
+              />
+            </KeyValue>
           </Col>
         </Row>
         <Row start="xs">
-          <ProductIdDetails
-            identifierTypes={identifierTypes}
-            itemIdDetails={get(poLineDetails, ['details', 'productIds'], [])}
-          />
+          <Col xs={12}>
+            <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}>
+              <ProductIdDetails
+                identifierTypes={identifierTypes}
+                itemIdDetails={get(poLineDetails, ['details', 'productIds'], [])}
+              />
+            </KeyValue>
+          </Col>
         </Row>
         <Row start="xs">
           <Col xs={12}>

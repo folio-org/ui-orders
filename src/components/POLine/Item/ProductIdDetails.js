@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
@@ -7,65 +7,39 @@ import {
 } from 'lodash';
 
 import {
-  Col,
-  KeyValue,
-  Row,
+  MultiColumnList,
 } from '@folio/stripes/components';
 
-class ProductIdDetails extends Component {
-  static propTypes = {
-    itemIdDetails: PropTypes.arrayOf(PropTypes.object),
-    identifierTypes: PropTypes.arrayOf(PropTypes.object),
-  }
+const columnMapping = {
+  productId: <FormattedMessage id="ui-orders.itemDetails.productId" />,
+  qualifier: <FormattedMessage id="ui-orders.itemDetails.qualifier" />,
+  productIdType: <FormattedMessage id="ui-orders.itemDetails.productIdType" />,
+};
+const visibleColumns = ['productId', 'qualifier', 'productIdType'];
 
-  static defaultProps = {
-    itemIdDetails: {},
-    identifierTypes: [],
-  }
+function ProductIdDetails({ itemIdDetails, identifierTypes }) {
+  const formatter = { productIdType: ({ productIdType }) => get(find(identifierTypes, { id: productIdType }), 'name', '') };
 
-  constructor(props) {
-    super(props);
-    this.getProductDetails = this.getProductDetails.bind(this);
-  }
-
-  getProductDetails(val, key) {
-    return (
-      <Row key={key}>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
-            value={get(val, 'productId')}
-          />
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
-            value={get(val, 'productIdType')}
-          />
-        </Col>
-      </Row>
-    );
-  }
-
-  render() {
-    const { itemIdDetails, identifierTypes } = this.props;
-    const itemIdDetailsToDisplay = itemIdDetails.map(({ productId, productIdType }) => ({
-      productId,
-      productIdType: get(find(identifierTypes, { id: productIdType }), 'name', ''),
-    }));
-
-    return (
-      <Col xs={12}>
-        {itemIdDetailsToDisplay.map(this.getProductDetails)}
-      </Col>
-    );
-  }
+  return (
+    <MultiColumnList
+      columnMapping={columnMapping}
+      contentData={itemIdDetails}
+      formatter={formatter}
+      id="list-product-ids"
+      interactive={false}
+      visibleColumns={visibleColumns}
+    />
+  );
 }
+
+ProductIdDetails.propTypes = {
+  identifierTypes: PropTypes.arrayOf(PropTypes.object),
+  itemIdDetails: PropTypes.arrayOf(PropTypes.object),
+};
+
+ProductIdDetails.defaultProps = {
+  identifierTypes: [],
+  itemIdDetails: [],
+};
 
 export default ProductIdDetails;
