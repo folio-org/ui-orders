@@ -52,11 +52,9 @@ import {
   getActiveFilters,
   handleFilterChange,
 } from '../common/utils';
-import { WORKFLOW_STATUS } from '../components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
 import { ordersSearchTemplate, searchableIndexes } from './OrdersListSearchConfig';
-import { FILTERS } from './constants';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -89,6 +87,7 @@ class OrdersList extends Component {
               lastUpdated: 'metadata.updatedDate',
             },
             filterConfig,
+            2,
           ),
         },
         staticFallback: { params: {} },
@@ -169,16 +168,6 @@ class OrdersList extends Component {
     this.showToast = showToast.bind(this);
   }
 
-  initFilters = () => {
-    const { resources, mutator } = this.props;
-
-    if (!resources.query.filters) {
-      mutator.query.update({
-        filters: `${FILTERS.STATUS}.${WORKFLOW_STATUS.open},${FILTERS.STATUS}.${WORKFLOW_STATUS.pending}`,
-      });
-    }
-  }
-
   create = async (order) => {
     const { mutator } = this.props;
 
@@ -207,7 +196,6 @@ class OrdersList extends Component {
           acqUnits={acqUnits}
           activeFilters={this.getActiveFilters()}
           closingReasons={closingReasons}
-          init={this.initFilters}
           onChange={onChange}
           queryMutator={this.props.mutator.query}
           users={users}

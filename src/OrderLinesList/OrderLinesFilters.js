@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -6,10 +6,6 @@ import {
 } from '@folio/stripes/components';
 import { SourceFilter } from '@folio/stripes-acq-components';
 
-import {
-  RECEIPT_STATUS,
-  PAYMENT_STATUS,
-} from '../common/POLFields';
 import LocationFilter from '../common/LocationFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
 import VendorFilter from '../common/VendorFilter';
@@ -34,218 +30,197 @@ import {
   FILTERS,
 } from './constants';
 
-const DEFAULT_FILTERS = [
-  `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.partiallyReceived}`,
-  `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.awaitingReceipt}`,
-  `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.pending}`,
-  `${FILTERS.PAYMENT_STATUS}.${PAYMENT_STATUS.partiallyPaid}`,
-  `${FILTERS.PAYMENT_STATUS}.${PAYMENT_STATUS.awaitingPayment}`,
-  `${FILTERS.PAYMENT_STATUS}.${PAYMENT_STATUS.pending}`,
-];
-
-class OrderLinesFilters extends Component {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    activeFilters: PropTypes.object.isRequired,
-    funds: fundsShape,
-    locations: locationsShape,
-    vendors: vendorsShape,
-    materialTypes: materialTypesShape,
-    queryMutator: PropTypes.object,
-  };
-
-  componentDidMount() {
-    const { queryMutator } = this.props;
-    const filters = DEFAULT_FILTERS.join(',');
-
-    queryMutator.update({ filters });
-  }
-
-  render() {
-    const { activeFilters, onChange, funds, locations, materialTypes, vendors } = this.props;
-
-    return (
-      <AccordionSet>
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.RECEIPT_STATUS]}
-          closedByDefault={false}
-          id={FILTERS.RECEIPT_STATUS}
-          labelId="ui-orders.poLine.receiptStatus"
-          name={FILTERS.RECEIPT_STATUS}
-          onChange={onChange}
-          options={RECEIPT_STATUS_FILTER_OPTIONS}
-        />
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.PAYMENT_STATUS]}
-          closedByDefault={false}
-          id={FILTERS.PAYMENT_STATUS}
-          labelId="ui-orders.poLine.paymentStatus"
-          name={FILTERS.PAYMENT_STATUS}
-          onChange={onChange}
-          options={PAYMENT_STATUS_FILTER_OPTIONS}
-        />
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.ACQUISITION_METHOD]}
-          labelId="ui-orders.poLine.acquisitionMethod"
-          name={FILTERS.ACQUISITION_METHOD}
-          onChange={onChange}
-          options={ACQUISITION_METHOD_FILTER_OPTIONS}
-        />
-        <LocationFilter
-          activeFilters={activeFilters[FILTERS.LOCATION]}
-          labelId="ui-orders.line.accordion.location"
-          name={FILTERS.LOCATION}
-          onChange={onChange}
-          locations={locations}
-        />
-        <FundFilter
-          activeFilters={activeFilters[FILTERS.FUND_CODE]}
-          labelId="ui-orders.filter.fundCode"
-          name={FILTERS.FUND_CODE}
-          onChange={onChange}
-          funds={funds}
-        />
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.ORDER_FORMAT]}
-          labelId="ui-orders.poLine.orderFormat"
-          name={FILTERS.ORDER_FORMAT}
-          onChange={onChange}
-          options={ORDER_FORMAT_FILTER_OPTIONS}
-        />
-        <MaterialTypeFilter
-          activeFilters={activeFilters[FILTERS.MATERIAL_TYPE_ELECTRONIC]}
-          isElectronic
-          name={FILTERS.MATERIAL_TYPE_ELECTRONIC}
-          onChange={onChange}
-          materialTypes={materialTypes}
-        />
-        <MaterialTypeFilter
-          activeFilters={activeFilters[FILTERS.MATERIAL_TYPE_PHYSICAL]}
-          name={FILTERS.MATERIAL_TYPE_PHYSICAL}
-          onChange={onChange}
-          materialTypes={materialTypes}
-        />
-        <OrdersDateRangeFilter
-          activeFilters={activeFilters[FILTERS.DATE_CREATED]}
-          id={FILTERS.DATE_CREATED}
-          labelId="ui-orders.poLine.dateCreated"
-          name={FILTERS.DATE_CREATED}
-          onChange={onChange}
-        />
-        <VendorFilter
-          activeFilters={activeFilters[FILTERS.VENDOR]}
-          labelId="ui-orders.line.accordion.vendor"
-          name={FILTERS.VENDOR}
-          onChange={onChange}
-          vendors={vendors}
-        />
-        <SourceFilter
-          activeFilters={activeFilters[FILTERS.SOURCE_CODE]}
-          name={FILTERS.SOURCE_CODE}
-          onChange={onChange}
-        />
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.COLLECTION]}
-          labelId="ui-orders.filter.collection"
-          name={FILTERS.COLLECTION}
-          onChange={onChange}
-          options={BOOLEAN_OPTIONS}
-        />
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.RUSH]}
-          labelId="ui-orders.filter.rush"
-          name={FILTERS.RUSH}
-          onChange={onChange}
-          options={BOOLEAN_OPTIONS}
-        />
-        <VendorFilter
-          activeFilters={activeFilters[FILTERS.ACCESS_PROVIDER]}
-          labelId="ui-orders.eresource.accessProvider"
-          name={FILTERS.ACCESS_PROVIDER}
-          onChange={onChange}
-          vendors={vendors}
-        />
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.ACTIVATED]}
-          labelId="ui-orders.filter.activated"
-          name={FILTERS.ACTIVATED}
-          onChange={onChange}
-          options={BOOLEAN_OPTIONS}
-        />
-        <OrdersDateRangeFilter
-          activeFilters={activeFilters[FILTERS.EXPECTED_ACTIVATION_DATE]}
-          id={FILTERS.EXPECTED_ACTIVATION_DATE}
-          labelId="ui-orders.eresource.expectedActivation"
-          name={FILTERS.EXPECTED_ACTIVATION_DATE}
-          onChange={onChange}
-        />
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.TRIAL]}
-          labelId="ui-orders.filter.trial"
-          name={FILTERS.TRIAL}
-          onChange={onChange}
-          options={BOOLEAN_OPTIONS}
-        />
-        <OrdersDateRangeFilter
-          activeFilters={activeFilters[FILTERS.SUBSCRIPTION_FROM]}
-          id={FILTERS.SUBSCRIPTION_FROM}
-          labelId="ui-orders.itemDetails.subscriptionFrom"
-          name={FILTERS.SUBSCRIPTION_FROM}
-          onChange={onChange}
-        />
-        <OrdersDateRangeFilter
-          activeFilters={activeFilters[FILTERS.SUBSCRIPTION_TO]}
-          id={FILTERS.SUBSCRIPTION_TO}
-          labelId="ui-orders.itemDetails.subscriptionTo"
-          name={FILTERS.SUBSCRIPTION_TO}
-          onChange={onChange}
-        />
-        <OrdersDateRangeFilter
-          activeFilters={activeFilters[FILTERS.ACTUAL_RECEIPT_DATE]}
-          id={FILTERS.ACTUAL_RECEIPT_DATE}
-          labelId="ui-orders.filter.actualReceiptDate"
-          name={FILTERS.ACTUAL_RECEIPT_DATE}
-          onChange={onChange}
-        />
-        <OrdersDateRangeFilter
-          activeFilters={activeFilters[FILTERS.EXPECTED_RECEIPT_DATE]}
-          id={FILTERS.EXPECTED_RECEIPT_DATE}
-          labelId="ui-orders.physical.expectedReceiptDate"
-          name={FILTERS.EXPECTED_RECEIPT_DATE}
-          onChange={onChange}
-        />
-        <OrdersDateRangeFilter
-          activeFilters={activeFilters[FILTERS.RECEIPT_DUE]}
-          id={FILTERS.RECEIPT_DUE}
-          labelId="ui-orders.physical.receiptDue"
-          name={FILTERS.RECEIPT_DUE}
-          onChange={onChange}
-        />
-        <OrdersCheckboxFilter
-          activeFilters={activeFilters[FILTERS.CLAIM]}
-          labelId="ui-orders.filter.claim"
-          name={FILTERS.CLAIM}
-          onChange={onChange}
-          options={BOOLEAN_OPTIONS}
-        />
-        <OrdersTextFilter
-          id={FILTERS.CLAIM_GRACE}
-          activeFilters={activeFilters[FILTERS.CLAIM_GRACE]}
-          labelId="ui-orders.filter.claimGrace"
-          name={FILTERS.CLAIM_GRACE}
-          type="number"
-          onChange={onChange}
-        />
-        <OrdersDateRangeFilter
-          activeFilters={activeFilters[FILTERS.CLAIM_SENT]}
-          id={FILTERS.CLAIM_SENT}
-          labelId="ui-orders.filter.claimSent"
-          name={FILTERS.CLAIM_SENT}
-          onChange={onChange}
-        />
-      </AccordionSet>
-    );
-  }
+function OrderLinesFilters({ activeFilters, onChange, funds, locations, materialTypes, vendors }) {
+  return (
+    <AccordionSet>
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.RECEIPT_STATUS]}
+        closedByDefault={false}
+        id={FILTERS.RECEIPT_STATUS}
+        labelId="ui-orders.poLine.receiptStatus"
+        name={FILTERS.RECEIPT_STATUS}
+        onChange={onChange}
+        options={RECEIPT_STATUS_FILTER_OPTIONS}
+      />
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.PAYMENT_STATUS]}
+        closedByDefault={false}
+        id={FILTERS.PAYMENT_STATUS}
+        labelId="ui-orders.poLine.paymentStatus"
+        name={FILTERS.PAYMENT_STATUS}
+        onChange={onChange}
+        options={PAYMENT_STATUS_FILTER_OPTIONS}
+      />
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.ACQUISITION_METHOD]}
+        labelId="ui-orders.poLine.acquisitionMethod"
+        name={FILTERS.ACQUISITION_METHOD}
+        onChange={onChange}
+        options={ACQUISITION_METHOD_FILTER_OPTIONS}
+      />
+      <LocationFilter
+        activeFilters={activeFilters[FILTERS.LOCATION]}
+        labelId="ui-orders.line.accordion.location"
+        name={FILTERS.LOCATION}
+        onChange={onChange}
+        locations={locations}
+      />
+      <FundFilter
+        activeFilters={activeFilters[FILTERS.FUND_CODE]}
+        labelId="ui-orders.filter.fundCode"
+        name={FILTERS.FUND_CODE}
+        onChange={onChange}
+        funds={funds}
+      />
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.ORDER_FORMAT]}
+        labelId="ui-orders.poLine.orderFormat"
+        name={FILTERS.ORDER_FORMAT}
+        onChange={onChange}
+        options={ORDER_FORMAT_FILTER_OPTIONS}
+      />
+      <MaterialTypeFilter
+        activeFilters={activeFilters[FILTERS.MATERIAL_TYPE_ELECTRONIC]}
+        isElectronic
+        name={FILTERS.MATERIAL_TYPE_ELECTRONIC}
+        onChange={onChange}
+        materialTypes={materialTypes}
+      />
+      <MaterialTypeFilter
+        activeFilters={activeFilters[FILTERS.MATERIAL_TYPE_PHYSICAL]}
+        name={FILTERS.MATERIAL_TYPE_PHYSICAL}
+        onChange={onChange}
+        materialTypes={materialTypes}
+      />
+      <OrdersDateRangeFilter
+        activeFilters={activeFilters[FILTERS.DATE_CREATED]}
+        id={FILTERS.DATE_CREATED}
+        labelId="ui-orders.poLine.dateCreated"
+        name={FILTERS.DATE_CREATED}
+        onChange={onChange}
+      />
+      <VendorFilter
+        activeFilters={activeFilters[FILTERS.VENDOR]}
+        labelId="ui-orders.line.accordion.vendor"
+        name={FILTERS.VENDOR}
+        onChange={onChange}
+        vendors={vendors}
+      />
+      <SourceFilter
+        activeFilters={activeFilters[FILTERS.SOURCE_CODE]}
+        name={FILTERS.SOURCE_CODE}
+        onChange={onChange}
+      />
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.COLLECTION]}
+        labelId="ui-orders.filter.collection"
+        name={FILTERS.COLLECTION}
+        onChange={onChange}
+        options={BOOLEAN_OPTIONS}
+      />
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.RUSH]}
+        labelId="ui-orders.filter.rush"
+        name={FILTERS.RUSH}
+        onChange={onChange}
+        options={BOOLEAN_OPTIONS}
+      />
+      <VendorFilter
+        activeFilters={activeFilters[FILTERS.ACCESS_PROVIDER]}
+        labelId="ui-orders.eresource.accessProvider"
+        name={FILTERS.ACCESS_PROVIDER}
+        onChange={onChange}
+        vendors={vendors}
+      />
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.ACTIVATED]}
+        labelId="ui-orders.filter.activated"
+        name={FILTERS.ACTIVATED}
+        onChange={onChange}
+        options={BOOLEAN_OPTIONS}
+      />
+      <OrdersDateRangeFilter
+        activeFilters={activeFilters[FILTERS.EXPECTED_ACTIVATION_DATE]}
+        id={FILTERS.EXPECTED_ACTIVATION_DATE}
+        labelId="ui-orders.eresource.expectedActivation"
+        name={FILTERS.EXPECTED_ACTIVATION_DATE}
+        onChange={onChange}
+      />
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.TRIAL]}
+        labelId="ui-orders.filter.trial"
+        name={FILTERS.TRIAL}
+        onChange={onChange}
+        options={BOOLEAN_OPTIONS}
+      />
+      <OrdersDateRangeFilter
+        activeFilters={activeFilters[FILTERS.SUBSCRIPTION_FROM]}
+        id={FILTERS.SUBSCRIPTION_FROM}
+        labelId="ui-orders.itemDetails.subscriptionFrom"
+        name={FILTERS.SUBSCRIPTION_FROM}
+        onChange={onChange}
+      />
+      <OrdersDateRangeFilter
+        activeFilters={activeFilters[FILTERS.SUBSCRIPTION_TO]}
+        id={FILTERS.SUBSCRIPTION_TO}
+        labelId="ui-orders.itemDetails.subscriptionTo"
+        name={FILTERS.SUBSCRIPTION_TO}
+        onChange={onChange}
+      />
+      <OrdersDateRangeFilter
+        activeFilters={activeFilters[FILTERS.ACTUAL_RECEIPT_DATE]}
+        id={FILTERS.ACTUAL_RECEIPT_DATE}
+        labelId="ui-orders.filter.actualReceiptDate"
+        name={FILTERS.ACTUAL_RECEIPT_DATE}
+        onChange={onChange}
+      />
+      <OrdersDateRangeFilter
+        activeFilters={activeFilters[FILTERS.EXPECTED_RECEIPT_DATE]}
+        id={FILTERS.EXPECTED_RECEIPT_DATE}
+        labelId="ui-orders.physical.expectedReceiptDate"
+        name={FILTERS.EXPECTED_RECEIPT_DATE}
+        onChange={onChange}
+      />
+      <OrdersDateRangeFilter
+        activeFilters={activeFilters[FILTERS.RECEIPT_DUE]}
+        id={FILTERS.RECEIPT_DUE}
+        labelId="ui-orders.physical.receiptDue"
+        name={FILTERS.RECEIPT_DUE}
+        onChange={onChange}
+      />
+      <OrdersCheckboxFilter
+        activeFilters={activeFilters[FILTERS.CLAIM]}
+        labelId="ui-orders.filter.claim"
+        name={FILTERS.CLAIM}
+        onChange={onChange}
+        options={BOOLEAN_OPTIONS}
+      />
+      <OrdersTextFilter
+        id={FILTERS.CLAIM_GRACE}
+        activeFilters={activeFilters[FILTERS.CLAIM_GRACE]}
+        labelId="ui-orders.filter.claimGrace"
+        name={FILTERS.CLAIM_GRACE}
+        type="number"
+        onChange={onChange}
+      />
+      <OrdersDateRangeFilter
+        activeFilters={activeFilters[FILTERS.CLAIM_SENT]}
+        id={FILTERS.CLAIM_SENT}
+        labelId="ui-orders.filter.claimSent"
+        name={FILTERS.CLAIM_SENT}
+        onChange={onChange}
+      />
+    </AccordionSet>
+  );
 }
+
+OrderLinesFilters.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  activeFilters: PropTypes.object.isRequired,
+  funds: fundsShape,
+  locations: locationsShape,
+  vendors: vendorsShape,
+  materialTypes: materialTypesShape,
+};
 
 export default OrderLinesFilters;

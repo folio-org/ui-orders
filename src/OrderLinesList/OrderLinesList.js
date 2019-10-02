@@ -142,6 +142,7 @@ export class OrderLinesList extends Component {
                 vendorRefNumber: 'vendorDetail.refNumber',
               },
               filterConfig,
+              2,
             )(queryParams, pathComponents, newResourceValues, logger);
           },
         },
@@ -213,7 +214,6 @@ export class OrderLinesList extends Component {
         locations={locations}
         materialTypes={materialTypes}
         onChange={onChange}
-        queryMutator={this.props.mutator.query}
         vendors={vendors}
       />
     );
