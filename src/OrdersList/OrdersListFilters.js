@@ -133,9 +133,9 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, vendors, u
         options={BOOLEAN_OPTIONS}
       />
       <OrdersTextFilter
-        id={FILTERS.OrdersListFiltersRENEWAL_REVIEW_PERIOD}
-        activeFilterOrdersListFilterss={activeFilters[FILTERS.RENEWAL_REVIEW_PERIOD]}
-        labelId="ui-OrdersListFiltersorders.renewal.reviewPeriod"
+        id={FILTERS.RENEWAL_REVIEW_PERIOD}
+        activeFilters={activeFilters[FILTERS.RENEWAL_REVIEW_PERIOD]}
+        labelId="ui-orders.renewal.reviewPeriod"
         name={FILTERS.RENEWAL_REVIEW_PERIOD}
         type="number"
         onChange={onChange}
