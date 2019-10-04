@@ -1,12 +1,15 @@
 import {
-  collection,
-  interactor,
-  isPresent,
-  scoped,
-  fillable,
-  text,
   clickable,
-  property, is, value,
+  collection,
+  fillable,
+  interactor,
+  is,
+  isPresent,
+  property,
+  scoped,
+  selectable,
+  text,
+  value,
 } from '@bigtest/interactor';
 
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
@@ -62,6 +65,10 @@ export default interactor(class OrdersInteractor {
   order = scoped('[data-test-order-details]');
 
   filters = new OrdersFilterInteractor();
+  isNoResultsMessageLabelPresent = isPresent('[class*=noResultsMessageLabel]');
+  chooseSearchOption= selectable('#input-order-search-qindex');
+  fillSearchField = fillable('#input-order-search');
+  clickSearch = clickable('[data-test-search-and-sort-submit]');
 
   whenLoaded() {
     return this.timeout(5000).when(() => this.hasCreateOrderButton);

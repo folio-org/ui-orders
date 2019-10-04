@@ -1,9 +1,10 @@
 import {
+  clickable,
   collection,
   fillable,
   interactor,
-  selectable,
   isPresent,
+  selectable,
 } from '@bigtest/interactor';
 
 import Button from './button';
@@ -41,6 +42,8 @@ export default interactor(class OrderLinesInteractor {
 
   filter = new OrderLinesFilterInteractor();
   isLoaded = isPresent('#pane-results');
+  isNoResultsMessageLabelPresent = isPresent('[class*=noResultsMessageLabel]');
+
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);
   }

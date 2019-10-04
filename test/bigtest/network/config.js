@@ -15,14 +15,12 @@ import {
   INVOICES_API,
   ISBN_VALIDATOR,
   ITEMS_API,
-  LINES_API,
   LOCATIONS_API,
   ORDER_INVOICE_RELNS_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
   ORDER_PIECES_API,
   ORDER_TEMPLATES_API,
-  ORDERS_API,
   RECEIVE_API,
   RECEIVING_API,
 } from '../../../src/components/Utils/api';
@@ -30,6 +28,10 @@ import {
   CONFIG_CLOSING_REASONS,
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';
+import {
+  configLines,
+  configOrders,
+} from './configs';
 
 export default function config() {
   configFunds(this);
@@ -37,26 +39,9 @@ export default function config() {
   configUnits(this);
   configUsers(this);
   configVendors(this);
+  configOrders(this);
+  configLines(this);
 
-  this.get(ORDERS_API, (schema) => {
-    return schema.orders.all();
-  });
-
-  this.get(`${ORDERS_API}/:id`, (schema, request) => {
-    const order = schema.orders.find(request.params.id);
-
-    return order && order.attrs;
-  });
-
-  this.put(`${ORDERS_API}/:id`, (schema, request) => {
-    const id = request.params.id;
-    const attrs = JSON.parse(request.requestBody);
-
-    return schema.orders.find(id).update(attrs);
-  });
-
-  this.post(ORDERS_API, 'order');
-  this.delete(`${ORDERS_API}/:id`, 'order');
   this.get('/material-types');
   this.get('/contributor-name-types');
   this.get('/identifier-types');
@@ -67,16 +52,6 @@ export default function config() {
 
   this.post(ORDER_NUMBER_VALIDATE_API, noop);
 
-  this.get(LINES_API, (schema) => {
-    return schema.lines.all();
-  });
-
-  this.get(`${LINES_API}/:id`, (schema, request) => {
-    return schema.lines.find(request.params.id).attrs;
-  });
-
-  this.put(`${LINES_API}/:id`, 'line');
-  this.delete(`${LINES_API}/:id`, 'line');
   this.get(LOCATIONS_API);
 
   this.get(CONFIG_API, (schema) => {

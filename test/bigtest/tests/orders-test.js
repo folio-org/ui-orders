@@ -17,29 +17,43 @@ describe('Orders', function () {
     await orders.whenLoaded();
   });
 
-  it('shows the list of order items', () => {
-    expect(orders.isVisible).to.equal(true);
+  it('is no results message label present', () => {
+    expect(orders.isNoResultsMessageLabelPresent).to.equal(true);
   });
 
-  it('renders each order', () => {
-    expect(orders.orders().length).to.be.equal(ORDERS_COUNT);
-  });
-
-  describe('clicking on the first order item', function () {
+  describe('search by poNumber', function () {
     beforeEach(async function () {
-      await orders.orders(0).click();
+      const order = this.server.schema.orders.first();
+
+      await orders.chooseSearchOption('PO number');
+      await orders.fillSearchField(order.poNumber);
+      await orders.clickSearch();
     });
 
-    it('loads the order details', function () {
-      expect(orders.order.isVisible).to.equal(true);
+    it('shows the list of order items', () => {
+      expect(orders.isVisible).to.equal(true);
+    });
+
+    it('should find order with given PO number', () => {
+      expect(orders.orders().length).to.be.equal(ORDERS_COUNT);
+    });
+
+    describe('clicking on the first item', function () {
+      beforeEach(async function () {
+        await orders.orders(0).click();
+      });
+
+      it('loads the order details', function () {
+        expect(orders.order.isVisible).to.equal(true);
+      });
     });
   });
 
   describe('filters', function () {
     describe('by dateOrdered', function () {
-      it('should have Open and Pending checked by default', () => {
-        expect(orders.filters.statusOpenChecked).to.be.true;
-        expect(orders.filters.statusPendingChecked).to.be.true;
+      it('should NOT have Open and Pending checked by default', () => {  // UIOR-406
+        expect(orders.filters.statusOpenChecked).to.be.false;
+        expect(orders.filters.statusPendingChecked).to.be.false;
         expect(orders.filters.statusClosedChecked).to.be.false;
       });
     });

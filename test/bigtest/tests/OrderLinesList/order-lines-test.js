@@ -19,12 +19,23 @@ describe('Order lines', function () {
     await orderLines.whenLoaded();
   });
 
-  it('shows the list of order line items', () => {
-    expect(orderLines.isVisible).to.equal(true);
+  it('is no results message label present', () => {
+    expect(orderLines.isNoResultsMessageLabelPresent).to.equal(true);
   });
 
-  it('renders each order line', () => {
-    expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+  describe('search by poNumber', function () {
+    beforeEach(async function () {
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('shows the list of order line items', () => {
+      expect(orderLines.isVisible).to.equal(true);
+    });
+
+    it('renders each order line', () => {
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+    });
   });
 
   describe('navigation', () => {
