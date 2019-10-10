@@ -148,6 +148,7 @@ class OrderTemplatesEditor extends Component {
     const { sections } = this.state;
     const orderFormat = formValues.orderFormat;
     const estimatedPrice = calculateEstimatedPrice(formValues);
+    const fundDistribution = formValues.fundDistribution || [];
 
     return (
       <Layer
@@ -284,7 +285,7 @@ class OrderTemplatesEditor extends Component {
                     id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
                   >
                     <FundDistributionFields
-                      formValues={formValues}
+                      fundDistribution={fundDistribution}
                       name="fundDistribution"
                       totalAmount={estimatedPrice}
                       required={false}

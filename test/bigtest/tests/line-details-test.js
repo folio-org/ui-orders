@@ -34,7 +34,7 @@ describe('Line details test', function () {
       fundDistribution: [
         {
           fundId: fund.id,
-          percentage: 100,
+          value: 100,
         },
       ],
     });

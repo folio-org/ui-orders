@@ -225,6 +225,7 @@ class POLineForm extends Component {
       accounts,
       vendorCurrencies,
     } = vendor;
+    const fundDistribution = get(formValues, 'fundDistribution');
 
     return (
       <Pane
@@ -320,7 +321,7 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.fundDistribution}
                     >
                       <FundDistributionFields
-                        formValues={formValues}
+                        fundDistribution={fundDistribution}
                         name="fundDistribution"
                         disabled={isOpenedOrder}
                         totalAmount={estimatedPrice}
