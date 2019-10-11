@@ -24,7 +24,6 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
-import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
 import {
   getAddresses,
@@ -109,7 +108,7 @@ class PO extends Component {
       updateOrderError: null,
       showConfirmDelete: false,
     };
-    this.transitionToParams = transitionToParams.bind(this);
+    this.transitionToParams = values => this.props.parentMutator.query.update(values);
     this.hasError = false;
   }
 

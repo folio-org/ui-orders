@@ -200,11 +200,10 @@
     "@bigtest/mirage": "^0.0.1",
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
-    "@folio/eslint-config-stripes": "^4.1.0",
+    "@folio/eslint-config-stripes": "^4.2.0",
     "@folio/react-intl-safe-html": "^1.0.1",
     "@folio/stripes": "^2.9.0",
     "@folio/stripes-cli": "^1.8.0",
-    "@folio/stripes-components": "^5.8.0",
     "babel-eslint": "^9.0.0",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.2.0",
@@ -216,8 +215,6 @@
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-hot-loader": "^4.3.12",
-    "react-redux": "^5.0.7",
-    "redux": "^4.0.0",
     "sinon": "^7.0.0"
   },
   "dependencies": {
@@ -233,10 +230,8 @@
   "peerDependencies": {
     "@folio/stripes": "^2.9.0",
     "react-dom": "*",
-    "react-redux": "*",
     "react-router-dom": "^5.1.2",
-    "react": "*",
-    "redux": "*"
+    "react": "*"
   },
   "optionalDependencies": {
     "@folio/plugin-create-item": "^1.3.1",
