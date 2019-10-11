@@ -4,10 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { FieldSelect } from '@folio/stripes-acq-components';
 
-export const ORDER_TYPE = {
-  oneTime: 'One-Time',
-  ongoing: 'Ongoing',
-};
+import { ORDER_TYPE } from '../../../common/constants';
 
 const ORDER_TYPE_OPTIONS = Object.keys(ORDER_TYPE).map((key) => ({
   labelId: `ui-orders.order_type.${key}`,

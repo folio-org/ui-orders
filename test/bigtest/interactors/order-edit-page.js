@@ -6,6 +6,8 @@ import {
   value,
 } from '@bigtest/interactor';
 
+import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
+
 import Button from './button';
 
 @interactor class SuffixSelect {
@@ -19,8 +21,13 @@ import Button from './button';
 }
 
 @interactor class VendorSelect {
-  static defaultScope = '[name="vendor"]';
-  value = value();
+  button = new Button('[name="vendor"]');
+  options = new OptionListInteractor('#sl-po-vendor');
+}
+
+@interactor class OrderTemplate {
+  options = new OptionListInteractor('#sl-order-template');
+  template = new Button('[name="template"]');
 }
 
 export default interactor(class OrderEditPage {
@@ -33,6 +40,10 @@ export default interactor(class OrderEditPage {
 
   title = text('[class*=paneTitleLabel---]');
   hasTemplateField = isPresent('[name="template"]');
+  orderTemplate = new OrderTemplate();
+  hasPONumberField = isPresent('[name="poNumber"]');
+  hasVendorNameField = isPresent('[name="vendor"]');
+  hasCreatedByField = isPresent('[name="createdByName"]');
   suffixSelect = new SuffixSelect();
   renewalsAccordion = isPresent('#renewals');
   orderTypeSelect = new OrderTypeSelect();

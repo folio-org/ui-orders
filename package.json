@@ -20,9 +20,10 @@
       "finance-storage.funds": "2.0",
       "identifier-types": "1.2",
       "inventory": "9.4",
+      "invoice": "2.0 3.0",
       "locations": "3.0",
       "material-types": "2.2",
-      "orders": "7.1",
+      "orders": "7.1 8.0",
       "organizations-storage.organizations": "2.1",
       "users": "15.0"
     },

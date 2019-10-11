@@ -12,3 +12,8 @@ export const WORKFLOW_STATUS = {
   open: 'Open',
   pending: 'Pending',
 };
+
+export const ORDER_TYPE = {
+  oneTime: 'One-Time',
+  ongoing: 'Ongoing',
+};

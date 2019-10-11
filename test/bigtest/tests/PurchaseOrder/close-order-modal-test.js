@@ -45,18 +45,17 @@ describe('Close Order Modal', function () {
     expect(modal.reasonSelect.isSelect).to.be.true;
   });
 
-  // TODO: figure out why it's started to fail
-  // describe('select closing reason from settings and submit', () => {
-  //   beforeEach(async function () {
-  //     await modal.reasonSelect.select(REASON);
-  //     await modal.submitButton.click();
-  //   });
+  describe('select closing reason from settings and submit', () => {
+    beforeEach(async function () {
+      await modal.reasonSelect.select(REASON);
+      await modal.submitButton.click();
+    });
 
-  //   it('Close Order Modal is closed and workflow status is updated', () => {
-  //     expect(modal.isPresent).to.be.false;
-  //     expect(page.closeReasonBlock).to.be.true;
-  //   });
-  // });
+    it('Close Order Modal is closed and workflow status is updated', () => {
+      expect(modal.isPresent).to.be.false;
+      expect(page.closeReasonBlock).to.be.true;
+    });
+  });
 
   describe('close Close Order Modal', () => {
     beforeEach(async function () {

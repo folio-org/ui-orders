@@ -5,8 +5,10 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { WORKFLOW_STATUS } from '../../../src/common/constants';
-import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
+import {
+  ORDER_TYPE,
+  WORKFLOW_STATUS,
+} from '../../../src/common/constants';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';

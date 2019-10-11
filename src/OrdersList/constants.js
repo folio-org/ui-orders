@@ -1,8 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { WORKFLOW_STATUS } from '../common/constants';
-import { ORDER_TYPE } from '../components/PurchaseOrder/PODetails/FieldOrderType';
+import {
+  ORDER_TYPE,
+  WORKFLOW_STATUS,
+} from '../common/constants';
 import {
   ACQUISITION_METHOD,
   ORDER_FORMAT,

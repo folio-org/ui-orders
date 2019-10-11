@@ -7,7 +7,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import OrderEditPage from '../interactors/order-edit-page';
-import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
+import { ORDER_TYPE } from '../../../src/common/constants';
 
 describe('OrderEditPage', function () {
   setupApplication();

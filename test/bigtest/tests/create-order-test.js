@@ -2,9 +2,8 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
-import OrdersInteractor from '../interactors/orders';
 import OrderEditPage from '../interactors/order-edit-page';
-// import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
+import { ORDER_TYPE } from '../../../src/common/constants';
 import {
   CONFIG_SUFFIXES,
   MODULE_ORDERS,
@@ -12,8 +11,6 @@ import {
 
 describe('Create order', function () {
   setupApplication();
-
-  const orders = new OrdersInteractor();
   const form = new OrderEditPage();
 
   beforeEach(async function () {
@@ -24,34 +21,35 @@ describe('Create order', function () {
       value: '{"selectedItems":["SS"],"suffixes":["SS1","SS2","SS"]}',
     });
     this.server.create('orderTemplate', {
-      orderType: 'One-Time',
+      orderType: ORDER_TYPE.oneTime,
       templateCode: 'TT',
     });
+    this.server.create('vendor', { isVendor: true });
     this.visit('/orders?layer=create');
     await form.whenLoaded();
   });
 
   describe('Template name', function () {
     it('should be displayed', () => {
-      expect(orders.hasTemplateField).to.be.true;
+      expect(form.hasTemplateField).to.be.true;
     });
 
     describe('Should change form', function () {
       beforeEach(async function () {
-        await orders.orderTemplate.template.click();
-        await orders.orderTemplate.options.list(1).click();
+        await form.orderTemplate.template.click();
+        await form.orderTemplate.options.list(1).click();
       });
 
       it('order type should be changed', () => {
-        expect(orders.orderType.value).to.be.equal('One-Time');
+        expect(form.orderTypeSelect.value).to.be.equal(ORDER_TYPE.oneTime);
       });
     });
   });
 
   it('has fields and Create button', () => {
-    expect(orders.hasPONumberField).to.be.true;
-    expect(orders.hasVendorNameField).to.be.true;
-    expect(orders.hasCreatedByField).to.be.true;
+    expect(form.hasPONumberField).to.be.true;
+    expect(form.hasVendorNameField).to.be.true;
+    expect(form.hasCreatedByField).to.be.true;
     expect(form.suffixSelect.value).to.be.equal('');
     expect(form.createOrderButton.isPresent).to.be.true;
   });
@@ -77,18 +75,16 @@ describe('Create order', function () {
     });
   });
 
-  // TODO: to fix test with selecting required vendor field
-  // describe('Create new order', () => {
-  //   beforeEach(async () => {
-  //     await form.orderTypeSelect.select(ORDER_TYPE.oneTime);
-  //     await form.vendorSelect.select('EBSCO');
-  //     await form.createOrderButton.click();
-  //   });
-  //
-  //   it('displays list of orders, new order is created ', () => {
-  //     expect(orders.$root).to.exist;
-  //     expect(form.isPresent).to.be.false;
-  //     expect(orders.orders().length).to.be.equal(1);
-  //   });
-  // });
+  describe('Create new order', () => {
+    beforeEach(async () => {
+      await form.orderTypeSelect.select('One-time');
+      await form.vendorSelect.button.click();
+      await form.vendorSelect.options.list(0).click();
+      await form.createOrderButton.click();
+    });
+
+    it('closes the Create PO form', () => {
+      expect(form.isPresent).to.be.false;
+    });
+  });
 });

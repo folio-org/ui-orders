@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 
 import { FieldSelection } from '@folio/stripes-acq-components';
 
-const FieldVendor = ({ vendors, disabled, required }) => {
+const FieldVendor = ({ vendors, disabled, required, ...rest }) => {
   return (
     <FieldSelection
       dataOptions={vendors}
+      disabled={disabled}
+      id="po-vendor"
       labelId="ui-orders.orderDetails.vendor"
       name="vendor"
       required={required}
-      disabled={disabled}
+      {...rest}
     />
   );
 };

@@ -5,12 +5,14 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { WORKFLOW_STATUS } from '../../../src/common/constants';
+import {
+  ORDER_TYPE,
+  WORKFLOW_STATUS,
+} from '../../../src/common/constants';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import LineEditPage from '../interactors/line-edit-page';
-import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 import {
   CONFIG_ADDRESSES,
   MODULE_ORDERS,
