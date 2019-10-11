@@ -51,6 +51,7 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { isWorkflowStatusOpen } from '../PurchaseOrder/util';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
+import validate from './validate';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -389,4 +390,5 @@ export default stripesForm({
   enableReinitialize: true,
   form: 'POLineForm',
   navigationCheck: true,
+  validate,
 })(POLineForm);
