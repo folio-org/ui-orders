@@ -204,8 +204,8 @@ export default interactor(class LineEditPage {
   currency = value('[name="cost.currency"]');
   subscriptionInterval = value('[name="details.subscriptionInterval"]');
   instanceId = value('[name="instanceId"]');
-  addProductIdsButton = new Button('[data-test-add-product-ids-button]');
-  removeProductIdsButton = new Button('[data-test-remove-product-ids-button]');
+  addProductIdsButton = new Button('#productIds-add-button');
+  removeProductIdsButton = new Button('#productIds [data-test-repeatable-field-remove-item-button]');
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   hasTemplateField = isPresent('[name="template"]');
 

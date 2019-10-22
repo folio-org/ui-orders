@@ -69,9 +69,10 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
       addLabel={<FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />}
       component={RepeatableFieldWithErrorMessage}
       emptyMessage={<FormattedMessage id="ui-orders.itemDetails.addProductId" />}
+      id="productIds"
       legend={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
-      onRemove={removeField}
       name="details.productIds"
+      onRemove={removeField}
       props={{
         canAdd: !disabled,
         canRemove: !disabled,
