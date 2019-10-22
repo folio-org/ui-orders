@@ -38,19 +38,6 @@ import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
 
-const ALLOWED_RES_ID_TYPE_NAMES = [
-  'ASIN',
-  'CODEN',
-  'DOI',
-  'GPO item number',
-  PRODUCT_ID_TYPE.isbn,
-  'ISSN',
-  'Publisher or distributor number',
-  'Report number',
-  'Standard technical report number',
-  'URN',
-];
-
 class ItemForm extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -120,7 +107,6 @@ class ItemForm extends Component {
     if (identifiers && identifiers.length) {
       const isbnTypeUUID = identifierTypes.find(({ label }) => label === PRODUCT_ID_TYPE.isbn).value;
       const allowedResIdentifierTypeIds = identifierTypes
-        .filter(({ label }) => ALLOWED_RES_ID_TYPE_NAMES.includes(label))
         .map(({ value }) => value);
       const lineidentifiers = identifiers
         .filter(({ identifierTypeId }) => allowedResIdentifierTypeIds.includes(identifierTypeId))

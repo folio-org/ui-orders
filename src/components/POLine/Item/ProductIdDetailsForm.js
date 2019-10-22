@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -7,131 +7,91 @@ import {
 } from 'redux-form';
 
 import {
-  Button,
   Col,
-  IconButton,
   Row,
   TextField,
 } from '@folio/stripes/components';
 import {
   FieldSelect,
+  RepeatableFieldWithErrorMessage,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
-class ProductIdDetailsForm extends Component {
-  static propTypes = {
-    identifierTypes: PropTypes.arrayOf(PropTypes.object),
-    onChangeField: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-    required: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    required: true,
-  };
-
-  addFields = (fields) => {
-    fields.push({});
-  }
-
-  removeFields = (fields, index) => {
+function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, required }) {
+  const removeField = useCallback((fields, index) => {
     fields.remove(index);
-    this.props.onChangeField();
-  }
+    onChangeField();
+  }, [onChangeField]);
 
-  renderForm = ({ fields }) => {
+  const renderSubForm = (elem) => {
     return (
-      <Row start="xs">
-        <Col xs={12}>
-          {fields.length === 0 &&
-            <Col xs={12}>
-              <div>
-                <em>
-                  <FormattedMessage id="ui-orders.itemDetails.addProductId" />
-                </em>
-              </div>
-            </Col>
-          }
-          {fields.map(this.renderSubForm)}
-        </Col>
-        <Col xs={12} style={{ paddingTop: '10px' }}>
-          <Button
-            data-test-add-product-ids-button
-            onClick={() => this.addFields(fields)}
-            disabled={this.props.disabled}
-          >
-            <FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />
-          </Button>
-        </Col>
-      </Row>
-    );
-  }
-
-  renderSubForm = (elem, index, fields) => {
-    const { disabled, required } = this.props;
-
-    return (
-      <Row key={index}>
-        <Col xs={4}>
+      <Row>
+        <Col xs>
           <Field
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             name={`${elem}.productId`}
-            onChange={(e, value) => this.props.onChangeField(value, `${elem}.productId`)}
+            onChange={(e, value) => onChangeField(value, `${elem}.productId`)}
             disabled={disabled}
             required={required}
             validate={required ? validateRequired : undefined}
           />
         </Col>
-        <Col xs={4}>
+        <Col xs>
           <Field
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.qualifier" />}
             name={`${elem}.qualifier`}
-            onChange={(e, value) => this.props.onChangeField(value, `${elem}.qualifier`)}
+            onChange={(e, value) => onChangeField(value, `${elem}.qualifier`)}
             disabled={disabled}
           />
         </Col>
-        <Col xs={3}>
+        <Col xs>
           <FieldSelect
-            dataOptions={this.props.identifierTypes}
+            dataOptions={identifierTypes}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
             name={`${elem}.productIdType`}
-            onChange={(e, value) => this.props.onChangeField(value, `${elem}.productIdType`)}
+            onChange={(e, value) => onChangeField(value, `${elem}.productIdType`)}
             required={required}
             disabled={disabled}
             validate={required ? validateRequired : undefined}
           />
         </Col>
-        <Col
-          style={{ paddingTop: '10px' }}
-          xs={1}
-        >
-          <br />
-          <IconButton
-            data-test-remove-product-ids-button
-            icon="trash"
-            onClick={() => this.removeFields(fields, index)}
-            disabled={this.props.disabled}
-          >
-            {<FormattedMessage id="ui-orders.itemDetails.removeBtn" />}
-          </IconButton>
-        </Col>
       </Row>
     );
-  }
+  };
 
-  render() {
-    return (
-      <FieldArray
-        component={this.renderForm}
-        name="details.productIds"
-      />
-    );
-  }
+  return (
+    <FieldArray
+      addLabel={<FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />}
+      component={RepeatableFieldWithErrorMessage}
+      emptyMessage={<FormattedMessage id="ui-orders.itemDetails.addProductId" />}
+      legend={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
+      onRemove={removeField}
+      name="details.productIds"
+      props={{
+        canAdd: !disabled,
+        canRemove: !disabled,
+      }}
+      renderField={renderSubForm}
+    />
+  );
 }
+
+ProductIdDetailsForm.propTypes = {
+  identifierTypes: PropTypes.arrayOf(PropTypes.object),
+  onChangeField: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  required: PropTypes.bool,
+};
+
+ProductIdDetailsForm.defaultProps = {
+  disabled: false,
+  identifierTypes: [],
+  required: true,
+};
 
 export default ProductIdDetailsForm;
