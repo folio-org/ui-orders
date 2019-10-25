@@ -32,7 +32,7 @@ const POInvoicesContainer = ({ label, orderId, resources, vendors, mutator }) =>
         });
       }
     });
-  }, [orderId]);
+  }, [mutator.invoices, mutator.orderInvoicesRelns, orderId]);
 
   return (
     <Accordion
