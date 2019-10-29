@@ -48,6 +48,8 @@ class POLinesLimit extends Component {
   constructor(props) {
     super(props);
 
+    this.callout = React.createRef();
+
     this.styles = {
       poLineLimitFormWrapper: {
         width: '100%',
@@ -90,11 +92,7 @@ class POLinesLimit extends Component {
       <SafeHTMLMessage id="ui-orders.settings.setPOLInesLimit.changed" />
     );
 
-    this.callout.sendCallout({ message: successMessage });
-  };
-
-  createCalloutRef = ref => {
-    this.callout = ref;
+    this.callout.current.sendCallout({ message: successMessage });
   };
 
   render() {
@@ -111,7 +109,7 @@ class POLinesLimit extends Component {
           onSubmit={this.onChangePOLinesLimitFormSubmit}
           paneTitle={label}
         />
-        <Callout ref={this.createCalloutRef} />
+        <Callout ref={this.callout} />
       </div>
     );
   }

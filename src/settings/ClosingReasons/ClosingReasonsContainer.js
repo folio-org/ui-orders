@@ -39,6 +39,8 @@ class ClosingReasonsContainer extends Component {
   constructor(props) {
     super(props);
 
+    this.callout = React.createRef();
+
     this.styles = {
       closingReasonsWrapper: {
         width: '100%',
@@ -46,18 +48,14 @@ class ClosingReasonsContainer extends Component {
     };
   }
 
-  createCalloutRef = ref => {
-    this.callout = ref;
-  };
-
   removeReason = async (id) => {
     const { mutator: { closingReasons } } = this.props;
 
     try {
       await closingReasons.DELETE({ id });
-      this.callout.sendCallout({ message: <FormattedMessage id="ui-orders.settings.closingReasons.remove.success" /> });
+      this.callout.current.sendCallout({ message: <FormattedMessage id="ui-orders.settings.closingReasons.remove.success" /> });
     } catch (e) {
-      this.callout.sendCallout({
+      this.callout.current.sendCallout({
         message: <FormattedMessage id="ui-orders.settings.closingReasons.remove.error" />,
         type: 'error',
       });
@@ -90,9 +88,9 @@ class ClosingReasonsContainer extends Component {
 
     try {
       await mutatorMethod(reason);
-      this.callout.sendCallout({ message: <FormattedMessage id="ui-orders.settings.closingReasons.save.success" /> });
+      this.callout.current.sendCallout({ message: <FormattedMessage id="ui-orders.settings.closingReasons.save.success" /> });
     } catch (e) {
-      this.callout.sendCallout({
+      this.callout.current.sendCallout({
         message: <FormattedMessage id="ui-orders.settings.closingReasons.save.error" />,
         type: 'error',
       });
@@ -121,7 +119,7 @@ class ClosingReasonsContainer extends Component {
           saveReason={this.saveReason}
           removeReason={this.removeReason}
         />
-        <Callout ref={this.createCalloutRef} />
+        <Callout ref={this.callout} />
       </div>
     );
   }

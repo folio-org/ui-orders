@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Button, Modal } from '@folio/stripes/components';
 
-const UpdateOrderErrorModal = ({ orderNumber, cancel, errors = [] }) => {
+const UpdateOrderErrorModal = ({ orderNumber, cancel, errors = [], title }) => {
   const footer = (
     <Button
       onClick={cancel}
@@ -16,19 +16,20 @@ const UpdateOrderErrorModal = ({ orderNumber, cancel, errors = [] }) => {
 
   return (
     <Modal
-      label={
+      label={title || (
         <FormattedMessage
           id="ui-orders.openOrderModal.title"
           values={{ orderNumber }}
-        />}
+        />
+      )}
       open
       footer={footer}
       data-test-update-order-error-modal
     >
-      {errors.map(({ code, poLineNumber }) => (
+      {errors.map(({ code, poLineNumber }, i) => (
         <p>
           <FormattedMessage
-            key={poLineNumber}
+            key={`${i}_${poLineNumber}`}
             id={`ui-orders.errors.${code}`}
             values={{ poLineNumber }}
           />
@@ -42,6 +43,7 @@ UpdateOrderErrorModal.propTypes = {
   orderNumber: PropTypes.string.isRequired,
   cancel: PropTypes.func.isRequired,
   errors: PropTypes.arrayOf(PropTypes.object),
+  title: PropTypes.node,
 };
 
 export default UpdateOrderErrorModal;

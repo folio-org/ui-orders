@@ -52,9 +52,11 @@ import {
   getActiveFilters,
   handleFilterChange,
 } from '../common/utils';
+import { showUpdateOrderError } from '../components/Utils/order';
 import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
 import { ordersSearchTemplate, searchableIndexes } from './OrdersListSearchConfig';
+import { UpdateOrderErrorModal } from '../components/PurchaseOrder/UpdateOrderErrorModal';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -167,7 +169,18 @@ class OrdersList extends Component {
     this.handleFilterChange = handleFilterChange.bind(this);
     this.callout = React.createRef();
     this.showToast = showToast.bind(this);
+    this.state = {
+      updateOrderError: null,
+    };
   }
+
+  openOrderErrorModalShow = (errors) => {
+    this.setState(() => ({ updateOrderError: errors }));
+  };
+
+  closeErrorModal = () => {
+    this.setState({ updateOrderError: null });
+  };
 
   create = async (order) => {
     const { mutator } = this.props;
@@ -180,7 +193,7 @@ class OrdersList extends Component {
         layer: null,
       });
     } catch (e) {
-      this.showToast('ui-orders.errors.noCreatedOrder', 'error');
+      await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
     }
   }
 
@@ -232,6 +245,7 @@ class OrdersList extends Component {
         },
       },
     } = this.props;
+    const { updateOrderError } = this.state;
     const users = get(resources, 'users.records', []);
     const vendors = get(resources, 'vendors.records', []);
     const acqUnitsMap = get(resources, 'acqUnits.records', [])
@@ -315,6 +329,13 @@ class OrdersList extends Component {
           sortableColumns={sortableColumns}
           getHelperResourcePath={getHelperResourcePath}
         />
+        {updateOrderError && (
+          <UpdateOrderErrorModal
+            errors={updateOrderError}
+            cancel={this.closeErrorModal}
+            title={<FormattedMessage id="ui-orders.order.saveError.title" />}
+          />
+        )}
         <Callout ref={this.callout} />
       </div>
     );

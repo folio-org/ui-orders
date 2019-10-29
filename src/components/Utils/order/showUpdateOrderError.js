@@ -14,7 +14,7 @@ export const ERROR_CODES = {
   missingInstanceStatus: 'missingInstanceStatus',
   missingInstanceType: 'missingInstanceType',
   missingLoanType: 'missingLoanType',
-
+  userHasNoPermission: 'userHasNoPermission',
 };
 
 const POL_NUMBER_KEY = 'poLineNumber';
@@ -22,7 +22,7 @@ const POL_NUMBER_KEY = 'poLineNumber';
 const showMessage = (callout, code, error, path) => {
   const title = get(error, 'errors.0.parameters.0.value', '');
 
-  callout.sendCallout({
+  callout.current.sendCallout({
     type: 'error',
     message: (
       <FormattedMessage
@@ -48,6 +48,7 @@ const showUpdateOrderError = async (response, callout, openModal) => {
 
   switch (code) {
     case ERROR_CODES.vendorIsInactive:
+    case ERROR_CODES.userHasNoPermission:
     case ERROR_CODES.vendorNotFound: {
       openModal([{ code }]);
       break;
@@ -76,7 +77,7 @@ const showUpdateOrderError = async (response, callout, openModal) => {
       break;
     }
     default: {
-      callout.sendCallout({
+      callout.current.sendCallout({
         message: <FormattedMessage id={`ui-orders.errors.${code}`} />,
         type: 'error',
       });

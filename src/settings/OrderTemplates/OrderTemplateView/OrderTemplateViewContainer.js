@@ -43,9 +43,10 @@ class OrderTemplateViewContainer extends Component {
     resources: PropTypes.object,
   };
 
-  createCalloutRef = ref => {
-    this.callout = ref;
-  };
+  constructor(props, context) {
+    super(props, context);
+    this.callout = React.createRef();
+  }
 
   onDeleteOrderTemplate = async () => {
     const { close, mutator: { orderTemplate }, match: { params: { id } }, showSuccessDeleteMessage } = this.props;
@@ -55,7 +56,7 @@ class OrderTemplateViewContainer extends Component {
       close();
       showSuccessDeleteMessage();
     } catch (e) {
-      this.callout.sendCallout({
+      this.callout.current.sendCallout({
         message: <FormattedMessage id="ui-orders.settings.orderTemplates.remove.error" />,
         type: 'error',
       });
@@ -90,7 +91,7 @@ class OrderTemplateViewContainer extends Component {
           users={users}
           contributorNameTypes={contributorNameTypes}
         />
-        <Callout ref={this.createCalloutRef} />
+        <Callout ref={this.callout} />
       </Fragment>
     );
   }

@@ -110,6 +110,7 @@ class PO extends Component {
     };
     this.transitionToParams = values => this.props.parentMutator.query.update(values);
     this.hasError = false;
+    this.callout = React.createRef();
   }
 
   deletePO = () => {
@@ -256,7 +257,7 @@ class PO extends Component {
       });
       this.transitionToParams({ layer: 'create-po-line' });
     } catch (e) {
-      this.callout.sendCallout({
+      this.callout.current.sendCallout({
         message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
         type: 'error',
       });
@@ -303,10 +304,6 @@ class PO extends Component {
 
   orderErrorModalShow = (errors) => {
     this.setState(() => ({ updateOrderError: errors }));
-  };
-
-  createCalloutRef = ref => {
-    this.callout = ref;
   };
 
   goToReceiving = () => {
@@ -598,7 +595,7 @@ class PO extends Component {
             open
           />
         )}
-        <Callout ref={this.createCalloutRef} />
+        <Callout ref={this.callout} />
       </Pane>
     );
   }
