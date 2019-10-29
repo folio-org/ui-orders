@@ -16,6 +16,7 @@ const CALLOUT_ERROR_CODES = omit(
     'accessProviderIsInactive',
     'vendorNotFound',
     'accessProviderNotFound',
+    'userHasNoPermission',
   ] // eslint-disable-line comma-dangle
 );
 
@@ -28,7 +29,9 @@ describe('showUpdateOrderError', () => {
 
       beforeEach(async () => {
         fakeCallout = {
-          sendCallout: sinon.spy(),
+          current: {
+            sendCallout: sinon.spy(),
+          },
         };
         fakeResponse = {
           json: () => ({
@@ -45,7 +48,7 @@ describe('showUpdateOrderError', () => {
       });
 
       it('call callout with right error', () => {
-        expect(fakeCallout.sendCallout.firstCall.args[0].message.props.id).to.equal(`ui-orders.errors.${errorCode}`);
+        expect(fakeCallout.current.sendCallout.firstCall.args[0].message.props.id).to.equal(`ui-orders.errors.${errorCode}`);
       });
     });
   });
@@ -62,7 +65,9 @@ describe('showUpdateOrderError', () => {
 
     beforeEach(async () => {
       fakeCallout = {
-        sendCallout: sinon.spy(),
+        current: {
+          sendCallout: sinon.spy(),
+        },
       };
       fakeResponse = {
         json: () => ({
@@ -91,7 +96,9 @@ describe('showUpdateOrderError', () => {
 
     beforeEach(async () => {
       fakeCallout = {
-        sendCallout: sinon.spy(),
+        current: {
+          sendCallout: sinon.spy(),
+        },
       };
       fakeResponse = {
         json: () => ({
@@ -126,7 +133,9 @@ describe('showUpdateOrderError', () => {
 
     beforeEach(async () => {
       fakeCallout = {
-        sendCallout: sinon.spy(),
+        current: {
+          sendCallout: sinon.spy(),
+        },
       };
       fakeResponse = {
         json: () => ({
@@ -165,7 +174,9 @@ describe('showUpdateOrderError', () => {
 
     beforeEach(async () => {
       fakeCallout = {
-        sendCallout: sinon.spy(),
+        current: {
+          sendCallout: sinon.spy(),
+        },
       };
       fakeResponse = {
         json: () => ({
