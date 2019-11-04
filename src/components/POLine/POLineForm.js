@@ -175,7 +175,7 @@ class POLineForm extends Component {
             data-test-button-save-and-open
             type="submit"
             buttonStyle="primary mega"
-            disabled={pristine || submitting}
+            disabled={submitting}
             onClick={handleSubmit(values => onSubmit({ ...values, saveAndOpen: true }))}
             marginBottom0
           >
