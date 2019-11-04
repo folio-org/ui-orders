@@ -199,9 +199,11 @@ class LayerPOLine extends Component {
       .then(() => this.openOrder(saveAndOpen))
       .then(() => {
         showToast('ui-orders.line.update.success', 'success', { lineNumber: line.poLineNumber });
-        parentMutator.query.update({
-          _path: `${pathname}`,
-          layer: null,
+        setTimeout(() => {
+          parentMutator.query.update({
+            _path: `${pathname}`,
+            layer: null,
+          });
         });
       })
       .catch(e => this.handleErrorResponse(e, line));
