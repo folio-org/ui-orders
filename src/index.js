@@ -1,5 +1,5 @@
 /* eslint-disable filenames/match-exported */
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -8,7 +8,9 @@ import {
 import { hot } from 'react-hot-loader';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { Callout } from '@folio/stripes/components';
 import { stripesShape } from '@folio/stripes/core';
+import { ToastContext } from '@folio/stripes-acq-components';
 
 import OrdersList from './OrdersList';
 import OrderLinesList from './OrderLinesList';
@@ -24,49 +26,56 @@ import { ORDER_LINES_ROUTE } from './common/constants';
 
 const ORDER_DETAIL_URL = '/orders/view/:id';
 const LINE_DETAIL_URL = `${ORDER_DETAIL_URL}/po-line/view/:lineId`;
+const callout = React.createRef();
 
 const Orders = ({ match, location, showSettings }) => {
-  if (showSettings) {
-    return <OrdersSettings {...{ match, location }} />;
-  }
-
   const { path } = match;
+  const content = showSettings
+    ? <OrdersSettings {...{ match, location }} />
+    : (
+      <Switch>
+        <Route
+          path={`${LINE_DETAIL_URL}/check-in`}
+          component={CheckIn}
+        />
+        <Route
+          exact
+          path={`${LINE_DETAIL_URL}${RECEIVING_HISTORY}`}
+          component={ReceivingHistory}
+        />
+        <Route
+          exact
+          path={`${LINE_DETAIL_URL}${RECEIVING_ITEMS}`}
+          component={ReceivingList}
+        />
+        <Route
+          exact
+          path={`${ORDER_DETAIL_URL}${RECEIVING_HISTORY}`}
+          component={ReceivingHistory}
+        />
+        <Route
+          exact
+          path={`${ORDER_DETAIL_URL}${RECEIVING_ITEMS}`}
+          component={ReceivingList}
+        />
+        <Route
+          path={ORDER_LINES_ROUTE}
+          component={OrderLinesList}
+        />
+        <Route
+          path={path}
+          component={OrdersList}
+        />
+      </Switch>
+    );
 
   return (
-    <Switch>
-      <Route
-        path={`${LINE_DETAIL_URL}/check-in`}
-        component={CheckIn}
-      />
-      <Route
-        exact
-        path={`${LINE_DETAIL_URL}${RECEIVING_HISTORY}`}
-        component={ReceivingHistory}
-      />
-      <Route
-        exact
-        path={`${LINE_DETAIL_URL}${RECEIVING_ITEMS}`}
-        component={ReceivingList}
-      />
-      <Route
-        exact
-        path={`${ORDER_DETAIL_URL}${RECEIVING_HISTORY}`}
-        component={ReceivingHistory}
-      />
-      <Route
-        exact
-        path={`${ORDER_DETAIL_URL}${RECEIVING_ITEMS}`}
-        component={ReceivingList}
-      />
-      <Route
-        path={ORDER_LINES_ROUTE}
-        component={OrderLinesList}
-      />
-      <Route
-        path={path}
-        component={OrdersList}
-      />
-    </Switch>
+    <Fragment>
+      <ToastContext.Provider value={callout}>
+        {content}
+      </ToastContext.Provider>
+      <Callout ref={callout} />
+    </Fragment>
   );
 };
 

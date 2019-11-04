@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import { getFormValues } from 'redux-form';
-
 import { get } from 'lodash';
 
 import { withStripes } from '@folio/stripes/core';
+import { useShowToast } from '@folio/stripes-acq-components';
 
 import {
   IDENTIFIER_TYPES,
@@ -39,87 +39,91 @@ import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 const INITIAL_VALUES = {};
 
-class OrderTemplatesEditorContainer extends Component {
-  static manifest = Object.freeze({
-    orderTemplates: {
-      ...ORDER_TEMPLATES,
-      fetch: false,
-    },
-    identifierTypes: IDENTIFIER_TYPES,
-    locations: LOCATIONS,
-    fund: FUND,
-    createInventory: CREATE_INVENTORY,
-    prefixesSetting: PREFIXES_SETTING,
-    suffixesSetting: SUFFIXES_SETTING,
-    addresses: ADDRESSES,
-    vendors: VENDORS,
-    materialTypes: MATERIAL_TYPES,
-    orderTemplate: ORDER_TEMPLATE,
-    contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
-  });
+function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
+  const showToast = useShowToast();
+  const saveOrderTemplate = useCallback((values) => {
+    const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplates.POST;
 
-  static propTypes = {
-    close: PropTypes.func.isRequired,
-    mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    stripes: PropTypes.object.isRequired,
-  };
+    mutatorMethod(values)
+      .then(() => {
+        showToast('ui-orders.settings.orderTemplates.save.success');
+        close();
+      })
+      .catch(() => {
+        showToast('ui-orders.settings.orderTemplates.save.error', 'error');
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
-  saveOrderTemplate = (values) => {
-    const { close, mutator: { orderTemplates, orderTemplate }, match } = this.props;
-    const id = get(match, ['params', 'id']);
-    const mutator = id ? orderTemplate.PUT : orderTemplates.POST;
+  const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
 
-    mutator(values).then(close);
-  };
+  const locations = getLocationsForSelect(resources);
+  const funds = getFundsForSelect(resources);
+  const identifierTypes = getIdentifierTypesForSelect(resources);
+  const contributorNameTypes = getContributorNameTypesForSelect(resources);
+  const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
+  const vendors = get(resources, 'vendors.records', []);
+  const vendorOptions = getVendorOptions(vendors);
+  const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', []));
+  const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', []));
+  const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
+  const materialTypes = getMaterialTypesForSelect(resources);
+  const orderTemplate = id
+    ? get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES)
+    : INITIAL_VALUES;
+  const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
+  const vendor = vendors.find(v => v.id === get(formValues, 'vendor'));
+  const accounts = get(vendor, 'accounts', []).map(({ accountNo }) => ({
+    label: accountNo,
+    value: accountNo,
+  }));
 
-  render() {
-    const { match, close, resources, stripes } = this.props;
-    const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
-
-    const locations = getLocationsForSelect(resources);
-    const funds = getFundsForSelect(resources);
-    const identifierTypes = getIdentifierTypesForSelect(resources);
-    const contributorNameTypes = getContributorNameTypesForSelect(resources);
-    const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
-    const vendors = get(resources, 'vendors.records', []);
-    const vendorOptions = getVendorOptions(vendors);
-    const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', []));
-    const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', []));
-    const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
-    const materialTypes = getMaterialTypesForSelect(resources);
-    const orderTemplate = get(match, ['params', 'id'])
-      ? get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES)
-      : INITIAL_VALUES;
-    const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
-    const vendor = vendors.find(v => v.id === get(formValues, 'vendor'));
-    const accounts = get(vendor, 'accounts', []).map(({ accountNo }) => ({
-      label: accountNo,
-      value: accountNo,
-    }));
-
-    return (
-      <OrderTemplatesEditor
-        title={title}
-        onSubmit={this.saveOrderTemplate}
-        close={close}
-        funds={funds}
-        initialValues={orderTemplate}
-        identifierTypes={identifierTypes}
-        locations={locations}
-        createInventorySetting={createInventorySetting}
-        prefixesSetting={prefixesSetting}
-        suffixesSetting={suffixesSetting}
-        addresses={addresses}
-        vendors={vendorOptions}
-        materialTypes={materialTypes}
-        formValues={formValues}
-        contributorNameTypes={contributorNameTypes}
-        accounts={accounts}
-      />
-    );
-  }
+  return (
+    <OrderTemplatesEditor
+      title={title}
+      onSubmit={saveOrderTemplate}
+      close={close}
+      funds={funds}
+      initialValues={orderTemplate}
+      identifierTypes={identifierTypes}
+      locations={locations}
+      createInventorySetting={createInventorySetting}
+      prefixesSetting={prefixesSetting}
+      suffixesSetting={suffixesSetting}
+      addresses={addresses}
+      vendors={vendorOptions}
+      materialTypes={materialTypes}
+      formValues={formValues}
+      contributorNameTypes={contributorNameTypes}
+      accounts={accounts}
+    />
+  );
 }
+
+OrderTemplatesEditorContainer.manifest = Object.freeze({
+  orderTemplates: {
+    ...ORDER_TEMPLATES,
+    fetch: false,
+  },
+  identifierTypes: IDENTIFIER_TYPES,
+  locations: LOCATIONS,
+  fund: FUND,
+  createInventory: CREATE_INVENTORY,
+  prefixesSetting: PREFIXES_SETTING,
+  suffixesSetting: SUFFIXES_SETTING,
+  addresses: ADDRESSES,
+  vendors: VENDORS,
+  materialTypes: MATERIAL_TYPES,
+  orderTemplate: ORDER_TEMPLATE,
+  contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
+});
+
+OrderTemplatesEditorContainer.propTypes = {
+  close: PropTypes.func.isRequired,
+  mutator: PropTypes.object.isRequired,
+  resources: PropTypes.object.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  stripes: PropTypes.object.isRequired,
+};
 
 export default withStripes(OrderTemplatesEditorContainer);

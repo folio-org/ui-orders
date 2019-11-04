@@ -692,6 +692,8 @@
 
   "settings.orderTemplates.remove.success": "The template was deleted",
   "settings.orderTemplates.remove.error": "The template was not deleted",
+  "settings.orderTemplates.save.success": "The template was saved",
+  "settings.orderTemplates.save.error": "The template was not saved",
 
   "settings.approvals": "Approvals",
   "settings.approvals.isApprovalRequired": "\"Approval required\" to open orders",

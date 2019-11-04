@@ -79,6 +79,8 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders.order-templates.collection.get",
+          "orders.order-templates.item.get",
           "orders.item.post",
           "orders.po-number.item.post",
           "orders.po-number.item.get"
@@ -90,6 +92,8 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders.order-templates.collection.get",
+          "orders.order-templates.item.get",
           "orders.item.put",
           "orders.item.approve",
           "orders.po-number.item.post",
@@ -122,6 +126,8 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders.order-templates.collection.get",
+          "orders.order-templates.item.get",
           "orders.po-lines.item.post"
         ]
       },
@@ -131,6 +137,8 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders.order-templates.collection.get",
+          "orders.order-templates.item.get",
           "orders.po-lines.item.put"
         ]
       },
@@ -189,6 +197,7 @@
         "displayName": "Settings (Orders): Display list of settings for Orders",
         "visible": true,
         "subPermissions": [
+          "orders.order-templates.all",
           "settings.enabled"
         ]
       }
