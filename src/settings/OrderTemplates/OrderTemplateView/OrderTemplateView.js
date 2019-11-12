@@ -280,13 +280,6 @@ class OrderTemplateView extends Component {
                 </Accordion>
 
                 <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
-                >
-                  <VendorView vendorDetail={orderTemplate.vendorDetail} />
-                </Accordion>
-
-                <Accordion
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
                 >
@@ -296,18 +289,15 @@ class OrderTemplateView extends Component {
                   />
                 </Accordion>
 
-                {showEresources && (
-                  <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
-                  >
-                    <EresourcesView
-                      line={orderTemplate}
-                      materialTypes={materialTypes}
-                      vendors={vendors}
-                    />
-                  </Accordion>
-                )}
+                <Accordion
+                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
+                  id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
+                >
+                  <LocationView
+                    lineLocations={orderTemplate.locations}
+                    locations={locations}
+                  />
+                </Accordion>
 
                 {showPhresources && (
                   <Accordion
@@ -317,6 +307,19 @@ class OrderTemplateView extends Component {
                     <PhysicalView
                       materialTypes={materialTypes}
                       physical={orderTemplate.physical}
+                      vendors={vendors}
+                    />
+                  </Accordion>
+                )}
+
+                {showEresources && (
+                  <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
+                  >
+                    <EresourcesView
+                      line={orderTemplate}
+                      materialTypes={materialTypes}
                       vendors={vendors}
                     />
                   </Accordion>
@@ -336,13 +339,10 @@ class OrderTemplateView extends Component {
                 )}
 
                 <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
+                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
+                  id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
                 >
-                  <LocationView
-                    lineLocations={orderTemplate.locations}
-                    locations={locations}
-                  />
+                  <VendorView vendorDetail={orderTemplate.vendorDetail} />
                 </Accordion>
 
                 <Accordion

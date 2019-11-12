@@ -301,13 +301,6 @@ class OrderTemplatesEditor extends Component {
                   </Accordion>
 
                   <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
-                  >
-                    <POLineVendorForm accounts={accounts} />
-                  </Accordion>
-
-                  <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
                   >
@@ -319,19 +312,12 @@ class OrderTemplatesEditor extends Component {
                     />
                   </Accordion>
 
-                  {
-                    isEresource(orderFormat) && (
-                      <Accordion
-                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
-                        id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
-                      >
-                        <POLineEresourcesForm
-                          materialTypes={materialTypes}
-                          vendors={vendors}
-                        />
-                      </Accordion>
-                    )
-                  }
+                  <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
+                  >
+                    <POLineLocationsForm locations={locations} />
+                  </Accordion>
 
                   {
                     isFresource(orderFormat) && (
@@ -340,6 +326,20 @@ class OrderTemplatesEditor extends Component {
                         id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}
                       >
                         <POLinePhysicalForm
+                          materialTypes={materialTypes}
+                          vendors={vendors}
+                        />
+                      </Accordion>
+                    )
+                  }
+
+                  {
+                    isEresource(orderFormat) && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
+                      >
+                        <POLineEresourcesForm
                           materialTypes={materialTypes}
                           vendors={vendors}
                         />
@@ -362,10 +362,10 @@ class OrderTemplatesEditor extends Component {
                   }
 
                   <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
                   >
-                    <POLineLocationsForm locations={locations} />
+                    <POLineVendorForm accounts={accounts} />
                   </Accordion>
 
                   <Accordion
