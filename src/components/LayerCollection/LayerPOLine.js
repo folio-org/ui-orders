@@ -10,7 +10,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
 
 import {
-  Callout,
   Layer,
 } from '@folio/stripes/components';
 import {
@@ -92,7 +91,6 @@ class LayerPOLine extends Component {
       line: null,
     };
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
-    this.callout = React.createRef();
   }
 
   openLineLimitExceededModal = (line) => {
@@ -123,10 +121,7 @@ class LayerPOLine extends Component {
       } else {
         const messageCode = get(ERROR_CODES, response.errors[0].code, 'lineWasNotCreated');
 
-        this.callout.current.sendCallout({
-          message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
-          type: 'error',
-        });
+        this.props.showToast(`ui-orders.errors.${messageCode}`, 'error');
       }
     }
   };
@@ -195,7 +190,7 @@ class LayerPOLine extends Component {
     const line = cloneDeep(data);
     const { location: { pathname }, parentMutator, showToast } = this.props;
 
-    parentMutator.poLine.PUT(line)
+    return parentMutator.poLine.PUT(line)
       .then(() => this.openOrder(saveAndOpen))
       .then(() => {
         showToast('ui-orders.line.update.success', 'success', { lineNumber: line.poLineNumber });
@@ -314,7 +309,6 @@ class LayerPOLine extends Component {
               createOrder={this.createNewOrder}
             />
           )}
-          <Callout ref={this.callout} />
         </Layer>
       );
     } else if (layer === 'edit-po-line') {
@@ -335,7 +329,6 @@ class LayerPOLine extends Component {
             stripes={stripes}
             isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
           />
-          <Callout ref={this.callout} />
         </Layer>
       );
     }
