@@ -20,6 +20,7 @@ import {
   PaneFooter,
   Row,
 } from '@folio/stripes/components';
+import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/form';
 import {
   FieldSelection,
@@ -271,6 +272,7 @@ class POLineForm extends Component {
     const fundDistribution = get(formValues, 'fundDistribution');
     const vendorRefNumberType = get(formValues, 'vendorDetail.refNumberType');
     const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
+    const metadata = get(initialValues, 'metadata');
 
     return (
       <Pane
@@ -321,6 +323,8 @@ class POLineForm extends Component {
                       label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
                       id={ACCORDION_ID.itemDetails}
                     >
+                      {metadata && <ViewMetaData metadata={metadata} />}
+
                       <ItemForm
                         formValues={formValues}
                         order={order}
@@ -353,17 +357,6 @@ class POLineForm extends Component {
                       />
                     </Accordion>
                     <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
-                      id={ACCORDION_ID.vendor}
-                    >
-                      <VendorForm
-                        accounts={accounts}
-                        order={order}
-                        vendorRefNumber={vendorRefNumber}
-                        vendorRefNumberType={vendorRefNumberType}
-                      />
-                    </Accordion>
-                    <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
                       id={ACCORDION_ID.fundDistribution}
                     >
@@ -374,19 +367,12 @@ class POLineForm extends Component {
                         totalAmount={estimatedPrice}
                       />
                     </Accordion>
-                    {showEresources && (
-                      <Accordion
-                        label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
-                        id={ACCORDION_ID.eresources}
-                      >
-                        <EresourcesForm
-                          materialTypes={materialTypes}
-                          order={order}
-                          vendors={vendors}
-                          formValues={formValues}
-                        />
-                      </Accordion>
-                    )}
+                    <Accordion
+                      label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+                      id={ACCORDION_ID.location}
+                    >
+                      <LocationForm {...this.props} />
+                    </Accordion>
                     {showPhresources && (
                       <Accordion
                         label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
@@ -396,6 +382,19 @@ class POLineForm extends Component {
                           materialTypes={materialTypes}
                           vendors={vendors}
                           order={order}
+                          formValues={formValues}
+                        />
+                      </Accordion>
+                    )}
+                    {showEresources && (
+                      <Accordion
+                        label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
+                        id={ACCORDION_ID.eresources}
+                      >
+                        <EresourcesForm
+                          materialTypes={materialTypes}
+                          order={order}
+                          vendors={vendors}
                           formValues={formValues}
                         />
                       </Accordion>
@@ -414,10 +413,15 @@ class POLineForm extends Component {
                       </Accordion>
                     )}
                     <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.location" />}
-                      id={ACCORDION_ID.location}
+                      label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
+                      id={ACCORDION_ID.vendor}
                     >
-                      <LocationForm {...this.props} />
+                      <VendorForm
+                        accounts={accounts}
+                        order={order}
+                        vendorRefNumber={vendorRefNumber}
+                        vendorRefNumberType={vendorRefNumberType}
+                      />
                     </Accordion>
                   </AccordionSet>
                 </Col>

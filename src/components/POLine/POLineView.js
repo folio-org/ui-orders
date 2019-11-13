@@ -340,12 +340,6 @@ class POLineView extends Component {
             <CostView cost={line.cost} />
           </Accordion>
           <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
-            id="Vendor"
-          >
-            <VendorView vendorDetail={line.vendorDetail} />
-          </Accordion>
-          <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
             id="FundDistribution"
           >
@@ -354,6 +348,27 @@ class POLineView extends Component {
               totalAmount={estimatedPrice}
             />
           </Accordion>
+          <Accordion
+            label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+            id={ACCORDION_ID.location}
+          >
+            <LocationView
+              lineLocations={line.locations}
+              locations={locations}
+            />
+          </Accordion>
+          {showPhresources && (
+            <Accordion
+              label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
+              id={ACCORDION_ID.physical}
+            >
+              <PhysicalView
+                materialTypes={materialTypes}
+                physical={get(line, 'physical', {})}
+                vendors={vendors}
+              />
+            </Accordion>
+          )}
           {showEresources && (
             <Accordion
               label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
@@ -363,18 +378,6 @@ class POLineView extends Component {
                 line={line}
                 materialTypes={materialTypes}
                 order={order}
-                vendors={vendors}
-              />
-            </Accordion>
-          )}
-          {showPhresources && (
-            <Accordion
-              label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
-              id={ACCORDION_ID.physical}
-            >
-              <PhysicalView
-                materialTypes={materialTypes}
-                physical={get(line, 'physical', {})}
                 vendors={vendors}
               />
             </Accordion>
@@ -391,20 +394,17 @@ class POLineView extends Component {
               />
             </Accordion>
           )}
+          <Accordion
+            label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
+            id="Vendor"
+          >
+            <VendorView vendorDetail={line.vendorDetail} />
+          </Accordion>
           <POLineInvoicesContainer
             label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoices" />}
             lineId={get(line, 'id')}
             vendors={vendors}
           />
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.location" />}
-            id={ACCORDION_ID.location}
-          >
-            <LocationView
-              lineLocations={line.locations}
-              locations={locations}
-            />
-          </Accordion>
         </AccordionSet>
         {this.state.showConfirmDelete && (
           <ConfirmationModal
