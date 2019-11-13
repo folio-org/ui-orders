@@ -336,7 +336,6 @@
     "vendor.refNumber": "Número de referência do fornecedor",
     "vendor.refNumberType": "Tipo de referência do fornecedor",
     "vendor.instructions": "Instruções ao fornecedor",
-    "vendor.noteFromVendor": "Nota do fornecedor",
     "vendor.refNumberType.suppliersContinuation": "Ordem de continuação do fornecedor",
     "vendor.refNumberType.suppliersUnique": "Número de referência da linha de pedido exclusivo do fornecedor",
     "vendor.refNumberType.agentsUnique": "Número de referência exclusivo assinatura do agente",
@@ -365,7 +364,6 @@
     "itemDetails.contributor": "Autor",
     "itemDetails.publisher": "Editora",
     "itemDetails.edition": "Edição",
-    "itemDetails.description": "Descrição",
     "itemDetails.publicationDate": "Data de publicação",
     "itemDetails.addContributor": "Por favor, adicione o autor",
     "itemDetails.addContributorBtn": "Adicionar autor",
@@ -745,5 +743,8 @@
     "line.create.success": "A linha do pedido foi criada com sucesso",
     "settings.orderTemplates.save.success": "O modelo foi salvo",
     "settings.orderTemplates.save.error": "O modelo não foi salvo",
-    "itemDetails.connectedTitle": "Conectado"
+    "itemDetails.connectedTitle": "Conectado",
+    "itemDetails.internalNote": "Nota interna",
+    "poLine": "Linha de pedido",
+    "poLine.pluralized": "{count} {count, plural, one {linha de pedido} other {linhas de pedido}}"
 }
