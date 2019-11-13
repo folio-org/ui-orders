@@ -19,6 +19,8 @@ const REF_NUMBER_TYPE_OPTIONS = Object.keys(REF_NUMBER_TYPE).map((key) => ({
   value: REF_NUMBER_TYPE[key],
 }));
 
+const parseRefNumberValue = (value) => (value === '' ? null : value);
+
 const FieldRefNumberType = ({ required }) => {
   const validateRefNumberType = required ? { validate: [requiredRefNumber] } : {};
 
@@ -29,6 +31,7 @@ const FieldRefNumberType = ({ required }) => {
       label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
       name="vendorDetail.refNumberType"
       required={required}
+      parse={parseRefNumberValue}
       {...validateRefNumberType}
     />
   );

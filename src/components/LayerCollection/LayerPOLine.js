@@ -115,14 +115,17 @@ class LayerPOLine extends Component {
     } catch (parsingException) {
       response = e;
     }
+
     if (response.errors && response.errors.length) {
       if (response.errors.find(el => el.code === 'lines_limit')) {
         this.openLineLimitExceededModal(line);
       } else {
-        const messageCode = get(ERROR_CODES, response.errors[0].code, 'lineWasNotCreated');
+        const messageCode = get(ERROR_CODES, response.errors[0].code, 'orderLineGenericError');
 
         this.props.showToast(`ui-orders.errors.${messageCode}`, 'error');
       }
+    } else {
+      this.props.showToast('ui-orders.errors.orderLineGenericError', 'error');
     }
   };
 

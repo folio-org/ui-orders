@@ -345,7 +345,7 @@
   "errors.locQtyPhysicalExceedsCost": "Locations physical quantity exceeds cost physical quantity",
   "errors.locQtyElectronicExceedsCost": "Locations electronic quantity exceeds cost electronic quantity",
   "errors.physicalLocCostQtyMismatch": "PO line physical quantity and locations physical quantity do not match",
-  "errors.lineWasNotCreated": "Purchase order line has not been created",
+  "errors.orderLineGenericError": "Purchase order line could not be saved.",
   "errors.electronicLocCostQtyMismatch": "PO line electronic quantity and locations electronic quantity do not match",
   "errors.materialTypeRequired": "The material type is required but not available in PO line",
   "errors.missingInstanceStatus": "Order can not be opened as the status of {value} is undefined",
