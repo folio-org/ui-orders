@@ -75,7 +75,7 @@ class POLineForm extends Component {
     change: PropTypes.func,
     dispatch: PropTypes.func,
     vendor: PropTypes.object,
-    isSaveAndOpenButtonVisible: PropTypes.bool.isRequired,
+    isSaveAndOpenButtonVisible: PropTypes.bool,
   };
 
   constructor(props) {

@@ -7,6 +7,7 @@ import {
   configUsers,
   configVendors,
   configTags,
+  createGetById,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
@@ -159,11 +160,7 @@ export default function config() {
     return schema.orderTemplates.all();
   });
 
-  this.get(`${ORDER_TEMPLATES_API}/:id`, (schema, request) => {
-    return request.params.id
-      ? schema.orderTemplates.find(request.params.id).attrs
-      : null;
-  });
+  this.get(`${ORDER_TEMPLATES_API}/:id`, createGetById('orderTemplates'));
 
   this.put(`${ORDER_TEMPLATES_API}/:id`, (schema, request) => {
     const id = request.params.id;
