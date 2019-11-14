@@ -336,7 +336,6 @@
     "vendor.refNumber": "رقم المورّد المرجعي",
     "vendor.refNumberType": "نوع المورّد المرجعي",
     "vendor.instructions": "تعليمات للمورّد",
-    "vendor.noteFromVendor": "ملاحظة من المورّد",
     "vendor.refNumberType.suppliersContinuation": "أمر استمرارية المزود",
     "vendor.refNumberType.suppliersUnique": "رقم مرجع سطر أمر الشراء الفريد الخاص بالمزود",
     "vendor.refNumberType.agentsUnique": "الرقم المرجعي للاشتراك الفريد للوكيل",
@@ -365,7 +364,6 @@
     "itemDetails.contributor": "المساهم",
     "itemDetails.publisher": "الناشر",
     "itemDetails.edition": "الطبعة",
-    "itemDetails.description": "الوصف",
     "itemDetails.publicationDate": "تاريخ النشر",
     "itemDetails.addContributor": "يرجى إضافة مساهم",
     "itemDetails.addContributorBtn": "إضافة مساهم",
@@ -745,5 +743,8 @@
     "line.create.success": "تم إنشاء سطر أمر الشراء بنجاح",
     "settings.orderTemplates.save.success": "تم حفظ القالب",
     "settings.orderTemplates.save.error": "لم يتم حفظ القالب",
-    "itemDetails.connectedTitle": "متصل"
+    "itemDetails.connectedTitle": "متصل",
+    "itemDetails.internalNote": "Internal note",
+    "poLine": "PO line",
+    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
 }

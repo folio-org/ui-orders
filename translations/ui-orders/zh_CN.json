@@ -336,7 +336,6 @@
     "vendor.refNumber": "供应商参考编号",
     "vendor.refNumberType": "供应商参考类型",
     "vendor.instructions": "致供应商的说明",
-    "vendor.noteFromVendor": "供应商的附注",
     "vendor.refNumberType.suppliersContinuation": "供应商的延续订单",
     "vendor.refNumberType.suppliersUnique": "供应商的唯一订单行参考编号",
     "vendor.refNumberType.agentsUnique": "代理商唯一订阅参考编号",
@@ -365,7 +364,6 @@
     "itemDetails.contributor": "贡献者",
     "itemDetails.publisher": "出版者",
     "itemDetails.edition": "版本",
-    "itemDetails.description": "描述",
     "itemDetails.publicationDate": "出版日期",
     "itemDetails.addContributor": "请添加贡献者",
     "itemDetails.addContributorBtn": "添加贡献者",
@@ -745,5 +743,8 @@
     "line.create.success": "The purchase order line was successfully created",
     "settings.orderTemplates.save.success": "The template was saved",
     "settings.orderTemplates.save.error": "The template was not saved",
-    "itemDetails.connectedTitle": "Connected"
+    "itemDetails.connectedTitle": "Connected",
+    "itemDetails.internalNote": "Internal note",
+    "poLine": "PO line",
+    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
 }

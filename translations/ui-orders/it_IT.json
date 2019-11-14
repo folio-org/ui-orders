@@ -336,7 +336,6 @@
     "vendor.refNumber": "Numero di riferimento del fornitore",
     "vendor.refNumberType": "Vendor ref type",
     "vendor.instructions": "Istruzioni per il fornitore",
-    "vendor.noteFromVendor": "Nota dal fornitore",
     "vendor.refNumberType.suppliersContinuation": "Ordine di continuazione del fornitore",
     "vendor.refNumberType.suppliersUnique": "Supplier's unique order line reference number",
     "vendor.refNumberType.agentsUnique": "Agent's unique subscription reference number",
@@ -365,7 +364,6 @@
     "itemDetails.contributor": "Contributor",
     "itemDetails.publisher": "Editore",
     "itemDetails.edition": "Edizione",
-    "itemDetails.description": "Descrizione",
     "itemDetails.publicationDate": "Data di pubblicazione",
     "itemDetails.addContributor": "Please add contributor",
     "itemDetails.addContributorBtn": "Add contributor",
@@ -745,5 +743,8 @@
     "line.create.success": "The purchase order line was successfully created",
     "settings.orderTemplates.save.success": "The template was saved",
     "settings.orderTemplates.save.error": "The template was not saved",
-    "itemDetails.connectedTitle": "Connected"
+    "itemDetails.connectedTitle": "Connected",
+    "itemDetails.internalNote": "Internal note",
+    "poLine": "PO line",
+    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
 }
