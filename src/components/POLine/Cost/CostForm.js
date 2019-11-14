@@ -12,7 +12,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
 import parseMoney from '../../Utils/parseMoney';
 import FieldCurrency from './FieldCurrency';
@@ -92,7 +92,7 @@ class CostForm extends Component {
     const formValues = this.props.formValues;
     const orderFormat = formValues.orderFormat;
     const { currencies, order, required } = this.props;
-    const isOpenedOrder = isWorkflowStatusOpen(order);
+    const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
     let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
     let validateEresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
@@ -127,7 +127,7 @@ class CostForm extends Component {
             parse={parseMoney}
             step="0.01"
             type="number"
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
             {...validatePhresourcesPrices}
           />
         </Col>
@@ -137,7 +137,7 @@ class CostForm extends Component {
         >
           <FieldCurrency
             currencies={currencies}
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
             required={required}
           />
         </Col>
@@ -152,7 +152,7 @@ class CostForm extends Component {
             name="cost.quantityPhysical"
             type="number"
             parse={parseNumber}
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
             {...validatePhresourcesQuantities}
           />
         </Col>
@@ -169,7 +169,7 @@ class CostForm extends Component {
             step="0.01"
             type="number"
             validate={validateNotNegative}
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
           />
         </Col>
         <Col
@@ -184,7 +184,7 @@ class CostForm extends Component {
             parse={parseMoney}
             step="0.01"
             type="number"
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
             {...validateEresourcesPrices}
           />
         </Col>
@@ -204,7 +204,7 @@ class CostForm extends Component {
             name="cost.discount"
             normalize={this.normalizeDiscount}
             validate={validateNotNegative}
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
           />
         </Col>
         <Col
@@ -218,7 +218,7 @@ class CostForm extends Component {
             name="cost.quantityElectronic"
             type="number"
             parse={parseNumber}
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
             {...validateEresourcesQuantities}
           />
         </Col>

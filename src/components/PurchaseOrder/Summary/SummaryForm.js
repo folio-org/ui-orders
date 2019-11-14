@@ -9,7 +9,7 @@ import {
 } from '@folio/stripes/components';
 
 import { FieldIsApproved } from '../../../common/POFields';
-import { isWorkflowStatusOpen } from '../util';
+import { isWorkflowStatusIsPending } from '../util';
 import FieldWorkflowStatus from './FieldWorkflowStatus';
 
 const SummaryForm = ({ initialValues: order }) => (
@@ -27,7 +27,7 @@ const SummaryForm = ({ initialValues: order }) => (
       />
     </Col>
     <Col xs={6} md={3}>
-      <FieldIsApproved disabled={isWorkflowStatusOpen(order)} />
+      <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />
     </Col>
     <Col xs={6} md={3}>
       <FieldWorkflowStatus />

@@ -13,12 +13,12 @@ import {
   FieldExpectedReceiptDate,
   FieldsVolume,
 } from '../../../common/POLFields';
-import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
 const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
-  const isOpenedOrder = isWorkflowStatusOpen(order);
+  const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
   return (
     <Fragment>
@@ -29,7 +29,7 @@ const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
         >
           <FieldMaterialSupplier
             vendors={vendors}
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
           />
         </Col>
         <Col
@@ -51,7 +51,7 @@ const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
           <InventoryRecordTypeSelectField
             label="ui-orders.physical.createInventory"
             name="physical.createInventory"
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
             required
           />
         </Col>
@@ -63,7 +63,7 @@ const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
             materialTypes={materialTypes}
             name="physical.materialType"
             required={isMaterialTypeRequired(formValues, 'physical.createInventory')}
-            disabled={isOpenedOrder}
+            disabled={isPostPendingOrder}
           />
         </Col>
       </Row>
@@ -72,7 +72,7 @@ const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
           xs={6}
           md={3}
         >
-          <FieldsVolume disabled={isOpenedOrder} />
+          <FieldsVolume disabled={isPostPendingOrder} />
         </Col>
       </Row>
     </Fragment>

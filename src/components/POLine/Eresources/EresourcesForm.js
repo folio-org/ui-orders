@@ -16,20 +16,20 @@ import {
   FieldExpectedActivation,
   FieldActivationDue,
 } from '../../../common/POLFields';
-import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
 const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
   const created = get(order, 'metadata.createdDate', '');
-  const isOpenedOrder = isWorkflowStatusOpen(order);
+  const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
   return (
     <Row>
       <Col xs={6} md={3}>
         <FieldAccessProvider
           vendors={vendors}
-          disabled={isOpenedOrder}
+          disabled={isPostPendingOrder}
         />
       </Col>
       <Col xs={6} md={3}>
@@ -42,7 +42,7 @@ const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
         <InventoryRecordTypeSelectField
           label="ui-orders.eresource.createInventory"
           name="eresource.createInventory"
-          disabled={isOpenedOrder}
+          disabled={isPostPendingOrder}
           required
         />
       </Col>
@@ -51,17 +51,17 @@ const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
           materialTypes={materialTypes}
           name="eresource.materialType"
           required={isMaterialTypeRequired(formValues, 'eresource.createInventory')}
-          disabled={isOpenedOrder}
+          disabled={isPostPendingOrder}
         />
       </Col>
       <Col xs={6} md={3}>
-        <FieldTrial disabled={isOpenedOrder} />
+        <FieldTrial disabled={isPostPendingOrder} />
       </Col>
       <Col xs={6} md={3}>
         <FieldExpectedActivation />
       </Col>
       <Col xs={6} md={3}>
-        <FieldUserLimit disabled={isOpenedOrder} />
+        <FieldUserLimit disabled={isPostPendingOrder} />
       </Col>
     </Row>
   );

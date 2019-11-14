@@ -36,7 +36,7 @@ import {
   checkInstanceIdField,
   getInventoryData,
 } from './util';
-import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 
 import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
@@ -189,7 +189,7 @@ class ItemForm extends Component {
   }
 
   render() {
-    const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
+    const isPostPendingOrder = !isWorkflowStatusIsPending(this.props.order);
     const {
       contributorNameTypes,
       identifierTypes,
@@ -211,10 +211,10 @@ class ItemForm extends Component {
                 name="title"
                 onChange={(e, value) => this.onChangeField(value, 'title')}
                 validate={required ? validateRequired : undefined}
-                disabled={isOpenedOrder}
+                disabled={isPostPendingOrder}
               />
               <div className={css.addButton}>
-                {this.selectInstanceModal(isOpenedOrder)}
+                {this.selectInstanceModal(isPostPendingOrder)}
               </div>
             </div>
           </Col>
@@ -228,7 +228,7 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
               name="publisher"
               onChange={(e, value) => this.onChangeField(value, 'publisher')}
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
             />
           </Col>
           <Col
@@ -243,7 +243,7 @@ class ItemForm extends Component {
               onChange={(e, value) => this.onChangeField(value, 'publicationDate')}
               normalize={v => (v || null)}
               validate={validateYear}
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
             />
           </Col>
           <Col
@@ -256,7 +256,7 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
               onChange={(e, value) => this.onChangeField(value, 'edition')}
               name="edition"
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
             />
           </Col>
         </Row>
@@ -277,7 +277,7 @@ class ItemForm extends Component {
             <FieldDatepicker
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
               name="details.subscriptionTo"
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
             />
           </Col>
           <Col
@@ -290,7 +290,7 @@ class ItemForm extends Component {
               component={TextField}
               type="number"
               fullWidth
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
             />
           </Col>
         </Row>
@@ -299,7 +299,7 @@ class ItemForm extends Component {
             <ContributorForm
               contributorNameTypes={contributorNameTypes}
               onChangeField={this.onChangeField}
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
               required={required}
             />
           </Col>
@@ -309,7 +309,7 @@ class ItemForm extends Component {
             <ProductIdDetailsForm
               identifierTypes={identifierTypes}
               onChangeField={this.onChangeField}
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
               required={required}
             />
           </Col>

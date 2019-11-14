@@ -31,7 +31,7 @@ import {
   FieldCancellationRestrictionNote,
   FieldPOLineDescription,
 } from '../../../common/POLFields';
-import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
 
 class POLineDetailsForm extends Component {
@@ -55,7 +55,7 @@ class POLineDetailsForm extends Component {
     const { change, dispatch, formValues, initialValues: poLine, parentResources, order } = this.props;
     const vendors = get(parentResources, 'vendors.records', []);
     const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
-    const isOpenedOrder = isWorkflowStatusOpen(order);
+    const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
     return (
       <Fragment>
@@ -70,7 +70,7 @@ class POLineDetailsForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldAcquisitionMethod disabled={isOpenedOrder} />
+            <FieldAcquisitionMethod disabled={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}
@@ -83,7 +83,7 @@ class POLineDetailsForm extends Component {
               vendors={vendors}
               orderVendorId={order.vendor}
               createInventorySetting={createInventorySetting}
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
             />
           </Col>
           <Col
@@ -113,7 +113,7 @@ class POLineDetailsForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldDonor disabled={isOpenedOrder} />
+            <FieldDonor disabled={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}
@@ -131,13 +131,13 @@ class POLineDetailsForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldSelector disabled={isOpenedOrder} />
+            <FieldSelector disabled={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}
             md={3}
           >
-            <FieldRequester disabled={isOpenedOrder} />
+            <FieldRequester disabled={isPostPendingOrder} />
           </Col>
         </Row>
         <Row>
@@ -151,19 +151,19 @@ class POLineDetailsForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldRush disabled={isOpenedOrder} />
+            <FieldRush disabled={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}
             md={3}
           >
-            <FieldCollection disabled={isOpenedOrder} />
+            <FieldCollection disabled={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}
             md={3}
           >
-            <FieldCheckInItems disabled={isOpenedOrder} />
+            <FieldCheckInItems disabled={isPostPendingOrder} />
           </Col>
         </Row>
         <Row>

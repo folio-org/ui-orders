@@ -32,7 +32,7 @@ import {
   FieldAssignedTo,
 } from '../../../common/POFields';
 import FieldOrderType from './FieldOrderType';
-import { isWorkflowStatusOpen } from '../util';
+import { isWorkflowStatusIsPending } from '../util';
 
 import css from './PODetailsForm.css';
 
@@ -76,7 +76,7 @@ class PODetailsForm extends Component {
     } = this.props;
 
     const isEditMode = Boolean(order.id);
-    const isOpenedOrder = isWorkflowStatusOpen(order);
+    const isPostPendingOrder = Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order);
     const vendorOptions = getVendorOptions(vendors);
     const addressesOptions = getAddressOptions(addresses);
     const addressBillTo = get(addresses.find(el => el.id === formValues.billTo), 'address', '');
@@ -87,7 +87,7 @@ class PODetailsForm extends Component {
         <Row>
           <Col xs={4}>
             <FieldPrefix
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
               prefixes={prefixesSetting}
             />
           </Col>
@@ -97,13 +97,13 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
               name="poNumber"
-              disabled={!canUserEditOrderNumber || isOpenedOrder}
+              disabled={!canUserEditOrderNumber || isPostPendingOrder}
               onBlur={this.fillBackGeneratedNumber}
             />
           </Col>
           <Col xs={4}>
             <FieldSuffix
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
               suffixes={suffixesSetting}
             />
           </Col>
@@ -115,7 +115,7 @@ class PODetailsForm extends Component {
           >
             <FieldVendor
               vendors={vendorOptions}
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
             />
           </Col>
           <Col
@@ -154,19 +154,19 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <FieldIsManualPO disabled={isOpenedOrder} />
+            <FieldIsManualPO disabled={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <FieldIsReEncumber disabled={isOpenedOrder} />
+            <FieldIsReEncumber disabled={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <FieldOrderType disabled={isOpenedOrder} />
+            <FieldOrderType disabled={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}
@@ -185,7 +185,7 @@ class PODetailsForm extends Component {
           >
             <FieldBillTo
               addresses={addressesOptions}
-              disabled={isOpenedOrder}
+              disabled={isPostPendingOrder}
             />
           </Col>
           <Col

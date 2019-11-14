@@ -12,7 +12,7 @@ import {
   FieldVendorInstructions,
   FieldVendorAccountNumber,
 } from '../../../common/POLFields';
-import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
+import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 
 const VendorForm = ({
   accounts,
@@ -20,7 +20,7 @@ const VendorForm = ({
   vendorRefNumber,
   vendorRefNumberType,
 }) => {
-  const isOpenedOrder = isWorkflowStatusOpen(order);
+  const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const accountsDataOptions = accounts.map(({ accountNo }) => ({
     label: accountNo,
     value: accountNo,
@@ -48,14 +48,14 @@ const VendorForm = ({
       >
         <FieldVendorAccountNumber
           accounts={accountsDataOptions}
-          disabled={isOpenedOrder}
+          disabled={isPostPendingOrder}
         />
       </Col>
       <Col
         xs={6}
         md={3}
       >
-        <FieldVendorInstructions disabled={isOpenedOrder} />
+        <FieldVendorInstructions disabled={isPostPendingOrder} />
       </Col>
     </Row>
   );

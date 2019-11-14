@@ -49,7 +49,7 @@ import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
-import { isWorkflowStatusOpen } from '../PurchaseOrder/util';
+import { isWorkflowStatusIsPending } from '../PurchaseOrder/util';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
 import validate from './validate';
@@ -263,7 +263,7 @@ class POLineForm extends Component {
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
-    const isOpenedOrder = isWorkflowStatusOpen(order);
+    const isPostPendingOrder = !isWorkflowStatusIsPending(order);
     const estimatedPrice = calculateEstimatedPrice(formValues);
     const {
       accounts,
@@ -363,7 +363,7 @@ class POLineForm extends Component {
                       <FundDistributionFields
                         fundDistribution={fundDistribution}
                         name="fundDistribution"
-                        disabled={isOpenedOrder}
+                        disabled={isPostPendingOrder}
                         totalAmount={estimatedPrice}
                       />
                     </Accordion>

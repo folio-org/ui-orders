@@ -13,10 +13,10 @@ import {
   FieldIsManualRenewal,
 } from '../../../common/POFields';
 
-import { isWorkflowStatusOpen } from '../util';
+import { isWorkflowStatusIsPending } from '../util';
 
 const RenewalsForm = ({ order }) => {
-  const isOpenedOrder = isWorkflowStatusOpen(order);
+  const isPostPendingOrder = Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order);
 
   return (
     <Row>
@@ -24,25 +24,25 @@ const RenewalsForm = ({ order }) => {
         xs={6}
         md={3}
       >
-        <FieldRenewalInterval disabled={isOpenedOrder} />
+        <FieldRenewalInterval disabled={isPostPendingOrder} />
       </Col>
       <Col
         xs={6}
         md={3}
       >
-        <FieldRenewalDate disabled={isOpenedOrder} />
+        <FieldRenewalDate disabled={isPostPendingOrder} />
       </Col>
       <Col
         xs={6}
         md={3}
       >
-        <FieldRenewalPeriod disabled={isOpenedOrder} />
+        <FieldRenewalPeriod disabled={isPostPendingOrder} />
       </Col>
       <Col
         xs={6}
         md={3}
       >
-        <FieldIsManualRenewal disabled={isOpenedOrder} />
+        <FieldIsManualRenewal disabled={isPostPendingOrder} />
       </Col>
     </Row>
   );

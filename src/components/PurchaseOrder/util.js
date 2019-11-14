@@ -20,7 +20,7 @@ const isWorkflowStatusNotPending = (order) => {
   return workflowStatus !== WORKFLOW_STATUS.pending;
 };
 
-const isWorkflowStatusIsPending = (order) => {
+export const isWorkflowStatusIsPending = (order) => {
   const { workflowStatus } = order;
 
   return workflowStatus === WORKFLOW_STATUS.pending;
