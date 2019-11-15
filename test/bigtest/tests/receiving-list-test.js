@@ -47,39 +47,6 @@ describe('Receiving', function () {
     expect(orderDetailsPage.receivingButton.isButton).to.be.true;
   });
 
-  describe('go to receiving history from closed PO', () => {
-    beforeEach(async function () {
-      line = this.server.create('line', {
-        orderFormat: PHYSICAL,
-        cost: {
-          quantityPhysical: 2,
-        },
-      });
-      order = this.server.create('order', {
-        workflowStatus: WORKFLOW_STATUS.closed,
-        compositePoLines: [line.attrs],
-        id: line.attrs.purchaseOrderId,
-      });
-
-      this.visit(`/orders/view/${order.id}`);
-      await orderDetailsPage.whenLoaded();
-    });
-
-    it('displays the Receive button', () => {
-      expect(orderDetailsPage.receivingButton.isButton).to.be.true;
-    });
-
-    describe('go to receiving history', () => {
-      beforeEach(async function () {
-        await orderDetailsPage.receivingButton.click();
-      });
-
-      it('displays Receiving history screen', () => {
-        expect(receivingHistoryPage.$root).to.exist;
-      });
-    });
-  });
-
   describe('go to receiving list', () => {
     beforeEach(async function () {
       await orderDetailsPage.receivingButton.click();
@@ -91,8 +58,9 @@ describe('Receiving', function () {
   });
 
   describe('displays Receiving page', () => {
-    beforeEach(function () {
-      this.visit(`/orders/view/${order.id}/receiving`);
+    beforeEach(async function () {
+      await orderDetailsPage.receivingButton.click();
+      await receivingPage.whenLoaded();
     });
 
     it('displays disabled Receive Pieces button', () => {

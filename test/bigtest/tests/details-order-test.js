@@ -70,34 +70,6 @@ describe('Order Details Page', function () {
     });
   });
 
-  describe('Add Line button should be disabled for Closed orders', () => {
-    let closedOrder = null;
-
-    beforeEach(function () {
-      closedOrder = this.server.create('order', { workflowStatus: WORKFLOW_STATUS.closed });
-
-      this.visit(`/orders/view/${closedOrder.id}`);
-    });
-
-    it('Add Line button is disabled', () => {
-      expect(orderDetailsPage.addLineButton.isDisabled).to.equal(true);
-    });
-  });
-
-  describe('Add Line button should be disabled for Open orders', () => {
-    let openOrder = null;
-
-    beforeEach(function () {
-      openOrder = this.server.create('order', { workflowStatus: WORKFLOW_STATUS.open });
-
-      this.visit(`/orders/view/${openOrder.id}`);
-    });
-
-    it('Add Line button is disabled', () => {
-      expect(orderDetailsPage.addLineButton.isDisabled).to.equal(true);
-    });
-  });
-
   describe('clicking on add Line', () => {
     beforeEach(async () => {
       await orderDetailsPage.addLineButton.click();
