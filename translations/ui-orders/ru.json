@@ -418,7 +418,6 @@
     "instance.publishers": "Publishers",
     "settings.poNumber": "Purchase order number",
     "settings.poNumber.editPONumber": "Пользователь может редактировать",
-    "errors.lineWasNotCreated": "Purchase order line has not been created",
     "buttons.line.close": "Закрыть",
     "line.accordion.cost": "Cost details",
     "line.accordion.details": "PO line details",
@@ -671,7 +670,7 @@
     "settings.orderTemplates.editor.save": "Сохранить",
     "settings.orderTemplates.confirmDelete.confirmLabel": "Подтвердить",
     "settings.orderTemplates.confirmDelete.heading": "Удалить шаблон",
-    "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
+    "settings.orderTemplates.confirmDelete.message": "Вы уверены, что хотите удалить шаблон?",
     "settings.orderTemplates.remove.success": "The template was deleted",
     "settings.orderTemplates.remove.error": "The template was not deleted",
     "settings.orderTemplates.accordion.poRenewals": "PO renewal information",
@@ -746,5 +745,6 @@
     "itemDetails.connectedTitle": "Connected",
     "itemDetails.internalNote": "Internal note",
     "poLine": "PO line",
-    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
+    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}",
+    "errors.orderLineGenericError": "Purchase order line could not be saved."
 }

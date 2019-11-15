@@ -418,7 +418,6 @@
     "instance.publishers": "Publishers",
     "settings.poNumber": "Número de orden de compra",
     "settings.poNumber.editPONumber": "El usuario puede editar",
-    "errors.lineWasNotCreated": "La línea de orden de compra no se ha creado.",
     "buttons.line.close": "Close",
     "line.accordion.cost": "Detalles del coste",
     "line.accordion.details": "Detalles de la línea de pedido",
@@ -746,5 +745,6 @@
     "itemDetails.connectedTitle": "Connected",
     "itemDetails.internalNote": "Internal note",
     "poLine": "PO line",
-    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
+    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}",
+    "errors.orderLineGenericError": "Purchase order line could not be saved."
 }

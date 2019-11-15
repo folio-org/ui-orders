@@ -418,7 +418,6 @@
     "instance.publishers": "الناشرون",
     "settings.poNumber": "رقم أمر الشراء",
     "settings.poNumber.editPONumber": "يمكن للمستخدم تحرير",
-    "errors.lineWasNotCreated": "تم إنشاء سطر أمر الشراء.",
     "buttons.line.close": "إغلاق",
     "line.accordion.cost": "تفاصيل التكلفة",
     "line.accordion.details": "تفاصيل خط أمر الشراء",
@@ -746,5 +745,6 @@
     "itemDetails.connectedTitle": "متصل",
     "itemDetails.internalNote": "Internal note",
     "poLine": "PO line",
-    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
+    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}",
+    "errors.orderLineGenericError": "Purchase order line could not be saved."
 }

@@ -418,7 +418,6 @@
     "instance.publishers": "Editoras",
     "settings.poNumber": "Número do pedido",
     "settings.poNumber.editPONumber": "Usuário pode editar",
-    "errors.lineWasNotCreated": "Linha de pedido de compra não foi criada",
     "buttons.line.close": "Fechar",
     "line.accordion.cost": "Detalhes de custos",
     "line.accordion.details": "Detalhes da linha de pedido",
@@ -746,5 +745,6 @@
     "itemDetails.connectedTitle": "Conectado",
     "itemDetails.internalNote": "Nota interna",
     "poLine": "Linha de pedido",
-    "poLine.pluralized": "{count} {count, plural, one {linha de pedido} other {linhas de pedido}}"
+    "poLine.pluralized": "{count} {count, plural, one {linha de pedido} other {linhas de pedido}}",
+    "errors.orderLineGenericError": "Não foi possível salvar a linha do pedido."
 }

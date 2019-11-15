@@ -418,7 +418,6 @@
     "instance.publishers": "出版者",
     "settings.poNumber": "采购订单号",
     "settings.poNumber.editPONumber": "用户可编辑",
-    "errors.lineWasNotCreated": "尚未创建采购订单行",
     "buttons.line.close": "关闭",
     "line.accordion.cost": "成本详情",
     "line.accordion.details": "订单行详情",
@@ -746,5 +745,6 @@
     "itemDetails.connectedTitle": "Connected",
     "itemDetails.internalNote": "Internal note",
     "poLine": "PO line",
-    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
+    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}",
+    "errors.orderLineGenericError": "Purchase order line could not be saved."
 }
