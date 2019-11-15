@@ -75,6 +75,7 @@ class POForm extends Component {
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     stripes: PropTypes.object.isRequired,
+    reset: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -178,11 +179,15 @@ class POForm extends Component {
   }
 
   onChangeTemplate = (e, value) => {
-    const { change, dispatch, parentResources, stripes } = this.props;
+    const { change, dispatch, reset, parentResources, stripes } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
     let form = get(stripes.store.getState(), 'form', {});
+    const { FormPO: { values: { poNumber } } } = form;
 
+    dispatch(reset('form'));
     dispatch(change('template', value));
+    dispatch(change('poNumber', poNumber));
+    dispatch(change('notes', []));
 
     Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))
       .forEach(field => {
