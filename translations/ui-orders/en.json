@@ -393,6 +393,8 @@
   "itemDetails.addProductId": "Please add product ID and product ID type",
   "itemDetails.addProductIdBtn": "Add product ID and product ID type",
   "itemDetails.connectedTitle": "Connected",
+  "itemDetails.notConnectedTitle": "Not connected",
+  "itemDetails.notConnectedInfo": "Instance is no longer connected. This may result in a new instance being created when saved.",
   "itemDetails.contributor": "Contributor",
   "itemDetails.contributors": "Contributors",
   "itemDetails.contributorType": "Contributor type",

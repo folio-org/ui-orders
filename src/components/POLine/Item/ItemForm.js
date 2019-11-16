@@ -11,6 +11,7 @@ import { get } from 'lodash';
 import {
   Col,
   Icon,
+  InfoPopover,
   Label,
   Row,
   TextArea,
@@ -184,8 +185,17 @@ class ItemForm extends Component {
         </Link>
       </Fragment>
     );
+    const notConnectedTitle = (
+      <Fragment>
+        {title}
+        <div>
+          <FormattedMessage id="ui-orders.itemDetails.notConnectedTitle" />
+          <InfoPopover content={<FormattedMessage id="ui-orders.itemDetails.notConnectedInfo" />} />
+        </div>
+      </Fragment>
+    );
 
-    return instanceId ? connectedTitle : title;
+    return instanceId ? connectedTitle : notConnectedTitle;
   }
 
   render() {
