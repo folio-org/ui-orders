@@ -243,7 +243,7 @@ export const PREFIXES_SETTING = {
   records: 'configs',
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_PREFIXES})`,
+      query: `(module=${MODULE_ORDERS} and configName=${MODULE_ORDERS.toLowerCase()}.${CONFIG_PREFIXES})`,
     },
   },
 };
@@ -254,7 +254,7 @@ export const SUFFIXES_SETTING = {
   records: 'configs',
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_SUFFIXES})`,
+      query: `(module=${MODULE_ORDERS} and configName=${MODULE_ORDERS.toLowerCase()}.${CONFIG_SUFFIXES})`,
     },
   },
 };

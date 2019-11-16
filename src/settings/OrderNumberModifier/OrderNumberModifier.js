@@ -83,7 +83,7 @@ export const getOrderNumberModifierManifest = (moduleName, configName) => {
       },
       GET: {
         params: {
-          query: `(module=${moduleName} and configName=${configName})`,
+          query: `(module=${moduleName} and configName=${moduleName.toLowerCase()}.${configName})`,
           limit: LIMIT_MAX.toString(),
         },
       },
