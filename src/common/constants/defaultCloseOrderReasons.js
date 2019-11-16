@@ -1,4 +1,5 @@
 export default {
+  canceled: 'Canceled',
   ceased: 'Ceased',
   complete: 'Complete',
   transferred: 'Transferred to another publisher',
