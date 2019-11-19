@@ -12,6 +12,7 @@ import OrderApprovals from './OrderApprovals';
 import OpenOrder from './OpenOrder';
 import Suffixes from './Suffixes';
 import Prefixes from './Prefixes';
+import InstanceStatus from './InstanceStatus';
 
 const sections = [
   {
@@ -31,6 +32,11 @@ const sections = [
         component: CreateInventory,
         label: <FormattedMessage id="ui-orders.settings.inventoryInteractions" />,
         route: 'create-inventory',
+      },
+      {
+        component: InstanceStatus,
+        label: <FormattedMessage id="ui-orders.settings.instanceStatus" />,
+        route: 'instance-status',
       },
       {
         component: OrderTemplates,

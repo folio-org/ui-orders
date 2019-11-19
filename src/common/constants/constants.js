@@ -22,3 +22,5 @@ export const ORDERS_DOMAIN = 'orders';
 export const NOTE_TYPES = {
   poLine: 'poLine',
 };
+
+export const CONFIG_INSTANCE_STATUS = 'inventory-instanceStatusCode';

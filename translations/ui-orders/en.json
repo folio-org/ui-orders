@@ -660,6 +660,8 @@
   "settings.general.label": "General",
   "settings.index.paneTitle": "Orders",
   "settings.inventoryInteractions": "Inventory interactions",
+  "settings.instanceStatus": "Instance status",
+  "settings.instanceStatus.select": "Default instance status",
   "settings.newBtn": "New",
 
   "settings.openOrder": "Opening purchase orders",
