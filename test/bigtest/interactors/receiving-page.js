@@ -7,6 +7,7 @@ import {
 
 import Button from './button';
 import { CheckBox } from './common';
+import { TIMEOUT } from './const';
 
 export default interactor(class ReceivingPage {
   static defaultScope = '[data-test-receiving]';
@@ -23,6 +24,6 @@ export default interactor(class ReceivingPage {
   isLoaded = isPresent('[data-test-receive-pieces-button]');
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

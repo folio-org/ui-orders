@@ -59,7 +59,7 @@ describe('Check-in items', function () {
   it('displays Line Details pane, Check-in button', function () {
     expect(lineDetailsPage.$root).to.exist;
     expect(lineDetailsPage.checkInButton.$root).to.exist;
-  }).timeout(5000);
+  });
 
   describe('go to check-in items page', function () {
     beforeEach(async function () {

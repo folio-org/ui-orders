@@ -8,6 +8,7 @@ import {
 
 import Button from './button';
 import { CheckBox } from './common';
+import { TIMEOUT } from './const';
 
 @interactor class SearchInput {
   static defaultScope = '[data-test-check-in-items-search] input[type="search"]';
@@ -30,6 +31,6 @@ export default interactor(class CheckInItemsPage {
   searchInput = new SearchInput();
   isLoaded = isPresent('[data-test-check-in-items]');
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

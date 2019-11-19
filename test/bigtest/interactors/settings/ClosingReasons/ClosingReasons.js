@@ -6,6 +6,7 @@ import {
 
 import AddClosingReason from './AddClosingReason';
 import ClosingReasonItem from './ClosingReasonItem';
+import { TIMEOUT } from '../../const';
 
 export default interactor(class ClosingReasons {
   static defaultScope = '[data-test-order-settings-closing-orders]';
@@ -19,6 +20,6 @@ export default interactor(class ClosingReasons {
   systemReasons = collection('[data-test-closing-reason-item-system]', ClosingReasonItem);
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.iisOrdersListPresentsLoaded);
+    return this.timeout(TIMEOUT).when(() => this.iisOrdersListPresentsLoaded);
   }
 });

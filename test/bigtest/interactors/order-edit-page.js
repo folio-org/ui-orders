@@ -9,6 +9,7 @@ import {
 import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 import Button from './button';
+import { TIMEOUT } from './const';
 
 @interactor class SuffixSelect {
   static defaultScope = 'select[name="numberSuffix"]';
@@ -35,7 +36,7 @@ export default interactor(class OrderEditPage {
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 
   title = text('[class*=paneTitleLabel---]');

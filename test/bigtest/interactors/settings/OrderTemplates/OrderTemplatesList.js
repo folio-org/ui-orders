@@ -4,6 +4,8 @@ import {
   isPresent,
 } from '@bigtest/interactor';
 
+import { TIMEOUT } from '../../const';
+
 export default interactor(class OrderTemplatesList {
   static defaultScope = '#order-settings-order-templates-list';
 
@@ -11,6 +13,6 @@ export default interactor(class OrderTemplatesList {
   list = collection('[class*=NavListItem---]');
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

@@ -40,5 +40,5 @@ describe('Orders List - Line details with other format test', function () {
 
   it('displays Other details accordion', function () {
     expect(page.otherDetailsAccordion).to.be.true;
-  }).timeout(5000);
+  });
 });

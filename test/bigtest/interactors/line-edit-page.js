@@ -13,6 +13,7 @@ import {
 } from '@bigtest/interactor';
 
 import Button from './button';
+import { TIMEOUT } from './const';
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
 
 const ITEM_DETAILS = {
@@ -212,6 +213,6 @@ export default interactor(class LineEditPage {
   hasTemplateField = isPresent('[name="template"]');
 
   whenLoaded() {
-    return this.timeout(9000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

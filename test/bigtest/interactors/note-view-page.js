@@ -4,6 +4,7 @@ import {
 } from '@bigtest/interactor';
 
 import Button from './button';
+import { TIMEOUT } from './const';
 
 export default interactor(class NoteViewPage {
   static defaultScope = '[class*=paneset---]';
@@ -14,6 +15,6 @@ export default interactor(class NoteViewPage {
   isLoaded = isPresent('[class*=paneHeader---]');
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

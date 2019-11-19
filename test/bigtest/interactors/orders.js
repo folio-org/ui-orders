@@ -11,8 +11,8 @@ import {
 
 import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { FILTERS } from '../../../src/OrdersList';
-
 import Button from './button';
+import { TIMEOUT } from './const';
 
 @interactor class OrdersFilterInteractor {
   static defaultScope = '#pane-filter';
@@ -42,6 +42,6 @@ export default interactor(class OrdersInteractor {
   clickSearch = clickable('[data-test-search-and-sort-submit]');
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.hasCreateOrderButton);
+    return this.timeout(TIMEOUT).when(() => this.hasCreateOrderButton);
   }
 });

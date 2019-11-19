@@ -8,6 +8,7 @@ import {
 
 import Button from './button';
 import { FILTERS } from '../../../src/OrderLinesList/constants';
+import { TIMEOUT } from './const';
 
 @interactor class FilterAccordion {
   isExpanded = isPresent('[class*=expanded---]');
@@ -44,6 +45,6 @@ export default interactor(class OrderLinesInteractor {
   isNoResultsMessageLabelPresent = isPresent('[class*=noResultsMessageLabel]');
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

@@ -6,6 +6,7 @@ import {
 } from '@bigtest/interactor';
 
 import Button from './button';
+import { TIMEOUT } from './const';
 
 @interactor class LineDetailsPageActions {
   static defaultScope = '#data-test-line-details-actions';
@@ -45,6 +46,6 @@ export default interactor(class LineDetailsPage {
 
   actions = new LineDetailsPageActions();
   whenLoaded() {
-    return this.timeout(7000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

@@ -6,6 +6,7 @@ import {
 } from '@bigtest/interactor';
 import Button from '../../button';
 import { ORDER_TEMPLATES_ACCORDION } from '../../../../../src/settings/OrderTemplates/constants';
+import { TIMEOUT } from '../../const';
 
 @interactor class TemplateInfoAccordion {
   static defaultScope = `#${ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO}`;
@@ -23,6 +24,6 @@ export default interactor(class OrderTemplateView {
   templateInfoAccordion = new TemplateInfoAccordion();
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

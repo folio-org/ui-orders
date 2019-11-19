@@ -7,6 +7,7 @@ import {
 } from '@bigtest/interactor';
 
 import Button from './button';
+import { TIMEOUT } from './const';
 
 @interactor class BillTo {
   static defaultScope = '[data-test-order-details-bill-to]';
@@ -62,6 +63,6 @@ export default interactor(class OrderDetailsPage {
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();
 
   whenLoaded() {
-    return this.timeout(7000).when(() => this.isLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

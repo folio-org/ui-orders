@@ -7,6 +7,7 @@ import {
 } from '@bigtest/interactor';
 
 import { CheckBox } from './common';
+import { TIMEOUT } from './const';
 import Button from './button';
 
 @interactor class SearchInput {
@@ -38,6 +39,6 @@ export default interactor(class CheckInHistoryPage {
   checkAllCheckbox = new CheckAllCheckbox();
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.searchInput.isPresent);
+    return this.timeout(TIMEOUT).when(() => this.searchInput.isPresent);
   }
 });
