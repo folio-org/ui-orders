@@ -34,128 +34,120 @@ describe('Setting of Closing Reasons', function () {
     expect(closingReasons.isOrdersListPresent).to.be.true;
   });
 
-  describe('Add Reason', () => {
-    it('should render Add button', () => {
-      expect(closingReasons.addClosingReason.isPresent).to.be.true;
+  it('should render Add button', () => {
+    expect(closingReasons.addClosingReason.isPresent).to.be.true;
+  });
+
+  describe('button click', () => {
+    beforeEach(async () => {
+      await closingReasons.addClosingReason.addAction();
     });
 
-    describe('button click', () => {
+    it('should open Closing Reason form', () => {
+      expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.true;
+    });
+  });
+
+  describe('form', () => {
+    beforeEach(async () => {
+      await closingReasons.addClosingReason.addAction();
+    });
+
+    describe('submit action', () => {
       beforeEach(async () => {
-        await closingReasons.addClosingReason.addAction();
+        await closingReasons.addClosingReason.closingReasonForm.fillValue('test value');
+        await closingReasons.addClosingReason.closingReasonForm.submitAction();
       });
 
-      it('should open Closing Reason form', () => {
-        expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.true;
+      it('should hide Closing Reason form', () => {
+        expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.false;
+        expect(closingReasons.addClosingReason.isPresent).to.be.true;
       });
     });
 
-    describe('form', () => {
+    describe('cancel action', () => {
       beforeEach(async () => {
-        await closingReasons.addClosingReason.addAction();
+        await closingReasons.addClosingReason.closingReasonForm.cancelAction();
       });
 
-      describe('submit action', () => {
-        beforeEach(async () => {
-          await closingReasons.addClosingReason.closingReasonForm.fillValue('test value');
-          await closingReasons.addClosingReason.closingReasonForm.submitAction();
-        });
-
-        it('should hide Closing Reason form', () => {
-          expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.false;
-          expect(closingReasons.addClosingReason.isPresent).to.be.true;
-        });
-      });
-
-      describe('cancel action', () => {
-        beforeEach(async () => {
-          await closingReasons.addClosingReason.closingReasonForm.cancelAction();
-        });
-
-        it('should hide Closing Reason form', () => {
-          expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.false;
-          expect(closingReasons.addClosingReason.isPresent).to.be.true;
-        });
+      it('should hide Closing Reason form', () => {
+        expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.false;
+        expect(closingReasons.addClosingReason.isPresent).to.be.true;
       });
     });
   });
 
-  describe('System', () => {
-    it('should display all system reasons', () => {
-      expect(closingReasons.systemReasons().length === defaultReasonsCount).to.be.true;
-    });
+  it('should display all system reasons', () => {
+    expect(closingReasons.systemReasons().length === defaultReasonsCount).to.be.true;
+  });
 
-    it('should hide actions', () => {
-      closingReasons.systemReasons().forEach(reason => {
-        expect(reason.editAction().length).to.equal(0);
-      });
+  it('should hide actions', () => {
+    closingReasons.systemReasons().forEach(reason => {
+      expect(reason.editAction().length).to.equal(0);
     });
   });
 
-  describe('User', () => {
-    it('should display loaded reasons', () => {
+  it('should display loaded reasons', () => {
+    expect(closingReasons.reasons().length > defaultReasonsCount).to.be.true;
+  });
+
+  describe('Remove action', () => {
+    beforeEach(async () => {
+      await (
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 1000);
+        })
+      );
+
+      const userReason = find(closingReasons.reasons(), reason => reason.removeAction().length);
+
+      await userReason.removeAction(0).click();
+    });
+
+    it('should refresh items after success', () => {
       expect(closingReasons.reasons().length > defaultReasonsCount).to.be.true;
     });
+  });
 
-    describe('Remove action', () => {
+  describe('Edit action', () => {
+    beforeEach(async () => {
+      await (
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 1000);
+        })
+      );
+
+      const userReason = find(closingReasons.reasons(), reason => reason.editAction().length);
+
+      await userReason.editAction(0).click();
+    });
+
+    it('should open Closing Reason form', () => {
+      expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.true;
+    });
+
+    describe('submit action', () => {
       beforeEach(async () => {
-        await (
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-            }, 1000);
-          })
-        );
-
-        const userReason = find(closingReasons.reasons(), reason => reason.removeAction().length);
-
-        await userReason.removeAction(0).click();
+        await closingReasons.closingReasonItem.closingReasonForm.fillValue('test value');
+        await closingReasons.closingReasonItem.closingReasonForm.submitAction();
       });
 
-      it('should refresh items after success', () => {
-        expect(closingReasons.reasons().length > defaultReasonsCount).to.be.true;
+      it('should hide Closing Reason form', () => {
+        expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.false;
       });
     });
 
-    describe('Edit action', () => {
+    describe('cancel action', () => {
       beforeEach(async () => {
-        await (
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-            }, 1000);
-          })
-        );
-
-        const userReason = find(closingReasons.reasons(), reason => reason.editAction().length);
-
-        await userReason.editAction(0).click();
+        await closingReasons.closingReasonItem.closingReasonForm.cancelAction();
       });
 
-      it('should open Closing Reason form', () => {
-        expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.true;
-      });
-
-      describe('form', () => {
-        describe('submit action', () => {
-          beforeEach(async () => {
-            await closingReasons.closingReasonItem.closingReasonForm.fillValue('test value');
-            await closingReasons.closingReasonItem.closingReasonForm.submitAction();
-          });
-
-          it('should hide Closing Reason form', () => {
-            expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.false;
-          });
-        });
-
-        describe('cancel action', () => {
-          beforeEach(async () => {
-            await closingReasons.closingReasonItem.closingReasonForm.cancelAction();
-          });
-
-          it('should hide Closing Reason form', () => {
-            expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.false;
-          });
-        });
+      it('should hide Closing Reason form', () => {
+        expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.false;
       });
     });
   });
