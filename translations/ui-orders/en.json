@@ -664,6 +664,8 @@
   "settings.instanceStatus.select": "Default instance status",
   "settings.instanceType": "Instance type",
   "settings.instanceType.select": "Default instance type",
+  "settings.loanType": "Loan type",
+  "settings.loanType.select": "Default loan type",
   "settings.newBtn": "New",
 
   "settings.openOrder": "Opening purchase orders",

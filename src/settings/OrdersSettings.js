@@ -14,6 +14,7 @@ import Suffixes from './Suffixes';
 import Prefixes from './Prefixes';
 import InstanceStatus from './InstanceStatus';
 import InstanceType from './InstanceType';
+import LoanType from './LoanType';
 
 const sections = [
   {
@@ -43,6 +44,11 @@ const sections = [
         component: InstanceType,
         label: <FormattedMessage id="ui-orders.settings.instanceType" />,
         route: 'instance-type',
+      },
+      {
+        component: LoanType,
+        label: <FormattedMessage id="ui-orders.settings.loanType" />,
+        route: 'loan-type',
       },
       {
         component: OrderTemplates,
