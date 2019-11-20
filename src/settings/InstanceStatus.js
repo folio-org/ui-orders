@@ -19,9 +19,9 @@ class InstanceStatus extends Component {
 
   render() {
     const { label, resources } = this.props;
-    const instanceStatuses = get(resources, 'instanceStatuses.records', []).map(({ id, name }) => ({
+    const instanceStatuses = get(resources, 'instanceStatuses.records', []).map(({ code, name }) => ({
       label: name,
-      value: id,
+      value: code,
     }));
 
     return (

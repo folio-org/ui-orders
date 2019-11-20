@@ -20,9 +20,9 @@ class InstanceType extends Component {
 
   render() {
     const { label, resources } = this.props;
-    const instanceTypes = get(resources, 'instanceTypes.records', []).map(({ id, name }) => ({
+    const instanceTypes = get(resources, 'instanceTypes.records', []).map(({ code, name }) => ({
       label: name,
-      value: id,
+      value: code,
     }));
 
     return (

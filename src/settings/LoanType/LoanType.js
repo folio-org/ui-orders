@@ -19,9 +19,9 @@ class LoanType extends Component {
 
   render() {
     const { label, resources } = this.props;
-    const loanTypes = get(resources, 'loanTypes.records', []).map(({ id, name }) => ({
+    const loanTypes = get(resources, 'loanTypes.records', []).map(({ name }) => ({
       label: name,
-      value: id,
+      value: name,
     }));
 
     return (
