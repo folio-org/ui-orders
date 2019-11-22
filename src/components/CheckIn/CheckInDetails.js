@@ -11,7 +11,7 @@ import {
 
 import { Callout } from '@folio/stripes/components';
 
-import { STATUS_IN_PROCESS } from '../../common/constants';
+import { getPieceStatusFromItem } from '../../common/utils';
 import OpenedRequestsModal from '../../common/OpenedRequestsModal';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { fetchItems, fetchRequests } from '../Receiving/util';
@@ -64,7 +64,7 @@ class CheckInDetails extends Component {
       .then(([requestsMap, itemsMap]) => {
         const items = sortBy(pieces.map(piece => ({
           ...getMixedPieceAndItem(piece, itemsMap),
-          itemStatus: STATUS_IN_PROCESS,
+          itemStatus: getPieceStatusFromItem(itemsMap, piece.itemId),
           request: requestsMap[piece.itemId],
           isChecked: true,
         })), ['locationId']);

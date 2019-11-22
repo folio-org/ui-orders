@@ -6,7 +6,6 @@ import { get, sortBy } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
 
-import { STATUS_IN_PROCESS } from '../../common/constants';
 import {
   PIECE_STATUS_EXPECTED,
 } from '../Receiving/const';
@@ -97,7 +96,6 @@ class CheckInItemsWrapper extends Component {
 
         return checkInItems([{
           ...piece,
-          itemStatus: STATUS_IN_PROCESS,
         }], mutator.checkIn);
       })
       .then(() => mutator.query.update({

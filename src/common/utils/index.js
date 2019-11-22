@@ -12,3 +12,4 @@ export * from './getSettingsList';
 export * from './getAddresses';
 export * from './getAddressOptions';
 export { default as getCreateInventorySetting } from './getCreateInventorySetting';
+export * from './getPieceStatusFromItem';

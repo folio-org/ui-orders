@@ -12,6 +12,8 @@ import {
   MultiColumnList,
 } from '@folio/stripes/components';
 
+import { getItemStatusLabel } from '../../common/constants';
+
 const ReviewDetails = ({
   allChecked,
   checkedItemsList,
@@ -36,7 +38,7 @@ const ReviewDetails = ({
     'format': (item) => get(item, 'pieceFormat', ''),
     'location': (item) => get(locationsOptions.filter(el => (
       el.value === item.locationId)), [0, 'label'], 'Unknown location'),
-    'itemStatus': (item) => <FormattedMessage id={`ui-orders.receiving.itemStatus.${item.itemStatus}`} />,
+    'itemStatus': (item) => getItemStatusLabel(item.itemStatus),
   };
   const sortedCheckedItemsList = sortBy(checkedItemsList, ['title', 'locationId']);
 
