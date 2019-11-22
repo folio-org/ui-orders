@@ -1,1 +1,1 @@
-export { default } from './CenteredRowFormatter';
+export { default } from './centeredRowFormatter';
