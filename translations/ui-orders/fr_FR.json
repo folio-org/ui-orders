@@ -472,7 +472,6 @@
     "receiving.links.items": "Réceptionner les articles",
     "receiving.links.history": "Historique de réception",
     "receiving.format": "Format",
-    "receiving.itemStatus.received": "Reçu",
     "receiving.nextBtn": "Next",
     "receiving.previousBtn": "Previous",
     "receiving.btn.remove": "Remove",
@@ -506,8 +505,6 @@
     "cost.discount": "Remise",
     "cost.unitPriceOfElectronic": "Prix unitaire de l'électronique",
     "cost.validation.cantBeNegative": "Ne peut pas être négatif",
-    "receiving.itemStatus.inProcess": "En cours",
-    "receiving.itemStatus.onOrder": "Sur commande",
     "cost.validation.shouldBePositive": "Devrait être positif",
     "cost.validation.cantBeNegativeOrEmpty": "Ne peut pas être négatif ou vide",
     "eresource.createInventory": "Créer un inventaire",
@@ -590,8 +587,6 @@
     "workflowStatus": "Status",
     "navigation.orders": "Commandes",
     "navigation.orderLines": "Lignes de commande",
-    "receiving.itemStatus.available": "Disponible",
-    "receiving.itemStatus.inTransit": "En transit",
     "orderLineList.poLineNumber": "POL number",
     "orderLineList.updatedDate": "Date de mise à jour",
     "orderLineList.title": "Titre",
@@ -756,5 +751,10 @@
     "settings.instanceType": "Instance type",
     "settings.instanceType.select": "Default instance type",
     "settings.loanType": "Loan type",
-    "settings.loanType.select": "Default loan type"
+    "settings.loanType.select": "Default loan type",
+    "receiving.itemStatus.In process": "In process",
+    "receiving.itemStatus.On order": "On order",
+    "receiving.itemStatus.Received": "Received",
+    "receiving.itemStatus.Available": "Available",
+    "receiving.itemStatus.In transit": "In transit"
 }
