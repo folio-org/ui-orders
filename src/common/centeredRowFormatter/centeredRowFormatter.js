@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import css from './CenteredRowFormatter.css';
+import css from './centeredRowFormatter.css';
 
-function CenteredRowFormatter({ rowIndex, rowClass, cells, rowProps, labelStrings }) {
+function centeredRowFormatter({ rowClass, cells, rowProps, labelStrings }) {
   return (
     <div
-      key={`row-${rowIndex}`}
       className={classnames(
         rowClass,
         css.mclCellVCenter,
@@ -22,7 +21,7 @@ function CenteredRowFormatter({ rowIndex, rowClass, cells, rowProps, labelString
   );
 }
 
-CenteredRowFormatter.propTypes = {
+centeredRowFormatter.propTypes = {
   cells: PropTypes.arrayOf(PropTypes.element),
   labelStrings: PropTypes.arrayOf(PropTypes.string),
   rowClass: PropTypes.string,
@@ -31,4 +30,4 @@ CenteredRowFormatter.propTypes = {
   rowWidth: PropTypes.number,
 };
 
-export default CenteredRowFormatter;
+export default centeredRowFormatter;

@@ -12,7 +12,7 @@ import {
 } from '@folio/stripes/components';
 
 import { getItemStatusLabel } from '../../common/constants';
-import CenteredRowFormatter from '../../common/CenteredRowFormatter';
+import centeredRowFormatter from '../../common/centeredRowFormatter';
 
 const LineDetails = ({
   allChecked,
@@ -88,7 +88,7 @@ const LineDetails = ({
       isSelected={isSelected}
       interactive={false}
       selectedClass="noClass"
-      rowFormatter={CenteredRowFormatter}
+      rowFormatter={centeredRowFormatter}
     />
   );
 };

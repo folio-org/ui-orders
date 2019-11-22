@@ -16,7 +16,7 @@ import {
 import { EMPTY_OPTION } from '../Utils/const';
 import ItemsListModalFooter from './ItemsListModalFooter';
 import { getItemStatusLabel } from '../../common/constants';
-import CenteredRowFormatter from '../../common/CenteredRowFormatter';
+import centeredRowFormatter from '../../common/centeredRowFormatter';
 
 const ItemsListModal = ({
   close,
@@ -96,7 +96,7 @@ const ItemsListModal = ({
         isSelected={isSelected}
         interactive={false}
         selectedClass="noClass"
-        rowFormatter={CenteredRowFormatter}
+        rowFormatter={centeredRowFormatter}
       />
     </Modal>
   );
