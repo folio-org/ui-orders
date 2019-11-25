@@ -3,7 +3,11 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, map } from 'lodash';
 
-import { MultiColumnList } from '@folio/stripes/components';
+import {
+  Icon,
+  Layout,
+  MultiColumnList,
+} from '@folio/stripes/components';
 
 class LineListing extends Component {
   static propTypes = {
@@ -52,6 +56,11 @@ class LineListing extends Component {
             fundCode: <FormattedMessage id="ui-orders.lineListing.fundCode" />,
           }}
         />
+        <Layout className="textCentered">
+          <Icon icon="end-mark">
+            <FormattedMessage id="stripes-components.endOfList" />
+          </Icon>
+        </Layout>
       </div>
     );
   }

@@ -15,9 +15,8 @@ import {
 
 import { EMPTY_OPTION } from '../Utils/const';
 import ItemsListModalFooter from './ItemsListModalFooter';
-import { SelectItemStatus } from '../SelectItemStatus';
-
-import css from './ItemsListModal.css';
+import { getItemStatusLabel } from '../../common/constants';
+import centeredRowFormatter from '../../common/centeredRowFormatter';
 
 const ItemsListModal = ({
   close,
@@ -42,37 +41,28 @@ const ItemsListModal = ({
     'title': (item) => get(item, 'title', ''),
     'piece': (item) => get(item, 'caption', ''),
     'barcode': (item) => (
-      <div className={css.fieldWrapper}>
-        <TextField
-          disabled={isLoading || item.pieceFormat !== 'Physical'}
-          onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
-          type="text"
-          value={item.barcode}
-        />
-      </div>
+      <TextField
+        disabled={isLoading || item.pieceFormat !== 'Physical'}
+        onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
+        type="text"
+        value={item.barcode}
+        marginBottom0
+      />
     ),
     'hasRequest': (item) => Boolean(item.request) && <FormattedMessage id="ui-orders.requests.request.isOpened" />,
     'format': (item) => (
-      <div className={css.fieldWrapper}>
-        <KeyValue value={get(item, 'pieceFormat', '')} />
-      </div>
+      <KeyValue value={get(item, 'pieceFormat', '')} />
     ),
     'location': (item) => (
-      <div className={css.fieldWrapper}>
-        <Select
-          dataOptions={[EMPTY_OPTION, ...locations]}
-          fullWidth
-          onChange={(e) => onChangeField(item, e.target.value, 'locationId')}
-          value={item.locationId}
-        />
-      </div>
-    ),
-    'itemStatus': (item) => (
-      <SelectItemStatus
-        isAssociatedRecord={item.itemId}
-        onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
+      <Select
+        dataOptions={[EMPTY_OPTION, ...locations]}
+        fullWidth
+        onChange={(e) => onChangeField(item, e.target.value, 'locationId')}
+        value={item.locationId}
+        marginBottom0
       />
     ),
+    'itemStatus': (item) => getItemStatusLabel(item.itemStatus),
   };
 
   return (
@@ -106,6 +96,7 @@ const ItemsListModal = ({
         isSelected={isSelected}
         interactive={false}
         selectedClass="noClass"
+        rowFormatter={centeredRowFormatter}
       />
     </Modal>
   );

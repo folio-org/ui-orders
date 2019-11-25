@@ -3,8 +3,6 @@ import {
   some,
 } from 'lodash';
 
-import { ITEM_STATUS } from '../../common/constants';
-
 export const checkInItems = (pieces, mutator) => {
   const linesMap = {};
 
@@ -16,7 +14,7 @@ export const checkInItems = (pieces, mutator) => {
       caption: piece.caption,
       supplement: piece.supplement,
       locationId: piece.locationId || null,
-      itemStatus: ITEM_STATUS[piece.itemStatus],
+      itemStatus: piece.itemStatus,
     };
     const line = linesMap[piece.poLineId];
 

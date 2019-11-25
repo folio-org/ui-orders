@@ -8,7 +8,7 @@ import Button from './button';
 import { CheckBox } from './common';
 
 @interactor class BarcodeInput {
-  static defaultScope = '[class*=fieldWrapper] input[type="text"]';
+  static defaultScope = 'input[type="text"]';
   isInput = is('input');
   value = value();
 }

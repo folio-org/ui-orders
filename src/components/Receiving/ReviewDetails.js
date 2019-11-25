@@ -2,12 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { get } from 'lodash';
+import {
+  get,
+  sortBy,
+} from 'lodash';
 
 import {
   Checkbox,
   MultiColumnList,
 } from '@folio/stripes/components';
+
+import { getItemStatusLabel } from '../../common/constants';
 
 const ReviewDetails = ({
   allChecked,
@@ -33,12 +38,13 @@ const ReviewDetails = ({
     'format': (item) => get(item, 'pieceFormat', ''),
     'location': (item) => get(locationsOptions.filter(el => (
       el.value === item.locationId)), [0, 'label'], 'Unknown location'),
-    'itemStatus': (item) => <FormattedMessage id={`ui-orders.receiving.itemStatus.${item.itemStatus}`} />,
+    'itemStatus': (item) => getItemStatusLabel(item.itemStatus),
   };
+  const sortedCheckedItemsList = sortBy(checkedItemsList, ['title', 'locationId']);
 
   return (
     <MultiColumnList
-      contentData={checkedItemsList}
+      contentData={sortedCheckedItemsList}
       formatter={resultFormatter}
       visibleColumns={['isChecked', 'poLine', 'title', 'barcode', 'hasRequest', 'comment', 'format', 'location', 'itemStatus']}
       columnMapping={{

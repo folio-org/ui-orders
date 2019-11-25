@@ -6,11 +6,12 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   cloneDeep,
   find,
+  sortBy,
 } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
 
-import { STATUS_IN_PROCESS } from '../../common/constants';
+import { getPieceStatusFromItem } from '../../common/utils';
 import OpenedRequestsModal from '../../common/OpenedRequestsModal';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { fetchItems, fetchRequests } from '../Receiving/util';
@@ -61,12 +62,12 @@ class CheckInDetails extends Component {
 
     Promise.all([fetchRequests(mutator, pieces), fetchItems(mutator, pieces)])
       .then(([requestsMap, itemsMap]) => {
-        const items = pieces.map(piece => ({
+        const items = sortBy(pieces.map(piece => ({
           ...getMixedPieceAndItem(piece, itemsMap),
-          itemStatus: STATUS_IN_PROCESS,
+          itemStatus: getPieceStatusFromItem(itemsMap, piece.itemId),
           request: requestsMap[piece.itemId],
           isChecked: true,
-        }));
+        })), ['locationId']);
 
         this.setState({
           isLoading: false,

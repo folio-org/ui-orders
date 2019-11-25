@@ -11,9 +11,8 @@ import {
   Select,
 } from '@folio/stripes/components';
 
-import { SelectItemStatus } from '../SelectItemStatus';
-
-import css from './ItemDetails.css';
+import { getItemStatusLabel } from '../../common/constants';
+import centeredRowFormatter from '../../common/centeredRowFormatter';
 
 const LineDetails = ({
   allChecked,
@@ -37,48 +36,38 @@ const LineDetails = ({
       />
     ),
     'barcode': (item) => (
-      <div className={css.fieldWrapper}>
-        <TextField
-          data-test-barcode
-          disabled={isLoading || itemsMap[item.itemId] === undefined}
-          onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
-          type="text"
-          value={item.barcode}
-        />
-      </div>
+      <TextField
+        data-test-barcode
+        disabled={isLoading || itemsMap[item.itemId] === undefined}
+        onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
+        type="text"
+        value={item.barcode}
+        marginBottom0
+      />
     ),
     'format': (item) => (
-      <div className={css.fieldWrapper}>
-        <KeyValue value={get(item, 'pieceFormat', '')} />
-      </div>
+      <KeyValue value={get(item, 'pieceFormat', '')} />
     ),
     'hasRequest': (item) => Boolean(item.request) && <FormattedMessage id="ui-orders.requests.request.isOpened" />,
     'comment': (item) => (
-      <div className={css.fieldWrapper}>
-        <TextField
-          data-test-comment
-          onChange={(e) => onChangeField(item, e.target.value, 'comment')}
-          type="text"
-          value={item.comment}
-        />
-      </div>
-    ),
-    'location': (item) => (
-      <div className={css.fieldWrapper}>
-        <Select
-          dataOptions={locationsOptions}
-          fullWidth
-          onChange={(e) => onChangeField(item, e.target.value, 'locationId')}
-          value={get(item, 'locationId', '')}
-        />
-      </div>
-    ),
-    'itemStatus': (item) => (
-      <SelectItemStatus
-        isAssociatedRecord={item.itemId}
-        onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
+      <TextField
+        data-test-comment
+        onChange={(e) => onChangeField(item, e.target.value, 'comment')}
+        type="text"
+        value={item.comment}
+        marginBottom0
       />
     ),
+    'location': (item) => (
+      <Select
+        dataOptions={locationsOptions}
+        fullWidth
+        onChange={(e) => onChangeField(item, e.target.value, 'locationId')}
+        value={get(item, 'locationId', '')}
+        marginBottom0
+      />
+    ),
+    'itemStatus': (item) => getItemStatusLabel(item.itemStatus),
   };
 
   return (
@@ -99,6 +88,7 @@ const LineDetails = ({
       isSelected={isSelected}
       interactive={false}
       selectedClass="noClass"
+      rowFormatter={centeredRowFormatter}
     />
   );
 };
