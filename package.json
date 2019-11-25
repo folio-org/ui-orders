@@ -220,7 +220,7 @@
     "start": "stripes serve",
     "build": "stripes build --output ./output",
     "test": "yarn run test:unit",
-    "test:unit": "jest --ci --reporters='jest-junit' --coverage --coverageReporters lcov",
+    "test:unit": "jest --ci --reporters='jest-junit' --coverage --coverageReporters json",
     "test:e2e": "stripes test karma --karma.singleRun --karma.browsers ChromeDocker --karma.reporters mocha junit --coverage",
     "lint": "eslint ."
   },
