@@ -6,6 +6,9 @@ module.exports = {
     '!**/node_modules/**',
     '!**/test/**',
   ],
+  coverageDirectory: '<rootDir>/artifacts/coverage/',
+  coverageReporters: ['lcov'],
+  reporters: ['jest-junit'],
   transform: {
     '^.+\\.(js|jsx)$': '<rootDir>/test/jest/jest-transformer.js',
   },
