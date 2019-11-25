@@ -162,7 +162,7 @@ class ItemForm extends Component {
   };
 
   getTitleLabel = () => {
-    const { required, formValues } = this.props;
+    const { required, formValues, initialValues } = this.props;
     const instanceId = get(formValues, 'instanceId');
     const title = (
       <Label required={required}>
@@ -194,6 +194,10 @@ class ItemForm extends Component {
         </div>
       </Fragment>
     );
+
+    if (!initialValues.instanceId) {
+      return title;
+    }
 
     return instanceId ? connectedTitle : notConnectedTitle;
   }

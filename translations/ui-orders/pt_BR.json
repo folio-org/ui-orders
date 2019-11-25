@@ -752,9 +752,9 @@
     "settings.instanceType.select": "Tipo de instância padrão",
     "settings.loanType": "Tipo de empréstimo",
     "settings.loanType.select": "Tipo de empréstimo padrão",
-    "receiving.itemStatus.In process": "In process",
-    "receiving.itemStatus.On order": "On order",
-    "receiving.itemStatus.Received": "Received",
-    "receiving.itemStatus.Available": "Available",
-    "receiving.itemStatus.In transit": "In transit"
+    "receiving.itemStatus.In process": "Em processamento",
+    "receiving.itemStatus.On order": "Em processo de compra",
+    "receiving.itemStatus.Received": "Recebido",
+    "receiving.itemStatus.Available": "Disponível",
+    "receiving.itemStatus.In transit": "Em trânsito"
 }

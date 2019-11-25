@@ -7,6 +7,7 @@ export const ITEM_STATUS = {
   received: 'Received',
   available: 'Available',
   inTransit: 'In transit',
+  undefined: 'Undefined',
 };
 
 export const getItemStatusLabel = (itemStatus) => {
