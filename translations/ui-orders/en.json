@@ -582,6 +582,7 @@
   "receiving.itemStatus.Received": "Received",
   "receiving.itemStatus.Available": "Available",
   "receiving.itemStatus.In transit": "In transit",
+  "receiving.itemStatus.Undefined": "Undefined",
   "receiving.itemStatus": "Item status",
   "receiving.lineStatus.expected": "Expected",
   "receiving.location": "Location",
