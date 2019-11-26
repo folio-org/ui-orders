@@ -195,7 +195,7 @@ class ItemForm extends Component {
       </Fragment>
     );
 
-    if (!initialValues.instanceId) {
+    if (!initialValues.instanceId && !this.state.instanceId) {
       return title;
     }
 
