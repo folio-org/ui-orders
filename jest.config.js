@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const esModules = ['@folio'].join('|');
 
 module.exports = {

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
