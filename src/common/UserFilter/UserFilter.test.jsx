@@ -3,7 +3,7 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 
-import '../../../test/jest/__mock__';
+import '@folio/stripes-acq-components/test/jest/__mock__';
 
 import UserFilter from './UserFilter';
 
