@@ -1,7 +1,6 @@
-import {
-  Factory,
-  faker,
-} from '@bigtest/mirage';
+import { Factory } from 'miragejs';
+import faker from 'faker';
+
 import { ITEM_STATUS } from '../../../../src/common/constants';
 
 export default Factory.extend({

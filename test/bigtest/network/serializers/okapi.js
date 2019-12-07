@@ -1,4 +1,4 @@
-import { camelize, pluralize } from '@bigtest/mirage';
+import { camelize, pluralize } from 'miragejs';
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({

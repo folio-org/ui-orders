@@ -1,3 +1,3 @@
-import OkapiSerializer from './okapi';
+import { buildBaseSerializer } from '@folio/stripes-acq-components/test/bigtest/network';
 
-export default OkapiSerializer.extend();
+export default buildBaseSerializer('items', 'items');

@@ -58,15 +58,14 @@ describe('Line details test', function () {
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
     await page.whenLoaded();
+    await page.whenInvoicesLoaded();
   });
 
   it('displays Line details pane', function () {
     expect(page.$root).to.exist;
     expect(page.receiveButton.isPresent).to.be.true;
-  });
-
-  it('does not display actions', function () {
-    expect(page.actions.isPresent).to.be.false;
+    expect(page.actions.isPresent).to.be.true;
+    expect(page.relatedInvoicesAccordion.invoices().length).to.be.equal(1);
   });
 
   describe('Receive button can be clicked on PO Line level', function () {
@@ -91,6 +90,7 @@ describe('Line details test', function () {
 
   describe('Go to Invoices app', function () {
     beforeEach(async function () {
+      await page.whenInvoicesLoaded();
       await page.relatedInvoicesAccordion.invoices(0).link();
     });
 
