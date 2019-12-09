@@ -32,8 +32,10 @@ import {
 import {
   isOngoing,
 } from '../../../common/POFields';
+import { WORKFLOW_STATUS } from '../../../common/constants';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
+
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderRenewalsForm from './PurchaseOrderRenewalsForm';
@@ -49,7 +51,9 @@ import calculateEstimatedPrice from '../../../components/POLine/calculateEstimat
 
 import css from './OrderTemplatesEditor.css';
 
-const ORDER = {};
+const ORDER = {
+  workflowStatus: WORKFLOW_STATUS.pending,
+};
 
 const ORDER_TEMPLATES_FORM_NAME = 'orderTemplateForm';
 
