@@ -1,6 +1,6 @@
 export const MODULE_ORDERS = 'ORDERS';
 export const MODULE_TENANT = 'TENANT';
-export const CONFIG_CLOSING_REASONS = 'closing-reasons';
+export const CONFIG_CLOSING_REASONS = 'order.closing-reasons';
 export const CONFIG_CREATE_INVENTORY = 'createInventory';
 export const CONFIG_LINES_LIMIT = 'poLines-limit';
 export const CONFIG_ORDER_NUMBER = 'orderNumber';

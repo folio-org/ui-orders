@@ -7,6 +7,10 @@ import { Callout } from '@folio/stripes/components';
 
 import { DEFAULT_CLOSE_ORDER_REASONS } from '../../common/constants';
 import { CLOSING_REASONS } from '../../components/Utils/resources';
+import {
+  CONFIG_CLOSING_REASONS,
+  MODULE_ORDERS,
+} from '../../components/Utils/const';
 
 import ClosingReasons from './ClosingReasons';
 
@@ -75,8 +79,8 @@ class ClosingReasonsContainer extends Component {
       const code = `${CODE_PREFIX}${lastReasonCodeInt + 1}`;
 
       reason = {
-        module: 'ORDERS',
-        configName: 'order.closing-reasons',
+        module: MODULE_ORDERS,
+        configName: CONFIG_CLOSING_REASONS,
         code,
       };
     }
