@@ -157,7 +157,7 @@ export const CLOSING_REASONS = {
   records: 'configs',
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
+      query: `(module=${MODULE_ORDERS} and configName=order.${CONFIG_CLOSING_REASONS})`,
     },
   },
 };

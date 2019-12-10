@@ -5,6 +5,7 @@
 
 ### Bug fixes
 * [UIOR-462](https://issues.folio.org/browse/UIOR-462) Cannot fill in any of the cost detail fields in Order Templates
+* [UINV-96](https://issues.folio.org/browse/UINV-96) Closing reasons are not loaded
 
 ## [1.8.0](https://github.com/folio-org/ui-orders/tree/v1.8.0) (2019-12-04)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
