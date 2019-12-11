@@ -45,6 +45,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 const ERROR_CODES = {
   accessProviderIsInactive: 'accessProviderIsInactive',
   accessProviderNotFound: 'accessProviderNotFound',
+  costDiscountInvalid: 'costDiscountInvalid',
   costQtyPhysicalExceedsLoc: 'costQtyPhysicalExceedsLoc',
   locQtyElectronicExceedsCost: 'locQtyElectronicExceedsCost',
   locQtyPhysicalExceedsCost: 'locQtyPhysicalExceedsCost',
@@ -191,6 +192,8 @@ class LayerPOLine extends Component {
 
   updatePOLine = ({ saveAndOpen, ...data }) => {
     const line = cloneDeep(data);
+
+    delete line.metadata;
     const { location: { pathname }, parentMutator, showToast } = this.props;
 
     return parentMutator.poLine.PUT(line)

@@ -96,6 +96,7 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
       formValues={formValues}
       contributorNameTypes={contributorNameTypes}
       accounts={accounts}
+      stripes={stripes}
     />
   );
 }

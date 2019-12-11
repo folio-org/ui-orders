@@ -78,6 +78,7 @@ class OrderTemplatesEditor extends Component {
     title: PropTypes.node,
     accounts: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
+    stripes: PropTypes.object.isRequired,
   };
 
   state = {
@@ -159,10 +160,11 @@ class OrderTemplatesEditor extends Component {
       change,
       title,
       accounts,
+      stripes,
     } = this.props;
     const { sections } = this.state;
     const orderFormat = formValues.orderFormat;
-    const estimatedPrice = calculateEstimatedPrice(formValues);
+    const estimatedPrice = calculateEstimatedPrice(formValues, stripes);
     const fundDistribution = formValues.fundDistribution || [];
 
     return (

@@ -11,11 +11,18 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { validateRequiredNotNegative } from '@folio/stripes-acq-components';
+import {
+  AmountWithCurrencyField,
+  parseNumberFieldValue,
+  validateRequiredNotNegative,
+} from '@folio/stripes-acq-components';
+import {
+  withStripes,
+  stripesShape,
+} from '@folio/stripes/core';
 
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
-import parseMoney from '../../Utils/parseMoney';
 import FieldCurrency from './FieldCurrency';
 import {
   DISCOUNT_TYPE,
@@ -58,6 +65,7 @@ class CostForm extends Component {
     currencies: PropTypes.arrayOf(PropTypes.string),
     order: PropTypes.object.isRequired,
     required: PropTypes.bool,
+    stripes: stripesShape.isRequired,
   };
 
   static defaultProps = {
@@ -84,9 +92,8 @@ class CostForm extends Component {
   };
 
   render() {
-    const formValues = this.props.formValues;
+    const { currencies, order, required, formValues, stripes } = this.props;
     const orderFormat = formValues.orderFormat;
-    const { currencies, order, required } = this.props;
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
     let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
@@ -106,7 +113,7 @@ class CostForm extends Component {
 
     const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
     const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
-    const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
+    const poLineEstimatedPrice = calculateEstimatedPrice(formValues, stripes);
 
     return (
       <Row>
@@ -119,8 +126,7 @@ class CostForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.listPrice" />}
             name="cost.listUnitPrice"
-            parse={parseMoney}
-            step="0.01"
+            parse={parseNumberFieldValue}
             type="number"
             disabled={isPostPendingOrder}
             {...validatePhresourcesPrices}
@@ -160,8 +166,7 @@ class CostForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
             name="cost.additionalCost"
-            parse={parseMoney}
-            step="0.01"
+            parse={parseNumberFieldValue}
             type="number"
             validate={validateNotNegative}
             disabled={isPostPendingOrder}
@@ -176,8 +181,7 @@ class CostForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}
             name="cost.listUnitPriceElectronic"
-            parse={parseMoney}
-            step="0.01"
+            parse={parseNumberFieldValue}
             type="number"
             disabled={isPostPendingOrder}
             {...validateEresourcesPrices}
@@ -234,12 +238,16 @@ class CostForm extends Component {
                 />
               </div>
             }
-            value={poLineEstimatedPrice}
-          />
+          >
+            <AmountWithCurrencyField
+              currency={formValues.currency}
+              amount={poLineEstimatedPrice}
+            />
+          </KeyValue>
         </Col>
       </Row>
     );
   }
 }
 
-export default CostForm;
+export default withStripes(CostForm);

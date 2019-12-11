@@ -264,7 +264,7 @@ class POLineForm extends Component {
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
-    const estimatedPrice = calculateEstimatedPrice(formValues);
+    const estimatedPrice = calculateEstimatedPrice(formValues, stripes);
     const {
       accounts,
       vendorCurrencies,

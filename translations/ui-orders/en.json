@@ -342,6 +342,7 @@
   "errors.orderNotLoaded": "Purchase order was not loaded.",
   "errors.accessProviderIsInactive": "POL {poLineNumber} is using an Access Provider that is inactive or has been removed, please select an active Access Provider to continue.",
   "errors.accessProviderNotFound": "POL {poLineNumber} is using an Access Provider that is inactive or has been removed, please select an active Access Provider to continue.",
+  "errors.costDiscountInvalid": "Cost's discount is invalid",
   "errors.costQtyPhysicalExceedsLoc": "Cost's physical quantity exceeds locations' physical quantity",
   "errors.locQtyPhysicalExceedsCost": "Locations physical quantity exceeds cost physical quantity",
   "errors.locQtyElectronicExceedsCost": "Locations electronic quantity exceeds cost electronic quantity",

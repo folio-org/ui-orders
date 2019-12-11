@@ -8,6 +8,7 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
 import { DISCOUNT_TYPE } from '../const';
 
@@ -24,10 +25,12 @@ function CostView({ cost }) {
         xs={6}
         lg={3}
       >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.cost.listPrice" />}
-          value={get(cost, 'listUnitPrice')}
-        />
+        <KeyValue label={<FormattedMessage id="ui-orders.cost.listPrice" />}>
+          <AmountWithCurrencyField
+            currency={get(cost, 'currency')}
+            amount={get(cost, 'listUnitPrice')}
+          />
+        </KeyValue>
       </Col>
       <Col
         data-col-cost-currency
