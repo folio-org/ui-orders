@@ -114,6 +114,7 @@ class CostForm extends Component {
     const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
     const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
     const poLineEstimatedPrice = calculateEstimatedPrice(formValues, stripes);
+    const currency = get(formValues, 'cost.currency');
 
     return (
       <Row>
@@ -240,7 +241,7 @@ class CostForm extends Component {
             }
           >
             <AmountWithCurrencyField
-              currency={formValues.currency}
+              currency={currency}
               amount={poLineEstimatedPrice}
             />
           </KeyValue>
