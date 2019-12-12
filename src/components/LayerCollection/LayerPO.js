@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { get } from 'lodash';
 
 import {
   Callout,
   Layer,
 } from '@folio/stripes/components';
 
+import { getUserNameById } from '../../common/utils';
 import { updateOrderResource } from '../Utils/orderResource';
 import { showUpdateOrderError } from '../Utils/order';
 import { POForm } from '../PurchaseOrder';
@@ -27,8 +29,28 @@ class LayerPO extends Component {
     this.connectedPOForm = props.stripes.connect(POForm);
     this.callout = React.createRef();
     this.state = {
+      createdByName: '',
+      assignedToUser: '',
       updateOrderError: null,
     };
+  }
+
+  componentDidMount() {
+    this.setUserFields();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (get(this.props, 'order.id') !== get(prevProps, 'order.id')) this.setUserFields();
+  }
+
+  setUserFields = () => {
+    const { order: { assignedTo, metadata }, parentMutator } = this.props;
+
+    getUserNameById(parentMutator.users, get(metadata, 'createdByUserId'))
+      .then(userName => this.setState({ createdByName: userName }));
+
+    getUserNameById(parentMutator.users, assignedTo)
+      .then(userName => this.setState({ assignedToUser: userName }));
   }
 
   closeErrorModal = () => {
@@ -52,7 +74,12 @@ class LayerPO extends Component {
   render() {
     const { order, location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
-    const { updateOrderError } = this.state;
+    const { updateOrderError, createdByName, assignedToUser } = this.state;
+    const patchedOrder = {
+      ...order,
+      createdByName,
+      assignedToUser,
+    };
 
     if (layer === 'edit') {
       return (
@@ -62,12 +89,12 @@ class LayerPO extends Component {
         >
           <this.connectedPOForm
             {...this.props}
-            initialValues={order}
+            initialValues={patchedOrder}
             onSubmit={this.updatePO}
           />
           {updateOrderError && (
             <UpdateOrderErrorModal
-              orderNumber={order.poNumber}
+              orderNumber={patchedOrder.poNumber}
               errors={updateOrderError}
               cancel={this.closeErrorModal}
             />

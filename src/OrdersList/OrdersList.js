@@ -57,6 +57,7 @@ import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
 import { ordersSearchTemplate, searchableIndexes } from './OrdersListSearchConfig';
 import { UpdateOrderErrorModal } from '../components/PurchaseOrder/UpdateOrderErrorModal';
+import { getUsersInBatch } from './utils';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -96,7 +97,11 @@ class OrdersList extends Component {
         staticFallback: { params: {} },
       },
     },
-    users: USERS,
+    users: {
+      ...USERS,
+      accumulate: true,
+      fetch: false,
+    },
     contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
     fund: FUND,
     materialTypes: MATERIAL_TYPES,
@@ -171,7 +176,16 @@ class OrdersList extends Component {
     this.showToast = showToast.bind(this);
     this.state = {
       updateOrderError: null,
+      users: [],
+      isUsersLoading: true,
     };
+  }
+
+  componentDidMount() {
+    const { mutator } = this.props;
+
+    getUsersInBatch(mutator.users)
+      .then(users => this.setState({ users, isUsersLoading: false }));
   }
 
   openOrderErrorModalShow = (errors) => {
@@ -199,8 +213,8 @@ class OrdersList extends Component {
 
   renderFilters = (onChange) => {
     const { resources } = this.props;
+    const { users } = this.state;
     const closingReasons = get(resources, 'closingReasons.records', []);
-    const users = get(resources, 'users.records', []);
     const vendors = get(resources, 'vendors.records', []);
     const acqUnits = get(resources, 'acqUnits.records', []);
 
@@ -245,8 +259,7 @@ class OrdersList extends Component {
         },
       },
     } = this.props;
-    const { updateOrderError } = this.state;
-    const users = get(resources, 'users.records', []);
+    const { users, isUsersLoading, updateOrderError } = this.state;
     const vendors = get(resources, 'vendors.records', []);
     const acqUnitsMap = get(resources, 'acqUnits.records', [])
       .reduce((acc, unit) => ({ ...acc, [unit.id]: unit.name }), {});
@@ -288,6 +301,7 @@ class OrdersList extends Component {
     return (
       <div data-test-order-instances>
         <SearchAndSort
+          key={isUsersLoading}
           packageInfo={packageInfo}
           objectName="order"
           baseRoute={packageInfo.stripes.route}

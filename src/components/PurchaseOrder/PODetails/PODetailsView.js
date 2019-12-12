@@ -16,6 +16,8 @@ import {
   FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
+import UserValue from './UserValue';
+
 import css from './PODetailsView.css';
 
 class PODetailsView extends Component {
@@ -58,8 +60,9 @@ class PODetailsView extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
-              value={get(order, 'createdByName')}
-            />
+            >
+              <UserValue userId={get(order, 'metadata.createdByUserId')} />
+            </KeyValue>
           </Col>
           <Col
             xs={6}
@@ -92,8 +95,9 @@ class PODetailsView extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
-              value={get(order, 'assignedToUser')}
-            />
+            >
+              <UserValue userId={order.assignedTo} />
+            </KeyValue>
           </Col>
           <Col
             className={css.addressWrapper}

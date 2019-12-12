@@ -411,21 +411,12 @@ class PO extends Component {
 
     const vendors = get(parentResources, 'vendors.records', []);
     const vendor = vendors.find(d => d.id === order.vendor);
-    const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assignedTo);
-    const createdByUserId = get(order, 'metadata.createdByUserId');
-    const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
 
     const orderType = get(order, 'orderType');
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const funds = get(parentResources, 'fund.records', []);
 
     order.vendorName = get(vendor, 'name');
-    order.assignedToUser = assignedTo && assignedTo.personal
-      ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
-      : '';
-    order.createdByName = createdBy && createdBy.personal
-      ? `${createdBy.personal.firstName} ${createdBy.personal.lastName}`
-      : '';
 
     const { updateOrderError } = this.state;
 

@@ -54,7 +54,6 @@ class OrderTemplateView extends Component {
     locations: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
-    users: PropTypes.arrayOf(PropTypes.object),
     contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   };
 
@@ -65,7 +64,6 @@ class OrderTemplateView extends Component {
     materialTypes: [],
     orderTemplate: {},
     vendors: [],
-    users: [],
     contributorNameTypes: [],
   }
 
@@ -158,7 +156,6 @@ class OrderTemplateView extends Component {
       locations,
       materialTypes,
       vendors,
-      users,
       contributorNameTypes,
     } = this.props;
     const { sections, showConfirmDelete } = this.state;
@@ -169,15 +166,11 @@ class OrderTemplateView extends Component {
     const showOther = orderFormat === OTHER;
     const orderType = get(orderTemplate, 'orderType');
     const vendor = vendors.find(d => d.id === orderTemplate.vendor);
-    const assignedTo = users.find(d => d.id === orderTemplate.assignedTo);
 
     const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(orderTemplate, 'fundDistribution', []);
 
     orderTemplate.vendorName = get(vendor, 'name');
-    orderTemplate.assignedToUser = assignedTo && assignedTo.personal
-      ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
-      : '';
 
     return (
       <Layer
