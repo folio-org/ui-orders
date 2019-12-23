@@ -33,7 +33,7 @@ class LineListing extends Component {
     }, {});
     const resultsFormatter = {
       'poLineNumber': ({ poLineNumber }) => poLineNumber,
-      'title': ({ title }) => title || '',
+      'title': ({ titleOrPackage }) => titleOrPackage || '',
       'productId': item => map(get(item, 'details.productIds', []), 'productId').join(', '),
       'vendorRefNumber': item => get(item, 'vendorDetail.refNumber', ''),
       'fundCode': item => get(item, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),

@@ -27,7 +27,7 @@ class ItemView extends Component {
   render() {
     const { poLineDetails } = this.props;
     const instanceId = get(poLineDetails, 'instanceId');
-    const title = get(poLineDetails, 'title');
+    const title = get(poLineDetails, 'titleOrPackage');
     const titleValue = instanceId
       ? <Link to={`/inventory/view/${instanceId}`}>{title}</Link>
       : title;

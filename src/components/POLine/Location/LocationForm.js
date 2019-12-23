@@ -2,23 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
-import getLocationsForSelect from '../../Utils/getLocationsForSelect';
 import { FieldsLocation } from '../../../common/POLFields';
 
-const LocationForm = ({ order, parentResources }) => {
+const LocationForm = ({ order, locations, isPackage }) => {
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
   return (
     <FieldsLocation
-      locations={getLocationsForSelect(parentResources)}
+      locations={locations}
       disabled={isPostPendingOrder}
+      withValidation={!isPackage}
     />
   );
 };
 
 LocationForm.propTypes = {
-  parentResources: PropTypes.object,
+  locations: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object.isRequired,
+  isPackage: PropTypes.bool,
+};
+
+LocationForm.defaultProps = {
+  locations: [],
+  isPackage: false,
 };
 
 export default LocationForm;

@@ -49,6 +49,7 @@ import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
+import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { isWorkflowStatusIsPending } from '../PurchaseOrder/util';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
@@ -263,6 +264,7 @@ class POLineForm extends Component {
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
+    const locations = getLocationsForSelect(parentResources);
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes);
     const {
@@ -274,6 +276,7 @@ class POLineForm extends Component {
     const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
     const metadata = get(initialValues, 'metadata');
     const currency = get(formValues, 'cost.currency');
+    const isPackage = get(formValues, 'isPackage');
 
     return (
       <Pane
@@ -373,7 +376,11 @@ class POLineForm extends Component {
                       label={<FormattedMessage id="ui-orders.line.accordion.location" />}
                       id={ACCORDION_ID.location}
                     >
-                      <LocationForm {...this.props} />
+                      <LocationForm
+                        locations={locations}
+                        order={order}
+                        isPackage={isPackage}
+                      />
                     </Accordion>
                     {showPhresources && (
                       <Accordion

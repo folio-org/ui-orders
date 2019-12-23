@@ -9,7 +9,7 @@ export const getInventoryData = (state, initialValues) => {
 
   return {
     instanceId: get(state, 'instanceId', null) || get(initialValues, 'instanceId', null),
-    title: title || get(initialValues, 'title', ''),
+    title: title || get(initialValues, 'titleOrPackage', ''),
     publisher: publisher || get(initialValues, 'publisher', ''),
     publicationDate: publicationDate || get(initialValues, 'publicationDate', ''),
     edition: edition || get(initialValues, 'edition', ''),
@@ -39,7 +39,7 @@ export const checkInstanceIdField = (formValues, inventoryData) => {
 
   return (
     inventoryData.instanceId
-    && (inventoryData.title === get(formValues, 'title', ''))
+    && (inventoryData.title === get(formValues, 'titleOrPackage', ''))
     && (inventoryData.publisher === get(formValues, 'publisher', ''))
     && (inventoryData.publicationDate === get(formValues, 'publicationDate', ''))
     && (inventoryData.edition === get(formValues, 'edition', ''))

@@ -40,7 +40,7 @@ describe('Line edit test - Capture UUID from inventory', function () {
 
     line = this.server.create('line', {
       locations,
-      title: TITLE,
+      titleOrPackage: TITLE,
       instanceId: INSTANCE_ID,
       contributors: [{
         contributor: CONTRIBUTOR,

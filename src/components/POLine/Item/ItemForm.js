@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { get } from 'lodash';
 
 import {
+  Checkbox,
   Col,
   Icon,
   InfoPopover,
@@ -79,7 +80,7 @@ class ItemForm extends Component {
 
     dispatch(change('instanceId', id));
     if (title) {
-      dispatch(change('title', title));
+      dispatch(change('titleOrPackage', title));
       inventoryData.title = title;
     }
     if (publication && publication.length) {
@@ -156,6 +157,26 @@ class ItemForm extends Component {
     } else dispatch(change('instanceId', null));
   };
 
+  setTitleOrPackage = ({ target: { value } }) => {
+    this.onChangeField(value, 'titleOrPackage');
+  };
+
+  setCheckinItems = ({ target: { value } }) => {
+    this.onChangeField(value, 'checkinItems');
+  };
+
+  setPublisher = ({ target: { value } }) => {
+    this.onChangeField(value, 'publisher');
+  };
+
+  setPublicationDate = ({ target: { value } }) => {
+    this.onChangeField(value, 'publicationDate');
+  };
+
+  setEdition = ({ target: { value } }) => {
+    this.onChangeField(value, 'edition');
+  };
+
   selectInstanceModal = (isDisabled) => {
     if (isDisabled) return false;
 
@@ -165,9 +186,13 @@ class ItemForm extends Component {
   getTitleLabel = () => {
     const { required, formValues, initialValues } = this.props;
     const instanceId = get(formValues, 'instanceId');
+    const isPackage = get(formValues, 'isPackage');
     const title = (
       <Label required={required}>
-        <FormattedMessage id="ui-orders.itemDetails.title" />
+        {isPackage
+          ? <FormattedMessage id="ui-orders.itemDetails.packageName" />
+          : <FormattedMessage id="ui-orders.itemDetails.title" />
+        }
       </Label>
     );
     const connectedTitle = (
@@ -218,13 +243,29 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
+            <Field
+              component={Checkbox}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.poLine.package" />}
+              name="isPackage"
+              onChange={this.setCheckinItems}
+              type="checkbox"
+              disabled={isPostPendingOrder}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            xs={6}
+            md={3}
+          >
             <div className={css.titleWrapper}>
               <Field
                 component={TextField}
                 fullWidth
                 label={this.getTitleLabel()}
-                name="title"
-                onChange={(e, value) => this.onChangeField(value, 'title')}
+                name="titleOrPackage"
+                onChange={this.setTitleOrPackage}
                 validate={required ? validateRequired : undefined}
                 disabled={isPostPendingOrder}
               />
@@ -242,7 +283,7 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
               name="publisher"
-              onChange={(e, value) => this.onChangeField(value, 'publisher')}
+              onChange={this.setPublisher}
               disabled={isPostPendingOrder}
             />
           </Col>
@@ -255,7 +296,7 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
               name="publicationDate"
-              onChange={(e, value) => this.onChangeField(value, 'publicationDate')}
+              onChange={this.setPublicationDate}
               normalize={v => (v || null)}
               validate={validateYear}
               disabled={isPostPendingOrder}
@@ -269,7 +310,7 @@ class ItemForm extends Component {
               component={TextField}
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
-              onChange={(e, value) => this.onChangeField(value, 'edition')}
+              onChange={this.setEdition}
               name="edition"
               disabled={isPostPendingOrder}
             />

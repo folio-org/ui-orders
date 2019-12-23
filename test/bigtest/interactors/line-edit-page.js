@@ -18,7 +18,7 @@ import { ACCORDION_ID } from '../../../src/components/POLine/const';
 
 const ITEM_DETAILS = {
   root: '#itemDetails',
-  inputTitle: '[name="title"]',
+  inputTitle: '[name="titleOrPackage"]',
 };
 
 @interactor class QuantityLocationElectronic {

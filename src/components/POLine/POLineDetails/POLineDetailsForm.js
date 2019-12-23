@@ -56,6 +56,7 @@ class POLineDetailsForm extends Component {
     const vendors = get(parentResources, 'vendors.records', []);
     const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+    const isPackage = get(formValues, 'isPackage');
 
     return (
       <Fragment>
@@ -163,7 +164,7 @@ class POLineDetailsForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldCheckInItems disabled={isPostPendingOrder} />
+            <FieldCheckInItems disabled={isPostPendingOrder || isPackage} />
           </Col>
         </Row>
         <Row>

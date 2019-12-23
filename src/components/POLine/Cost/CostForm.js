@@ -115,6 +115,8 @@ class CostForm extends Component {
     const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
     const poLineEstimatedPrice = calculateEstimatedPrice(formValues, stripes);
     const currency = get(formValues, 'cost.currency');
+    const isPackage = get(formValues, 'isPackage');
+    const quantityLabel = isPackage ? 'quantity' : 'quantityPhysical';
 
     return (
       <Row>
@@ -150,7 +152,7 @@ class CostForm extends Component {
           <Field
             component={TextField}
             fullWidth
-            label={<FormattedMessage id="ui-orders.cost.quantityPhysical" />}
+            label={<FormattedMessage id={`ui-orders.cost.${quantityLabel}`} />}
             name="cost.quantityPhysical"
             type="number"
             parse={parseNumber}
@@ -173,21 +175,23 @@ class CostForm extends Component {
             disabled={isPostPendingOrder}
           />
         </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}
-            name="cost.listUnitPriceElectronic"
-            parse={parseNumberFieldValue}
-            type="number"
-            disabled={isPostPendingOrder}
-            {...validateEresourcesPrices}
-          />
-        </Col>
+        {!isPackage && (
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}
+              name="cost.listUnitPriceElectronic"
+              parse={parseNumberFieldValue}
+              type="number"
+              disabled={isPostPendingOrder}
+              {...validateEresourcesPrices}
+            />
+          </Col>
+        )}
         <Col
           xs={6}
           md={3}
@@ -207,21 +211,23 @@ class CostForm extends Component {
             disabled={isPostPendingOrder}
           />
         </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
-            name="cost.quantityElectronic"
-            type="number"
-            parse={parseNumber}
-            disabled={isPostPendingOrder}
-            {...validateEresourcesQuantities}
-          />
-        </Col>
+        {!isPackage && (
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
+              name="cost.quantityElectronic"
+              type="number"
+              parse={parseNumber}
+              disabled={isPostPendingOrder}
+              {...validateEresourcesQuantities}
+            />
+          </Col>
+        )}
         <Col
           data-test-polineestimatedprice
           xs={6}

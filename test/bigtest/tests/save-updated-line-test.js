@@ -50,7 +50,7 @@ describe('Edit PO Line - Save updated PO Line', function () {
       acquisitionMethod: ACQUISITION_METHOD.gift,
       orderFormat: PHYSICAL,
       cost,
-      title: TITLE,
+      titleOrPackage: TITLE,
       locations,
     });
     order = this.server.create('order', {
