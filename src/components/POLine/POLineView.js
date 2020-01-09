@@ -71,8 +71,6 @@ class POLineView extends Component {
     goToOrderDetails: PropTypes.func,
     queryMutator: PropTypes.object,
     deleteLine: PropTypes.func,
-    identifierTypes: PropTypes.arrayOf(PropTypes.object),
-    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
     tagsToggle: PropTypes.func.isRequired,
   }
 
@@ -81,8 +79,6 @@ class POLineView extends Component {
     materialTypes: [],
     vendors: [],
     editable: true,
-    identifierTypes: [],
-    contributorNameTypes: [],
   }
 
   constructor(props) {
@@ -211,8 +207,6 @@ class POLineView extends Component {
       vendors,
       editable,
       deleteLine,
-      identifierTypes,
-      contributorNameTypes,
       tagsToggle,
     } = this.props;
     const tags = get(line, ['tags', 'tagList'], []);
@@ -330,11 +324,7 @@ class POLineView extends Component {
           >
             {metadata && <ViewMetaData metadata={metadata} />}
 
-            <ItemView
-              identifierTypes={identifierTypes}
-              poLineDetails={line}
-              contributorNameTypes={contributorNameTypes}
-            />
+            <ItemView poLineDetails={line} />
           </Accordion>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.poLine" />}

@@ -87,8 +87,6 @@ const OrderLineDetails = ({
   const materialTypes = get(parentResources, 'materialTypes.records', []);
   const vendors = get(parentResources, 'vendors.records', []);
   const funds = get(parentResources, 'funds.records', []);
-  const identifierTypes = get(parentResources, 'identifierTypes.records', []);
-  const contributorNameTypes = get(parentResources, 'contributorNameTypes.records', []);
 
   const receivingURL = `/orders/view/${order.id}/po-line/view/${lineId}/receiving`;
   const checkinURL = `/orders/view/${order.id}/po-line/view/${lineId}/check-in/items`;
@@ -117,8 +115,6 @@ const OrderLineDetails = ({
         goToOrderDetails={goToOrderDetails}
         queryMutator={parentMutator.query}
         deleteLine={deleteLine}
-        identifierTypes={identifierTypes}
-        contributorNameTypes={contributorNameTypes}
         tagsToggle={toggleTagsPane}
         onClose={onClose}
       />

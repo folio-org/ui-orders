@@ -9,26 +9,23 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { FolioFormattedDate } from '@folio/stripes-acq-components';
-
-import ContributorView from './ContributorView';
-import ProductIdDetails from './ProductIdDetails';
+import {
+  ContributorDetails,
+  FolioFormattedDate,
+  ProductIdDetails,
+} from '@folio/stripes-acq-components';
 
 class ItemView extends Component {
   static propTypes = {
     poLineDetails: PropTypes.object,
-    identifierTypes: PropTypes.arrayOf(PropTypes.object),
-    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
     poLineDetails: {},
-    identifierTypes: [],
-    contributorNameTypes: [],
   }
 
   render() {
-    const { poLineDetails, identifierTypes, contributorNameTypes } = this.props;
+    const { poLineDetails } = this.props;
     const instanceId = get(poLineDetails, 'instanceId');
     const title = get(poLineDetails, 'title');
     const titleValue = instanceId
@@ -113,20 +110,14 @@ class ItemView extends Component {
           </Col>
           <Col xs={12}>
             <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}>
-              <ContributorView
-                contributors={contributors}
-                contributorNameTypes={contributorNameTypes}
-              />
+              <ContributorDetails contributors={contributors} />
             </KeyValue>
           </Col>
         </Row>
         <Row start="xs">
           <Col xs={12}>
             <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}>
-              <ProductIdDetails
-                identifierTypes={identifierTypes}
-                itemIdDetails={get(poLineDetails, ['details', 'productIds'], [])}
-              />
+              <ProductIdDetails productIds={get(poLineDetails, ['details', 'productIds'], [])} />
             </KeyValue>
           </Col>
         </Row>

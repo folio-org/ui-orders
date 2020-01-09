@@ -81,8 +81,6 @@ class POLine extends Component {
     const locations = get(parentResources, 'locations.records', []);
     const vendors = get(parentResources, 'vendors.records', []);
     const funds = get(parentResources, 'fund.records', []);
-    const identifierTypes = get(parentResources, 'identifierTypes.records', []);
-    const contributorNameTypes = get(parentResources, 'contributorNameTypes.records', []);
     const poURL = this.props.poURL;
     const receivingURL = `${match.url}/receiving`;
     const checkinURL = `${match.url}/check-in`;
@@ -103,8 +101,6 @@ class POLine extends Component {
           funds={funds}
           queryMutator={parentMutator.query}
           deleteLine={this.deleteLine}
-          identifierTypes={identifierTypes}
-          contributorNameTypes={contributorNameTypes}
           tagsToggle={this.toggleTagsPane}
         />
         {this.state.isTagsPaneOpened && (
