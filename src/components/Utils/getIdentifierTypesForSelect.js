@@ -1,5 +1,7 @@
 import { get } from 'lodash';
 
+import { DICT_IDENTIFIER_TYPES } from '@folio/stripes-acq-components';
+
 import {
   PRODUCT_ID_TYPE,
 } from '../../common/constants';
@@ -17,7 +19,7 @@ const ALLOWED_RES_ID_TYPE_NAMES = [
   'URN',
 ];
 
-export default (resources) => get(resources, ['identifierTypes', 'records'], [])
+export default (resources) => get(resources, [DICT_IDENTIFIER_TYPES, 'records'], [])
   .filter(({ name }) => ALLOWED_RES_ID_TYPE_NAMES.includes(name))
   .map(({ id, name }) => ({
     label: name,

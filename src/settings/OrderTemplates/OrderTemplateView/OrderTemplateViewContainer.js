@@ -12,8 +12,6 @@ import {
 } from '../../../common/utils';
 import {
   ADDRESSES,
-  CONTRIBUTOR_NAME_TYPES,
-  IDENTIFIER_TYPES,
   LOCATIONS,
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
@@ -24,8 +22,6 @@ import OrderTemplateView from './OrderTemplateView';
 class OrderTemplateViewContainer extends Component {
   static manifest = Object.freeze({
     addresses: ADDRESSES,
-    identifierTypes: IDENTIFIER_TYPES,
-    contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
     locations: LOCATIONS,
     materialTypes: MATERIAL_TYPES,
     orderTemplate: ORDER_TEMPLATE,
@@ -66,8 +62,6 @@ class OrderTemplateViewContainer extends Component {
     const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
     const addresses = getAddresses(get(resources, 'addresses.records', []));
     const funds = get(resources, 'funds.records', []);
-    const identifierTypes = get(resources, 'identifierTypes.records', []);
-    const contributorNameTypes = get(resources, 'contributorNameTypes.records', []);
     const locations = get(resources, 'locations.records', []);
     const materialTypes = get(resources, 'materialTypes.records', []);
     const vendors = get(resources, 'vendors.records', []);
@@ -78,14 +72,12 @@ class OrderTemplateViewContainer extends Component {
           addresses={addresses}
           close={close}
           funds={funds}
-          identifierTypes={identifierTypes}
           locations={locations}
           materialTypes={materialTypes}
           onDelete={this.onDeleteOrderTemplate}
           rootPath={rootPath}
           orderTemplate={orderTemplate}
           vendors={vendors}
-          contributorNameTypes={contributorNameTypes}
         />
         <Callout ref={this.callout} />
       </Fragment>

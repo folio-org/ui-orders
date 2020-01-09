@@ -6,7 +6,11 @@ import { getFormValues } from 'redux-form';
 import { get } from 'lodash';
 
 import { withStripes } from '@folio/stripes/core';
-import { useShowToast } from '@folio/stripes-acq-components';
+import {
+  DICT_CONTRIBUTOR_NAME_TYPES,
+  DICT_IDENTIFIER_TYPES,
+  useShowToast,
+} from '@folio/stripes-acq-components';
 
 import {
   IDENTIFIER_TYPES,
@@ -106,7 +110,7 @@ OrderTemplatesEditorContainer.manifest = Object.freeze({
     ...ORDER_TEMPLATES,
     fetch: false,
   },
-  identifierTypes: IDENTIFIER_TYPES,
+  [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
   locations: LOCATIONS,
   fund: FUND,
   createInventory: CREATE_INVENTORY,
@@ -116,7 +120,7 @@ OrderTemplatesEditorContainer.manifest = Object.freeze({
   vendors: VENDORS,
   materialTypes: MATERIAL_TYPES,
   orderTemplate: ORDER_TEMPLATE,
-  contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
+  [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
 });
 
 OrderTemplatesEditorContainer.propTypes = {

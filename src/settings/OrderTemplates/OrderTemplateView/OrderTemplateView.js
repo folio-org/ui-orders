@@ -50,21 +50,17 @@ class OrderTemplateView extends Component {
     orderTemplate: PropTypes.object,
     rootPath: PropTypes.string,
     addresses: PropTypes.arrayOf(PropTypes.object),
-    identifierTypes: PropTypes.arrayOf(PropTypes.object),
     locations: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
-    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
     addresses: [],
-    identifierTypes: [],
     locations: [],
     materialTypes: [],
     orderTemplate: {},
     vendors: [],
-    contributorNameTypes: [],
   }
 
   state = {
@@ -152,11 +148,9 @@ class OrderTemplateView extends Component {
       close,
       orderTemplate,
       addresses,
-      identifierTypes,
       locations,
       materialTypes,
       vendors,
-      contributorNameTypes,
     } = this.props;
     const { sections, showConfirmDelete } = this.state;
     const title = get(orderTemplate, 'templateName', '');
@@ -251,11 +245,7 @@ class OrderTemplateView extends Component {
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS}
                 >
-                  <ItemView
-                    poLineDetails={orderTemplate}
-                    identifierTypes={identifierTypes}
-                    contributorNameTypes={contributorNameTypes}
-                  />
+                  <ItemView poLineDetails={orderTemplate} />
                 </Accordion>
 
                 <Accordion

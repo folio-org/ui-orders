@@ -14,6 +14,8 @@ import { stripesConnect, stripesShape } from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 import {
   changeSearchIndex,
+  DICT_CONTRIBUTOR_NAME_TYPES,
+  DICT_IDENTIFIER_TYPES,
   FolioFormattedDate,
   showToast,
 } from '@folio/stripes-acq-components';
@@ -102,7 +104,7 @@ class OrdersList extends Component {
       accumulate: true,
       fetch: false,
     },
-    contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
+    [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
     fund: FUND,
     materialTypes: MATERIAL_TYPES,
     closingReasons: CLOSING_REASONS,
@@ -143,7 +145,7 @@ class OrdersList extends Component {
       type: 'okapi',
     },
     locations: LOCATIONS,
-    identifierTypes: IDENTIFIER_TYPES,
+    [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
     createInventory: CREATE_INVENTORY,
     addresses: ADDRESSES,
     acqUnits: ACQUISITIONS_UNITS,

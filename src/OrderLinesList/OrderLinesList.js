@@ -12,6 +12,8 @@ import { Callout } from '@folio/stripes/components';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 import {
   changeSearchIndex,
+  DICT_CONTRIBUTOR_NAME_TYPES,
+  DICT_IDENTIFIER_TYPES,
   FolioFormattedDate,
   showToast,
 } from '@folio/stripes-acq-components';
@@ -153,8 +155,8 @@ export class OrderLinesList extends Component {
     materialTypes: MATERIAL_TYPES,
     vendors: VENDORS,
     funds: FUND,
-    identifierTypes: IDENTIFIER_TYPES,
-    contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
+    [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
+    [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
   });
 
   static propTypes = {
