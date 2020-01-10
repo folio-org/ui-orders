@@ -812,5 +812,6 @@
     "errors.protectedFieldChanging": "Campos protegidos não podem ser modificados",
     "errors.userHasNoAcqUnitsPermission": "O usuário não tem permissões para gerenciar atribuições de unidades de aquisição - a operação é restrita",
     "errors.userHasNoApprovalPermission": "O usuário não tem permissões para aprovar pedidos - a operação é restrita",
-    "errors.zeroLocQty": "A quantidade de localização física ou eletrônica deve ser especificada"
+    "errors.zeroLocQty": "A quantidade de localização física ou eletrônica deve ser especificada",
+    "checkIn.receivedDate": "Data de recebimento"
 }

@@ -812,5 +812,6 @@
     "errors.protectedFieldChanging": "لا يمكن تعديل الملفات المحمية",
     "errors.userHasNoAcqUnitsPermission": "لا يملك المستخدم صلاحيات إدارة مهام وحدات التزويد - العملية مقيدة",
     "errors.userHasNoApprovalPermission": "لا يملك المستخدم صلاحيات قبول الطلبية - العملية مقيدة",
-    "errors.zeroLocQty": "يجب تحديد كمية الموقع الإلكتروني أو المادي"
+    "errors.zeroLocQty": "يجب تحديد كمية الموقع الإلكتروني أو المادي",
+    "checkIn.receivedDate": "Received date"
 }

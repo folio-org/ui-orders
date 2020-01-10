@@ -799,7 +799,7 @@
     "errors.itemNotRetrieved": "The item record is not retrieved",
     "errors.itemUpdateFailed": "The item record failed to be updated",
     "errors.lineWasNotDeleted": "Error while deleting PO Line",
-    "errors.locNotProvided": "Location not provided",
+    "errors.locNotProvided": "場所が指定されていません",
     "errors.missingContributorNameType": "The specified contributor-name-types were not found in inventory-storage",
     "errors.nonZeroCostQtyPhysical": "Physical cost quantity must not be specified",
     "errors.orderAcqUnitsNotFound": "Acquisitions units assigned to order cannot be found",
@@ -812,5 +812,6 @@
     "errors.protectedFieldChanging": "Protected fields can't be modified",
     "errors.userHasNoAcqUnitsPermission": "User does not have permissions to manage acquisition units assignments - operation is restricted",
     "errors.userHasNoApprovalPermission": "User does not have permissions to approve order - operation is restricted",
-    "errors.zeroLocQty": "Physical or electronic location quantity must be specified"
+    "errors.zeroLocQty": "Physical or electronic location quantity must be specified",
+    "checkIn.receivedDate": "Received date"
 }

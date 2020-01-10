@@ -788,7 +788,7 @@
     "errors.ledgerNotFoundForTransaction": "Ledger not found for transaction",
     "errors.organizationNotAVendor": "Order cannot be opened as the associated vendorId belongs to non-vendor organization",
     "errors.vendorIssue": "Order cannot be updated due to issues related to associated vendor/access provider",
-    "errors.costAdditionalCostInvalid": "Cost's additional cost must be positive number",
+    "errors.costAdditionalCostInvalid": "Il costo aggiuntivo deve essere un numero positivo",
     "errors.costUnitPriceElectronicInvalid": "Cost's list unit price for Electronic resource(s) is invalid",
     "errors.costUnitPriceInvalid": "Cost's list unit price is invalid",
     "errors.encumbranceCreationFailure": "One or more encumbrance record(s) failed to be created",
@@ -806,11 +806,12 @@
     "errors.orderApprovalRequired": "Approval is required to open order",
     "errors.orderIdMismatch": "Mismatch between order id in the request and storage",
     "errors.orderIdRequired": "Purchase order id is missing in PoLine object",
-    "errors.orderWasNotDeleted": "Error while deleting purchase order",
-    "errors.poNumberNotUnique": "PO Number already exists",
-    "errors.poNumberRequired": "PO Number is missing",
-    "errors.protectedFieldChanging": "Protected fields can't be modified",
-    "errors.userHasNoAcqUnitsPermission": "User does not have permissions to manage acquisition units assignments - operation is restricted",
-    "errors.userHasNoApprovalPermission": "User does not have permissions to approve order - operation is restricted",
-    "errors.zeroLocQty": "Physical or electronic location quantity must be specified"
+    "errors.orderWasNotDeleted": "Errore durante l'eliminazione dell'ordine di acquisto",
+    "errors.poNumberNotUnique": "Il numero PO esiste già",
+    "errors.poNumberRequired": "Numero PO mancante",
+    "errors.protectedFieldChanging": "I campi protetti non possono essere modificati",
+    "errors.userHasNoAcqUnitsPermission": "L'utente non dispone delle autorizzazioni per gestire le assegnazioni delle unità di acquisizioni - l'operazione è riservata",
+    "errors.userHasNoApprovalPermission": "L'utente non dispone delle autorizzazioni per approvare l'ordine - l'operazione è riservata",
+    "errors.zeroLocQty": "Physical or electronic location quantity must be specified",
+    "checkIn.receivedDate": "Data di ricezione"
 }
