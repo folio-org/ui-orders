@@ -8,6 +8,8 @@ import {
   configVendors,
   configTags,
   createGetById,
+  configLocations,
+  configMaterialTypes,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
@@ -17,7 +19,6 @@ import {
   INVOICES_API,
   ISBN_VALIDATOR,
   ITEMS_API,
-  LOCATIONS_API,
   ORDER_INVOICE_RELNS_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
@@ -46,8 +47,9 @@ export default function config() {
   configOrders(this);
   configLines(this);
   configRequests(this);
+  configLocations(this);
+  configMaterialTypes(this);
 
-  this.get('/material-types');
   this.get('/contributor-name-types');
   this.get('/identifier-types');
 
@@ -56,8 +58,6 @@ export default function config() {
   });
 
   this.post(ORDER_NUMBER_VALIDATE_API, noop);
-
-  this.get(LOCATIONS_API);
 
   this.get(CONFIG_API, (schema) => {
     return schema.configs.all();
