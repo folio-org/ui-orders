@@ -11,7 +11,7 @@ export const ERROR_CODES = {
   budgetNotFoundForTransaction: 'budgetNotFoundForTransaction',
   currentFYearNotFound: 'currentFYearNotFound',
   encumbranceCreationFailure: 'encumbranceCreationFailure',
-  fundCanNotBePaid: 'fundCanNotBePaid',
+  fundCannotBePaid: 'fundCannotBePaid',
   fundsNotFound: 'fundsNotFound',
   idMismatch: 'idMismatch',
   itemCreationFailed: 'itemCreationFailed',
