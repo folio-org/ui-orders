@@ -36,7 +36,6 @@ import {
   NOTE_TYPES,
   NOTES_ROUTE,
   ORDERS_DOMAIN,
-  WORKFLOW_STATUS,
 } from '../../common/constants';
 
 import LocationView from './Location/LocationView';
@@ -64,8 +63,6 @@ class POLineView extends Component {
     line: PropTypes.object,
     materialTypes: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
-    receivingURL: PropTypes.string.isRequired,
-    checkinURL: PropTypes.string.isRequired,
     onClose: PropTypes.func,
     editable: PropTypes.bool,
     goToOrderDetails: PropTypes.func,
@@ -198,8 +195,6 @@ class POLineView extends Component {
     const {
       onClose,
       poURL,
-      receivingURL,
-      checkinURL,
       order,
       line,
       materialTypes,
@@ -256,9 +251,6 @@ class POLineView extends Component {
     const showOther = orderFormat === OTHER;
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
     const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
-    const isWorkflowStatusOpen = order.workflowStatus === WORKFLOW_STATUS.open;
-    const checkInLocation = isWorkflowStatusOpen ? `${checkinURL}/items` : `${checkinURL}/history`;
-    const receivingLocation = isWorkflowStatusOpen ? receivingURL : `${receivingURL}-history`;
     const estimatedPrice = get(line, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(line, 'fundDistribution', []);
     const currency = get(line, 'cost.currency');
@@ -277,29 +269,15 @@ class POLineView extends Component {
       >
         <Row end="xs">
           <Col xs>
-            <IfPermission perm="orders.receiving.collection.post">
-              {isReceiveButtonVisible && (
+            <IfPermission perm="ui-orders.receiving">
+              {(isReceiveButtonVisible || isCheckInButtonVisible) && (
                 <div>
                   <Button
                     buttonStyle="primary"
                     data-test-line-receive-button
-                    to={receivingLocation}
+                    to={`/receiving?qindex=poLine.poLineNumber&query=${poLineNumber}`}
                   >
                     <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
-                  </Button>
-                </div>
-              )}
-            </IfPermission>
-
-            <IfPermission perm="orders.check-in.collection.post">
-              {isCheckInButtonVisible && (
-                <div>
-                  <Button
-                    buttonStyle="primary"
-                    data-test-line-check-in-button
-                    to={checkInLocation}
-                  >
-                    <FormattedMessage id="ui-orders.paneBlock.checkInBtn" />
                   </Button>
                 </div>
               )}

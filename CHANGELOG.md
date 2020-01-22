@@ -1,9 +1,15 @@
 # Change history for ui-orders
 
+## (IN PROGRESS)
+
+### Stories
+* [UIOR-492](https://issues.folio.org/browse/UIOR-492) Update for new interface versions of circulation and inventory
+
 ## [1.9.0](https://github.com/folio-org/ui-orders/tree/v1.9.0) (in progress)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.2...v1.9.0)
 
 ### Stories
+* [UIREC-38](https://issues.folio.org/browse/UIREC-38) Allow user to access receiving by Title area
 * [UIOR-432](https://issues.folio.org/browse/UIOR-432) Add or update call number during receiving/checkin
 * [UIOR-465](https://issues.folio.org/browse/UIOR-465) Error Message: No budget for this fund and fiscal year
 * [UIOR-402](https://issues.folio.org/browse/UIOR-402) Display the Date received checked-in pieces

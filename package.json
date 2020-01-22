@@ -18,14 +18,14 @@
     "home": "/orders/lines?sort=-poLineNumber",
     "okapiInterfaces": {
       "acquisitions-units": "1.1",
-      "circulation": "8.0",
+      "circulation": "9.0",
       "configuration": "2.0",
       "contributor-name-types": "1.2",
       "finance.funds": "1.0",
       "identifier-types": "1.2",
       "instance-statuses": "1.0",
       "instance-types": "2.0",
-      "inventory": "9.4",
+      "inventory": "10.0",
       "invoice": "3.0",
       "loan-types": "2.2",
       "locations": "3.0",
@@ -173,26 +173,9 @@
       },
       {
         "permissionName": "ui-orders.receiving",
-        "displayName": "Orders: Receive items",
+        "displayName": "Orders: Receive/Check-in items",
         "description": "",
-        "visible": true,
-        "subPermissions": [
-          "orders.receiving-history.collection.get",
-          "orders.receiving.collection.post"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.check-in",
-        "displayName": "Orders: Check-in items",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "orders.receiving-history.collection.get",
-          "orders.check-in.collection.post",
-          "orders.pieces.item.post",
-          "orders.pieces.item.put",
-          "orders.pieces.item.delete"
-        ]
+        "visible": true
       },
       {
         "permissionName": "ui-orders.acq.unit.assignment.assign",

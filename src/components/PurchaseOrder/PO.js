@@ -181,16 +181,6 @@ class PO extends Component {
     this.setState({ sections });
   };
 
-  openReceiveItem = (e) => {
-    if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'receive-items' });
-  };
-
-  openReceived = (e) => {
-    if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'received' });
-  };
-
   onAddPOLine = () => {
     const { resources } = this.props;
     const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
@@ -311,11 +301,12 @@ class PO extends Component {
   };
 
   goToReceiving = () => {
-    const { match: { params: { id } }, parentMutator: { query } } = this.props;
+    const { history } = this.props;
     const order = this.getOrder();
 
-    query.replace({
-      _path: `/orders/view/${id}/${order.workflowStatus === WORKFLOW_STATUS.open ? 'receiving' : 'receiving-history'}`,
+    history.push({
+      pathname: '/receiving',
+      search: `qindex=purchaseOrder.poNumber&query=${order.poNumber}`,
     });
   };
 

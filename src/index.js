@@ -16,13 +16,6 @@ import OrdersList from './OrdersList';
 import OrderLinesList from './OrderLinesList';
 import OrdersSettings from './settings/OrdersSettings';
 import {
-  RECEIVING_HISTORY,
-  RECEIVING_ITEMS,
-  ReceivingHistory,
-  ReceivingList,
-} from './components/Receiving';
-import CheckIn from './components/CheckIn/CheckIn';
-import {
   NOTES_ROUTE,
   ORDER_LINES_ROUTE,
 } from './common/constants';
@@ -32,8 +25,6 @@ import {
   NoteView,
 } from './common/Notes';
 
-const ORDER_DETAIL_URL = '/orders/view/:id';
-const LINE_DETAIL_URL = `${ORDER_DETAIL_URL}/po-line/view/:lineId`;
 const callout = React.createRef();
 
 const Orders = ({ match, location, showSettings }) => {
@@ -42,30 +33,6 @@ const Orders = ({ match, location, showSettings }) => {
     ? <OrdersSettings {...{ match, location }} />
     : (
       <Switch>
-        <Route
-          path={`${LINE_DETAIL_URL}/check-in`}
-          component={CheckIn}
-        />
-        <Route
-          exact
-          path={`${LINE_DETAIL_URL}${RECEIVING_HISTORY}`}
-          component={ReceivingHistory}
-        />
-        <Route
-          exact
-          path={`${LINE_DETAIL_URL}${RECEIVING_ITEMS}`}
-          component={ReceivingList}
-        />
-        <Route
-          exact
-          path={`${ORDER_DETAIL_URL}${RECEIVING_HISTORY}`}
-          component={ReceivingHistory}
-        />
-        <Route
-          exact
-          path={`${ORDER_DETAIL_URL}${RECEIVING_ITEMS}`}
-          component={ReceivingList}
-        />
         <Route
           path={ORDER_LINES_ROUTE}
           component={OrderLinesList}
