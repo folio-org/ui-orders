@@ -70,7 +70,6 @@ class POLine extends Component {
 
   render() {
     const {
-      match,
       parentMutator,
       parentResources,
     } = this.props;
@@ -82,8 +81,6 @@ class POLine extends Component {
     const vendors = get(parentResources, 'vendors.records', []);
     const funds = get(parentResources, 'fund.records', []);
     const poURL = this.props.poURL;
-    const receivingURL = `${match.url}/receiving`;
-    const checkinURL = `${match.url}/check-in`;
 
     return (
       <Fragment>
@@ -96,8 +93,6 @@ class POLine extends Component {
           locations={locations}
           vendors={vendors}
           poURL={poURL}
-          receivingURL={receivingURL}
-          checkinURL={checkinURL}
           funds={funds}
           queryMutator={parentMutator.query}
           deleteLine={this.deleteLine}

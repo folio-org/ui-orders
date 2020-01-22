@@ -169,26 +169,9 @@
       },
       {
         "permissionName": "ui-orders.receiving",
-        "displayName": "Orders: Receive items",
+        "displayName": "Orders: Receive/Check-in items",
         "description": "",
-        "visible": true,
-        "subPermissions": [
-          "orders.receiving-history.collection.get",
-          "orders.receiving.collection.post"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.check-in",
-        "displayName": "Orders: Check-in items",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "orders.receiving-history.collection.get",
-          "orders.check-in.collection.post",
-          "orders.pieces.item.post",
-          "orders.pieces.item.put",
-          "orders.pieces.item.delete"
-        ]
+        "visible": true
       },
       {
         "permissionName": "ui-orders.acq.unit.assignment.assign",

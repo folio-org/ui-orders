@@ -9,7 +9,6 @@ import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import LineDetailsPage from '../interactors/line-details-page';
-import ReceivingPage from '../interactors/receiving-page';
 
 describe('Line details test', function () {
   setupApplication();
@@ -20,7 +19,6 @@ describe('Line details test', function () {
   let vendor = null;
   let invoice = null;
   const page = new LineDetailsPage();
-  const receivingPage = new ReceivingPage();
 
   beforeEach(async function () {
     fund = this.server.create('fund');
@@ -76,8 +74,8 @@ describe('Line details test', function () {
       await page.receiveButton.click();
     });
 
-    it('transition to Receiving screen', function () {
-      expect(receivingPage.$root).to.exist;
+    it('transition to Receiving', function () {
+      expect(this.location.pathname.includes('/receiving')).to.be.true;
     });
   });
 

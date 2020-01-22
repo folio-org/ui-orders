@@ -89,9 +89,6 @@ const OrderLineDetails = ({
   const vendors = get(parentResources, 'vendors.records', []);
   const funds = get(parentResources, 'funds.records', []);
 
-  const receivingURL = `/orders/view/${order.id}/po-line/view/${lineId}/receiving`;
-  const checkinURL = `/orders/view/${order.id}/po-line/view/${lineId}/check-in/items`;
-
   const isLoading = !(order.id && line.id);
 
   if (isLoading) {
@@ -107,8 +104,6 @@ const OrderLineDetails = ({
         locations={locations}
         materialTypes={materialTypes}
         vendors={vendors}
-        receivingURL={receivingURL}
-        checkinURL={checkinURL}
         funds={funds}
         goToOrderDetails={goToOrderDetails}
         queryMutator={parentMutator.query}
