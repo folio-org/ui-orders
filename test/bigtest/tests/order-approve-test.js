@@ -19,7 +19,7 @@ describe('Approve order action', function () {
   const orderDetailsPage = new OrderDetailsPage();
 
   beforeEach(async function () {
-    this.server.create('configs', {
+    this.server.create('config', {
       module: MODULE_ORDERS,
       configName: CONFIG_APPROVALS,
       enabled: true,

@@ -32,7 +32,7 @@ describe('Order Details Page', function () {
   let configs = null;
 
   beforeEach(async function () {
-    configs = this.server.create('configs', {
+    configs = this.server.create('config', {
       module: MODULE_ORDERS,
       configName: CONFIG_ADDRESSES,
       enabled: true,

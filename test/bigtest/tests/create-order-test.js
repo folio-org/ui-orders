@@ -14,7 +14,7 @@ describe('Create order', function () {
   const form = new OrderEditPage();
 
   beforeEach(async function () {
-    this.server.create('configs', {
+    this.server.create('config', {
       module: MODULE_ORDERS,
       configName: CONFIG_SUFFIXES,
       enabled: true,

@@ -69,7 +69,7 @@ export default function config() {
   this.get(INVOICES_API);
   this.get(INVOICE_LINES_API);
 
-  this.get(`${CONFIG_API}/:id`, 'configs');
+  this.get(`${CONFIG_API}/:id`, 'config');
 
   this.post(CONFIG_API, (schema, request) => {
     const body = JSON.stringify(request.requestBody);

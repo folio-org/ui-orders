@@ -22,7 +22,7 @@ describe('Close Order is enabled', function () {
       workflowStatus: WORKFLOW_STATUS.open,
     });
 
-    this.server.create('configs', {
+    this.server.create('config', {
       module: MODULE_ORDERS,
       configName: CONFIG_CLOSING_REASONS,
       enabled: true,

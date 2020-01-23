@@ -85,7 +85,7 @@ describe('Line edit test', function () {
       workflowStatus: WORKFLOW_STATUS.pending,
     });
 
-    this.server.create('configs', {
+    this.server.create('config', {
       module: MODULE_ORDERS,
       configName: CONFIG_OPEN_ORDER,
       enabled: true,

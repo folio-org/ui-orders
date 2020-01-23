@@ -44,7 +44,7 @@ describe('clicking on add Line to open LinesLimit Modal', function () {
       id: line.attrs.purchaseOrderId,
     });
 
-    this.server.create('configs', {
+    this.server.create('config', {
       module: MODULE_ORDERS,
       configName: CONFIG_LINES_LIMIT,
       enabled: true,

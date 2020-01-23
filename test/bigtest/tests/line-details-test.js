@@ -46,7 +46,7 @@ describe('Line details test', function () {
 
     invoice = this.server.create('invoice');
 
-    this.server.create('orderInvoiceRelationships', {
+    this.server.create('orderInvoiceRelationship', {
       purchaseOrderId: order.id,
       invoiceId: invoice.id,
     });
