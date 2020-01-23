@@ -33,10 +33,6 @@ describe('Delete Order Line', function () {
     expect(page.isVisible).to.be.true;
   });
 
-  it("doesn't show Line Details action menu", () => {
-    expect(page.actions.isPresent).to.be.false;
-  });
-
   describe('click on header', () => {
     beforeEach(async function () {
       await page.actions.toggle.click();
