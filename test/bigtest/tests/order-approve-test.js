@@ -34,6 +34,7 @@ describe('Approve order action', function () {
     this.visit(`/orders/view/${pendingOrder.id}`);
     await orderDetailsPage.whenLoaded();
     await orderDetailsPage.approveOrderButton.click();
+    await orderDetailsPage.whenLoaded();
   });
 
   it('Approve button should be hidden after click approve', () => {

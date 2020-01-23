@@ -104,12 +104,7 @@ describe('Line edit test', function () {
     expect(lineEditPage.publicationDateField.isInput).to.be.true;
     expect(lineEditPage.orderFormat.isSelect).to.be.true;
     expect(lineEditPage.saveAndOpenButton.isButton).to.be.true;
-  });
-
-  describe('Template name', function () {
-    it('should not be displayed', () => {
-      expect(lineEditPage.hasTemplateField).to.be.false;
-    });
+    expect(lineEditPage.hasTemplateField).to.be.false;
   });
 
   describe('Location can be added', function () {
@@ -207,6 +202,7 @@ describe('Line edit test', function () {
     describe('Volume can be removed', function () {
       beforeEach(async function () {
         await lineEditPage.removeVolumeButton.click();
+        await lineEditPage.whenLoaded();
       });
 
       it('Volume is removed', function () {

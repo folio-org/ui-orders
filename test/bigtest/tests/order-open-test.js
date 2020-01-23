@@ -60,6 +60,7 @@ describe('Open order action', function () {
     describe('click action', () => {
       beforeEach(async () => {
         await orderDetailsPage.openOrderButton.click();
+        await openOrderConfirmationModal.whenLoaded();
       });
 
       it('should open Open Order Confirmation Modal', () => {
@@ -70,6 +71,7 @@ describe('Open order action', function () {
     describe('click close action on modal', () => {
       beforeEach(async () => {
         await orderDetailsPage.openOrderButton.click();
+        await openOrderConfirmationModal.whenLoaded();
         await openOrderConfirmationModal.cancelAction();
       });
 
@@ -83,6 +85,7 @@ describe('Open order action', function () {
 
       beforeEach(async () => {
         await orderDetailsPage.openOrderButton.click();
+        await openOrderConfirmationModal.whenLoaded();
         await openOrderConfirmationModal.submitAction();
       });
 

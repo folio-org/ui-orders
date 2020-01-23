@@ -54,6 +54,7 @@ const POInvoices = ({ orderInvoices, vendors }) => {
       formatter={resultFormatter}
       visibleColumns={visibleColumns}
       columnMapping={columnMapping}
+      id="orderInvoices"
       interactive={false}
     />
   );

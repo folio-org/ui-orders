@@ -53,6 +53,7 @@ describe('Order details with Line', function () {
 
     this.visit(`/orders/view/${order.id}`);
     await orderDetailsPage.whenLoaded();
+    await orderDetailsPage.whenInvoicesLoaded();
   });
 
   it('displays the order details pane', () => {
@@ -79,6 +80,7 @@ describe('Order details with Line', function () {
 
   describe('clicking on invoice number', () => {
     beforeEach(async function () {
+      await orderDetailsPage.whenInvoicesLoaded();
       await orderDetailsPage.relatedInvoicesAccordion.invoices(0).link();
     });
 

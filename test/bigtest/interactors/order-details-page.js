@@ -59,10 +59,15 @@ export default interactor(class OrderDetailsPage {
   shipTo = new ShipTo();
   workflowStatus = new WorkflowStatus();
   lines = collection('#POListing [class*=mclRow---]');
-  isLoaded = isPresent('[class*=paneTitleLabel---]');
+  isLoaded = isPresent('#purchaseOrder');
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();
+  orderInvoicesIsPresent = isPresent('#orderInvoices');
 
   whenLoaded() {
     return this.timeout(TIMEOUT).when(() => this.isLoaded);
+  }
+
+  whenInvoicesLoaded() {
+    return this.timeout(TIMEOUT).when(() => this.orderInvoicesIsPresent);
   }
 });
