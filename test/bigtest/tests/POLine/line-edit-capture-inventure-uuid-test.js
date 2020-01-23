@@ -99,7 +99,7 @@ describe('Line edit test - Capture UUID from inventory', function () {
     });
 
     it('connected link is not shown', () => {
-      expect(lineEditPage.connectedTitleLabel).to.be.true;  // https://issues.folio.org/browse/UIOR-374
+      expect(lineEditPage.connectedTitleLabel).to.be.false;  // https://issues.folio.org/browse/UIOR-374
     });
   });
 });
