@@ -95,20 +95,4 @@ describe('Open order action', function () {
       });
     });
   });
-
-  Object.values(WORKFLOW_STATUS).forEach(status => {
-    describe(`button for ${status} order without POLs`, () => {
-      beforeEach(function () {
-        const newOrder = this.server.create('order', {
-          workflowStatus: status,
-        });
-
-        this.visit(`/orders/view/${newOrder.id}`);
-      });
-
-      it('should not be visible', () => {
-        expect(orderDetailsPage.openOrderButton.isPresent).not.to.be.true;
-      });
-    });
-  });
 });
