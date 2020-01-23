@@ -20,8 +20,10 @@ describe("Create POL - Empty vendor's fields", function () {
   beforeEach(async function () {
     vendor = this.server.create('vendor', {
       discountPercent: 5,
+      isVendor: true,
     });
     order = this.server.create('order', {
+      compositePoLines: [],
       vendor: vendor.id,
     });
 

@@ -9,4 +9,6 @@ export default Factory.extend({
     updatedDate: faker.date.past(),
   }),
   notes: (id) => [`Order ${id}`],
+  orderType: () => 'One-Time',
+  workflowStatus: () => 'Pending',
 });

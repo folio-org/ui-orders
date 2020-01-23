@@ -209,7 +209,7 @@ export default interactor(class LineEditPage {
   connectedTitleLabel = isPresent('[data-test-connected-link]');
   addProductIdsButton = new Button('#productIds-add-button');
   removeProductIdsButton = new Button('#productIds [data-test-repeatable-field-remove-item-button]');
-  isLoaded = isPresent('#ItemDetails');
+  isLoaded = isPresent('#itemDetails');
   hasTemplateField = isPresent('[name="template"]');
 
   whenLoaded() {
