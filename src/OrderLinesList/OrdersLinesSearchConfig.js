@@ -4,7 +4,7 @@ const indexes = [
   'contributors',
   'poLineNumber',
   'requester',
-  'title',
+  'titleOrPackage',
   'publisher',
   'vendorDetail.vendorAccount',
   'vendorDetail.refNumber',

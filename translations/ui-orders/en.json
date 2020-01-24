@@ -587,6 +587,8 @@
   "poLine.cancellationRestriction": "Cancellation restriction",
   "poLine.cancellationRestrictionNote": "Cancellation description",
   "poLine.checkinItems": "Checkin items",
+  "poLine.checkinItems.isPackage": "Manually add pieces for receiving",
+  "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity.",
   "poLine.costDetails": "POL cost details",
   "poLine.createdOn": "Created on",
   "poLine.details": "POL details",

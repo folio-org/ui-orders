@@ -164,7 +164,10 @@ class POLineDetailsForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldCheckInItems disabled={isPostPendingOrder || isPackage} />
+            <FieldCheckInItems
+              disabled={isPostPendingOrder || isPackage}
+              isPackage={isPackage}
+            />
           </Col>
         </Row>
         <Row>

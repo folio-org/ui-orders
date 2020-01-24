@@ -161,8 +161,8 @@ class ItemForm extends Component {
     this.onChangeField(value, 'titleOrPackage');
   };
 
-  setCheckinItems = ({ target: { value } }) => {
-    this.onChangeField(value, 'checkinItems');
+  setCheckinItems = () => {
+    this.onChangeField(!get(this.props, 'formValues.isPackage'), 'checkinItems');
   };
 
   setPublisher = ({ target: { value } }) => {
