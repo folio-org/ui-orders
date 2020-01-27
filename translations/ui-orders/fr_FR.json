@@ -602,7 +602,6 @@
     "search.keyword": "Mot-clé",
     "search.poLineNumber": "Numéro de ligne de commande",
     "search.requester": "Demandeur",
-    "search.title": "Titre",
     "button.delete": "Supprimer",
     "order.delete.confirmLabel": "Supprimer",
     "order.delete.heading": "Supprimer {orderNumber} ?",
@@ -818,5 +817,6 @@
     "itemDetails.packageName": "Nom du bouquet",
     "poLine.package": "Bouquet",
     "poLine.checkinItems.isPackage": "Ajouter manuellement des pièces pour la réception",
-    "poLine.checkinItems.isPackage.info": "Les pièces devront être créées manuellement pour chaque unité et quantité."
+    "poLine.checkinItems.isPackage.info": "Les pièces devront être créées manuellement pour chaque unité et quantité.",
+    "search.titleOrPackage": "Title or package name"
 }

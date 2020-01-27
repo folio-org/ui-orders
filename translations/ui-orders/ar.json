@@ -602,7 +602,6 @@
     "search.keyword": "كلمة مفتاحية",
     "search.poLineNumber": "رقم سطر أمر الشراء",
     "search.requester": "مقدم الطلب",
-    "search.title": "العنوان",
     "button.delete": "حذف",
     "order.delete.confirmLabel": "حذف",
     "order.delete.heading": "حذف {orderNumber} ؟",
@@ -818,5 +817,6 @@
     "itemDetails.packageName": "اسم الحزمة",
     "poLine.package": "حزمة",
     "poLine.checkinItems.isPackage": "إضاف قطع للاستلام يدويًا",
-    "poLine.checkinItems.isPackage.info": "يجب إنشاء القطع يدويًا لكل وحدة كمية."
+    "poLine.checkinItems.isPackage.info": "يجب إنشاء القطع يدويًا لكل وحدة كمية.",
+    "search.titleOrPackage": "Title or package name"
 }

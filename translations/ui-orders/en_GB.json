@@ -602,7 +602,6 @@
     "search.keyword": "Keyword",
     "search.poLineNumber": "PO line number",
     "search.requester": "Requester",
-    "search.title": "Title",
     "button.delete": "Delete",
     "order.delete.confirmLabel": "Delete",
     "order.delete.heading": "Delete {orderNumber}?",
@@ -818,5 +817,6 @@
     "itemDetails.packageName": "Package name",
     "poLine.package": "Package",
     "poLine.checkinItems.isPackage": "Manually add pieces for receiving",
-    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity."
+    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity.",
+    "search.titleOrPackage": "Title or package name"
 }

@@ -1,7 +1,7 @@
 {
     "meta.title": "Ordini",
     "search": "Cerca",
-    "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
+    "resultCount": "{count, number} {count, plural, one {record trovato} other {record trovati}}",
     "data.countries.AFG": "Afghanistan",
     "data.countries.ALA": "Isole Åland",
     "data.countries.ALB": "Albania",
@@ -602,7 +602,6 @@
     "search.keyword": "Parola chiave",
     "search.poLineNumber": "PO line number",
     "search.requester": "Requester",
-    "search.title": "Titolo",
     "button.delete": "Elimina",
     "order.delete.confirmLabel": "Elimina",
     "order.delete.heading": "Eliminare {orderNumber}?",
@@ -818,5 +817,6 @@
     "itemDetails.packageName": "Nome pacchetto",
     "poLine.package": "Pacchetto",
     "poLine.checkinItems.isPackage": "Aggiungi manualmente i pezzi per la ricezione",
-    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity."
+    "poLine.checkinItems.isPackage.info": "I pezzi dovranno essere creati manualmente per ogni unità di quantità.",
+    "search.titleOrPackage": "Titolo o nome del pacchetto"
 }

@@ -602,7 +602,6 @@
     "search.keyword": "关键词",
     "search.poLineNumber": "订单行号",
     "search.requester": "请求者",
-    "search.title": "题名",
     "button.delete": "删除",
     "order.delete.confirmLabel": "删除",
     "order.delete.heading": "删除{orderNumber} ？",
@@ -818,5 +817,6 @@
     "itemDetails.packageName": "Package name",
     "poLine.package": "Package",
     "poLine.checkinItems.isPackage": "Manually add pieces for receiving",
-    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity."
+    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity.",
+    "search.titleOrPackage": "Title or package name"
 }

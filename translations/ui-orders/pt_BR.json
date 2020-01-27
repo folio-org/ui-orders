@@ -602,7 +602,6 @@
     "search.keyword": "Palavra-chave",
     "search.poLineNumber": "Número da linha do pedido",
     "search.requester": "Solicitante",
-    "search.title": "Título",
     "button.delete": "Excluir",
     "order.delete.confirmLabel": "Excluir",
     "order.delete.heading": "Excluir {orderNumber}?",
@@ -818,5 +817,6 @@
     "itemDetails.packageName": "Nome do pacote",
     "poLine.package": "Pacote",
     "poLine.checkinItems.isPackage": "Adicione manualmente peças para recebimento",
-    "poLine.checkinItems.isPackage.info": "É necessário criar peças manualmente para cada unidade de quantidade."
+    "poLine.checkinItems.isPackage.info": "É necessário criar peças manualmente para cada unidade de quantidade.",
+    "search.titleOrPackage": "Title or package name"
 }

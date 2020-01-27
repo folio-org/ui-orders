@@ -602,7 +602,6 @@
     "search.keyword": "Ключевое слово",
     "search.poLineNumber": "PO line number",
     "search.requester": "Заявитель",
-    "search.title": "Название",
     "button.delete": "Удалить",
     "order.delete.confirmLabel": "Удалить",
     "order.delete.heading": "Удалить {orderNumber} ?",
@@ -818,5 +817,6 @@
     "itemDetails.packageName": "Package name",
     "poLine.package": "Package",
     "poLine.checkinItems.isPackage": "Manually add pieces for receiving",
-    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity."
+    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity.",
+    "search.titleOrPackage": "Title or package name"
 }
