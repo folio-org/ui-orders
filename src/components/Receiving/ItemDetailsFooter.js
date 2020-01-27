@@ -18,6 +18,27 @@ const ItemDetailsFooter = ({
   poLineIdsListLenght,
 }) => {
   const isButtonDisabled = !some(Object.values(lineItems).flat(), { isSelected: true });
+  const lastButton = currentLine === poLineIdsListLenght
+    ? (
+      <Button
+        buttonStyle="primary"
+        data-test-receive-button
+        disabled={isButtonDisabled}
+        onClick={() => onClickNext(poLineIdsListLenght)}
+      >
+        <FormattedMessage id="ui-orders.receiving.receiveBtn" />
+      </Button>
+    )
+    : (
+      <Button
+        buttonStyle="primary"
+        data-test-next-button
+        disabled={isButtonDisabled}
+        onClick={() => onClickNext(poLineIdsListLenght)}
+      >
+        <FormattedMessage id="ui-orders.receiving.nextBtn" />
+      </Button>
+    );
 
   return (
     <Row end="xs">
@@ -35,28 +56,7 @@ const ItemDetailsFooter = ({
       >
         <FormattedMessage id="ui-orders.receiving.previousBtn" />
       </Button>
-      {(currentLine === poLineIdsListLenght)
-        ? (
-          <Button
-            buttonStyle="primary"
-            data-test-receive-button
-            disabled={isButtonDisabled}
-            onClick={() => onClickNext(poLineIdsListLenght)}
-          >
-            <FormattedMessage id="ui-orders.receiving.receiveBtn" />
-          </Button>
-        )
-        : (
-          <Button
-            buttonStyle="primary"
-            data-test-next-button
-            disabled={isButtonDisabled}
-            onClick={() => onClickNext(poLineIdsListLenght)}
-          >
-            <FormattedMessage id="ui-orders.receiving.nextBtn" />
-          </Button>
-        )
-      }
+      {lastButton}
     </Row>
   );
 };

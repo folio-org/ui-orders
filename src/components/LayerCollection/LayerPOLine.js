@@ -81,25 +81,6 @@ class LayerPOLine extends Component {
     approvalsSetting: APPROVALS_SETTING,
   });
 
-  static propTypes = {
-    connectedSource: PropTypes.object.isRequired,
-    location: ReactRouterPropTypes.location.isRequired,
-    match: ReactRouterPropTypes.match,
-    parentMutator: PropTypes.shape({
-      poLine: lineMutatorShape,
-      records: orderRecordsMutatorShape,
-    }),
-    parentResources: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
-    showToast: PropTypes.func.isRequired,
-    stripes: PropTypes.shape({
-      store: PropTypes.object.isRequired,
-      connect: PropTypes.func.isRequired,
-    }).isRequired,
-    onCancel: PropTypes.func.isRequired,
-    mutator: PropTypes.object.isRequired,
-  };
-
   constructor(props) {
     super(props);
 
@@ -361,5 +342,25 @@ class LayerPOLine extends Component {
     return null;
   }
 }
+
+LayerPOLine.propTypes = {
+  connectedSource: PropTypes.object.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match,
+  parentMutator: PropTypes.shape({
+    poLine: lineMutatorShape,
+    records: orderRecordsMutatorShape,
+    query: PropTypes.object.isRequired,
+  }),
+  parentResources: PropTypes.object.isRequired,
+  resources: PropTypes.object.isRequired,
+  showToast: PropTypes.func.isRequired,
+  stripes: PropTypes.shape({
+    store: PropTypes.object.isRequired,
+    connect: PropTypes.func.isRequired,
+  }).isRequired,
+  onCancel: PropTypes.func.isRequired,
+  mutator: PropTypes.object.isRequired,
+};
 
 export default LayerPOLine;

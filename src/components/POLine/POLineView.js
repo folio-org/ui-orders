@@ -53,7 +53,7 @@ import {
   PHRESOURCES,
   OTHER,
 } from './const';
-import { FILTERS as ORDER_FILTERS } from '../../OrdersList';
+import { FILTERS as ORDER_FILTERS } from '../../OrdersList/constants';
 
 class POLineView extends Component {
   static propTypes = {

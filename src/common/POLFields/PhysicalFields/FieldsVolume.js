@@ -33,7 +33,7 @@ class FieldsVolume extends Component {
     return (
       <Row>
         <Col xs={12}>
-          {fields.length === 0 &&
+          {fields.length === 0 && (
             <Col xs={12}>
               <div>
                 <em>
@@ -41,7 +41,7 @@ class FieldsVolume extends Component {
                 </em>
               </div>
             </Col>
-          }
+          )}
           {fields.map(this.renderSubForm)}
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
@@ -82,7 +82,7 @@ class FieldsVolume extends Component {
             onClick={() => this.removeFields(fields, index)}
             disabled={disabled}
           >
-            {<FormattedMessage id="ui-orders.physical.removeBtn" />}
+            <FormattedMessage id="ui-orders.physical.removeBtn" />
           </IconButton>
         </Col>
       </Row>

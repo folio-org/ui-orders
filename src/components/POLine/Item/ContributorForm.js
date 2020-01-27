@@ -39,7 +39,7 @@ class ContributorForm extends Component {
     return (
       <Row start="xs">
         <Col xs={12}>
-          {fields.length === 0 &&
+          {fields.length === 0 && (
             <Col xs={12}>
               <div>
                 <em>
@@ -47,7 +47,7 @@ class ContributorForm extends Component {
                 </em>
               </div>
             </Col>
-          }
+          )}
           {fields.map(this.renderSubForm)}
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
@@ -100,7 +100,7 @@ class ContributorForm extends Component {
             onClick={() => this.removeFields(fields, index)}
             disabled={this.props.disabled}
           >
-            {<FormattedMessage id="ui-orders.itemDetails.removeBtn" />}
+            <FormattedMessage id="ui-orders.itemDetails.removeBtn" />
           </IconButton>
         </Col>
       </Row>

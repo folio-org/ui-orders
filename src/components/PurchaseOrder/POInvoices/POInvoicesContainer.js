@@ -62,6 +62,7 @@ POInvoicesContainer.propTypes = {
   mutator: PropTypes.shape({
     orderInvoicesRelns: PropTypes.object.isRequired,
     invoices: PropTypes.object.isRequired,
+    invoicesVendors: PropTypes.object.isRequired,
   }).isRequired,
 };
 

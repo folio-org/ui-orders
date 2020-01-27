@@ -38,7 +38,7 @@ const OpenedRequestsModal = ({ pieces, closeModal }) => {
       label={<FormattedMessage id={`ui-orders.requests.title.${isMultiple ? 'multiple' : 'single'}`} />}
       footer={footer}
     >
-      {<FormattedMessage id={`ui-orders.requests.message.${isMultiple ? 'multiple' : 'single'}`} />}
+      <FormattedMessage id={`ui-orders.requests.message.${isMultiple ? 'multiple' : 'single'}`} />
       <ul className={css.openedRequestsModalBody}>
         {
           Object.keys(itemRequestGroups).map(item => {

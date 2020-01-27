@@ -73,6 +73,7 @@ POLineInvoicesContainer.propTypes = {
     pieces: PropTypes.object.isRequired,
     invoices: PropTypes.object.isRequired,
     invoiceLines: PropTypes.object.isRequired,
+    invoiceLinesVendors: PropTypes.object.isRequired,
   }).isRequired,
 };
 
