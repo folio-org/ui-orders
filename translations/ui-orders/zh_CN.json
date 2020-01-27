@@ -753,11 +753,9 @@
     "settings.loanType.select": "默认借阅类型",
     "receiving.itemStatus.In process": "处理中",
     "receiving.itemStatus.On order": "订购中",
-    "receiving.itemStatus.Received": "收到",
     "receiving.itemStatus.Available": "可用",
     "receiving.itemStatus.In transit": "传送中",
     "receiving.itemStatus.Undefined": "未定义",
-    "errors.fundCanNotBePaid": "由于预算中没有足够资金，因此无法负担此订单的一项或多项经费分配",
     "errors.costDiscountInvalid": "费用折扣无效",
     "createdDateAndTime": "创建日期和时间",
     "createdSource": "创建源",
@@ -813,5 +811,12 @@
     "errors.userHasNoAcqUnitsPermission": "用户无权管理采购单元分配 - 操作受到限制",
     "errors.userHasNoApprovalPermission": "用户无权批准订单 - 操作受到限制",
     "errors.zeroLocQty": "必须指定实体或电子位置数量",
-    "checkIn.receivedDate": "Received date"
+    "checkIn.receivedDate": "Received date",
+    "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in the budget",
+    "receiving.itemStatus.Order closed": "Order closed",
+    "cost.quantity": "Quantity",
+    "itemDetails.packageName": "Package name",
+    "poLine.package": "Package",
+    "poLine.checkinItems.isPackage": "Manually add pieces for receiving",
+    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity."
 }

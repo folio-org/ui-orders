@@ -753,11 +753,9 @@
     "settings.loanType.select": "Tipo de empréstimo padrão",
     "receiving.itemStatus.In process": "Em processamento",
     "receiving.itemStatus.On order": "Em processo de compra",
-    "receiving.itemStatus.Received": "Recebido",
     "receiving.itemStatus.Available": "Disponível",
     "receiving.itemStatus.In transit": "Em trânsito",
     "receiving.itemStatus.Undefined": "Indefinido",
-    "errors.fundCanNotBePaid": "Uma ou mais distribuições de fundos nesse pedido não podem ser oneradas, porque não há dinheiro suficiente no orçamento",
     "errors.costDiscountInvalid": "O desconto do custo é inválido",
     "createdDateAndTime": "Data e hora da criação",
     "createdSource": "Fonte criada",
@@ -813,5 +811,12 @@
     "errors.userHasNoAcqUnitsPermission": "O usuário não tem permissões para gerenciar atribuições de unidades de aquisição - a operação é restrita",
     "errors.userHasNoApprovalPermission": "O usuário não tem permissões para aprovar pedidos - a operação é restrita",
     "errors.zeroLocQty": "A quantidade de localização física ou eletrônica deve ser especificada",
-    "checkIn.receivedDate": "Data de recebimento"
+    "checkIn.receivedDate": "Data de recebimento",
+    "errors.fundCannotBePaid": "Uma ou mais distribuições de fundos nesse pedido não podem ser oneradas, porque não há dinheiro suficiente no orçamento",
+    "receiving.itemStatus.Order closed": "Pedido encerrado",
+    "cost.quantity": "Quantidade",
+    "itemDetails.packageName": "Nome do pacote",
+    "poLine.package": "Pacote",
+    "poLine.checkinItems.isPackage": "Adicione manualmente peças para recebimento",
+    "poLine.checkinItems.isPackage.info": "É necessário criar peças manualmente para cada unidade de quantidade."
 }

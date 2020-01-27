@@ -753,11 +753,9 @@
     "settings.loanType.select": "نوع الإعارة الافتراضي",
     "receiving.itemStatus.In process": "في المعالجة",
     "receiving.itemStatus.On order": "في الطلب",
-    "receiving.itemStatus.Received": "تم استلامه",
     "receiving.itemStatus.Available": "متاح",
     "receiving.itemStatus.In transit": "في النقل",
     "receiving.itemStatus.Undefined": "غير معرّف",
-    "errors.fundCanNotBePaid": "لا يمكن رهن أحد توزيعات التمويل أو أكثر في هذه الطلبية بسبب عدم وجود مال كافٍ في الميزانية",
     "errors.costDiscountInvalid": "خصم التكلفة غير صالح",
     "createdDateAndTime": "التاريخ والوقت الذي تم إنشاؤه",
     "createdSource": "المصدر الذي تم إنشاؤه",
@@ -813,5 +811,12 @@
     "errors.userHasNoAcqUnitsPermission": "لا يملك المستخدم صلاحيات إدارة مهام وحدات التزويد - العملية مقيدة",
     "errors.userHasNoApprovalPermission": "لا يملك المستخدم صلاحيات قبول الطلبية - العملية مقيدة",
     "errors.zeroLocQty": "يجب تحديد كمية الموقع الإلكتروني أو المادي",
-    "checkIn.receivedDate": "تاريخ الاستلام"
+    "checkIn.receivedDate": "تاريخ الاستلام",
+    "errors.fundCannotBePaid": "لا يمكن رهن أحد توزيعات التمويل أو أكثر في هذه الطلبية بسبب عدم وجود مال كافٍ في الميزانية",
+    "receiving.itemStatus.Order closed": "تم إغلاق الطلبية",
+    "cost.quantity": "الكمية",
+    "itemDetails.packageName": "اسم الحزمة",
+    "poLine.package": "حزمة",
+    "poLine.checkinItems.isPackage": "إضاف قطع للاستلام يدويًا",
+    "poLine.checkinItems.isPackage.info": "يجب إنشاء القطع يدويًا لكل وحدة كمية."
 }

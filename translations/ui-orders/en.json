@@ -693,7 +693,7 @@
   "search.publisher": "Publisher",
   "search.requester": "Requester",
   "search.selector": "Selector",
-  "search.title": "Title",
+  "search.titleOrPackage": "Title or package name",
   "search.vendorDetail.refNumber": "Vendor reference number",
   "search.vendorDetail.vendorAccount": "Vendor account",
 

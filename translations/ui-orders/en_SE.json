@@ -753,11 +753,9 @@
     "settings.loanType.select": "Default loan type",
     "receiving.itemStatus.In process": "In process",
     "receiving.itemStatus.On order": "On order",
-    "receiving.itemStatus.Received": "Received",
     "receiving.itemStatus.Available": "Available",
     "receiving.itemStatus.In transit": "In transit",
     "receiving.itemStatus.Undefined": "Undefined",
-    "errors.fundCanNotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in the budget",
     "errors.costDiscountInvalid": "Cost's discount is invalid",
     "createdDateAndTime": "Created date and time",
     "createdSource": "Created source",
@@ -813,5 +811,12 @@
     "errors.userHasNoAcqUnitsPermission": "User does not have permissions to manage acquisition units assignments - operation is restricted",
     "errors.userHasNoApprovalPermission": "User does not have permissions to approve order - operation is restricted",
     "errors.zeroLocQty": "Physical or electronic location quantity must be specified",
-    "checkIn.receivedDate": "Received date"
+    "checkIn.receivedDate": "Received date",
+    "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in the budget",
+    "receiving.itemStatus.Order closed": "Order closed",
+    "cost.quantity": "Quantity",
+    "itemDetails.packageName": "Package name",
+    "poLine.package": "Package",
+    "poLine.checkinItems.isPackage": "Manually add pieces for receiving",
+    "poLine.checkinItems.isPackage.info": "Pieces will need to be created manually for each unit of quantity."
 }
