@@ -12,6 +12,9 @@
 * [UIOR-465](https://issues.folio.org/browse/UIOR-465) Error Message: No budget for this fund and fiscal year
 * [UIOR-402](https://issues.folio.org/browse/UIOR-402) Display the Date received checked-in pieces
 
+### Bug fixes
+* [UIOR-502](https://issues.folio.org/browse/UIOR-502) Plus action appears when POL isPackage = true
+
 ## [1.8.3](https://github.com/folio-org/ui-orders/tree/v1.8.3) (2020-01-04)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.2...v1.8.3)
 

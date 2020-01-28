@@ -161,8 +161,11 @@ class ItemForm extends Component {
     this.onChangeField(value, 'titleOrPackage');
   };
 
-  setCheckinItems = () => {
-    this.onChangeField(!get(this.props, 'formValues.isPackage'), 'checkinItems');
+  setIsPackage = ({ target: { value } }) => {
+    const isPackageValue = value === 'false';
+
+    this.onChangeField(isPackageValue, 'isPackage');
+    this.onChangeField(isPackageValue, 'checkinItems');
   };
 
   setPublisher = ({ target: { value } }) => {
@@ -175,12 +178,6 @@ class ItemForm extends Component {
 
   setEdition = ({ target: { value } }) => {
     this.onChangeField(value, 'edition');
-  };
-
-  selectInstanceModal = (isDisabled) => {
-    if (isDisabled) return false;
-
-    return <InstancePlugin addInstance={this.onAddInstance} />;
   };
 
   getTitleLabel = () => {
@@ -233,9 +230,11 @@ class ItemForm extends Component {
     const isPostPendingOrder = !isWorkflowStatusIsPending(this.props.order);
     const {
       contributorNameTypes,
+      formValues,
       identifierTypes,
       required,
     } = this.props;
+    const isSelectInstanceVisible = !get(formValues, 'isPackage') || isPostPendingOrder;
 
     return (
       <Fragment>
@@ -249,7 +248,7 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.poLine.package" />}
               name="isPackage"
-              onChange={this.setCheckinItems}
+              onChange={this.setIsPackage}
               type="checkbox"
               disabled={isPostPendingOrder}
             />
@@ -271,7 +270,7 @@ class ItemForm extends Component {
                 disabled={isPostPendingOrder}
               />
               <div className={css.addButton}>
-                {this.selectInstanceModal(isPostPendingOrder)}
+                {isSelectInstanceVisible && <InstancePlugin addInstance={this.onAddInstance} />}
               </div>
             </div>
           </Col>

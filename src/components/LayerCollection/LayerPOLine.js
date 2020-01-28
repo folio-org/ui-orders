@@ -233,6 +233,7 @@ class LayerPOLine extends Component {
         createInventory: createInventorySetting.physical,
       },
       locations: [],
+      isPackage: false,
     };
 
     if (vendor) {

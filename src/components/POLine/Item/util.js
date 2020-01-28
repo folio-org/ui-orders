@@ -45,5 +45,6 @@ export const checkInstanceIdField = (formValues, inventoryData) => {
     && (inventoryData.edition === get(formValues, 'edition', ''))
     && isEqualContributors
     && isEqualProductIds
+    && get(formValues, 'isPackage')
   );
 };
