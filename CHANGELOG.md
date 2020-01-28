@@ -3,12 +3,9 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-494](https://issues.folio.org/browse/UIOR-494) Update settings permission label
+* [UIOR-499](https://issues.folio.org/browse/UIOR-499) Security update eslint to >= 6.2.1 or eslint-util >= 1.4.1
 * [UIOR-492](https://issues.folio.org/browse/UIOR-492) Update for new interface versions of circulation and inventory
-
-## [1.9.0](https://github.com/folio-org/ui-orders/tree/v1.9.0) (in progress)
-[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.2...v1.9.0)
-
-### Stories
 * [UIOR-239](https://issues.folio.org/browse/UIOR-239) Add "Package" checkbox to POL
 * [UIREC-38](https://issues.folio.org/browse/UIREC-38) Allow user to access receiving by Title area
 * [UIOR-432](https://issues.folio.org/browse/UIOR-432) Add or update call number during receiving/checkin

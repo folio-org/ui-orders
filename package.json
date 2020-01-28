@@ -197,7 +197,7 @@
       },
       {
         "permissionName": "settings.orders.enabled",
-        "displayName": "Settings (Orders): Display list of settings for Orders",
+        "displayName": "Settings (Orders): Can view and edit settings",
         "visible": true,
         "subPermissions": [
           "configuration.all",
