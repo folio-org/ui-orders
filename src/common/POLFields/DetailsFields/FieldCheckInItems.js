@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
@@ -8,15 +8,13 @@ import {
   InfoPopover,
 } from '@folio/stripes/components';
 
-const FieldCheckInItems = ({ disabled, isPackage }) => {
-  const label = isPackage
-    ? (
-      <Fragment>
-        <FormattedMessage id="ui-orders.poLine.checkinItems.isPackage" />
-        <InfoPopover content={<FormattedMessage id="ui-orders.poLine.checkinItems.isPackage.info" />} />
-      </Fragment>
-    )
-    : <FormattedMessage id="ui-orders.poLine.checkinItems" />;
+const FieldCheckInItems = ({ disabled }) => {
+  const label = (
+    <>
+      <FormattedMessage id="ui-orders.poLine.receiveItems" />
+      <InfoPopover content={<FormattedMessage id="ui-orders.poLine.receiveItems.info" />} />
+    </>
+  );
 
   return (
     <Field
@@ -33,12 +31,10 @@ const FieldCheckInItems = ({ disabled, isPackage }) => {
 
 FieldCheckInItems.propTypes = {
   disabled: PropTypes.bool,
-  isPackage: PropTypes.bool,
 };
 
 FieldCheckInItems.defaultProps = {
   disabled: false,
-  isPackage: false,
 };
 
 export default FieldCheckInItems;

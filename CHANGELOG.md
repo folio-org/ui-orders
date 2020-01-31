@@ -13,6 +13,7 @@
 * [UIOR-402](https://issues.folio.org/browse/UIOR-402) Display the Date received checked-in pieces
 
 ### Bug fixes
+* [UIOR-501](https://issues.folio.org/browse/UIOR-501) Add "Package" checkbox to POL Details pane
 * [UIOR-502](https://issues.folio.org/browse/UIOR-502) Plus action appears when POL isPackage = true
 
 ## [1.8.3](https://github.com/folio-org/ui-orders/tree/v1.8.3) (2020-01-04)

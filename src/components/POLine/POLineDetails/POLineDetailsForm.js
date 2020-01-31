@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
@@ -59,7 +59,7 @@ class POLineDetailsForm extends Component {
     const isPackage = get(formValues, 'isPackage');
 
     return (
-      <Fragment>
+      <>
         <Row>
           <Col
             xs={6}
@@ -164,10 +164,7 @@ class POLineDetailsForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldCheckInItems
-              disabled={isPostPendingOrder || isPackage}
-              isPackage={isPackage}
-            />
+            <FieldCheckInItems disabled={isPostPendingOrder || isPackage} />
           </Col>
         </Row>
         <Row>
@@ -193,7 +190,7 @@ class POLineDetailsForm extends Component {
             />
           </Col>
         </Row>
-      </Fragment>
+      </>
     );
   }
 }

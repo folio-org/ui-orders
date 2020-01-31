@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
@@ -9,6 +9,7 @@ import { get } from 'lodash';
 import {
   Checkbox,
   Col,
+  InfoPopover,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
@@ -22,7 +23,7 @@ const POLineDetails = ({ line }) => {
   const receiptDate = get(line, 'receiptDate');
 
   return (
-    <Fragment>
+    <>
       <Row start="xs">
         <Col
           data-col-line-details-number
@@ -166,7 +167,14 @@ const POLineDetails = ({ line }) => {
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id="ui-orders.poLine.checkinItems" />}>
+          <KeyValue
+            label={(
+              <>
+                <FormattedMessage id="ui-orders.poLine.receiveItems" />
+                <InfoPopover content={<FormattedMessage id="ui-orders.poLine.receiveItems.info" />} />
+              </>
+            )}
+          >
             <Checkbox checked={get(line, 'checkinItems')} disabled />
           </KeyValue>
         </Col>
@@ -183,7 +191,7 @@ const POLineDetails = ({ line }) => {
           />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 };
 

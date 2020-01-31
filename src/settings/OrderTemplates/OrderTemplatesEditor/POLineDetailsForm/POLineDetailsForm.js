@@ -114,10 +114,7 @@ const POLineDetailsForm = ({ change, dispatch, formValues, createInventorySettin
         xs={3}
         data-col-order-template-pol-check-in
       >
-        <FieldCheckInItems
-          disabled={formValues.isPackage}
-          isPackage={formValues.isPackage}
-        />
+        <FieldCheckInItems disabled={formValues.isPackage} />
       </Col>
 
       <Col

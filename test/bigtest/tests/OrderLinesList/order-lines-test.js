@@ -88,7 +88,7 @@ describe('Order lines', function () {
 
   describe('search by title', function () {
     beforeEach(async function () {
-      await orderLines.filter.selectSearchOption('Title');
+      await orderLines.filter.selectSearchOption('Title or package name');
       await orderLines.filter.searchInput('TEST');
       await orderLines.filter.searchButton.click();
     });

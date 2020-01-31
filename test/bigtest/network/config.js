@@ -10,6 +10,7 @@ import {
   createGetById,
   configLocations,
   configMaterialTypes,
+  configLines,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
@@ -32,7 +33,6 @@ import {
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';
 import {
-  configLines,
   configOrders,
   configRequests,
 } from './configs';

@@ -50,7 +50,7 @@ class LineListing extends Component {
           visibleColumns={['poLineNumber', 'title', 'productId', 'vendorRefNumber', 'fundCode']}
           columnMapping={{
             poLineNumber: <FormattedMessage id="ui-orders.poLine.number" />,
-            title: <FormattedMessage id="ui-orders.lineListing.title" />,
+            title: <FormattedMessage id="ui-orders.lineListing.titleOrPackage" />,
             productId: <FormattedMessage id="ui-orders.lineListing.productId" />,
             vendorRefNumber: <FormattedMessage id="ui-orders.lineListing.vendorRefNumber" />,
             fundCode: <FormattedMessage id="ui-orders.lineListing.fundCode" />,

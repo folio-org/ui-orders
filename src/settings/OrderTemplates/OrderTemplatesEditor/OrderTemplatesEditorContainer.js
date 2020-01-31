@@ -41,7 +41,7 @@ import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
 
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
-const INITIAL_VALUES = {};
+const INITIAL_VALUES = { isPackage: false };
 
 function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
   const showToast = useShowToast();
