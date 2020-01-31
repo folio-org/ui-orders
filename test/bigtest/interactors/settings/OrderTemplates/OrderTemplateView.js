@@ -18,7 +18,7 @@ export default interactor(class OrderTemplateView {
 
   isLoaded = isPresent('#paneHeaderorder-settings-order-template-view-pane-title');
   actions = new Interactor('[data-test-view-order-template-actions]')
-  paneHeaderCenterButton = new Button('[class*=paneHeaderCenterButton---]');
+  paneHeaderCenterButton = new Button('[data-test-pane-header-actions-button]');
   editButton = new Button('[data-test-view-order-template-action-edit]');
   deleteButton = new Button('[data-test-view-order-template-action-delete]');
   templateInfoAccordion = new TemplateInfoAccordion();

@@ -11,7 +11,7 @@ import { TIMEOUT } from './const';
 @interactor class LineDetailsPageActions {
   static defaultScope = '#data-test-line-details-actions';
 
-  toggle = new Button('[class*=paneHeaderCenterButton---]');
+  toggle = new Button('[data-test-pane-header-actions-button]');
   viewPOButton = new Button('[data-test-line-details-actions-view-po]');
   delete = new Button('[data-test-button-delete-line]');
   edit = new Button('[data-test-button-edit-line]');
