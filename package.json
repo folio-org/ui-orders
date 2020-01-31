@@ -63,6 +63,7 @@
           "circulation.requests.collection.get",
           "configuration.entries.collection.get",
           "finance.funds.collection.get",
+          "finance.transactions.collection.get",
           "inventory-storage.contributor-name-types.collection.get",
           "inventory-storage.identifier-types.collection.get",
           "inventory-storage.instance-statuses.collection.get",
