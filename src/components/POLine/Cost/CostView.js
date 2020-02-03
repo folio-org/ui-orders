@@ -10,9 +10,13 @@ import {
 } from '@folio/stripes/components';
 import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
-import { DISCOUNT_TYPE } from '../const';
+import {
+  DISCOUNT_TYPE,
+  ERESOURCE,
+  PE_MIX,
+} from '../const';
 
-function CostView({ cost }) {
+function CostView({ cost, isPackage, orderFormat }) {
   const discountType = get(cost, 'discountType');
   const discount = get(cost, 'discount', 0);
   const currency = get(cost, 'currency');
@@ -25,21 +29,26 @@ function CostView({ cost }) {
         amount={discount}
       />
     );
+  const isElectornicValuesVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;
+  const isPhysicalValuesVisible = isPackage ? orderFormat !== ERESOURCE : true;
+  const isPackageLabel = isPackage && orderFormat !== PE_MIX;
 
   return (
     <Row start="xs">
-      <Col
-        data-col-cost-list-unit-price
-        xs={6}
-        lg={3}
-      >
-        <KeyValue label={<FormattedMessage id="ui-orders.cost.listPrice" />}>
-          <AmountWithCurrencyField
-            currency={currency}
-            amount={get(cost, 'listUnitPrice')}
-          />
-        </KeyValue>
-      </Col>
+      {isPhysicalValuesVisible && (
+        <Col
+          data-col-cost-list-unit-price
+          xs={6}
+          lg={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-orders.cost.listPrice" />}>
+            <AmountWithCurrencyField
+              currency={currency}
+              amount={get(cost, 'listUnitPrice')}
+            />
+          </KeyValue>
+        </Col>
+      )}
       <Col
         data-col-cost-currency
         xs={6}
@@ -50,16 +59,18 @@ function CostView({ cost }) {
           value={currency}
         />
       </Col>
-      <Col
-        data-col-cost-qty-physical
-        xs={6}
-        lg={3}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.cost.quantityPhysical" />}
-          value={get(cost, 'quantityPhysical')}
-        />
-      </Col>
+      {isPhysicalValuesVisible && (
+        <Col
+          data-col-cost-qty-physical
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
+            value={get(cost, 'quantityPhysical')}
+          />
+        </Col>
+      )}
       <Col
         data-col-cost-addition-cost
         xs={6}
@@ -72,18 +83,22 @@ function CostView({ cost }) {
           />
         </KeyValue>
       </Col>
-      <Col
-        data-col-cost-qty-unit-price-electronic
-        xs={6}
-        lg={3}
-      >
-        <KeyValue label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}>
-          <AmountWithCurrencyField
-            currency={currency}
-            amount={get(cost, 'listUnitPriceElectronic')}
-          />
-        </KeyValue>
-      </Col>
+      {isElectornicValuesVisible && (
+        <Col
+          data-col-cost-qty-unit-price-electronic
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
+          >
+            <AmountWithCurrencyField
+              currency={currency}
+              amount={get(cost, 'listUnitPriceElectronic')}
+            />
+          </KeyValue>
+        </Col>
+      )}
       <Col
         data-col-cost-discount
         xs={6}
@@ -94,16 +109,18 @@ function CostView({ cost }) {
           value={displayDiscount}
         />
       </Col>
-      <Col
-        data-col-cost-qty-electronic
-        xs={6}
-        lg={3}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
-          value={get(cost, 'quantityElectronic')}
-        />
-      </Col>
+      {isElectornicValuesVisible && (
+        <Col
+          data-col-cost-qty-electronic
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityElectronic'}`} />}
+            value={get(cost, 'quantityElectronic')}
+          />
+        </Col>
+      )}
       <Col
         data-col-cost-estimated-price
         xs={6}
@@ -134,10 +151,13 @@ function CostView({ cost }) {
 
 CostView.propTypes = {
   cost: PropTypes.object,
+  isPackage: PropTypes.bool,
+  orderFormat: PropTypes.string.isRequired,
 };
 
 CostView.defaultProps = {
   cost: {},
+  isPackage: false,
 };
 
 export default CostView;

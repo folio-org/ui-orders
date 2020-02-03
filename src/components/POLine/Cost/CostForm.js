@@ -26,9 +26,11 @@ import parseNumber from '../../Utils/parseNumber';
 import FieldCurrency from './FieldCurrency';
 import {
   DISCOUNT_TYPE,
+  ERESOURCE,
   ERESOURCES,
-  PHRESOURCES,
   OTHER,
+  PE_MIX,
+  PHRESOURCES,
 } from '../const';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
 
@@ -116,25 +118,29 @@ class CostForm extends Component {
     const poLineEstimatedPrice = calculateEstimatedPrice(formValues, stripes);
     const currency = get(formValues, 'cost.currency');
     const isPackage = get(formValues, 'isPackage');
-    const quantityLabel = isPackage ? 'quantity' : 'quantityPhysical';
+    const isElectornicFieldsVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;
+    const isPhysicalFieldsVisible = isPackage ? orderFormat !== ERESOURCE : true;
+    const isPackageLabel = isPackage && orderFormat !== PE_MIX;
 
     return (
       <Row>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.cost.listPrice" />}
-            name="cost.listUnitPrice"
-            parse={parseNumberFieldValue}
-            type="number"
-            disabled={isPostPendingOrder}
-            {...validatePhresourcesPrices}
-          />
-        </Col>
+        {isPhysicalFieldsVisible && (
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.cost.listPrice" />}
+              name="cost.listUnitPrice"
+              parse={parseNumberFieldValue}
+              type="number"
+              disabled={isPostPendingOrder}
+              {...validatePhresourcesPrices}
+            />
+          </Col>
+        )}
         <Col
           xs={6}
           md={3}
@@ -145,21 +151,23 @@ class CostForm extends Component {
             required={required}
           />
         </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id={`ui-orders.cost.${quantityLabel}`} />}
-            name="cost.quantityPhysical"
-            type="number"
-            parse={parseNumber}
-            disabled={isPostPendingOrder}
-            {...validatePhresourcesQuantities}
-          />
-        </Col>
+        {isPhysicalFieldsVisible && (
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
+              name="cost.quantityPhysical"
+              type="number"
+              parse={parseNumber}
+              disabled={isPostPendingOrder}
+              {...validatePhresourcesQuantities}
+            />
+          </Col>
+        )}
         <Col
           xs={6}
           md={3}
@@ -175,7 +183,7 @@ class CostForm extends Component {
             disabled={isPostPendingOrder}
           />
         </Col>
-        {!isPackage && (
+        {isElectornicFieldsVisible && (
           <Col
             xs={6}
             md={3}
@@ -183,7 +191,7 @@ class CostForm extends Component {
             <Field
               component={TextField}
               fullWidth
-              label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}
+              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
               name="cost.listUnitPriceElectronic"
               parse={parseNumberFieldValue}
               type="number"
@@ -211,7 +219,7 @@ class CostForm extends Component {
             disabled={isPostPendingOrder}
           />
         </Col>
-        {!isPackage && (
+        {isElectornicFieldsVisible && (
           <Col
             xs={6}
             md={3}
@@ -219,7 +227,7 @@ class CostForm extends Component {
             <Field
               component={TextField}
               fullWidth
-              label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
+              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityElectronic'}`} />}
               name="cost.quantityElectronic"
               type="number"
               parse={parseNumber}

@@ -14,6 +14,7 @@
 * [UIOR-402](https://issues.folio.org/browse/UIOR-402) Display the Date received checked-in pieces
 
 ### Bug fixes
+* [UIOR-503](https://issues.folio.org/browse/UIOR-503) Can not open package order with P/E Mix format
 * [UIOR-501](https://issues.folio.org/browse/UIOR-501) Add "Package" checkbox to POL Details pane
 * [UIOR-502](https://issues.folio.org/browse/UIOR-502) Plus action appears when POL isPackage = true
 
