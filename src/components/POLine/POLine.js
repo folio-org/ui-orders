@@ -78,7 +78,6 @@ class POLine extends Component {
     const line = this.getLine();
     const materialTypes = get(parentResources, ['materialTypes', 'records'], []);
     const locations = get(parentResources, 'locations.records', []);
-    const vendors = get(parentResources, 'vendors.records', []);
     const funds = get(parentResources, 'fund.records', []);
     const poURL = this.props.poURL;
 
@@ -91,7 +90,6 @@ class POLine extends Component {
           order={order}
           materialTypes={materialTypes}
           locations={locations}
-          vendors={vendors}
           poURL={poURL}
           funds={funds}
           queryMutator={parentMutator.query}

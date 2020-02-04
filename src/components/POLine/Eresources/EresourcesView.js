@@ -12,24 +12,26 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { FolioFormattedDate } from '@folio/stripes-acq-components';
+import {
+  FolioFormattedDate,
+  OrganizationValue,
+} from '@folio/stripes-acq-components';
 
-const EresourcesView = ({ line: { eresource }, order, vendors, materialTypes }) => {
+const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
   const expectedActivation = get(eresource, 'expectedActivation');
   const activationDue = get(eresource, 'activationDue');
   const created = get(order, 'metadata.createdDate', '');
   const activationDueDate = activationDue && moment.utc(created).add(activationDue, 'days').format();
   const accessProviderId = get(eresource, 'accessProvider');
-  const accessProvider = vendors.find((v => v.id === accessProviderId));
   const materialTypeId = get(eresource, 'materialType');
   const materialType = materialTypes.find((type => materialTypeId === type.id));
 
   return (
     <Row start="xs">
       <Col xs={3}>
-        <KeyValue
+        <OrganizationValue
+          id={accessProviderId}
           label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
-          value={get(accessProvider, 'name', '')}
         />
       </Col>
       <Col xs={3}>
@@ -80,10 +82,6 @@ EresourcesView.propTypes = {
   }),
   materialTypes: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object,
-  vendors: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  })).isRequired,
 };
 
 EresourcesView.defaultProps = {

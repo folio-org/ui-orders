@@ -14,6 +14,7 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import {
   AcqUnitsView,
   FolioFormattedTime,
+  OrganizationValue,
 } from '@folio/stripes-acq-components';
 
 import UserValue from './UserValue';
@@ -49,9 +50,9 @@ class PODetailsView extends Component {
             xs={6}
             lg={3}
           >
-            <KeyValue
+            <OrganizationValue
+              id={order.vendor}
               label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
-              value={get(order, 'vendorName')}
             />
           </Col>
           <Col

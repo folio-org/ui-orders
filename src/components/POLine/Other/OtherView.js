@@ -8,20 +8,22 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { FolioFormattedDate } from '@folio/stripes-acq-components';
+import {
+  FolioFormattedDate,
+  OrganizationValue,
+} from '@folio/stripes-acq-components';
 
-const OtherView = ({ materialTypes, physical, vendors }) => {
+const OtherView = ({ materialTypes, physical }) => {
   const materialSupplierId = get(physical, 'materialSupplier');
-  const materialSupplier = vendors.find(v => v.id === materialSupplierId);
   const materialTypeId = get(physical, 'materialType');
   const materialType = materialTypes.find(type => materialTypeId === type.id);
 
   return (
     <Row>
       <Col xs={6}>
-        <KeyValue
+        <OrganizationValue
+          id={materialSupplierId}
           label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-          value={get(materialSupplier, 'name', '')}
         />
       </Col>
       <Col xs={6}>
@@ -55,10 +57,6 @@ const OtherView = ({ materialTypes, physical, vendors }) => {
 OtherView.propTypes = {
   materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   physical: PropTypes.object,
-  vendors: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  })).isRequired,
 };
 
 OtherView.defaultProps = {

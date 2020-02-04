@@ -86,7 +86,6 @@ const OrderLineDetails = ({
 
   const locations = get(parentResources, 'locations.records', []);
   const materialTypes = get(parentResources, 'materialTypes.records', []);
-  const vendors = get(parentResources, 'vendors.records', []);
   const funds = get(parentResources, 'funds.records', []);
 
   const isLoading = !(order.id && line.id);
@@ -103,7 +102,6 @@ const OrderLineDetails = ({
         order={order}
         locations={locations}
         materialTypes={materialTypes}
-        vendors={vendors}
         funds={funds}
         goToOrderDetails={goToOrderDetails}
         queryMutator={parentMutator.query}

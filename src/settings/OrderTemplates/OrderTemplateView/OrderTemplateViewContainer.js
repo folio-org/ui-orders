@@ -15,7 +15,6 @@ import {
   LOCATIONS,
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
-  VENDORS,
 } from '../../../components/Utils/resources';
 import OrderTemplateView from './OrderTemplateView';
 
@@ -25,7 +24,6 @@ class OrderTemplateViewContainer extends Component {
     locations: LOCATIONS,
     materialTypes: MATERIAL_TYPES,
     orderTemplate: ORDER_TEMPLATE,
-    vendors: VENDORS,
   });
 
   static propTypes = {
@@ -64,7 +62,6 @@ class OrderTemplateViewContainer extends Component {
     const funds = get(resources, 'funds.records', []);
     const locations = get(resources, 'locations.records', []);
     const materialTypes = get(resources, 'materialTypes.records', []);
-    const vendors = get(resources, 'vendors.records', []);
 
     return (
       <Fragment>
@@ -77,7 +74,6 @@ class OrderTemplateViewContainer extends Component {
           onDelete={this.onDeleteOrderTemplate}
           rootPath={rootPath}
           orderTemplate={orderTemplate}
-          vendors={vendors}
         />
         <Callout ref={this.callout} />
       </Fragment>

@@ -388,14 +388,9 @@ class PO extends Component {
       );
     }
 
-    const vendors = get(parentResources, 'vendors.records', []);
-    const vendor = vendors.find(d => d.id === order.vendor);
-
     const orderType = get(order, 'orderType');
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const funds = get(parentResources, 'fund.records', []);
-
-    order.vendorName = get(vendor, 'name');
 
     const { updateOrderError } = this.state;
 

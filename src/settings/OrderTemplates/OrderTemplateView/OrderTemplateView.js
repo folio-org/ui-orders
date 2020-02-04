@@ -52,7 +52,6 @@ class OrderTemplateView extends Component {
     addresses: PropTypes.arrayOf(PropTypes.object),
     locations: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object),
-    vendors: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
@@ -60,7 +59,6 @@ class OrderTemplateView extends Component {
     locations: [],
     materialTypes: [],
     orderTemplate: {},
-    vendors: [],
   }
 
   state = {
@@ -150,7 +148,6 @@ class OrderTemplateView extends Component {
       addresses,
       locations,
       materialTypes,
-      vendors,
     } = this.props;
     const { sections, showConfirmDelete } = this.state;
     const title = get(orderTemplate, 'templateName', '');
@@ -159,12 +156,9 @@ class OrderTemplateView extends Component {
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const showOther = orderFormat === OTHER;
     const orderType = get(orderTemplate, 'orderType');
-    const vendor = vendors.find(d => d.id === orderTemplate.vendor);
 
     const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(orderTemplate, 'fundDistribution');
-
-    orderTemplate.vendorName = get(vendor, 'name');
 
     return (
       <Layer
@@ -290,7 +284,6 @@ class OrderTemplateView extends Component {
                     <PhysicalView
                       materialTypes={materialTypes}
                       physical={orderTemplate.physical}
-                      vendors={vendors}
                     />
                   </Accordion>
                 )}
@@ -303,7 +296,6 @@ class OrderTemplateView extends Component {
                     <EresourcesView
                       line={orderTemplate}
                       materialTypes={materialTypes}
-                      vendors={vendors}
                     />
                   </Accordion>
                 )}
@@ -316,7 +308,6 @@ class OrderTemplateView extends Component {
                     <OtherView
                       materialTypes={materialTypes}
                       physical={orderTemplate.physical}
-                      vendors={vendors}
                     />
                   </Accordion>
                 )}
