@@ -7,6 +7,7 @@ import {
   Col,
   KeyValue,
 } from '@folio/stripes/components';
+import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
 import { FieldIsApproved } from '../../../common/POFields';
 import { isWorkflowStatusIsPending } from '../util';
@@ -21,10 +22,9 @@ const SummaryForm = ({ initialValues: order }) => (
       />
     </Col>
     <Col xs={6} md={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}
-        value={order.totalEstimatedPrice}
-      />
+      <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}>
+        <AmountWithCurrencyField amount={order.totalEstimatedPrice} />
+      </KeyValue>
     </Col>
     <Col xs={6} md={3}>
       <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />

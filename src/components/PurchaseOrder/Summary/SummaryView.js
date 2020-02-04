@@ -10,9 +10,9 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
 import { WORKFLOW_STATUS } from '../../../common/constants';
-// import css from './SummaryView.css';
 
 const SummaryView = ({ order }) => {
   const workflowStatus = get(order, 'workflowStatus');
@@ -44,10 +44,9 @@ const SummaryView = ({ order }) => {
           xs={6}
           lg={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}
-            value={get(order, 'totalEstimatedPrice')}
-          />
+          <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}>
+            <AmountWithCurrencyField amount={order.totalEstimatedPrice} />
+          </KeyValue>
         </Col>
         <Col
           data-test-workflow-status
