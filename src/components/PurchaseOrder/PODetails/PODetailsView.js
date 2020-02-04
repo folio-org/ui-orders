@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -39,7 +39,7 @@ class PODetailsView extends Component {
     const metadata = get(order, 'metadata');
 
     return (
-      <Fragment>
+      <>
         <Row>
           <Col xs={12}>
             {metadata && <ViewMetaData metadata={metadata} />}
@@ -163,7 +163,7 @@ class PODetailsView extends Component {
             ))}
           </Col>
         </Row>
-      </Fragment>
+      </>
     );
   }
 }
