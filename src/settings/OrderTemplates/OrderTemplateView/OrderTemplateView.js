@@ -253,7 +253,11 @@ class OrderTemplateView extends Component {
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS}
                 >
-                  <CostView cost={orderTemplate.cost} />
+                  <CostView
+                    cost={orderTemplate.cost}
+                    isPackage={orderTemplate.isPackage}
+                    orderFormat={orderFormat}
+                  />
                 </Accordion>
 
                 <Accordion

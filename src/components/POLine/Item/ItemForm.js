@@ -234,7 +234,7 @@ class ItemForm extends Component {
       identifierTypes,
       required,
     } = this.props;
-    const isSelectInstanceVisible = !get(formValues, 'isPackage') || isPostPendingOrder;
+    const isSelectInstanceVisible = !(get(formValues, 'isPackage') || isPostPendingOrder);
 
     return (
       <Fragment>
