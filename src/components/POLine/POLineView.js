@@ -200,7 +200,6 @@ class POLineView extends Component {
       materialTypes,
       locations,
       vendors,
-      editable,
       deleteLine,
       tagsToggle,
     } = this.props;
@@ -217,18 +216,6 @@ class POLineView extends Component {
       </PaneMenu>);
     const lastMenu = (
       <PaneMenu>
-        <IfPermission perm="orders.po-lines.item.put">
-          {
-            editable && (
-              <IconButton
-                icon="edit"
-                id="clickable-edit-po-line"
-                onClick={this.onEditPOLine}
-                title="Edit PO Line"
-              />
-            )
-          }
-        </IfPermission>
         <TagsBadge
           tagsToggle={tagsToggle}
           tagsQuantity={tags.length}
@@ -252,7 +239,7 @@ class POLineView extends Component {
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
     const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
     const estimatedPrice = get(line, ['cost', 'poLineEstimatedPrice'], 0);
-    const fundDistributions = get(line, 'fundDistribution', []);
+    const fundDistributions = get(line, 'fundDistribution');
     const currency = get(line, 'cost.currency');
     const metadata = get(line, 'metadata');
 

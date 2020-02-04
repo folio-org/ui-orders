@@ -62,7 +62,7 @@ describe('Order Details Page', function () {
 
   describe('clicking on edit', () => {
     beforeEach(async () => {
-      await orderDetailsPage.editOrderButton.click();
+      await orderDetailsPage.actionsMenu.edit.click();
     });
 
     it('should redirect to order edit page', () => {

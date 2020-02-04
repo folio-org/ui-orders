@@ -319,13 +319,11 @@ class PO extends Component {
   render() {
     const {
       connectedSource,
-      editLink,
       history,
       location,
       match,
       onClose,
       onCloseEdit,
-      onEdit,
       parentMutator,
       parentResources,
       stripes,
@@ -351,20 +349,6 @@ class PO extends Component {
 
     const lastMenu = (
       <PaneMenu>
-        <IfPermission perm="orders.item.put">
-          <FormattedMessage id="ui-orders.paneMenu.editOrder">
-            {ariaLabel => (
-              <IconButton
-                ariaLabel={ariaLabel}
-                data-test-order-edit
-                icon="edit"
-                style={{ visibility: !order ? 'hidden' : 'visible' }}
-                onClick={onEdit}
-                href={editLink}
-              />
-            )}
-          </FormattedMessage>
-        </IfPermission>
         {tagsEnabled && (
           <FormattedMessage id="ui-orders.showTags">
             {(title) => (
