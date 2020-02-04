@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-486](https://issues.folio.org/browse/UIOR-486) Display purchase order "total estimated price" in system currency
 * [UIOR-472](https://issues.folio.org/browse/UIOR-472) Display encumbered value on POL for orders made in currency other than system currency
 * [UIOR-494](https://issues.folio.org/browse/UIOR-494) Update settings permission label
 * [UIOR-499](https://issues.folio.org/browse/UIOR-499) Security update eslint to >= 6.2.1 or eslint-util >= 1.4.1

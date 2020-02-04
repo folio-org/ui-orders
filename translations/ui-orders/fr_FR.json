@@ -726,7 +726,7 @@
     "settings.poNumber.modifier.description": "Description",
     "settings.poNumber.prefix": "Préfixe",
     "settings.poNumber.suffix": "Suffixe",
-    "errors.openOrder": "The <b>Purchase order - {orderNumber}</b> has not been <b>opened</b>",
+    "errors.openOrder": "Le <b> Bon de commande - {orderNumber} </b> n'a pas été <b> ouvert </b>",
     "order.open.success": "La <b> commande - {orderNumber} </b> a été <b> ouverte </b> avec succès",
     "line.update.success": "La ligne de commande {lineNumber} été mise à jour avec succès",
     "line.create.success": "La ligne de commande a été créée avec succès",
@@ -817,5 +817,5 @@
     "lineListing.titleOrPackage": "Titre ou nom du bouquet",
     "poLine.receiveItems": "Ajouter manuellement des pièces pour la réception",
     "poLine.receiveItems.info": "Pieces will need to be created manually for each unit of quantity.",
-    "orderLineList.titleOrPackage": "Title or package name"
+    "orderLineList.titleOrPackage": "Titre ou nom du bouquet"
 }
