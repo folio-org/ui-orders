@@ -7,6 +7,7 @@ import {
 } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
+import { stripesShape } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -59,9 +60,7 @@ class POLineForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
-    stripes: PropTypes.shape({
-      store: PropTypes.object.isRequired,
-    }).isRequired,
+    stripes: stripesShape.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -266,7 +265,7 @@ class POLineForm extends Component {
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const locations = getLocationsForSelect(parentResources);
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
-    const estimatedPrice = calculateEstimatedPrice(formValues, stripes);
+    const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const {
       accounts,
       vendorCurrencies,

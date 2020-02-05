@@ -115,7 +115,7 @@ class CostForm extends Component {
 
     const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
     const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
-    const poLineEstimatedPrice = calculateEstimatedPrice(formValues, stripes);
+    const poLineEstimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const currency = get(formValues, 'cost.currency');
     const isPackage = get(formValues, 'isPackage');
     const isElectornicFieldsVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;

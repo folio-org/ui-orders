@@ -7,7 +7,7 @@ import calculateEstimatedPrice from './calculateEstimatedPrice';
 function validate(values, { stripes }) {
   const errors = {};
   const currency = get(values, 'cost.currency') || stripes.currency;
-  const totalAmount = calculateEstimatedPrice(values, stripes);
+  const totalAmount = calculateEstimatedPrice(values, stripes.currency);
   const fundDistributionErrors = validateFundDistribution(values.fundDistribution, totalAmount, currency);
 
   if (fundDistributionErrors) errors.fundDistribution = fundDistributionErrors;

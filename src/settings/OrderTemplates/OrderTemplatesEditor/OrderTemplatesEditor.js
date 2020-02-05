@@ -168,7 +168,7 @@ class OrderTemplatesEditor extends Component {
     } = this.props;
     const { sections } = this.state;
     const orderFormat = formValues.orderFormat;
-    const estimatedPrice = calculateEstimatedPrice(formValues, stripes);
+    const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const fundDistribution = formValues.fundDistribution || [];
     const currencies = get(find(vendors, { id: formValues.vendor }), 'vendorCurrencies', []);
     const vendorOptions = getVendorOptions(vendors);
