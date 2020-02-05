@@ -6,5 +6,8 @@ import { INSTANCE_STATUSES_API } from '../constants';
 export const INSTANCE_STATUSES = {
   ...baseManifest,
   path: INSTANCE_STATUSES_API,
+  params: {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'instanceStatuses',
 };

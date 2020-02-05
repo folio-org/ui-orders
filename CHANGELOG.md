@@ -18,6 +18,7 @@
 ### Bug fixes
 * [UIOR-333](https://issues.folio.org/browse/UIOR-333) Error not displayed, if close order fails
 * [UIOR-303](https://issues.folio.org/browse/UIOR-303) Fix the ghost text placeholders for PO and POL searches
+* [UIOR-504](https://issues.folio.org/browse/UIOR-504) Fix the alphabetical order of 3 order setting dropdowns
 * [UIOR-503](https://issues.folio.org/browse/UIOR-503) Can not open package order with P/E Mix format
 * [UIOR-501](https://issues.folio.org/browse/UIOR-501) Add "Package" checkbox to POL Details pane
 * [UIOR-502](https://issues.folio.org/browse/UIOR-502) Plus action appears when POL isPackage = true

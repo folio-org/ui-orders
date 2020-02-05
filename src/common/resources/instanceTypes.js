@@ -6,5 +6,8 @@ import { INSTANCE_TYPES_API } from '../constants';
 export const INSTANCE_TYPES = {
   ...baseManifest,
   path: INSTANCE_TYPES_API,
+  params: {
+    query: 'cql.allRecords=1 sortby name',
+  },
   records: 'instanceTypes',
 };
