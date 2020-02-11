@@ -15,7 +15,6 @@ import {
   CONFIG_OPEN_ORDER,
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';
-import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
 import calculateEstimatedPrice from '../../../src/components/POLine/calculateEstimatedPrice';
 import {
   PRODUCT_ID_TYPE,
@@ -32,7 +31,7 @@ const validationYearMessage = 'Field should be 4-digit year';
 const LIST_UNIT_PRICE = 1.1;
 const QUANTITY_PHYSICAL = 2;
 const cost = {
-  currency: DEFAULT_CURRENCY,
+  currency: 'USD',
   listUnitPrice: LIST_UNIT_PRICE,
   quantityPhysical: QUANTITY_PHYSICAL,
 };

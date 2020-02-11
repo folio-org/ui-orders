@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import {
-  find,
-  get,
-} from 'lodash';
 
 import {
   Pane,
@@ -170,7 +166,6 @@ class OrderTemplatesEditor extends Component {
     const orderFormat = formValues.orderFormat;
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const fundDistribution = formValues.fundDistribution || [];
-    const currencies = get(find(vendors, { id: formValues.vendor }), 'vendorCurrencies', []);
     const vendorOptions = getVendorOptions(vendors);
 
     return (
@@ -305,7 +300,6 @@ class OrderTemplatesEditor extends Component {
                   >
                     <CostForm
                       change={change}
-                      currencies={currencies}
                       dispatch={dispatch}
                       formValues={formValues}
                       order={ORDER}

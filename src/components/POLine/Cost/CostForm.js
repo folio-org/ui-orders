@@ -64,7 +64,6 @@ class CostForm extends Component {
     formValues: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
-    currencies: PropTypes.arrayOf(PropTypes.string),
     order: PropTypes.object.isRequired,
     required: PropTypes.bool,
     stripes: stripesShape.isRequired,
@@ -94,7 +93,7 @@ class CostForm extends Component {
   };
 
   render() {
-    const { currencies, order, required, formValues, stripes } = this.props;
+    const { order, required, formValues, stripes } = this.props;
     const orderFormat = formValues.orderFormat;
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
@@ -146,7 +145,6 @@ class CostForm extends Component {
           md={3}
         >
           <FieldCurrency
-            currencies={currencies}
             disabled={isPostPendingOrder}
             required={required}
           />

@@ -266,10 +266,7 @@ class POLineForm extends Component {
     const locations = getLocationsForSelect(parentResources);
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
-    const {
-      accounts,
-      vendorCurrencies,
-    } = vendor;
+    const { accounts } = vendor;
     const fundDistribution = get(formValues, 'fundDistribution');
     const vendorRefNumberType = get(formValues, 'vendorDetail.refNumberType');
     const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
@@ -355,7 +352,6 @@ class POLineForm extends Component {
                         change={change}
                         dispatch={dispatch}
                         formValues={formValues}
-                        currencies={vendorCurrencies}
                         order={order}
                       />
                     </Accordion>
