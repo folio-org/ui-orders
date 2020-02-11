@@ -56,8 +56,6 @@ import {
 } from './util';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 
-import css from './PO.css';
-
 class PO extends Component {
   static manifest = Object.freeze({
     order: ORDER,
@@ -131,38 +129,92 @@ class PO extends Component {
       });
   }
 
-  actionMenu = ({ onToggle }) => (
-    <MenuSection id="order-details-actions">
-      <IfPermission perm="orders.item.delete">
-        <Button
-          buttonStyle="dropdownItem"
-          data-test-button-delete-order
-          onClick={() => {
-            onToggle();
-            this.mountDeleteOrderConfirm();
-          }}
-        >
-          <Icon size="small" icon="trash">
-            <FormattedMessage id="ui-orders.button.delete" />
-          </Icon>
-        </Button>
-      </IfPermission>
-      <IfPermission perm="orders.item.put">
-        <Button
-          buttonStyle="dropdownItem"
-          data-test-button-edit-order
-          onClick={() => {
-            onToggle();
-            this.props.onEdit();
-          }}
-        >
-          <Icon size="small" icon="edit">
-            <FormattedMessage id="ui-orders.button.edit" />
-          </Icon>
-        </Button>
-      </IfPermission>
-    </MenuSection>
-  );
+  actionMenu = ({ onToggle }) => {
+    const { parentResources } = this.props;
+    const { isApprovalRequired } = getConfigSetting(get(parentResources, 'approvalsSetting.records', {}));
+    const order = this.getOrder();
+    const isApproved = get(order, 'approved');
+    const workflowStatus = get(order, 'workflowStatus');
+    const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
+    const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
+    const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
+    const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
+
+    return (
+      <MenuSection id="order-details-actions">
+        <IfPermission perm="orders.item.delete">
+          <Button
+            buttonStyle="dropdownItem"
+            data-test-button-delete-order
+            onClick={() => {
+              onToggle();
+              this.mountDeleteOrderConfirm();
+            }}
+          >
+            <Icon size="small" icon="trash">
+              <FormattedMessage id="ui-orders.button.delete" />
+            </Icon>
+          </Button>
+        </IfPermission>
+        <IfPermission perm="orders.item.put">
+          <Button
+            buttonStyle="dropdownItem"
+            data-test-button-edit-order
+            onClick={() => {
+              onToggle();
+              this.props.onEdit();
+            }}
+          >
+            <Icon size="small" icon="edit">
+              <FormattedMessage id="ui-orders.button.edit" />
+            </Icon>
+          </Button>
+        </IfPermission>
+        <IfPermission perm="orders.item.put">
+          <IfPermission perm="orders.item.approve">
+            {isApproveOrderButtonVisible && (
+              <Button
+                buttonStyle="dropdownItem"
+                data-test-approve-order-button
+                onClick={this.approveOrder}
+              >
+                <FormattedMessage id="ui-orders.paneBlock.approveBtn" />
+              </Button>
+            )}
+          </IfPermission>
+          {isCloseOrderButtonVisible && (
+            <Button
+              buttonStyle="dropdownItem"
+              data-test-close-order-button
+              onClick={this.mountCloseOrderModal}
+            >
+              <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
+            </Button>
+          )}
+          {isOpenOrderButtonVisible && (
+            <Button
+              buttonStyle="dropdownItem"
+              data-test-open-order-button
+              onClick={this.toggleOpenOrderModal}
+            >
+              <FormattedMessage id="ui-orders.paneBlock.openBtn" />
+            </Button>
+          )}
+        </IfPermission>
+        <IfPermission perm="orders.receiving.collection.post">
+          {isReceiveButtonVisible && (
+            <Button
+              buttonStyle="dropdownItem"
+              data-test-receiving-button
+              onClick={this.goToReceiving}
+            >
+              <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+            </Button>
+          )}
+        </IfPermission>
+      </MenuSection>
+    );
+  };
 
   onToggleSection = ({ id }) => {
     this.setState(({ sections }) => {
@@ -335,16 +387,10 @@ class PO extends Component {
       tagsToggle,
     } = this.props;
     const order = this.getOrder();
-    const { isApprovalRequired } = getConfigSetting(get(parentResources, 'approvalsSetting.records', {}));
-    const isApproved = get(order, 'approved');
     const closingReasons = get(parentResources, 'closingReasons.records', []);
     const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
-    const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
-    const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
-    const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
-    const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
     const hasError = get(resources, ['order', 'failed']);
     const tags = get(order, 'tags.tagList', []);
@@ -407,76 +453,21 @@ class PO extends Component {
         onClose={onClose}
       >
         <Row end="xs">
-          <IfPermission perm="orders.receiving.collection.post">
-            {isReceiveButtonVisible && (
-              <div className={css.buttonWrapper}>
-                <Button
-                  buttonStyle="primary"
-                  className={css.button}
-                  data-test-receiving-button
-                  onClick={this.goToReceiving}
-                >
-                  <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
-                </Button>
-              </div>
-            )}
-          </IfPermission>
-
-          <IfPermission perm="orders.item.put">
-            <IfPermission perm="orders.item.approve">
-              {isApproveOrderButtonVisible && (
-                <div className={css.buttonWrapper}>
-                  <Button
-                    buttonStyle="default"
-                    className={css.button}
-                    data-test-approve-order-button
-                    onClick={this.approveOrder}
-                  >
-                    <FormattedMessage id="ui-orders.paneBlock.approveBtn" />
-                  </Button>
-                </div>
-              )}
-            </IfPermission>
-            {isCloseOrderButtonVisible && (
-              <div className={css.buttonWrapper}>
-                <Button
-                  buttonStyle="primary"
-                  className={css.button}
-                  data-test-close-order-button
-                  onClick={this.mountCloseOrderModal}
-                >
-                  <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
-                </Button>
-              </div>
-            )}
-            {isOpenOrderButtonVisible && (
-              <div className={css.buttonWrapper}>
-                <Button
-                  buttonStyle="primary"
-                  className={css.button}
-                  data-test-open-order-button
-                  onClick={this.toggleOpenOrderModal}
-                >
-                  <FormattedMessage id="ui-orders.paneBlock.openBtn" />
-                </Button>
-              </div>
-            )}
-            {this.state.isCloseOrderModalOpened && (
-              <CloseOrderModal
-                cancel={this.unmountCloseOrderModal}
-                closeOrder={this.closeOrder}
-                closingReasons={closingReasons}
-                orderNumber={orderNumber}
-              />
-            )}
-            {this.state.isOpenOrderModalOpened && (
-              <OpenOrderConfirmationModal
-                orderNumber={orderNumber}
-                submit={this.openOrder}
-                cancel={this.toggleOpenOrderModal}
-              />
-            )}
-          </IfPermission>
+          {this.state.isCloseOrderModalOpened && (
+            <CloseOrderModal
+              cancel={this.unmountCloseOrderModal}
+              closeOrder={this.closeOrder}
+              closingReasons={closingReasons}
+              orderNumber={orderNumber}
+            />
+          )}
+          {this.state.isOpenOrderModalOpened && (
+            <OpenOrderConfirmationModal
+              orderNumber={orderNumber}
+              submit={this.openOrder}
+              cancel={this.toggleOpenOrderModal}
+            />
+          )}
 
           <div>
             <ExpandAllButton

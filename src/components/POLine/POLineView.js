@@ -130,7 +130,10 @@ class POLineView extends Component {
   unmountDeleteLineConfirm = () => this.setState({ showConfirmDelete: false });
 
   getActionMenu = ({ onToggle }) => {
-    const { goToOrderDetails, editable } = this.props;
+    const { goToOrderDetails, editable, line, order } = this.props;
+
+    const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
+    const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
 
     // TODO: unify actions after Order Lines list is implemented fully
     return (
@@ -179,6 +182,17 @@ class POLineView extends Component {
             </Icon>
           </Button>
         )}
+        <IfPermission perm="ui-orders.receiving">
+          {(isReceiveButtonVisible || isCheckInButtonVisible) && (
+            <Button
+              buttonStyle="dropdownItem"
+              data-test-line-receive-button
+              to={`/receiving?qindex=poLine.poLineNumber&query=${line.poLineNumber}`}
+            >
+              <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+            </Button>
+          )}
+        </IfPermission>
       </MenuSection>
     );
   };
@@ -233,8 +247,6 @@ class POLineView extends Component {
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const showOther = orderFormat === OTHER;
-    const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
-    const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
     const estimatedPrice = get(line, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(line, 'fundDistribution');
     const currency = get(line, 'cost.currency');
@@ -251,23 +263,6 @@ class POLineView extends Component {
         lastMenu={lastMenu}
         paneTitle="PO Line Details"
       >
-        <Row end="xs">
-          <Col xs>
-            <IfPermission perm="ui-orders.receiving">
-              {(isReceiveButtonVisible || isCheckInButtonVisible) && (
-                <div>
-                  <Button
-                    buttonStyle="primary"
-                    data-test-line-receive-button
-                    to={`/receiving?qindex=poLine.poLineNumber&query=${poLineNumber}`}
-                  >
-                    <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
-                  </Button>
-                </div>
-              )}
-            </IfPermission>
-          </Col>
-        </Row>
         <AccordionSet
           accordionStatus={this.state.sections}
           onToggle={this.onToggleSection}
