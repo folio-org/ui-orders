@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-457](https://issues.folio.org/browse/UIOR-457) Ability to "Reopen" and once again "Close" purchase orders
 * [UIOR-509](https://issues.folio.org/browse/UIOR-509) Move record action buttons into "Action" button UX pattern
 * [UIOR-505](https://issues.folio.org/browse/UIOR-505) Use system default currency as default POL currency (Remove org limit)
 * [UIOR-358](https://issues.folio.org/browse/UIOR-358) Vendor doesn't display in purchase order even though assigned

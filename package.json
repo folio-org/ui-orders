@@ -197,6 +197,15 @@
         ]
       },
       {
+        "permissionName": "ui-orders.order.reopen",
+        "displayName": "Orders: Reopen purchase orders",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.item.put"
+        ]
+      },
+      {
         "permissionName": "settings.orders.enabled",
         "displayName": "Settings (Orders): Can view and edit settings",
         "visible": true,

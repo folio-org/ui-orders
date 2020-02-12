@@ -19,12 +19,10 @@ import {
   ExpandAllButton,
   Icon,
   IconButton,
-  MenuSection,
   Pane,
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
-import { getConfigSetting } from '@folio/stripes-acq-components';
 
 import {
   getAddresses,
@@ -50,11 +48,8 @@ import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
-import {
-  isOpenAvailableForOrder,
-  isReceiveAvailableForOrder,
-} from './util';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
+import { getPOActionMenu } from './getPOActionMenu';
 
 class PO extends Component {
   static manifest = Object.freeze({
@@ -129,93 +124,6 @@ class PO extends Component {
       });
   }
 
-  actionMenu = ({ onToggle }) => {
-    const { parentResources } = this.props;
-    const { isApprovalRequired } = getConfigSetting(get(parentResources, 'approvalsSetting.records', {}));
-    const order = this.getOrder();
-    const isApproved = get(order, 'approved');
-    const workflowStatus = get(order, 'workflowStatus');
-    const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
-    const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
-    const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
-    const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
-
-    return (
-      <MenuSection id="order-details-actions">
-        <IfPermission perm="orders.item.delete">
-          <Button
-            buttonStyle="dropdownItem"
-            data-test-button-delete-order
-            onClick={() => {
-              onToggle();
-              this.mountDeleteOrderConfirm();
-            }}
-          >
-            <Icon size="small" icon="trash">
-              <FormattedMessage id="ui-orders.button.delete" />
-            </Icon>
-          </Button>
-        </IfPermission>
-        <IfPermission perm="orders.item.put">
-          <Button
-            buttonStyle="dropdownItem"
-            data-test-button-edit-order
-            onClick={() => {
-              onToggle();
-              this.props.onEdit();
-            }}
-          >
-            <Icon size="small" icon="edit">
-              <FormattedMessage id="ui-orders.button.edit" />
-            </Icon>
-          </Button>
-        </IfPermission>
-        <IfPermission perm="orders.item.put">
-          <IfPermission perm="orders.item.approve">
-            {isApproveOrderButtonVisible && (
-              <Button
-                buttonStyle="dropdownItem"
-                data-test-approve-order-button
-                onClick={this.approveOrder}
-              >
-                <FormattedMessage id="ui-orders.paneBlock.approveBtn" />
-              </Button>
-            )}
-          </IfPermission>
-          {isCloseOrderButtonVisible && (
-            <Button
-              buttonStyle="dropdownItem"
-              data-test-close-order-button
-              onClick={this.mountCloseOrderModal}
-            >
-              <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
-            </Button>
-          )}
-          {isOpenOrderButtonVisible && (
-            <Button
-              buttonStyle="dropdownItem"
-              data-test-open-order-button
-              onClick={this.toggleOpenOrderModal}
-            >
-              <FormattedMessage id="ui-orders.paneBlock.openBtn" />
-            </Button>
-          )}
-        </IfPermission>
-        <IfPermission perm="orders.receiving.collection.post">
-          {isReceiveButtonVisible && (
-            <Button
-              buttonStyle="dropdownItem"
-              data-test-receiving-button
-              onClick={this.goToReceiving}
-            >
-              <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
-            </Button>
-          )}
-        </IfPermission>
-      </MenuSection>
-    );
-  };
-
   onToggleSection = ({ id }) => {
     this.setState(({ sections }) => {
       const isSectionOpened = sections[id];
@@ -289,6 +197,20 @@ class PO extends Component {
       await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
     } finally {
       this.toggleOpenOrderModal();
+    }
+  };
+
+  reopenOrder = async () => {
+    const { mutator } = this.props;
+    const order = this.getOrder();
+    const openOrderProps = {
+      workflowStatus: WORKFLOW_STATUS.open,
+    };
+
+    try {
+      await updateOrderResource(order, mutator.order, openOrderProps);
+    } catch (e) {
+      await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
     }
   };
 
@@ -378,11 +300,12 @@ class PO extends Component {
       match,
       onClose,
       onCloseEdit,
+      onEdit,
       parentMutator,
       parentResources,
-      stripes,
       resources,
       showToast,
+      stripes,
       tagsEnabled,
       tagsToggle,
     } = this.props;
@@ -439,12 +362,23 @@ class PO extends Component {
     const orderType = get(order, 'orderType');
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const funds = get(parentResources, 'fund.records', []);
+    const approvalsSetting = get(parentResources, 'approvalsSetting.records', {});
 
     const { updateOrderError } = this.state;
 
     return (
       <Pane
-        actionMenu={this.actionMenu}
+        actionMenu={getPOActionMenu({
+          approvalsSetting,
+          clickApprove: this.approveOrder,
+          clickClose: this.mountCloseOrderModal,
+          clickDelete: this.mountDeleteOrderConfirm,
+          clickEdit: onEdit,
+          clickOpen: this.toggleOpenOrderModal,
+          clickReceive: this.goToReceiving,
+          clickReopen: this.reopenOrder,
+          order,
+        })}
         data-test-order-details
         defaultWidth="fill"
         paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}

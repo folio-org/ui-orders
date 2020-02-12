@@ -561,6 +561,7 @@
   "paneBlock.receiveBtn": "Receive",
   "paneBlock.relatedInvoices": "Related invoices",
   "paneBlock.renewals": "Renewal information",
+  "paneBlock.reopenBtn": "Reopen",
   "paneMenu.createPurchaseOrder": "Create purchase order",
   "paneMenu.editOrder": "Edit order",
   "paneMenu.saveOrder": "Save & close",

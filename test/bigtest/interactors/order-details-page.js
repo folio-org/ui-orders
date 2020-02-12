@@ -53,6 +53,7 @@ export default interactor(class OrderDetailsPage {
   openOrderButton = new Button('[data-test-open-order-button]');
   approveOrderButton = new Button('[data-test-approve-order-button]');
   closeOrderButton = new Button('[data-test-close-order-button]');
+  reopenOrderButton = new Button('[data-test-reopen-order-button]');
   renewalsAccordion = isPresent('#renewals');
   billTo = new BillTo();
   shipTo = new ShipTo();
