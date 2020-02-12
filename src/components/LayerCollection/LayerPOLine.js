@@ -156,7 +156,7 @@ class LayerPOLine extends Component {
     const order = this.getOrder();
 
     try {
-      const newOrder = await cloneOrder(order, parentMutator.records, this.state.line);
+      const newOrder = await cloneOrder(order, parentMutator.records, [this.state.line]);
 
       parentMutator.query.update({
         _path: `/orders/view/${newOrder.id}`,

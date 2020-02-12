@@ -21,6 +21,7 @@ import {
 export function getPOActionMenu({
   approvalsSetting,
   clickApprove,
+  clickClone,
   clickClose,
   clickDelete,
   clickEdit,
@@ -38,7 +39,7 @@ export function getPOActionMenu({
   const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
   const isReopenButtonVisible = isWorkflowStatusClosed(order);
 
-  return () => (
+  return ({ onToggle }) => (
     <MenuSection id="order-details-actions">
       <IfPermission perm="orders.item.delete">
         <Button
@@ -55,7 +56,10 @@ export function getPOActionMenu({
         <Button
           buttonStyle="dropdownItem"
           data-test-button-edit-order
-          onClick={clickEdit}
+          onClick={() => {
+            onToggle();
+            clickEdit();
+          }}
         >
           <Icon size="small" icon="edit">
             <FormattedMessage id="ui-orders.button.edit" />
@@ -104,17 +108,27 @@ export function getPOActionMenu({
           </Button>
         )}
       </IfPermission>
-      <IfPermission perm="ui-orders.order.reopen">
-        {isReopenButtonVisible && (
-          <Button
-            buttonStyle="dropdownItem"
-            data-test-reopen-order-button
-            onClick={clickReopen}
-          >
-            <FormattedMessage id="ui-orders.paneBlock.reopenBtn" />
-          </Button>
-        )}
+      <IfPermission perm="orders.item.post">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-clone-order-button
+          onClick={clickClone}
+        >
+          <FormattedMessage id="ui-orders.paneBlock.cloneBtn" />
+        </Button>
       </IfPermission>
+      {isReopenButtonVisible && (
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-reopen-order-button
+          onClick={() => {
+            onToggle();
+            clickReopen();
+          }}
+        >
+          <FormattedMessage id="ui-orders.paneBlock.reopenBtn" />
+        </Button>
+      )}
     </MenuSection>
   );
 }

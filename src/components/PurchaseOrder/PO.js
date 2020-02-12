@@ -98,6 +98,7 @@ class PO extends Component {
       },
       isCloseOrderModalOpened: false,
       isLinesLimitExceededModalOpened: false,
+      isCloneConfirmation: false,
       updateOrderError: null,
       showConfirmDelete: false,
     };
@@ -105,6 +106,10 @@ class PO extends Component {
     this.hasError = false;
     this.callout = React.createRef();
   }
+
+  toggleCloneConfirmation = () => {
+    this.setState(prevState => ({ isCloneConfirmation: !prevState.isCloneConfirmation }));
+  };
 
   deletePO = () => {
     const { parentMutator, showToast } = this.props;
@@ -201,7 +206,7 @@ class PO extends Component {
   };
 
   reopenOrder = async () => {
-    const { mutator } = this.props;
+    const { mutator, showToast } = this.props;
     const order = this.getOrder();
     const openOrderProps = {
       workflowStatus: WORKFLOW_STATUS.open,
@@ -209,8 +214,27 @@ class PO extends Component {
 
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
+      showToast('ui-orders.order.reopen.success', 'success', { orderNumber: order.poNumber });
     } catch (e) {
       await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
+    }
+  };
+
+  cloneOrder = async () => {
+    const { location, history, parentMutator, showToast } = this.props;
+    const order = this.getOrder();
+
+    this.toggleCloneConfirmation();
+    try {
+      const newOrder = await cloneOrder(order, parentMutator.records, order.compositePoLines);
+
+      showToast('ui-orders.order.clone.success', 'success');
+      history.push({
+        pathname: `/orders/view/${newOrder.id}`,
+        search: location.search,
+      });
+    } catch (e) {
+      showToast('ui-orders.order.clone.error', 'error');
     }
   };
 
@@ -218,6 +242,7 @@ class PO extends Component {
     const { resources, parentMutator } = this.props;
     const order = get(resources, ['order', 'records', '0'], {});
 
+    this.unmountLinesLimitExceededModal();
     try {
       const newOrder = await cloneOrder(order, parentMutator.records);
 
@@ -231,8 +256,6 @@ class PO extends Component {
         message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
         type: 'error',
       });
-    } finally {
-      this.unmountLinesLimitExceededModal();
     }
   };
 
@@ -364,13 +387,14 @@ class PO extends Component {
     const funds = get(parentResources, 'fund.records', []);
     const approvalsSetting = get(parentResources, 'approvalsSetting.records', {});
 
-    const { updateOrderError } = this.state;
+    const { isCloneConfirmation, updateOrderError } = this.state;
 
     return (
       <Pane
         actionMenu={getPOActionMenu({
           approvalsSetting,
           clickApprove: this.approveOrder,
+          clickClone: this.toggleCloneConfirmation,
           clickClose: this.mountCloseOrderModal,
           clickDelete: this.mountDeleteOrderConfirm,
           clickEdit: onEdit,
@@ -483,6 +507,17 @@ class PO extends Component {
             message={<FormattedMessage id="ui-orders.order.delete.message" />}
             onCancel={this.unmountDeleteOrderConfirm}
             onConfirm={this.deletePO}
+            open
+          />
+        )}
+        {isCloneConfirmation && (
+          <ConfirmationModal
+            id="order-clone-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.order.clone.confirmLabel" />}
+            heading={<FormattedMessage id="ui-orders.order.clone.heading" />}
+            message={<FormattedMessage id="ui-orders.order.clone.message" />}
+            onCancel={this.toggleCloneConfirmation}
+            onConfirm={this.cloneOrder}
             open
           />
         )}

@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, omit } from 'lodash';
 
 const saveOrder = (order, mutator) => {
   let method = mutator.POST;
@@ -35,18 +35,11 @@ export const createOrderResource = (order, mutator) => {
   return saveOrder(clonedOrder, mutator);
 };
 
-export const cloneOrder = (order, mutator, line) => {
-  const clonedOrder = cloneDeep(order);
+export const cloneOrder = (order, mutator, lines) => {
+  const clonedOrder = omit(order, ['id', 'adjustment', 'metadata', 'poNumber', 'workflowStatus', 'compositePoLines']);
 
-  delete clonedOrder.id;
-  delete clonedOrder.adjustment;
-  delete clonedOrder.poNumber;
-  delete clonedOrder.workflowStatus;
-  if (line) {
-    delete line.purchaseOrderId;
-    clonedOrder.compositePoLines = [line];
-  } else {
-    delete clonedOrder.compositePoLines;
+  if (lines) {
+    clonedOrder.compositePoLines = lines.map(line => omit(line, ['id', 'purchaseOrderId', 'metadata']));
   }
 
   return saveOrder(clonedOrder, mutator);
