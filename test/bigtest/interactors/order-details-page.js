@@ -33,6 +33,7 @@ import { TIMEOUT } from './const';
   static defaultScope = '#order-details-actions';
   delete = new Button('[data-test-button-delete-order]');
   edit = new Button('[data-test-button-edit-order]');
+  clone = new Button('[data-test-clone-order-button]');
 }
 
 @interactor class RelatedInvoicesAccordion {
