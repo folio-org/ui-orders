@@ -8,8 +8,6 @@ import { expect } from 'chai';
 import setupApplication from '../../helpers/setup-application';
 import LineEditPage from '../../interactors/line-edit-page';
 
-const CURRENCIES = ['GBR', 'USD'];
-
 describe("Create POL - Empty vendor's fields", function () {
   setupApplication();
 
@@ -36,7 +34,7 @@ describe("Create POL - Empty vendor's fields", function () {
   });
 
   it('Currency', function () {
-    expect(lineEditPage.currency).to.equal(CURRENCIES[1]);
+    expect(lineEditPage.currency).to.not.equal('');
   });
 
   it('Subscription Interval', function () {
