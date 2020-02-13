@@ -217,7 +217,6 @@ class OrdersList extends Component {
     const { resources } = this.props;
     const { users } = this.state;
     const closingReasons = get(resources, 'closingReasons.records', []);
-    const vendors = get(resources, 'vendors.records', []);
     const acqUnits = get(resources, 'acqUnits.records', []);
 
     return resources.query
@@ -229,7 +228,6 @@ class OrdersList extends Component {
           onChange={onChange}
           queryMutator={this.props.mutator.query}
           users={users}
-          vendors={vendors}
         />
       )
       : null;

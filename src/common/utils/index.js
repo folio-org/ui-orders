@@ -6,7 +6,6 @@ export * from './getFundOptions';
 export * from './getLocationOptions';
 export * from './getMaterialTypesOptions';
 export * from './getUserOptions';
-export * from './getVendorOptions';
 export * from './handleFilterChange';
 export * from './getSettingsList';
 export * from './getAddresses';

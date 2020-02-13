@@ -20,7 +20,7 @@ import {
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 import parseNumber from '../../../../components/Utils/parseNumber';
 
-const POLineEresourcesForm = ({ materialTypes, vendors }) => {
+const POLineEresourcesForm = ({ materialTypes, formValues, change, dispatch }) => {
   return (
     <Row>
       <Col
@@ -28,7 +28,9 @@ const POLineEresourcesForm = ({ materialTypes, vendors }) => {
         data-col-order-template-eresources-access-provider
       >
         <FieldAccessProvider
-          vendors={vendors}
+          accessProviderId={formValues?.eresource?.accessProvider}
+          dispatch={dispatch}
+          change={change}
           required={false}
         />
       </Col>
@@ -101,7 +103,9 @@ const POLineEresourcesForm = ({ materialTypes, vendors }) => {
 
 POLineEresourcesForm.propTypes = {
   materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
+  formValues: PropTypes.object.isRequired,
 };
 
 export default POLineEresourcesForm;

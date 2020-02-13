@@ -7,11 +7,11 @@ import {
 import {
   AcqTagsFilter,
   SourceFilter,
+  PluggableOrganizationFilter,
 } from '@folio/stripes-acq-components';
 
 import LocationFilter from '../common/LocationFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
-import VendorFilter from '../common/VendorFilter';
 import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 import MaterialTypeFilter from '../common/MaterialTypeFilter';
 import OrdersTextFilter from '../common/OrdersTextFilter';
@@ -26,14 +26,13 @@ import {
   fundsShape,
   locationsShape,
   materialTypesShape,
-  vendorsShape,
 } from '../common/shapes';
 import {
   BOOLEAN_OPTIONS,
   FILTERS,
 } from './constants';
 
-function OrderLinesFilters({ activeFilters, onChange, funds, locations, materialTypes, vendors }) {
+function OrderLinesFilters({ activeFilters, onChange, funds, locations, materialTypes }) {
   return (
     <AccordionSet>
       <OrdersCheckboxFilter
@@ -102,12 +101,12 @@ function OrderLinesFilters({ activeFilters, onChange, funds, locations, material
         name={FILTERS.DATE_CREATED}
         onChange={onChange}
       />
-      <VendorFilter
+      <PluggableOrganizationFilter
+        id={FILTERS.VENDOR}
         activeFilters={activeFilters[FILTERS.VENDOR]}
         labelId="ui-orders.line.accordion.vendor"
         name={FILTERS.VENDOR}
         onChange={onChange}
-        vendors={vendors}
       />
       <AcqTagsFilter
         activeFilters={activeFilters[FILTERS.TAGS]}
@@ -134,12 +133,12 @@ function OrderLinesFilters({ activeFilters, onChange, funds, locations, material
         onChange={onChange}
         options={BOOLEAN_OPTIONS}
       />
-      <VendorFilter
+      <PluggableOrganizationFilter
+        id={FILTERS.ACCESS_PROVIDER}
         activeFilters={activeFilters[FILTERS.ACCESS_PROVIDER]}
         labelId="ui-orders.eresource.accessProvider"
         name={FILTERS.ACCESS_PROVIDER}
         onChange={onChange}
-        vendors={vendors}
       />
       <OrdersCheckboxFilter
         activeFilters={activeFilters[FILTERS.ACTIVATED]}
@@ -228,7 +227,6 @@ OrderLinesFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   funds: fundsShape,
   locations: locationsShape,
-  vendors: vendorsShape,
   materialTypes: materialTypesShape,
 };
 

@@ -10,7 +10,7 @@ import { AcqUnitsField } from '@folio/stripes-acq-components';
 import {
   FieldPrefix,
   FieldSuffix,
-  FieldVendor,
+  FieldOrganization,
   FieldBillTo,
   FieldShipTo,
   FieldIsManualPO,
@@ -24,7 +24,6 @@ const PurchaseOrderInformationForm = ({
   prefixesSetting,
   suffixesSetting,
   addresses,
-  vendors,
   formValues,
   change,
   dispatch,
@@ -49,8 +48,12 @@ const PurchaseOrderInformationForm = ({
         xs={3}
         data-col-order-template-vendor
       >
-        <FieldVendor
-          vendors={vendors}
+        <FieldOrganization
+          dispatch={dispatch}
+          change={change}
+          id={formValues.vendor}
+          labelId="ui-orders.orderDetails.vendor"
+          name="vendor"
           required={false}
         />
       </Col>
@@ -119,7 +122,6 @@ PurchaseOrderInformationForm.propTypes = {
   prefixesSetting: PropTypes.arrayOf(PropTypes.object),
   suffixesSetting: PropTypes.arrayOf(PropTypes.object),
   addresses: PropTypes.arrayOf(PropTypes.object),
-  vendors: PropTypes.arrayOf(PropTypes.object),
   formValues: PropTypes.object.isRequired,
   change: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,

@@ -78,8 +78,7 @@ describe('Create order', function () {
   describe('Create new order', () => {
     beforeEach(async () => {
       await form.orderTypeSelect.select('One-time');
-      await form.vendorSelect.button.click();
-      await form.vendorSelect.options.list(0).click();
+      await form.fillVendor('ui-23-ve');
       await form.createOrderButton.click();
     });
 

@@ -5,5 +5,3 @@ export const vendorShape = PropTypes.shape({
   name: PropTypes.string,
   code: PropTypes.string,
 });
-
-export const vendorsShape = PropTypes.arrayOf(vendorShape);

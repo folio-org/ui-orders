@@ -95,7 +95,6 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
       prefixesSetting={prefixesSetting}
       suffixesSetting={suffixesSetting}
       addresses={addresses}
-      vendors={vendors}
       materialTypes={materialTypes}
       formValues={formValues}
       contributorNameTypes={contributorNameTypes}

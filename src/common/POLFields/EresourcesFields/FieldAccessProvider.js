@@ -1,24 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FieldSelection } from '@folio/stripes-acq-components';
+import { FieldOrganization } from '../../POFields';
 
-const FieldAccessProvider = ({ vendors, disabled, required }) => {
+const FieldAccessProvider = ({ change, dispatch, disabled, required, accessProviderId }) => {
   return (
-    <FieldSelection
-      dataOptions={vendors}
+    <FieldOrganization
+      dispatch={dispatch}
+      change={change}
       labelId="ui-orders.eresource.accessProvider"
       name="eresource.accessProvider"
       required={required}
       disabled={disabled}
+      id={accessProviderId}
     />
   );
 };
 
 FieldAccessProvider.propTypes = {
-  vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
+  accessProviderId: PropTypes.string,
 };
 
 FieldAccessProvider.defaultProps = {

@@ -45,7 +45,6 @@ import {
   ACCORDION_ID,
   MAP_FIELD_ACCORDION,
 } from './const';
-import getVendorsForSelect from '../Utils/getVendorsForSelect';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
@@ -258,7 +257,6 @@ class POLineForm extends Component {
     const showEresources = isEresource(orderFormat);
     const showPhresources = isFresource(orderFormat);
     const showOther = isOtherResource(orderFormat);
-    const vendors = getVendorsForSelect(parentResources);
     const materialTypes = getMaterialTypesForSelect(parentResources);
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
@@ -384,9 +382,10 @@ class POLineForm extends Component {
                       >
                         <PhysicalForm
                           materialTypes={materialTypes}
-                          vendors={vendors}
                           order={order}
                           formValues={formValues}
+                          change={change}
+                          dispatch={dispatch}
                         />
                       </Accordion>
                     )}
@@ -398,8 +397,9 @@ class POLineForm extends Component {
                         <EresourcesForm
                           materialTypes={materialTypes}
                           order={order}
-                          vendors={vendors}
                           formValues={formValues}
+                          change={change}
+                          dispatch={dispatch}
                         />
                       </Accordion>
                     )}
@@ -410,9 +410,10 @@ class POLineForm extends Component {
                       >
                         <OtherForm
                           materialTypes={materialTypes}
-                          vendors={vendors}
                           order={order}
                           formValues={formValues}
+                          change={change}
+                          dispatch={dispatch}
                         />
                       </Accordion>
                     )}

@@ -20,7 +20,7 @@ import {
 import {
   PO_FORM_NAME,
 } from '../../../common/constants';
-import { getAddressOptions, getVendorOptions } from '../../../common/utils';
+import { getAddressOptions } from '../../../common/utils';
 import {
   FieldPrefix,
   FieldSuffix,
@@ -29,8 +29,8 @@ import {
   FieldIsManualPO,
   FieldIsReEncumber,
   FieldsNotes,
-  FieldVendor,
   FieldAssignedTo,
+  FieldOrganization,
 } from '../../../common/POFields';
 import FieldOrderType from './FieldOrderType';
 import { isWorkflowStatusIsPending } from '../util';
@@ -50,7 +50,6 @@ class PODetailsForm extends Component {
     dispatch: PropTypes.func,
     change: PropTypes.func,
     addresses: PropTypes.arrayOf(PropTypes.object),
-    vendors: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.object,
   }
 
@@ -71,14 +70,12 @@ class PODetailsForm extends Component {
       prefixesSetting,
       suffixesSetting,
       order,
-      vendors,
       dispatch,
       change,
     } = this.props;
 
     const isEditMode = Boolean(order.id);
     const isPostPendingOrder = Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order);
-    const vendorOptions = getVendorOptions(vendors);
     const addressesOptions = getAddressOptions(addresses);
     const addressBillTo = get(addresses.find(el => el.id === formValues.billTo), 'address', '');
     const addressShipTo = get(addresses.find(el => el.id === formValues.shipTo), 'address', '');
@@ -114,9 +111,13 @@ class PODetailsForm extends Component {
             xs={12}
             lg={3}
           >
-            <FieldVendor
-              vendors={vendorOptions}
+            <FieldOrganization
+              dispatch={dispatch}
+              change={change}
               disabled={isPostPendingOrder}
+              id={formValues.vendor}
+              labelId="ui-orders.orderDetails.vendor"
+              name="vendor"
             />
           </Col>
           <Col

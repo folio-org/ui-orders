@@ -35,7 +35,6 @@ import {
 import { WORKFLOW_STATUS } from '../../../common/constants';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
-import { getVendorOptions } from '../../../common/utils';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderRenewalsForm from './PurchaseOrderRenewalsForm';
@@ -73,7 +72,6 @@ class OrderTemplatesEditor extends Component {
     prefixesSetting: PropTypes.arrayOf(PropTypes.object),
     suffixesSetting: PropTypes.arrayOf(PropTypes.object),
     addresses: PropTypes.arrayOf(PropTypes.object),
-    vendors: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     title: PropTypes.node,
     accounts: PropTypes.arrayOf(PropTypes.object),
@@ -150,7 +148,6 @@ class OrderTemplatesEditor extends Component {
       prefixesSetting,
       suffixesSetting,
       addresses,
-      vendors,
       locations,
       materialTypes,
       handleSubmit,
@@ -166,7 +163,6 @@ class OrderTemplatesEditor extends Component {
     const orderFormat = formValues.orderFormat;
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const fundDistribution = formValues.fundDistribution || [];
-    const vendorOptions = getVendorOptions(vendors);
 
     return (
       <Layer
@@ -221,7 +217,6 @@ class OrderTemplatesEditor extends Component {
                       prefixesSetting={prefixesSetting}
                       suffixesSetting={suffixesSetting}
                       addresses={addresses}
-                      vendors={vendorOptions}
                       formValues={formValues}
                       change={change}
                       dispatch={dispatch}
@@ -334,7 +329,9 @@ class OrderTemplatesEditor extends Component {
                       >
                         <POLinePhysicalForm
                           materialTypes={materialTypes}
-                          vendors={vendors}
+                          change={change}
+                          dispatch={dispatch}
+                          formValues={formValues}
                         />
                       </Accordion>
                     )
@@ -348,7 +345,9 @@ class OrderTemplatesEditor extends Component {
                       >
                         <POLineEresourcesForm
                           materialTypes={materialTypes}
-                          vendors={vendors}
+                          change={change}
+                          dispatch={dispatch}
+                          formValues={formValues}
                         />
                       </Accordion>
                     )
@@ -362,7 +361,9 @@ class OrderTemplatesEditor extends Component {
                       >
                         <POLineOtherResourcesForm
                           materialTypes={materialTypes}
-                          vendors={vendors}
+                          change={change}
+                          dispatch={dispatch}
+                          formValues={formValues}
                         />
                       </Accordion>
                     )
