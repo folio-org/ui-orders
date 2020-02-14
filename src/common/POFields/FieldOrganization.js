@@ -16,9 +16,11 @@ import {
   TextField,
   IconButton,
 } from '@folio/stripes/components';
-import { organizationByPropManifest } from '@folio/stripes-acq-components';
+import {
+  organizationByPropManifest,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
-// TODO add validation
 const FieldOrganization = ({
   change,
   disabled,
@@ -89,6 +91,7 @@ const FieldOrganization = ({
         label={<FormattedMessage id={labelId} />}
         name={name}
         required={required}
+        validate={required && validateRequired}
         format={() => selectedOrganization.name}
       />
 
