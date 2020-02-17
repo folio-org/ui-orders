@@ -94,7 +94,7 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, users, acq
         options={ORDER_TYPE_FILTER_OPTIONS}
       />
       <PluggableOrganizationFilter
-        id={FILTERS.VENDOR}
+        id={`filter-${FILTERS.VENDOR}`}
         activeFilters={activeFilters[FILTERS.VENDOR]}
         labelId="ui-orders.line.accordion.vendor"
         name={FILTERS.VENDOR}

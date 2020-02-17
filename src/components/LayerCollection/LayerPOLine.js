@@ -217,7 +217,6 @@ class LayerPOLine extends Component {
       template: get(order, 'template', ''),
       source: sourceValues.user,
       cost: {
-        currency: stripes.currency,
       },
       vendorDetail: {
         instructions: '',
@@ -257,6 +256,7 @@ class LayerPOLine extends Component {
 
         if (templateFieldValue !== undefined) set(newObj, field, templateFieldValue);
       });
+    set(newObj, 'cost.currency', newObj?.cost?.currency || stripes.currency);
 
     return newObj;
   };
