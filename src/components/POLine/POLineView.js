@@ -138,20 +138,6 @@ class POLineView extends Component {
     // TODO: unify actions after Order Lines list is implemented fully
     return (
       <MenuSection id="data-test-line-details-actions">
-        <IfPermission perm="orders.po-lines.item.delete">
-          <Button
-            buttonStyle="dropdownItem"
-            data-test-button-delete-line
-            onClick={() => {
-              onToggle();
-              this.mountDeleteLineConfirm();
-            }}
-          >
-            <Icon size="small" icon="trash">
-              <FormattedMessage id="ui-orders.button.delete" />
-            </Icon>
-          </Button>
-        </IfPermission>
         {editable && (
           <IfPermission perm="orders.po-lines.item.put">
             <Button
@@ -192,6 +178,20 @@ class POLineView extends Component {
               <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
             </Button>
           )}
+        </IfPermission>
+        <IfPermission perm="orders.po-lines.item.delete">
+          <Button
+            buttonStyle="dropdownItem"
+            data-test-button-delete-line
+            onClick={() => {
+              onToggle();
+              this.mountDeleteLineConfirm();
+            }}
+          >
+            <Icon size="small" icon="trash">
+              <FormattedMessage id="ui-orders.button.delete" />
+            </Icon>
+          </Button>
         </IfPermission>
       </MenuSection>
     );

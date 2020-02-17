@@ -41,17 +41,6 @@ export function getPOActionMenu({
 
   return ({ onToggle }) => (
     <MenuSection id="order-details-actions">
-      <IfPermission perm="orders.item.delete">
-        <Button
-          buttonStyle="dropdownItem"
-          data-test-button-delete-order
-          onClick={clickDelete}
-        >
-          <Icon size="small" icon="trash">
-            <FormattedMessage id="ui-orders.button.delete" />
-          </Icon>
-        </Button>
-      </IfPermission>
       <IfPermission perm="orders.item.put">
         <Button
           buttonStyle="dropdownItem"
@@ -129,6 +118,17 @@ export function getPOActionMenu({
           <FormattedMessage id="ui-orders.paneBlock.reopenBtn" />
         </Button>
       )}
+      <IfPermission perm="orders.item.delete">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-button-delete-order
+          onClick={clickDelete}
+        >
+          <Icon size="small" icon="trash">
+            <FormattedMessage id="ui-orders.button.delete" />
+          </Icon>
+        </Button>
+      </IfPermission>
     </MenuSection>
   );
 }
