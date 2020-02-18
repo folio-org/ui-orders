@@ -104,6 +104,15 @@ describe('Line edit test', function () {
     expect(lineEditPage.orderFormat.isSelect).to.be.true;
     expect(lineEditPage.saveAndOpenButton.isButton).to.be.true;
     expect(lineEditPage.hasTemplateField).to.be.false;
+    expect(lineEditPage.listUnitPrice.isInput).to.be.true;
+    expect(lineEditPage.quantityPhysical.isInput).to.be.true;
+    expect(lineEditPage.additionalCost.isInput).to.be.true;
+    expect(lineEditPage.listUnitPriceElectronic.isInput).to.be.true;
+    expect(lineEditPage.discount.isInput).to.be.true;
+    expect(lineEditPage.quantityElectronic.isInput).to.be.true;
+    expect(lineEditPage.poLineEstimatedPrice.$root).to.exist;
+    expect(lineEditPage.title).to.be.equal(`Edit - ${line.poLineNumber}`);
+    expect(lineEditPage.poLineEstimatedPrice.value).to.include(LINE_ESTIMATED_PRICE);
   });
 
   describe('Location can be added', function () {
@@ -137,20 +146,6 @@ describe('Line edit test', function () {
     it('displays only required validation message', function () {
       expect(lineEditPage.validationMessage).to.include(requiredField);
     });
-  });
-
-  it('displays Cost form', function () {
-    expect(lineEditPage.listUnitPrice.isInput).to.be.true;
-    expect(lineEditPage.quantityPhysical.isInput).to.be.true;
-    expect(lineEditPage.additionalCost.isInput).to.be.true;
-    expect(lineEditPage.listUnitPriceElectronic.isInput).to.be.true;
-    expect(lineEditPage.discount.isInput).to.be.true;
-    expect(lineEditPage.quantityElectronic.isInput).to.be.true;
-    expect(lineEditPage.poLineEstimatedPrice.$root).to.exist;
-  });
-
-  it('displays right estimated price in Cost form', function () {
-    expect(lineEditPage.poLineEstimatedPrice.value).to.include(LINE_ESTIMATED_PRICE);
   });
 
   describe('listUnitPrice can be changed', function () {
@@ -219,13 +214,7 @@ describe('Line edit test', function () {
     it('contributor is added', function () {
       expect(lineEditPage.itemDetailsAccordion.contributorNames().length).to.be.equal(1);
       expect(lineEditPage.itemDetailsAccordion.contributorTypes().length).to.be.equal(1);
-    });
-
-    it('contributor type is select', function () {
       expect(lineEditPage.itemDetailsAccordion.contributorType.isSelect).to.be.true;
-    });
-
-    it('contributor name is input', function () {
       expect(lineEditPage.itemDetailsAccordion.contributorName.isInput).to.be.true;
     });
 
@@ -237,11 +226,8 @@ describe('Line edit test', function () {
         await lineEditPage.itemDetailsAccordion.contributorName.fill(testName);
       });
 
-      it('contributor name is updated', function () {
+      it('contributor is updated', function () {
         expect(lineEditPage.itemDetailsAccordion.contributorName.value).to.be.equal(testName);
-      });
-
-      it('contributor type is updated', function () {
         expect(lineEditPage.itemDetailsAccordion.contributorType.value).to.be.equal(contributorNameType.id);
       });
     });
@@ -266,13 +252,7 @@ describe('Line edit test', function () {
     it('product Ids fields are added', function () {
       expect(lineEditPage.itemDetailsAccordion.productIds().length).to.be.equal(1);
       expect(lineEditPage.itemDetailsAccordion.productIdTypes().length).to.be.equal(1);
-    });
-
-    it('product Ids type is select', function () {
       expect(lineEditPage.itemDetailsAccordion.productIdType.isSelect).to.be.true;
-    });
-
-    it('product Id is input', function () {
       expect(lineEditPage.itemDetailsAccordion.productId.isInput).to.be.true;
     });
 
@@ -286,9 +266,6 @@ describe('Line edit test', function () {
 
       it('product Id is updated', function () {
         expect(lineEditPage.itemDetailsAccordion.productId.value).to.be.equal(testName);
-      });
-
-      it('product Ids type is updated', function () {
         expect(lineEditPage.itemDetailsAccordion.productIdType.value).to.be.equal(identifierType.id);
       });
     });
@@ -318,17 +295,13 @@ describe('Line edit test', function () {
     });
   });
 
-  it('Has to render expected title', function () {
-    expect(lineEditPage.title).to.be.equal(`Edit - ${line.poLineNumber}`);
-  });
-
   describe('Check existing warning messages for Item Details Title if value isn\'t empty', function () {
     beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.inputTitle(TITLE);
       await lineEditPage.updateLineButton.click();
     });
 
-    it('Doesn\'t provide any warning message', function () {
+    it('Doesnt provide any warning message', function () {
       expect(lineEditPage.itemDetailsAccordion.inputTitleError.isPresent).to.be.false;
     });
   });
@@ -344,6 +317,7 @@ describe('Line edit test', function () {
       expect(lineEditPage.itemDetailsAccordion.inputTitleErrorText).to.be.equal(requiredField);
     });
   });
+
   describe('Other Resource Details accordion is shown', function () {
     beforeEach(async function () {
       await lineEditPage.orderFormat.select(OTHER);
@@ -352,25 +326,22 @@ describe('Line edit test', function () {
 
     it('Displays create inventory field', function () {
       expect(lineEditPage.physicalCreateInventory.isSelect).to.be.true;
-    });
-
-    it('Displays order format Other', function () {
       expect(lineEditPage.orderFormat.value).to.be.equal(OTHER);
     });
 
-    beforeEach(async function () {
-      await lineEditPage.physicalCreateInventory.select('Instance, holding, item');
-      await lineEditPage.updateLineButton.click();
-    });
+    describe('Other Resource Details accordion is shown', function () {
+      beforeEach(async function () {
+        await lineEditPage.physicalCreateInventory.select('Instance, holding, item');
+        await lineEditPage.updateLineButton.click();
+      });
 
-    it('Displays warning message Required for Material Type', function () {
-      expect(lineEditPage.otherAccordion.warningMessage).to.be.equal(requiredField);
-    });
-
-    it('Create inventory field includes Instance, Holding, Item', function () {
-      expect(lineEditPage.physicalCreateInventory.value).to.be.equal(INVENTORY_RECORDS_TYPE.all);
+      it('Displays warning message Required for Material Type', function () {
+        expect(lineEditPage.otherAccordion.warningMessage).to.be.equal(requiredField);
+        expect(lineEditPage.physicalCreateInventory.value).to.be.equal(INVENTORY_RECORDS_TYPE.all);
+      });
     });
   });
+
   describe('Save PO Line and open order', function () {
     beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.inputTitle(TITLE);
