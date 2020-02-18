@@ -9,7 +9,7 @@ import { TIMEOUT } from './const';
 export default interactor(class NoteViewPage {
   static defaultScope = '[data-test-note-view-container]';
 
-  closeButton = new Button('[data-test-leave-note-form]');
+  closeButton = new Button('[data-test-leave-note-view]');
   editButton = new Button('[data-test-navigate-note-edit]');
 
   isLoaded = isPresent('#noteGeneralInfo');

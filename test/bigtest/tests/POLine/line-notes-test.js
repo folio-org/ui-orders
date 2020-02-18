@@ -60,7 +60,7 @@ describe('PO line notes', function () {
       expect(noteFormPage.$root).to.exist;
     });
 
-    it('save button shuold be disabled', () => {
+    it('save button should be disabled', () => {
       expect(noteFormPage.saveButton.isDisabled).to.be.true;
     });
 
@@ -78,6 +78,7 @@ describe('PO line notes', function () {
   describe('open note details page', () => {
     beforeEach(async () => {
       await lineDetails.notesAccordion.notes(0).click();
+      await noteViewPage.whenLoaded();
     });
 
     it('should open note details page', function () {
@@ -85,20 +86,24 @@ describe('PO line notes', function () {
       expect(noteViewPage.$root).to.exist;
     });
 
-    beforeEach(async () => {
-      await noteViewPage.editButton.click();
+    describe('open and close note details page', () => {
+      beforeEach(async () => {
+        await noteViewPage.closeButton.click();
+      });
+
+      it('should close note details page', function () {
+        expect(noteViewPage.isPresent).to.be.false;
+      });
     });
 
-    it('should open edit note page', function () {
-      expect(noteViewPage.isPresent).to.be.false;
-    });
+    describe('edit note details page', () => {
+      beforeEach(async () => {
+        await noteViewPage.editButton.click();
+      });
 
-    beforeEach(async () => {
-      await noteViewPage.closeButton.click();
-    });
-
-    it('should close note details page', function () {
-      expect(noteViewPage.isPresent).to.be.false;
+      it('should open edit note page', function () {
+        expect(noteFormPage.isPresent).to.be.true;
+      });
     });
   });
 });
