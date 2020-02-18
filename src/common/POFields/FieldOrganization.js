@@ -91,7 +91,7 @@ const FieldOrganization = ({
         label={<FormattedMessage id={labelId} />}
         name={name}
         required={required}
-        validate={required && validateRequired}
+        validate={required ? validateRequired : undefined}
         format={() => selectedOrganization.name}
       />
 
