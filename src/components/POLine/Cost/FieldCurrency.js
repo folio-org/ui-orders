@@ -7,10 +7,11 @@ import { FieldSelection } from '@folio/stripes-acq-components';
 const FieldCurrency = ({ required, disabled }) => (
   <FieldSelection
     dataOptions={currenciesOptions}
+    disabled={disabled}
+    id="cost-currency"
     labelId="ui-orders.cost.currency"
     name="cost.currency"
     required={required}
-    disabled={disabled}
   />
 );
 

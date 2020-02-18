@@ -12,6 +12,8 @@ import {
   value,
 } from '@bigtest/interactor';
 
+import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
+
 import Button from './button';
 import { TIMEOUT } from './const';
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
@@ -149,9 +151,9 @@ const ITEM_DETAILS = {
 }
 
 @interactor class Currency {
-  static defaultScope = '[name="cost.currency"]';
-  select = selectable();
-  value = value();
+  value = text('#selected-cost-currency-item');
+  options = new OptionListInteractor('#sl-cost-currency');
+  button = new Button('[name="cost.currency"]');
 }
 
 @interactor class OtherAccordion {

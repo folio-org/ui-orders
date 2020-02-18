@@ -10,8 +10,7 @@ import LineEditPage from '../interactors/line-edit-page';
 
 const PHYSICAL = 'Physical resource';
 const ERESOURCE = 'Electronic resource';
-const TEST_CURRENCY = 'Canadian Dollar (CAD)';
-const TEST_CURRENCY_CODE = 'CAD';
+const DEFAULT_CURRENCY_LABEL = 'US Dollar (USD)';
 
 describe('Create POL', function () {
   setupApplication();
@@ -75,17 +74,18 @@ describe('Create POL', function () {
   });
 
   describe('Currency', function () {
-    it('currency is not empty ', function () {
-      expect(lineEditPage.currency.value).to.not.equal('');
+    it('currency is default USD', function () {
+      expect(lineEditPage.currency.value).to.equal(DEFAULT_CURRENCY_LABEL);
     });
 
     describe('change currency', function () {
       beforeEach(async function () {
-        await lineEditPage.currency.select(TEST_CURRENCY);
+        await lineEditPage.currency.button.click();
+        await lineEditPage.currency.options.list(1).click();
       });
 
       it('currency should be changed', function () {
-        expect(lineEditPage.currency.value).to.equal(TEST_CURRENCY_CODE);
+        expect(lineEditPage.currency.value).to.not.equal(DEFAULT_CURRENCY_LABEL);
       });
     });
   });
