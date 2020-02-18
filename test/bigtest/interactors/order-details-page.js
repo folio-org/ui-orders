@@ -60,7 +60,7 @@ export default interactor(class OrderDetailsPage {
   shipTo = new ShipTo();
   workflowStatus = new WorkflowStatus();
   lines = collection('#POListing [class*=mclRow---]');
-  isLoaded = isPresent('#purchaseOrder');
+  isLoaded = isPresent('#POListing');
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();
   orderInvoicesIsPresent = isPresent('#orderInvoices');
 
