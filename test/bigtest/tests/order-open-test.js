@@ -16,6 +16,16 @@ import OpenOrderConfirmationModal from '../interactors/PurchaseOrder/open-order-
 import OpenOrderErrorModal from '../interactors/PurchaseOrder/open-order-error-modal';
 import { ERROR_CODES } from '../../../src/components/Utils/order';
 
+const VENDOR_IS_INACTIVE_RESPONSE = {
+  'errors': [{
+    'message': 'Order cannot be open as the associated vendor is inactive',
+    'code': ERROR_CODES.vendorIsInactive,
+    'parameters': [],
+    'id': '68baa952-ce78-49bb-b495-646482cf3483',
+  }],
+  'total_records': 1,
+};
+
 describe('Open order action', function () {
   setupApplication();
 
@@ -36,63 +46,50 @@ describe('Open order action', function () {
       id: line.attrs.purchaseOrderId,
     });
 
-    const VENDOR_IS_INACTIVE_RESPONSE = {
-      'errors': [{
-        'message': 'Order cannot be open as the associated vendor is inactive',
-        'code': ERROR_CODES.vendorIsInactive,
-        'parameters': [],
-        'id': '68baa952-ce78-49bb-b495-646482cf3483',
-      }],
-      'total_records': 1,
-    };
-
-    this.server.put(`${ORDERS_API}/:id`, VENDOR_IS_INACTIVE_RESPONSE, 422);
-
     this.visit(`/orders/view/${pendingOrder.id}`);
     await orderDetailsPage.whenLoaded();
   });
 
-  describe('button for pending order with at least one POL', () => {
-    it('should be visible', () => {
-      expect(orderDetailsPage.openOrderButton.isPresent).to.be.true;
+  it('button for pending order with at least one POL should be visible', () => {
+    expect(orderDetailsPage.openOrderButton.isPresent).to.be.true;
+  });
+
+  describe('click action', () => {
+    beforeEach(async () => {
+      await orderDetailsPage.openOrderButton.click();
+      await openOrderConfirmationModal.whenLoaded();
     });
 
-    describe('click action', () => {
-      beforeEach(async () => {
-        await orderDetailsPage.openOrderButton.click();
-        await openOrderConfirmationModal.whenLoaded();
-      });
+    it('should open Open Order Confirmation Modal', () => {
+      expect(openOrderConfirmationModal.isPresent).to.be.true;
+    });
+  });
 
-      it('should open Open Order Confirmation Modal', () => {
-        expect(openOrderConfirmationModal.isPresent).to.be.true;
-      });
+  describe('click close action on modal', () => {
+    beforeEach(async () => {
+      await orderDetailsPage.openOrderButton.click();
+      await openOrderConfirmationModal.whenLoaded();
+      await openOrderConfirmationModal.cancelAction();
     });
 
-    describe('click close action on modal', () => {
-      beforeEach(async () => {
-        await orderDetailsPage.openOrderButton.click();
-        await openOrderConfirmationModal.whenLoaded();
-        await openOrderConfirmationModal.cancelAction();
-      });
+    it('should close Open Order Confirmation Modal', () => {
+      expect(openOrderConfirmationModal.isPresent).to.be.false;
+    });
+  });
 
-      it('should close Open Order Confirmation Modal', () => {
-        expect(openOrderConfirmationModal.isPresent).to.be.false;
-      });
+  describe('click submit action on modal', () => {
+    const openOrderErrorModal = new OpenOrderErrorModal();
+
+    beforeEach(async function () {
+      this.server.put(`${ORDERS_API}/:id`, VENDOR_IS_INACTIVE_RESPONSE, 422);
+      await orderDetailsPage.openOrderButton.click();
+      await openOrderConfirmationModal.whenLoaded();
+      await openOrderConfirmationModal.submitAction();
     });
 
-    describe('click submit action on modal', () => {
-      const openOrderErrorModal = new OpenOrderErrorModal();
-
-      beforeEach(async () => {
-        await orderDetailsPage.openOrderButton.click();
-        await openOrderConfirmationModal.whenLoaded();
-        await openOrderConfirmationModal.submitAction();
-      });
-
-      it('should close Open Order Confirmation Modal and open Error modal', () => {
-        expect(openOrderErrorModal.isPresent).to.be.true;
-        expect(openOrderConfirmationModal.isPresent).to.be.false;
-      });
+    it('should close Open Order Confirmation Modal and open Error modal', () => {
+      expect(openOrderErrorModal.isPresent).to.be.true;
+      expect(openOrderConfirmationModal.isPresent).to.be.false;
     });
   });
 });
