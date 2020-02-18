@@ -29,7 +29,7 @@ import { TIMEOUT } from './const';
 
 export default interactor(class OrderEditPage {
   static defaultScope = '#pane-poForm';
-  isLoaded = isPresent('[class*=paneTitleLabel---]');
+  isLoaded = isPresent('#POListing');
 
   whenLoaded() {
     return this.timeout(TIMEOUT).when(() => this.isLoaded);

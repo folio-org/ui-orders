@@ -2,6 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
+import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import { ORDER_TYPE } from '../../../src/common/constants';
 import {
@@ -12,6 +13,7 @@ import {
 describe('Create order', function () {
   setupApplication();
   const form = new OrderEditPage();
+  const orderDetailsPage = new OrderDetailsPage();
 
   beforeEach(async function () {
     this.server.create('config', {
@@ -29,20 +31,18 @@ describe('Create order', function () {
     await form.whenLoaded();
   });
 
-  describe('Template name', function () {
-    it('should be displayed', () => {
-      expect(form.hasTemplateField).to.be.true;
+  it('Template name should be displayed', () => {
+    expect(form.hasTemplateField).to.be.true;
+  });
+
+  describe('Select template', function () {
+    beforeEach(async function () {
+      await form.orderTemplate.template.click();
+      await form.orderTemplate.options.list(1).click();
     });
 
-    describe('Should change form', function () {
-      beforeEach(async function () {
-        await form.orderTemplate.template.click();
-        await form.orderTemplate.options.list(1).click();
-      });
-
-      it('order type should be changed', () => {
-        expect(form.orderTypeSelect.value).to.be.equal(ORDER_TYPE.oneTime);
-      });
+    it('order type should be changed', () => {
+      expect(form.orderTypeSelect.value).to.be.equal(ORDER_TYPE.oneTime);
     });
   });
 
@@ -80,6 +80,7 @@ describe('Create order', function () {
       await form.orderTypeSelect.select('One-time');
       await form.fillVendor('ui-23-ve');
       await form.createOrderButton.click();
+      await orderDetailsPage.whenLoaded();
     });
 
     it('closes the Create PO form', () => {
