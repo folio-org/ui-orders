@@ -489,7 +489,7 @@ class PO extends Component {
           {isOngoing(orderType) && (
             <Accordion
               id="renewals"
-              label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}
+              label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
             >
               <RenewalsView order={order} />
             </Accordion>

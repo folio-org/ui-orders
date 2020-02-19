@@ -13,5 +13,8 @@ export { default as FieldRenewalInterval } from './RenewalFields/FieldRenewalInt
 export { default as FieldRenewalDate } from './RenewalFields/FieldRenewalDate';
 export { default as FieldIsManualRenewal } from './RenewalFields/FieldIsManualRenewal';
 export { default as FieldRenewalPeriod } from './RenewalFields/FieldRenewalPeriod';
+export { default as FieldRenewalSubscription } from './RenewalFields/FieldRenewalSubscription';
+export { default as FieldReviewDate } from './RenewalFields/FieldReviewDate';
+export { default as FieldRenewalNotes } from './RenewalFields/FieldRenewalNotes';
 
 export * from './utils';

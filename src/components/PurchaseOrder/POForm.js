@@ -314,9 +314,9 @@ class POForm extends Component {
                         {isOngoing(formValues.orderType) && (
                           <Accordion
                             id="renewals"
-                            label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}
+                            label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
                           >
-                            <RenewalsForm order={initialValues} />
+                            <RenewalsForm order={initialValues} formValues={formValues.renewal} />
                           </Accordion>
                         )}
                         <Accordion
