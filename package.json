@@ -31,7 +31,7 @@
       "locations": "3.0",
       "material-types": "2.2",
       "order-lines": "1.0",
-      "orders": "10.0",
+      "orders": "9.0 10.0",
       "organizations-storage.organizations": "3.0",
       "pieces": "1.0",
       "po-number": "1.0",
