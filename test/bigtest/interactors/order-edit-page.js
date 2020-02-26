@@ -32,7 +32,7 @@ export default interactor(class OrderEditPage {
   isLoaded = isPresent('#paneHeaderpane-poForm');
 
   whenLoaded() {
-    return this.timeout(TIMEOUT).when(() => this.isLoaded);
+    return this.timeout(20000).when(() => this.isLoaded);
   }
 
   title = text('[class*=paneTitleLabel---]');
