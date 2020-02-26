@@ -7,5 +7,5 @@ export default Factory.extend({
   item: {
     title: faker.finance.accountName,
   },
-  status: 'Open',
+  status: () => 'Open',
 });

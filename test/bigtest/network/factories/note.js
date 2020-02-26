@@ -6,8 +6,8 @@ import { NOTE_TYPES } from '../../../../src/common/constants';
 export default Factory.extend({
   id: faker.random.uuid,
   title: faker.commerce.productName,
-  type: NOTE_TYPES.poLine,
-  domain: 'orders',
+  type: () => NOTE_TYPES.poLine,
+  domain: () => 'orders',
   content: faker.lorem.paragraph,
   creator: {
     lastName: faker.name.lastName,
@@ -20,5 +20,5 @@ export default Factory.extend({
     updatedByUserId: faker.random.uuid,
     updatedDate: () => faker.date.past(1),
   },
-  links: [],
+  links: () => [],
 });
