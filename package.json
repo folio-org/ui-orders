@@ -259,6 +259,7 @@
     "react-dom": "^16.5.1",
     "react-hot-loader": "^4.3.12",
     "react-intl": "^2.4.0",
+    "react-router-dom": "^5.1.2",
     "regenerator-runtime": "^0.13.3",
     "sinon": "^7.0.0"
   },
@@ -276,8 +277,8 @@
   "peerDependencies": {
     "@folio/stripes": "^3.0.0",
     "react": "*",
-    "react-dom": "*",
     "react-intl": "^2.4.0",
+    "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2"
   },
   "optionalDependencies": {
