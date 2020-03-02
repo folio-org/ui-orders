@@ -52,6 +52,7 @@ describe('Order lines list - Line details test', function () {
     describe('View PO', function () {
       beforeEach(async function () {
         await page.actions.viewPOButton.click();
+        await orderPage.whenLoaded();
       });
 
       it('should redirect to PO details', function () {
@@ -67,6 +68,7 @@ describe('Order lines list - Line details test', function () {
       await page.actions.toggle.click();
       await page.actions.delete.click();
       await deleteLineConfirmation.confirm();
+      await orderPage.whenLoaded();
     });
 
     it('closes delete line confirmation', function () {
