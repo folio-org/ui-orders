@@ -99,7 +99,7 @@ const showUpdateOrderError = async (response, callout, openModal) => {
       break;
     }
     default: {
-      callout.current.sendCallout({
+      callout.sendCallout({
         message: <FormattedMessage id={`ui-orders.errors.${code}`} />,
         type: 'error',
       });
