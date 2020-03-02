@@ -8,8 +8,12 @@ import {
 } from 'lodash';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
-import { stripesShape } from '@folio/stripes/core';
+import {
+  CalloutContext,
+  stripesShape,
+} from '@folio/stripes/core';
 import {
   Layer,
 } from '@folio/stripes/components';
@@ -75,6 +79,7 @@ const ERROR_CODES = {
 };
 
 class LayerPOLine extends Component {
+  static contextType = CalloutContext;
   static manifest = Object.freeze({
     order: ORDER,
     openOrderSetting: OPEN_ORDER_SETTING,
@@ -120,23 +125,32 @@ class LayerPOLine extends Component {
       } else {
         const messageCode = get(ERROR_CODES, response.errors[0].code, 'orderLineGenericError');
 
-        this.props.showToast(`ui-orders.errors.${messageCode}`, 'error');
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id={`ui-orders.errors.${messageCode}`} />,
+          type: 'error',
+        });
       }
     } else {
-      this.props.showToast('ui-orders.errors.orderLineGenericError', 'error');
+      this.context.sendCallout({
+        message: <SafeHTMLMessage id="ui-orders.errors.orderLineGenericError" />,
+        type: 'error',
+      });
     }
   };
 
   submitPOLine = ({ saveAndOpen, ...line }) => {
     const newLine = cloneDeep(line);
-    const { parentMutator: { poLine }, onCancel, showToast } = this.props;
+    const { parentMutator: { poLine }, onCancel } = this.props;
 
     delete newLine.template;
 
     poLine.POST(newLine)
       .then(() => this.openOrder(saveAndOpen))
       .then(() => {
-        showToast('ui-orders.line.create.success', 'success');
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.line.create.success" />,
+          type: 'success',
+        });
         onCancel();
       })
       .catch(e => this.handleErrorResponse(e, line));
@@ -174,16 +188,22 @@ class LayerPOLine extends Component {
   };
 
   openOrder = (saveAndOpen) => {
-    const { mutator, showToast } = this.props;
+    const { mutator } = this.props;
     const order = this.getOrder();
 
     return saveAndOpen
       ? updateOrderResource(order, mutator.order, { workflowStatus: WORKFLOW_STATUS.open })
         .then(() => {
-          showToast('ui-orders.order.open.success', 'success', { orderNumber: order.poNumber });
+          this.context.sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber: order.poNumber }} />,
+            type: 'success',
+          });
         })
         .catch(() => {
-          showToast('ui-orders.errors.openOrder', 'error', { orderNumber: order.poNumber });
+          this.context.sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.errors.openOrder" values={{ orderNumber: order.poNumber }} />,
+            type: 'error',
+          });
         })
       : Promise.resolve();
   }
@@ -192,12 +212,15 @@ class LayerPOLine extends Component {
     const line = cloneDeep(data);
 
     delete line.metadata;
-    const { location: { pathname }, parentMutator, showToast } = this.props;
+    const { location: { pathname }, parentMutator } = this.props;
 
     return parentMutator.poLine.PUT(line)
       .then(() => this.openOrder(saveAndOpen))
       .then(() => {
-        showToast('ui-orders.line.update.success', 'success', { lineNumber: line.poLineNumber });
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.line.update.success" values={{ lineNumber: line.poLineNumber }} />,
+          type: 'success',
+        });
         setTimeout(() => {
           parentMutator.query.update({
             _path: `${pathname}`,
@@ -356,7 +379,6 @@ LayerPOLine.propTypes = {
   }),
   parentResources: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
-  showToast: PropTypes.func.isRequired,
   stripes: stripesShape.isRequired,
   onCancel: PropTypes.func.isRequired,
   mutator: PropTypes.object.isRequired,

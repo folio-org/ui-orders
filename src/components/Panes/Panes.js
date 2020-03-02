@@ -28,7 +28,6 @@ class Panes extends Component {
     onCloseEdit: PropTypes.func.isRequired,
     tagsToggle: PropTypes.func.isRequired,
     paneWidth: PropTypes.string.isRequired,
-    showToast: PropTypes.func.isRequired,
     match: ReactRouterPropTypes.match,
     location: ReactRouterPropTypes.location,
   }

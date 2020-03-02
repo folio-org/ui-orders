@@ -9,15 +9,17 @@ import {
 
 import { get } from 'lodash';
 
-import { Callout } from '@folio/stripes/components';
-import { stripesConnect, stripesShape } from '@folio/stripes/core';
+import {
+  CalloutContext,
+  stripesConnect,
+  stripesShape,
+} from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 import {
   changeSearchIndex,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   FolioFormattedDate,
-  showToast,
 } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
@@ -67,6 +69,7 @@ const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', 'lastUpdated
 const getHelperResourcePath = (helper, id) => `${ORDERS_API}/${id}`;
 
 class OrdersList extends Component {
+  static contextType = CalloutContext;
   static manifest = Object.freeze({
     query: {
       initialValue: {
@@ -174,8 +177,6 @@ class OrdersList extends Component {
     this.changeSearchIndex = changeSearchIndex.bind(this);
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
-    this.callout = React.createRef();
-    this.showToast = showToast.bind(this);
     this.state = {
       updateOrderError: null,
       users: [],
@@ -209,7 +210,7 @@ class OrdersList extends Component {
         layer: null,
       });
     } catch (e) {
-      await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
+      await showUpdateOrderError(e, this.context, this.openOrderErrorModalShow);
     }
   }
 
@@ -338,7 +339,6 @@ class OrdersList extends Component {
             acquisitionsUnit: <FormattedMessage id="ui-orders.order.acquisitionsUnit" />,
             assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
           }}
-          detailProps={{ showToast: this.showToast }}
           maxSortKeys={1}
           sortableColumns={sortableColumns}
           getHelperResourcePath={getHelperResourcePath}
@@ -350,7 +350,6 @@ class OrdersList extends Component {
             title={<FormattedMessage id="ui-orders.order.saveError.title" />}
           />
         )}
-        <Callout ref={this.callout} />
       </div>
     );
   }

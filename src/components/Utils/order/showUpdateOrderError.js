@@ -44,7 +44,7 @@ const POL_NUMBER_KEY = 'poLineNumber';
 const showMessage = (callout, code, error, path) => {
   const title = get(error, 'errors.0.parameters.0.value', '');
 
-  callout.current.sendCallout({
+  callout.sendCallout({
     type: 'error',
     message: (
       <FormattedMessage

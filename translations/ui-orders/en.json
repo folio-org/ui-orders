@@ -527,6 +527,7 @@
   "order.open.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>opened</b>",
   "order.reopen.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>reopened</b>",
   "order.delete.success": "The purchase order {orderNumber} was successfully deleted",
+  "order.save.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>saved</b>",
   "order.saveError.title": "Purchase order not saved",
   "line.delete.message": "Delete purchase order line?",
   "line.delete.success": "The purchase order line {lineNumber} was successfully deleted",

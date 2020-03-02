@@ -9,7 +9,7 @@ import { withStripes } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
-  useShowToast,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -44,19 +44,22 @@ import OrderTemplatesEditor from './OrderTemplatesEditor';
 const INITIAL_VALUES = { isPackage: false };
 
 function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
-  const showToast = useShowToast();
+  const showToast = useShowCallout();
   const saveOrderTemplate = useCallback((values) => {
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplates.POST;
 
     mutatorMethod(values)
       .then(() => {
-        showToast('ui-orders.settings.orderTemplates.save.success');
+        showToast({ messageId: 'ui-orders.settings.orderTemplates.save.success' });
         close();
       })
       .catch(() => {
-        showToast('ui-orders.settings.orderTemplates.save.error', 'error');
+        showToast({
+          messageId: 'ui-orders.settings.orderTemplates.save.error',
+          type: 'error',
+        });
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
