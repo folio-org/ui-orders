@@ -129,6 +129,11 @@ class POLineView extends Component {
 
   unmountDeleteLineConfirm = () => this.setState({ showConfirmDelete: false });
 
+  onConfirmDelete = () => {
+    this.unmountDeleteLineConfirm();
+    this.props.deleteLine();
+  }
+
   getActionMenu = ({ onToggle }) => {
     const { goToOrderDetails, editable, line, order } = this.props;
 
@@ -211,7 +216,6 @@ class POLineView extends Component {
       line,
       materialTypes,
       locations,
-      deleteLine,
       tagsToggle,
     } = this.props;
     const tags = get(line, ['tags', 'tagList'], []);
@@ -383,7 +387,7 @@ class POLineView extends Component {
             heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber: poLineNumber }} />}
             message={<FormattedMessage id="ui-orders.line.delete.message" />}
             onCancel={this.unmountDeleteLineConfirm}
-            onConfirm={deleteLine}
+            onConfirm={this.onConfirmDelete}
             open
           />
         )}
