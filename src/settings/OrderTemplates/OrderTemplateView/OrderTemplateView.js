@@ -21,7 +21,7 @@ import { FundDistributionView } from '@folio/stripes-acq-components';
 
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
 import { SummaryView } from '../../../components/PurchaseOrder/Summary';
-import { OngoingOrderInfoView } from '../../../components/PurchaseOrder/ongoingOgderInfo';
+import { OngoingOrderInfoView } from '../../../components/PurchaseOrder/OngoingOgderInfo';
 import { ItemView } from '../../../components/POLine/Item';
 import { POLineDetails } from '../../../components/POLine/POLineDetails';
 import { CostView } from '../../../components/POLine/Cost';
