@@ -71,6 +71,7 @@ describe('Order template view', function () {
     beforeEach(async function () {
       await orderTemplateView.paneHeaderCenterButton.click();
       await orderTemplateView.editButton.click();
+      await orderTemplateForm.whenLoaded();
     });
 
     it('should redirect to edit screen', () => {
