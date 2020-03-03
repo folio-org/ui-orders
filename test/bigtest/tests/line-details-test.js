@@ -9,6 +9,7 @@ import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import LineDetailsPage from '../interactors/line-details-page';
+import OrderDetailsPage from '../interactors/order-details-page';
 
 describe('Line details test', function () {
   setupApplication();
@@ -19,6 +20,7 @@ describe('Line details test', function () {
   let vendor = null;
   let invoice = null;
   const page = new LineDetailsPage();
+  const orderDetails = new OrderDetailsPage();
 
   beforeEach(async function () {
     fund = this.server.create('fund');
@@ -81,9 +83,11 @@ describe('Line details test', function () {
   describe('go back to Order Details', function () {
     beforeEach(async function () {
       await page.goBackToOrderButton.click();
+      await orderDetails.whenLoaded();
     });
 
     it('Line Details is closed', function () {
+      expect(orderDetails.isPresent).to.be.true;
       expect(page.isPresent).to.be.false;
     });
   });
