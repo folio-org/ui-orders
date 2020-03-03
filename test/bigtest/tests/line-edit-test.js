@@ -349,13 +349,23 @@ describe('Line edit test', function () {
       await lineEditPage.physicalCreateInventory.select('Instance, holding, item');
       await lineEditPage.physicalDetailsAccordion.materialType(materialTypes[0].name);
       await lineEditPage.saveAndOpenButton.click();
-      await lineDetailsPage.goBackToOrderButton.click();
-      await orderDetailsPage.whenLoaded();
+      await lineDetailsPage.whenLoaded();
     });
 
-    it('POL is saved, PO is open', function () {
-      expect(lineEditPage.isPresent).to.be.false;
-      expect(orderDetailsPage.workflowStatus.value).to.contain(WORKFLOW_STATUS.open);
+    it('POL is saved, PO Line details pane is open', function () {
+      expect(lineDetailsPage.isPresent).to.be.true;
+    });
+
+    describe('go back to order details', function () {
+      beforeEach(async function () {
+        await lineDetailsPage.goBackToOrderButton.click();
+        await orderDetailsPage.whenLoaded();
+      });
+
+      it('PO details pane is open', function () {
+        expect(orderDetailsPage.isPresent).to.be.true;
+        expect(orderDetailsPage.workflowStatus.value).to.contain(WORKFLOW_STATUS.open);
+      });
     });
   });
 });
