@@ -19,6 +19,7 @@ describe('Orders', function () {
 
   it('is no results message label present', () => {
     expect(orders.isNoResultsMessageLabelPresent).to.equal(true);
+    expect(orders.hasCreateOrderButton).to.be.true;
   });
 
   describe('search by poNumber', function () {
@@ -49,39 +50,35 @@ describe('Orders', function () {
     });
   });
 
-  describe('filters', function () {
-    describe('by dateOrdered', function () {
-      it('should NOT have Open and Pending checked by default', () => {  // UIOR-406
-        expect(orders.filters.statusOpenChecked).to.be.false;
-        expect(orders.filters.statusPendingChecked).to.be.false;
-        expect(orders.filters.statusClosedChecked).to.be.false;
-      });
-    });
-
-    describe('by dateOrdered', function () {
-      beforeEach(async function () {
-        await orders.filters.fillDateOrderedStart('2019-01-01');
-        await orders.filters.fillDateOrderedEnd('2019-08-01');
-        await orders.filters.applyDateOrdered.click();
-      });
-
-      it('should load list without errors', () => {
-        expect(orders.orders().length).to.be.equal(ORDERS_COUNT);
-      });
-    });
-
-    describe('by renewalReviewPeriod', function () {
-      beforeEach(async function () {
-        await orders.filters.fillRenewalReviewPeriod(15);
-      });
-
-      it('should load list without errors', () => {
-        expect(orders.orders().length).to.be.equal(ORDERS_COUNT);
-      });
+  describe('filter by status', function () {
+    it('should NOT have Open and Pending checked by default', () => {  // UIOR-406
+      expect(orders.filters.statusOpenChecked).to.be.false;
+      expect(orders.filters.statusPendingChecked).to.be.false;
+      expect(orders.filters.statusClosedChecked).to.be.false;
     });
   });
 
-  it('create new order button', () => {
-    expect(orders.hasCreateOrderButton).to.be.true;
+  describe('filter by dateOrdered', function () {
+    beforeEach(async function () {
+      await orders.filters.fillDateOrderedStart('2019-01-01');
+      await orders.filters.fillDateOrderedEnd('2019-08-01');
+      await orders.filters.applyDateOrdered.click();
+      await orders.whenListLoaded();
+    });
+
+    it('should load list without errors', () => {
+      expect(orders.orders().length).to.be.equal(ORDERS_COUNT);
+    });
+  });
+
+  describe('by renewalReviewPeriod', function () {
+    beforeEach(async function () {
+      await orders.filters.fillRenewalReviewPeriod(15);
+      await orders.whenListLoaded();
+    });
+
+    it('should load list without errors', () => {
+      expect(orders.orders().length).to.be.equal(ORDERS_COUNT);
+    });
   });
 });
