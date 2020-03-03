@@ -68,7 +68,6 @@ class LayerPO extends Component {
     const { parentMutator, onCancel } = this.props;
     const getOngoingOrderInfo = parseOngoingOrderInfo(order);
 
-    console.log('getOngoingOrderInfo', getOngoingOrderInfo);
     updateOrderResource(getOngoingOrderInfo, parentMutator.records)
       .then(() => onCancel())
       .catch(async e => {
