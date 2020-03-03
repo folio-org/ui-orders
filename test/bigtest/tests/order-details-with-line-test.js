@@ -72,7 +72,6 @@ describe('Order details with Line', function () {
 
     it('should redirect to Line Details pane', () => {
       expect(lineDetailsPage.isPresent).to.be.true;
-      expect(orderDetailsPage.isPresent).to.be.false;
     });
   });
 
