@@ -29,13 +29,11 @@ describe('Orders', function () {
       await orders.chooseSearchOption('PO number');
       await orders.fillSearchField(order.poNumber);
       await orders.clickSearch();
+      await orders.whenListLoaded();
     });
 
     it('shows the list of order items', () => {
       expect(orders.isVisible).to.equal(true);
-    });
-
-    it('should find order with given PO number', () => {
       expect(orders.orders().length).to.be.equal(ORDERS_COUNT);
     });
 
