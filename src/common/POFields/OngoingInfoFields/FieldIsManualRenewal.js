@@ -10,7 +10,7 @@ const FieldIsManualRenewal = ({ disabled }) => {
     <Field
       component={Checkbox}
       label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
-      name="renewal.manualRenewal"
+      name="ongoing.manualRenewal"
       type="checkbox"
       disabled={disabled}
       vertical

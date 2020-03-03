@@ -11,7 +11,7 @@ const FieldRenewalDate = ({ required, disabled }) => {
   return (
     <FieldDatepicker
       label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}
-      name="renewal.renewalDate"
+      name="ongoing.renewalDate"
       required={required}
       validate={required && validateRequired}
       disabled={disabled}

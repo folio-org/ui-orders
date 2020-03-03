@@ -10,7 +10,7 @@ const FieldRenewalSubscription = ({ disabled }) => {
     <Field
       component={Checkbox}
       label={<FormattedMessage id="ui-orders.renewals.subscription" />}
-      name="renewal.isSubscription"
+      name="ongoing.isSubscription"
       type="checkbox"
       disabled={disabled}
       vertical

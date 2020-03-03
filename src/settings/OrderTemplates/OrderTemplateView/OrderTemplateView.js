@@ -21,7 +21,7 @@ import { FundDistributionView } from '@folio/stripes-acq-components';
 
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
 import { SummaryView } from '../../../components/PurchaseOrder/Summary';
-import { RenewalsView } from '../../../components/PurchaseOrder/renewals';
+import { OngoingOrderInfoView } from '../../../components/PurchaseOrder/ongoingOgderInfo';
 import { ItemView } from '../../../components/POLine/Item';
 import { POLineDetails } from '../../../components/POLine/POLineDetails';
 import { CostView } from '../../../components/POLine/Cost';
@@ -231,7 +231,7 @@ class OrderTemplateView extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_RENEWALS}
                   >
-                    <RenewalsView order={orderTemplate} />
+                    <OngoingOrderInfoView order={orderTemplate} />
                   </Accordion>
                 )}
 

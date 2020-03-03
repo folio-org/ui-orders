@@ -47,7 +47,7 @@ import { WORKFLOW_STATUS } from '../../common/constants';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
-import { RenewalsView } from './renewals';
+import { OngoingOrderInfoView } from './ongoingOgderInfo';
 import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
 import {
@@ -491,7 +491,7 @@ class PO extends Component {
               id="renewals"
               label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
             >
-              <RenewalsView order={order} />
+              <OngoingOrderInfoView order={order} />
             </Accordion>
           )}
           <Accordion

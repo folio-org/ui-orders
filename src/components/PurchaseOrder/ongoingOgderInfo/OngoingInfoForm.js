@@ -13,12 +13,12 @@ import {
   FieldIsManualRenewal,
   FieldRenewalSubscription,
   FieldReviewDate,
-  FieldRenewalNotes,
+  FieldOngoingInfoNotes,
 } from '../../../common/POFields';
 
 import { isWorkflowStatusIsPending } from '../util';
 
-const RenewalsForm = ({
+const OngoingInfoForm = ({
   order,
   formValues = {},
 }) => {
@@ -71,15 +71,15 @@ const RenewalsForm = ({
         xs={6}
         md={3}
       >
-        <FieldRenewalNotes disabled={isPostPendingOrder} />
+        <FieldOngoingInfoNotes disabled={isPostPendingOrder} />
       </Col>
     </Row>
   );
 };
 
-RenewalsForm.propTypes = {
+OngoingInfoForm.propTypes = {
   order: PropTypes.object.isRequired,
   formValues: PropTypes.object.isRequired,
 };
 
-export default RenewalsForm;
+export default OngoingInfoForm;

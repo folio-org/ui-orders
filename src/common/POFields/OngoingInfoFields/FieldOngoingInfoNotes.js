@@ -5,24 +5,24 @@ import { FormattedMessage } from 'react-intl';
 
 import { TextArea } from '@folio/stripes/components';
 
-const FieldRenewalNotes = ({ disabled }) => {
+const FieldOngoingInfoNotes = ({ disabled }) => {
   return (
     <Field
       component={TextArea}
       fullWidth
       label={<FormattedMessage id="ui-orders.renewals.notes" />}
-      name="renewal.notes"
+      name="ongoing.notes"
       disabled={disabled}
     />
   );
 };
 
-FieldRenewalNotes.propTypes = {
+FieldOngoingInfoNotes.propTypes = {
   disabled: PropTypes.bool,
 };
 
-FieldRenewalNotes.defaultProps = {
+FieldOngoingInfoNotes.defaultProps = {
   disabled: false,
 };
 
-export default FieldRenewalNotes;
+export default FieldOngoingInfoNotes;

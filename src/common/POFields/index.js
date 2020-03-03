@@ -9,12 +9,12 @@ export { default as FieldsNotes } from './FieldsNotes';
 export { default as FieldIsApproved } from './FieldIsApproved';
 export { default as FieldAssignedTo } from './FieldAssignedTo';
 
-export { default as FieldRenewalInterval } from './RenewalFields/FieldRenewalInterval';
-export { default as FieldRenewalDate } from './RenewalFields/FieldRenewalDate';
-export { default as FieldIsManualRenewal } from './RenewalFields/FieldIsManualRenewal';
-export { default as FieldRenewalPeriod } from './RenewalFields/FieldRenewalPeriod';
-export { default as FieldRenewalSubscription } from './RenewalFields/FieldRenewalSubscription';
-export { default as FieldReviewDate } from './RenewalFields/FieldReviewDate';
-export { default as FieldRenewalNotes } from './RenewalFields/FieldRenewalNotes';
+export { default as FieldRenewalInterval } from './OngoingInfoFields/FieldRenewalInterval';
+export { default as FieldRenewalDate } from './OngoingInfoFields/FieldRenewalDate';
+export { default as FieldIsManualRenewal } from './OngoingInfoFields/FieldIsManualRenewal';
+export { default as FieldRenewalPeriod } from './OngoingInfoFields/FieldRenewalPeriod';
+export { default as FieldRenewalSubscription } from './OngoingInfoFields/FieldRenewalSubscription';
+export { default as FieldReviewDate } from './OngoingInfoFields/FieldReviewDate';
+export { default as FieldOngoingInfoNotes } from './OngoingInfoFields/FieldOngoingInfoNotes';
 
 export * from './utils';

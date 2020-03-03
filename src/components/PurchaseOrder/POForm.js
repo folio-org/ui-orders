@@ -39,7 +39,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
-import { RenewalsForm } from './renewals';
+import { OngoingInfoForm } from './ongoingOgderInfo';
 import { PO_TEMPLATE_FIELDS_MAP } from './constants';
 
 const throwError = () => {
@@ -316,7 +316,7 @@ class POForm extends Component {
                             id="renewals"
                             label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
                           >
-                            <RenewalsForm order={initialValues} formValues={formValues.renewal} />
+                            <OngoingInfoForm order={initialValues} formValues={formValues.ongoing} />
                           </Accordion>
                         )}
                         <Accordion
@@ -344,4 +344,5 @@ export default stripesForm({
   enableReinitialize: true,
   form: PO_FORM_NAME,
   navigationCheck: true,
+  destroyOnUnmount: true,
 })(POForm);

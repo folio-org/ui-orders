@@ -4,6 +4,7 @@ import {
   isPresent,
   text,
   value,
+  clickable,
 } from '@bigtest/interactor';
 
 import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
@@ -31,10 +32,15 @@ import { TIMEOUT } from './const';
   template = new Button('[name="template"]');
 }
 
+@interactor class OngoingInfoAccordion {
+  static defaultScope = '#renewals';
+  isSubscription = clickable('[data-test-checkbox] label');
+  renuvalInterval = isPresent('[name="ongoing.interval"]')
+}
+
 export default interactor(class OrderEditPage {
   static defaultScope = '#pane-poForm';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
-
   whenLoaded() {
     return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
@@ -46,7 +52,8 @@ export default interactor(class OrderEditPage {
   hasVendorNameField = isPresent('[name="vendor"]');
   hasCreatedByField = isPresent('[name="createdByName"]');
   suffixSelect = new SuffixSelect();
-  renewalsAccordion = isPresent('#renewals');
+  isOngoingInfoOpen = isPresent(OngoingInfoAccordion.defaultScope)
+  renewalsAccordion = new OngoingInfoAccordion();
   orderTypeSelect = new OrderTypeSelect();
   createOrderButton = new Button('#clickable-create-new-purchase-order');
   vendorSelect = new VendorSelect();

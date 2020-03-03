@@ -12,7 +12,7 @@ const FieldRenewalInterval = ({ required, disabled }) => {
       component={TextField}
       fullWidth
       label={<FormattedMessage id="ui-orders.renewals.renewalInterval" />}
-      name="renewal.interval"
+      name="ongoing.interval"
       type="number"
       required={required}
       validate={required && validateRequired}

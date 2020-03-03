@@ -11,7 +11,7 @@ const FieldRenewalPeriod = ({ disabled }) => {
       component={TextField}
       fullWidth
       label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
-      name="renewal.reviewPeriod"
+      name="ongoing.reviewPeriod"
       type="number"
       disabled={disabled}
     />

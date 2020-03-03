@@ -10,7 +10,7 @@ const FieldReviewDate = ({ disabled }) => {
   return (
     <FieldDatepicker
       label={<FormattedMessage id="ui-orders.renewals.reviewDate" />}
-      name="renewal.reviewDate"
+      name="ongoing.reviewDate"
       disabled={disabled}
     />
   );

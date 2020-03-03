@@ -12,7 +12,7 @@ import {
 } from '@folio/stripes/components';
 import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
-const RenewalsView = ({ order: { renewal = {} } }) => {
+const OngoingOrderInfoView = ({ order: { ongoing = {} } }) => {
   const {
     interval,
     renewalDate,
@@ -21,7 +21,7 @@ const RenewalsView = ({ order: { renewal = {} } }) => {
     isSubscription,
     notes,
     reviewDate,
-  } = renewal;
+  } = ongoing;
 
   return (
     <Row start="xs">
@@ -99,8 +99,8 @@ const RenewalsView = ({ order: { renewal = {} } }) => {
   );
 };
 
-RenewalsView.propTypes = {
+OngoingOrderInfoView.propTypes = {
   order: PropTypes.object.isRequired,
 };
 
-export default RenewalsView;
+export default OngoingOrderInfoView;
