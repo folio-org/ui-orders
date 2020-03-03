@@ -1,4 +1,4 @@
 export { default as showUpdateOrderError, ERROR_CODES } from './showUpdateOrderError';
-export { parseOngoingOrderInfo } from './parseOngoingOrderInfo';
+export { ongoingOrderInfo } from './ongoingOrderInfo';
 
 export default {};

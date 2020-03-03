@@ -29,7 +29,7 @@ import { TIMEOUT } from './const';
 }
 
 @interactor class OngoingInfoAccordion {
-  static defaultScope = '#renewals';
+  static defaultScope = '#ongoing';
   isSubscription = clickable('[data-test-checkbox] label');
   renuvalInterval = isPresent('[name="ongoing.interval"]')
 }

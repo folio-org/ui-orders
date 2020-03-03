@@ -20,7 +20,7 @@ import { isWorkflowStatusIsPending } from '../util';
 
 const OngoingInfoForm = ({
   order,
-  formValues = {},
+  ongoingFormValues,
 }) => {
   const isPostPendingOrder = Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order);
 
@@ -32,7 +32,7 @@ const OngoingInfoForm = ({
       >
         <FieldRenewalSubscription disabled={isPostPendingOrder} />
       </Col>
-      {formValues.isSubscription ? (
+      {ongoingFormValues?.isSubscription ? (
         <>
           <Col
             xs={6}
@@ -79,7 +79,7 @@ const OngoingInfoForm = ({
 
 OngoingInfoForm.propTypes = {
   order: PropTypes.object.isRequired,
-  formValues: PropTypes.object.isRequired,
+  ongoingFormValues: PropTypes.object.isRequired,
 };
 
 export default OngoingInfoForm;

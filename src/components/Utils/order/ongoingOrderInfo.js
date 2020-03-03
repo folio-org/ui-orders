@@ -1,5 +1,12 @@
-export const parseOngoingOrderInfo = (order) => {
-  const { ongoing: { isSubscription, notes, reviewPeriod, renewalDate, reviewDate, manualRenewal, interval } } = order;
+export const ongoingOrderInfo = (order) => {
+  const { ongoing: {
+    isSubscription,
+    notes, reviewPeriod,
+    renewalDate,
+    reviewDate,
+    manualRenewal,
+    interval,
+  } } = order;
 
   if (isSubscription) {
     return {
