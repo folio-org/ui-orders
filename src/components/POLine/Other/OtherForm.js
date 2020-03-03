@@ -8,18 +8,17 @@ import {
 } from '@folio/stripes/components';
 import {
   FieldDatepicker,
-  FieldSelect,
 } from '@folio/stripes-acq-components';
 
 import {
   FieldMaterialType,
+  FieldMaterialSupplier,
 } from '../../../common/POLFields';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
-import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
-const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
+const OtherForm = ({ order, materialTypes, formValues, dispatch, change }) => {
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
   return (
@@ -28,13 +27,11 @@ const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
         xs={6}
         md={3}
       >
-        <FieldSelect
-          dataOptions={vendors}
-          fullWidth
-          label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-          name="physical.materialSupplier"
-          normalize={normalizeEmptySelect}
+        <FieldMaterialSupplier
+          materialSupplierId={formValues?.physical?.materialSupplier}
           disabled={isPostPendingOrder}
+          dispatch={dispatch}
+          change={change}
         />
       </Col>
       <Col
@@ -82,16 +79,14 @@ const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
 };
 
 OtherForm.propTypes = {
-  vendors: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string,
-  })).isRequired,
   materialTypes: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string,
   })),
   order: PropTypes.object.isRequired,
   formValues: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 export default OtherForm;

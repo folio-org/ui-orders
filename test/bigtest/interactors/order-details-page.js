@@ -33,6 +33,7 @@ import { TIMEOUT } from './const';
   static defaultScope = '#order-details-actions';
   delete = new Button('[data-test-button-delete-order]');
   edit = new Button('[data-test-button-edit-order]');
+  clone = new Button('[data-test-clone-order-button]');
 }
 
 @interactor class RelatedInvoicesAccordion {
@@ -53,12 +54,13 @@ export default interactor(class OrderDetailsPage {
   openOrderButton = new Button('[data-test-open-order-button]');
   approveOrderButton = new Button('[data-test-approve-order-button]');
   closeOrderButton = new Button('[data-test-close-order-button]');
+  reopenOrderButton = new Button('[data-test-reopen-order-button]');
   renewalsAccordion = isPresent('#renewals');
   billTo = new BillTo();
   shipTo = new ShipTo();
   workflowStatus = new WorkflowStatus();
   lines = collection('#POListing [class*=mclRow---]');
-  isLoaded = isPresent('#purchaseOrder');
+  isLoaded = isPresent('#POListing');
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();
   orderInvoicesIsPresent = isPresent('#orderInvoices');
 

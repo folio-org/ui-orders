@@ -819,5 +819,13 @@
     "poLine.receiveItems.info": "É necessário criar peças manualmente para cada unidade de quantidade.",
     "orderLineList.titleOrPackage": "Título ou nome do pacote",
     "closeOrder.error": "Falha ao fechar o pedido",
-    "closeOrder.success": "O pedido foi fechado"
+    "closeOrder.success": "O pedido foi fechado",
+    "paneBlock.reopenBtn": "Reabrir",
+    "order.clone.confirmLabel": "Clonar",
+    "order.clone.error": "O pedido não foi clonado",
+    "order.clone.heading": "Clonar pedido?",
+    "order.clone.message": "Tem certeza de que deseja clonar este pedido de compra e todas as suas linhas de pedido?",
+    "order.clone.success": "O pedido foi clonado com sucesso",
+    "order.reopen.success": "O <b>pedido de compra - {orderNumber}</b> foi <b>reaberto</b> com sucesso",
+    "paneBlock.cloneBtn": "Clonar"
 }

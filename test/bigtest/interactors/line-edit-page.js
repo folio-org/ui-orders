@@ -12,6 +12,8 @@ import {
   value,
 } from '@bigtest/interactor';
 
+import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
+
 import Button from './button';
 import { TIMEOUT } from './const';
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
@@ -148,6 +150,12 @@ const ITEM_DETAILS = {
   value = value();
 }
 
+@interactor class Currency {
+  value = text('#selected-cost-currency-item');
+  options = new OptionListInteractor('#sl-cost-currency');
+  button = new Button('[name="cost.currency"]');
+}
+
 @interactor class OtherAccordion {
   static defaultScope = `#${ACCORDION_ID.other}`;
   clickHeader = clickable('[class*=defaultCollapseButton---]');
@@ -204,7 +212,7 @@ export default interactor(class LineEditPage {
   addContributorButton = new Button('[data-test-add-contributor-button]');
   removeContributorButton = new Button('button[data-test-remove-contributor-button]');
   accountNumber = value('[name="vendorDetail.vendorAccount"]');
-  currency = value('[name="cost.currency"]');
+  currency = new Currency();
   subscriptionInterval = value('[name="details.subscriptionInterval"]');
   connectedTitleLabel = isPresent('[data-test-connected-link]');
   addProductIdsButton = new Button('#productIds-add-button');

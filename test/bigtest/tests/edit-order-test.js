@@ -33,7 +33,7 @@ describe('OrderEditPage', function () {
     expect(orderEditPage.hasTemplateField).to.be.true;
   });
 
-  describe.only('Select order type Ongoing', function () {
+  describe('Select order type Ongoing', function () {
     beforeEach(async function () {
       await orderEditPage.orderTypeSelect.select(ORDER_TYPE.ongoing);
       await orderEditPage.renewalsAccordion.isSubscription();

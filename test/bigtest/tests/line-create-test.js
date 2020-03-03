@@ -10,6 +10,7 @@ import LineEditPage from '../interactors/line-edit-page';
 
 const PHYSICAL = 'Physical resource';
 const ERESOURCE = 'Electronic resource';
+const DEFAULT_CURRENCY_LABEL = 'US Dollar (USD)';
 
 describe('Create POL', function () {
   setupApplication();
@@ -20,14 +21,12 @@ describe('Create POL', function () {
   const ACCOUNTS = [{
     accountNo: 'TEST_ACCOUNT',
   }];
-  const CURRENCIES = ['GBR', 'USD'];
   const SUBSCRIPTION_INTERVAL = '10';
 
   beforeEach(async function () {
     vendor = this.server.create('vendor', {
       discountPercent: 5,
       accounts: ACCOUNTS,
-      vendorCurrencies: CURRENCIES,
       subscriptionInterval: SUBSCRIPTION_INTERVAL,
     });
     order = this.server.create('order', {
@@ -74,14 +73,27 @@ describe('Create POL', function () {
     });
   });
 
+  describe('Currency', function () {
+    it('currency is default USD', function () {
+      expect(lineEditPage.currency.value).to.equal(DEFAULT_CURRENCY_LABEL);
+    });
+
+    describe('change currency', function () {
+      beforeEach(async function () {
+        await lineEditPage.currency.button.click();
+        await lineEditPage.currency.options.list(1).click();
+      });
+
+      it('currency should be changed', function () {
+        expect(lineEditPage.currency.value).to.not.equal(DEFAULT_CURRENCY_LABEL);
+      });
+    });
+  });
+
   describe('Default POL fields value from vendor', function () {
     describe("Non empty vendor's fields", function () {
       it('Account number', function () {
         expect(lineEditPage.accountNumber).to.equal(ACCOUNTS[0].accountNo);
-      });
-
-      it('Currency', function () {
-        expect(lineEditPage.currency).to.equal(CURRENCIES[0]);
       });
 
       it('Subscription Interval', function () {

@@ -8,6 +8,7 @@ import {
   AcqTagsFilter,
   AcqUnitFilter,
   acqUnitsShape,
+  PluggableOrganizationFilter,
 } from '@folio/stripes-acq-components';
 
 import ClosingReasonFilter from '../common/ClosingReasonFilter';
@@ -15,11 +16,9 @@ import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
 import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 import OrdersTextFilter from '../common/OrdersTextFilter';
 import UserFilter from '../common/UserFilter';
-import VendorFilter from '../common/VendorFilter';
 import {
   closingReasonsShape,
   usersShape,
-  vendorsShape,
 } from '../common/shapes';
 import { BOOLEAN_OPTIONS } from '../OrderLinesList/constants';
 import {
@@ -28,7 +27,7 @@ import {
   ORDER_TYPE_FILTER_OPTIONS,
 } from './constants';
 
-function OrdersListFilters({ activeFilters, closingReasons, onChange, vendors, users, acqUnits }) {
+function OrdersListFilters({ activeFilters, closingReasons, onChange, users, acqUnits }) {
   return (
     <AccordionSet>
       <OrdersCheckboxFilter
@@ -94,13 +93,12 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, vendors, u
         onChange={onChange}
         options={ORDER_TYPE_FILTER_OPTIONS}
       />
-      <VendorFilter
-        id={FILTERS.VENDOR}
+      <PluggableOrganizationFilter
+        id={`filter-${FILTERS.VENDOR}`}
         activeFilters={activeFilters[FILTERS.VENDOR]}
         labelId="ui-orders.line.accordion.vendor"
         name={FILTERS.VENDOR}
         onChange={onChange}
-        vendors={vendors}
       />
       <AcqTagsFilter
         activeFilters={activeFilters[FILTERS.TAGS]}
@@ -154,7 +152,6 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, vendors, u
 OrdersListFilters.propTypes = {
   activeFilters: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  vendors: vendorsShape,
   closingReasons: closingReasonsShape,
   users: usersShape,
   acqUnits: acqUnitsShape,

@@ -17,7 +17,7 @@ import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
-const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
+const PhysicalForm = ({ order, materialTypes, formValues, dispatch, change }) => {
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
   return (
@@ -28,8 +28,10 @@ const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
           md={3}
         >
           <FieldMaterialSupplier
-            vendors={vendors}
+            materialSupplierId={formValues?.physical?.materialSupplier}
             disabled={isPostPendingOrder}
+            dispatch={dispatch}
+            change={change}
           />
         </Col>
         <Col
@@ -80,16 +82,14 @@ const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
 };
 
 PhysicalForm.propTypes = {
-  vendors: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string,
-  })).isRequired,
   materialTypes: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string,
   })),
   order: PropTypes.object.isRequired,
   formValues: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 export default PhysicalForm;

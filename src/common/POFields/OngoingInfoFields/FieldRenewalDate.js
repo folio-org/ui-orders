@@ -13,7 +13,7 @@ const FieldRenewalDate = ({ required, disabled }) => {
       label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}
       name="ongoing.renewalDate"
       required={required}
-      validate={required && validateRequired}
+      validate={required ? validateRequired : undefined}
       disabled={disabled}
     />
   );

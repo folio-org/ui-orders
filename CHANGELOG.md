@@ -4,7 +4,11 @@
 
 ### Stories
 * [UIOR-471](https://issues.folio.org/browse/UIOR-471) Update purchase order "Renewal information" accordion
+* [UIOR-506](https://issues.folio.org/browse/UIOR-506) Replace org selection components with organization lookup
+* [UIOR-491](https://issues.folio.org/browse/UIOR-491) Cloning a PO and its POL(s)
+* [UIOR-457](https://issues.folio.org/browse/UIOR-457) Ability to "Reopen" and once again "Close" purchase orders
 * [UIOR-509](https://issues.folio.org/browse/UIOR-509) Move record action buttons into "Action" button UX pattern
+* [UIOR-505](https://issues.folio.org/browse/UIOR-505) Use system default currency as default POL currency (Remove org limit)
 * [UIOR-358](https://issues.folio.org/browse/UIOR-358) Vendor doesn't display in purchase order even though assigned
 * [UIOR-486](https://issues.folio.org/browse/UIOR-486) Display purchase order "total estimated price" in system currency
 * [UIOR-472](https://issues.folio.org/browse/UIOR-472) Display encumbered value on POL for orders made in currency other than system currency

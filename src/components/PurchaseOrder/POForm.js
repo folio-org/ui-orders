@@ -25,7 +25,6 @@ import {
 import { FieldSelection } from '@folio/stripes-acq-components';
 
 import {
-  ORGANIZATION_STATUS_ACTIVE,
   PO_FORM_NAME,
 } from '../../common/constants';
 import {
@@ -229,8 +228,6 @@ class POForm extends Component {
     const prefixesSetting = getSettingsList(get(parentResources, 'prefixesSetting.records', {}));
     const suffixesSetting = getSettingsList(get(parentResources, 'suffixesSetting.records', {}));
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
-    const vendors = get(parentResources, 'vendors.records', [])
-      .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const poLinesLength = get(initialValues, 'compositePoLines', []).length;
 
@@ -308,7 +305,6 @@ class POForm extends Component {
                             prefixesSetting={prefixesSetting}
                             suffixesSetting={suffixesSetting}
                             stripes={stripes}
-                            vendors={vendors}
                           />
                         </Accordion>
                         {isOngoing(formValues.orderType) && (

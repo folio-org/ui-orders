@@ -9,6 +9,7 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
 
+import { stripesShape } from '@folio/stripes/core';
 import {
   Layer,
 } from '@folio/stripes/components';
@@ -39,7 +40,6 @@ import {
 } from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
-import { DEFAULT_CURRENCY } from '../POLine/Cost/FieldCurrency';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 const ERROR_CODES = {
@@ -153,10 +153,11 @@ class LayerPOLine extends Component {
 
   createNewOrder = async () => {
     const { parentMutator } = this.props;
+    const { line } = this.state;
     const order = this.getOrder();
 
     try {
-      const newOrder = await cloneOrder(order, parentMutator.records, this.state.line);
+      const newOrder = await cloneOrder(order, parentMutator.records, line && [line]);
 
       parentMutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
@@ -216,7 +217,6 @@ class LayerPOLine extends Component {
       template: get(order, 'template', ''),
       source: sourceValues.user,
       cost: {
-        currency: get(vendor, 'vendorCurrencies[0]', DEFAULT_CURRENCY),
       },
       vendorDetail: {
         instructions: '',
@@ -256,6 +256,7 @@ class LayerPOLine extends Component {
 
         if (templateFieldValue !== undefined) set(newObj, field, templateFieldValue);
       });
+    set(newObj, 'cost.currency', newObj?.cost?.currency || stripes.currency);
 
     return newObj;
   };
@@ -356,10 +357,7 @@ LayerPOLine.propTypes = {
   parentResources: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   showToast: PropTypes.func.isRequired,
-  stripes: PropTypes.shape({
-    store: PropTypes.object.isRequired,
-    connect: PropTypes.func.isRequired,
-  }).isRequired,
+  stripes: stripesShape.isRequired,
   onCancel: PropTypes.func.isRequired,
   mutator: PropTypes.object.isRequired,
 };

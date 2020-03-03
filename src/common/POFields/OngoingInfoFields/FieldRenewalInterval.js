@@ -15,7 +15,7 @@ const FieldRenewalInterval = ({ required, disabled }) => {
       name="ongoing.interval"
       type="number"
       required={required}
-      validate={required && validateRequired}
+      validate={required ? validateRequired : undefined}
       disabled={disabled}
     />
   );

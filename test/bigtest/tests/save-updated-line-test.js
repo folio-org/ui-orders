@@ -10,7 +10,6 @@ import {
   PHYSICAL,
 } from '../../../src/components/POLine/const';
 import { ACQUISITION_METHOD } from '../../../src/common/POLFields';
-import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 import LineDetailsPage from '../interactors/line-details-page';
@@ -19,7 +18,7 @@ const TITLE = 'TEST_VALUE';
 const LIST_UNIT_PRICE = 1.1;
 const QUANTITY_PHYSICAL = 2;
 const cost = {
-  currency: DEFAULT_CURRENCY,
+  currency: 'USD',
   listUnitPrice: LIST_UNIT_PRICE,
   quantityPhysical: QUANTITY_PHYSICAL,
 };

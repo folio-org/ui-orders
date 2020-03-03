@@ -43,15 +43,17 @@ const NoteView = ({
   const referredEntityData = getReferredEntityData(state);
 
   return (
-    <NoteViewPage
-      entityTypePluralizedTranslationKeys={{ poLine: 'ui-orders.poLine.pluralized' }}
-      entityTypeTranslationKeys={{ poLine: 'ui-orders.poLine' }}
-      navigateBack={navigateBack}
-      noteId={id}
-      onEdit={onEdit}
-      paneHeaderAppIcon="orders"
-      referredEntityData={referredEntityData}
-    />
+    <div data-test-note-view-container>
+      <NoteViewPage
+        entityTypePluralizedTranslationKeys={{ poLine: 'ui-orders.poLine.pluralized' }}
+        entityTypeTranslationKeys={{ poLine: 'ui-orders.poLine' }}
+        navigateBack={navigateBack}
+        noteId={id}
+        onEdit={onEdit}
+        paneHeaderAppIcon="orders"
+        referredEntityData={referredEntityData}
+      />
+    </div>
   );
 };
 

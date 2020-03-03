@@ -13,26 +13,49 @@ describe('Disabled Open order action', function () {
   setupApplication();
 
   const orderDetailsPage = new OrderDetailsPage();
-  const orders = {};
 
-  beforeEach(async function () {
-    Object.values(WORKFLOW_STATUS).forEach(status => {
-      orders[status] = this.server.create('order', {
-        workflowStatus: status,
+  describe(`button for ${WORKFLOW_STATUS.closed} order without POLs`, () => {
+    beforeEach(async function () {
+      const order = this.server.create('order', {
+        workflowStatus: WORKFLOW_STATUS.closed,
       });
+
+      this.visit(`/orders/view/${order.id}`);
+      await orderDetailsPage.whenLoaded();
+    });
+
+    it('should not be visible', () => {
+      expect(orderDetailsPage.openOrderButton.isPresent).not.to.be.true;
     });
   });
 
-  Object.values(WORKFLOW_STATUS).forEach(status => {
-    describe(`button for ${status} order without POLs`, () => {
-      beforeEach(async function () {
-        this.visit(`/orders/view/${orders[status].id}`);
-        await orderDetailsPage.whenLoaded();
+  describe(`button for ${WORKFLOW_STATUS.open} order without POLs`, () => {
+    beforeEach(async function () {
+      const order = this.server.create('order', {
+        workflowStatus: WORKFLOW_STATUS.open,
       });
 
-      it('should not be visible', () => {
-        expect(orderDetailsPage.openOrderButton.isPresent).not.to.be.true;
+      this.visit(`/orders/view/${order.id}`);
+      await orderDetailsPage.whenLoaded();
+    });
+
+    it('should not be visible', () => {
+      expect(orderDetailsPage.openOrderButton.isPresent).not.to.be.true;
+    });
+  });
+
+  describe(`button for ${WORKFLOW_STATUS.pending} order without POLs`, () => {
+    beforeEach(async function () {
+      const order = this.server.create('order', {
+        workflowStatus: WORKFLOW_STATUS.pending,
       });
+
+      this.visit(`/orders/view/${order.id}`);
+      await orderDetailsPage.whenLoaded();
+    });
+
+    it('should not be visible', () => {
+      expect(orderDetailsPage.openOrderButton.isPresent).not.to.be.true;
     });
   });
 });

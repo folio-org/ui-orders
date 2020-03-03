@@ -5,6 +5,7 @@ import {
   text,
   value,
   clickable,
+  fillable,
 } from '@bigtest/interactor';
 
 import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
@@ -20,11 +21,6 @@ import { TIMEOUT } from './const';
 @interactor class OrderTypeSelect {
   static defaultScope = 'select[name="orderType"]';
   value = value();
-}
-
-@interactor class VendorSelect {
-  button = new Button('[name="vendor"]');
-  options = new OptionListInteractor('#sl-po-vendor');
 }
 
 @interactor class OrderTemplate {
@@ -56,7 +52,7 @@ export default interactor(class OrderEditPage {
   renewalsAccordion = new OngoingInfoAccordion();
   orderTypeSelect = new OrderTypeSelect();
   createOrderButton = new Button('#clickable-create-new-purchase-order');
-  vendorSelect = new VendorSelect();
+  fillVendor = fillable('[name="vendor"]');
   addNoteButton = new Button('[data-test-add-note-button]');
   removeNoteButton = new Button('[data-test-remove-note-button]');
   notes = collection('[name*=notes]');

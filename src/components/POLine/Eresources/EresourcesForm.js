@@ -20,7 +20,7 @@ import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
-const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
+const EresourcesForm = ({ materialTypes, order, formValues, dispatch, change }) => {
   const created = get(order, 'metadata.createdDate', '');
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
@@ -28,8 +28,10 @@ const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
     <Row>
       <Col xs={6} md={3}>
         <FieldAccessProvider
-          vendors={vendors}
+          accessProviderId={formValues?.eresource?.accessProvider}
           disabled={isPostPendingOrder}
+          dispatch={dispatch}
+          change={change}
         />
       </Col>
       <Col xs={6} md={3}>
@@ -68,16 +70,14 @@ const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
 };
 
 EresourcesForm.propTypes = {
-  vendors: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string,
-  })).isRequired,
   order: PropTypes.object,
   formValues: PropTypes.object.isRequired,
   materialTypes: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string,
   })).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 export default EresourcesForm;

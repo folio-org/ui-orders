@@ -819,5 +819,13 @@
     "poLine.receiveItems.info": "Pieces will need to be created manually for each unit of quantity.",
     "orderLineList.titleOrPackage": "Title or package name",
     "closeOrder.error": "Order failed to close",
-    "closeOrder.success": "Order was closed"
+    "closeOrder.success": "Order was closed",
+    "paneBlock.reopenBtn": "Reopen",
+    "order.clone.confirmLabel": "Clone",
+    "order.clone.error": "The purchase order was not cloned",
+    "order.clone.heading": "Clone order?",
+    "order.clone.message": "Are you sure you want to clone this purchase order and all of its purchase order lines?",
+    "order.clone.success": "The purchase order was successfully cloned",
+    "order.reopen.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>reopened</b>",
+    "paneBlock.cloneBtn": "Clone"
 }

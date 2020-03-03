@@ -15,7 +15,7 @@ import {
 } from '../../../../common/POLFields';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 
-const POLinePhysicalForm = ({ materialTypes, vendors }) => {
+const POLinePhysicalForm = ({ materialTypes, dispatch, change, formValues }) => {
   return (
     <Fragment>
       <Row>
@@ -23,7 +23,11 @@ const POLinePhysicalForm = ({ materialTypes, vendors }) => {
           xs={3}
           data-col-order-template-fresources-material-supplier
         >
-          <FieldMaterialSupplier vendors={vendors} />
+          <FieldMaterialSupplier
+            materialSupplierId={formValues?.physical?.materialSupplier}
+            dispatch={dispatch}
+            change={change}
+          />
         </Col>
 
         <Col
@@ -72,7 +76,9 @@ const POLinePhysicalForm = ({ materialTypes, vendors }) => {
 
 POLinePhysicalForm.propTypes = {
   materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
+  formValues: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 export default POLinePhysicalForm;

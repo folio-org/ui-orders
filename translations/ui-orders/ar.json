@@ -819,5 +819,13 @@
     "poLine.receiveItems.info": "يجب إنشاء القطع يدويًا لكل وحدة كمية.",
     "orderLineList.titleOrPackage": "العنوان أو اسم الحزمة",
     "closeOrder.error": "فشل إغلاق الطلبية",
-    "closeOrder.success": "تم إغلاق الطلبية"
+    "closeOrder.success": "تم إغلاق الطلبية",
+    "paneBlock.reopenBtn": "إعادة فتح",
+    "order.clone.confirmLabel": "نسخ",
+    "order.clone.error": "لم يتم نسخ أمر الشراء",
+    "order.clone.heading": "نسخ الطلبية؟",
+    "order.clone.message": "هل أنت متأكد من أنك تريد نسخ أمر الشراء هذا وجميع سطور الشراء الخاصة به؟",
+    "order.clone.success": "تم نسخ أمر الشراء بنجاح",
+    "order.reopen.success": "تمت <b>إعادة فتح</b> <b>أمر الشراء - {orderNumber}</b> بنجاح",
+    "paneBlock.cloneBtn": "نسخ"
 }

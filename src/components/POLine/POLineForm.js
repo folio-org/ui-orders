@@ -45,7 +45,6 @@ import {
   ACCORDION_ID,
   MAP_FIELD_ACCORDION,
 } from './const';
-import getVendorsForSelect from '../Utils/getVendorsForSelect';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
@@ -258,7 +257,6 @@ class POLineForm extends Component {
     const showEresources = isEresource(orderFormat);
     const showPhresources = isFresource(orderFormat);
     const showOther = isOtherResource(orderFormat);
-    const vendors = getVendorsForSelect(parentResources);
     const materialTypes = getMaterialTypesForSelect(parentResources);
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
@@ -266,10 +264,7 @@ class POLineForm extends Component {
     const locations = getLocationsForSelect(parentResources);
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
-    const {
-      accounts,
-      vendorCurrencies,
-    } = vendor;
+    const { accounts } = vendor;
     const fundDistribution = get(formValues, 'fundDistribution');
     const vendorRefNumberType = get(formValues, 'vendorDetail.refNumberType');
     const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
@@ -355,7 +350,6 @@ class POLineForm extends Component {
                         change={change}
                         dispatch={dispatch}
                         formValues={formValues}
-                        currencies={vendorCurrencies}
                         order={order}
                       />
                     </Accordion>
@@ -388,9 +382,10 @@ class POLineForm extends Component {
                       >
                         <PhysicalForm
                           materialTypes={materialTypes}
-                          vendors={vendors}
                           order={order}
                           formValues={formValues}
+                          change={change}
+                          dispatch={dispatch}
                         />
                       </Accordion>
                     )}
@@ -402,8 +397,9 @@ class POLineForm extends Component {
                         <EresourcesForm
                           materialTypes={materialTypes}
                           order={order}
-                          vendors={vendors}
                           formValues={formValues}
+                          change={change}
+                          dispatch={dispatch}
                         />
                       </Accordion>
                     )}
@@ -414,9 +410,10 @@ class POLineForm extends Component {
                       >
                         <OtherForm
                           materialTypes={materialTypes}
-                          vendors={vendors}
                           order={order}
                           formValues={formValues}
+                          change={change}
+                          dispatch={dispatch}
                         />
                       </Accordion>
                     )}
