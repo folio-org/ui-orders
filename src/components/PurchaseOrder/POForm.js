@@ -200,8 +200,8 @@ class POForm extends Component {
 
         if (templateFieldValue) dispatch(change(field, templateFieldValue));
       });
-
     if (isOngoing(templateValue.orderType)) {
+      dispatch(change('ongoing', templateValue.ongoing || {}));
       setTimeout(() => {
         form = get(stripes.store.getState(), 'form', {});
         Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))

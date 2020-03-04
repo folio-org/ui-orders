@@ -12,7 +12,6 @@ import { getUserNameById } from '../../common/utils';
 import { updateOrderResource } from '../Utils/orderResource';
 import {
   showUpdateOrderError,
-  ongoingOrderInfo,
 } from '../Utils/order';
 import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
@@ -66,9 +65,8 @@ class LayerPO extends Component {
 
   updatePO = (order) => {
     const { parentMutator, onCancel } = this.props;
-    const orderWithOngoingInfo = ongoingOrderInfo(order);
 
-    updateOrderResource(orderWithOngoingInfo, parentMutator.records)
+    updateOrderResource(order, parentMutator.records)
       .then(() => onCancel())
       .catch(async e => {
         await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);

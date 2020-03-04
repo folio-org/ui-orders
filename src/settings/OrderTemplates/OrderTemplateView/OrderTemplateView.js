@@ -67,7 +67,7 @@ class OrderTemplateView extends Component {
       [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
-      [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
@@ -228,8 +228,8 @@ class OrderTemplateView extends Component {
 
                 {isOngoing(orderType) && (
                   <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]}
-                    id={ORDER_TEMPLATES_ACCORDION.PO_RENEWALS}
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_ONGOING]}
+                    id={ORDER_TEMPLATES_ACCORDION.PO_ONGOING}
                   >
                     <OngoingOrderInfoView order={orderTemplate} />
                   </Accordion>

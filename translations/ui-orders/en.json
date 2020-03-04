@@ -748,7 +748,7 @@
 
   "settings.orderTemplates.accordion.template": "Template information",
   "settings.orderTemplates.accordion.poInfo": "PO information",
-  "settings.orderTemplates.accordion.poRenewals": "PO renewal information",
+  "settings.orderTemplates.accordion.poOngoing": "Ongoing PO information",
   "settings.orderTemplates.accordion.poNotes": "Notes",
   "settings.orderTemplates.accordion.poTags": "PO tags",
   "settings.orderTemplates.accordion.poSummary": "PO summary",

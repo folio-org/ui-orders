@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Row,
@@ -10,40 +11,67 @@ import {
   FieldRenewalDate,
   FieldRenewalPeriod,
   FieldIsManualRenewal,
+  FieldRenewalSubscription,
+  FieldReviewDate,
+  FieldOngoingInfoNotes,
 } from '../../../../common/POFields';
 
-const PurchaseOrderRenewalsForm = () => {
+const PurchaseOrderRenewalsForm = ({ ongoingFormValues }) => {
   return (
-    <Row start="xs">
+    <Row>
       <Col
-        xs={3}
-        data-col-order-template-renewal-interval
+        xs={6}
+        md={3}
       >
-        <FieldRenewalInterval required={false} />
+        <FieldRenewalSubscription disabled={false} />
       </Col>
-
+      {ongoingFormValues?.isSubscription ? (
+        <>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldRenewalInterval disabled={false} />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldRenewalDate disabled={false} />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldRenewalPeriod disabled={false} />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldIsManualRenewal disabled={false} />
+          </Col>
+        </>
+      ) : (
+        <Col
+          xs={6}
+          md={3}
+        >
+          <FieldReviewDate disabled={false} />
+        </Col>
+      )}
       <Col
-        xs={3}
-        data-col-order-template-renewal-date
+        xs={6}
+        md={3}
       >
-        <FieldRenewalDate required={false} />
-      </Col>
-
-      <Col
-        xs={3}
-        data-col-order-template-renewal-period
-      >
-        <FieldRenewalPeriod />
-      </Col>
-
-      <Col
-        xs={3}
-        data-col-order-template-renewal-is-manual
-      >
-        <FieldIsManualRenewal />
+        <FieldOngoingInfoNotes disabled={false} />
       </Col>
     </Row>
   );
+};
+
+PurchaseOrderRenewalsForm.propTypes = {
+  ongoingFormValues: PropTypes.object.isRequired,
 };
 
 export default PurchaseOrderRenewalsForm;
