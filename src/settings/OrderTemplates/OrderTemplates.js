@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
   Route,
   Switch,
@@ -9,8 +9,10 @@ import { FormattedMessage } from 'react-intl';
 
 import { get } from 'lodash';
 
-import { stripesShape } from '@folio/stripes/core';
-import { Callout } from '@folio/stripes/components';
+import {
+  CalloutContext,
+  stripesShape,
+} from '@folio/stripes/core';
 
 import { ORDER_TEMPLATES } from '../../components/Utils/resources';
 import OrderTemplatesList from './OrderTemplatesList';
@@ -18,6 +20,7 @@ import OrderTemplatesEditorContainer from './OrderTemplatesEditor';
 import OrderTemplateViewContainer from './OrderTemplateView';
 
 class OrderTemplates extends Component {
+  static contextType = CalloutContext;
   static manifest = Object.freeze({
     orderTemplates: ORDER_TEMPLATES,
   });
@@ -38,7 +41,6 @@ class OrderTemplates extends Component {
     this.connectedOrderTemplatesList = stripes.connect(OrderTemplatesList);
     this.connectedOrderTemplatesEditor = stripes.connect(OrderTemplatesEditorContainer);
     this.connectedOrderTemplateView = stripes.connect(OrderTemplateViewContainer);
-    this.callout = React.createRef();
   }
 
   closePane = () => {
@@ -48,7 +50,7 @@ class OrderTemplates extends Component {
   }
 
   showSuccessDeleteMessage = () => {
-    this.callout.current.sendCallout({
+    this.context.sendCallout({
       type: 'success',
       message: <FormattedMessage id="ui-orders.settings.orderTemplates.remove.success" />,
     });
@@ -59,53 +61,50 @@ class OrderTemplates extends Component {
     const orderTemplatesList = get(resources, ['orderTemplates', 'records'], []);
 
     return (
-      <Fragment>
-        <Switch>
-          <Route
-            exact
-            path={path}
-            render={() => (
-              <this.connectedOrderTemplatesList
-                label={label}
-                rootPath={path}
-                orderTemplatesList={orderTemplatesList}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${path}/create`}
-            render={(props) => (
-              <this.connectedOrderTemplatesEditor
-                {...props}
-                close={this.closePane}
-              />
-            )}
-          />
-          <Route
-            path={`${path}/:id/view`}
-            render={(props) => (
-              <this.connectedOrderTemplateView
-                {...props}
-                close={this.closePane}
-                rootPath={path}
-                showSuccessDeleteMessage={this.showSuccessDeleteMessage}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${path}/:id/edit`}
-            render={(props) => (
-              <this.connectedOrderTemplatesEditor
-                {...props}
-                close={this.closePane}
-              />
-            )}
-          />
-        </Switch>
-        <Callout ref={this.callout} />
-      </Fragment>
+      <Switch>
+        <Route
+          exact
+          path={path}
+          render={() => (
+            <this.connectedOrderTemplatesList
+              label={label}
+              rootPath={path}
+              orderTemplatesList={orderTemplatesList}
+            />
+          )}
+        />
+        <Route
+          exact
+          path={`${path}/create`}
+          render={(props) => (
+            <this.connectedOrderTemplatesEditor
+              {...props}
+              close={this.closePane}
+            />
+          )}
+        />
+        <Route
+          path={`${path}/:id/view`}
+          render={(props) => (
+            <this.connectedOrderTemplateView
+              {...props}
+              close={this.closePane}
+              rootPath={path}
+              showSuccessDeleteMessage={this.showSuccessDeleteMessage}
+            />
+          )}
+        />
+        <Route
+          exact
+          path={`${path}/:id/edit`}
+          render={(props) => (
+            <this.connectedOrderTemplatesEditor
+              {...props}
+              close={this.closePane}
+            />
+          )}
+        />
+      </Switch>
     );
   }
 }

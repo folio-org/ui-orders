@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
-
 import {
-  Callout,
+  Layout,
 } from '@folio/stripes/components';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import {
   CONFIG_LINES_LIMIT,
@@ -15,104 +14,87 @@ import {
 import { CONFIG_API } from '../components/Utils/api';
 import POLinesLimitForm from './POLinesLimitForm';
 
-class POLinesLimit extends Component {
-  static manifest = Object.freeze({
-    linesLimit: {
-      type: 'okapi',
-      records: 'configs',
-      path: CONFIG_API,
-      GET: {
-        params: {
-          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
-        },
-      },
-    },
-  });
+const successMessageId = 'ui-orders.settings.setPOLInesLimit.changed';
 
-  static propTypes = {
-    label: PropTypes.node.isRequired,
-    mutator: PropTypes.shape({
-      linesLimit: PropTypes.shape({
-        POST: PropTypes.func.isRequired,
-        PUT: PropTypes.func.isRequired,
-        DELETE: PropTypes.func.isRequired,
-      }),
-    }).isRequired,
-    resources: PropTypes.shape({
-      linesLimit: PropTypes.shape({
-        records: PropTypes.arrayOf(PropTypes.object),
-      }),
-    }),
-  };
+function POLinesLimit({ label, resources, mutator }) {
+  const sendCallout = useShowCallout();
+  const onChangePOLinesLimitFormSubmit = useCallback(
+    values => {
+      const { linesLimit } = mutator;
 
-  constructor(props) {
-    super(props);
-
-    this.callout = React.createRef();
-
-    this.styles = {
-      poLineLimitFormWrapper: {
-        width: '100%',
-      },
-    };
-  }
-
-  onChangePOLinesLimitFormSubmit = values => {
-    const { linesLimit } = this.props.mutator;
-
-    if (values.id) {
-      if (values.value) {
-        linesLimit
-          .PUT(values)
-          .then(() => {
-            this.handleChangePOLinesLimitSuccess();
-          });
+      if (values.id) {
+        if (values.value) {
+          linesLimit
+            .PUT(values)
+            .then(() => {
+              sendCallout({ messageId: successMessageId });
+            });
+        } else {
+          linesLimit
+            .DELETE({ id: values.id })
+            .then(() => {
+              sendCallout({ messageId: successMessageId });
+            });
+        }
       } else {
         linesLimit
-          .DELETE({ id: values.id })
+          .POST({
+            module: MODULE_ORDERS,
+            configName: CONFIG_LINES_LIMIT,
+            value: values.value,
+          })
           .then(() => {
-            this.handleChangePOLinesLimitSuccess();
+            sendCallout({ messageId: successMessageId });
           });
       }
-    } else {
-      linesLimit
-        .POST({
-          module: MODULE_ORDERS,
-          configName: CONFIG_LINES_LIMIT,
-          value: values.value,
-        })
-        .then(() => {
-          this.handleChangePOLinesLimitSuccess();
-        });
-    }
-  }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sendCallout],
+  );
 
-  handleChangePOLinesLimitSuccess = () => {
-    const successMessage = (
-      <SafeHTMLMessage id="ui-orders.settings.setPOLInesLimit.changed" />
-    );
+  const initialValues = get(resources, ['linesLimit', 'records', 0], {});
 
-    this.callout.current.sendCallout({ message: successMessage });
-  };
-
-  render() {
-    const { label, resources } = this.props;
-    const initialValues = get(resources, ['linesLimit', 'records', 0], {});
-
-    return (
-      <div
-        data-test-order-settings-lines-limit
-        style={this.styles.poLineLimitFormWrapper}
-      >
-        <POLinesLimitForm
-          initialValues={initialValues}
-          onSubmit={this.onChangePOLinesLimitFormSubmit}
-          paneTitle={label}
-        />
-        <Callout ref={this.callout} />
-      </div>
-    );
-  }
+  return (
+    <Layout
+      data-test-order-settings-lines-limit
+      className="full"
+    >
+      <POLinesLimitForm
+        initialValues={initialValues}
+        onSubmit={onChangePOLinesLimitFormSubmit}
+        paneTitle={label}
+      />
+    </Layout>
+  );
 }
+
+POLinesLimit.manifest = Object.freeze({
+  linesLimit: {
+    type: 'okapi',
+    records: 'configs',
+    path: CONFIG_API,
+    GET: {
+      params: {
+        query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
+      },
+    },
+  },
+});
+
+POLinesLimit.propTypes = {
+  label: PropTypes.node.isRequired,
+  mutator: PropTypes.shape({
+    linesLimit: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+      PUT: PropTypes.func.isRequired,
+      DELETE: PropTypes.func.isRequired,
+    }),
+  }).isRequired,
+  resources: PropTypes.shape({
+    linesLimit: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object),
+    }),
+  }),
+};
 
 export default POLinesLimit;
