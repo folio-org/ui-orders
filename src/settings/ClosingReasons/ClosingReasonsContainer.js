@@ -24,10 +24,8 @@ function ClosingReasonsContainer({ label, mutator, resources }) {
   const sendCallout = useShowCallout();
   const removeReason = useCallback(
     async (id) => {
-      const { closingReasons } = mutator;
-
       try {
-        await closingReasons.DELETE({ id });
+        await mutator.closingReasons.DELETE({ id });
         sendCallout({ message: <FormattedMessage id="ui-orders.settings.closingReasons.remove.success" /> });
       } catch (e) {
         sendCallout({
@@ -61,9 +59,7 @@ function ClosingReasonsContainer({ label, mutator, resources }) {
       }
 
       reason = { ...reason, value };
-
-      const { closingReasons } = mutator;
-      const mutatorMethod = reason.id ? closingReasons.PUT : closingReasons.POST;
+      const mutatorMethod = reason.id ? mutator.closingReasons.PUT : mutator.closingReasons.POST;
 
       try {
         await mutatorMethod(reason);
