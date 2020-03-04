@@ -6,7 +6,6 @@ import {
 } from '@bigtest/interactor';
 
 import Button from './button';
-import { TIMEOUT } from './const';
 
 @interactor class LineDetailsPageActions {
   static defaultScope = '#data-test-line-details-actions';

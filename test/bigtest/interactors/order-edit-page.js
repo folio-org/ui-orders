@@ -11,7 +11,6 @@ import {
 import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 import Button from './button';
-import { TIMEOUT } from './const';
 
 @interactor class SuffixSelect {
   static defaultScope = 'select[name="numberSuffix"]';

@@ -15,7 +15,6 @@ import {
 import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 import Button from './button';
-import { TIMEOUT } from './const';
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
 
 const ITEM_DETAILS = {
