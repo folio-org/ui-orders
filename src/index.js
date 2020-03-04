@@ -1,5 +1,5 @@
 /* eslint-disable filenames/match-exported */
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -8,9 +8,7 @@ import {
 import { hot } from 'react-hot-loader';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { Callout } from '@folio/stripes/components';
 import { stripesShape } from '@folio/stripes/core';
-import { ToastContext } from '@folio/stripes-acq-components';
 
 import OrdersList from './OrdersList';
 import OrderLinesList from './OrderLinesList';
@@ -24,8 +22,6 @@ import {
   NoteEdit,
   NoteView,
 } from './common/Notes';
-
-const callout = React.createRef();
 
 const Orders = ({ match, location, showSettings }) => {
   const { path } = match;
@@ -59,14 +55,7 @@ const Orders = ({ match, location, showSettings }) => {
       </Switch>
     );
 
-  return (
-    <Fragment>
-      <ToastContext.Provider value={callout}>
-        {content}
-      </ToastContext.Provider>
-      <Callout ref={callout} />
-    </Fragment>
-  );
+  return content;
 };
 
 Orders.propTypes = {

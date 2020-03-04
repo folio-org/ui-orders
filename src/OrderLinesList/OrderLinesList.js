@@ -7,15 +7,16 @@ import {
 import PropTypes from 'prop-types';
 import { get, template } from 'lodash';
 
-import { stripesConnect, stripesShape } from '@folio/stripes/core';
-import { Callout } from '@folio/stripes/components';
+import {
+  stripesConnect,
+  stripesShape,
+} from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 import {
   changeSearchIndex,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   FolioFormattedDate,
-  showToast,
 } from '@folio/stripes-acq-components';
 
 import packageInfo from '../../package';
@@ -180,8 +181,6 @@ export class OrderLinesList extends Component {
     super(props, context);
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
-    this.callout = React.createRef();
-    this.showToast = showToast.bind(this);
     this.renderFilters = this.renderFilters.bind(this);
     this.changeSearchIndex = changeSearchIndex.bind(this);
   }
@@ -295,9 +294,7 @@ export class OrderLinesList extends Component {
           maxSortKeys={1}
           sortableColumns={sortableColumns}
           selectedIndex={get(resources.query, 'qindex')}
-          detailProps={{ showToast: this.showToast }}
         />
-        <Callout ref={this.callout} />
       </div>
     );
   }

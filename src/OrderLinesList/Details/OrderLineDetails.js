@@ -7,6 +7,7 @@ import {
   baseManifest,
   LoadingPane,
   Tags,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -22,12 +23,12 @@ const OrderLineDetails = ({
   onClose,
   parentMutator,
   parentResources,
-  showToast,
   ...restProps
 }) => {
   const lineId = match.params.id;
   const [line, setLine] = useState({});
   const [order, setOrder] = useState({});
+  const showToast = useShowCallout();
 
   const fetchLineDetails = useCallback(
     () => {
@@ -64,11 +65,18 @@ const OrderLineDetails = ({
 
       mutator.orderLine.DELETE(line)
         .then(() => {
-          showToast('ui-orders.line.delete.success', 'success', { lineNumber });
+          showToast({
+            messageId: 'ui-orders.line.delete.success',
+            type: 'success',
+            values: { lineNumber },
+          });
           parentMutator.query.update({ _path: '/orders/lines' });
         })
         .catch(() => {
-          showToast('ui-orders.errors.lineWasNotDeleted', 'error');
+          showToast({
+            messageId: 'ui-orders.errors.lineWasNotDeleted',
+            type: 'error',
+          });
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,7 +149,6 @@ OrderLineDetails.propTypes = {
   parentMutator: PropTypes.object.isRequired,
   parentResources: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
-  showToast: PropTypes.func.isRequired,
 };
 
 export default OrderLineDetails;

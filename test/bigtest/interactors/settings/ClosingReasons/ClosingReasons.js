@@ -20,6 +20,6 @@ export default interactor(class ClosingReasons {
   systemReasons = collection('[data-test-closing-reason-item-system]', ClosingReasonItem);
 
   whenLoaded() {
-    return this.timeout(TIMEOUT).when(() => this.iisOrdersListPresentsLoaded);
+    return this.timeout(TIMEOUT).when(() => this.isOrdersListPresent);
   }
 });

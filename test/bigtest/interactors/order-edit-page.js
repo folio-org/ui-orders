@@ -38,7 +38,7 @@ export default interactor(class OrderEditPage {
   static defaultScope = '#pane-poForm';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   whenLoaded() {
-    return this.timeout(TIMEOUT).when(() => this.isLoaded);
+    return this.timeout(20000).when(() => this.isLoaded);
   }
 
   title = text('[class*=paneTitleLabel---]');

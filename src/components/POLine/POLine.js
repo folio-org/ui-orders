@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
+import { CalloutContext } from '@folio/stripes/core';
 import { Tags } from '@folio/stripes-acq-components';
 
 import { ORDER } from '../Utils/resources';
@@ -13,12 +15,12 @@ import {
 import POLineView from './POLineView';
 
 class POLine extends Component {
+  static contextType = CalloutContext;
   static manifest = Object.freeze({
     order: ORDER,
   });
 
   static propTypes = {
-    showToast: PropTypes.func.isRequired,
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.shape({
       query: PropTypes.object.isRequired,
@@ -54,17 +56,23 @@ class POLine extends Component {
   }
 
   deleteLine = () => {
-    const { parentMutator, poURL, showToast } = this.props;
+    const { parentMutator, poURL } = this.props;
     const line = this.getLine();
     const lineNumber = line.poLineNumber;
 
     parentMutator.poLine.DELETE(line)
       .then(() => {
-        showToast('ui-orders.line.delete.success', 'success', { lineNumber });
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.line.delete.success" values={{ lineNumber }} />,
+          type: 'success',
+        });
         parentMutator.query.update({ _path: poURL });
       })
       .catch(() => {
-        showToast('ui-orders.errors.lineWasNotDeleted', 'error');
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.errors.lineWasNotDeleted" />,
+          type: 'error',
+        });
       });
   };
 

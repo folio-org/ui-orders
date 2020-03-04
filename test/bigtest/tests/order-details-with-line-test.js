@@ -67,14 +67,11 @@ describe('Order details with Line', function () {
   describe('clicking on line', () => {
     beforeEach(async () => {
       await orderDetailsPage.lines(0).click();
+      await lineDetailsPage.whenLoaded();
     });
 
     it('should redirect to Line Details pane', () => {
       expect(lineDetailsPage.isPresent).to.be.true;
-    });
-
-    it('should close Order Details pane', () => {
-      expect(orderDetailsPage.isPresent).to.be.false;
     });
   });
 

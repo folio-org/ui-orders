@@ -221,6 +221,6 @@ export default interactor(class LineEditPage {
   hasTemplateField = isPresent('[name="template"]');
 
   whenLoaded() {
-    return this.timeout(TIMEOUT).when(() => this.isLoaded);
+    return this.timeout(20000).when(() => this.isLoaded);
   }
 });
