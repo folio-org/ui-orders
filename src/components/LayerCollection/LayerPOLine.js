@@ -178,7 +178,7 @@ class LayerPOLine extends Component {
         layer: null,
       });
     } catch (e) {
-      this.callout.current.sendCallout({
+      this.context.sendCallout({
         message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
         type: 'error',
       });
