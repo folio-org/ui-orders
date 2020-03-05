@@ -29,7 +29,7 @@ import Button from './button';
 
 @interactor class OngoingInfoAccordion {
   static defaultScope = '#ongoing';
-  isSubscriptionCheckbox = clickable('[data-test-checkbox] label');
+  clickIsSubscriptionCheckbox = clickable('[data-test-checkbox] label');
   renewalInterval = isPresent('[name="ongoing.interval"]')
 }
 

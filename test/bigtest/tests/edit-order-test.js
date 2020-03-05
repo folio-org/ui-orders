@@ -36,7 +36,7 @@ describe('OrderEditPage', function () {
   describe('Select order type Ongoing', function () {
     beforeEach(async function () {
       await orderEditPage.orderTypeSelect.select(ORDER_TYPE.ongoing);
-      await orderEditPage.renewalsAccordion.isSubscriptionCheckbox();
+      await orderEditPage.renewalsAccordion.clickIsSubscriptionCheckbox();
     });
 
     it('displays Ongoing Order Info Accordion', function () {
