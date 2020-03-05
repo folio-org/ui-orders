@@ -9,6 +9,7 @@ import { withStripes } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
+  getLocationOptions,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -27,7 +28,6 @@ import {
   CONTRIBUTOR_NAME_TYPES,
 } from '../../../components/Utils/resources';
 import getIdentifierTypesForSelect from '../../../components/Utils/getIdentifierTypesForSelect';
-import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 import getFundsForSelect from '../../../components/Utils/getFundsForSelect';
 import getMaterialTypesForSelect from '../../../components/Utils/getMaterialTypesForSelect';
 import getContributorNameTypesForSelect from '../../../components/Utils/getContributorNameTypesForSelect';
@@ -64,7 +64,7 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
 
   const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
 
-  const locations = getLocationsForSelect(resources);
+  const locations = getLocationOptions(get(resources, 'locations.records', []));
   const funds = getFundsForSelect(resources);
   const identifierTypes = getIdentifierTypesForSelect(resources);
   const contributorNameTypes = getContributorNameTypesForSelect(resources);

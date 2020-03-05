@@ -204,7 +204,6 @@ export class OrderLinesList extends Component {
 
   renderFilters(onChange) {
     const { resources } = this.props;
-    const locations = get(resources, 'locations.records', []);
     const materialTypes = get(resources, 'materialTypes.records', []);
     const funds = get(resources, 'funds.records', []);
 
@@ -212,7 +211,6 @@ export class OrderLinesList extends Component {
       <OrderLinesFilters
         activeFilters={this.getActiveFilters()}
         funds={funds}
-        locations={locations}
         materialTypes={materialTypes}
         onChange={onChange}
       />
