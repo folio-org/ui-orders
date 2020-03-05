@@ -36,12 +36,12 @@ describe('OrderEditPage', function () {
   describe('Select order type Ongoing', function () {
     beforeEach(async function () {
       await orderEditPage.orderTypeSelect.select(ORDER_TYPE.ongoing);
-      await orderEditPage.renewalsAccordion.isSubscription();
+      await orderEditPage.renewalsAccordion.isSubscriptionCheckbox();
     });
 
     it('displays Ongoing Order Info Accordion', function () {
       expect(orderEditPage.isOngoingInfoOpen).to.be.true;
-      expect(orderEditPage.renewalsAccordion.renuvalInterval).to.be.true;
+      expect(orderEditPage.renewalsAccordion.renewalInterval).to.be.true;
     });
   });
 

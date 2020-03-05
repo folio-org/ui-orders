@@ -29,13 +29,13 @@ import Button from './button';
 
 @interactor class OngoingInfoAccordion {
   static defaultScope = '#ongoing';
-  isSubscription = clickable('[data-test-checkbox] label');
-  renuvalInterval = isPresent('[name="ongoing.interval"]')
+  isSubscriptionCheckbox = clickable('[data-test-checkbox] label');
+  renewalInterval = isPresent('[name="ongoing.interval"]')
 }
 
 export default interactor(class OrderEditPage {
   static defaultScope = '#pane-poForm';
-  isLoaded = isPresent('[class*=paneTitleLabel---]');
+  isLoaded = isPresent('#paneHeaderpane-poForm');
   whenLoaded() {
     return this.timeout(20000).when(() => this.isLoaded);
   }

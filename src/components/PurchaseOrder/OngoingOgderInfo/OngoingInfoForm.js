@@ -22,7 +22,7 @@ const OngoingInfoForm = ({
   order,
   ongoingFormValues,
 }) => {
-  const isPostPendingOrder = Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order);
+  const isPostPendingOrder = Boolean(order?.workflowStatus) && !isWorkflowStatusIsPending(order);
 
   return (
     <Row>
@@ -78,8 +78,8 @@ const OngoingInfoForm = ({
 };
 
 OngoingInfoForm.propTypes = {
-  order: PropTypes.object.isRequired,
-  ongoingFormValues: PropTypes.object.isRequired,
+  order: PropTypes.object,
+  ongoingFormValues: PropTypes.object,
 };
 
 export default OngoingInfoForm;

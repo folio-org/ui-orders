@@ -37,7 +37,7 @@ import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
-import PurchaseOrderRenewalsForm from './PurchaseOrderRenewalsForm';
+import { OngoingInfoForm } from '../../../components/PurchaseOrder/OngoingOgderInfo';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
 import POLineDetailsForm from './POLineDetailsForm';
@@ -229,7 +229,7 @@ class OrderTemplatesEditor extends Component {
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_ONGOING]}
                         id={ORDER_TEMPLATES_ACCORDION.PO_ONGOING}
                       >
-                        <PurchaseOrderRenewalsForm ongoingFormValues={formValues.ongoing} />
+                        <OngoingInfoForm ongoingFormValues={formValues.ongoing} />
                       </Accordion>
                     )
                   }
