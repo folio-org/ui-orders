@@ -25,7 +25,6 @@ export const ORDER_TEMPLATES_ACCORDION = {
 export const ORDER_TEMPLATES_ACCORDION_TITLES = {
   [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.template" />,
   [ORDER_TEMPLATES_ACCORDION.PO_INFO]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poInfo" />,
-  [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poOngoing" />,
   [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poNotes" />,
   [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poTags" />,
   [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poSummary" />,
