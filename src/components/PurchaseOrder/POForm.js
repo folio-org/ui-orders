@@ -38,7 +38,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
-import { OngoingInfoForm } from './onngoingOgderInfo';
+import { OngoingInfoForm } from './OngoingOgderInfo';
 import { PO_TEMPLATE_FIELDS_MAP } from './constants';
 
 const throwError = () => {
