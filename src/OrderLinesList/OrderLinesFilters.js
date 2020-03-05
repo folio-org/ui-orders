@@ -24,7 +24,6 @@ import {
 } from '../OrdersList/constants';
 import {
   fundsShape,
-  locationsShape,
   materialTypesShape,
 } from '../common/shapes';
 import {
