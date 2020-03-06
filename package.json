@@ -217,7 +217,7 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output ./output",
-    "test": "yarn run test:unit",
+    "test": "yarn run test:unit && yarn run test:e2e",
     "test:unit": "jest --ci --coverage",
     "test:e2e": "stripes test karma --karma.singleRun --karma.browsers ChromeDocker --karma.reporters mocha junit --coverage",
     "lint": "eslint ."
@@ -278,7 +278,6 @@
     "react-router-dom": "^4.3.1"
   },
   "optionalDependencies": {
-    "@folio/plugin-create-item": "^1.4.0",
     "@folio/plugin-find-instance": "^1.5.0",
     "@folio/plugin-find-organization": "^1.4.0",
     "@folio/plugin-find-user": "^1.9.0"
