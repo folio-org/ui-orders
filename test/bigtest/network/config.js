@@ -25,11 +25,10 @@ import {
   RECEIVING_API,
 } from '../../../src/components/Utils/api';
 import {
-  CONFIG_CLOSING_REASONS,
-  MODULE_ORDERS,
-} from '../../../src/components/Utils/const';
-import {
+  configClosingReasons,
   configOrders,
+  configPrefixes,
+  configSuffixes,
 } from './configs';
 
 export default function config() {
@@ -43,6 +42,9 @@ export default function config() {
   configLines(this);
   configLocations(this);
   configMaterialTypes(this);
+  configClosingReasons(this);
+  configSuffixes(this);
+  configPrefixes(this);
 
   this.get('/contributor-name-types');
   this.get('/identifier-types');
@@ -65,28 +67,7 @@ export default function config() {
 
   this.get(`${CONFIG_API}/:id`, 'config');
 
-  this.post(CONFIG_API, (schema, request) => {
-    const body = JSON.stringify(request.requestBody);
-
-    if (body.configName === CONFIG_CLOSING_REASONS) {
-      return {
-        id: '042faa36-23a3-4f62-a52c-e869edb69de1',
-        module: MODULE_ORDERS,
-        configName: CONFIG_CLOSING_REASONS,
-        code: body.code,
-        enabled: true,
-        value: body.value,
-        metadata: {
-          createdDate: '2019-04-03T10:58:40.990+0000',
-          createdByUserId: '641b9c1e-7cf8-5473-bb16-7a8f13095520',
-          updatedDate: '2019-04-03T10:58:40.990+0000',
-          updatedByUserId: '641b9c1e-7cf8-5473-bb16-7a8f13095520',
-        },
-      };
-    }
-
-    return {};
-  });
+  this.post(CONFIG_API, noop);
   this.put(`${CONFIG_API}/:id`, noop);
   this.delete(`${CONFIG_API}/:id`, noop);
 

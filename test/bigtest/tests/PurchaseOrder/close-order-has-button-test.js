@@ -4,12 +4,6 @@ import { expect } from 'chai';
 import setupApplication from '../../helpers/setup-application';
 import OrderDetailsPage from '../../interactors/order-details-page';
 import { WORKFLOW_STATUS } from '../../../../src/common/constants';
-import {
-  CONFIG_CLOSING_REASONS,
-  MODULE_ORDERS,
-} from '../../../../src/components/Utils/const';
-
-const REASON = 'test reason';
 
 describe('Close Order is enabled', function () {
   setupApplication();
@@ -22,13 +16,7 @@ describe('Close Order is enabled', function () {
       workflowStatus: WORKFLOW_STATUS.open,
     });
 
-    this.server.create('config', {
-      module: MODULE_ORDERS,
-      configName: CONFIG_CLOSING_REASONS,
-      enabled: true,
-      value: REASON,
-      code: 'CLOSING_REASON_1',
-    });
+    this.server.create('closingReason');
 
     this.visit(`/orders/view/${order.id}`);
     await page.whenLoaded();

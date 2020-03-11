@@ -1,1 +1,1 @@
-export { default } from './ClosingReasonsContainer';
+export { default } from './ClosingReasons';

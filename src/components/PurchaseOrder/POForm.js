@@ -29,7 +29,6 @@ import {
 } from '../../common/constants';
 import {
   getAddresses,
-  getSettingsList,
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
@@ -224,9 +223,10 @@ class POForm extends Component {
       this.getPaneFooter('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder') :
       this.getPaneFooter('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
     const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', {}));
-
-    const prefixesSetting = getSettingsList(get(parentResources, 'prefixesSetting.records', {}));
-    const suffixesSetting = getSettingsList(get(parentResources, 'suffixesSetting.records', {}));
+    const prefixesSetting = get(parentResources, 'prefixesSetting.records', [])
+      .map(({ name }) => ({ label: name, value: name }));
+    const suffixesSetting = get(parentResources, 'suffixesSetting.records', [])
+      .map(({ name }) => ({ label: name, value: name }));
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const poLinesLength = get(initialValues, 'compositePoLines', []).length;

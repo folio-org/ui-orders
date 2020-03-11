@@ -26,3 +26,8 @@ export const NOTE_TYPES = {
 export const CONFIG_INSTANCE_STATUS = 'inventory-instanceStatusCode';
 export const CONFIG_INSTANCE_TYPE = 'inventory-instanceTypeCode';
 export const CONFIG_LOAN_TYPE = 'inventory-loanTypeName';
+
+export const CLOSING_REASONS_SOURCE = {
+  system: 'System',
+  user: 'User',
+};

@@ -18,6 +18,9 @@
     "home": "/orders/lines?sort=-poLineNumber",
     "okapiInterfaces": {
       "acquisitions-units": "1.1",
+      "configuration.prefixes": "1.0",
+      "configuration.reasons-for-closure": "1.0",
+      "configuration.suffixes": "1.0",
       "configuration": "2.0",
       "contributor-name-types": "1.2",
       "finance.funds": "1.0",
@@ -83,6 +86,9 @@
         "subPermissions": [
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.collection.get",
+          "orders.configuration.prefixes.collection.get",
+          "orders.configuration.suffixes.collection.get",
+          "orders.configuration.reasons-for-closure.collection.get",
           "orders.item.get",
           "orders.receiving-history.collection.get",
           "ui-orders.third-party-services"
@@ -94,11 +100,14 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders.configuration.prefixes.collection.get",
+          "orders.configuration.suffixes.collection.get",
+          "orders.configuration.reasons-for-closure.collection.get",
+          "orders.item.post",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
-          "orders.item.post",
-          "orders.po-number.item.post",
-          "orders.po-number.item.get"
+          "orders.po-number.item.get",
+          "orders.po-number.item.post"
         ]
       },
       {
@@ -107,6 +116,9 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders.configuration.prefixes.collection.get",
+          "orders.configuration.suffixes.collection.get",
+          "orders.configuration.reasons-for-closure.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.item.put",
@@ -207,6 +219,9 @@
         "visible": true,
         "subPermissions": [
           "configuration.all",
+          "orders.configuration.prefixes.all",
+          "orders.configuration.reasons-for-closure.all",
+          "orders.configuration.suffixes.all",
           "orders.order-templates.all",
           "settings.enabled",
           "ui-orders.third-party-services"

@@ -37,7 +37,6 @@ import {
   ACQUISITIONS_UNITS,
   ADDRESSES,
   APPROVALS_SETTING,
-  CLOSING_REASONS,
   CONTRIBUTOR_NAME_TYPES,
   CREATE_INVENTORY,
   FUND,
@@ -46,8 +45,6 @@ import {
   MATERIAL_TYPES,
   ORDER_NUMBER_SETTING,
   ORDER_TEMPLATES,
-  PREFIXES_SETTING,
-  SUFFIXES_SETTING,
   USERS,
   VALIDATE_ISBN,
 } from '../components/Utils/resources';
@@ -56,6 +53,11 @@ import {
   getActiveFilters,
   handleFilterChange,
 } from '../common/utils';
+import {
+  reasonsForClosureResource,
+  prefixesResource,
+  suffixesResource,
+} from '../common/resources';
 import { showUpdateOrderError } from '../components/Utils/order';
 import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
@@ -110,11 +112,11 @@ class OrdersList extends Component {
     [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
     fund: FUND,
     materialTypes: MATERIAL_TYPES,
-    closingReasons: CLOSING_REASONS,
+    closingReasons: reasonsForClosureResource,
     orderNumberSetting: ORDER_NUMBER_SETTING,
     approvalsSetting: APPROVALS_SETTING,
-    prefixesSetting: PREFIXES_SETTING,
-    suffixesSetting: SUFFIXES_SETTING,
+    prefixesSetting: prefixesResource,
+    suffixesSetting: suffixesResource,
     orderTemplates: ORDER_TEMPLATES,
     vendors: {
       type: 'okapi',

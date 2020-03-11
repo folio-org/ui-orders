@@ -1,37 +1,54 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-
+import React, { Component } from 'react';
 import {
-  MODULE_ORDERS,
-  CONFIG_SUFFIXES,
-} from '../../components/Utils/const';
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 
-import OrderNumberModifier, { getOrderNumberModifierManifest } from '../OrderNumberModifier';
+import { stripesShape } from '@folio/stripes/core';
+import { ControlledVocab } from '@folio/stripes/smart-components';
 
-const objectLabel = <FormattedMessage id="ui-orders.settings.suffix" />;
+import { SUFFIXES_API } from '../../common/constants';
 
-const Suffixes = ({ stripes, resources, mutator }) => {
-  return (
-    <OrderNumberModifier
-      stripes={stripes}
-      resources={resources}
-      mutator={mutator}
-      moduleName={MODULE_ORDERS}
-      configName={CONFIG_SUFFIXES}
-      objectLabel={objectLabel}
-      labelId="ui-orders.settings.poNumber.suffixes"
-      labelSingularId="ui-orders.settings.poNumber.suffix"
-    />
-  );
+const suffixColumnMapping = {
+  name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
+  description: <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />,
 };
+const suffixVisibleFields = ['name', 'description'];
+const suffixHiddenFields = ['numberOfObjects', 'lastUpdated'];
 
-Suffixes.manifest = getOrderNumberModifierManifest(MODULE_ORDERS, CONFIG_SUFFIXES);
+class Suffixes extends Component {
+  constructor(props) {
+    super(props);
+    this.connectedControlledVocab = props.stripes.connect(ControlledVocab);
+  }
+
+  render() {
+    const { intl, stripes } = this.props;
+
+    return (
+      <this.connectedControlledVocab
+        baseUrl={SUFFIXES_API}
+        columnMapping={suffixColumnMapping}
+        editable
+        id="suffixes"
+        label={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}
+        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffix' })}
+        nameKey="name"
+        objectLabel={intl.formatMessage({ id: 'ui-orders.settings.suffix' })}
+        records="suffixes"
+        sortby="name"
+        stripes={stripes}
+        hiddenFields={suffixHiddenFields}
+        visibleFields={suffixVisibleFields}
+      />
+    );
+  }
+}
 
 Suffixes.propTypes = {
-  stripes: PropTypes.object.isRequired,
-  resources: PropTypes.object.isRequired,
-  mutator: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+  stripes: stripesShape.isRequired,
 };
 
-export default Suffixes;
+export default injectIntl(Suffixes);

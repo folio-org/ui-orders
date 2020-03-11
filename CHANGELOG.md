@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-439](https://issues.folio.org/browse/UIOR-439) Migrate orders settings from mod-configuration
 * [UIOR-521](https://issues.folio.org/browse/UIOR-521) New icon for "Close order"
 * [UIOR-471](https://issues.folio.org/browse/UIOR-471) Update purchase order "Renewal information" accordion
 * [UIOR-506](https://issues.folio.org/browse/UIOR-506) Replace org selection components with organization lookup

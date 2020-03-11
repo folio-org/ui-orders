@@ -1,153 +1,78 @@
-import { find } from 'lodash';
 import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { DEFAULT_CLOSE_ORDER_REASONS } from '../../../../src/common/constants';
+import { ConfirmationInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 import setupApplication from '../../helpers/setup-application';
-import ClosingReasons from '../../interactors/settings/ClosingReasons/ClosingReasons';
-import {
-  CONFIG_CLOSING_REASONS,
-  MODULE_ORDERS,
-} from '../../../../src/components/Utils/const';
+import ClosingReasonsInteractor from '../../interactors/settings/ClosingReasons/ClosingReasons';
 
 describe('Setting of Closing Reasons', function () {
-  const closingReasons = new ClosingReasons();
-  const defaultReasonsCount = Object.keys(DEFAULT_CLOSE_ORDER_REASONS).length;
-
   setupApplication();
 
+  const closingReasonsSetting = new ClosingReasonsInteractor();
+  const deleteConfirmation = new ConfirmationInteractor('#delete-controlled-vocab-entry-confirmation');
+
   beforeEach(async function () {
-    this.server.create('config', {
-      module: MODULE_ORDERS,
-      configName: CONFIG_CLOSING_REASONS,
-      enabled: true,
-      value: 'test reason',
-      code: 'CLOSING_REASON_1',
-    });
     this.visit('/settings/orders/closing-reasons');
-    await closingReasons.whenLoaded();
+    await closingReasonsSetting.whenLoaded();
   });
 
-  it('renders page correctly', () => {
-    expect(closingReasons.isPresent).to.be.true;
-    expect(closingReasons.isOrdersListPresent).to.be.true;
+  it('should be rendered', () => {
+    expect(closingReasonsSetting.isPresent).to.be.true;
+    expect(closingReasonsSetting.closingReasons.isPresent).to.be.false;
   });
 
-  it('should render Add button', () => {
-    expect(closingReasons.addClosingReason.isPresent).to.be.true;
-  });
-
-  describe('button click', () => {
-    beforeEach(async () => {
-      await closingReasons.addClosingReason.addAction();
+  describe('Add new reason', function () {
+    beforeEach(async function () {
+      await closingReasonsSetting.addReasonBtn.click();
     });
 
-    it('should open Closing Reason form', () => {
-      expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.true;
-    });
-  });
-
-  describe('form', () => {
-    beforeEach(async () => {
-      await closingReasons.addClosingReason.addAction();
+    it('renders fields for new reason', () => {
+      expect(closingReasonsSetting.closingReasons.list(0).saveButton.isPresent).to.be.true;
+      expect(closingReasonsSetting.closingReasons.list(0).cancelButton.isPresent).to.be.true;
     });
 
-    describe('submit action', () => {
-      beforeEach(async () => {
-        await closingReasons.addClosingReason.closingReasonForm.fillValue('test value');
-        await closingReasons.addClosingReason.closingReasonForm.submitAction();
+    describe('Cancel add new reason', function () {
+      beforeEach(async function () {
+        await closingReasonsSetting.closingReasons.list(0).cancelButton.click();
       });
 
-      it('should hide Closing Reason form', () => {
-        expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.false;
-        expect(closingReasons.addClosingReason.isPresent).to.be.true;
+      it('renders fields for new reason', () => {
+        expect(closingReasonsSetting.closingReasons.isPresent).to.be.false;
       });
     });
 
-    describe('cancel action', () => {
-      beforeEach(async () => {
-        await closingReasons.addClosingReason.closingReasonForm.cancelAction();
+    describe('Save new reason', function () {
+      beforeEach(async function () {
+        await closingReasonsSetting.closingReasons.list(0).nameInput.fill('test');
+        await closingReasonsSetting.closingReasons.list(0).saveButton.click();
       });
 
-      it('should hide Closing Reason form', () => {
-        expect(closingReasons.addClosingReason.closingReasonForm.isPresent).to.be.false;
-        expect(closingReasons.addClosingReason.isPresent).to.be.true;
-      });
-    });
-  });
-
-  it('should display all system reasons', () => {
-    expect(closingReasons.systemReasons().length === defaultReasonsCount).to.be.true;
-  });
-
-  it('should hide actions', () => {
-    closingReasons.systemReasons().forEach(reason => {
-      expect(reason.editAction().length).to.equal(0);
-    });
-  });
-
-  it('should display loaded reasons', () => {
-    expect(closingReasons.reasons().length > defaultReasonsCount).to.be.true;
-  });
-
-  describe('Remove action', () => {
-    beforeEach(async () => {
-      await (
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve();
-          }, 1000);
-        })
-      );
-
-      const userReason = find(closingReasons.reasons(), reason => reason.removeAction().length);
-
-      await userReason.removeAction(0).click();
-    });
-
-    it('should refresh items after success', () => {
-      expect(closingReasons.reasons().length > defaultReasonsCount).to.be.true;
-    });
-  });
-
-  describe('Edit action', () => {
-    beforeEach(async () => {
-      await (
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve();
-          }, 1000);
-        })
-      );
-
-      const userReason = find(closingReasons.reasons(), reason => reason.editAction().length);
-
-      await userReason.editAction(0).click();
-    });
-
-    it('should open Closing Reason form', () => {
-      expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.true;
-    });
-
-    describe('submit action', () => {
-      beforeEach(async () => {
-        await closingReasons.closingReasonItem.closingReasonForm.fillValue('test value');
-        await closingReasons.closingReasonItem.closingReasonForm.submitAction();
+      it('renders saved reason', () => {
+        expect(closingReasonsSetting.closingReasons.list().length).to.equal(1);
       });
 
-      it('should hide Closing Reason form', () => {
-        expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.false;
-      });
-    });
+      describe('Edit reason', function () {
+        beforeEach(async function () {
+          await closingReasonsSetting.closingReasons.list(0).editButton.click();
+          await closingReasonsSetting.closingReasons.list(0).nameInput.fill('test new');
+          await closingReasonsSetting.closingReasons.list(0).saveButton.click();
+        });
 
-    describe('cancel action', () => {
-      beforeEach(async () => {
-        await closingReasons.closingReasonItem.closingReasonForm.cancelAction();
+        it('renders edited reason', () => {
+          expect(closingReasonsSetting.closingReasons.list().length).to.equal(1);
+        });
       });
 
-      it('should hide Closing Reason form', () => {
-        expect(closingReasons.closingReasonItem.closingReasonForm.isPresent).to.be.false;
+      describe('Delete reason', function () {
+        beforeEach(async function () {
+          await closingReasonsSetting.closingReasons.list(0).deleteButton.click();
+          await deleteConfirmation.confirm();
+        });
+
+        it('does not render empty list', () => {
+          expect(closingReasonsSetting.closingReasons.isPresent).to.be.false;
+        });
       });
     });
   });

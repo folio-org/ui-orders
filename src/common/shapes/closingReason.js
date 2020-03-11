@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 
 export const closingReasonShape = PropTypes.shape({
-  value: PropTypes.string,
+  id: PropTypes.string,
+  reason: PropTypes.string,
 });
 
 export const closingReasonsShape = PropTypes.arrayOf(closingReasonShape);
