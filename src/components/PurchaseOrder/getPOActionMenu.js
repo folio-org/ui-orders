@@ -73,7 +73,9 @@ export function getPOActionMenu({
             data-test-close-order-button
             onClick={clickClose}
           >
-            <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
+            <Icon size="small" icon="archive">
+              <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
+            </Icon>
           </Button>
         )}
         {isOpenOrderButtonVisible && (
