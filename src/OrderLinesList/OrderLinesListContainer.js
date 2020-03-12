@@ -143,7 +143,7 @@ const OrderLinesListContainer = ({ history, mutator, location }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location.search],
   );
-  useLocationReset(history, location, '/invoice', refreshList);
+  useLocationReset(history, location, '/orders/lines', refreshList);
 
   return (
     <OrderLinesList
