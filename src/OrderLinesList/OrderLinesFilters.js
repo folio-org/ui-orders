@@ -6,7 +6,7 @@ import {
 } from '@folio/stripes/components';
 import {
   AcqTagsFilter,
-  LocationFilter,
+  LocationFilterContainer,
   SourceFilter,
   PluggableOrganizationFilter,
 } from '@folio/stripes-acq-components';
@@ -59,8 +59,9 @@ function OrderLinesFilters({ activeFilters, onChange, funds, materialTypes }) {
         onChange={onChange}
         options={ACQUISITION_METHOD_FILTER_OPTIONS}
       />
-      <LocationFilter
-        activeFilters={activeFilters[FILTERS.LOCATION]}
+      <LocationFilterContainer
+        id="pol-location-filter"
+        activeFilter={activeFilters[FILTERS.LOCATION] && activeFilters[FILTERS.LOCATION][0]}
         labelId="ui-orders.line.accordion.location"
         name={FILTERS.LOCATION}
         onChange={onChange}
