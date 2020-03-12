@@ -25,13 +25,10 @@ import {
 import {
   CONFIG_ADDRESSES,
   CONFIG_APPROVALS,
-  CONFIG_CLOSING_REASONS,
   CONFIG_CREATE_INVENTORY,
   CONFIG_LINES_LIMIT,
   CONFIG_OPEN_ORDER,
   CONFIG_ORDER_NUMBER,
-  CONFIG_PREFIXES,
-  CONFIG_SUFFIXES,
   LIMIT_MAX,
   MODULE_ORDERS,
   MODULE_TENANT,
@@ -100,17 +97,6 @@ export const VENDORS = {
     },
   },
   records: 'organizations',
-};
-
-export const CLOSING_REASONS = {
-  ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
-  GET: {
-    params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
-    },
-  },
 };
 
 export const LINES_LIMIT = {
@@ -184,28 +170,6 @@ export const APPROVALS_SETTING = {
   GET: {
     params: {
       query: `(module=${MODULE_ORDERS} and configName=${CONFIG_APPROVALS})`,
-    },
-  },
-};
-
-export const PREFIXES_SETTING = {
-  ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
-  GET: {
-    params: {
-      query: `(module=${MODULE_ORDERS} and configName=${MODULE_ORDERS.toLowerCase()}.${CONFIG_PREFIXES})`,
-    },
-  },
-};
-
-export const SUFFIXES_SETTING = {
-  ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
-  GET: {
-    params: {
-      query: `(module=${MODULE_ORDERS} and configName=${MODULE_ORDERS.toLowerCase()}.${CONFIG_SUFFIXES})`,
     },
   },
 };

@@ -5,10 +5,6 @@ import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import { ORDER_TYPE } from '../../../src/common/constants';
-import {
-  CONFIG_SUFFIXES,
-  MODULE_ORDERS,
-} from '../../../src/components/Utils/const';
 
 describe('Create order', function () {
   setupApplication();
@@ -16,11 +12,8 @@ describe('Create order', function () {
   const orderDetailsPage = new OrderDetailsPage();
 
   beforeEach(async function () {
-    this.server.create('config', {
-      module: MODULE_ORDERS,
-      configName: CONFIG_SUFFIXES,
-      enabled: true,
-      value: '{"name": "SS","description":"SS1"}',
+    this.server.create('suffix', {
+      name: 'SS',
     });
     this.server.create('orderTemplate', {
       orderType: ORDER_TYPE.oneTime,

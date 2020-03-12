@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-439](https://issues.folio.org/browse/UIOR-439) Migrate orders settings from mod-configuration
 * [UIOR-521](https://issues.folio.org/browse/UIOR-521) New icon for "Close order"
 * [UIOR-507](https://issues.folio.org/browse/UIOR-507) TECH-DEBT refactor PO Lines list to not use SearchAndSort
 * [UIOR-471](https://issues.folio.org/browse/UIOR-471) Update purchase order "Renewal information" accordion

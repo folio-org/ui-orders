@@ -1,46 +1,82 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 
-import { Pane } from '@folio/stripes/components';
+import { stripesShape } from '@folio/stripes/core';
+import { ControlledVocab } from '@folio/stripes/smart-components';
 
-import AddClosingReason from './AddClosingReason';
-import ClosingReasonItem from './ClosingReasonItem';
+import {
+  CLOSING_REASONS_SOURCE,
+  DEFAULT_CLOSE_ORDER_REASONS,
+  REASONS_FOR_CLOSURE_API,
+} from '../../common/constants';
 
-const ClosingReasons = ({ title, reasons, saveReason, removeReason }) => {
-  return (
-    <Pane
-      defaultWidth="100%"
-      fluidContentWidth
-      paneTitle={title}
-    >
-      <AddClosingReason saveReason={saveReason} />
-      <div data-test-order-settings-closing-orders-list>
-        {
-          reasons.map(reason => (
-            <ClosingReasonItem
-              key={reason.id || reason.code}
-              id={reason.id}
-              value={reason.value}
-              isSystem={!reason.id}
-              saveReason={saveReason}
-              removeReason={removeReason}
-            />
-          ))
-        }
-      </div>
-    </Pane>
-  );
+const hiddenFields = ['numberOfObjects', 'lastUpdated'];
+const visibleFields = ['reason', 'source'];
+const readOnlyFields = ['source'];
+const columnMapping = {
+  reason: <FormattedMessage id="ui-orders.settings.closingReasons.reason" />,
+  source: <FormattedMessage id="ui-orders.settings.closingReasons.source" />,
 };
+
+const reasonsLabel = <FormattedMessage id="ui-orders.settings.closingReasons.reason" />;
+const formatter = {
+  // eslint-disable-next-line react/prop-types
+  reason: ({ reason }) => (
+    <FormattedMessage
+      id={`ui-orders.closeOrderModal.closingReasons.${DEFAULT_CLOSE_ORDER_REASONS[reason]}`}
+      defaultMessage={reason}
+    />
+  ),
+  // eslint-disable-next-line react/prop-types
+  source: ({ source }) => (
+    <FormattedMessage id={`ui-orders.settings.closingReasons.${source}`} defaultMessage=" " />
+  ),
+};
+
+const suppressEdit = ({ source }) => source === CLOSING_REASONS_SOURCE.system;
+const suppressDelete = ({ source }) => source === CLOSING_REASONS_SOURCE.system;
+const actionSuppressor = { edit: suppressEdit, delete: suppressDelete };
+
+class ClosingReasons extends Component {
+  constructor(props) {
+    super(props);
+    this.connectedControlledVocab = props.stripes.connect(ControlledVocab);
+  }
+
+  render() {
+    const { intl, stripes } = this.props;
+
+    return (
+      <this.connectedControlledVocab
+        actionSuppressor={actionSuppressor}
+        baseUrl={REASONS_FOR_CLOSURE_API}
+        columnMapping={columnMapping}
+        data-test-closing-reasons-setting
+        editable
+        formatter={formatter}
+        hiddenFields={hiddenFields}
+        id="closingReasons"
+        label={intl.formatMessage({ id: 'ui-orders.settings.closingOrderReasons' })}
+        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.closingReasons.reason' })}
+        nameKey="reason"
+        objectLabel={reasonsLabel}
+        readOnlyFields={readOnlyFields}
+        records="reasonsForClosure"
+        sortby="reason"
+        stripes={stripes}
+        visibleFields={visibleFields}
+      />
+    );
+  }
+}
 
 ClosingReasons.propTypes = {
-  title: PropTypes.node.isRequired,
-  reasons: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    code: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })).isRequired,
-  saveReason: PropTypes.func.isRequired,
-  removeReason: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
+  stripes: stripesShape.isRequired,
 };
 
-export default ClosingReasons;
+export default injectIntl(ClosingReasons);

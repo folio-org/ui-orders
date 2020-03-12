@@ -1,13 +1,9 @@
 export const MODULE_ORDERS = 'ORDERS';
 export const MODULE_TENANT = 'TENANT';
-export const CONFIG_CLOSING_REASONS = 'order.closing-reasons';
 export const CONFIG_CREATE_INVENTORY = 'createInventory';
 export const CONFIG_LINES_LIMIT = 'poLines-limit';
 export const CONFIG_ORDER_NUMBER = 'orderNumber';
 export const CONFIG_ADDRESSES = 'tenant.addresses';
-export const CONFIG_PREFIXES = 'prefix';
-export const CONFIG_SUFFIXES = 'suffix';
-export const CONFIG_ORDER_TEMPLATES = 'order-templates';
 export const CONFIG_APPROVALS = 'approvals';
 export const CONFIG_OPEN_ORDER = 'openOrder';
 export const LINES_LIMIT_DEFAULT = 1;

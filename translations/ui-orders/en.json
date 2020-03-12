@@ -724,6 +724,7 @@
   "settings.closingReasons.saveBtn": "Save",
   "settings.closingReasons.System": "System",
   "settings.closingReasons.User": "User",
+  "settings.closingReasons.source": "Source",
   "settings.createInventory.eresource": "Electronic default",
   "settings.createInventory.other": "Other default",
   "settings.createInventory.physical": "Physical default",

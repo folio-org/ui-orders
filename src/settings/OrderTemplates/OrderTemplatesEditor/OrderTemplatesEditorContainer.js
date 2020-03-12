@@ -14,14 +14,16 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  prefixesResource,
+  suffixesResource,
+} from '../../../common/resources';
+import {
   IDENTIFIER_TYPES,
   ADDRESSES,
   ORDER_TEMPLATES,
   LOCATIONS,
   FUND,
   CREATE_INVENTORY,
-  PREFIXES_SETTING,
-  SUFFIXES_SETTING,
   VENDORS,
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
@@ -35,7 +37,6 @@ import {
   getCreateInventorySetting,
   getAddresses,
   getAddressOptions,
-  getSettingsList,
 } from '../../../common/utils';
 import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
 
@@ -71,8 +72,10 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
   const vendors = get(resources, 'vendors.records', [])
     .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
-  const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', []));
-  const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', []));
+  const prefixesSetting = get(resources, 'prefixesSetting.records', [])
+    .map(({ name }) => ({ label: name, value: name }));
+  const suffixesSetting = get(resources, 'suffixesSetting.records', [])
+    .map(({ name }) => ({ label: name, value: name }));
   const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
   const materialTypes = getMaterialTypesForSelect(resources);
   const orderTemplate = id
@@ -116,8 +119,8 @@ OrderTemplatesEditorContainer.manifest = Object.freeze({
   locations: LOCATIONS,
   fund: FUND,
   createInventory: CREATE_INVENTORY,
-  prefixesSetting: PREFIXES_SETTING,
-  suffixesSetting: SUFFIXES_SETTING,
+  prefixesSetting: prefixesResource,
+  suffixesSetting: suffixesResource,
   addresses: ADDRESSES,
   vendors: VENDORS,
   materialTypes: MATERIAL_TYPES,

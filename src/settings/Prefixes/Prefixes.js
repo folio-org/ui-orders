@@ -1,37 +1,54 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-
+import React, { Component } from 'react';
 import {
-  MODULE_ORDERS,
-  CONFIG_PREFIXES,
-} from '../../components/Utils/const';
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 
-import OrderNumberModifier, { getOrderNumberModifierManifest } from '../OrderNumberModifier';
+import { stripesShape } from '@folio/stripes/core';
+import { ControlledVocab } from '@folio/stripes/smart-components';
 
-const objectLabel = <FormattedMessage id="ui-orders.settings.prefix" />;
+import { PREFIXES_API } from '../../common/constants';
 
-const Prefixes = ({ stripes, resources, mutator }) => {
-  return (
-    <OrderNumberModifier
-      stripes={stripes}
-      resources={resources}
-      mutator={mutator}
-      moduleName={MODULE_ORDERS}
-      configName={CONFIG_PREFIXES}
-      objectLabel={objectLabel}
-      labelId="ui-orders.settings.poNumber.prefixes"
-      labelSingularId="ui-orders.settings.poNumber.prefix"
-    />
-  );
+const prefixColumnMapping = {
+  name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
+  description: <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />,
 };
+const prefixHiddenFields = ['numberOfObjects', 'lastUpdated'];
+const prefixVisibleFields = ['name', 'description'];
 
-Prefixes.manifest = getOrderNumberModifierManifest(MODULE_ORDERS, CONFIG_PREFIXES);
+class Prefixes extends Component {
+  constructor(props) {
+    super(props);
+    this.connectedControlledVocab = props.stripes.connect(ControlledVocab);
+  }
+
+  render() {
+    const { intl, stripes } = this.props;
+
+    return (
+      <this.connectedControlledVocab
+        baseUrl={PREFIXES_API}
+        columnMapping={prefixColumnMapping}
+        editable
+        hiddenFields={prefixHiddenFields}
+        id="prefixes"
+        label={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefixes' })}
+        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefix' })}
+        nameKey="name"
+        objectLabel={intl.formatMessage({ id: 'ui-orders.settings.prefix' })}
+        records="prefixes"
+        sortby="name"
+        stripes={stripes}
+        visibleFields={prefixVisibleFields}
+      />
+    );
+  }
+}
 
 Prefixes.propTypes = {
-  stripes: PropTypes.object.isRequired,
-  resources: PropTypes.object.isRequired,
-  mutator: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+  stripes: stripesShape.isRequired,
 };
 
-export default Prefixes;
+export default injectIntl(Prefixes);

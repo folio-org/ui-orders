@@ -1,25 +1,34 @@
 import {
   interactor,
-  isPresent,
   collection,
+  isPresent,
 } from '@bigtest/interactor';
 
-import AddClosingReason from './AddClosingReason';
-import ClosingReasonItem from './ClosingReasonItem';
+import {
+  ButtonInteractor,
+  TextFieldInteractor,
+} from '@folio/stripes-acq-components/test/bigtest/interactors';
+
 import { TIMEOUT } from '../../const';
 
-export default interactor(class ClosingReasons {
-  static defaultScope = '[data-test-order-settings-closing-orders]';
+@interactor class ClosingReasons {
+  list = collection('[class*=editListRow---]', {
+    nameInput: new TextFieldInteractor('input[type="text"]'),
+    saveButton: new ButtonInteractor('#clickable-save-closingReasons-0'),
+    cancelButton: new ButtonInteractor('#clickable-cancel-closingReasons-0'),
+    editButton: new ButtonInteractor('#clickable-edit-closingReasons-0'),
+    deleteButton: new ButtonInteractor('#clickable-delete-closingReasons-0'),
+  });
+}
 
-  isOrdersListPresent = isPresent('[data-test-order-settings-closing-orders-list]');
+export default interactor(class ClosingReasonsInteractor {
+  static defaultScope = '#closingReasons';
 
-  addClosingReason = new AddClosingReason();
-  closingReasonItem = new ClosingReasonItem();
+  closingReasons = new ClosingReasons('#editList-closingReasons');
+  addReasonBtn = new ButtonInteractor('#clickable-add-closingReasons');
 
-  reasons = collection(ClosingReasonItem.defaultScope, ClosingReasonItem);
-  systemReasons = collection('[data-test-closing-reason-item-system]', ClosingReasonItem);
-
+  isLoaded = isPresent('[class*=editableListFormHeader]');
   whenLoaded() {
-    return this.timeout(TIMEOUT).when(() => this.isOrdersListPresent);
+    return this.timeout(TIMEOUT).when(() => this.isLoaded);
   }
 });

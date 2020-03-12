@@ -27,8 +27,10 @@ import {
 
 import {
   getAddresses,
+  getClosingReasonsOptions,
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
+import { WORKFLOW_STATUS } from '../../common/constants';
 import { LayerPO } from '../LayerCollection';
 import {
   LINES_LIMIT,
@@ -42,7 +44,6 @@ import { showUpdateOrderError } from '../Utils/order';
 import { LINES_LIMIT_DEFAULT } from '../Utils/const';
 import CloseOrderModal from './CloseOrder';
 import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
-import { WORKFLOW_STATUS } from '../../common/constants';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
@@ -408,6 +409,7 @@ class PO extends Component {
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const funds = get(parentResources, 'fund.records', []);
     const approvalsSetting = get(parentResources, 'approvalsSetting.records', {});
+    const reasonsForClosure = getClosingReasonsOptions(closingReasons);
 
     const { isCloneConfirmation, updateOrderError } = this.state;
 
@@ -437,7 +439,7 @@ class PO extends Component {
             <CloseOrderModal
               cancel={this.unmountCloseOrderModal}
               closeOrder={this.closeOrder}
-              closingReasons={closingReasons}
+              closingReasons={reasonsForClosure}
               orderNumber={orderNumber}
             />
           )}
