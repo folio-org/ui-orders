@@ -9,7 +9,8 @@ import { withStripes } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
-  useShowToast,
+  getLocationOptions,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -27,7 +28,6 @@ import {
   CONTRIBUTOR_NAME_TYPES,
 } from '../../../components/Utils/resources';
 import getIdentifierTypesForSelect from '../../../components/Utils/getIdentifierTypesForSelect';
-import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 import getFundsForSelect from '../../../components/Utils/getFundsForSelect';
 import getMaterialTypesForSelect from '../../../components/Utils/getMaterialTypesForSelect';
 import getContributorNameTypesForSelect from '../../../components/Utils/getContributorNameTypesForSelect';
@@ -44,24 +44,27 @@ import OrderTemplatesEditor from './OrderTemplatesEditor';
 const INITIAL_VALUES = { isPackage: false };
 
 function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
-  const showToast = useShowToast();
+  const showToast = useShowCallout();
   const saveOrderTemplate = useCallback((values) => {
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplates.POST;
 
     mutatorMethod(values)
       .then(() => {
-        showToast('ui-orders.settings.orderTemplates.save.success');
+        showToast({ messageId: 'ui-orders.settings.orderTemplates.save.success' });
         close();
       })
       .catch(() => {
-        showToast('ui-orders.settings.orderTemplates.save.error', 'error');
+        showToast({
+          messageId: 'ui-orders.settings.orderTemplates.save.error',
+          type: 'error',
+        });
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
 
-  const locations = getLocationsForSelect(resources);
+  const locations = getLocationOptions(get(resources, 'locations.records', []));
   const funds = getFundsForSelect(resources);
   const identifierTypes = getIdentifierTypesForSelect(resources);
   const contributorNameTypes = getContributorNameTypesForSelect(resources);

@@ -437,7 +437,6 @@
     "order.paneTitle.edit": "تحرير - {orderNumber}",
     "orderSummary.closingReason": "سبب الإغلاق",
     "orderSummary.closingNote": "ملاحظات بشأن إغلاق",
-    "paneBlock.renewals": "معلومات التجديد",
     "renewals.manualRenewal": "تجديد يدوي",
     "renewals.renewalDate": "تاريخ التجديد",
     "renewals.renewalInterval": "الفاصل الزمني للتجديد",
@@ -663,7 +662,6 @@
     "settings.orderTemplates.confirmDelete.message": "هل أنت متأكد من أنك تريد حذف القالب؟",
     "settings.orderTemplates.remove.success": "تم حذف القالب",
     "settings.orderTemplates.remove.error": "لم يتم حذف القالب",
-    "settings.orderTemplates.accordion.poRenewals": "تجديدات أمر الشراء",
     "settings.orderTemplates.accordion.polOtherResources": "تفاصيل الموارد الأخرى",
     "order.poNumber": "رقم أمر الشراء",
     "order.lastUpdated": "آخر تحديث",
@@ -827,5 +825,11 @@
     "order.clone.message": "هل أنت متأكد من أنك تريد نسخ أمر الشراء هذا وجميع سطور الشراء الخاصة به؟",
     "order.clone.success": "تم نسخ أمر الشراء بنجاح",
     "order.reopen.success": "تمت <b>إعادة فتح</b> <b>أمر الشراء - {orderNumber}</b> بنجاح",
-    "paneBlock.cloneBtn": "نسخ"
+    "paneBlock.cloneBtn": "نسخ",
+    "order.save.success": "تم <b>حفظ</b> <b>أمر الشراء - {orderNumber}</b> بنجاح",
+    "paneBlock.ongoingInfo": "بيانات الطلبية الجارية",
+    "renewals.subscription": "اشتراك",
+    "renewals.reviewDate": "تاريخ التقييم",
+    "renewals.notes": "ملاحظات",
+    "settings.orderTemplates.accordion.poOngoing": "بيانات أمر الشراء الجاري"
 }

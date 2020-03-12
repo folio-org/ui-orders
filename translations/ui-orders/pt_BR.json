@@ -437,7 +437,6 @@
     "order.paneTitle.edit": "Editar - {orderNumber}",
     "orderSummary.closingReason": "Razão para o encerramento",
     "orderSummary.closingNote": "Notas sobre o encerramento",
-    "paneBlock.renewals": "Informações sobre a renovação",
     "renewals.manualRenewal": "Renovação manual",
     "renewals.renewalDate": "Data de renovação",
     "renewals.renewalInterval": "Intervalo de renovação",
@@ -663,7 +662,6 @@
     "settings.orderTemplates.confirmDelete.message": "Tem certeza de que deseja excluir o modelo?",
     "settings.orderTemplates.remove.success": "O modelo foi excluído",
     "settings.orderTemplates.remove.error": "O modelo não foi excluído",
-    "settings.orderTemplates.accordion.poRenewals": "Informação de renovação do pedido",
     "settings.orderTemplates.accordion.polOtherResources": "Outros detalhes do recurso",
     "order.poNumber": "Número do pedido",
     "order.lastUpdated": "Última atualização",
@@ -827,5 +825,11 @@
     "order.clone.message": "Tem certeza de que deseja clonar este pedido de compra e todas as suas linhas de pedido?",
     "order.clone.success": "O pedido foi clonado com sucesso",
     "order.reopen.success": "O <b>pedido de compra - {orderNumber}</b> foi <b>reaberto</b> com sucesso",
-    "paneBlock.cloneBtn": "Clonar"
+    "paneBlock.cloneBtn": "Clonar",
+    "order.save.success": "O <b>Pedido - {orderNumber} </b> foi <b>salvo com sucesso</b>",
+    "paneBlock.ongoingInfo": "Informações sobre pedidos em andamento",
+    "renewals.subscription": "Assinatura",
+    "renewals.reviewDate": "Data de revisão",
+    "renewals.notes": "Notas",
+    "settings.orderTemplates.accordion.poOngoing": "Informações de pedidos em andamento"
 }

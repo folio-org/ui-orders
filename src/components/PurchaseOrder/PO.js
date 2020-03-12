@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
 import { get } from 'lodash';
 
 import {
+  CalloutContext,
   IfPermission,
   stripesShape,
 } from '@folio/stripes/core';
@@ -14,7 +16,6 @@ import {
   Accordion,
   AccordionSet,
   Button,
-  Callout,
   ConfirmationModal,
   ExpandAllButton,
   Icon,
@@ -45,13 +46,14 @@ import { WORKFLOW_STATUS } from '../../common/constants';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
-import { RenewalsView } from './renewals';
+import { OngoingOrderInfoView } from './OngoingOgderInfo';
 import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 import { getPOActionMenu } from './getPOActionMenu';
 
 class PO extends Component {
+  static contextType = CalloutContext;
   static manifest = Object.freeze({
     order: ORDER,
     linesLimit: LINES_LIMIT,
@@ -68,7 +70,6 @@ class PO extends Component {
     history: ReactRouterPropTypes.history.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     stripes: stripesShape.isRequired,
-    showToast: PropTypes.func.isRequired,
     onCloseEdit: PropTypes.func,
     onClose: PropTypes.func,
     onEdit: PropTypes.func,
@@ -104,7 +105,6 @@ class PO extends Component {
     };
     this.transitionToParams = values => this.props.parentMutator.query.update(values);
     this.hasError = false;
-    this.callout = React.createRef();
   }
 
   toggleCloneConfirmation = () => {
@@ -112,20 +112,26 @@ class PO extends Component {
   };
 
   deletePO = () => {
-    const { parentMutator, showToast } = this.props;
+    const { parentMutator } = this.props;
     const order = this.getOrder();
     const orderNumber = order.poNumber;
 
     parentMutator.records.DELETE(order)
       .then(() => {
-        showToast('ui-orders.order.delete.success', 'success', { orderNumber });
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
+          type: 'success',
+        });
         parentMutator.query.update({
           _path: '/orders',
           layer: null,
         });
       })
       .catch(() => {
-        showToast('ui-orders.errors.orderWasNotDeleted', 'error');
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.errors.orderWasNotDeleted" />,
+          type: 'error',
+        });
       });
   }
 
@@ -159,7 +165,7 @@ class PO extends Component {
   };
 
   closeOrder = (reason, note) => {
-    const { mutator, resources, showToast } = this.props;
+    const { mutator, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const closeOrderProps = {
       workflowStatus: WORKFLOW_STATUS.closed,
@@ -170,22 +176,27 @@ class PO extends Component {
     };
 
     updateOrderResource(order, mutator.order, closeOrderProps)
-      .then(() => showToast('ui-orders.closeOrder.success', 'success'))
-      .catch(() => showToast('ui-orders.closeOrder.error', 'error'))
+      .then(() => this.context.sendCallout({ message: <SafeHTMLMessage id="ui-orders.closeOrder.success" /> }))
+      .catch(() => this.context.sendCallout({
+        message: <SafeHTMLMessage id="ui-orders.closeOrder.error" />,
+        type: 'error',
+      }))
       .finally(() => this.unmountCloseOrderModal());
   };
 
   approveOrder = () => {
-    const { showToast, mutator } = this.props;
+    const { mutator } = this.props;
     const order = this.getOrder();
     const orderNumber = get(order, 'poNumber', '');
 
     updateOrderResource(order, mutator.order, { approved: true })
       .then(() => {
-        showToast('ui-orders.order.approved.success', 'success', { orderNumber });
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
+        });
       })
       .catch(e => {
-        return showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
+        return showUpdateOrderError(e, this.context, this.orderErrorModalShow);
       });
   };
 
@@ -199,14 +210,14 @@ class PO extends Component {
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
     } catch (e) {
-      await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
+      await showUpdateOrderError(e, this.context, this.orderErrorModalShow);
     } finally {
       this.toggleOpenOrderModal();
     }
   };
 
   reopenOrder = async () => {
-    const { mutator, showToast } = this.props;
+    const { mutator } = this.props;
     const order = this.getOrder();
     const openOrderProps = {
       workflowStatus: WORKFLOW_STATUS.open,
@@ -214,27 +225,36 @@ class PO extends Component {
 
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
-      showToast('ui-orders.order.reopen.success', 'success', { orderNumber: order.poNumber });
+      this.context.sendCallout({
+        message: <SafeHTMLMessage id="ui-orders.order.reopen.success" values={{ orderNumber: order.poNumber }} />,
+        type: 'success',
+      });
     } catch (e) {
-      await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
+      await showUpdateOrderError(e, this.context, this.orderErrorModalShow);
     }
   };
 
   cloneOrder = async () => {
-    const { location, history, parentMutator, showToast } = this.props;
+    const { location, history, parentMutator } = this.props;
     const order = this.getOrder();
 
     this.toggleCloneConfirmation();
     try {
       const newOrder = await cloneOrder(order, parentMutator.records, order.compositePoLines);
 
-      showToast('ui-orders.order.clone.success', 'success');
+      this.context.sendCallout({
+        message: <SafeHTMLMessage id="ui-orders.order.clone.success" />,
+        type: 'success',
+      });
       history.push({
         pathname: `/orders/view/${newOrder.id}`,
         search: location.search,
       });
     } catch (e) {
-      showToast('ui-orders.order.clone.error', 'error');
+      this.context.sendCallout({
+        message: <SafeHTMLMessage id="ui-orders.order.clone.error" />,
+        type: 'error',
+      });
     }
   };
 
@@ -252,7 +272,7 @@ class PO extends Component {
       });
       this.transitionToParams({ layer: 'create-po-line' });
     } catch (e) {
-      this.callout.current.sendCallout({
+      this.context.sendCallout({
         message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
         type: 'error',
       });
@@ -327,7 +347,6 @@ class PO extends Component {
       parentMutator,
       parentResources,
       resources,
-      showToast,
       stripes,
       tagsEnabled,
       tagsToggle,
@@ -362,7 +381,10 @@ class PO extends Component {
     );
 
     if (hasError && !this.hasError) {
-      showToast('ui-orders.errors.orderNotLoaded', 'error');
+      this.context.sendCallout({
+        message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
+        type: 'error',
+      });
     }
 
     this.hasError = hasError;
@@ -446,10 +468,10 @@ class PO extends Component {
           </Accordion>
           {isOngoing(orderType) && (
             <Accordion
-              id="renewals"
-              label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}
+              id="ongoing"
+              label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
             >
-              <RenewalsView order={order} />
+              <OngoingOrderInfoView order={order} />
             </Accordion>
           )}
           <Accordion
@@ -521,7 +543,6 @@ class PO extends Component {
             open
           />
         )}
-        <Callout ref={this.callout} />
       </Pane>
     );
   }

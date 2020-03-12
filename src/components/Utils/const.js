@@ -12,7 +12,3 @@ export const CONFIG_APPROVALS = 'approvals';
 export const CONFIG_OPEN_ORDER = 'openOrder';
 export const LINES_LIMIT_DEFAULT = 1;
 export const LIMIT_MAX = 2147483647; // from https://s3.amazonaws.com/foliodocs/api/mod-orders-storage/location.html#orders_storage_locations_get
-export const EMPTY_OPTION = {
-  label: '',
-  value: '',
-};

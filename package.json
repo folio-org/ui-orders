@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "1.8.3",
+  "version": "2.0.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -18,22 +18,19 @@
     "home": "/orders/lines?sort=-poLineNumber",
     "okapiInterfaces": {
       "acquisitions-units": "1.1",
-      "circulation": "9.0",
       "configuration": "2.0",
       "contributor-name-types": "1.2",
       "finance.funds": "1.0",
       "identifier-types": "1.2",
       "instance-statuses": "1.0",
       "instance-types": "2.0",
-      "inventory": "10.0",
       "invoice": "3.0",
       "loan-types": "2.2",
       "locations": "3.0",
       "material-types": "2.2",
       "order-lines": "1.0",
-      "orders": "9.0",
+      "orders": "9.0 10.0",
       "organizations-storage.organizations": "3.0",
-      "pieces": "1.0",
       "po-number": "1.0",
       "receiving": "1.0",
       "tags": "1.0",
@@ -60,7 +57,6 @@
         "subPermissions": [
           "acquisitions-units.memberships.collection.get",
           "acquisitions-units.units.collection.get",
-          "circulation.requests.collection.get",
           "configuration.entries.collection.get",
           "finance.funds.collection.get",
           "finance.transactions.collection.get",
@@ -238,7 +234,7 @@
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
     "@folio/react-intl-safe-html": "^1.0.1",
-    "@folio/stripes": "^2.9.0",
+    "@folio/stripes": "^3.0.0",
     "@folio/stripes-cli": "^1.8.0",
     "@testing-library/react": "^9.3.2",
     "babel-eslint": "^9.0.0",
@@ -258,6 +254,8 @@
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-hot-loader": "^4.3.12",
+    "react-intl": "^2.4.0",
+    "react-router-dom": "^4.3.1",
     "regenerator-runtime": "^0.13.3",
     "sinon": "^7.0.0"
   },
@@ -268,19 +266,18 @@
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
-    "react-intl": "^2.4.0",
     "react-redux": "5.1.1",
     "react-router-prop-types": "^1.0.4",
     "redux-form": "^7.4.2"
   },
   "peerDependencies": {
-    "@folio/stripes": "^2.9.0",
+    "@folio/stripes": "^3.0.0",
     "react": "*",
-    "react-dom": "*",
-    "react-router-dom": "^5.1.2"
+    "react-intl": "^2.4.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1"
   },
   "optionalDependencies": {
-    "@folio/plugin-create-item": "^1.4.0",
     "@folio/plugin-find-instance": "^1.5.0",
     "@folio/plugin-find-organization": "^1.4.0",
     "@folio/plugin-find-user": "^1.9.0"

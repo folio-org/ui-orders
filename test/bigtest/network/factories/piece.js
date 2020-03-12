@@ -8,5 +8,5 @@ export default Factory.extend({
   title: (id) => `Piece - ${id}`,
   dateOrdered: () => faker.date.past(),
   receivingNote: (poLineNumber) => `POLine Number: ${poLineNumber}`,
-  receivingStatus: 'Expected',
+  receivingStatus: () => 'Expected',
 });

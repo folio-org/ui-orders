@@ -26,6 +26,7 @@ import stripesForm from '@folio/stripes/form';
 import {
   FieldSelection,
   FundDistributionFields,
+  getLocationOptions,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -49,7 +50,6 @@ import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
-import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { isWorkflowStatusIsPending } from '../PurchaseOrder/util';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
@@ -261,7 +261,7 @@ class POLineForm extends Component {
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
-    const locations = getLocationsForSelect(parentResources);
+    const locations = getLocationOptions(parentResources?.locations?.records || []);
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const { accounts } = vendor;

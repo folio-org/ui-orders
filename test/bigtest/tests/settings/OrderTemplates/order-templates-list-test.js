@@ -25,6 +25,7 @@ describe('Settings - Order templates - list', function () {
   describe('click on template', () => {
     beforeEach(async function () {
       await orderTemplatesList.list(0).click();
+      await orderTemplateView.whenLoaded();
     });
 
     it('should redirect to view screen', () => {

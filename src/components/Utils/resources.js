@@ -4,24 +4,19 @@ import {
 
 import {
   ACQUISITIONS_UNITS_API,
-  CHECKIN_API,
   CONFIG_API,
   CONTRIBUTOR_NAME_TYPES_API,
   IDENTIFIER_TYPES_API,
   INVOICE_LINES_API,
   INVOICES_API,
   ISBN_VALIDATOR,
-  ITEMS_API,
-  REQUESTS_API,
   LINE_DETAIL_API,
   LOCATIONS_API,
   MATERIAL_TYPES_API,
   ORDER_DETAIL_API,
   ORDER_INVOICE_RELNS_API,
-  ORDER_PIECES_API,
   ORDER_TEMPLATE_DETAIL_API,
   ORDER_TEMPLATES_API,
-  RECEIVE_API,
   RECEIVING_API,
   USERS_API,
   VENDORS_API,
@@ -69,50 +64,6 @@ export const LOCATIONS = {
 export const ORDER = {
   ...BASE_RESOURCE,
   path: ORDER_DETAIL_API,
-};
-
-export const RECEIVE = {
-  clientGeneratePk: false,
-  fetch: false,
-  path: RECEIVE_API,
-  records: 'toBeReceived',
-  throwErrors: false,
-  type: 'okapi',
-};
-
-export const ITEMS = {
-  ...BASE_RESOURCE,
-  fetch: false,
-  accumulate: true,
-  path: ITEMS_API,
-  records: 'items',
-  throwErrors: false,
-};
-
-export const REQUESTS = {
-  ...BASE_RESOURCE,
-  fetch: false,
-  accumulate: true,
-  path: REQUESTS_API,
-  records: 'requests',
-};
-
-export const CHECKIN = {
-  ...BASE_RESOURCE,
-  clientGeneratePk: false,
-  fetch: false,
-  path: CHECKIN_API,
-  records: 'toBeReceived',
-  throwErrors: false,
-};
-
-export const ORDER_PIECES = {
-  ...BASE_RESOURCE,
-  accumulate: true,
-  clientGeneratePk: false,
-  fetch: false,
-  path: ORDER_PIECES_API,
-  records: 'checkInItems',
 };
 
 export const LINE = {

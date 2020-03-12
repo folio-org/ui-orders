@@ -6,11 +6,11 @@ import {
 } from '@folio/stripes/components';
 import {
   AcqTagsFilter,
+  LocationFilter,
   SourceFilter,
   PluggableOrganizationFilter,
 } from '@folio/stripes-acq-components';
 
-import LocationFilter from '../common/LocationFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
 import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 import MaterialTypeFilter from '../common/MaterialTypeFilter';
@@ -24,7 +24,6 @@ import {
 } from '../OrdersList/constants';
 import {
   fundsShape,
-  locationsShape,
   materialTypesShape,
 } from '../common/shapes';
 import {
@@ -32,7 +31,7 @@ import {
   FILTERS,
 } from './constants';
 
-function OrderLinesFilters({ activeFilters, onChange, funds, locations, materialTypes }) {
+function OrderLinesFilters({ activeFilters, onChange, funds, materialTypes }) {
   return (
     <AccordionSet>
       <OrdersCheckboxFilter
@@ -65,7 +64,6 @@ function OrderLinesFilters({ activeFilters, onChange, funds, locations, material
         labelId="ui-orders.line.accordion.location"
         name={FILTERS.LOCATION}
         onChange={onChange}
-        locations={locations}
       />
       <FundFilter
         activeFilters={activeFilters[FILTERS.FUND_CODE]}
@@ -226,7 +224,6 @@ OrderLinesFilters.propTypes = {
   onChange: PropTypes.func.isRequired,
   activeFilters: PropTypes.object.isRequired,
   funds: fundsShape,
-  locations: locationsShape,
   materialTypes: materialTypesShape,
 };
 

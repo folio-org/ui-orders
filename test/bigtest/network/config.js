@@ -14,18 +14,14 @@ import {
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
-  CHECKIN_API,
   CONFIG_API,
   INVOICE_LINES_API,
   INVOICES_API,
   ISBN_VALIDATOR,
-  ITEMS_API,
   ORDER_INVOICE_RELNS_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
-  ORDER_PIECES_API,
   ORDER_TEMPLATES_API,
-  RECEIVE_API,
   RECEIVING_API,
 } from '../../../src/components/Utils/api';
 import {
@@ -34,7 +30,6 @@ import {
 } from '../../../src/components/Utils/const';
 import {
   configOrders,
-  configRequests,
 } from './configs';
 
 export default function config() {
@@ -46,7 +41,6 @@ export default function config() {
   configTags(this);
   configOrders(this);
   configLines(this);
-  configRequests(this);
   configLocations(this);
   configMaterialTypes(this);
 
@@ -98,62 +92,6 @@ export default function config() {
 
   this.get(RECEIVING_API, (schema) => {
     return schema.pieces.all();
-  });
-
-  this.get(ITEMS_API, ({ items }) => items.all());
-
-  this.post(ORDER_PIECES_API, (schema, request) => {
-    const body = JSON.stringify(request.requestBody);
-
-    return {
-      id: body.id,
-      caption: body.caption,
-      comment: body.comment,
-      format: body.format,
-      locationId: body.locationId,
-      poLineId: body.poLineId,
-      receivingStatus: body.receivingStatus,
-    };
-  });
-
-  this.delete(`${ORDER_PIECES_API}/:id`, 'piece');
-
-  this.post(CHECKIN_API, (schema, request) => {
-    const body = JSON.stringify(request.requestBody);
-
-    return {
-      receivingResults: [{
-        poLineId: body.poLineId,
-        processedSuccessfully: 1,
-        processedWithError: 0,
-        receivingItemResults: [{
-          pieceId: body.pieceId,
-          processingStatus: {
-            type: 'success',
-          },
-        }],
-      }],
-      totalRecords: 1,
-    };
-  });
-
-  this.post(RECEIVE_API, (schema, request) => {
-    const body = JSON.stringify(request.requestBody);
-
-    return {
-      receivingResults: [{
-        poLineId: body.poLineId,
-        processedSuccessfully: 1,
-        processedWithError: 0,
-        receivingItemResults: [{
-          pieceId: body.pieceId,
-          processingStatus: {
-            type: 'success',
-          },
-        }],
-      }],
-      totalRecords: 1,
-    };
   });
 
   this.get(ORDER_TEMPLATES_API, (schema) => {

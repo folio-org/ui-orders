@@ -40,8 +40,13 @@ export default interactor(class OrdersInteractor {
   chooseSearchOption= selectable('#input-order-search-qindex');
   fillSearchField = fillable('#input-order-search');
   clickSearch = clickable('[data-test-search-and-sort-submit]');
+  listIsLoaded = isPresent('#list-orders');
 
   whenLoaded() {
     return this.timeout(TIMEOUT).when(() => this.hasCreateOrderButton);
+  }
+
+  whenListLoaded() {
+    return this.timeout(TIMEOUT).when(() => this.listIsLoaded);
   }
 });

@@ -37,7 +37,7 @@ import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
-import PurchaseOrderRenewalsForm from './PurchaseOrderRenewalsForm';
+import { OngoingInfoForm } from '../../../components/PurchaseOrder/OngoingOgderInfo';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
 import POLineDetailsForm from './POLineDetailsForm';
@@ -83,7 +83,7 @@ class OrderTemplatesEditor extends Component {
     sections: {
       [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
       [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
-      [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
@@ -226,10 +226,10 @@ class OrderTemplatesEditor extends Component {
                   {
                     isOngoing(formValues.orderType) && (
                       <Accordion
-                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]}
-                        id={ORDER_TEMPLATES_ACCORDION.PO_RENEWALS}
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_ONGOING]}
+                        id={ORDER_TEMPLATES_ACCORDION.PO_ONGOING}
                       >
-                        <PurchaseOrderRenewalsForm />
+                        <OngoingInfoForm ongoingFormValues={formValues.ongoing} />
                       </Accordion>
                     )
                   }

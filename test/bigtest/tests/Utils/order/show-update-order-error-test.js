@@ -29,9 +29,7 @@ describe('showUpdateOrderError', () => {
 
       beforeEach(async () => {
         fakeCallout = {
-          current: {
-            sendCallout: sinon.spy(),
-          },
+          sendCallout: sinon.spy(),
         };
         fakeResponse = {
           json: () => ({
@@ -48,7 +46,7 @@ describe('showUpdateOrderError', () => {
       });
 
       it('call callout with right error', () => {
-        expect(fakeCallout.current.sendCallout.firstCall.args[0].message.props.id).to.equal(`ui-orders.errors.${errorCode}`);
+        expect(fakeCallout.sendCallout.firstCall.args[0].message.props.id).to.equal(`ui-orders.errors.${errorCode}`);
       });
     });
   });
@@ -65,9 +63,7 @@ describe('showUpdateOrderError', () => {
 
     beforeEach(async () => {
       fakeCallout = {
-        current: {
-          sendCallout: sinon.spy(),
-        },
+        sendCallout: sinon.spy(),
       };
       fakeResponse = {
         json: () => ({
@@ -96,9 +92,7 @@ describe('showUpdateOrderError', () => {
 
     beforeEach(async () => {
       fakeCallout = {
-        current: {
-          sendCallout: sinon.spy(),
-        },
+        sendCallout: sinon.spy(),
       };
       fakeResponse = {
         json: () => ({
@@ -133,9 +127,7 @@ describe('showUpdateOrderError', () => {
 
     beforeEach(async () => {
       fakeCallout = {
-        current: {
-          sendCallout: sinon.spy(),
-        },
+        sendCallout: sinon.spy(),
       };
       fakeResponse = {
         json: () => ({
@@ -174,9 +166,7 @@ describe('showUpdateOrderError', () => {
 
     beforeEach(async () => {
       fakeCallout = {
-        current: {
-          sendCallout: sinon.spy(),
-        },
+        sendCallout: sinon.spy(),
       };
       fakeResponse = {
         json: () => ({

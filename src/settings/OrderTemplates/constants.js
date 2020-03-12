@@ -6,7 +6,7 @@ import { ACCORDION_ID as PO_LINE_ACCORDION } from '../../components/POLine/const
 export const ORDER_TEMPLATES_ACCORDION = {
   TEMPLATE_INFO: 'templateInfo',
   PO_INFO: 'poInfo',
-  PO_RENEWALS: 'renewals',
+  PO_ONGOING: 'ongoing',
   PO_NOTES: 'poNotes',
   PO_TAGS: 'poTags',
   PO_SUMMARY: 'poSummary',
@@ -25,11 +25,10 @@ export const ORDER_TEMPLATES_ACCORDION = {
 export const ORDER_TEMPLATES_ACCORDION_TITLES = {
   [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.template" />,
   [ORDER_TEMPLATES_ACCORDION.PO_INFO]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poInfo" />,
-  [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poRenewals" />,
   [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poNotes" />,
   [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poTags" />,
   [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poSummary" />,
-  [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poRenewals" />,
+  [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poOngoing" />,
   [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poItemDetails" />,
   [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polDetails" />,
   [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polCostDetails" />,

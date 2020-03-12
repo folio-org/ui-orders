@@ -1,5 +1,0 @@
-.mclCellVCenter {
-  & div[role="gridcell"] {
-    align-items: center;
-  }
-}

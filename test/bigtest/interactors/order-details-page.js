@@ -55,7 +55,7 @@ export default interactor(class OrderDetailsPage {
   approveOrderButton = new Button('[data-test-approve-order-button]');
   closeOrderButton = new Button('[data-test-close-order-button]');
   reopenOrderButton = new Button('[data-test-reopen-order-button]');
-  renewalsAccordion = isPresent('#renewals');
+  renewalsAccordion = isPresent('#ongoing');
   billTo = new BillTo();
   shipTo = new ShipTo();
   workflowStatus = new WorkflowStatus();
@@ -65,7 +65,7 @@ export default interactor(class OrderDetailsPage {
   orderInvoicesIsPresent = isPresent('#orderInvoices');
 
   whenLoaded() {
-    return this.timeout(TIMEOUT).when(() => this.isLoaded);
+    return this.timeout(20000).when(() => this.isLoaded);
   }
 
   whenInvoicesLoaded() {

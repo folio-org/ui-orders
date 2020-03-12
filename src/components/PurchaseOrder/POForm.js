@@ -38,7 +38,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
-import { RenewalsForm } from './renewals';
+import { OngoingInfoForm } from './OngoingOgderInfo';
 import { PO_TEMPLATE_FIELDS_MAP } from './constants';
 
 const throwError = () => {
@@ -200,8 +200,8 @@ class POForm extends Component {
 
         if (templateFieldValue) dispatch(change(field, templateFieldValue));
       });
-
     if (isOngoing(templateValue.orderType)) {
+      dispatch(change('ongoing', templateValue.ongoing || {}));
       setTimeout(() => {
         form = get(stripes.store.getState(), 'form', {});
         Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))
@@ -309,10 +309,10 @@ class POForm extends Component {
                         </Accordion>
                         {isOngoing(formValues.orderType) && (
                           <Accordion
-                            id="renewals"
-                            label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}
+                            id="ongoing"
+                            label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
                           >
-                            <RenewalsForm order={initialValues} />
+                            <OngoingInfoForm order={initialValues} ongoingFormValues={formValues.ongoing} />
                           </Accordion>
                         )}
                         <Accordion

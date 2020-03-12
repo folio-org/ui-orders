@@ -4,13 +4,13 @@ import {
   isPresent,
   text,
   value,
+  clickable,
   fillable,
 } from '@bigtest/interactor';
 
 import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 import Button from './button';
-import { TIMEOUT } from './const';
 
 @interactor class SuffixSelect {
   static defaultScope = 'select[name="numberSuffix"]';
@@ -27,12 +27,17 @@ import { TIMEOUT } from './const';
   template = new Button('[name="template"]');
 }
 
+@interactor class OngoingInfoAccordion {
+  static defaultScope = '#ongoing';
+  clickIsSubscriptionCheckbox = clickable('[data-test-checkbox] label');
+  renewalInterval = isPresent('[name="ongoing.interval"]')
+}
+
 export default interactor(class OrderEditPage {
   static defaultScope = '#pane-poForm';
   isLoaded = isPresent('#paneHeaderpane-poForm');
-
   whenLoaded() {
-    return this.timeout(TIMEOUT).when(() => this.isLoaded);
+    return this.timeout(20000).when(() => this.isLoaded);
   }
 
   title = text('[class*=paneTitleLabel---]');
@@ -42,7 +47,8 @@ export default interactor(class OrderEditPage {
   hasVendorNameField = isPresent('[name="vendor"]');
   hasCreatedByField = isPresent('[name="createdByName"]');
   suffixSelect = new SuffixSelect();
-  renewalsAccordion = isPresent('#renewals');
+  isOngoingInfoOpen = isPresent(OngoingInfoAccordion.defaultScope)
+  renewalsAccordion = new OngoingInfoAccordion();
   orderTypeSelect = new OrderTypeSelect();
   createOrderButton = new Button('#clickable-create-new-purchase-order');
   fillVendor = fillable('[name="vendor"]');

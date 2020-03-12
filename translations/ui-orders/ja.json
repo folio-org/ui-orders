@@ -437,7 +437,6 @@
     "order.paneTitle.edit": "Edit - {orderNumber}",
     "orderSummary.closingReason": "Reason for closure",
     "orderSummary.closingNote": "Notes on closure",
-    "paneBlock.renewals": "Renewal information",
     "renewals.manualRenewal": "Manual renewal",
     "renewals.renewalDate": "Renewal date",
     "renewals.renewalInterval": "Renewal interval",
@@ -663,7 +662,6 @@
     "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
     "settings.orderTemplates.remove.success": "The template was deleted",
     "settings.orderTemplates.remove.error": "The template was not deleted",
-    "settings.orderTemplates.accordion.poRenewals": "PO renewal information",
     "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
     "order.poNumber": "PO number",
     "order.lastUpdated": "Last updated",
@@ -827,5 +825,11 @@
     "order.clone.message": "Are you sure you want to clone this purchase order and all of its purchase order lines?",
     "order.clone.success": "The purchase order was successfully cloned",
     "order.reopen.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>reopened</b>",
-    "paneBlock.cloneBtn": "Clone"
+    "paneBlock.cloneBtn": "Clone",
+    "order.save.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>saved</b>",
+    "paneBlock.ongoingInfo": "Ongoing order information",
+    "renewals.subscription": "Subscription",
+    "renewals.reviewDate": "Review date",
+    "renewals.notes": "Notes",
+    "settings.orderTemplates.accordion.poOngoing": "Ongoing PO information"
 }

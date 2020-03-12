@@ -53,19 +53,19 @@ export const filterConfig = [
   },
   {
     name: FILTERS.RENEWAL_DATE,
-    cql: 'renewal.renewalDate',
+    cql: 'ongoing.renewalDate',
     isRange: true,
     rangeSeparator: ':',
     values: [],
   },
   {
     name: FILTERS.MANUAL_RENEWAL,
-    cql: 'renewal.manualRenewal',
+    cql: 'ongoing.manualRenewal',
     values: [],
   },
   {
     name: FILTERS.RENEWAL_REVIEW_PERIOD,
-    cql: 'renewal.reviewPeriod',
+    cql: 'ongoing.reviewPeriod',
     values: [],
   },
   {

@@ -24,7 +24,7 @@ describe('OrderEditPage', function () {
 
   it('displays Edit Order form', function () {
     expect(orderEditPage.$root).to.exist;
-    expect(orderEditPage.renewalsAccordion).to.be.false;
+    expect(orderEditPage.isOngoingInfoOpen).to.be.false;
     expect(orderEditPage.addNoteButton.isButton).to.be.true;
     expect(orderEditPage.notes().length).to.be.equal(1);
   });
@@ -36,10 +36,12 @@ describe('OrderEditPage', function () {
   describe('Select order type Ongoing', function () {
     beforeEach(async function () {
       await orderEditPage.orderTypeSelect.select(ORDER_TYPE.ongoing);
+      await orderEditPage.renewalsAccordion.clickIsSubscriptionCheckbox();
     });
 
-    it('displays Renewals Accordion', function () {
-      expect(orderEditPage.renewalsAccordion).to.be.true;
+    it('displays Ongoing Order Info Accordion', function () {
+      expect(orderEditPage.isOngoingInfoOpen).to.be.true;
+      expect(orderEditPage.renewalsAccordion.renewalInterval).to.be.true;
     });
   });
 

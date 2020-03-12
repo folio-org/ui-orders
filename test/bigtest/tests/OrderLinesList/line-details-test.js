@@ -52,6 +52,7 @@ describe('Order lines list - Line details test', function () {
     describe('View PO', function () {
       beforeEach(async function () {
         await page.actions.viewPOButton.click();
+        await orderPage.whenLoaded();
       });
 
       it('should redirect to PO details', function () {
@@ -69,11 +70,8 @@ describe('Order lines list - Line details test', function () {
       await deleteLineConfirmation.confirm();
     });
 
-    it('closes delete line confirmation', function () {
+    it('closes delete line confirmation and Line details pane', function () {
       expect(deleteLineConfirmation.isPresent).to.be.false;
-    });
-
-    it('closes Line Details Pane', function () {
       expect(page.isPresent).to.be.false;
     });
   });

@@ -2,19 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { get } from 'lodash';
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
 import {
-  Callout,
   Layer,
 } from '@folio/stripes/components';
+import { CalloutContext } from '@folio/stripes/core';
 
 import { getUserNameById } from '../../common/utils';
 import { updateOrderResource } from '../Utils/orderResource';
-import { showUpdateOrderError } from '../Utils/order';
+import {
+  showUpdateOrderError,
+} from '../Utils/order';
 import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 
 class LayerPO extends Component {
+  static contextType = CalloutContext;
   static propTypes = {
     order: PropTypes.object,
     location: PropTypes.object.isRequired,
@@ -27,7 +31,6 @@ class LayerPO extends Component {
   constructor(props) {
     super(props);
     this.connectedPOForm = props.stripes.connect(POForm);
-    this.callout = React.createRef();
     this.state = {
       createdByName: '',
       assignedToUser: '',
@@ -65,9 +68,14 @@ class LayerPO extends Component {
     const { parentMutator, onCancel } = this.props;
 
     updateOrderResource(order, parentMutator.records)
-      .then(() => onCancel())
+      .then(({ poNumber }) => {
+        this.context.sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: poNumber }} />,
+        });
+        onCancel();
+      })
       .catch(async e => {
-        await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
+        await showUpdateOrderError(e, this.context, this.openOrderErrorModalShow);
       });
   };
 
@@ -99,7 +107,6 @@ class LayerPO extends Component {
               cancel={this.closeErrorModal}
             />
           )}
-          <Callout ref={this.callout} />
         </Layer>
       );
     }

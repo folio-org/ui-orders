@@ -437,7 +437,6 @@
     "order.paneTitle.edit": "Modifica - {orderNumber}",
     "orderSummary.closingReason": "Motivo della chiusura",
     "orderSummary.closingNote": "Note sulla chiusura",
-    "paneBlock.renewals": "Informazioni sul rinnovo",
     "renewals.manualRenewal": "Rinnovo manuale",
     "renewals.renewalDate": "Data rinnovo",
     "renewals.renewalInterval": "Intervallo rinnovo",
@@ -663,7 +662,6 @@
     "settings.orderTemplates.confirmDelete.message": "Sei sicuro di voler eliminare il modello?",
     "settings.orderTemplates.remove.success": "Il modello è stato eliminato",
     "settings.orderTemplates.remove.error": "Il modello non è stato eliminato",
-    "settings.orderTemplates.accordion.poRenewals": "Informazioni sul rinnovo del PO",
     "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
     "order.poNumber": "Numero PO",
     "order.lastUpdated": "Ultimo aggiornamento",
@@ -827,5 +825,11 @@
     "order.clone.message": "Are you sure you want to clone this purchase order and all of its purchase order lines?",
     "order.clone.success": "The purchase order was successfully cloned",
     "order.reopen.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>reopened</b>",
-    "paneBlock.cloneBtn": "Clone"
+    "paneBlock.cloneBtn": "Clone",
+    "order.save.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>saved</b>",
+    "paneBlock.ongoingInfo": "Ongoing order information",
+    "renewals.subscription": "Subscription",
+    "renewals.reviewDate": "Review date",
+    "renewals.notes": "Notes",
+    "settings.orderTemplates.accordion.poOngoing": "Ongoing PO information"
 }
