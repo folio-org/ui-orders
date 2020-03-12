@@ -14,22 +14,29 @@ const indexes = [
   'details.productIds',
 ];
 
-const keywordIndex = {
-  label: 'keyword',
-  value: '',
-};
-
 export const indexISBN = {
-  label: 'productIdISBN',
-  prefix: '- ',
+  labelId: 'ui-orders.search.productIdISBN',
   value: 'productIdISBN',
-  queryTemplate: 'details.productIds all \\"productId\\": \\"<%= normalizedISBNValue %>\\"  AND details.productIds all  \\"productIdType\\": \\"<%= identifierTypeId %>\\"',
 };
 
 export const searchableIndexes = [
-  keywordIndex,
-  ...indexes.map(index => ({ label: index, value: index })),
+  {
+    labelId: 'ui-orders.search.keyword',
+    value: '',
+  },
+  ...indexes.map(index => ({ labelId: `ui-orders.search.${index}`, value: index })),
   indexISBN,
 ];
 
 export const queryTemplate = generateQueryTemplate(indexes);
+
+export const getKeywordQuery = query => indexes.reduce(
+  (acc, sIndex) => {
+    if (acc) {
+      return `${acc} or ${sIndex}="${query}*"`;
+    } else {
+      return `${sIndex}="${query}*"`;
+    }
+  },
+  '',
+);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -31,7 +31,14 @@ import {
   FILTERS,
 } from './constants';
 
-function OrderLinesFilters({ activeFilters, onChange, funds, materialTypes }) {
+const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
+
+function OrderLinesFilters({ activeFilters, applyFilters, funds, materialTypes }) {
+  const onChange = useCallback(
+    applyFiltersAdapter(applyFilters),
+    [applyFilters],
+  );
+
   return (
     <AccordionSet>
       <OrdersCheckboxFilter
@@ -222,7 +229,7 @@ function OrderLinesFilters({ activeFilters, onChange, funds, materialTypes }) {
 }
 
 OrderLinesFilters.propTypes = {
-  onChange: PropTypes.func.isRequired,
+  applyFilters: PropTypes.func.isRequired,
   activeFilters: PropTypes.object.isRequired,
   funds: fundsShape,
   materialTypes: materialTypesShape,

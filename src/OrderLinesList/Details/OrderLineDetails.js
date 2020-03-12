@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
 
+import { stripesConnect } from '@folio/stripes/core';
+
 import {
   baseManifest,
   LoadingPane,
@@ -14,16 +16,20 @@ import {
   ORDERS_API,
   LINES_API,
 } from '../../components/Utils/api';
+import {
+  FUND,
+  LOCATIONS,
+  MATERIAL_TYPES,
+} from '../../components/Utils/resources';
 import { POLineView } from '../../components/POLine';
 import { FILTERS as ORDER_FILTERS } from '../../OrdersList';
 
 const OrderLineDetails = ({
+  history,
+  location,
   match,
   mutator,
-  onClose,
-  parentMutator,
-  parentResources,
-  ...restProps
+  resources,
 }) => {
   const lineId = match.params.id;
   const [line, setLine] = useState({});
@@ -50,9 +56,9 @@ const OrderLineDetails = ({
 
   const goToOrderDetails = useCallback(
     () => {
-      parentMutator.query.replace({
-        _path: `/orders/view/${order.id}`,
-        filters: `${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
+      history.push({
+        pathname: `/orders/view/${order.id}`,
+        search: `qindex=${ORDER_FILTERS.PO_NUMBER}&query=${order.poNumber}`,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,7 +76,10 @@ const OrderLineDetails = ({
             type: 'success',
             values: { lineNumber },
           });
-          parentMutator.query.update({ _path: '/orders/lines' });
+          history.push({
+            pathname: '/orders/lines',
+            search: location.search,
+          });
         })
         .catch(() => {
           showToast({
@@ -80,7 +89,7 @@ const OrderLineDetails = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [lineId],
+    [lineId, location.search],
   );
 
   const updateLineTagList = async (orderLine) => {
@@ -92,10 +101,20 @@ const OrderLineDetails = ({
 
   const toggleTagsPane = () => setIsTagsPaneOpened(!isTagsPaneOpened);
 
-  const locations = get(parentResources, 'locations.records', []);
-  const materialTypes = get(parentResources, 'materialTypes.records', []);
-  const funds = get(parentResources, 'funds.records', []);
+  const locations = get(resources, 'locations.records', []);
+  const materialTypes = get(resources, 'materialTypes.records', []);
+  const funds = get(resources, 'funds.records', []);
 
+  const onClose = useCallback(
+    () => {
+      history.push({
+        pathname: '/orders/lines',
+        search: location.search,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location.search],
+  );
   const isLoading = !(order.id && line.id);
 
   if (isLoading) {
@@ -105,14 +124,12 @@ const OrderLineDetails = ({
   return (
     <Fragment>
       <POLineView
-        {...restProps}
         line={line}
         order={order}
         locations={locations}
         materialTypes={materialTypes}
         funds={funds}
         goToOrderDetails={goToOrderDetails}
-        queryMutator={parentMutator.query}
         deleteLine={deleteLine}
         tagsToggle={toggleTagsPane}
         onClose={onClose}
@@ -140,15 +157,17 @@ OrderLineDetails.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
+  locations: LOCATIONS,
+  materialTypes: MATERIAL_TYPES,
+  funds: FUND,
 });
 
 OrderLineDetails.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match,
   mutator: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  parentMutator: PropTypes.object.isRequired,
-  parentResources: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
 };
 
-export default OrderLineDetails;
+export default stripesConnect(OrderLineDetails);

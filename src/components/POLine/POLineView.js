@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -57,6 +59,7 @@ import { FILTERS as ORDER_FILTERS } from '../../OrdersList/constants';
 
 class POLineView extends Component {
   static propTypes = {
+    history: ReactRouterPropTypes.history.isRequired,
     poURL: PropTypes.string,
     locations: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.object,
@@ -115,13 +118,11 @@ class POLineView extends Component {
 
   onEditPOLine = (e) => {
     if (e) e.preventDefault();
-    const { queryMutator, order, line } = this.props;
+    const { order, line, history } = this.props;
 
-    queryMutator.update({
-      _path: `/orders/view/${order.id}/po-line/view/${line.id}`,
-      layer: 'edit-po-line',
-      filters: `${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
-      sort: `-${ORDER_FILTERS.PO_NUMBER}`,
+    history.push({
+      pathname: `/orders/view/${order.id}/po-line/view/${line.id}`,
+      search: `layer=edit-po-line&filters=${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}&sort=-${ORDER_FILTERS.PO_NUMBER}`,
     });
   };
 
@@ -396,4 +397,4 @@ class POLineView extends Component {
   }
 }
 
-export default POLineView;
+export default withRouter(POLineView);

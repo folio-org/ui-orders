@@ -11,6 +11,7 @@ import {
   INVOICES_API,
   ISBN_VALIDATOR,
   LINE_DETAIL_API,
+  LINES_API,
   LOCATIONS_API,
   MATERIAL_TYPES_API,
   ORDER_DETAIL_API,
@@ -265,4 +266,10 @@ export const OPEN_ORDER_SETTING = {
       query: `(module=${MODULE_ORDERS} and configName=${CONFIG_OPEN_ORDER})`,
     },
   },
+};
+
+export const ORDER_LINES = {
+  ...BASE_RESOURCE,
+  path: LINES_API,
+  records: 'poLines',
 };

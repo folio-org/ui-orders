@@ -15,7 +15,7 @@
     ],
     "displayName": "ui-orders.meta.title",
     "route": "/orders",
-    "home": "/orders/lines?sort=-poLineNumber",
+    "home": "/orders/lines",
     "okapiInterfaces": {
       "acquisitions-units": "1.1",
       "configuration": "2.0",
@@ -217,7 +217,7 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output ./output",
-    "test": "yarn run test:unit",
+    "test": "yarn run test:unit && yarn run test:e2e",
     "test:unit": "jest --ci --coverage",
     "test:e2e": "stripes test karma --karma.singleRun --karma.browsers ChromeDocker --karma.reporters mocha junit --coverage",
     "lint": "eslint ."
