@@ -8,6 +8,7 @@ import {
   AcqTagsFilter,
   AcqUnitFilter,
   acqUnitsShape,
+  BooleanFilter,
   PluggableOrganizationFilter,
 } from '@folio/stripes-acq-components';
 
@@ -20,7 +21,6 @@ import {
   closingReasonsShape,
   usersShape,
 } from '../common/shapes';
-import { BOOLEAN_OPTIONS } from '../OrderLinesList/constants';
 import {
   FILTERS,
   STATUS_FILTER_OPTIONS,
@@ -39,13 +39,12 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, users, acq
         options={STATUS_FILTER_OPTIONS}
         closedByDefault={false}
       />
-      <OrdersCheckboxFilter
+      <BooleanFilter
         id={FILTERS.APPROVED}
         activeFilters={activeFilters[FILTERS.APPROVED]}
         labelId="ui-orders.orderSummary.approved"
         name={FILTERS.APPROVED}
         onChange={onChange}
-        options={BOOLEAN_OPTIONS}
       />
       <AcqUnitFilter
         id={FILTERS.ACQUISITIONS_UNIT}
@@ -114,13 +113,12 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, users, acq
         onChange={onChange}
         closingReasons={closingReasons}
       />
-      <OrdersCheckboxFilter
+      <BooleanFilter
         id={FILTERS.RE_ENCUMBER}
         activeFilters={activeFilters[FILTERS.RE_ENCUMBER]}
         labelId="ui-orders.orderDetails.reEncumber"
         name={FILTERS.RE_ENCUMBER}
         onChange={onChange}
-        options={BOOLEAN_OPTIONS}
       />
       <OrdersDateRangeFilter
         id={FILTERS.RENEWAL_DATE}
@@ -129,13 +127,12 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, users, acq
         name={FILTERS.RENEWAL_DATE}
         onChange={onChange}
       />
-      <OrdersCheckboxFilter
+      <BooleanFilter
         id={FILTERS.MANUAL_RENEWAL}
         activeFilters={activeFilters[FILTERS.MANUAL_RENEWAL]}
         labelId="ui-orders.renewal.manualRenewal"
         name={FILTERS.MANUAL_RENEWAL}
         onChange={onChange}
-        options={BOOLEAN_OPTIONS}
       />
       <OrdersTextFilter
         id={FILTERS.RENEWAL_REVIEW_PERIOD}

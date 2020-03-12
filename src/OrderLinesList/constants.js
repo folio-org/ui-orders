@@ -1,6 +1,3 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
 export const FILTERS = {
   ACCESS_PROVIDER: 'eresource.accessProvider',
   ACQUISITION_METHOD: 'acquisitionMethod',
@@ -29,14 +26,3 @@ export const FILTERS = {
   VENDOR: 'vendor',
   TAGS: 'tags.tagList',
 };
-
-export const BOOLEAN_OPTIONS = [
-  {
-    value: 'true',
-    label: <FormattedMessage id="ui-orders.filter.true" />,
-  },
-  {
-    value: 'false',
-    label: <FormattedMessage id="ui-orders.filter.false" />,
-  },
-];
