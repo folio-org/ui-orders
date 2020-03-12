@@ -241,7 +241,7 @@ class POLineView extends Component {
 
     if (!(get(line, 'id') && get(order, 'id'))) {
       return (
-        <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" onClose={onClose} dismissible>
+        <Pane id="pane-poLineDetails" defaultWidth="100%" paneTitle="PO Line Details" onClose={onClose} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
@@ -259,7 +259,7 @@ class POLineView extends Component {
 
     return (
       <Pane
-        defaultWidth="fill"
+        defaultWidth="100%"
         firstMenu={poURL ? firstMenu : null}
         actionMenu={this.getActionMenu}
         dismissible={Boolean(onClose)}

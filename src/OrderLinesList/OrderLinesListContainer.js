@@ -16,6 +16,7 @@ import {
   getFilterParams,
   SEARCH_INDEX_PARAMETER,
   SEARCH_PARAMETER,
+  useLocationReset,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -23,7 +24,7 @@ import {
   ORDER_LINES,
 } from '../components/Utils/resources';
 import { QUALIFIER_SEPARATOR } from '../common/constants';
-import OrderLinesList from './OrderLinesListNew';
+import OrderLinesList from './OrderLinesList';
 import {
   buildOrderLinesQuery,
   fetchOrderLinesFunds,
@@ -33,7 +34,7 @@ const RESULT_COUNT_INCREMENT = 30;
 
 const resetData = () => { };
 
-const OrderLinesListContainer = ({ mutator, location: { search } }) => {
+const OrderLinesListContainer = ({ history, mutator, location }) => {
   const [orderLines, setOrderLines] = useState([]);
   const [fundsMap, setFundsMap] = useState({});
   const [orderLinesCount, setOrderLinesCount] = useState(0);
@@ -43,7 +44,7 @@ const OrderLinesListContainer = ({ mutator, location: { search } }) => {
 
   const loadOrderLines = async (offset) => {
     setIsLoading(true);
-    const queryParams = queryString.parse(search);
+    const queryParams = queryString.parse(location.search);
     const filterParams = getFilterParams(queryParams);
     let hasToCallAPI = Object.keys(filterParams).length > 0;
     const isISBNSearch = queryParams[SEARCH_INDEX_PARAMETER] === 'productIdISBN';
@@ -131,15 +132,18 @@ const OrderLinesListContainer = ({ mutator, location: { search } }) => {
     [orderLinesOffset],
   );
 
+  const refreshList = () => {
+    setOrderLines([]);
+    setOrderLinesOffset(0);
+    loadOrderLines(0);
+  };
+
   useEffect(
-    () => {
-      setOrderLines([]);
-      setOrderLinesOffset(0);
-      loadOrderLines(0);
-    },
+    refreshList,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [search],
+    [location.search],
   );
+  useLocationReset(history, location, '/invoice', refreshList);
 
   return (
     <OrderLinesList
@@ -181,8 +185,9 @@ OrderLinesListContainer.manifest = Object.freeze({
 });
 
 OrderLinesListContainer.propTypes = {
-  mutator: PropTypes.object.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  mutator: PropTypes.object.isRequired,
 };
 
 export default withRouter(stripesConnect(OrderLinesListContainer));

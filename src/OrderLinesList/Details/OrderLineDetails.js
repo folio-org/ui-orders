@@ -76,7 +76,7 @@ const OrderLineDetails = ({
             type: 'success',
             values: { lineNumber },
           });
-          history.push({
+          history.replace({
             pathname: '/orders/lines',
             search: location.search,
           });
