@@ -31,9 +31,6 @@ describe('Order lines', function () {
 
     it('shows the list of order line items', () => {
       expect(orderLines.isVisible).to.equal(true);
-    });
-
-    it('renders each order line', () => {
       expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
     });
   });
@@ -148,7 +145,7 @@ describe('Order lines', function () {
 
   describe('search by product ID type ISBN', function () {
     beforeEach(async function () {
-      await orderLines.filter.selectSearchOption('- ISBN');
+      await orderLines.filter.selectSearchOption('Product ID ISBN');
       await orderLines.filter.searchInput('TEST');
       await orderLines.filter.searchButton.click();
     });

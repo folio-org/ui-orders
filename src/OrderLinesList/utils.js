@@ -17,7 +17,7 @@ import {
 
 export const fetchOrderLinesFunds = (mutator, orderLines, fetchedFundsMap) => {
   const unfetchedFunds = orderLines
-    .reduce((acc, { fundDistribution }) => [...acc, ...fundDistribution], [])
+    .reduce((acc, { fundDistribution = [] }) => [...acc, ...fundDistribution], [])
     .filter(({ fundId }) => !fetchedFundsMap[fundId])
     .map(({ fundId }) => fundId);
 

@@ -15,7 +15,7 @@ import { TIMEOUT } from './const';
 }
 
 @interactor class OrderLinesFilterInteractor {
-  static defaultScope = '#pane-filter';
+  static defaultScope = '[data-test-filter-pane]';
 
   accordionCreatedDate = new FilterAccordion(`#${FILTERS.DATE_CREATED}`);
   accordionPaymentStatus = new FilterAccordion(`#${FILTERS.PAYMENT_STATUS}`);
@@ -24,9 +24,9 @@ import { TIMEOUT } from './const';
   fillCreatedDateStart = fillable('input[name="startDate"]');
   fillCreatedDateEnd = fillable('input[name="endDate"]');
   applyCreatedDate = new Button('[data-test-apply-button]');
-  selectSearchOption = selectable('#input-order-line-search-qindex');
-  searchInput = fillable('#input-order-line-search');
-  searchButton = new Button('[data-test-search-and-sort-submit]');
+  selectSearchOption = selectable('#input-record-search-qindex');
+  searchInput = fillable('#input-record-search');
+  searchButton = new Button('[data-test-single-search-form-submit]');
 }
 
 @interactor class OrdersNavigation {
@@ -36,12 +36,12 @@ import { TIMEOUT } from './const';
 export default interactor(class OrderLinesInteractor {
   static defaultScope = '[data-test-order-line-instances]';
 
-  instances = collection('[role=row] a');
+  instances = collection('[role=group] [role=row]');
 
   navigation = new OrdersNavigation();
 
   filter = new OrderLinesFilterInteractor();
-  isLoaded = isPresent('#pane-results');
+  isLoaded = isPresent('[data-test-results-pane]');
   isNoResultsMessageLabelPresent = isPresent('[class*=noResultsMessageLabel]');
 
   whenLoaded() {
