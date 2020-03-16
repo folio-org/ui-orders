@@ -84,7 +84,9 @@ export function getPOActionMenu({
             data-test-open-order-button
             onClick={clickOpen}
           >
-            <FormattedMessage id="ui-orders.paneBlock.openBtn" />
+            <Icon size="small" icon="cart">
+              <FormattedMessage id="ui-orders.paneBlock.openBtn" />
+            </Icon>
           </Button>
         )}
       </IfPermission>
