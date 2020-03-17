@@ -208,10 +208,7 @@ class LayerPOLine extends Component {
       : Promise.resolve();
   }
 
-  updatePOLine = ({ saveAndOpen, ...data }) => {
-    const line = cloneDeep(data);
-
-    delete line.metadata;
+  updatePOLine = ({ saveAndOpen, metadata, instanceId, ...line }) => {
     const { location: { pathname }, parentMutator } = this.props;
 
     return parentMutator.poLine.PUT(line)

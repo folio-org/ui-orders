@@ -5,6 +5,9 @@
 ### Stories
 * [UIOR-529](https://issues.folio.org/browse/UIOR-529) New icon for "Open order"
 
+### Bug fixes
+* [UIREC-63](https://issues.folio.org/browse/UIREC-63) Can not edit POL in testing or snapshot
+
 ## [2.0.0](https://github.com/folio-org/ui-orders/tree/v2.0.0) (2020-03-13)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.3...v2.0.0)
 
