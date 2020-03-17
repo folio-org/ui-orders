@@ -219,7 +219,7 @@ class OrdersList extends Component {
   renderFilters = (onChange) => {
     const { resources } = this.props;
     const { users } = this.state;
-    const closingReasons = get(resources, 'closingReasons.records', []);
+    const closingReasons = get(resources, 'closingReasons.records');
     const acqUnits = get(resources, 'acqUnits.records', []);
 
     return resources.query

@@ -27,7 +27,6 @@ import {
 
 import {
   getAddresses,
-  getClosingReasonsOptions,
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import { WORKFLOW_STATUS } from '../../common/constants';
@@ -353,7 +352,7 @@ class PO extends Component {
       tagsToggle,
     } = this.props;
     const order = this.getOrder();
-    const closingReasons = get(parentResources, 'closingReasons.records', []);
+    const reasonsForClosure = get(parentResources, 'closingReasons.records');
     const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
@@ -409,7 +408,6 @@ class PO extends Component {
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const funds = get(parentResources, 'fund.records', []);
     const approvalsSetting = get(parentResources, 'approvalsSetting.records', {});
-    const reasonsForClosure = getClosingReasonsOptions(closingReasons);
 
     const { isCloneConfirmation, updateOrderError } = this.state;
 

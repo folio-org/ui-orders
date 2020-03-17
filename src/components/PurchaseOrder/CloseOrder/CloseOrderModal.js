@@ -1,5 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
@@ -13,16 +17,18 @@ import {
 } from '@folio/stripes/components';
 
 import { closingReasonsShape } from '../../../common/shapes';
-import { DEFAULT_CLOSE_ORDER_REASONS } from '../../../common/constants';
+import { useCloseReasonOptions } from '../../../common/hooks';
 
 const CloseOrderModal = ({
-  orderNumber,
-  closingReasons,
-  closeOrder,
   cancel,
+  closeOrder,
+  closingReasons,
+  intl: { formatMessage },
+  orderNumber,
 }) => {
   const [reason, setReason] = useState('');
   const [note, setNote] = useState('');
+  const closeReasonOptions = useCloseReasonOptions(formatMessage, closingReasons);
 
   const onChangeReason = useCallback(
     ({ target: { value } }) => (
@@ -78,17 +84,8 @@ const CloseOrderModal = ({
             onChange={onChangeReason}
             placeholder=" "
             defaultValue=""
-          >
-            {closingReasons.map(({ label, value }) => (
-              <FormattedMessage
-                id={`ui-orders.closeOrderModal.closingReasons.${DEFAULT_CLOSE_ORDER_REASONS[label]}`}
-                defaultMessage={label}
-                key={label}
-              >
-                {(message) => <option value={value}>{message}</option>}
-              </FormattedMessage>
-            ))}
-          </Select>
+            dataOptions={closeReasonOptions}
+          />
           <TextArea
             label={<FormattedMessage id="ui-orders.closeOrderModal.notes" />}
             onChange={onChangeNote}
@@ -100,10 +97,11 @@ const CloseOrderModal = ({
 };
 
 CloseOrderModal.propTypes = {
-  orderNumber: PropTypes.string,
-  closingReasons: closingReasonsShape,
-  closeOrder: PropTypes.func.isRequired,
   cancel: PropTypes.func.isRequired,
+  closeOrder: PropTypes.func.isRequired,
+  closingReasons: closingReasonsShape,
+  intl: intlShape.isRequired,
+  orderNumber: PropTypes.string,
 };
 
-export default CloseOrderModal;
+export default injectIntl(CloseOrderModal);

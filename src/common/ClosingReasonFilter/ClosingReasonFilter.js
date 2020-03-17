@@ -6,19 +6,11 @@ import {
 
 import { SelectionFilter } from '@folio/stripes-acq-components';
 
-import { DEFAULT_CLOSE_ORDER_REASONS } from '../constants';
-import { getClosingReasonsOptions } from '../utils';
+import { useCloseReasonOptions } from '../hooks';
 import { closingReasonsShape } from '../shapes';
 
 const ClosingReasonFilter = ({ closingReasons, intl: { formatMessage }, ...rest }) => {
-  const reasons = getClosingReasonsOptions(closingReasons);
-  const translatedReasonsOptions = reasons.map(({ label, value }) => ({
-    label: formatMessage({
-      id: `ui-orders.closeOrderModal.closingReasons.${DEFAULT_CLOSE_ORDER_REASONS[label]}`,
-      defaultMessage: label,
-    }),
-    value,
-  }));
+  const translatedReasonsOptions = useCloseReasonOptions(formatMessage, closingReasons);
 
   return (
     <SelectionFilter
