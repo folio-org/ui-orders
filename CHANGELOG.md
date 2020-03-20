@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-508](https://issues.folio.org/browse/UIOR-508) TECH-DEBT refactor PO list to not use SearchAndSort
 * [UIOR-529](https://issues.folio.org/browse/UIOR-529) New icon for "Open order"
 
 ## [2.0.0](https://github.com/folio-org/ui-orders/tree/v2.0.0) (2020-03-13)
