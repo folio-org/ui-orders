@@ -1,12 +1,26 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
-import { CalloutContext } from '@folio/stripes/core';
-import { Tags } from '@folio/stripes-acq-components';
+import {
+  CalloutContext,
+  stripesConnect,
+} from '@folio/stripes/core';
+import {
+  DICT_CONTRIBUTOR_NAME_TYPES,
+  LINES_API,
+  VENDORS_API,
+  Tags,
+} from '@folio/stripes-acq-components';
 
-import { ORDER } from '../Utils/resources';
+import {
+  CONTRIBUTOR_NAME_TYPES,
+  FUND,
+  LOCATIONS,
+  MATERIAL_TYPES,
+  ORDER,
+} from '../Utils/resources';
 import {
   lineMutatorShape,
   orderRecordsMutatorShape,
@@ -18,11 +32,38 @@ class POLine extends Component {
   static contextType = CalloutContext;
   static manifest = Object.freeze({
     order: ORDER,
+    [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
+    poLine: {
+      accumulate: true,
+      fetch: false,
+      path: LINES_API,
+      perRequest: 1000,
+      records: 'poLines',
+      throwErrors: false,
+      type: 'okapi',
+    },
+    vendors: {
+      type: 'okapi',
+      path: VENDORS_API,
+      GET: {
+        params: {
+          query: 'id=="*" sortby name',
+        },
+      },
+      records: 'organizations',
+      perRequest: 1000,
+    },
+    fund: FUND,
+    materialTypes: MATERIAL_TYPES,
+    locations: {
+      ...LOCATIONS,
+      fetch: true,
+    },
+    query: {},
   });
 
   static propTypes = {
-    parentResources: PropTypes.object.isRequired,
-    parentMutator: PropTypes.shape({
+    mutator: PropTypes.shape({
       query: PropTypes.object.isRequired,
       poLine: lineMutatorShape,
       records: orderRecordsMutatorShape,
@@ -56,41 +97,59 @@ class POLine extends Component {
   }
 
   deleteLine = () => {
-    const { parentMutator, poURL } = this.props;
+    const { mutator, poURL } = this.props;
     const line = this.getLine();
     const lineNumber = line.poLineNumber;
 
-    parentMutator.poLine.DELETE(line)
+    this.unmountDeleteOrderConfirm();
+    mutator.poLine.DELETE(line)
       .then(() => {
         this.context.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.line.delete.success" values={{ lineNumber }} />,
           type: 'success',
         });
-        parentMutator.query.update({ _path: poURL });
+        mutator.query.update({ _path: poURL });
       })
-      .catch(() => {
+      .catch(async errorResponse => {
         this.context.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.errors.lineWasNotDeleted" />,
           type: 'error',
         });
+
+        let message = null;
+
+        try {
+          const response = await errorResponse.json();
+
+          message = response.errors[0].message;
+        // eslint-disable-next-line no-empty
+        } catch (e) {}
+
+        if (message) {
+          this.context.sendCallout({
+            message,
+            timeout: 0,
+            type: 'error',
+          });
+        }
       });
   };
 
   render() {
     const {
-      parentMutator,
-      parentResources,
+      mutator,
+      resources,
     } = this.props;
 
     const order = this.getOrder();
     const line = this.getLine();
-    const materialTypes = get(parentResources, ['materialTypes', 'records'], []);
-    const locations = get(parentResources, 'locations.records', []);
-    const funds = get(parentResources, 'fund.records', []);
+    const materialTypes = get(resources, ['materialTypes', 'records'], []);
+    const locations = get(resources, 'locations.records', []);
+    const funds = get(resources, 'fund.records', []);
     const poURL = this.props.poURL;
 
     return (
-      <Fragment>
+      <>
         <POLineView
           location={this.props.location}
           history={this.props.history}
@@ -100,20 +159,20 @@ class POLine extends Component {
           locations={locations}
           poURL={poURL}
           funds={funds}
-          queryMutator={parentMutator.query}
+          queryMutator={mutator.query}
           deleteLine={this.deleteLine}
           tagsToggle={this.toggleTagsPane}
         />
         {this.state.isTagsPaneOpened && (
           <Tags
-            putMutator={parentMutator.poLine.PUT}
+            putMutator={mutator.poLine.PUT}
             recordObj={line}
             onClose={this.toggleTagsPane}
           />
         )}
-      </Fragment>
+      </>
     );
   }
 }
 
-export default POLine;
+export default stripesConnect(POLine);

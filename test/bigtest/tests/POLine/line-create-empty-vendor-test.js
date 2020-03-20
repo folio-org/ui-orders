@@ -25,7 +25,7 @@ describe("Create POL - Empty vendor's fields", function () {
       vendor: vendor.id,
     });
 
-    this.visit(`/orders/view/${order.id}?layer=create-po-line`);
+    this.visit(`/orders/view/${order.id}/po-line/create`);
     await lineEditPage.whenLoaded();
   });
 

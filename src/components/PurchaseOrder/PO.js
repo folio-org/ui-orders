@@ -9,17 +9,20 @@ import { get } from 'lodash';
 import {
   CalloutContext,
   IfPermission,
+  stripesConnect,
   stripesShape,
 } from '@folio/stripes/core';
-import { withTags } from '@folio/stripes/smart-components';
+import {
+  Tags,
+  TagsBadge,
+} from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
   Button,
   ConfirmationModal,
   ExpandAllButton,
-  Icon,
-  IconButton,
+  LoadingPane,
   Pane,
   PaneMenu,
   Row,
@@ -30,8 +33,11 @@ import {
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import { WORKFLOW_STATUS } from '../../common/constants';
-import { LayerPO } from '../LayerCollection';
+import { reasonsForClosureResource } from '../../common/resources';
 import {
+  ADDRESSES,
+  APPROVALS_SETTING,
+  FUND,
   LINES_LIMIT,
   ORDER,
 } from '../Utils/resources';
@@ -57,34 +63,20 @@ class PO extends Component {
   static manifest = Object.freeze({
     order: ORDER,
     linesLimit: LINES_LIMIT,
+    closingReasons: reasonsForClosureResource,
+    fund: FUND,
+    approvalsSetting: APPROVALS_SETTING,
+    addresses: ADDRESSES,
+    query: {},
   });
 
   static propTypes = {
-    connectedSource: PropTypes.object.isRequired,
-    mutator: PropTypes.shape({
-      order: PropTypes.shape({
-        PUT: PropTypes.func.isRequired,
-      }),
-    }).isRequired,
+    mutator: PropTypes.object.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     stripes: stripesShape.isRequired,
-    onCloseEdit: PropTypes.func,
-    onClose: PropTypes.func,
-    onEdit: PropTypes.func,
-    onCancel: PropTypes.func,
-    parentResources: PropTypes.object.isRequired,
-    parentMutator: PropTypes.object.isRequired,
-    editLink: PropTypes.string,
-    paneWidth: PropTypes.string.isRequired,
     resources: PropTypes.object.isRequired,
-    tagsToggle: PropTypes.func.isRequired,
-    tagsEnabled: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    tagsEnabled: false,
   };
 
   constructor(props) {
@@ -100,29 +92,33 @@ class PO extends Component {
       isCloseOrderModalOpened: false,
       isLinesLimitExceededModalOpened: false,
       isCloneConfirmation: false,
+      isTagsPaneOpened: false,
       updateOrderError: null,
       showConfirmDelete: false,
     };
-    this.transitionToParams = values => this.props.parentMutator.query.update(values);
+    this.transitionToParams = values => this.props.mutator.query.update(values);
     this.hasError = false;
   }
+
+  toggleTagsPane = () => this.setState(({ isTagsPaneOpened }) => ({ isTagsPaneOpened: !isTagsPaneOpened }));
 
   toggleCloneConfirmation = () => {
     this.setState(prevState => ({ isCloneConfirmation: !prevState.isCloneConfirmation }));
   };
 
   deletePO = () => {
-    const { parentMutator } = this.props;
+    const { mutator } = this.props;
     const order = this.getOrder();
     const orderNumber = order.poNumber;
 
-    parentMutator.records.DELETE(order)
+    this.unmountDeleteOrderConfirm();
+    mutator.order.DELETE(order)
       .then(() => {
         this.context.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
           type: 'success',
         });
-        parentMutator.query.update({
+        mutator.query.update({
           _path: '/orders',
           layer: null,
         });
@@ -155,12 +151,13 @@ class PO extends Component {
   onAddPOLine = () => {
     const { resources } = this.props;
     const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
-    const poLines = get(resources, ['order', 'records', '0', 'compositePoLines'], []);
+    const order = this.getOrder();
+    const poLines = get(order, 'compositePoLines', []);
 
     if (linesLimit <= poLines.length) {
       this.setState({ isLinesLimitExceededModalOpened: true });
     } else {
-      this.transitionToParams({ layer: 'create-po-line' });
+      this.transitionToParams({ _path: `/orders/view/${order.id}/po-line/create` });
     }
   };
 
@@ -235,12 +232,12 @@ class PO extends Component {
   };
 
   cloneOrder = async () => {
-    const { location, history, parentMutator } = this.props;
+    const { location, history, mutator } = this.props;
     const order = this.getOrder();
 
     this.toggleCloneConfirmation();
     try {
-      const newOrder = await cloneOrder(order, parentMutator.records, order.compositePoLines);
+      const newOrder = await cloneOrder(order, mutator.order, order.compositePoLines);
 
       this.context.sendCallout({
         message: <SafeHTMLMessage id="ui-orders.order.clone.success" />,
@@ -259,18 +256,18 @@ class PO extends Component {
   };
 
   createNewOrder = async () => {
-    const { resources, parentMutator } = this.props;
+    const { resources, mutator } = this.props;
     const order = get(resources, ['order', 'records', '0'], {});
 
     this.unmountLinesLimitExceededModal();
     try {
-      const newOrder = await cloneOrder(order, parentMutator.records);
+      const newOrder = await cloneOrder(order, mutator.order);
 
-      parentMutator.query.update({
+      mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null,
       });
-      this.transitionToParams({ layer: 'create-po-line' });
+      this.transitionToParams({ _path: `/orders/view/${newOrder.id}/po-line/create` });
     } catch (e) {
       this.context.sendCallout({
         message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
@@ -335,24 +332,32 @@ class PO extends Component {
 
   unmountDeleteOrderConfirm = () => this.setState({ showConfirmDelete: false });
 
+  onEdit = () => {
+    const { history, location, match: { params: { id } } } = this.props;
+
+    history.push({
+      pathname: `/orders/edit/${id}`,
+      search: location.search,
+    });
+  }
+
+  gotToOrdersList = () => {
+    const { history, location } = this.props;
+
+    history.push({
+      pathname: '/orders',
+      search: location.search,
+    });
+  }
+
   render() {
     const {
-      connectedSource,
-      history,
-      location,
       match,
-      onClose,
-      onCloseEdit,
-      onEdit,
-      parentMutator,
-      parentResources,
+      mutator,
       resources,
-      stripes,
-      tagsEnabled,
-      tagsToggle,
     } = this.props;
     const order = this.getOrder();
-    const reasonsForClosure = get(parentResources, 'closingReasons.records');
+    const reasonsForClosure = get(resources, 'closingReasons.records');
     const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
@@ -362,21 +367,10 @@ class PO extends Component {
 
     const lastMenu = (
       <PaneMenu>
-        {tagsEnabled && (
-          <FormattedMessage id="ui-orders.showTags">
-            {(title) => (
-              <IconButton
-                ariaLabel={title}
-                badgeCount={tags.length}
-                data-test-order-tags-action
-                icon="tag"
-                id="clickable-show-tags"
-                onClick={tagsToggle}
-                title={title}
-              />
-            )}
-          </FormattedMessage>
-        )}
+        <TagsBadge
+          tagsToggle={this.toggleTagsPane}
+          tagsQuantity={tags.length}
+        />
       </PaneMenu>
     );
 
@@ -391,27 +385,18 @@ class PO extends Component {
 
     if (!order || hasError) {
       return (
-        <Pane
-          defaultWidth="fill"
-          dismissible
-          id="pane-podetails"
-          lastMenu={lastMenu}
-          onClose={onClose}
-          paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.detailsLoading" />}
-        >
-          <Icon icon="spinner-ellipsis" width="100px" />
-        </Pane>
+        <LoadingPane defaultWidth="fill" onClose={this.gotToOrdersList} />
       );
     }
 
     const orderType = get(order, 'orderType');
-    const addresses = getAddresses(get(parentResources, 'addresses.records', []));
-    const funds = get(parentResources, 'fund.records', []);
-    const approvalsSetting = get(parentResources, 'approvalsSetting.records', {});
+    const addresses = getAddresses(get(resources, 'addresses.records', []));
+    const funds = get(resources, 'fund.records', []);
+    const approvalsSetting = get(resources, 'approvalsSetting.records', {});
 
     const { isCloneConfirmation, updateOrderError } = this.state;
 
-    return (
+    const POPane = (
       <Pane
         actionMenu={getPOActionMenu({
           approvalsSetting,
@@ -419,7 +404,7 @@ class PO extends Component {
           clickClone: this.toggleCloneConfirmation,
           clickClose: this.mountCloseOrderModal,
           clickDelete: this.mountDeleteOrderConfirm,
-          clickEdit: onEdit,
+          clickEdit: this.onEdit,
           clickOpen: this.toggleOpenOrderModal,
           clickReceive: this.goToReceiving,
           clickReopen: this.reopenOrder,
@@ -430,7 +415,7 @@ class PO extends Component {
         paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
         lastMenu={lastMenu}
         dismissible
-        onClose={onClose}
+        onClose={this.gotToOrdersList}
       >
         <Row end="xs">
           {this.state.isCloseOrderModalOpened && (
@@ -493,21 +478,10 @@ class PO extends Component {
               baseUrl={match.url}
               funds={funds}
               poLines={poLines}
-              queryMutator={parentMutator.query}
+              queryMutator={mutator.query}
             />
           </Accordion>
         </AccordionSet>
-        <LayerPO
-          connectedSource={connectedSource}
-          order={order}
-          location={location}
-          stripes={stripes}
-          onCancel={onCloseEdit}
-          history={history}
-          match={match}
-          parentResources={parentResources}
-          parentMutator={parentMutator}
-        />
         {this.state.isLinesLimitExceededModalOpened && (
           <LinesLimit
             cancel={this.unmountLinesLimitExceededModal}
@@ -545,7 +519,20 @@ class PO extends Component {
         )}
       </Pane>
     );
+
+    return (
+      <>
+        {POPane}
+        {this.state.isTagsPaneOpened && (
+          <Tags
+            putMutator={mutator.order.PUT}
+            recordObj={order}
+            onClose={this.toggleTagsPane}
+          />
+        )}
+      </>
+    );
   }
 }
 
-export default withTags(PO);
+export default stripesConnect(PO);

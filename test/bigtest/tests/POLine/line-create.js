@@ -21,7 +21,7 @@ describe('Create PO Line simple test', function () {
       vendor: vendor.id,
     });
 
-    this.visit(`/orders/view/${order.id}/?layer=create-po-line`);
+    this.visit(`/orders/view/${order.id}/po-line/create`);
     await lineEditPage.whenLoaded();
   });
 

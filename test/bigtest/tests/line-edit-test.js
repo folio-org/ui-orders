@@ -91,7 +91,7 @@ describe('Line edit test', function () {
       value: '{"isOpenOrderEnabled":true}',
     });
 
-    this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
+    this.visit(`/orders/view/${order.id}/po-line/edit/${line.id}`);
     await lineEditPage.whenLoaded();
   });
 

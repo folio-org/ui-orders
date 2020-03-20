@@ -1,5 +1,6 @@
 import {
   fundsManifest,
+  LIMIT_MAX,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -14,6 +15,7 @@ import {
   LINES_API,
   LOCATIONS_API,
   MATERIAL_TYPES_API,
+  ORDERS_API,
   ORDER_DETAIL_API,
   ORDER_INVOICE_RELNS_API,
   ORDER_TEMPLATE_DETAIL_API,
@@ -29,7 +31,6 @@ import {
   CONFIG_LINES_LIMIT,
   CONFIG_OPEN_ORDER,
   CONFIG_ORDER_NUMBER,
-  LIMIT_MAX,
   MODULE_ORDERS,
   MODULE_TENANT,
 } from './const';
@@ -62,6 +63,9 @@ export const LOCATIONS = {
 export const ORDER = {
   ...BASE_RESOURCE,
   path: ORDER_DETAIL_API,
+  POST: {
+    path: ORDERS_API,
+  },
 };
 
 export const LINE = {
@@ -234,6 +238,16 @@ export const OPEN_ORDER_SETTING = {
 
 export const ORDER_LINES = {
   ...BASE_RESOURCE,
+  accumulate: true,
+  fetch: false,
   path: LINES_API,
   records: 'poLines',
+};
+
+export const ORDERS = {
+  ...BASE_RESOURCE,
+  accumulate: true,
+  fetch: false,
+  path: ORDERS_API,
+  records: 'purchaseOrders',
 };

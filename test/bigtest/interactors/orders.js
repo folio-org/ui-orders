@@ -15,7 +15,7 @@ import Button from './button';
 import { TIMEOUT } from './const';
 
 @interactor class OrdersFilterInteractor {
-  static defaultScope = '#pane-filter';
+  static defaultScope = '[data-test-filter-pane]';
 
   statusOpenChecked = property(`[data-test-checkbox-filter-data-option=${WORKFLOW_STATUS.open}]`, 'checked');
   statusPendingChecked = property(`[data-test-checkbox-filter-data-option=${WORKFLOW_STATUS.pending}]`, 'checked');
@@ -32,7 +32,7 @@ export default interactor(class OrdersInteractor {
   static defaultScope = '[data-test-order-instances]';
 
   hasCreateOrderButton = isPresent('#clickable-neworder');
-  orders = collection('[role=row] a');
+  orders = collection('[role=group] [role=row]');
   order = scoped('[data-test-order-details]');
 
   filters = new OrdersFilterInteractor();

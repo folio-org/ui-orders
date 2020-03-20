@@ -24,7 +24,7 @@ const OrdersNavigation = ({ isOrders, isOrderLines, history }) => {
       data-test-orders-navigation
     >
       <Button
-        onClick={() => goTo('/orders', 'sort=-poNumber')}
+        onClick={() => goTo('/orders', '')} // sorting=poNumber&sortingDirection=descending
         buttonStyle={`${isOrders ? 'primary' : 'default'}`}
       >
         <FormattedMessage id="ui-orders.navigation.orders" />

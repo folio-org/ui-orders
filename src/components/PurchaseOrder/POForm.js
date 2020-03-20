@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
-  getFormValues,
   isDirty,
 } from 'redux-form';
 
@@ -62,7 +61,7 @@ const asyncValidate = (values, dispatchRedux, props) => {
 
 class POForm extends Component {
   static propTypes = {
-    connectedSource: PropTypes.object.isRequired,
+    formValues: PropTypes.object,
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
@@ -210,10 +209,9 @@ class POForm extends Component {
   };
 
   render() {
-    const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
+    const { change, dispatch, formValues, initialValues, onCancel, stripes, parentResources } = this.props;
     const { sections } = this.state;
     const generatedNumber = get(parentResources, 'orderNumber.records.0.poNumber');
-    const formValues = getFormValues(PO_FORM_NAME)(stripes.store.getState());
     const firstMenu = this.getAddFirstMenu();
     const orderNumber = get(initialValues, 'poNumber', '');
     const paneTitle = initialValues.id

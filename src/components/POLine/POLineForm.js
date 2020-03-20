@@ -57,6 +57,7 @@ import validate from './validate';
 
 class POLineForm extends Component {
   static propTypes = {
+    formValues: PropTypes.object,
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
     stripes: stripesShape.isRequired,

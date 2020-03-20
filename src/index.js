@@ -10,11 +10,16 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 
+import { LayerPO, LayerPOLine } from './components/LayerCollection';
 import OrdersList from './OrdersList';
 import OrderLinesList from './OrderLinesList';
 import OrdersSettings from './settings/OrdersSettings';
 import {
   NOTES_ROUTE,
+  ORDER_CREATE_ROUTE,
+  ORDER_EDIT_ROUTE,
+  ORDER_LINE_CREATE_ROUTE,
+  ORDER_LINE_EDIT_ROUTE,
   ORDER_LINES_ROUTE,
 } from './common/constants';
 import {
@@ -29,6 +34,22 @@ const Orders = ({ match, location, showSettings }) => {
     ? <OrdersSettings {...{ match, location }} />
     : (
       <Switch>
+        <Route
+          path={ORDER_LINE_CREATE_ROUTE}
+          component={LayerPOLine}
+        />
+        <Route
+          path={ORDER_LINE_EDIT_ROUTE}
+          component={LayerPOLine}
+        />
+        <Route
+          path={ORDER_CREATE_ROUTE}
+          component={LayerPO}
+        />
+        <Route
+          path={ORDER_EDIT_ROUTE}
+          component={LayerPO}
+        />
         <Route
           path={ORDER_LINES_ROUTE}
           component={OrderLinesList}

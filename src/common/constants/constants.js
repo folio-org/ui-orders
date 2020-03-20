@@ -6,12 +6,6 @@ export const PRODUCT_ID_TYPE = {
 };
 export const QUALIFIER_SEPARATOR = ' ';
 
-export const WORKFLOW_STATUS = {
-  closed: 'Closed',
-  open: 'Open',
-  pending: 'Pending',
-};
-
 export const ORDER_TYPE = {
   oneTime: 'One-Time',
   ongoing: 'Ongoing',

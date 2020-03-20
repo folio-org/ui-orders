@@ -58,7 +58,7 @@ describe('Edit PO Line - Save updated PO Line', function () {
       id: line.attrs.purchaseOrderId,
     });
 
-    this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
+    this.visit(`/orders/view/${order.id}/po-line/edit/${line.id}`);
     await lineEditPage.whenLoaded();
     await lineEditPage.physicalDetailsAccordion.toggle();
     await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.none);

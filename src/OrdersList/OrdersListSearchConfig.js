@@ -1,7 +1,4 @@
-import {
-  DATE_FORMAT,
-  generateQueryTemplate,
-} from '@folio/stripes-acq-components';
+import { DATE_FORMAT } from '@folio/stripes-acq-components';
 
 const indexes = [
   'metadata.createdDate',
@@ -10,26 +7,35 @@ const indexes = [
 ];
 
 const poNumber = {
-  label: 'poNumber',
+  labelId: 'ui-orders.search.poNumber',
   value: 'poNumber',
 };
 
 const keywordIndex = {
-  label: 'keyword',
+  labelId: 'ui-orders.search.keyword',
   value: '',
 };
 
 const createdDate = {
-  label: 'metadata.createdDate',
+  labelId: 'ui-orders.search.metadata.createdDate',
   value: 'metadata.createdDate',
   placeholder: DATE_FORMAT,
 };
 
 const dateOrdered = {
-  label: 'dateOrdered',
+  labelId: 'ui-orders.search.dateOrdered',
   value: 'dateOrdered',
   placeholder: DATE_FORMAT,
 };
 
 export const searchableIndexes = [keywordIndex, createdDate, dateOrdered, poNumber];
-export const ordersSearchTemplate = generateQueryTemplate(indexes);
+export const getKeywordQuery = query => indexes.reduce(
+  (acc, sIndex) => {
+    if (acc) {
+      return `${acc} or ${sIndex}="${query}*"`;
+    } else {
+      return `${sIndex}="${query}*"`;
+    }
+  },
+  '',
+);

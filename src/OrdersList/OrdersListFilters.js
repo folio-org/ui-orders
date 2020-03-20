@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -27,7 +27,14 @@ import {
   ORDER_TYPE_FILTER_OPTIONS,
 } from './constants';
 
-function OrdersListFilters({ activeFilters, closingReasons, onChange, users, acqUnits }) {
+const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
+
+function OrdersListFilters({ activeFilters, closingReasons, applyFilters, users, acqUnits }) {
+  const onChange = useCallback(
+    applyFiltersAdapter(applyFilters),
+    [applyFilters],
+  );
+
   return (
     <AccordionSet>
       <OrdersCheckboxFilter
@@ -147,29 +154,11 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, users, acq
 }
 
 OrdersListFilters.propTypes = {
-  activeFilters: PropTypes.object,
-  onChange: PropTypes.func.isRequired,
+  activeFilters: PropTypes.object.isRequired,
+  applyFilters: PropTypes.func.isRequired,
   closingReasons: closingReasonsShape,
   users: usersShape,
   acqUnits: acqUnitsShape,
-};
-
-OrdersListFilters.defaultProps = {
-  activeFilters: {
-    [FILTERS.APPROVED]: [],
-    [FILTERS.ASSIGNED_TO]: [],
-    [FILTERS.CLOSE_REASON]: [],
-    [FILTERS.CREATED_BY]: [],
-    [FILTERS.DATE_CREATED]: [],
-    [FILTERS.DATE_ORDERED]: [],
-    [FILTERS.MANUAL_RENEWAL]: [],
-    [FILTERS.ORDER_TYPE]: [],
-    [FILTERS.RE_ENCUMBER]: [],
-    [FILTERS.RENEWAL_DATE]: [],
-    [FILTERS.RENEWAL_REVIEW_PERIOD]: [],
-    [FILTERS.STATUS]: [],
-    [FILTERS.VENDOR]: [],
-  },
 };
 
 export default OrdersListFilters;

@@ -105,12 +105,11 @@ const OrderLinesListContainer = ({ history, mutator, location }) => {
           };
 
           setFundsMap(newFundsMap);
-          setOrderLines((prev) => [...prev, ...orderLinesResponse.poLines]);
           setOrderLines((prev) => [
             ...prev,
             ...orderLinesResponse.poLines.map(orderLine => ({
               ...orderLine,
-              funCodes: orderLine.fundDistribution?.map(fund => fundsMap[fund.fundId]).join(', '),
+              funCodes: orderLine.fundDistribution?.map(fund => fundsMap[fund.fundId]?.code).filter(Boolean).join(', '),
             })),
           ]);
         })
@@ -159,8 +158,6 @@ const OrderLinesListContainer = ({ history, mutator, location }) => {
 OrderLinesListContainer.manifest = Object.freeze({
   orderLinesListRecords: {
     ...ORDER_LINES,
-    accumulate: true,
-    fetch: false,
     records: null,
   },
   orderLinesFunds: {

@@ -1,3 +1,3 @@
 export * from './constants';
 
-export { default } from './OrdersList';
+export { default } from './OrdersListContainer';

@@ -124,7 +124,6 @@ function OrderLinesList({
           />
 
           <ResetButton
-            id="reset-invoice-filters"
             reset={resetFilters}
             disabled={!location.search}
           />

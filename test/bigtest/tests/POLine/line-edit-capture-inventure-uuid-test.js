@@ -62,7 +62,7 @@ describe('Line edit test - Capture UUID from inventory', function () {
       id: line.attrs.purchaseOrderId,
     });
 
-    this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
+    this.visit(`/orders/view/${order.id}/po-line/edit/${line.id}`);
     await lineEditPage.whenLoaded();
   });
 

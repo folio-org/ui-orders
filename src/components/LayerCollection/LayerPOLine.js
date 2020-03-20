@@ -7,20 +7,26 @@ import {
   set,
 } from 'lodash';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import queryString from 'query-string';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
+import { getFormValues } from 'redux-form';
 
 import {
   CalloutContext,
+  stripesConnect,
   stripesShape,
 } from '@folio/stripes/core';
 import {
-  Layer,
+  LoadingView,
 } from '@folio/stripes/components';
 import {
+  DICT_CONTRIBUTOR_NAME_TYPES,
+  DICT_IDENTIFIER_TYPES,
+  fundsManifest,
   getConfigSetting,
-  LoadingPane,
+  locationsManifest,
+  materialTypesManifest,
   sourceValues,
+  VENDORS_API,
 } from '@folio/stripes-acq-components';
 
 import { WORKFLOW_STATUS } from '../../common/constants';
@@ -34,13 +40,15 @@ import {
   updateOrderResource,
 } from '../Utils/orderResource';
 import {
-  lineMutatorShape,
-  orderRecordsMutatorShape,
-} from '../Utils/mutators';
-import {
   APPROVALS_SETTING,
+  CONTRIBUTOR_NAME_TYPES,
+  CREATE_INVENTORY,
+  IDENTIFIER_TYPES,
   OPEN_ORDER_SETTING,
+  ORDER_LINES,
+  ORDER_TEMPLATES,
   ORDER,
+  VALIDATE_ISBN,
 } from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
@@ -84,6 +92,35 @@ class LayerPOLine extends Component {
     order: ORDER,
     openOrderSetting: OPEN_ORDER_SETTING,
     approvalsSetting: APPROVALS_SETTING,
+    [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
+    poLines: ORDER_LINES,
+    vendors: {
+      type: 'okapi',
+      path: VENDORS_API,
+      GET: {
+        params: {
+          query: 'id=="*" sortby name',
+        },
+      },
+      records: 'organizations',
+      perRequest: 1000,
+    },
+    createInventory: CREATE_INVENTORY,
+    orderTemplates: ORDER_TEMPLATES,
+    locations: {
+      ...locationsManifest,
+      accumulate: false,
+      fetch: true,
+    },
+    fund: fundsManifest,
+    materialTypes: {
+      ...materialTypesManifest,
+      accumulate: false,
+      fetch: true,
+    },
+    validateISBN: VALIDATE_ISBN,
+    [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
+    query: {},
   });
 
   constructor(props) {
@@ -93,7 +130,6 @@ class LayerPOLine extends Component {
       isLinesLimitExceededModalOpened: false,
       line: null,
     };
-    this.connectedPOLineForm = props.stripes.connect(POLineForm);
   }
 
   openLineLimitExceededModal = (line) => {
@@ -140,18 +176,21 @@ class LayerPOLine extends Component {
 
   submitPOLine = ({ saveAndOpen, ...line }) => {
     const newLine = cloneDeep(line);
-    const { parentMutator: { poLine }, onCancel } = this.props;
+    const { history, location, match: { params: { id } }, mutator: { poLines } } = this.props;
 
     delete newLine.template;
 
-    poLine.POST(newLine)
+    poLines.POST(newLine)
       .then(() => this.openOrder(saveAndOpen))
       .then(() => {
         this.context.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.line.create.success" />,
           type: 'success',
         });
-        onCancel();
+        history.push({
+          pathname: `/orders/view/${id}`,
+          search: location.search,
+        });
       })
       .catch(e => this.handleErrorResponse(e, line));
   };
@@ -166,14 +205,14 @@ class LayerPOLine extends Component {
   };
 
   createNewOrder = async () => {
-    const { parentMutator } = this.props;
+    const { mutator } = this.props;
     const { line } = this.state;
     const order = this.getOrder();
 
     try {
-      const newOrder = await cloneOrder(order, parentMutator.records, line && [line]);
+      const newOrder = await cloneOrder(order, mutator.order, line && [line]);
 
-      parentMutator.query.update({
+      mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null,
       });
@@ -212,29 +251,24 @@ class LayerPOLine extends Component {
     const line = cloneDeep(data);
 
     delete line.metadata;
-    const { location: { pathname }, parentMutator } = this.props;
+    const { mutator } = this.props;
 
-    return parentMutator.poLine.PUT(line)
+    return mutator.poLines.PUT(line)
       .then(() => this.openOrder(saveAndOpen))
       .then(() => {
         this.context.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.line.update.success" values={{ lineNumber: line.poLineNumber }} />,
           type: 'success',
         });
-        setTimeout(() => {
-          parentMutator.query.update({
-            _path: `${pathname}`,
-            layer: null,
-          });
-        });
+        setTimeout(this.onCancel);
       })
       .catch(e => this.handleErrorResponse(e, line));
   };
 
   getCreatePOLIneInitialValues = (order, vendor) => {
-    const { parentResources, stripes } = this.props;
+    const { resources, stripes } = this.props;
     const { id: orderId } = order;
-    const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
+    const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
 
     const newObj = {
       template: get(order, 'template', ''),
@@ -268,7 +302,7 @@ class LayerPOLine extends Component {
         newObj.cost.discount = vendor.discountPercent;
       }
     }
-    const templateValue = getOrderTemplateValue(parentResources, order.template);
+    const templateValue = getOrderTemplateValue(resources, order.template);
 
     const { form } = stripes.store.getState();
 
@@ -284,22 +318,27 @@ class LayerPOLine extends Component {
     return newObj;
   };
 
+  onCancel = () => {
+    const { match: { params: { id, lineId } }, history, location } = this.props;
+
+    history.push({
+      pathname: `/orders/view/${id}/po-line/view/${lineId}`,
+      search: location.search,
+    });
+  };
+
   render() {
     const {
-      connectedSource,
-      location,
       match,
-      onCancel,
-      parentMutator,
-      parentResources,
+      mutator,
       resources,
       stripes,
     } = this.props;
-    const { params: { id } } = match;
-    const { layer } = location.search ? queryString.parse(location.search) : {};
+    const onCancel = this.onCancel;
+    const { params: { id, lineId } } = match;
     const order = this.getOrder();
     const { vendor: vendorId } = order || {};
-    const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
+    const vendor = get(resources, 'vendors.records', []).find(d => d.id === vendorId);
     const { isOpenOrderEnabled } = getConfigSetting(get(resources, 'openOrderSetting.records', {}));
     const { isApprovalRequired } = getConfigSetting(get(resources, 'approvalsSetting.records', {}));
     const isOrderApproved = isApprovalRequired ? get(order, 'approved') : true;
@@ -307,32 +346,38 @@ class LayerPOLine extends Component {
       && isOrderApproved
       && get(order, 'workflowStatus') === WORKFLOW_STATUS.pending;
     const isLoading = !(
-      get(parentResources, 'createInventory.hasLoaded') &&
+      get(resources, 'createInventory.hasLoaded') &&
       get(resources, 'order.hasLoaded') &&
       get(resources, 'openOrderSetting.hasLoaded') &&
       get(resources, 'approvalsSetting.hasLoaded') &&
+      get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
+      get(resources, 'vendors.hasLoaded') &&
+      get(resources, 'orderTemplates.hasLoaded') &&
+      get(resources, 'locations.hasLoaded') &&
+      get(resources, `${DICT_IDENTIFIER_TYPES}.hasLoaded`) &&
+      get(resources, 'materialTypes.hasLoaded') &&
+      get(resources, 'fund.hasLoaded') &&
       get(order, 'id') === id
     );
 
+    const formValues = getFormValues('POLineForm')(stripes.store.getState());
+
     if (isLoading) {
-      return <LoadingPane onClose={onCancel} />;
-    } else if (layer === 'create-po-line') {
+      return <LoadingView defaultWidth="fill" onClose={onCancel} />;
+    } else if (!lineId) {
       return (
-        <Layer
-          isOpen
-          contentLabel="Create PO Line Dialog"
-        >
-          <this.connectedPOLineForm
-            connectedSource={connectedSource}
+        <>
+          <POLineForm
             initialValues={this.getCreatePOLIneInitialValues(order, vendor)}
             onCancel={onCancel}
             onSubmit={this.submitPOLine}
             order={order}
             vendor={vendor}
-            parentMutator={parentMutator}
-            parentResources={parentResources}
+            parentMutator={mutator}
+            parentResources={resources}
             stripes={stripes}
             isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
+            formValues={formValues}
           />
           {this.state.isLinesLimitExceededModalOpened && (
             <LinesLimit
@@ -340,48 +385,36 @@ class LayerPOLine extends Component {
               createOrder={this.createNewOrder}
             />
           )}
-        </Layer>
+        </>
       );
-    } else if (layer === 'edit-po-line') {
+    } else {
       return (
-        <Layer
-          isOpen
-          contentLabel="Edit PO Line Dialog"
-        >
-          <this.connectedPOLineForm
-            connectedSource={connectedSource}
+        <>
+          <POLineForm
             initialValues={this.getLine()}
             onCancel={onCancel}
             onSubmit={this.updatePOLine}
             order={order}
             vendor={vendor}
-            parentMutator={parentMutator}
-            parentResources={parentResources}
+            parentMutator={mutator}
+            parentResources={resources}
             stripes={stripes}
             isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
+            formValues={formValues}
           />
-        </Layer>
+        </>
       );
     }
-
-    return null;
   }
 }
 
 LayerPOLine.propTypes = {
-  connectedSource: PropTypes.object.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
-  match: ReactRouterPropTypes.match,
-  parentMutator: PropTypes.shape({
-    poLine: lineMutatorShape,
-    records: orderRecordsMutatorShape,
-    query: PropTypes.object.isRequired,
-  }),
-  parentResources: PropTypes.object.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   resources: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
-  onCancel: PropTypes.func.isRequired,
   mutator: PropTypes.object.isRequired,
 };
 
-export default LayerPOLine;
+export default stripesConnect(LayerPOLine);

@@ -121,8 +121,8 @@ class POLineView extends Component {
     const { order, line, history } = this.props;
 
     history.push({
-      pathname: `/orders/view/${order.id}/po-line/view/${line.id}`,
-      search: `layer=edit-po-line&filters=${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}&sort=-${ORDER_FILTERS.PO_NUMBER}`,
+      pathname: `/orders/view/${order.id}/po-line/edit/${line.id}`,
+      search: `filters=${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
     });
   };
 

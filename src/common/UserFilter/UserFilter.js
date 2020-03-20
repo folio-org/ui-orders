@@ -6,6 +6,7 @@ import { getUserOptions } from '../utils';
 import { usersShape } from '../shapes';
 
 const UserFilter = ({ users, ...rest }) => {
+  if (!users) return null;
   const options = getUserOptions(users);
 
   return (

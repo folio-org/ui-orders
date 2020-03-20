@@ -1,16 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import { get } from 'lodash';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { getFormValues } from 'redux-form';
 
 import {
-  Layer,
-} from '@folio/stripes/components';
-import { CalloutContext } from '@folio/stripes/core';
+  CalloutContext,
+  stripesConnect,
+} from '@folio/stripes/core';
 
+import { PO_FORM_NAME } from '../../common/constants';
+import {
+  prefixesResource,
+  suffixesResource,
+} from '../../common/resources';
 import { getUserNameById } from '../../common/utils';
-import { updateOrderResource } from '../Utils/orderResource';
+import {
+  ORDER_NUMBER_API,
+  ORDER_NUMBER_VALIDATE_API,
+} from '../Utils/api';
+import {
+  createOrderResource,
+  updateOrderResource,
+} from '../Utils/orderResource';
+import {
+  ADDRESSES,
+  ORDER,
+  ORDER_NUMBER_SETTING,
+  ORDER_TEMPLATES,
+  USERS,
+} from '../Utils/resources';
 import {
   showUpdateOrderError,
 } from '../Utils/order';
@@ -19,18 +39,43 @@ import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 
 class LayerPO extends Component {
   static contextType = CalloutContext;
+  static manifest = Object.freeze({
+    order: ORDER,
+    addresses: ADDRESSES,
+    users: {
+      ...USERS,
+      accumulate: true,
+      fetch: false,
+    },
+    orderNumber: {
+      accumulate: true,
+      fetch: false,
+      path: ORDER_NUMBER_API,
+      throwErrors: false,
+      clientGeneratePk: false,
+      type: 'okapi',
+      POST: {
+        path: ORDER_NUMBER_VALIDATE_API,
+      },
+    },
+    orderNumberSetting: ORDER_NUMBER_SETTING,
+    prefixesSetting: prefixesResource,
+    suffixesSetting: suffixesResource,
+    orderTemplates: ORDER_TEMPLATES,
+  });
+
   static propTypes = {
     order: PropTypes.object,
-    location: PropTypes.object.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
     stripes: PropTypes.object.isRequired,
-    onCancel: PropTypes.func,
-    parentResources: PropTypes.object.isRequired,
-    parentMutator: PropTypes.object.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
+    resources: PropTypes.object.isRequired,
+    mutator: PropTypes.object.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.connectedPOForm = props.stripes.connect(POForm);
     this.state = {
       createdByName: '',
       assignedToUser: '',
@@ -42,18 +87,39 @@ class LayerPO extends Component {
     this.setUserFields();
   }
 
-  componentDidUpdate(prevProps) {
-    if (get(this.props, 'order.id') !== get(prevProps, 'order.id')) this.setUserFields();
-  }
+  getOrder = () => this.props.resources?.order?.records[0];
 
   setUserFields = () => {
-    const { order: { assignedTo, metadata }, parentMutator } = this.props;
+    const { mutator } = this.props;
+    const { assignedTo, metadata } = this.getOrder() || {};
 
-    getUserNameById(parentMutator.users, get(metadata, 'createdByUserId'))
-      .then(userName => this.setState({ createdByName: userName }));
+    if (metadata) {
+      getUserNameById(mutator.users, get(metadata, 'createdByUserId'))
+        .then(userName => this.setState({ createdByName: userName }));
+    }
 
-    getUserNameById(parentMutator.users, assignedTo)
-      .then(userName => this.setState({ assignedToUser: userName }));
+    if (assignedTo) {
+      getUserNameById(mutator.users, assignedTo)
+        .then(userName => this.setState({ assignedToUser: userName }));
+    }
+  }
+
+  goToOrderDetails = () => {
+    const { history, location, match: { params: { id } } } = this.props;
+
+    history.push({
+      pathname: `/orders/view/${id}`,
+      search: location.search,
+    });
+  }
+
+  goToOrders = () => {
+    const { history, location } = this.props;
+
+    history.push({
+      pathname: '/orders',
+      search: location.search,
+    });
   }
 
   closeErrorModal = () => {
@@ -65,14 +131,20 @@ class LayerPO extends Component {
   };
 
   updatePO = (order) => {
-    const { parentMutator, onCancel } = this.props;
+    const { history, location, mutator } = this.props;
+    const saveFn = order.id
+      ? updateOrderResource
+      : createOrderResource;
 
-    updateOrderResource(order, parentMutator.records)
-      .then(({ poNumber }) => {
+    return saveFn(order, mutator.order)
+      .then(({ id, poNumber }) => {
         this.context.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: poNumber }} />,
         });
-        onCancel();
+        setTimeout(() => history.push({
+          pathname: `/orders/view/${id}`,
+          search: location.search,
+        }));
       })
       .catch(async e => {
         await showUpdateOrderError(e, this.context, this.openOrderErrorModalShow);
@@ -80,39 +152,47 @@ class LayerPO extends Component {
   };
 
   render() {
-    const { order, location } = this.props;
-    const { layer } = location.search ? queryString.parse(location.search) : {};
+    const {
+      match,
+      mutator,
+      resources,
+      stripes,
+    } = this.props;
+    const id = match.params.id;
+    const order = id
+      ? this.getOrder()
+      : {};
+
+    if (!order) return null;
     const { updateOrderError, createdByName, assignedToUser } = this.state;
     const patchedOrder = {
       ...order,
       createdByName,
       assignedToUser,
     };
+    const formValues = getFormValues(PO_FORM_NAME)(stripes.store.getState());
 
-    if (layer === 'edit') {
-      return (
-        <Layer
-          isOpen
-          contentLabel="Edit Order Dialog"
-        >
-          <this.connectedPOForm
-            {...this.props}
-            initialValues={patchedOrder}
-            onSubmit={this.updatePO}
+    return (
+      <>
+        <POForm
+          formValues={formValues}
+          initialValues={patchedOrder}
+          onCancel={id ? this.goToOrderDetails : this.goToOrders}
+          onSubmit={this.updatePO}
+          parentMutator={mutator}
+          parentResources={resources}
+          stripes={stripes}
+        />
+        {updateOrderError && (
+          <UpdateOrderErrorModal
+            orderNumber={patchedOrder.poNumber}
+            errors={updateOrderError}
+            cancel={this.closeErrorModal}
           />
-          {updateOrderError && (
-            <UpdateOrderErrorModal
-              orderNumber={patchedOrder.poNumber}
-              errors={updateOrderError}
-              cancel={this.closeErrorModal}
-            />
-          )}
-        </Layer>
-      );
-    }
-
-    return null;
+        )}
+      </>
+    );
   }
 }
 
-export default LayerPO;
+export default stripesConnect(LayerPO);
