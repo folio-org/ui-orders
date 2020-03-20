@@ -142,7 +142,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, users,
         onChange={onChange}
       />
       <OrdersTextFilter
-        id={FILTERS.RENEWAL_REVIEW_PERIOD}
+        id="order-reviewPeriod"
         activeFilters={activeFilters[FILTERS.RENEWAL_REVIEW_PERIOD]}
         labelId="ui-orders.renewal.reviewPeriod"
         name={FILTERS.RENEWAL_REVIEW_PERIOD}

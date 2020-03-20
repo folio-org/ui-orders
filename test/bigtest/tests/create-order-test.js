@@ -20,7 +20,7 @@ describe('Create order', function () {
       templateCode: 'TT',
     });
     this.server.create('vendor', { isVendor: true });
-    this.visit('/orders?layer=create');
+    this.visit('/orders/create');
     await form.whenLoaded();
   });
 

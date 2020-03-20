@@ -203,7 +203,7 @@ export default interactor(class LineEditPage {
   physicalDetailsAccordion = new PhysicalDetailsAccordion();
   electronicDetailsAccordion = new ElectronicDetailsAccordion();
   otherAccordion = new OtherAccordion();
-  title = text('[class*=paneTitleLabel---]');
+  title = text('#paneHeaderpane-poLineForm-pane-title');
   orderFormat = new OrderFormat();
   physicalCreateInventory = new PhysicalCreateInventory();
   addVolumeButton = new Button('[data-test-add-volume-button]');

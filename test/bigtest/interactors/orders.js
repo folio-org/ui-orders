@@ -25,7 +25,8 @@ import { TIMEOUT } from './const';
   fillDateOrderedEnd = fillable(`#${FILTERS.DATE_ORDERED} input[name="endDate"]`);
   applyDateOrdered = new Button(`#${FILTERS.DATE_ORDERED} [data-test-apply-button]`);
 
-  fillRenewalReviewPeriod = fillable(`#${FILTERS.RENEWAL_REVIEW_PERIOD} input`);
+  expandRenewalReviewPeriod = clickable('#accordion-toggle-button-order-reviewPeriod');
+  fillRenewalReviewPeriod = fillable('#order-reviewPeriod input');
 }
 
 export default interactor(class OrdersInteractor {
@@ -37,10 +38,10 @@ export default interactor(class OrdersInteractor {
 
   filters = new OrdersFilterInteractor();
   isNoResultsMessageLabelPresent = isPresent('[class*=noResultsMessageLabel]');
-  chooseSearchOption= selectable('#input-order-search-qindex');
-  fillSearchField = fillable('#input-order-search');
-  clickSearch = clickable('[data-test-search-and-sort-submit]');
-  listIsLoaded = isPresent('#list-orders');
+  chooseSearchOption= selectable('#input-record-search-qindex');
+  fillSearchField = fillable('#input-record-search');
+  clickSearch = clickable('[data-test-single-search-form-submit]');
+  listIsLoaded = isPresent('[data-test-results-pane]');
 
   whenLoaded() {
     return this.timeout(TIMEOUT).when(() => this.hasCreateOrderButton);
@@ -48,5 +49,9 @@ export default interactor(class OrdersInteractor {
 
   whenListLoaded() {
     return this.timeout(TIMEOUT).when(() => this.listIsLoaded);
+  }
+
+  whenRenewalReviewFilterISLoaded() {
+    return this.timeout(TIMEOUT).when(() => isPresent('#accordion-toggle-button-order-reviewPeriod'));
   }
 });

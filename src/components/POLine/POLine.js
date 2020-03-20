@@ -101,7 +101,6 @@ class POLine extends Component {
     const line = this.getLine();
     const lineNumber = line.poLineNumber;
 
-    this.unmountDeleteOrderConfirm();
     mutator.poLine.DELETE(line)
       .then(() => {
         this.context.sendCallout({

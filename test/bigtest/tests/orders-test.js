@@ -71,6 +71,8 @@ describe('Orders', function () {
 
   describe('by renewalReviewPeriod', function () {
     beforeEach(async function () {
+      await orders.whenRenewalReviewFilterISLoaded();
+      await orders.filters.expandRenewalReviewPeriod();
       await orders.filters.fillRenewalReviewPeriod(15);
       await orders.whenListLoaded();
     });

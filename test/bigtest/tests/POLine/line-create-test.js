@@ -26,6 +26,6 @@ describe('Create PO Line simple test', function () {
   });
 
   it('Has to render expected title', function () {
-    expect(lineEditPage.title).to.be.equal('Add PO Line');
+    expect(lineEditPage.title).to.be.equal('Add PO line');
   });
 });

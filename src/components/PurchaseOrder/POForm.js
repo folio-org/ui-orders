@@ -209,7 +209,7 @@ class POForm extends Component {
   };
 
   render() {
-    const { change, dispatch, formValues, initialValues, onCancel, stripes, parentResources } = this.props;
+    const { change, dispatch, formValues = {}, initialValues, onCancel, stripes, parentResources } = this.props;
     const { sections } = this.state;
     const generatedNumber = get(parentResources, 'orderNumber.records.0.poNumber');
     const firstMenu = this.getAddFirstMenu();

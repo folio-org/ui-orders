@@ -18,7 +18,7 @@ describe('OrderEditPage', function () {
   beforeEach(async function () {
     order = this.server.create('order');
 
-    this.visit(`/orders/view/${order.id}?layer=edit`);
+    this.visit(`/orders/edit/${order.id}`);
     await orderEditPage.whenLoaded();
   });
 

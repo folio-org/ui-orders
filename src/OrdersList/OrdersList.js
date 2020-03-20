@@ -161,7 +161,6 @@ function OrdersList({
       <Route
         path="/orders/view/:id"
         component={Panes}
-        exact
       />
     </Paneset>
   );
