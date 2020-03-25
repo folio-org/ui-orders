@@ -61,9 +61,11 @@ class POLineView extends Component {
   static propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
     poURL: PropTypes.string,
+    location: ReactRouterPropTypes.location.isRequired,
     locations: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.object,
     line: PropTypes.object,
+    match: ReactRouterPropTypes.match.isRequired,
     materialTypes: PropTypes.arrayOf(PropTypes.object),
     onClose: PropTypes.func,
     editable: PropTypes.bool,
@@ -118,11 +120,12 @@ class POLineView extends Component {
 
   onEditPOLine = (e) => {
     if (e) e.preventDefault();
-    const { order, line, history } = this.props;
+    const { match: { params: { lineId } }, history, location, order, line } = this.props;
+    const search = lineId ? location.search : `qindex=${ORDER_FILTERS.PO_NUMBER}&query=${order.poNumber}`;
 
     history.push({
       pathname: `/orders/view/${order.id}/po-line/edit/${line.id}`,
-      search: `filters=${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
+      search,
     });
   };
 

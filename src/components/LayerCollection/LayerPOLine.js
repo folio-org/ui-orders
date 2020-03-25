@@ -320,9 +320,10 @@ class LayerPOLine extends Component {
 
   onCancel = () => {
     const { match: { params: { id, lineId } }, history, location } = this.props;
+    const pathname = lineId ? `/orders/view/${id}/po-line/view/${lineId}` : `/orders/view/${id}`;
 
     history.push({
-      pathname: `/orders/view/${id}/po-line/view/${lineId}`,
+      pathname,
       search: location.search,
     });
   };
