@@ -11,6 +11,7 @@ import {
   configLocations,
   configMaterialTypes,
   configLines,
+  configOrders,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
@@ -26,7 +27,6 @@ import {
 } from '../../../src/components/Utils/api';
 import {
   configClosingReasons,
-  configOrders,
   configPrefixes,
   configSuffixes,
 } from './configs';
