@@ -206,6 +206,10 @@ class PO extends Component {
 
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
+      this.context.sendCallout({
+        message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber: order.poNumber }} />,
+        type: 'success',
+      });
     } catch (e) {
       await showUpdateOrderError(e, this.context, this.orderErrorModalShow);
     } finally {
