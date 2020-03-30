@@ -103,7 +103,7 @@ function OrdersList({
       toggleFilterPane={toggleFilters}
     />
   );
-  const renderLastMenu = useCallback(() => <OrdersListLastMenu />, []);
+  const renderLastMenu = useCallback(() => <OrdersListLastMenu search={location.search} />, [location.search]);
 
   return (
     <Paneset data-test-order-instances>

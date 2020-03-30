@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import {
   PaneMenu,
@@ -7,7 +8,7 @@ import {
 } from '@folio/stripes/components';
 import { IfPermission } from '@folio/stripes/core';
 
-const OrdersListLastMenu = () => {
+const OrdersListLastMenu = ({ search }) => {
   return (
     <IfPermission perm="ui-orders.order.create">
       <PaneMenu>
@@ -16,7 +17,10 @@ const OrdersListLastMenu = () => {
             <Button
               id="clickable-neworder"
               aria-label={ariaLabel}
-              to="/orders/create"
+              to={{
+                pathname: '/orders/create',
+                search,
+              }}
               buttonStyle="primary"
               marginBottom0
             >
@@ -27,6 +31,10 @@ const OrdersListLastMenu = () => {
       </PaneMenu>
     </IfPermission>
   );
+};
+
+OrdersListLastMenu.propTypes = {
+  search: PropTypes.string.isRequired,
 };
 
 export default OrdersListLastMenu;
