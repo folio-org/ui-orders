@@ -29,7 +29,10 @@ import {
   VENDORS_API,
 } from '@folio/stripes-acq-components';
 
-import { WORKFLOW_STATUS } from '../../common/constants';
+import {
+  ERROR_CODES,
+  WORKFLOW_STATUS,
+} from '../../common/constants';
 import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
 import {
   DISCOUNT_TYPE,
@@ -53,41 +56,6 @@ import {
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
-
-const ERROR_CODES = {
-  accessProviderIsInactive: 'accessProviderIsInactive',
-  accessProviderNotFound: 'accessProviderNotFound',
-  costAdditionalCostInvalid: 'costAdditionalCostInvalid',
-  costDiscountInvalid: 'costDiscountInvalid',
-  costQtyPhysicalExceedsLoc: 'costQtyPhysicalExceedsLoc',
-  costUnitPriceElectronicInvalid: 'costUnitPriceElectronicInvalid',
-  costUnitPriceInvalid: 'costUnitPriceInvalid',
-  electronicLocCostQtyMismatch: 'electronicLocCostQtyMismatch',
-  fundsNotFound: 'fundsNotFound',
-  InstanceIdNotAllowedForPackagePoLine: 'InstanceIdNotAllowedForPackagePoLine',
-  invalidISBN: 'invalidISBN',
-  locNotProvided: 'locNotProvided',
-  locQtyElectronicExceedsCost: 'locQtyElectronicExceedsCost',
-  locQtyPhysicalExceedsCost: 'locQtyPhysicalExceedsCost',
-  materialTypeRequired: 'materialTypeRequired',
-  missingContributorNameType: 'missingContributorNameType',
-  missingOngoing: 'missingOngoing',
-  nonZeroCostQtyElectronic: 'nonZeroCostQtyElectronic',
-  nonZeroCostQtyPhysical: 'nonZeroCostQtyPhysical',
-  nonZeroLocQtyPhysical: 'nonZeroLocQtyPhysical',
-  ongoingNotAllowed: 'ongoingNotAllowed',
-  orderIdMismatch: 'orderIdMismatch',
-  orderIdRequired: 'orderIdRequired',
-  orderNotFound: 'orderNotFound',
-  physicalLocCostQtyMismatch: 'physicalLocCostQtyMismatch',
-  protectedFieldChanging: 'protectedFieldChanging',
-  userHasNoAcqUnitsPermission: 'userHasNoAcqUnitsPermission',
-  userHasNoPermission: 'userHasNoPermission',
-  zeroCostQty: 'zeroCostQty',
-  zeroCostQtyElectronic: 'zeroCostQtyElectronic',
-  zeroCostQtyPhysical: 'zeroCostQtyPhysical',
-  zeroLocQty: 'zeroLocQty',
-};
 
 class LayerPOLine extends Component {
   static contextType = CalloutContext;

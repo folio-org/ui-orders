@@ -7,7 +7,8 @@ import { omit } from 'lodash';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { showUpdateOrderError, ERROR_CODES } from '../../../../../src/components/Utils/order';
+import { showUpdateOrderError } from '../../../../../src/components/Utils/order';
+import { ERROR_CODES } from '../../../../../src/common/constants';
 
 const CALLOUT_ERROR_CODES = omit(
   ERROR_CODES,

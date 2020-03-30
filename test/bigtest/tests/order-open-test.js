@@ -5,7 +5,10 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { WORKFLOW_STATUS } from '../../../src/common/constants';
+import {
+  ERROR_CODES,
+  WORKFLOW_STATUS,
+} from '../../../src/common/constants';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import {
   ORDERS_API,
@@ -14,7 +17,6 @@ import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OpenOrderConfirmationModal from '../interactors/PurchaseOrder/open-order-confirmation-modal';
 import OpenOrderErrorModal from '../interactors/PurchaseOrder/open-order-error-modal';
-import { ERROR_CODES } from '../../../src/components/Utils/order';
 
 const VENDOR_IS_INACTIVE_RESPONSE = {
   'errors': [{

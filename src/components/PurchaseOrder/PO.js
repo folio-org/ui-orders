@@ -248,10 +248,7 @@ class PO extends Component {
         search: location.search,
       });
     } catch (e) {
-      this.context.sendCallout({
-        message: <SafeHTMLMessage id="ui-orders.order.clone.error" />,
-        type: 'error',
-      });
+      await showUpdateOrderError(e, this.context, this.orderErrorModalShow, 'clone.error');
     }
   };
 
@@ -269,10 +266,7 @@ class PO extends Component {
       });
       this.transitionToParams({ _path: `/orders/view/${newOrder.id}/po-line/create` });
     } catch (e) {
-      this.context.sendCallout({
-        message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
-        type: 'error',
-      });
+      await showUpdateOrderError(e, this.context, this.orderErrorModalShow, 'noCreatedOrder');
     }
   };
 

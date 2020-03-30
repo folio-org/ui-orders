@@ -1,46 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-
 import { get } from 'lodash';
 
-export const ERROR_CODES = {
-  accessProviderIsInactive: 'accessProviderIsInactive',
-  accessProviderNotFound: 'accessProviderNotFound',
-  budgetIsInactive: 'budgetIsInactive',
-  budgetNotFoundForTransaction: 'budgetNotFoundForTransaction',
-  currentFYearNotFound: 'currentFYearNotFound',
-  encumbranceCreationFailure: 'encumbranceCreationFailure',
-  fundCannotBePaid: 'fundCannotBePaid',
-  fundsNotFound: 'fundsNotFound',
-  idMismatch: 'idMismatch',
-  InstanceIdNotAllowedForPackagePoLine: 'InstanceIdNotAllowedForPackagePoLine',
-  itemCreationFailed: 'itemCreationFailed',
-  itemNotFound: 'itemNotFound',
-  itemNotRetrieved: 'itemNotRetrieved',
-  itemUpdateFailed: 'itemUpdateFailed',
-  ledgerNotFoundForTransaction: 'ledgerNotFoundForTransaction',
-  missingInstanceStatus: 'missingInstanceStatus',
-  missingInstanceType: 'missingInstanceType',
-  missingLoanType: 'missingLoanType',
-  missingOngoing: 'missingOngoing',
-  ongoingNotAllowed: 'ongoingNotAllowed',
-  orderAcqUnitsNotFound: 'orderAcqUnitsNotFound',
-  orderApprovalRequired: 'orderApprovalRequired',
-  orderClosed: 'orderClosed',
-  orderNotFound: 'orderNotFound',
-  orderOpen: 'orderOpen',
-  organizationNotAVendor: 'organizationNotAVendor',
-  poNumberNotUnique: 'poNumberNotUnique',
-  poNumberRequired: 'poNumberRequired',
-  protectedFieldChanging: 'protectedFieldChanging',
-  userHasNoAcqUnitsPermission: 'userHasNoAcqUnitsPermission',
-  userHasNoApprovalPermission: 'userHasNoApprovalPermission',
-  userHasNoPermission: 'userHasNoPermission',
-  vendorIsInactive: 'vendorIsInactive',
-  vendorIssue: 'vendorIssue',
-  vendorNotFound: 'vendorNotFound',
-};
+import { ERROR_CODES } from '../../../common/constants';
 
 const POL_NUMBER_KEY = 'poLineNumber';
 
@@ -59,7 +22,7 @@ const showMessage = (callout, code, error, path) => {
   });
 };
 
-const showUpdateOrderError = async (response, callout, openModal) => {
+const showUpdateOrderError = async (response, callout, openModal, genericCode = 'orderGenericError1') => {
   let error;
 
   try {
@@ -69,7 +32,7 @@ const showUpdateOrderError = async (response, callout, openModal) => {
   }
 
   const errorCode = get(error, 'errors.0.code');
-  const code = get(ERROR_CODES, errorCode, 'orderGenericError1');
+  const code = get(ERROR_CODES, errorCode, genericCode);
 
   switch (code) {
     case ERROR_CODES.vendorIsInactive:

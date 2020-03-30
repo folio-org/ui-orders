@@ -1,3 +1,1 @@
-export { default as showUpdateOrderError, ERROR_CODES } from './showUpdateOrderError';
-
-export default {};
+export { default as showUpdateOrderError } from './showUpdateOrderError';

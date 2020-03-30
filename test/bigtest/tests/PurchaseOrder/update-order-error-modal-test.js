@@ -14,7 +14,7 @@ import prefixKeys from '@folio/stripes-acq-components/test/bigtest/helpers/prefi
 
 import OpenOrderErrorModal from '../../interactors/PurchaseOrder/open-order-error-modal';
 import { UpdateOrderErrorModal } from '../../../../src/components/PurchaseOrder/UpdateOrderErrorModal';
-import { ERROR_CODES } from '../../../../src/components/Utils/order';
+import { ERROR_CODES } from '../../../../src/common/constants';
 import translations from '../../../../translations/ui-orders/en';
 
 describe('Update Order Error modal', () => {
