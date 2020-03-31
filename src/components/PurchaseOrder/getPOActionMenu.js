@@ -90,7 +90,7 @@ export function getPOActionMenu({
           </Button>
         )}
       </IfPermission>
-      <IfPermission perm="orders.receiving.collection.post">
+      <IfPermission perm="ui-receiving.view">
         {isReceiveButtonVisible && (
           <Button
             buttonStyle="dropdownItem"

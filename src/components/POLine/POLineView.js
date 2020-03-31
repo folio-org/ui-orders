@@ -177,7 +177,7 @@ class POLineView extends Component {
             </Icon>
           </Button>
         )}
-        <IfPermission perm="ui-orders.receiving">
+        <IfPermission perm="ui-receiving.view">
           {(isReceiveButtonVisible || isCheckInButtonVisible) && (
             <Button
               buttonStyle="dropdownItem"

@@ -181,12 +181,6 @@
         ]
       },
       {
-        "permissionName": "ui-orders.receiving",
-        "displayName": "Orders: Receive/Check-in items",
-        "description": "",
-        "visible": true
-      },
-      {
         "permissionName": "ui-orders.acq.unit.assignment.assign",
         "displayName": "Orders: Assign acquisition units to new order",
         "description": "",
