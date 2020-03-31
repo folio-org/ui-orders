@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 ### Stories
 ### Bug fixes
+* [UIOR-537](https://issues.folio.org/browse/UIOR-537) 'Check-in Items' permission still shows in permissions list
 
 ## [2.0.1](https://github.com/folio-org/ui-orders/tree/v2.0.1) (2020-03-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.0...v2.0.1)
