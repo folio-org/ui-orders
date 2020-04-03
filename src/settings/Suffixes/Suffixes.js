@@ -35,7 +35,7 @@ class Suffixes extends Component {
         label={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}
         labelSingular={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffix' })}
         nameKey="name"
-        objectLabel={intl.formatMessage({ id: 'ui-orders.settings.suffix' })}
+        objectLabel={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffix' })}
         records="suffixes"
         sortby="name"
         stripes={stripes}

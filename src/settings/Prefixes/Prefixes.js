@@ -36,7 +36,7 @@ class Prefixes extends Component {
         label={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefixes' })}
         labelSingular={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefix' })}
         nameKey="name"
-        objectLabel={intl.formatMessage({ id: 'ui-orders.settings.prefix' })}
+        objectLabel={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefix' })}
         records="prefixes"
         sortby="name"
         stripes={stripes}
