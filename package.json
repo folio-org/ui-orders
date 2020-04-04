@@ -77,6 +77,7 @@
           "inventory-storage.material-types.collection.get",
           "inventory.items.collection.get",
           "invoice.invoice-lines.collection.get",
+          "invoice.invoices.collection.get",
           "isbn-utils.validator.get",
           "organizations-storage.organizations.collection.get",
           "organizations-storage.organizations.item.get",
@@ -114,7 +115,8 @@
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.po-number.item.get",
-          "orders.po-number.item.post"
+          "orders.po-number.item.post",
+          "ui-orders.third-party-services"
         ]
       },
       {
