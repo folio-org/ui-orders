@@ -697,7 +697,7 @@
     "checkIn.expectedReceiptDate": "Expected receipt date",
     "checkIn.pieceFormat.electronic": "Electronic",
     "checkIn.pieceFormat.physical": "Physical",
-    "search.productIdISBN": "Product ID ISBN",
+    "search.productIdISBN": "مصنوعات کی ID ISBN",
     "errors.invalidISBN": "Invalid ISBN; adjust or remove",
     "itemDetails.qualifier": "Qualifier",
     "itemDetails.contributors": "Contributors",

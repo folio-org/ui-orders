@@ -832,8 +832,8 @@
     "renewals.notes": "ملاحظات",
     "settings.orderTemplates.accordion.poOngoing": "بيانات أمر الشراء الجاري",
     "settings.closingReasons.source": "مصدر",
-    "errors.clone.error": "The purchase order was not cloned",
-    "errors.InstanceIdNotAllowedForPackagePoLine": "Instance id not allowed for package poline",
-    "errors.missingOngoing": "Ongoing field must be present for Ongoing order",
-    "errors.ongoingNotAllowed": "Ongoing field must be absent for One-time order"
+    "errors.clone.error": "لم يتم نسخ أمر الشراء",
+    "errors.InstanceIdNotAllowedForPackagePoLine": "غير مسموح بمعرف الوعاء لسطر أمر شراء الحزمة",
+    "errors.missingOngoing": "يجب وجود حقل جاري للطلبية الجارية",
+    "errors.ongoingNotAllowed": "يجب عدم وجود حقل جاري للطلبية ذات المرة الواحدة"
 }
