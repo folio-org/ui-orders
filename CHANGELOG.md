@@ -3,6 +3,11 @@
 ## (IN PROGRESS)
 ### Stories
 ### Bug fixes
+
+## [2.0.2](https://github.com/folio-org/ui-orders/tree/v2.0.2) (2020-04-06)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.1...v2.0.2)
+
+### Bug fixes
 * [UIOR-543](https://issues.folio.org/browse/UIOR-543) Permission issue with Orders: create order
 * [UIOR-537](https://issues.folio.org/browse/UIOR-537) 'Check-in Items' permission still shows in permissions list
 
