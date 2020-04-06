@@ -383,7 +383,7 @@ class PO extends Component {
 
     if (!order || order.id !== match.params.id || hasError) {
       return (
-        <LoadingPane defaultWidth="fill" onClose={this.gotToOrdersList} />
+        <LoadingPane dismissible defaultWidth="fill" onClose={this.gotToOrdersList} />
       );
     }
 
