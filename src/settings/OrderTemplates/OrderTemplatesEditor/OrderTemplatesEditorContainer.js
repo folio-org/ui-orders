@@ -71,7 +71,7 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   const contributorNameTypes = getContributorNameTypesForSelect(resources);
   const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
   const vendors = get(resources, 'vendors.records', [])
-    .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
+    .filter(({ isVendor, status }) => isVendor && status === ORGANIZATION_STATUS_ACTIVE);
   const prefixesSetting = get(resources, 'prefixesSetting.records', [])
     .map(({ name }) => ({ label: name, value: name }));
   const suffixesSetting = get(resources, 'suffixesSetting.records', [])
