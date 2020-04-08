@@ -30,5 +30,4 @@ export default interactor(class PrefixesInteractor {
   whenLoaded() {
     return this.timeout(TIMEOUT).when(() => isPresent('#editList-prefixes'));
   }
-
 });
