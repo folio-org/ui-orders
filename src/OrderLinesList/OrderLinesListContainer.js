@@ -118,18 +118,14 @@ const OrderLinesListContainer = ({ history, mutator, location }) => {
     return loadRecordsPromise.finally(() => setIsLoading(false));
   };
 
-  const onNeedMoreData = useCallback(
-    () => {
-      const newOffset = orderLinesOffset + RESULT_COUNT_INCREMENT;
+  const onNeedMoreData = () => {
+    const newOffset = orderLinesOffset + RESULT_COUNT_INCREMENT;
 
-      loadOrderLines(newOffset)
-        .then(() => {
-          setOrderLinesOffset(newOffset);
-        });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [orderLinesOffset],
-  );
+    loadOrderLines(newOffset)
+      .then(() => {
+        setOrderLinesOffset(newOffset);
+      });
+  };
 
   const refreshList = () => {
     setOrderLines([]);

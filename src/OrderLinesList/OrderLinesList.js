@@ -145,6 +145,7 @@ function OrderLinesList({
           columnMapping={columnMapping}
           contentData={orderLines}
           formatter={resultsFormatter}
+          hasMargin
           id="order-line-list"
           isEmptyMessage={resultsStatusMessage}
           loading={isLoading}
