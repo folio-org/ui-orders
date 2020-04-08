@@ -150,6 +150,7 @@ function OrdersList({
           onHeaderClick={changeSorting}
           onNeedMoreData={onNeedMoreData}
           onRowClick={selectOrder}
+          pagingType="click"
           sortDirection={sortingDirection}
           sortOrder={sortingField}
           totalCount={ordersCount}

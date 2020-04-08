@@ -100,6 +100,7 @@ const FieldOrganization = ({
           <Pluggable
             aria-haspopup="true"
             dataKey="organization"
+            id={`${name}-plugin`}
             searchButtonStyle="link"
             searchLabel={<FormattedMessage id="stripes-acq-components.filter.organization.lookup" />}
             selectVendor={selectOrganization}

@@ -10,16 +10,15 @@ import {
   acqUnitsShape,
   BooleanFilter,
   PluggableOrganizationFilter,
+  PluggableUserFilter,
 } from '@folio/stripes-acq-components';
 
 import ClosingReasonFilter from '../common/ClosingReasonFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
 import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 import OrdersTextFilter from '../common/OrdersTextFilter';
-import UserFilter from '../common/UserFilter';
 import {
   closingReasonsShape,
-  usersShape,
 } from '../common/shapes';
 import {
   FILTERS,
@@ -29,7 +28,7 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-function OrdersListFilters({ activeFilters, closingReasons, applyFilters, users, acqUnits }) {
+function OrdersListFilters({ activeFilters, closingReasons, applyFilters, acqUnits }) {
   const onChange = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -61,21 +60,19 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, users,
         onChange={onChange}
         acqUnits={acqUnits}
       />
-      <UserFilter
+      <PluggableUserFilter
         id={FILTERS.ASSIGNED_TO}
         activeFilters={activeFilters[FILTERS.ASSIGNED_TO]}
         labelId="ui-orders.orderDetails.assignedTo"
         name={FILTERS.ASSIGNED_TO}
         onChange={onChange}
-        users={users}
       />
-      <UserFilter
+      <PluggableUserFilter
         id={FILTERS.CREATED_BY}
         activeFilters={activeFilters[FILTERS.CREATED_BY]}
         labelId="ui-orders.orderDetails.createdBy"
         name={FILTERS.CREATED_BY}
         onChange={onChange}
-        users={users}
       />
       <OrdersDateRangeFilter
         id={FILTERS.DATE_CREATED}
@@ -157,7 +154,6 @@ OrdersListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   applyFilters: PropTypes.func.isRequired,
   closingReasons: closingReasonsShape,
-  users: usersShape,
   acqUnits: acqUnitsShape,
 };
 

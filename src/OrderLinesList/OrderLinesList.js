@@ -151,6 +151,7 @@ function OrderLinesList({
           onHeaderClick={changeSorting}
           onNeedMoreData={onNeedMoreData}
           onRowClick={selectOrderLine}
+          pagingType="click"
           sortDirection={sortingDirection}
           sortOrder={sortingField}
           totalCount={orderLinesCount}
