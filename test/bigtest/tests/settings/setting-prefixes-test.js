@@ -12,8 +12,9 @@ describe('Setting of Closing Reasons', function () {
   const prefixesSetting = new PrefixesInteractor();
   const deleteConfirmation = new ConfirmationInteractor('#delete-controlled-vocab-entry-confirmation');
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.visit('/settings/orders/prefixes');
+    await prefixesSetting.whenLoaded();
   });
 
   it('should be rendered', () => {
@@ -24,6 +25,7 @@ describe('Setting of Closing Reasons', function () {
   describe('Add new prefix', function () {
     beforeEach(async function () {
       await prefixesSetting.addPrefixBtn.click();
+      await prefixesSetting.whenLoaded();
     });
 
     it('renders fields for new prefix', () => {
@@ -34,6 +36,7 @@ describe('Setting of Closing Reasons', function () {
     describe('Cancel add new prefix', function () {
       beforeEach(async function () {
         await prefixesSetting.prefixes.list(0).cancelButton.click();
+        await prefixesSetting.whenLoaded();
       });
 
       it('renders fields for new prefix', () => {
@@ -45,6 +48,7 @@ describe('Setting of Closing Reasons', function () {
       beforeEach(async function () {
         await prefixesSetting.prefixes.list(0).nameInput.fill('test');
         await prefixesSetting.prefixes.list(0).saveButton.click();
+        await prefixesSetting.whenLoaded();
       });
 
       it('renders saved prefix', () => {
@@ -56,6 +60,7 @@ describe('Setting of Closing Reasons', function () {
           await prefixesSetting.prefixes.list(0).editButton.click();
           await prefixesSetting.prefixes.list(0).nameInput.fill('test new');
           await prefixesSetting.prefixes.list(0).saveButton.click();
+          await prefixesSetting.whenLoaded();
         });
 
         it('renders edited prefix', () => {
@@ -67,6 +72,7 @@ describe('Setting of Closing Reasons', function () {
         beforeEach(async function () {
           await prefixesSetting.prefixes.list(0).deleteButton.click();
           await deleteConfirmation.confirm();
+          await prefixesSetting.whenLoaded();
         });
 
         it('does not render empty list', () => {

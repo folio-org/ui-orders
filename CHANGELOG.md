@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 ### Stories
+* [UIOR-516](https://issues.folio.org/browse/UIOR-516) opt-in to Load More in Lists of orders and lines
+
 ### Bug fixes
 
 ## [2.0.2](https://github.com/folio-org/ui-orders/tree/v2.0.2) (2020-04-06)

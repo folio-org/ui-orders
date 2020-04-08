@@ -1,12 +1,15 @@
 import {
   interactor,
   collection,
+  isPresent,
 } from '@bigtest/interactor';
 
 import {
   ButtonInteractor,
   TextFieldInteractor,
 } from '@folio/stripes-acq-components/test/bigtest/interactors';
+
+import { TIMEOUT } from '../const';
 
 @interactor class Prefixes {
   list = collection('[class*=editListRow---]', {
@@ -23,4 +26,9 @@ export default interactor(class PrefixesInteractor {
 
   prefixes = new Prefixes('#editList-prefixes');
   addPrefixBtn = new ButtonInteractor('#clickable-add-prefixes');
+
+  whenLoaded() {
+    return this.timeout(TIMEOUT).when(() => isPresent('#editList-prefixes'));
+  }
+
 });
