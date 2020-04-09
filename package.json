@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -294,10 +294,10 @@
     "@folio/stripes": "^3.0.0",
     "react": "*",
     "react-intl": "^2.4.0",
-    "react-redux": "^5.1.1",
+    "react-redux": "*",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "redux": "^3.7.2"
+    "redux": "*"
   },
   "optionalDependencies": {
     "@folio/plugin-find-instance": "*",

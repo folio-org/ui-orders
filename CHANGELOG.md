@@ -1,10 +1,12 @@
 # Change history for ui-orders
 
 ## (IN PROGRESS)
+
+## [2.0.3](https://github.com/folio-org/ui-orders/tree/v2.0.3) (2020-04-09)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.2...v2.0.3)
+
 ### Stories
 * [UIOR-516](https://issues.folio.org/browse/UIOR-516) opt-in to Load More in Lists of orders and lines
-
-### Bug fixes
 
 ## [2.0.2](https://github.com/folio-org/ui-orders/tree/v2.0.2) (2020-04-06)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.1...v2.0.2)
