@@ -412,6 +412,7 @@
   "errors.zeroCostQtyElectronic": "Electronic cost quantity must be specified",
   "errors.zeroCostQtyPhysical": "Physical cost quantity must be specified",
   "errors.zeroLocQty": "Physical or electronic location quantity must be specified",
+  "errors.closeOrder": "Order failed to close",
   "filter.activated": "Activated",
   "filter.actualReceiptDate": "Actual receipt date",
   "filter.claim": "Claim",

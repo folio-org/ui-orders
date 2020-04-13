@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
-
 import { get } from 'lodash';
 
 import {
-  CalloutContext,
   IfPermission,
   stripesConnect,
-  stripesShape,
 } from '@folio/stripes/core';
 import {
   Tags,
   TagsBadge,
+  useModalToggle,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
+  AccordionStatus,
   Button,
   ConfirmationModal,
   ExpandAllButton,
@@ -58,388 +58,352 @@ import POInvoicesContainer from './POInvoices';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 import { getPOActionMenu } from './getPOActionMenu';
 
-class PO extends Component {
-  static contextType = CalloutContext;
-  static manifest = Object.freeze({
-    order: ORDER,
-    linesLimit: LINES_LIMIT,
-    closingReasons: reasonsForClosureResource,
-    fund: FUND,
-    approvalsSetting: APPROVALS_SETTING,
-    addresses: ADDRESSES,
-    query: {},
-  });
+const PO = ({
+  history,
+  location,
+  match,
+  mutator,
+  resources,
+}) => {
+  const sendCallout = useShowCallout();
 
-  static propTypes = {
-    mutator: PropTypes.object.isRequired,
-    location: ReactRouterPropTypes.location.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    stripes: stripesShape.isRequired,
-    resources: PropTypes.object.isRequired,
-  };
+  // this is required to avoid huge refactoring of processing error messages for now
+  const context = useMemo(() => ({ sendCallout }), [sendCallout]);
+  const [order, setOrder] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [updateOrderErrors, setUpdateOrderErrors] = useState(null);
+  const orderErrorModalShow = useCallback(setUpdateOrderErrors, [setUpdateOrderErrors]);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      sections: {
-        purchaseOrder: true,
-        POSummary: true,
-        POListing: true,
-        renewals: true,
-        relatedInvoices: true,
-      },
-      isCloseOrderModalOpened: false,
-      isLinesLimitExceededModalOpened: false,
-      isCloneConfirmation: false,
-      isTagsPaneOpened: false,
-      updateOrderError: null,
-      showConfirmDelete: false,
-    };
-    this.transitionToParams = values => this.props.mutator.query.update(values);
-    this.hasError = false;
-  }
-
-  toggleTagsPane = () => this.setState(({ isTagsPaneOpened }) => ({ isTagsPaneOpened: !isTagsPaneOpened }));
-
-  toggleCloneConfirmation = () => {
-    this.setState(prevState => ({ isCloneConfirmation: !prevState.isCloneConfirmation }));
-  };
-
-  deletePO = () => {
-    const { mutator } = this.props;
-    const order = this.getOrder();
-    const orderNumber = order.poNumber;
-
-    this.unmountDeleteOrderConfirm();
-    mutator.order.DELETE(order)
-      .then(() => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
-          type: 'success',
-        });
-        mutator.query.update({
-          _path: '/orders',
-          layer: null,
-        });
-      })
+  const fetchOrder = useCallback(
+    () => mutator.orderDetails.GET()
+      .then(setOrder)
       .catch(() => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.errors.orderWasNotDeleted" />,
+        sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
           type: 'error',
         });
-      });
-  }
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [match.params.id, sendCallout],
+  );
 
-  onToggleSection = ({ id }) => {
-    this.setState(({ sections }) => {
-      const isSectionOpened = sections[id];
+  useEffect(
+    () => {
+      setIsLoading(true);
+      fetchOrder().finally(setIsLoading);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [match.params.id],
+  );
 
-      return {
-        sections: {
-          ...sections,
-          [id]: !isSectionOpened,
+  const [isCloneConfirmation, toggleCloneConfirmation] = useModalToggle();
+  const [isTagsPaneOpened, toggleTagsPane] = useModalToggle();
+  const [isLinesLimitExceededModalOpened, toggleLinesLimitExceededModal] = useModalToggle();
+  const [isCloseOrderModalOpened, toggleCloseOrderModal] = useModalToggle();
+  const [showConfirmDelete, toggleDeleteOrderConfirm] = useModalToggle();
+  const [isOpenOrderModalOpened, toggleOpenOrderModal] = useModalToggle();
+  const reasonsForClosure = get(resources, 'closingReasons.records');
+  const orderNumber = get(order, 'poNumber', '');
+  const poLines = get(order, 'compositePoLines', []);
+  const workflowStatus = get(order, 'workflowStatus');
+  const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
+  const tags = get(order, 'tags.tagList', []);
+
+  const lastMenu = (
+    <PaneMenu>
+      <TagsBadge
+        tagsToggle={toggleTagsPane}
+        tagsQuantity={tags.length}
+      />
+    </PaneMenu>
+  );
+
+  const onCloneOrder = useCallback(
+    () => {
+      toggleCloneConfirmation();
+      setIsLoading(true);
+      cloneOrder(order, mutator.orderDetails, order.compositePoLines)
+        .then(newOrder => {
+          sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.order.clone.success" />,
+            type: 'success',
+          });
+          history.push({
+            pathname: `/orders/view/${newOrder.id}`,
+            search: location.search,
+          });
+        })
+        .catch(e => {
+          showUpdateOrderError(e, context, orderErrorModalShow, 'clone.error');
+          setIsLoading();
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [context, history, location.search, order, orderErrorModalShow, sendCallout, toggleCloneConfirmation],
+  );
+
+  const deletePO = useCallback(
+    () => {
+      toggleDeleteOrderConfirm();
+      setIsLoading(true);
+      mutator.orderDetails.DELETE(order, { silent: true })
+        .then(() => {
+          sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
+            type: 'success',
+          });
+          history.push({
+            pathname: '/orders',
+            search: location.search,
+          });
+        })
+        .catch(() => {
+          sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.errors.orderWasNotDeleted" />,
+            type: 'error',
+          });
+          setIsLoading();
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [history, location.search, order, orderNumber, sendCallout, toggleDeleteOrderConfirm],
+  );
+
+  const closeOrder = useCallback(
+    (reason, note) => {
+      const closeOrderProps = {
+        workflowStatus: WORKFLOW_STATUS.closed,
+        closeReason: {
+          reason,
+          note,
         },
       };
-    });
-  };
 
-  handleExpandAll = (sections) => {
-    this.setState({ sections });
-  };
+      toggleCloseOrderModal();
+      setIsLoading(true);
+      updateOrderResource(order, mutator.orderDetails, closeOrderProps)
+        .then(
+          () => {
+            sendCallout({ message: <SafeHTMLMessage id="ui-orders.closeOrder.success" /> });
 
-  onAddPOLine = () => {
-    const { resources } = this.props;
-    const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
-    const order = this.getOrder();
-    const poLines = get(order, 'compositePoLines', []);
+            return fetchOrder();
+          },
+          e => {
+            showUpdateOrderError(e, context, orderErrorModalShow, 'closeOrder');
+          },
+        )
+        .finally(setIsLoading);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleCloseOrderModal],
+  );
 
-    if (linesLimit <= poLines.length) {
-      this.setState({ isLinesLimitExceededModalOpened: true });
-    } else {
-      this.transitionToParams({ _path: `/orders/view/${order.id}/po-line/create` });
-    }
-  };
+  const approveOrder = useCallback(
+    () => {
+      setIsLoading(true);
+      updateOrderResource(order, mutator.orderDetails, { approved: true })
+        .then(
+          () => {
+            sendCallout({
+              message: <SafeHTMLMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
+            });
 
-  closeOrder = (reason, note) => {
-    const { mutator, resources } = this.props;
-    const order = get(resources, ['order', 'records', 0]);
-    const closeOrderProps = {
-      workflowStatus: WORKFLOW_STATUS.closed,
-      closeReason: {
-        reason,
-        note,
-      },
-    };
+            return fetchOrder();
+          },
+          e => {
+            showUpdateOrderError(e, context, orderErrorModalShow);
+          },
+        )
+        .finally(setIsLoading);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [context, fetchOrder, order, orderErrorModalShow, orderNumber, sendCallout],
+  );
 
-    updateOrderResource(order, mutator.order, closeOrderProps)
-      .then(() => this.context.sendCallout({ message: <SafeHTMLMessage id="ui-orders.closeOrder.success" /> }))
-      .catch(() => this.context.sendCallout({
-        message: <SafeHTMLMessage id="ui-orders.closeOrder.error" />,
-        type: 'error',
-      }))
-      .finally(() => this.unmountCloseOrderModal());
-  };
+  const openOrder = useCallback(
+    () => {
+      const openOrderProps = {
+        workflowStatus: WORKFLOW_STATUS.open,
+      };
 
-  approveOrder = () => {
-    const { mutator } = this.props;
-    const order = this.getOrder();
-    const orderNumber = get(order, 'poNumber', '');
+      toggleOpenOrderModal();
+      setIsLoading(true);
+      updateOrderResource(order, mutator.orderDetails, openOrderProps)
+        .then(
+          () => {
+            sendCallout({
+              message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber }} />,
+              type: 'success',
+            });
 
-    updateOrderResource(order, mutator.order, { approved: true })
-      .then(() => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
+            return fetchOrder();
+          },
+          e => {
+            showUpdateOrderError(e, context, orderErrorModalShow);
+          },
+        )
+        .finally(setIsLoading);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleOpenOrderModal],
+  );
+
+  const reopenOrder = useCallback(
+    () => {
+      const openOrderProps = {
+        workflowStatus: WORKFLOW_STATUS.open,
+      };
+
+      updateOrderResource(order, mutator.orderDetails, openOrderProps)
+        .then(
+          () => {
+            sendCallout({
+              message: <SafeHTMLMessage id="ui-orders.order.reopen.success" values={{ orderNumber }} />,
+              type: 'success',
+            });
+
+            return fetchOrder();
+          },
+          e => {
+            showUpdateOrderError(e, context, orderErrorModalShow);
+          },
+        )
+        .finally(setIsLoading);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [context, fetchOrder, order, orderErrorModalShow, sendCallout],
+  );
+
+  const createNewOrder = useCallback(
+    () => {
+      toggleLinesLimitExceededModal();
+      cloneOrder(order, mutator.orderDetails)
+        .then(newOrder => {
+          history.push({
+            pathname: `/orders/view/${newOrder.id}/po-line/create`,
+            search: location.search,
+          });
+        })
+        .catch(e => {
+          showUpdateOrderError(e, context, orderErrorModalShow, 'noCreatedOrder');
+          setIsLoading();
         });
-      })
-      .catch(e => {
-        return showUpdateOrderError(e, this.context, this.orderErrorModalShow);
-      });
-  };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [context, history, location.search, order, orderErrorModalShow, toggleLinesLimitExceededModal],
+  );
 
-  openOrder = async () => {
-    const { mutator, resources } = this.props;
-    const order = get(resources, ['order', 'records', 0]);
-    const openOrderProps = {
-      workflowStatus: WORKFLOW_STATUS.open,
-    };
-
-    try {
-      await updateOrderResource(order, mutator.order, openOrderProps);
-      this.context.sendCallout({
-        message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber: order.poNumber }} />,
-        type: 'success',
-      });
-    } catch (e) {
-      await showUpdateOrderError(e, this.context, this.orderErrorModalShow);
-    } finally {
-      this.toggleOpenOrderModal();
-    }
-  };
-
-  reopenOrder = async () => {
-    const { mutator } = this.props;
-    const order = this.getOrder();
-    const openOrderProps = {
-      workflowStatus: WORKFLOW_STATUS.open,
-    };
-
-    try {
-      await updateOrderResource(order, mutator.order, openOrderProps);
-      this.context.sendCallout({
-        message: <SafeHTMLMessage id="ui-orders.order.reopen.success" values={{ orderNumber: order.poNumber }} />,
-        type: 'success',
-      });
-    } catch (e) {
-      await showUpdateOrderError(e, this.context, this.orderErrorModalShow);
-    }
-  };
-
-  cloneOrder = async () => {
-    const { location, history, mutator } = this.props;
-    const order = this.getOrder();
-
-    this.toggleCloneConfirmation();
-    try {
-      const newOrder = await cloneOrder(order, mutator.order, order.compositePoLines);
-
-      this.context.sendCallout({
-        message: <SafeHTMLMessage id="ui-orders.order.clone.success" />,
-        type: 'success',
-      });
+  const gotToOrdersList = useCallback(
+    () => {
       history.push({
-        pathname: `/orders/view/${newOrder.id}`,
+        pathname: '/orders',
         search: location.search,
       });
-    } catch (e) {
-      await showUpdateOrderError(e, this.context, this.orderErrorModalShow, 'clone.error');
-    }
-  };
+    },
+    [history, location.search],
+  );
 
-  createNewOrder = async () => {
-    const { resources, mutator } = this.props;
-    const order = get(resources, ['order', 'records', '0'], {});
-
-    this.unmountLinesLimitExceededModal();
-    try {
-      const newOrder = await cloneOrder(order, mutator.order);
-
-      mutator.query.update({
-        _path: `/orders/view/${newOrder.id}`,
-        layer: null,
+  const goToReceiving = useCallback(
+    () => {
+      history.push({
+        pathname: '/receiving',
+        search: `qindex=purchaseOrder.poNumber&query=${orderNumber}`,
       });
-      this.transitionToParams({ _path: `/orders/view/${newOrder.id}/po-line/create` });
-    } catch (e) {
-      await showUpdateOrderError(e, this.context, this.orderErrorModalShow, 'noCreatedOrder');
-    }
-  };
+    },
+    [orderNumber, history],
+  );
 
-  addPOLineButton = (isAbleToAddLines) => (
+  const onEdit = useCallback(
+    () => {
+      history.push({
+        pathname: `/orders/edit/${match.params.id}`,
+        search: location.search,
+      });
+    },
+    [location.search, match.params.id, history],
+  );
+
+  const onAddPOLine = useCallback(
+    () => {
+      const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
+
+      if (linesLimit <= poLines.length) {
+        toggleLinesLimitExceededModal();
+      } else {
+        history.push({
+          pathname: `/orders/view/${match.params.id}/po-line/create`,
+          search: location.search,
+        });
+      }
+    },
+    [resources, match.params.id, history, location.search, poLines.length, toggleLinesLimitExceededModal],
+  );
+
+  const addPOLineButton = (
     <IfPermission perm="orders.po-lines.item.post">
       <Button
         data-test-add-line-button
         disabled={!isAbleToAddLines}
-        onClick={this.onAddPOLine}
+        onClick={onAddPOLine}
       >
         <FormattedMessage id="ui-orders.button.addLine" />
       </Button>
     </IfPermission>
   );
 
-  toggleOpenOrderModal = () => {
-    this.setState(prevState => ({ isOpenOrderModalOpened: !prevState.isOpenOrderModalOpened }));
-  };
-
-  mountCloseOrderModal = () => {
-    this.setState({ isCloseOrderModalOpened: true });
-  };
-
-  unmountCloseOrderModal = () => {
-    this.setState({ isCloseOrderModalOpened: false });
-  };
-
-  mountLinesLimitExceededModal = () => {
-    this.setState({ isLinesLimitExceededModalOpened: true });
-  };
-
-  unmountLinesLimitExceededModal = () => {
-    this.setState({ isLinesLimitExceededModalOpened: false });
-  };
-
-  closeErrorModal = () => {
-    this.setState({ updateOrderError: null });
-  };
-
-  orderErrorModalShow = (errors) => {
-    this.setState(() => ({ updateOrderError: errors }));
-  };
-
-  goToReceiving = () => {
-    const { history } = this.props;
-    const order = this.getOrder();
-
-    history.push({
-      pathname: '/receiving',
-      search: `qindex=purchaseOrder.poNumber&query=${order.poNumber}`,
-    });
-  };
-
-  getOrder = () => get(this.props.resources, ['order', 'records', 0]);
-
-  mountDeleteOrderConfirm = () => this.setState({ showConfirmDelete: true });
-
-  unmountDeleteOrderConfirm = () => this.setState({ showConfirmDelete: false });
-
-  onEdit = () => {
-    const { history, location, match: { params: { id } } } = this.props;
-
-    history.push({
-      pathname: `/orders/edit/${id}`,
-      search: location.search,
-    });
-  }
-
-  gotToOrdersList = () => {
-    const { history, location } = this.props;
-
-    history.push({
-      pathname: '/orders',
-      search: location.search,
-    });
-  }
-
-  render() {
-    const {
-      match,
-      mutator,
-      resources,
-    } = this.props;
-    const order = this.getOrder();
-    const reasonsForClosure = get(resources, 'closingReasons.records');
-    const orderNumber = get(order, 'poNumber', '');
-    const poLines = get(order, 'compositePoLines', []);
-    const workflowStatus = get(order, 'workflowStatus');
-    const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
-    const hasError = get(resources, ['order', 'failed']);
-    const tags = get(order, 'tags.tagList', []);
-
-    const lastMenu = (
-      <PaneMenu>
-        <TagsBadge
-          tagsToggle={this.toggleTagsPane}
-          tagsQuantity={tags.length}
-        />
-      </PaneMenu>
+  if (isLoading || order?.id !== match.params.id) {
+    return (
+      <LoadingPane dismissible defaultWidth="fill" onClose={gotToOrdersList} />
     );
+  }
 
-    if (hasError && !this.hasError) {
-      this.context.sendCallout({
-        message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
-        type: 'error',
-      });
-    }
+  const orderType = get(order, 'orderType');
+  const addresses = getAddresses(get(resources, 'addresses.records', []));
+  const funds = get(resources, 'fund.records', []);
+  const approvalsSetting = get(resources, 'approvalsSetting.records', {});
 
-    this.hasError = hasError;
-
-    if (!order || order.id !== match.params.id || hasError) {
-      return (
-        <LoadingPane dismissible defaultWidth="fill" onClose={this.gotToOrdersList} />
-      );
-    }
-
-    const orderType = get(order, 'orderType');
-    const addresses = getAddresses(get(resources, 'addresses.records', []));
-    const funds = get(resources, 'fund.records', []);
-    const approvalsSetting = get(resources, 'approvalsSetting.records', {});
-
-    const { isCloneConfirmation, updateOrderError } = this.state;
-
-    const POPane = (
-      <Pane
-        actionMenu={getPOActionMenu({
-          approvalsSetting,
-          clickApprove: this.approveOrder,
-          clickClone: this.toggleCloneConfirmation,
-          clickClose: this.mountCloseOrderModal,
-          clickDelete: this.mountDeleteOrderConfirm,
-          clickEdit: this.onEdit,
-          clickOpen: this.toggleOpenOrderModal,
-          clickReceive: this.goToReceiving,
-          clickReopen: this.reopenOrder,
-          order,
-        })}
-        data-test-order-details
-        defaultWidth="fill"
-        paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
-        lastMenu={lastMenu}
-        dismissible
-        onClose={this.gotToOrdersList}
-      >
+  const POPane = (
+    <Pane
+      actionMenu={getPOActionMenu({
+        approvalsSetting,
+        clickApprove: approveOrder,
+        clickClone: toggleCloneConfirmation,
+        clickClose: toggleCloseOrderModal,
+        clickDelete: toggleDeleteOrderConfirm,
+        clickEdit: onEdit,
+        clickOpen: toggleOpenOrderModal,
+        clickReceive: goToReceiving,
+        clickReopen: reopenOrder,
+        order,
+      })}
+      data-test-order-details
+      defaultWidth="fill"
+      paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
+      lastMenu={lastMenu}
+      dismissible
+      onClose={gotToOrdersList}
+    >
+      <AccordionStatus>
         <Row end="xs">
-          {this.state.isCloseOrderModalOpened && (
+          {isCloseOrderModalOpened && (
             <CloseOrderModal
-              cancel={this.unmountCloseOrderModal}
-              closeOrder={this.closeOrder}
+              cancel={toggleCloseOrderModal}
+              closeOrder={closeOrder}
               closingReasons={reasonsForClosure}
               orderNumber={orderNumber}
             />
           )}
-          {this.state.isOpenOrderModalOpened && (
+          {isOpenOrderModalOpened && (
             <OpenOrderConfirmationModal
               orderNumber={orderNumber}
-              submit={this.openOrder}
-              cancel={this.toggleOpenOrderModal}
+              submit={openOrder}
+              cancel={toggleOpenOrderModal}
             />
           )}
 
-          <div>
-            <ExpandAllButton
-              accordionStatus={this.state.sections}
-              onToggle={this.handleExpandAll}
-            />
-          </div>
+          <ExpandAllButton />
         </Row>
-        <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
+        <AccordionSet>
           <Accordion
             id="purchaseOrder"
             label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
@@ -461,14 +425,14 @@ class PO extends Component {
             id="POSummary"
             label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
           >
-            <SummaryView order={order} {...this.props} />
+            <SummaryView order={order} />
           </Accordion>
           <POInvoicesContainer
             label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
-            orderId={order.id}
+            orderId={match.params.id}
           />
           <Accordion
-            displayWhenOpen={this.addPOLineButton(isAbleToAddLines)}
+            displayWhenOpen={addPOLineButton}
             id="POListing"
             label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
           >
@@ -476,61 +440,81 @@ class PO extends Component {
               baseUrl={match.url}
               funds={funds}
               poLines={poLines}
-              queryMutator={mutator.query}
             />
           </Accordion>
         </AccordionSet>
-        {this.state.isLinesLimitExceededModalOpened && (
-          <LinesLimit
-            cancel={this.unmountLinesLimitExceededModal}
-            createOrder={this.createNewOrder}
-          />
-        )}
-        {updateOrderError && (
-          <UpdateOrderErrorModal
-            orderNumber={orderNumber}
-            errors={updateOrderError}
-            cancel={this.closeErrorModal}
-          />
-        )}
-        {this.state.showConfirmDelete && (
-          <ConfirmationModal
-            id="delete-order-confirmation"
-            confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
-            heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber }} />}
-            message={<FormattedMessage id="ui-orders.order.delete.message" />}
-            onCancel={this.unmountDeleteOrderConfirm}
-            onConfirm={this.deletePO}
-            open
-          />
-        )}
-        {isCloneConfirmation && (
-          <ConfirmationModal
-            id="order-clone-confirmation"
-            confirmLabel={<FormattedMessage id="ui-orders.order.clone.confirmLabel" />}
-            heading={<FormattedMessage id="ui-orders.order.clone.heading" />}
-            message={<FormattedMessage id="ui-orders.order.clone.message" />}
-            onCancel={this.toggleCloneConfirmation}
-            onConfirm={this.cloneOrder}
-            open
-          />
-        )}
-      </Pane>
-    );
+      </AccordionStatus>
+      {isLinesLimitExceededModalOpened && (
+        <LinesLimit
+          cancel={toggleLinesLimitExceededModal}
+          createOrder={createNewOrder}
+        />
+      )}
+      {updateOrderErrors && (
+        <UpdateOrderErrorModal
+          orderNumber={orderNumber}
+          errors={updateOrderErrors}
+          cancel={setUpdateOrderErrors}
+        />
+      )}
+      {showConfirmDelete && (
+        <ConfirmationModal
+          id="delete-order-confirmation"
+          confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
+          heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber }} />}
+          message={<FormattedMessage id="ui-orders.order.delete.message" />}
+          onCancel={toggleDeleteOrderConfirm}
+          onConfirm={deletePO}
+          open
+        />
+      )}
+      {isCloneConfirmation && (
+        <ConfirmationModal
+          id="order-clone-confirmation"
+          confirmLabel={<FormattedMessage id="ui-orders.order.clone.confirmLabel" />}
+          heading={<FormattedMessage id="ui-orders.order.clone.heading" />}
+          message={<FormattedMessage id="ui-orders.order.clone.message" />}
+          onCancel={toggleCloneConfirmation}
+          onConfirm={onCloneOrder}
+          open
+        />
+      )}
+    </Pane>
+  );
 
-    return (
-      <>
-        {POPane}
-        {this.state.isTagsPaneOpened && (
-          <Tags
-            putMutator={mutator.order.PUT}
-            recordObj={order}
-            onClose={this.toggleTagsPane}
-          />
-        )}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      {POPane}
+      {isTagsPaneOpened && (
+        <Tags
+          putMutator={mutator.orderDetails.PUT}
+          recordObj={order}
+          onClose={toggleTagsPane}
+        />
+      )}
+    </>
+  );
+};
+
+PO.manifest = Object.freeze({
+  orderDetails: {
+    ...ORDER,
+    accumulate: true,
+    fetch: false,
+  },
+  linesLimit: LINES_LIMIT,
+  closingReasons: reasonsForClosureResource,
+  fund: FUND,
+  approvalsSetting: APPROVALS_SETTING,
+  addresses: ADDRESSES,
+});
+
+PO.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  mutator: PropTypes.object.isRequired,
+  resources: PropTypes.object.isRequired,
+};
 
 export default stripesConnect(PO);
