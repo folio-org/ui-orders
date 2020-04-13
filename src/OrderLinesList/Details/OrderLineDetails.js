@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
 
+import { LoadingPane } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
-
 import {
   baseManifest,
-  LoadingPane,
   Tags,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -32,6 +31,7 @@ const OrderLineDetails = ({
   resources,
 }) => {
   const lineId = match.params.id;
+  const [isLoading, setIsLoading] = useState(true);
   const [line, setLine] = useState({});
   const [order, setOrder] = useState({});
   const showToast = useShowCallout();
@@ -40,7 +40,8 @@ const OrderLineDetails = ({
     () => {
       setLine({});
       setOrder({});
-      mutator.orderLine.GET()
+
+      return mutator.orderLine.GET()
         .then(lineResponse => {
           setLine(lineResponse);
 
@@ -52,7 +53,13 @@ const OrderLineDetails = ({
     [lineId],
   );
 
-  useEffect(fetchLineDetails, [lineId]);
+  useEffect(
+    () => {
+      setIsLoading(true);
+      fetchLineDetails().finally(setIsLoading);
+    },
+    [fetchLineDetails, lineId],
+  );
 
   const goToOrderDetails = useCallback(
     () => {
@@ -69,6 +76,7 @@ const OrderLineDetails = ({
     () => {
       const lineNumber = line.poLineNumber;
 
+      setIsLoading(true);
       mutator.orderLine.DELETE(line)
         .then(() => {
           showToast({
@@ -82,6 +90,7 @@ const OrderLineDetails = ({
           });
         })
         .catch(() => {
+          setIsLoading();
           showToast({
             messageId: 'ui-orders.errors.lineWasNotDeleted',
             type: 'error',
@@ -115,10 +124,9 @@ const OrderLineDetails = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location.search],
   );
-  const isLoading = !(order.id && line.id);
 
-  if (isLoading) {
-    return <LoadingPane onClose={onClose} />;
+  if (isLoading || line?.id !== lineId) {
+    return <LoadingPane defaultWidth="fill" dismissible onClose={onClose} />;
   }
 
   return (

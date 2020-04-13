@@ -10,7 +10,6 @@ import {
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   LINES_API,
-  VENDORS_API,
   Tags,
   useModalToggle,
   useShowCallout,
