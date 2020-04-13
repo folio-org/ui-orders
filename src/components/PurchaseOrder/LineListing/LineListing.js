@@ -24,15 +24,14 @@ function LineListing({ baseUrl, funds, poLines, history, location }) {
     return acc;
   }, {});
   const resultsFormatter = {
-    'poLineNumber': ({ poLineNumber }) => poLineNumber,
-    'title': ({ titleOrPackage }) => titleOrPackage || '',
-    'productId': item => map(get(item, 'details.productIds', []), 'productId').join(', '),
-    'vendorRefNumber': item => get(item, 'vendorDetail.refNumber', ''),
-    'fundCode': item => get(item, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),
+    title: ({ titleOrPackage }) => titleOrPackage || '',
+    productId: item => map(get(item, 'details.productIds', []), 'productId').join(', '),
+    vendorRefNumber: item => get(item, 'vendorDetail.refNumber', ''),
+    fundCode: item => get(item, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),
   };
 
   return (
-    <div>
+    <>
       <MultiColumnList
         contentData={poLines}
         formatter={resultsFormatter}
@@ -53,7 +52,7 @@ function LineListing({ baseUrl, funds, poLines, history, location }) {
           <FormattedMessage id="stripes-components.endOfList" />
         </Icon>
       </Layout>
-    </div>
+    </>
   );
 }
 
