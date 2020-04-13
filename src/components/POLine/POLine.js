@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
+import { LoadingPane } from '@folio/stripes/components';
 import {
-  CalloutContext,
   stripesConnect,
 } from '@folio/stripes/core';
 import {
@@ -12,6 +12,8 @@ import {
   LINES_API,
   VENDORS_API,
   Tags,
+  useModalToggle,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -21,157 +23,178 @@ import {
   MATERIAL_TYPES,
   ORDER,
 } from '../Utils/resources';
-import {
-  lineMutatorShape,
-  orderRecordsMutatorShape,
-} from '../Utils/mutators';
-
 import POLineView from './POLineView';
 
-class POLine extends Component {
-  static contextType = CalloutContext;
-  static manifest = Object.freeze({
-    order: ORDER,
-    [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
-    poLine: {
-      accumulate: true,
-      fetch: false,
-      path: LINES_API,
-      perRequest: 1000,
-      records: 'poLines',
-      throwErrors: false,
-      type: 'okapi',
-    },
-    vendors: {
-      type: 'okapi',
-      path: VENDORS_API,
-      GET: {
-        params: {
-          query: 'id=="*" sortby name',
-        },
-      },
-      records: 'organizations',
-      perRequest: 1000,
-    },
-    fund: FUND,
-    materialTypes: MATERIAL_TYPES,
-    locations: {
-      ...LOCATIONS,
-      fetch: true,
-    },
-    query: {},
-  });
+function POLine({
+  history,
+  location: { search },
+  match: { params: { id: orderId, lineId } },
+  mutator,
+  poURL,
+  resources,
+}) {
+  const sendCallout = useShowCallout();
+  const [isTagsPaneOpened, toggleTagsPane] = useModalToggle();
+  const [order, setOrder] = useState();
+  const [line, setLine] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
-  static propTypes = {
-    mutator: PropTypes.shape({
-      query: PropTypes.object.isRequired,
-      poLine: lineMutatorShape,
-      records: orderRecordsMutatorShape,
-    }).isRequired,
-    poURL: PropTypes.string,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-        lineId: PropTypes.string,
-      }),
-    }).isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
-  }
-
-  state = {
-    isTagsPaneOpened: false,
-  }
-
-  toggleTagsPane = () => this.setState(({ isTagsPaneOpened }) => ({ isTagsPaneOpened: !isTagsPaneOpened }));
-
-  getOrder = () => get(this.props.resources, ['order', 'records', 0]);
-
-  getLine = () => {
-    const { match: { params: { lineId } } } = this.props;
-    const order = this.getOrder();
-    const lines = get(order, 'compositePoLines', []);
-
-    return lines.find(u => u.id === lineId);
-  }
-
-  deleteLine = () => {
-    const { mutator, poURL } = this.props;
-    const line = this.getLine();
-    const lineNumber = line.poLineNumber;
-
-    mutator.poLine.DELETE(line)
-      .then(() => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.line.delete.success" values={{ lineNumber }} />,
-          type: 'success',
-        });
-        mutator.query.update({ _path: poURL });
+  const fetchOrder = useCallback(
+    () => mutator.lineOrder.GET()
+      .then(fetchedOrder => {
+        setOrder(fetchedOrder);
+        setLine(fetchedOrder?.compositePoLines?.find(u => u.id === lineId));
       })
-      .catch(async errorResponse => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.errors.lineWasNotDeleted" />,
+      .catch(() => {
+        sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
           type: 'error',
         });
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lineId, sendCallout],
+  );
 
-        let message = null;
+  useEffect(
+    () => {
+      setIsLoading(true);
+      fetchOrder().finally(setIsLoading);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [orderId],
+  );
 
-        try {
-          const response = await errorResponse.json();
+  const deleteLine = useCallback(
+    () => {
+      const lineNumber = line.poLineNumber;
 
-          message = response.errors[0].message;
-        // eslint-disable-next-line no-empty
-        } catch (e) {}
+      setIsLoading(true);
+      mutator.poLine.DELETE(line, { silent: true })
+        .then(() => {
+          sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.line.delete.success" values={{ lineNumber }} />,
+            type: 'success',
+          });
 
-        if (message) {
-          this.context.sendCallout({
-            message,
-            timeout: 0,
+          history.push({
+            pathname: poURL,
+            search,
+          });
+        })
+        .catch(async errorResponse => {
+          setIsLoading();
+          sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.errors.lineWasNotDeleted" />,
             type: 'error',
           });
-        }
+
+          let message = null;
+
+          try {
+            const response = await errorResponse.json();
+
+            message = response.errors[0].message;
+          // eslint-disable-next-line no-empty
+          } catch (e) {}
+
+          if (message) {
+            sendCallout({
+              message,
+              timeout: 0,
+              type: 'error',
+            });
+          }
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [history, line, poURL, search, sendCallout],
+  );
+
+  const backToOrder = useCallback(
+    () => {
+      history.push({
+        pathname: poURL,
+        search,
       });
-  };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [search],
+  );
 
-  render() {
-    const {
-      mutator,
-      resources,
-    } = this.props;
-
-    const order = this.getOrder();
-    const line = this.getLine();
-    const materialTypes = get(resources, ['materialTypes', 'records'], []);
-    const locations = get(resources, 'locations.records', []);
-    const funds = get(resources, 'fund.records', []);
-    const poURL = this.props.poURL;
-
+  if (isLoading || line?.id !== lineId) {
     return (
-      <>
-        <POLineView
-          location={this.props.location}
-          history={this.props.history}
-          line={line}
-          order={order}
-          materialTypes={materialTypes}
-          locations={locations}
-          poURL={poURL}
-          funds={funds}
-          queryMutator={mutator.query}
-          deleteLine={this.deleteLine}
-          tagsToggle={this.toggleTagsPane}
-        />
-        {this.state.isTagsPaneOpened && (
-          <Tags
-            putMutator={mutator.poLine.PUT}
-            recordObj={line}
-            onClose={this.toggleTagsPane}
-          />
-        )}
-      </>
+      <LoadingPane
+        defaultWidth="fill"
+        dismissible
+        onClose={backToOrder}
+      />
     );
   }
+
+  const materialTypes = get(resources, ['materialTypes', 'records'], []);
+  const locations = get(resources, 'locations.records', []);
+  const funds = get(resources, 'fund.records', []);
+
+  return (
+    <>
+      <POLineView
+        line={line}
+        onClose={backToOrder}
+        order={order}
+        materialTypes={materialTypes}
+        locations={locations}
+        poURL={poURL}
+        funds={funds}
+        deleteLine={deleteLine}
+        tagsToggle={toggleTagsPane}
+      />
+      {isTagsPaneOpened && (
+        <Tags
+          putMutator={mutator.poLine.PUT}
+          recordObj={line}
+          onClose={toggleTagsPane}
+        />
+      )}
+    </>
+  );
 }
+
+POLine.manifest = Object.freeze({
+  lineOrder: {
+    ...ORDER,
+    accumulate: true,
+    fetch: false,
+  },
+  [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
+  poLine: {
+    accumulate: true,
+    fetch: false,
+    path: LINES_API,
+    perRequest: 1000,
+    records: 'poLines',
+    throwErrors: false,
+    type: 'okapi',
+  },
+  fund: FUND,
+  materialTypes: MATERIAL_TYPES,
+  locations: {
+    ...LOCATIONS,
+    fetch: true,
+  },
+});
+
+POLine.propTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+      lineId: PropTypes.string,
+    }),
+  }).isRequired,
+  mutator: PropTypes.object.isRequired,
+  poURL: PropTypes.string,
+  resources: PropTypes.object.isRequired,
+};
 
 export default stripesConnect(POLine);

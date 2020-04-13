@@ -70,7 +70,6 @@ class POLineView extends Component {
     onClose: PropTypes.func,
     editable: PropTypes.bool,
     goToOrderDetails: PropTypes.func,
-    queryMutator: PropTypes.object,
     deleteLine: PropTypes.func,
     tagsToggle: PropTypes.func.isRequired,
   }
@@ -206,12 +205,6 @@ class POLineView extends Component {
     );
   };
 
-  backToOrder = () => {
-    const { poURL, queryMutator } = this.props;
-
-    queryMutator.update({ _path: poURL });
-  }
-
   render() {
     const {
       onClose,
@@ -229,7 +222,7 @@ class POLineView extends Component {
         <IconButton
           icon="arrow-left"
           id="clickable-backToPO"
-          onClick={this.backToOrder}
+          onClick={onClose}
           title="Back to PO"
         />
       </PaneMenu>);
@@ -241,14 +234,6 @@ class POLineView extends Component {
         />
       </PaneMenu>
     );
-
-    if (!(get(line, 'id') && get(order, 'id'))) {
-      return (
-        <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" onClose={onClose} dismissible>
-          <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
-        </Pane>
-      );
-    }
 
     const orderFormat = get(line, 'orderFormat');
     const poLineNumber = line.poLineNumber;
@@ -265,7 +250,7 @@ class POLineView extends Component {
         defaultWidth="fill"
         firstMenu={poURL ? firstMenu : null}
         actionMenu={this.getActionMenu}
-        dismissible={Boolean(onClose)}
+        dismissible={!poURL}
         onClose={onClose}
         id="pane-poLineDetails"
         lastMenu={lastMenu}
