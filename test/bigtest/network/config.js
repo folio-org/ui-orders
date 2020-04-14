@@ -12,10 +12,10 @@ import {
   configMaterialTypes,
   configLines,
   configOrders,
+  configConfigs,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
-  CONFIG_API,
   INVOICE_LINES_API,
   INVOICES_API,
   ISBN_VALIDATOR,
@@ -45,6 +45,7 @@ export default function config() {
   configClosingReasons(this);
   configSuffixes(this);
   configPrefixes(this);
+  configConfigs(this);
 
   this.get('/contributor-name-types');
   this.get('/identifier-types');
@@ -55,21 +56,11 @@ export default function config() {
 
   this.post(ORDER_NUMBER_VALIDATE_API, noop);
 
-  this.get(CONFIG_API, (schema) => {
-    return schema.configs.all();
-  });
-
   this.get(ORDER_INVOICE_RELNS_API, (schema) => {
     return schema.orderInvoiceRelationships.all();
   });
   this.get(INVOICES_API);
   this.get(INVOICE_LINES_API);
-
-  this.get(`${CONFIG_API}/:id`, 'config');
-
-  this.post(CONFIG_API, noop);
-  this.put(`${CONFIG_API}/:id`, noop);
-  this.delete(`${CONFIG_API}/:id`, noop);
 
   this.get(RECEIVING_API, (schema) => {
     return schema.pieces.all();
