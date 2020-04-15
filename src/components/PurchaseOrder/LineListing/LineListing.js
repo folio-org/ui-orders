@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, map } from 'lodash';
@@ -9,14 +9,20 @@ import {
   Layout,
   MultiColumnList,
 } from '@folio/stripes/components';
+import { acqRowFormatter } from '@folio/stripes-acq-components';
+
+const alignRowProps = { alignLastColToEnd: true };
 
 function LineListing({ baseUrl, funds, poLines, history, location }) {
-  const onSelectRow = (e, meta) => {
-    history.push({
-      pathname: `${baseUrl}/po-line/view/${meta.id}`,
-      search: location.search,
-    });
-  };
+  const onSelectRow = useCallback(
+    (e, meta) => {
+      history.push({
+        pathname: `${baseUrl}/po-line/view/${meta.id}`,
+        search: location.search,
+      });
+    },
+    [baseUrl, history, location.search],
+  );
 
   const fundsMap = funds.reduce((acc, fund) => {
     acc[fund.id] = fund.code;
@@ -28,6 +34,7 @@ function LineListing({ baseUrl, funds, poLines, history, location }) {
     productId: item => map(get(item, 'details.productIds', []), 'productId').join(', '),
     vendorRefNumber: item => get(item, 'vendorDetail.refNumber', ''),
     fundCode: item => get(item, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),
+    arrow: () => <Icon icon="caret-right" />,
   };
 
   return (
@@ -36,10 +43,13 @@ function LineListing({ baseUrl, funds, poLines, history, location }) {
         contentData={poLines}
         formatter={resultsFormatter}
         onRowClick={onSelectRow}
+        rowFormatter={acqRowFormatter}
+        rowProps={alignRowProps}
         sortedColumn="poLineNumber"
         sortDirection="ascending"
-        visibleColumns={['poLineNumber', 'title', 'productId', 'vendorRefNumber', 'fundCode']}
+        visibleColumns={['poLineNumber', 'title', 'productId', 'vendorRefNumber', 'fundCode', 'arrow']}
         columnMapping={{
+          arrow: null,
           poLineNumber: <FormattedMessage id="ui-orders.poLine.number" />,
           title: <FormattedMessage id="ui-orders.lineListing.titleOrPackage" />,
           productId: <FormattedMessage id="ui-orders.lineListing.productId" />,

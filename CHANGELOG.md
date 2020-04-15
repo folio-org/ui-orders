@@ -1,12 +1,15 @@
 # Change history for ui-orders
 
 ## (IN PROGRESS)
+### Stories
+* [UIOR-531](https://issues.folio.org/browse/UIOR-531) Display order closed and reason for closure on POL
+* [UINV-138](https://issues.folio.org/browse/UINV-138) Align actions icons in table to right hand side of view pane(s)
+* [UIOR-540](https://issues.folio.org/browse/UIOR-540) Add loading indicator when selecting new records
 
 ## [2.0.3](https://github.com/folio-org/ui-orders/tree/v2.0.3) (2020-04-09)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.2...v2.0.3)
 
 ### Stories
-* [UIOR-531](https://issues.folio.org/browse/UIOR-531) Display order closed and reason for closure on POL
 * [UIOR-516](https://issues.folio.org/browse/UIOR-516) opt-in to Load More in Lists of orders and lines
 
 ## [2.0.2](https://github.com/folio-org/ui-orders/tree/v2.0.2) (2020-04-06)
