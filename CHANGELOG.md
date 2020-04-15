@@ -6,6 +6,7 @@
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.2...v2.0.3)
 
 ### Stories
+* [UIOR-531](https://issues.folio.org/browse/UIOR-531) Display order closed and reason for closure on POL
 * [UIOR-516](https://issues.folio.org/browse/UIOR-516) opt-in to Load More in Lists of orders and lines
 
 ## [2.0.2](https://github.com/folio-org/ui-orders/tree/v2.0.2) (2020-04-06)

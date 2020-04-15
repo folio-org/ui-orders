@@ -68,6 +68,7 @@ describe('Line details test', function () {
     expect(page.receiveButton.isPresent).to.be.true;
     expect(page.actions.isPresent).to.be.true;
     expect(page.relatedInvoicesAccordion.invoices().length).to.be.equal(1);
+    expect(page.closingReasonMessage).to.be.false;
   });
 
   describe('Receive button can be clicked on PO Line level', function () {

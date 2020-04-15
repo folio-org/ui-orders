@@ -1,28 +1,28 @@
 import {
-  fundsManifest,
-  LIMIT_MAX,
-} from '@folio/stripes-acq-components';
-
-import {
   ACQUISITIONS_UNITS_API,
   CONFIG_API,
   CONTRIBUTOR_NAME_TYPES_API,
+  fundsManifest,
   IDENTIFIER_TYPES_API,
+  LIMIT_MAX,
+  LOCATIONS_API,
+  MATERIAL_TYPE_API,
+  USERS_API,
+  VENDORS_API,
+} from '@folio/stripes-acq-components';
+
+import {
   INVOICE_LINES_API,
   INVOICES_API,
   ISBN_VALIDATOR,
   LINE_DETAIL_API,
   LINES_API,
-  LOCATIONS_API,
-  MATERIAL_TYPES_API,
   ORDERS_API,
   ORDER_DETAIL_API,
   ORDER_INVOICE_RELNS_API,
   ORDER_TEMPLATE_DETAIL_API,
   ORDER_TEMPLATES_API,
   RECEIVING_API,
-  USERS_API,
-  VENDORS_API,
 } from './api';
 import {
   CONFIG_ADDRESSES,
@@ -85,7 +85,7 @@ export const IDENTIFIER_TYPES = {
 
 export const MATERIAL_TYPES = {
   ...BASE_RESOURCE,
-  path: MATERIAL_TYPES_API,
+  path: MATERIAL_TYPE_API,
   params: {
     query: 'cql.allRecords=1 sortby name',
   },

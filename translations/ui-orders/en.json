@@ -472,6 +472,7 @@
   "line.accordion.poLine": "Purchase order line",
   "line.accordion.relatedInvoices": "Related invoices",
   "line.accordion.vendor": "Vendor",
+  "line.closedOrderMessage": "Purchase order is closed - {reason}",
   "line.paneTitle.details": "Details",
   "line.paneTitle.edit": "Edit - {lineNumber}",
   "line.paneTitle.new": "Add PO line",

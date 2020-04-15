@@ -16,6 +16,7 @@ import {
   Icon,
   IconButton,
   MenuSection,
+  MessageBanner,
   Pane,
   PaneMenu,
   Row,
@@ -27,6 +28,7 @@ import {
 
 import {
   FundDistributionView,
+  ORDER_STATUSES,
   TagsBadge,
 } from '@folio/stripes-acq-components';
 
@@ -244,6 +246,7 @@ class POLineView extends Component {
     const fundDistributions = get(line, 'fundDistribution');
     const currency = get(line, 'cost.currency');
     const metadata = get(line, 'metadata');
+    const isOrderClosed = order.workflowStatus === ORDER_STATUSES.closed;
 
     return (
       <Pane
@@ -261,7 +264,17 @@ class POLineView extends Component {
           onToggle={this.onToggleSection}
         >
           <Row end="xs">
-            <Col xs>
+            <Col xs={10}>
+              {isOrderClosed && (
+                <MessageBanner type="warning">
+                  <FormattedMessage
+                    id="ui-orders.line.closedOrderMessage"
+                    values={{ reason: order.closeReason?.reason }}
+                  />
+                </MessageBanner>
+              )}
+            </Col>
+            <Col xs={2}>
               <ExpandAllButton
                 accordionStatus={this.state.sections}
                 onToggle={this.handleExpandAll}

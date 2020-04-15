@@ -43,6 +43,7 @@ export default interactor(class LineDetailsPage {
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();
   notesAccordion = new NotesAccordion();
   lineInvoicesIsPresent = isPresent('#lineInvoices');
+  closingReasonMessage = isPresent('[data-test-message-banner]');
 
   actions = new LineDetailsPageActions();
   whenLoaded() {

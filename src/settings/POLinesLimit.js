@@ -5,13 +5,15 @@ import { get } from 'lodash';
 import {
   Layout,
 } from '@folio/stripes/components';
-import { useShowCallout } from '@folio/stripes-acq-components';
+import {
+  CONFIG_API,
+  useShowCallout,
+} from '@folio/stripes-acq-components';
 
 import {
   CONFIG_LINES_LIMIT,
   MODULE_ORDERS,
 } from '../components/Utils/const';
-import { CONFIG_API } from '../components/Utils/api';
 import POLinesLimitForm from './POLinesLimitForm';
 
 const successMessageId = 'ui-orders.settings.setPOLInesLimit.changed';
