@@ -836,5 +836,6 @@
     "errors.InstanceIdNotAllowedForPackagePoLine": "ID da instância não permitido para o pacote poline",
     "errors.missingOngoing": "O campo em andamento deve estar presente para o pedido em andamento",
     "errors.ongoingNotAllowed": "O campo em andamento deve estar ausente no pedido único",
-    "errors.closeOrder": "Falha ao fechar o pedido"
+    "errors.closeOrder": "Falha ao fechar o pedido",
+    "line.closedOrderMessage": "Purchase order is closed - {reason}"
 }

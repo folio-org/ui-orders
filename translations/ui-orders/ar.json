@@ -836,5 +836,6 @@
     "errors.InstanceIdNotAllowedForPackagePoLine": "غير مسموح بمعرف الوعاء لسطر أمر شراء الحزمة",
     "errors.missingOngoing": "يجب وجود حقل جاري للطلبية الجارية",
     "errors.ongoingNotAllowed": "يجب عدم وجود حقل جاري للطلبية ذات المرة الواحدة",
-    "errors.closeOrder": "Order failed to close"
+    "errors.closeOrder": "فشل إغلاق الطلبية",
+    "line.closedOrderMessage": "تم غلق أمر الشراء - {reason}"
 }
