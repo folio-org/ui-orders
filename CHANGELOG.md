@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+### Bug fixes
+* [UIOR-552](https://issues.folio.org/browse/UIOR-552) Can not remove product ID without disconnecting instance
+
 ## [2.0.3](https://github.com/folio-org/ui-orders/tree/v2.0.3) (2020-04-09)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.2...v2.0.3)
 

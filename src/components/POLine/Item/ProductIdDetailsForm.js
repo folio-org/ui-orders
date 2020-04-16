@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -17,12 +17,9 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
-function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, required }) {
-  const removeField = useCallback((fields, index) => {
-    fields.remove(index);
-    onChangeField();
-  }, [onChangeField]);
+const DEFAULT_ID_TYPES = [];
 
+function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, required }) {
   const renderSubForm = (elem) => {
     return (
       <Row>
@@ -72,7 +69,6 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
       id="productIds"
       legend={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
       name="details.productIds"
-      onRemove={removeField}
       props={{
         canAdd: !disabled,
         canRemove: !disabled,
@@ -91,7 +87,7 @@ ProductIdDetailsForm.propTypes = {
 
 ProductIdDetailsForm.defaultProps = {
   disabled: false,
-  identifierTypes: [],
+  identifierTypes: DEFAULT_ID_TYPES,
   required: true,
 };
 
