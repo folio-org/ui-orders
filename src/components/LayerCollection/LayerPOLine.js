@@ -21,7 +21,6 @@ import {
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
-  fundsManifest,
   getConfigSetting,
   locationsManifest,
   materialTypesManifest,
@@ -83,7 +82,6 @@ class LayerPOLine extends Component {
       accumulate: false,
       fetch: true,
     },
-    fund: fundsManifest,
     materialTypes: {
       ...materialTypesManifest,
       accumulate: false,
@@ -328,7 +326,6 @@ class LayerPOLine extends Component {
       get(resources, 'locations.hasLoaded') &&
       get(resources, `${DICT_IDENTIFIER_TYPES}.hasLoaded`) &&
       get(resources, 'materialTypes.hasLoaded') &&
-      get(resources, 'fund.hasLoaded') &&
       get(order, 'id') === id
     );
 
