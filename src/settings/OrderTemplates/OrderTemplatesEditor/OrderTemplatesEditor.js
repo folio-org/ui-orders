@@ -270,10 +270,12 @@ class OrderTemplatesEditor extends Component {
                       identifierTypes={identifierTypes}
                       contributorNameTypes={contributorNameTypes}
                       order={ORDER}
+                      formName={ORDER_TEMPLATES_FORM_NAME}
                       formValues={formValues}
                       change={change}
                       dispatch={dispatch}
                       required={false}
+                      stripes={stripes}
                     />
                   </Accordion>
 

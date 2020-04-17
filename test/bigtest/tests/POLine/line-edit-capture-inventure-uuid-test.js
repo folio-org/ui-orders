@@ -92,14 +92,44 @@ describe('Line edit test - Capture UUID from inventory', function () {
     });
   });
 
-  describe('Remove contributor and product id', () => {
+  describe('Remove contributor', () => {
     beforeEach(async function () {
       await lineEditPage.removeContributorButton.click();
-      await lineEditPage.removeProductIdsButton.click();
     });
 
     it('connected link is not shown', () => {
-      expect(lineEditPage.connectedTitleLabel).to.be.false;  // https://issues.folio.org/browse/UIOR-374
+      expect(lineEditPage.connectedTitleLabel).to.be.false;
     });
+  });
+
+  describe('Remove product id', () => {
+    beforeEach(async function () {
+      await lineEditPage.removeProductIdsButton.click();
+    });
+
+    it('shows the connected link', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.true;
+    });
+  });
+
+  describe('Add product id', () => {
+    beforeEach(async function () {
+      await lineEditPage.addProductIdsButton.click();
+    });
+
+    it('connected link is shown', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.true;
+    });
+
+    describe('Enter product id', () => {
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.productIds(1).fillAndBlur('new');
+      });
+
+      it('connected link is not shown', () => {
+        expect(lineEditPage.connectedTitleLabel).to.be.false;
+      });
+    });
+
   });
 });

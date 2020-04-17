@@ -1,8 +1,10 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
   Field,
+  getFormValues,
 } from 'redux-form';
 import { Link } from 'react-router-dom';
 
@@ -35,7 +37,7 @@ import ContributorForm from './ContributorForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import InstancePlugin from './InstancePlugin';
 import {
-  checkInstanceIdField,
+  shouldSetInstanceId,
   getInventoryData,
 } from './util';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
@@ -51,8 +53,10 @@ class ItemForm extends Component {
     contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
     order: PropTypes.object.isRequired,
+    formName: PropTypes.string.isRequired,
     formValues: PropTypes.object.isRequired,
     required: PropTypes.bool,
+    stripes: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -63,14 +67,7 @@ class ItemForm extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      title: '',
-      publisher: '',
-      publicationDate: '',
-      edition: '',
-      contributors: [],
-      productIds: [],
-    };
+    this.state = getInventoryData(props.initialValues);
   }
 
   onAddInstance = (instance) => {
@@ -145,12 +142,14 @@ class ItemForm extends Component {
   };
 
   onChangeField = (value, fieldName) => {
-    const { formValues, dispatch, change, initialValues } = this.props;
-    const inventoryData = getInventoryData(this.state, initialValues);
+    const { formName, dispatch, change, stripes: { store } } = this.props;
+    const inventoryData = this.state;
 
     dispatch(change(fieldName, value));
 
-    if (checkInstanceIdField(formValues, inventoryData)) {
+    const formValues = getFormValues(formName)(store.getState());
+
+    if (shouldSetInstanceId(formValues, inventoryData)) {
       dispatch(change('instanceId', inventoryData.instanceId));
     } else dispatch(change('instanceId', null));
   };
@@ -179,7 +178,7 @@ class ItemForm extends Component {
   };
 
   getTitleLabel = () => {
-    const { required, formValues, initialValues } = this.props;
+    const { required, formValues } = this.props;
     const instanceId = get(formValues, 'instanceId');
     const isPackage = get(formValues, 'isPackage');
     const title = (
@@ -217,7 +216,7 @@ class ItemForm extends Component {
       </>
     );
 
-    if (!initialValues.instanceId && !this.state.instanceId) {
+    if (!this.state.instanceId) {
       return title;
     }
 

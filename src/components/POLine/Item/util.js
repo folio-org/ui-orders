@@ -4,25 +4,21 @@ import {
   isEqual,
 } from 'lodash';
 
-export const getInventoryData = (state, initialValues) => {
-  const { title, publisher, publicationDate, edition, contributors, productIds } = state;
-
+// transform form's initialValues to the state of data from inventory
+export const getInventoryData = (initialValues) => {
   return {
-    instanceId: get(state, 'instanceId', null) || get(initialValues, 'instanceId', null),
-    title: title || get(initialValues, 'titleOrPackage', ''),
-    publisher: publisher || get(initialValues, 'publisher', ''),
-    publicationDate: publicationDate || get(initialValues, 'publicationDate', ''),
-    edition: edition || get(initialValues, 'edition', ''),
-    contributors: contributors.length
-      ? contributors
-      : get(initialValues, 'contributors', []),
-    productIds: productIds.length
-      ? productIds
-      : get(initialValues, 'details.productIds', []),
+    instanceId: get(initialValues, 'instanceId', null),
+    title: get(initialValues, 'titleOrPackage', ''),
+    publisher: get(initialValues, 'publisher', ''),
+    publicationDate: get(initialValues, 'publicationDate', ''),
+    edition: get(initialValues, 'edition', ''),
+    contributors: get(initialValues, 'contributors', []),
+    productIds: get(initialValues, 'details.productIds', []),
   };
 };
 
-export const checkInstanceIdField = (formValues, inventoryData) => {
+// It compares actual form data (formValues) to contain data came from inventory or initial get request (inventoryData)
+export const shouldSetInstanceId = (formValues, inventoryData) => {
   const isEqualContributors = inventoryData.contributors.every(el => {
     const contributor = find(get(formValues, 'contributors', []), { 'contributor': el.contributor });
 
@@ -45,6 +41,6 @@ export const checkInstanceIdField = (formValues, inventoryData) => {
     && (inventoryData.edition === get(formValues, 'edition', ''))
     && isEqualContributors
     && isEqualProductIds
-    && get(formValues, 'isPackage')
+    && !formValues?.isPackage
   );
 };

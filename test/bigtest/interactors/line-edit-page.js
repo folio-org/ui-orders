@@ -12,7 +12,10 @@ import {
   value,
 } from '@bigtest/interactor';
 
-import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
+import {
+  OptionListInteractor,
+  TextFieldInteractor,
+} from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 import Button from './button';
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
@@ -134,7 +137,8 @@ const ITEM_DETAILS = {
   contributorNames = collection(ContributorName.defaultScope);
   contributorName = new ContributorName();
   contributorType = new ContributorType();
-  productIds = collection(ProductId.defaultScope);
+  productIds = collection(ProductId.defaultScope, TextFieldInteractor);
+
   productId = new ProductId();
   productIdTypes = collection(ProductIdType.defaultScope);
   productIdType = new ProductIdType();
