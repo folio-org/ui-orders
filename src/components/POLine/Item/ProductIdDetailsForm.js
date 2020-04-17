@@ -31,7 +31,6 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
         <Col xs>
           <Field
             component={TextField}
-            data-test-productId
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             name={`${elem}.productId`}

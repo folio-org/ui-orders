@@ -37,7 +37,7 @@ export const shouldSetInstanceId = (formValues, inventoryData) => {
     inventoryData.instanceId
     && (inventoryData.title === get(formValues, 'titleOrPackage', ''))
     && (inventoryData.publisher === get(formValues, 'publisher', ''))
-    && (inventoryData.publicationDate === get(formValues, 'publicationDate', ''))
+    && (inventoryData.publicationDate === (formValues?.publicationDate || '')) // publicationDate might be null in form values
     && (inventoryData.edition === get(formValues, 'edition', ''))
     && isEqualContributors
     && isEqualProductIds

@@ -145,6 +145,7 @@ const ITEM_DETAILS = {
 
   edition = fillable('[name="edition"]');
   publisher = fillable('[name="publisher"]');
+  publicationDate = new TextFieldInteractor('[name="publicationDate"]');
 }
 
 @interactor class OrderFormat {
