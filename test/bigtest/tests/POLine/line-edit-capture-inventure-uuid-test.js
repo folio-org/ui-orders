@@ -130,6 +130,5 @@ describe('Line edit test - Capture UUID from inventory', function () {
         expect(lineEditPage.connectedTitleLabel).to.be.false;
       });
     });
-
   });
 });
