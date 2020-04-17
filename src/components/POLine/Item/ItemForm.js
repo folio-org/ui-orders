@@ -79,36 +79,30 @@ class ItemForm extends Component {
     const inventoryData = { instanceId: id };
 
     dispatch(change('instanceId', id));
-    if (title) {
-      dispatch(change('titleOrPackage', title));
-      inventoryData.title = title;
-    }
-    if (publication && publication.length) {
-      const { publisher, dateOfPublication = '' } = publication[0];
+    dispatch(change('titleOrPackage', title || ''));
+    inventoryData.title = title || '';
+    const { publisher, dateOfPublication } = publication?.[0] || {};
 
-      dispatch(change('publisher', publisher));
-      inventoryData.publisher = publisher;
+    dispatch(change('publisher', publisher || ''));
+    inventoryData.publisher = publisher || '';
 
-      if (dateOfPublication.length === ALLOWED_YEAR_LENGTH) {
-        dispatch(change('publicationDate', dateOfPublication));
-        inventoryData.publicationDate = dateOfPublication;
-      }
-    }
-    if (editions && editions.length) {
-      const edition = editions[0];
+    const publicationDate = dateOfPublication?.length === ALLOWED_YEAR_LENGTH ? dateOfPublication : '';
 
-      dispatch(change('edition', edition));
-      inventoryData.edition = edition;
-    }
-    if (contributors && contributors.length) {
-      const lineContributors = contributors.map(({ name, contributorNameTypeId }) => ({
-        contributor: name,
-        contributorNameTypeId,
-      }));
+    dispatch(change('publicationDate', publicationDate));
+    inventoryData.publicationDate = publicationDate;
 
-      dispatch(change('contributors', lineContributors));
-      inventoryData.contributors = lineContributors;
-    }
+    const edition = editions?.[0] || '';
+
+    dispatch(change('edition', edition));
+    inventoryData.edition = edition;
+
+    const lineContributors = contributors?.map(({ name, contributorNameTypeId }) => ({
+      contributor: name,
+      contributorNameTypeId,
+    })) || [];
+
+    dispatch(change('contributors', lineContributors));
+    inventoryData.contributors = lineContributors;
 
     if (identifiers && identifiers.length) {
       const isbnTypeUUID = identifierTypes.find(({ label }) => label === PRODUCT_ID_TYPE.isbn).value;
@@ -134,7 +128,11 @@ class ItemForm extends Component {
 
       dispatch(change('details.productIds', lineidentifiers));
       inventoryData.productIds = lineidentifiers;
+    } else {
+      dispatch(change('details.productIds', []));
+      inventoryData.productIds = [];
     }
+
     this.setState(({
       instanceId: inventoryData.instanceId,
       title: get(inventoryData, 'title', ''),
