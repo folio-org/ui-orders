@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import { Pluggable } from '@folio/stripes/core';
 
@@ -8,12 +9,14 @@ const InstancePlugin = ({ addInstance }) => {
     <Pluggable
       aria-haspopup="true"
       dataKey="instances"
-      searchButtonStyle="default"
-      searchLabel="+"
+      searchButtonStyle="link"
+      searchLabel={<FormattedMessage id="ui-orders.itemDetails.titleLookUp" />}
       selectInstance={addInstance}
       type="find-instance"
     >
-      <span>[no instance-selection plugin]</span>
+      <span>
+        <FormattedMessage id="ui-orders.itemDetails.titleLookUpNoPlugin" />
+      </span>
     </Pluggable>
   );
 };

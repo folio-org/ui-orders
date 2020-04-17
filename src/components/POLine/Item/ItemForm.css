@@ -1,13 +1,7 @@
-.titleWrapper {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+.titleLabel {
+  margin-bottom: 0;
 }
 
-.titleWrapper div label {
+.titleWrapper > label {
   justify-content: space-between;
-}
-
-.addButton {
-  margin-left: 20px;
 }
