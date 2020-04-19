@@ -70,15 +70,83 @@ describe('Line edit test - Capture UUID from inventory', function () {
     expect(lineEditPage.connectedTitleLabel).to.be.true;
   });
 
-  describe('Remove instance ID from form', () => {
+  describe('Change title', () => {
     beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.inputTitle('');
+    });
+
+    it('connected link is not shown', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.false;
+    });
+
+    describe('Return back title', () => {
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.inputTitle(TITLE);
+      });
+
+      it('connected link is shown', () => {
+        expect(lineEditPage.connectedTitleLabel).to.be.true;
+      });
+    });
+  });
+
+  describe('Change edition', () => {
+    beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.edition('');
+    });
+
+    it('connected link is not shown', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.false;
+    });
+
+    describe('Return back edition', () => {
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.edition(EDITION);
+      });
+
+      it('connected link is shown', () => {
+        expect(lineEditPage.connectedTitleLabel).to.be.true;
+      });
+    });
+  });
+
+  describe('Change publisher', () => {
+    beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.publisher('');
     });
 
     it('connected link is not shown', () => {
       expect(lineEditPage.connectedTitleLabel).to.be.false;
+    });
+
+    describe('Return back publisher', () => {
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.publisher(PUBLISHER);
+      });
+
+      it('connected link is shown', () => {
+        expect(lineEditPage.connectedTitleLabel).to.be.true;
+      });
+    });
+  });
+
+  describe('Change publicationDate', () => {
+    beforeEach(async function () {
+      await lineEditPage.itemDetailsAccordion.publicationDate.fillAndBlur('2005');
+    });
+
+    it('connected link is not shown', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.false;
+    });
+
+    describe('Return back publicationDate', () => {
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.publicationDate.fillAndBlur('');
+      });
+
+      it('connected link is shown', () => {
+        expect(lineEditPage.connectedTitleLabel).to.be.true;
+      });
     });
   });
 
@@ -92,14 +160,43 @@ describe('Line edit test - Capture UUID from inventory', function () {
     });
   });
 
-  describe('Remove contributor and product id', () => {
+  describe('Remove contributor', () => {
     beforeEach(async function () {
       await lineEditPage.removeContributorButton.click();
-      await lineEditPage.removeProductIdsButton.click();
     });
 
     it('connected link is not shown', () => {
-      expect(lineEditPage.connectedTitleLabel).to.be.false;  // https://issues.folio.org/browse/UIOR-374
+      expect(lineEditPage.connectedTitleLabel).to.be.false;
+    });
+  });
+
+  describe('Remove product id', () => {
+    beforeEach(async function () {
+      await lineEditPage.removeProductIdsButton.click();
+    });
+
+    it('shows the connected link', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.true;
+    });
+  });
+
+  describe('Add product id', () => {
+    beforeEach(async function () {
+      await lineEditPage.addProductIdsButton.click();
+    });
+
+    it('connected link is shown', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.true;
+    });
+
+    describe('Enter product id', () => {
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.productIds(1).fillAndBlur('new');
+      });
+
+      it('connected link is not shown', () => {
+        expect(lineEditPage.connectedTitleLabel).to.be.false;
+      });
     });
   });
 });

@@ -308,6 +308,7 @@ class POLineForm extends Component {
                       {metadata && <ViewMetaData metadata={metadata} />}
 
                       <ItemForm
+                        formName="POLineForm"
                         formValues={formValues}
                         order={order}
                         contributorNameTypes={contributorNameTypes}
@@ -315,6 +316,7 @@ class POLineForm extends Component {
                         dispatch={dispatch}
                         identifierTypes={identifierTypes}
                         initialValues={initialValues}
+                        stripes={stripes}
                       />
                     </Accordion>
                     <Accordion

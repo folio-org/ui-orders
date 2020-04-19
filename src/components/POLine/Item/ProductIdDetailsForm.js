@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -20,6 +20,11 @@ import {
 const DEFAULT_ID_TYPES = [];
 
 function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, required }) {
+  const removeField = useCallback((fields, index) => {
+    fields.remove(index);
+    onChangeField();
+  }, [onChangeField]);
+
   const renderSubForm = (elem) => {
     return (
       <Row>
@@ -69,6 +74,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
       id="productIds"
       legend={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
       name="details.productIds"
+      onRemove={removeField}
       props={{
         canAdd: !disabled,
         canRemove: !disabled,
