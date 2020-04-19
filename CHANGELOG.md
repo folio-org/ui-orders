@@ -7,6 +7,7 @@
 * [UIOR-540](https://issues.folio.org/browse/UIOR-540) Add loading indicator when selecting new records
 
 ### Bug fixes
+* [UIOR-555](https://issues.folio.org/browse/UIOR-555) Refine styling of Title field at PO Line form
 * [UIOR-552](https://issues.folio.org/browse/UIOR-552) Can not remove product ID without disconnecting instance
 
 ## [2.0.3](https://github.com/folio-org/ui-orders/tree/v2.0.3) (2020-04-09)
