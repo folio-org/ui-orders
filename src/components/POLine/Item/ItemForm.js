@@ -7,7 +7,6 @@ import {
   getFormValues,
 } from 'redux-form';
 import { Link } from 'react-router-dom';
-
 import { get } from 'lodash';
 
 import {
@@ -25,6 +24,7 @@ import {
   selectOptionsShape,
   validateRequired,
 } from '@folio/stripes-acq-components';
+import { stripesShape } from '@folio/stripes/core';
 
 import {
   validateYear,
@@ -56,7 +56,7 @@ class ItemForm extends Component {
     formName: PropTypes.string.isRequired,
     formValues: PropTypes.object.isRequired,
     required: PropTypes.bool,
-    stripes: PropTypes.object.isRequired,
+    stripes: stripesShape.isRequired,
   };
 
   static defaultProps = {
