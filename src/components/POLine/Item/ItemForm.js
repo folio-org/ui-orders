@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unused-state */
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
@@ -182,7 +182,7 @@ class ItemForm extends Component {
     const instanceId = get(formValues, 'instanceId');
     const isPackage = get(formValues, 'isPackage');
     const title = (
-      <Label required={required}>
+      <Label className={css.titleLabel} marginBottom0 required={required} tagName="div">
         {
           isPackage
             ? <FormattedMessage id="ui-orders.itemDetails.packageName" />
@@ -191,7 +191,7 @@ class ItemForm extends Component {
       </Label>
     );
     const connectedTitle = (
-      <Fragment>
+      <>
         {title}
         <Link
           data-test-connected-link
@@ -204,16 +204,16 @@ class ItemForm extends Component {
             icon="external-link"
           />
         </Link>
-      </Fragment>
+      </>
     );
     const notConnectedTitle = (
-      <Fragment>
+      <>
         {title}
         <div>
           <FormattedMessage id="ui-orders.itemDetails.notConnectedTitle" />
           <InfoPopover content={<FormattedMessage id="ui-orders.itemDetails.notConnectedInfo" />} />
         </div>
-      </Fragment>
+      </>
     );
 
     if (!this.state.instanceId) {
@@ -234,7 +234,7 @@ class ItemForm extends Component {
     const isSelectInstanceVisible = !(get(formValues, 'isPackage') || isPostPendingOrder);
 
     return (
-      <Fragment>
+      <>
         <Row>
           <Col
             xs={6}
@@ -256,20 +256,18 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <div className={css.titleWrapper}>
-              <Field
-                component={TextField}
-                fullWidth
-                label={this.getTitleLabel()}
-                name="titleOrPackage"
-                onChange={this.setTitleOrPackage}
-                validate={required ? validateRequired : undefined}
-                disabled={isPostPendingOrder}
-              />
-              <div className={css.addButton}>
-                {isSelectInstanceVisible && <InstancePlugin addInstance={this.onAddInstance} />}
-              </div>
-            </div>
+            <Field
+              className={css.titleWrapper}
+              component={TextField}
+              fullWidth
+              label={this.getTitleLabel()}
+              marginBottom0
+              name="titleOrPackage"
+              onChange={this.setTitleOrPackage}
+              validate={required ? validateRequired : undefined}
+              disabled={isPostPendingOrder}
+            />
+            {isSelectInstanceVisible && <InstancePlugin addInstance={this.onAddInstance} />}
           </Col>
           <Col
             xs={6}
@@ -391,7 +389,7 @@ class ItemForm extends Component {
             />
           </Col>
         </Row>
-      </Fragment>
+      </>
     );
   }
 }

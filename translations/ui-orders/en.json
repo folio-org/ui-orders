@@ -458,6 +458,8 @@
   "itemDetails.subscriptionInterval": "Subscription interval",
   "itemDetails.subscriptionTo": "Subscription to",
   "itemDetails.title": "Title",
+  "itemDetails.titleLookUp": "Title look-up",
+  "itemDetails.titleLookUpNoPlugin": "[no instance-selection plugin]",
   "itemDetails.packageName": "Package name",
   "itemDetails.qualifier": "Qualifier",
   "line.accordion.cost": "Cost details",

@@ -4,6 +4,7 @@
 
 ### Bug fixes
 * [UIOR-554](https://issues.folio.org/browse/UIOR-554) Click on instance doesn't select it and plugin-find-instance doesn't close
+* [UIOR-555](https://issues.folio.org/browse/UIOR-555) Refine styling of Title field at PO Line form
 * [UIOR-552](https://issues.folio.org/browse/UIOR-552) Can not remove product ID without disconnecting instance
 
 ## [2.0.3](https://github.com/folio-org/ui-orders/tree/v2.0.3) (2020-04-09)
