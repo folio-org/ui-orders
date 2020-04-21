@@ -37,7 +37,7 @@ describe('Order details with Line', function () {
     });
 
     order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.pending,
+      workflowStatus: WORKFLOW_STATUS.open,
       orderType: ORDER_TYPE.ongoing,
       vendor: vendor.id,
       compositePoLines: [line.attrs],
@@ -58,6 +58,7 @@ describe('Order details with Line', function () {
 
   it('displays the order details pane', () => {
     expect(orderDetailsPage.isPresent).to.be.true;
+    expect(orderDetailsPage.totalEncumbered).to.be.true;
   });
 
   it('displays list with lines', () => {

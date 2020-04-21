@@ -563,6 +563,7 @@
   "orderSummary.approved": "Approved",
   "orderSummary.closingNote": "Notes on closure",
   "orderSummary.closingReason": "Reason for closure",
+  "orderSummary.totalEncumbered": "Total encumbered",
   "orderSummary.totalEstimatedPrice": "Total estimated price",
   "orderSummary.totalUnits": "Total units",
   "orderSummary.workflowStatus": "Workflow status",

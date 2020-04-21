@@ -60,6 +60,10 @@ describe('Order Details Page', function () {
     expect(orderDetailsPage.shipTo.value).to.contain(ADDRESS);
   });
 
+  it('total encumbered is not presented', () => {
+    expect(orderDetailsPage.totalEncumbered).to.be.false;
+  });
+
   describe('clicking on edit', () => {
     beforeEach(async () => {
       await orderDetailsPage.actionsMenu.edit.click();
