@@ -1,1 +1,1 @@
-export { default } from './FundFilter';
+export { default } from './FundFilterContainer';
