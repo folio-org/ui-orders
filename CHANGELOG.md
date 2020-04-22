@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 ### Stories
+* [UIOR-495](https://issues.folio.org/browse/UIOR-495) Populate poNumberPrefix & poNumberSuffix fields on order creation
 * [UIOR-518](https://issues.folio.org/browse/UIOR-518) Display "Total encumbered" in PO summary
 * [UIOR-531](https://issues.folio.org/browse/UIOR-531) Display order closed and reason for closure on POL
 * [UINV-138](https://issues.folio.org/browse/UINV-138) Align actions icons in table to right hand side of view pane(s)

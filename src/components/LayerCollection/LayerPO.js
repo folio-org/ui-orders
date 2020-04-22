@@ -164,9 +164,13 @@ class LayerPO extends Component {
       : {};
 
     if (!order) return null;
+
+    const { poNumber, poNumberPrefix, poNumberSuffix } = order;
+    const purePONumber = id ? poNumber.slice(poNumberPrefix?.length, -poNumberSuffix?.length || undefined) : undefined;
     const { updateOrderError, createdByName, assignedToUser } = this.state;
     const patchedOrder = {
       ...order,
+      poNumber: purePONumber,
       createdByName,
       assignedToUser,
     };

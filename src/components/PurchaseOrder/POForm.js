@@ -33,6 +33,7 @@ import { isOngoing } from '../../common/POFields';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
+import { getFullOrderNumber } from '../Utils/orderResource';
 
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
@@ -46,8 +47,8 @@ const throwError = () => {
 };
 
 const asyncValidate = (values, dispatchRedux, props) => {
-  const { poNumber, numberPrefix = '', numberSuffix = '' } = values;
-  const fullOrderNumber = `${numberPrefix}${poNumber}${numberSuffix}`.trim();
+  const { poNumber } = values;
+  const fullOrderNumber = getFullOrderNumber(values);
   const { parentMutator: { orderNumber: validator }, stripes: { store } } = props;
   const orderNumberFieldIsDirty = isDirty(PO_FORM_NAME)(store.getState(), ['poNumber']);
 
@@ -213,7 +214,7 @@ class POForm extends Component {
     const { sections } = this.state;
     const generatedNumber = get(parentResources, 'orderNumber.records.0.poNumber');
     const firstMenu = this.getAddFirstMenu();
-    const orderNumber = get(initialValues, 'poNumber', '');
+    const orderNumber = getFullOrderNumber(initialValues);
     const paneTitle = initialValues.id
       ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
       : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;

@@ -85,7 +85,7 @@ class PODetailsForm extends Component {
         <Row>
           <Col xs={4}>
             <FieldPrefix
-              disabled={isPostPendingOrder}
+              disabled={!canUserEditOrderNumber || isPostPendingOrder}
               prefixes={prefixesSetting}
             />
           </Col>
@@ -101,7 +101,7 @@ class PODetailsForm extends Component {
           </Col>
           <Col xs={4}>
             <FieldSuffix
-              disabled={isPostPendingOrder}
+              disabled={!canUserEditOrderNumber || isPostPendingOrder}
               suffixes={suffixesSetting}
             />
           </Col>
