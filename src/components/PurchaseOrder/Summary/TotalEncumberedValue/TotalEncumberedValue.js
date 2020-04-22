@@ -22,11 +22,7 @@ const TotalEncumberedValue = ({ orderId, label, mutator }) => {
       setTotalEncumbered();
 
       if (orderId) {
-        mutator.orderTransactions.GET({
-          params: {
-            query: `encumbrance.sourcePurchaseOrderId==${orderId}`,
-          },
-        })
+        mutator.orderTransactions.GET()
           .then(transactions => {
             const total = transactions.reduce((acc, { amount }) => acc + amount, 0);
 
@@ -51,7 +47,12 @@ const TotalEncumberedValue = ({ orderId, label, mutator }) => {
 };
 
 TotalEncumberedValue.manifest = Object.freeze({
-  orderTransactions: transactionsManifest,
+  orderTransactions: {
+    ...transactionsManifest,
+    params: {
+      query: 'encumbrance.sourcePurchaseOrderId==!{orderId}',
+    },
+  },
 });
 
 TotalEncumberedValue.propTypes = {
