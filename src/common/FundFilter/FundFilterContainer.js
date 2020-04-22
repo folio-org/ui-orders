@@ -1,9 +1,9 @@
 import React from 'react';
 import { stripesConnect } from '@folio/stripes/core';
+import PropTypes from 'prop-types';
 
 import FundFilter from './FundFilter';
 import { getFundOptions } from '../utils';
-import { fundShape } from '../shapes';
 
 const FundFilterContainer = ({ funds, ...rest }) => {
   const options = getFundOptions(funds);
@@ -17,7 +17,7 @@ const FundFilterContainer = ({ funds, ...rest }) => {
 };
 
 FundFilterContainer.propTypes = {
-  funds: fundShape,
+  funds: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default stripesConnect(FundFilterContainer);
