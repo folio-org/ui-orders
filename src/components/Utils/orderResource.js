@@ -15,7 +15,7 @@ const saveOrder = (order, mutator) => {
   return method(order);
 };
 
-export const getFullOrderNumber = ({ poNumberPrefix = '', poNumberSuffix = '', poNumber = '' }) => (
+export const getFullOrderNumber = ({ poNumberPrefix = '', poNumberSuffix = '', poNumber = '' } = {}) => (
   `${poNumberPrefix}${poNumber}${poNumberSuffix}`.trim()
 );
 
