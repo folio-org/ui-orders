@@ -331,7 +331,7 @@ function LayerPOLine({
   if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
 
   const formValues = getFormValues('POLineForm')(stripes.store.getState());
-  const initialValues = lineId ? poLine : getCreatePOLIneInitialValues(vendor);
+  const initialValues = lineId ? poLine : getCreatePOLIneInitialValues();
   const onSubmit = lineId ? updatePOLine : submitPOLine;
 
   return (
