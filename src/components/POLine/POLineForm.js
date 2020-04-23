@@ -19,12 +19,12 @@ import {
   Pane,
   PaneMenu,
   PaneFooter,
+  Selection,
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/form';
 import {
-  FieldSelection,
   FundDistributionFields,
   getLocationOptions,
 } from '@folio/stripes-acq-components';
@@ -57,21 +57,15 @@ import validate from './validate';
 
 class POLineForm extends Component {
   static propTypes = {
-    formValues: PropTypes.object,
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
     stripes: stripesShape.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onSave: PropTypes.func,
     onCancel: PropTypes.func,
-    onRemove: PropTypes.func,
     order: PropTypes.object.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object,
-    poURL: PropTypes.string,
-    location: PropTypes.object.isRequired,
     change: PropTypes.func,
     dispatch: PropTypes.func,
     vendor: PropTypes.object,
@@ -285,12 +279,16 @@ class POLineForm extends Component {
                   <Col xs={12} md={8}>
                     <Row>
                       <Col xs={4}>
-                        <FieldSelection
-                          dataOptions={orderTemplates}
-                          labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                          name="template"
-                          readOnly
-                        />
+                        <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
+                          {translatedLabel => (
+                            <Selection
+                              dataOptions={orderTemplates}
+                              label={translatedLabel}
+                              value={order.template}
+                              disabled
+                            />
+                          )}
+                        </FormattedMessage>
                       </Col>
                     </Row>
                   </Col>
@@ -324,8 +322,13 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.lineDetails}
                     >
                       <POLineDetailsForm
-                        {...this.props}
+                        change={change}
+                        dispatch={dispatch}
                         formValues={formValues}
+                        initialValues={initialValues}
+                        order={order}
+                        parentResources={parentResources}
+                        vendor={vendor}
                       />
                     </Accordion>
                     <Accordion

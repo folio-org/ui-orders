@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -11,7 +11,6 @@ import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { getFormValues } from 'redux-form';
 
 import {
-  CalloutContext,
   stripesConnect,
   stripesShape,
 } from '@folio/stripes/core';
@@ -24,7 +23,9 @@ import {
   getConfigSetting,
   locationsManifest,
   materialTypesManifest,
+  organizationManifest,
   sourceValues,
+  useShowCallout,
   VENDORS_API,
 } from '@folio/stripes-acq-components';
 
@@ -56,191 +57,197 @@ import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
-class LayerPOLine extends Component {
-  static contextType = CalloutContext;
-  static manifest = Object.freeze({
-    order: ORDER,
-    openOrderSetting: OPEN_ORDER_SETTING,
-    approvalsSetting: APPROVALS_SETTING,
-    [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
-    poLines: ORDER_LINES,
-    vendors: {
-      type: 'okapi',
-      path: VENDORS_API,
-      GET: {
-        params: {
-          query: 'id=="*" sortby name',
-        },
-      },
-      records: 'organizations',
-      perRequest: 1000,
-    },
-    createInventory: CREATE_INVENTORY,
-    orderTemplates: ORDER_TEMPLATES,
-    locations: {
-      ...locationsManifest,
-      accumulate: false,
-      fetch: true,
-    },
-    materialTypes: {
-      ...materialTypesManifest,
-      accumulate: false,
-      fetch: true,
-    },
-    validateISBN: VALIDATE_ISBN,
-    [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
-    query: {},
-  });
+function LayerPOLine({
+  history,
+  location: { search },
+  match: { params: { id, lineId } },
+  mutator,
+  resources,
+  stripes,
+}) {
+  const [isLinesLimitExceededModalOpened, setLinesLimitExceededModalOpened] = useState(false);
+  const [savingValues, setSavingValues] = useState();
+  const sendCallout = useShowCallout();
+  const [isLoading, setIsLoading] = useState(false);
+  const order = get(resources, 'lineOrder.records.0');
+  const createInventory = get(resources, ['createInventory', 'records']);
+  const createInventorySetting = useMemo(
+    () => getCreateInventorySetting(createInventory),
+    [createInventory],
+  );
+  const poLine = get(order, 'compositePoLines', []).find((u) => u.id === lineId);
+  const [vendor, setVendor] = useState();
 
-  constructor(props) {
-    super(props);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedMutator = useMemo(() => mutator, []);
 
-    this.state = {
-      isLinesLimitExceededModalOpened: false,
-      line: null,
-    };
-  }
+  const openLineLimitExceededModal = useCallback(line => {
+    setLinesLimitExceededModalOpened(true);
+    setSavingValues(line);
+  }, []);
 
-  openLineLimitExceededModal = (line) => {
-    this.setState({
-      isLinesLimitExceededModalOpened: true,
-      line,
-    });
-  };
+  const closeLineLimitExceededModal = useCallback(() => {
+    setLinesLimitExceededModalOpened(false);
+    setSavingValues();
+  }, []);
 
-  closeLineLimitExceededModal = () => {
-    this.setState({
-      isLinesLimitExceededModalOpened: false,
-      line: null,
-    });
-  };
+  const handleErrorResponse = useCallback(
+    async (e, line) => {
+      let response;
 
-  handleErrorResponse = async (e, line) => {
-    let response;
+      try {
+        response = await e.json();
+      } catch (parsingException) {
+        response = e;
+      }
 
-    try {
-      response = await e.json();
-    } catch (parsingException) {
-      response = e;
-    }
+      if (response.errors && response.errors.length) {
+        if (response.errors.find(el => el.code === 'lines_limit')) {
+          openLineLimitExceededModal(line);
+        } else {
+          const messageCode = get(ERROR_CODES, response.errors[0].code, 'orderLineGenericError');
 
-    if (response.errors && response.errors.length) {
-      if (response.errors.find(el => el.code === 'lines_limit')) {
-        this.openLineLimitExceededModal(line);
+          sendCallout({
+            message: <SafeHTMLMessage id={`ui-orders.errors.${messageCode}`} />,
+            type: 'error',
+          });
+        }
       } else {
-        const messageCode = get(ERROR_CODES, response.errors[0].code, 'orderLineGenericError');
-
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id={`ui-orders.errors.${messageCode}`} />,
+        sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.errors.orderLineGenericError" />,
           type: 'error',
         });
       }
-    } else {
-      this.context.sendCallout({
-        message: <SafeHTMLMessage id="ui-orders.errors.orderLineGenericError" />,
-        type: 'error',
-      });
-    }
-  };
+    },
+    [openLineLimitExceededModal, sendCallout],
+  );
 
-  submitPOLine = ({ saveAndOpen, ...line }) => {
+  const openOrder = useCallback(
+    (saveAndOpen) => {
+      return saveAndOpen
+        ? updateOrderResource(order, memoizedMutator.lineOrder, {
+          workflowStatus: WORKFLOW_STATUS.open,
+        })
+          .then(() => {
+            sendCallout({
+              message: (
+                <SafeHTMLMessage
+                  id="ui-orders.order.open.success"
+                  values={{ orderNumber: order.poNumber }}
+                />
+              ),
+              type: 'success',
+            });
+          })
+          .catch(() => {
+            sendCallout({
+              message: (
+                <SafeHTMLMessage
+                  id="ui-orders.errors.openOrder"
+                  values={{ orderNumber: order.poNumber }}
+                />
+              ),
+              type: 'error',
+            });
+          })
+        : Promise.resolve();
+    },
+    [memoizedMutator.lineOrder, order, sendCallout],
+  );
+
+  const submitPOLine = useCallback(({ saveAndOpen, ...line }) => {
+    setSavingValues(line);
+    setIsLoading(true);
     const newLine = cloneDeep(line);
-    const { history, location, match: { params: { id } }, mutator: { poLines } } = this.props;
 
-    delete newLine.template;
-
-    poLines.POST(newLine)
-      .then(() => this.openOrder(saveAndOpen))
+    return memoizedMutator.poLines
+      .POST(newLine)
+      .then(() => openOrder(saveAndOpen))
       .then(() => {
-        this.context.sendCallout({
+        sendCallout({
           message: <SafeHTMLMessage id="ui-orders.line.create.success" />,
           type: 'success',
         });
         history.push({
           pathname: `/orders/view/${id}`,
-          search: location.search,
+          search,
         });
       })
-      .catch(e => this.handleErrorResponse(e, line));
-  };
-
-  getOrder = () => get(this.props, 'resources.order.records.0');
-
-  getLine = () => {
-    const { match: { params: { lineId } } } = this.props;
-    const lines = get(this.getOrder(), 'compositePoLines', []);
-
-    return lines.find(u => u.id === lineId);
-  };
-
-  createNewOrder = async () => {
-    const { mutator } = this.props;
-    const { line } = this.state;
-    const order = this.getOrder();
-
-    try {
-      const newOrder = await cloneOrder(order, mutator.order, line && [line]);
-
-      mutator.query.update({
-        _path: `/orders/view/${newOrder.id}`,
-        layer: null,
+      .catch((e) => {
+        setIsLoading(false);
+        handleErrorResponse(e, line);
       });
-    } catch (e) {
-      this.context.sendCallout({
-        message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
-        type: 'error',
-      });
-    } finally {
-      this.closeLineLimitExceededModal();
-    }
-  };
+  }, [handleErrorResponse, history, id, search, memoizedMutator.poLines, openOrder, sendCallout]);
 
-  openOrder = (saveAndOpen) => {
-    const { mutator } = this.props;
-    const order = this.getOrder();
+  const createNewOrder = useCallback(
+    async () => {
+      closeLineLimitExceededModal();
+      setIsLoading(true);
 
-    return saveAndOpen
-      ? updateOrderResource(order, mutator.order, { workflowStatus: WORKFLOW_STATUS.open })
-        .then(() => {
-          this.context.sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber: order.poNumber }} />,
-            type: 'success',
-          });
-        })
-        .catch(() => {
-          this.context.sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.errors.openOrder" values={{ orderNumber: order.poNumber }} />,
-            type: 'error',
-          });
-        })
-      : Promise.resolve();
-  }
+      try {
+        const newOrder = await cloneOrder(
+          order,
+          memoizedMutator.lineOrder,
+          savingValues && [savingValues],
+        );
 
-  updatePOLine = ({ saveAndOpen, ...data }) => {
+        history.push({
+          pathname: `/orders/view/${newOrder.id}`,
+          search,
+        });
+      } catch (e) {
+        setIsLoading(false);
+        sendCallout({
+          message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
+          type: 'error',
+        });
+      }
+    },
+    [closeLineLimitExceededModal, history, savingValues, search, memoizedMutator.lineOrder, order, sendCallout],
+  );
+
+  const onCancel = useCallback(() => {
+    const pathname = lineId
+      ? `/orders/view/${id}/po-line/view/${lineId}`
+      : `/orders/view/${id}`;
+
+    history.push({
+      pathname,
+      search,
+    });
+  }, [history, id, lineId, search]);
+
+  const updatePOLine = useCallback(({ saveAndOpen, ...data }) => {
+    setSavingValues(data);
+    setIsLoading(true);
     const line = cloneDeep(data);
 
     delete line.metadata;
-    const { mutator } = this.props;
 
-    return mutator.poLines.PUT(line)
-      .then(() => this.openOrder(saveAndOpen))
+    return memoizedMutator.poLines
+      .PUT(line)
+      .then(() => openOrder(saveAndOpen))
       .then(() => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.line.update.success" values={{ lineNumber: line.poLineNumber }} />,
+        sendCallout({
+          message: (
+            <SafeHTMLMessage
+              id="ui-orders.line.update.success"
+              values={{ lineNumber: line.poLineNumber }}
+            />
+          ),
           type: 'success',
         });
-        setTimeout(this.onCancel);
+        setTimeout(onCancel);
       })
-      .catch(e => this.handleErrorResponse(e, line));
-  };
+      .catch((e) => {
+        setIsLoading(false);
+        handleErrorResponse(e, line);
+      });
+  }, [handleErrorResponse, memoizedMutator.poLines, onCancel, openOrder, sendCallout]);
 
-  getCreatePOLIneInitialValues = (order, vendor) => {
-    const { resources, stripes } = this.props;
-    const { id: orderId } = order;
-    const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
-
+  const getCreatePOLIneInitialValues = () => {
+    const orderId = order?.id;
     const newObj = {
-      template: get(order, 'template', ''),
       source: sourceValues.user,
       cost: {
       },
@@ -271,7 +278,7 @@ class LayerPOLine extends Component {
         newObj.cost.discount = vendor.discountPercent;
       }
     }
-    const templateValue = getOrderTemplateValue(resources, order.template);
+    const templateValue = getOrderTemplateValue(resources, order?.template);
 
     const { form } = stripes.store.getState();
 
@@ -287,95 +294,92 @@ class LayerPOLine extends Component {
     return newObj;
   };
 
-  onCancel = () => {
-    const { match: { params: { id, lineId } }, history, location } = this.props;
-    const pathname = lineId ? `/orders/view/${id}/po-line/view/${lineId}` : `/orders/view/${id}`;
+  const vendorId = order?.vendor;
 
-    history.push({
-      pathname,
-      search: location.search,
-    });
-  };
+  useEffect(
+    () => {
+      if (vendorId) memoizedMutator.orderVendor.GET({ path: `${VENDORS_API}/${vendorId}` }).then(setVendor);
+    },
+    [memoizedMutator.orderVendor, vendorId],
+  );
 
-  render() {
-    const {
-      match,
-      mutator,
-      resources,
-      stripes,
-    } = this.props;
-    const onCancel = this.onCancel;
-    const { params: { id, lineId } } = match;
-    const order = this.getOrder();
-    const { vendor: vendorId } = order || {};
-    const vendor = get(resources, 'vendors.records', []).find(d => d.id === vendorId);
-    const { isOpenOrderEnabled } = getConfigSetting(get(resources, 'openOrderSetting.records', {}));
-    const { isApprovalRequired } = getConfigSetting(get(resources, 'approvalsSetting.records', {}));
-    const isOrderApproved = isApprovalRequired ? get(order, 'approved') : true;
-    const isSaveAndOpenButtonVisible = isOpenOrderEnabled
-      && isOrderApproved
-      && get(order, 'workflowStatus') === WORKFLOW_STATUS.pending;
-    const isLoading = !(
-      get(resources, 'createInventory.hasLoaded') &&
-      get(resources, 'order.hasLoaded') &&
-      get(resources, 'openOrderSetting.hasLoaded') &&
-      get(resources, 'approvalsSetting.hasLoaded') &&
-      get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
-      get(resources, 'vendors.hasLoaded') &&
-      get(resources, 'orderTemplates.hasLoaded') &&
-      get(resources, 'locations.hasLoaded') &&
-      get(resources, `${DICT_IDENTIFIER_TYPES}.hasLoaded`) &&
-      get(resources, 'materialTypes.hasLoaded') &&
-      get(order, 'id') === id
-    );
+  const { isOpenOrderEnabled } = getConfigSetting(
+    get(resources, 'openOrderSetting.records', {}),
+  );
+  const { isApprovalRequired } = getConfigSetting(
+    get(resources, 'approvalsSetting.records', {}),
+  );
+  const isOrderApproved = isApprovalRequired ? get(order, 'approved') : true;
+  const isSaveAndOpenButtonVisible =
+    isOpenOrderEnabled &&
+    isOrderApproved &&
+    get(order, 'workflowStatus') === WORKFLOW_STATUS.pending;
+  const isntLoaded = !(
+    get(resources, 'createInventory.hasLoaded') &&
+    get(resources, 'lineOrder.hasLoaded') &&
+    get(resources, 'openOrderSetting.hasLoaded') &&
+    get(resources, 'approvalsSetting.hasLoaded') &&
+    get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
+    vendor &&
+    get(resources, 'orderTemplates.hasLoaded') &&
+    get(resources, 'locations.hasLoaded') &&
+    get(resources, `${DICT_IDENTIFIER_TYPES}.hasLoaded`) &&
+    get(resources, 'materialTypes.hasLoaded') &&
+    get(order, 'id') === id
+  );
 
-    const formValues = getFormValues('POLineForm')(stripes.store.getState());
+  if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
 
-    if (isLoading) {
-      return <LoadingView defaultWidth="fill" onClose={onCancel} />;
-    } else if (!lineId) {
-      return (
-        <>
-          <POLineForm
-            initialValues={this.getCreatePOLIneInitialValues(order, vendor)}
-            onCancel={onCancel}
-            onSubmit={this.submitPOLine}
-            order={order}
-            vendor={vendor}
-            parentMutator={mutator}
-            parentResources={resources}
-            stripes={stripes}
-            isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
-            formValues={formValues}
-          />
-          {this.state.isLinesLimitExceededModalOpened && (
-            <LinesLimit
-              cancel={this.closeLineLimitExceededModal}
-              createOrder={this.createNewOrder}
-            />
-          )}
-        </>
-      );
-    } else {
-      return (
-        <>
-          <POLineForm
-            initialValues={this.getLine()}
-            onCancel={onCancel}
-            onSubmit={this.updatePOLine}
-            order={order}
-            vendor={vendor}
-            parentMutator={mutator}
-            parentResources={resources}
-            stripes={stripes}
-            isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
-            formValues={formValues}
-          />
-        </>
-      );
-    }
-  }
+  const formValues = getFormValues('POLineForm')(stripes.store.getState());
+  const initialValues = lineId ? poLine : getCreatePOLIneInitialValues(vendor);
+  const onSubmit = lineId ? updatePOLine : submitPOLine;
+
+  return (
+    <>
+      <POLineForm
+        initialValues={savingValues || initialValues}
+        onCancel={onCancel}
+        onSubmit={onSubmit}
+        order={order}
+        vendor={vendor}
+        parentMutator={mutator} // required for async validation, `validateISBN`
+        parentResources={resources}
+        stripes={stripes}
+        isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
+        formValues={formValues} // hack to re-render redux-form
+      />
+      {isLinesLimitExceededModalOpened && (
+        <LinesLimit
+          cancel={closeLineLimitExceededModal}
+          createOrder={createNewOrder}
+        />
+      )}
+    </>
+  );
 }
+
+LayerPOLine.manifest = Object.freeze({
+  lineOrder: ORDER,
+  openOrderSetting: OPEN_ORDER_SETTING,
+  approvalsSetting: APPROVALS_SETTING,
+  [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
+  poLines: ORDER_LINES,
+  orderVendor: organizationManifest,
+  createInventory: CREATE_INVENTORY,
+  orderTemplates: ORDER_TEMPLATES,
+  locations: {
+    ...locationsManifest,
+    accumulate: false,
+    fetch: true,
+  },
+  materialTypes: {
+    ...materialTypesManifest,
+    accumulate: false,
+    fetch: true,
+  },
+  validateISBN: VALIDATE_ISBN,
+  [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
+});
 
 LayerPOLine.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,

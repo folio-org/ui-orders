@@ -63,8 +63,9 @@ const asyncValidate = (values, dispatchRedux, props) => {
 class POForm extends Component {
   static propTypes = {
     formValues: PropTypes.object,
-    initialValues: PropTypes.object.isRequired,
+    generatedNumber: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    initialValues: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -84,18 +85,6 @@ class POForm extends Component {
         renewals: true,
       },
     };
-  }
-
-  componentDidMount() {
-    const { initialValues: { id }, change, dispatch, parentMutator } = this.props;
-
-    parentMutator.orderNumber.reset();
-    parentMutator.orderNumber.GET()
-      .then(({ poNumber: orderNumber }) => {
-        if (!id) {
-          dispatch(change('poNumber', orderNumber));
-        }
-      });
   }
 
   getAddFirstMenu() {
@@ -210,9 +199,17 @@ class POForm extends Component {
   };
 
   render() {
-    const { change, dispatch, formValues = {}, initialValues, onCancel, stripes, parentResources } = this.props;
+    const {
+      change,
+      dispatch,
+      formValues = {},
+      generatedNumber,
+      initialValues,
+      onCancel,
+      parentResources,
+      stripes,
+    } = this.props;
     const { sections } = this.state;
-    const generatedNumber = get(parentResources, 'orderNumber.records.0.poNumber');
     const firstMenu = this.getAddFirstMenu();
     const orderNumber = getFullOrderNumber(initialValues);
     const paneTitle = initialValues.id
