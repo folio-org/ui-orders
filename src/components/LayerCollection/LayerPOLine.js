@@ -18,12 +18,12 @@ import {
   LoadingView,
 } from '@folio/stripes/components';
 import {
+  baseManifest,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getConfigSetting,
   locationsManifest,
   materialTypesManifest,
-  organizationManifest,
   sourceValues,
   useShowCallout,
   VENDORS_API,
@@ -364,7 +364,11 @@ LayerPOLine.manifest = Object.freeze({
   approvalsSetting: APPROVALS_SETTING,
   [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
   poLines: ORDER_LINES,
-  orderVendor: organizationManifest,
+  orderVendor: {
+    ...baseManifest,
+    accumulate: true,
+    fetch: false,
+  },
   createInventory: CREATE_INVENTORY,
   orderTemplates: ORDER_TEMPLATES,
   locations: {
