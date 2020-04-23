@@ -37,10 +37,8 @@ describe('Create POL', function () {
     await lineEditPage.whenLoaded();
   });
 
-  describe('Template name', function () {
-    it('should be displayed', () => {
-      expect(lineEditPage.hasTemplateField).to.be.true;
-    });
+  it('Template name shouldnt be displayed at edit form', () => {
+    expect(lineEditPage.hasTemplateField).to.be.false;
   });
 
   describe('Physical Details', function () {
