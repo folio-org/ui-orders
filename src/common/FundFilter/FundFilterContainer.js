@@ -1,23 +1,29 @@
 import React from 'react';
-import { stripesConnect } from '@folio/stripes/core';
 import PropTypes from 'prop-types';
+
+import { stripesConnect } from '@folio/stripes/core';
+import { DICT_FUNDS, fundsManifest } from '@folio/stripes-acq-components';
 
 import FundFilter from './FundFilter';
 import { getFundOptions } from '../utils';
 
-const FundFilterContainer = ({ funds, ...rest }) => {
-  const options = getFundOptions(funds);
+const FundFilterContainer = ({ resources, ...rest }) => {
+  const funds = getFundOptions(resources);
 
   return (
     <FundFilter
       {...rest}
-      funds={options}
+      funds={funds}
     />
   );
 };
 
+FundFilterContainer.manifest = Object.freeze({
+  [DICT_FUNDS]: fundsManifest,
+});
+
 FundFilterContainer.propTypes = {
-  funds: PropTypes.arrayOf(PropTypes.object),
+  resources: PropTypes.object.isRequired,
 };
 
 export default stripesConnect(FundFilterContainer);
