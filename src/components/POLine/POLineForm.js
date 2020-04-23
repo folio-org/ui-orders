@@ -158,6 +158,7 @@ class POLineForm extends Component {
       <Fragment>
         <Button
           data-test-button-save
+          id="clickable-updatePoLine"
           type="submit"
           buttonStyle={buttonSaveStyle}
           disabled={pristine || submitting}
