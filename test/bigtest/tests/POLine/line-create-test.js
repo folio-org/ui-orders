@@ -7,6 +7,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../../helpers/setup-application';
 import LineEditPage from '../../interactors/line-edit-page';
+import OrderDetailsPage from '../../interactors/order-details-page';
 
 describe('Create PO Line simple test', function () {
   setupApplication();
@@ -14,6 +15,7 @@ describe('Create PO Line simple test', function () {
   let order = null;
   let vendor = null;
   const lineEditPage = new LineEditPage();
+  const orderDetailsPage = new OrderDetailsPage();
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
@@ -27,5 +29,32 @@ describe('Create PO Line simple test', function () {
 
   it('Has to render expected title', function () {
     expect(lineEditPage.title).to.be.equal('Add PO line');
+    expect(lineEditPage.saveButton.isDisabled).to.be.true;
+  });
+
+  describe('Add title', () => {
+    beforeEach(async function () {
+      await lineEditPage.itemDetailsAccordion.inputTitle('test');
+    });
+
+    it('enables save button', function () {
+      expect(lineEditPage.saveButton.isDisabled).to.be.false;
+    });
+
+    describe('Fill values and click save', () => {
+      beforeEach(async function () {
+        await lineEditPage.acquisitionMethod('Approval plan');
+        await lineEditPage.selectOrderFormat('Physical resource');
+        await lineEditPage.listUnitPrice.fill(3.333);
+        await lineEditPage.quantityPhysical.fill(2);
+        await lineEditPage.physicalCreateInventory.select('None');
+        await lineEditPage.saveButton.click();
+        await orderDetailsPage.whenLoaded();
+      });
+
+      it('goes to details page', function () {
+        expect(orderDetailsPage.isPresent).to.be.true;
+      });
+    });
   });
 });

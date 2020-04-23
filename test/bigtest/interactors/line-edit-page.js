@@ -191,6 +191,7 @@ export default interactor(class LineEditPage {
   static defaultScope = '[data-test-line-edit]';
   locationAccordion = new LocationAccordion();
   updateLineButton = new Button('#clickable-updatePoLine');
+  saveButton = new Button('[data-test-button-save]')
   saveAndOpenButton = new Button('[data-test-button-save-and-open]')
   lineNumberInputValue = value('input[name="poLineNumber"]');
   selectOrderFormat = selectable('[name="orderFormat"]');
@@ -223,6 +224,7 @@ export default interactor(class LineEditPage {
   removeProductIdsButton = new Button('#productIds [data-test-repeatable-field-remove-item-button]');
   isLoaded = isPresent('#itemDetails');
   hasTemplateField = isPresent('[name="template"]');
+  acquisitionMethod = selectable('[name="acquisitionMethod"]');
 
   whenLoaded() {
     return this.timeout(20000).when(() => this.isLoaded);

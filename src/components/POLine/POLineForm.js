@@ -128,7 +128,7 @@ class POLineForm extends Component {
     );
   };
 
-  getPaneFooter(id, label) {
+  getPaneFooter() {
     const {
       pristine,
       submitting,
@@ -157,13 +157,13 @@ class POLineForm extends Component {
     const end = (
       <Fragment>
         <Button
-          id={id}
+          data-test-button-save
           type="submit"
           buttonStyle={buttonSaveStyle}
           disabled={pristine || submitting}
           onClick={handleSubmit}
         >
-          {label}
+          <FormattedMessage id="ui-orders.buttons.line.save" />
         </Button>
         {isSaveAndOpenButtonVisible && (
           <Button
@@ -222,9 +222,7 @@ class POLineForm extends Component {
     const paneTitle = lineId
       ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
       : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
-    const paneFooter = lineId ?
-      this.getPaneFooter('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.save" />) :
-      this.getPaneFooter('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.save" />);
+    const paneFooter = this.getPaneFooter();
 
     if (!initialValues) {
       return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
