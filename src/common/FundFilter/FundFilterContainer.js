@@ -7,7 +7,7 @@ import { DICT_FUNDS, fundsManifest } from '@folio/stripes-acq-components';
 import FundFilter from './FundFilter';
 
 const FundFilterContainer = ({ resources, ...rest }) => {
-  const funds = resources[DICT_FUNDS].records;
+  const funds = resources[DICT_FUNDS]?.records;
 
   if (!funds) {
     return null;
