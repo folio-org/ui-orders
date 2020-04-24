@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.0.4](https://github.com/folio-org/ui-orders/tree/v2.0.4) (2020-04-24)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.3...v2.0.4)
+
 ### Bug fixes
 * [UIOR-554](https://issues.folio.org/browse/UIOR-554) Click on instance doesn't select it and plugin-find-instance doesn't close
 * [UIOR-555](https://issues.folio.org/browse/UIOR-555) Refine styling of Title field at PO Line form
