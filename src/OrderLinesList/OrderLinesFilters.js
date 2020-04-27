@@ -24,14 +24,13 @@ import {
   RECEIPT_STATUS_FILTER_OPTIONS,
 } from '../OrdersList/constants';
 import {
-  fundsShape,
   materialTypesShape,
 } from '../common/shapes';
 import { FILTERS } from './constants';
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-function OrderLinesFilters({ activeFilters, applyFilters, funds, materialTypes }) {
+function OrderLinesFilters({ activeFilters, applyFilters, materialTypes }) {
   const onChange = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -78,7 +77,6 @@ function OrderLinesFilters({ activeFilters, applyFilters, funds, materialTypes }
         labelId="ui-orders.filter.fundCode"
         name={FILTERS.FUND_CODE}
         onChange={onChange}
-        funds={funds}
       />
       <AcqCheckboxFilter
         activeFilters={activeFilters[FILTERS.ORDER_FORMAT]}
@@ -242,7 +240,6 @@ function OrderLinesFilters({ activeFilters, applyFilters, funds, materialTypes }
 OrderLinesFilters.propTypes = {
   applyFilters: PropTypes.func.isRequired,
   activeFilters: PropTypes.object.isRequired,
-  funds: fundsShape,
   materialTypes: materialTypesShape,
 };
 
