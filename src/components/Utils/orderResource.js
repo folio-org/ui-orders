@@ -22,6 +22,14 @@ export const getFullOrderNumber = ({ poNumberPrefix = '', poNumberSuffix = '', p
 export const updateOrderResource = (order, mutator, changedProps) => {
   const clonedOrder = cloneDeep(order);
 
+  Object.assign(clonedOrder, changedProps);
+
+  return saveOrder(clonedOrder, mutator);
+};
+
+export const editOrderResource = (order, mutator, changedProps) => {
+  const clonedOrder = cloneDeep(order);
+
   clonedOrder.poNumber = getFullOrderNumber(clonedOrder);
 
   Object.assign(clonedOrder, changedProps);

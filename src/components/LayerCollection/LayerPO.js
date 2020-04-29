@@ -22,7 +22,7 @@ import {
 } from '../Utils/api';
 import {
   createOrderResource,
-  updateOrderResource,
+  editOrderResource,
 } from '../Utils/orderResource';
 import {
   ADDRESSES,
@@ -93,7 +93,7 @@ function LayerPO({
     setIsLoading(true);
     setSavingValues(values);
     const saveFn = values.id
-      ? updateOrderResource
+      ? editOrderResource
       : createOrderResource;
 
     return saveFn(values, memoizedMutator.order)
