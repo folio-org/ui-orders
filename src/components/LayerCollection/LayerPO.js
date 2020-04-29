@@ -22,7 +22,6 @@ import {
 } from '../Utils/api';
 import {
   createOrEditOrderResource,
-  getFullOrderNumber,
 } from '../Utils/orderResource';
 import {
   ADDRESSES,
@@ -90,12 +89,10 @@ function LayerPO({
   const openOrderErrorModalShow = useCallback(setUpdateOrderError, []);
 
   const updatePO = useCallback(values => {
-    const orderNumber = getFullOrderNumber(values) || undefined;
-
     setIsLoading(true);
     setSavingValues(values);
 
-    return createOrEditOrderResource(values, memoizedMutator.order, { poNumber: orderNumber })
+    return createOrEditOrderResource(values, memoizedMutator.order)
       .then(savedOrder => {
         sendCallout({
           message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: savedOrder.poNumber }} />,

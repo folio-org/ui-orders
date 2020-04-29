@@ -27,10 +27,10 @@ export const updateOrderResource = (order, mutator, changedProps) => {
   return saveOrder(clonedOrder, mutator);
 };
 
-export const createOrEditOrderResource = (orderFormValues, mutator, changedProps) => {
+export const createOrEditOrderResource = (orderFormValues, mutator) => {
   const clonedOrder = cloneDeep(orderFormValues);
 
-  Object.assign(clonedOrder, changedProps);
+  clonedOrder.poNumber = getFullOrderNumber(clonedOrder) || undefined;
 
   return saveOrder(clonedOrder, mutator);
 };
