@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
@@ -11,13 +11,12 @@ import {
   MultiColumnList,
   Paneset,
 } from '@folio/stripes/components';
-import { SearchAndSortNoResultsMessage } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   FolioFormattedDate,
+  NoResultsMessage,
   ResetButton,
   ResultsPane,
-  SEARCH_PARAMETER,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
@@ -85,22 +84,12 @@ function OrdersList({
     [history, location.search],
   );
 
-  const hasFilters = filters && Object.values(filters).some(Boolean);
-  const source = useMemo(
-    () => ({
-      loaded: () => hasFilters && !isLoading,
-      pending: () => isLoading,
-      failure: () => {},
-    }),
-    [isLoading, hasFilters],
-  );
-
   const resultsStatusMessage = (
-    <SearchAndSortNoResultsMessage
-      filterPaneIsVisible={isFiltersOpened}
-      searchTerm={filters[SEARCH_PARAMETER] || ''}
-      source={source}
-      toggleFilterPane={toggleFilters}
+    <NoResultsMessage
+      isLoading={isLoading}
+      filters={filters}
+      isFiltersOpened={isFiltersOpened}
+      toggleFilters={toggleFilters}
     />
   );
   const renderLastMenu = useCallback(() => <OrdersListLastMenu search={location.search} />, [location.search]);
@@ -108,7 +97,7 @@ function OrdersList({
   return (
     <Paneset data-test-order-instances>
       {isFiltersOpened && (
-        <FiltersPane>
+        <FiltersPane toggleFilters={toggleFilters}>
           <OrdersNavigation isOrders />
           <SingleSearchForm
             applySearch={applySearch}
@@ -138,6 +127,8 @@ function OrdersList({
         renderLastMenu={renderLastMenu}
         title={title}
         toggleFiltersPane={toggleFilters}
+        filters={filters}
+        isFiltersOpened={isFiltersOpened}
       >
         <MultiColumnList
           autosize

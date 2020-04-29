@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import {
   FormattedMessage,
 } from 'react-intl';
@@ -14,13 +14,12 @@ import {
   MultiColumnList,
   Paneset,
 } from '@folio/stripes/components';
-import { SearchAndSortNoResultsMessage } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   FolioFormattedDate,
+  NoResultsMessage,
   ResetButton,
   ResultsPane,
-  SEARCH_PARAMETER,
   SingleSearchForm,
   useLocationFilters,
   useLocationSorting,
@@ -88,29 +87,19 @@ function OrderLinesList({
     [history, location.search],
   );
 
-  const hasFilters = filters && Object.values(filters).some(Boolean);
-  const source = useMemo(
-    () => ({
-      loaded: () => hasFilters && !isLoading,
-      pending: () => isLoading,
-      failure: () => {},
-    }),
-    [isLoading, hasFilters],
-  );
-
   const resultsStatusMessage = (
-    <SearchAndSortNoResultsMessage
-      filterPaneIsVisible={isFiltersOpened}
-      searchTerm={filters[SEARCH_PARAMETER] || ''}
-      source={source}
-      toggleFilterPane={toggleFilters}
+    <NoResultsMessage
+      isLoading={isLoading}
+      filters={filters}
+      isFiltersOpened={isFiltersOpened}
+      toggleFilters={toggleFilters}
     />
   );
 
   return (
     <Paneset data-test-order-line-instances>
       {isFiltersOpened && (
-        <FiltersPane>
+        <FiltersPane toggleFilters={toggleFilters}>
           <OrdersNavigation isOrderLines />
           <SingleSearchForm
             applySearch={applySearch}
@@ -137,6 +126,8 @@ function OrderLinesList({
 
       <ResultsPane
         count={orderLinesCount}
+        filters={filters}
+        isFiltersOpened={isFiltersOpened}
         title={title}
         toggleFiltersPane={toggleFilters}
       >
