@@ -21,8 +21,8 @@ import {
   ORDER_NUMBER_VALIDATE_API,
 } from '../Utils/api';
 import {
-  createOrderResource,
-  editOrderResource,
+  getFullOrderNumber,
+  updateOrderResource,
 } from '../Utils/orderResource';
 import {
   ADDRESSES,
@@ -90,13 +90,12 @@ function LayerPO({
   const openOrderErrorModalShow = useCallback(setUpdateOrderError, []);
 
   const updatePO = useCallback(values => {
-    setIsLoading(true);
-    setSavingValues(values);
-    const saveFn = values.id
-      ? editOrderResource
-      : createOrderResource;
+    const poNumber = getFullOrderNumber(values) || undefined;
 
-    return saveFn(values, memoizedMutator.order)
+    setIsLoading(true);
+    setSavingValues({ ...values, poNumber });
+
+    return updateOrderResource(values, memoizedMutator.order, { poNumber })
       .then(savedOrder => {
         sendCallout({
           message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: savedOrder.poNumber }} />,
