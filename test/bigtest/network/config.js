@@ -7,7 +7,6 @@ import {
   configUsers,
   configVendors,
   configTags,
-  createGetById,
   configLocations,
   configMaterialTypes,
   configLines,
@@ -22,13 +21,13 @@ import {
   ORDER_INVOICE_RELNS_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
-  ORDER_TEMPLATES_API,
   RECEIVING_API,
 } from '../../../src/components/Utils/api';
 import {
   configClosingReasons,
   configPrefixes,
   configSuffixes,
+  configTemplates,
 } from './configs';
 
 export default function config() {
@@ -46,6 +45,7 @@ export default function config() {
   configSuffixes(this);
   configPrefixes(this);
   configConfigs(this);
+  configTemplates(this);
 
   this.get('/contributor-name-types');
   this.get('/identifier-types');
@@ -65,29 +65,6 @@ export default function config() {
   this.get(RECEIVING_API, (schema) => {
     return schema.pieces.all();
   });
-
-  this.get(ORDER_TEMPLATES_API, (schema) => {
-    return schema.orderTemplates.all();
-  });
-
-  this.get(`${ORDER_TEMPLATES_API}/:id`, createGetById('orderTemplates'));
-
-  this.put(`${ORDER_TEMPLATES_API}/:id`, (schema, request) => {
-    const id = request.params.id;
-    const attrs = JSON.parse(request.requestBody);
-
-    schema.orderTemplates.find(id).update(attrs);
-
-    return null;
-  });
-
-  this.post(ORDER_TEMPLATES_API, (schema, request) => {
-    const attrs = JSON.parse(request.requestBody) || {};
-
-    return schema.orderTemplates.create(attrs);
-  });
-
-  this.delete(`${ORDER_TEMPLATES_API}/:id`, 'orderTemplates');
 
   this.get('/isbn/convertTo13', () => {
     return { isbn: '1234567890123' };

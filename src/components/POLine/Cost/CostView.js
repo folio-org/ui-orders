@@ -152,7 +152,7 @@ function CostView({ cost, isPackage, orderFormat }) {
 CostView.propTypes = {
   cost: PropTypes.object,
   isPackage: PropTypes.bool,
-  orderFormat: PropTypes.string.isRequired,
+  orderFormat: PropTypes.string,
 };
 
 CostView.defaultProps = {

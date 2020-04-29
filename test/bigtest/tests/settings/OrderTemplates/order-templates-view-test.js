@@ -18,6 +18,8 @@ describe('Order template view', function () {
   beforeEach(async function () {
     template = this.server.create('orderTemplate');
 
+    this.visit('/settings/orders/order-templates');
+    await orderTemplatesList.whenLoaded();
     this.visit(`/settings/orders/order-templates/${template.id}/view`);
     await orderTemplateView.whenLoaded();
   });
@@ -49,6 +51,7 @@ describe('Order template view', function () {
     describe('click confirm delete button', () => {
       beforeEach(async function () {
         await deleteConfirmation.confirm();
+        await orderTemplatesList.whenLoaded();
       });
 
       it('should redirect to Order templates list', () => {
