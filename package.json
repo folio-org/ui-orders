@@ -27,7 +27,7 @@
       "identifier-types": "1.2",
       "instance-statuses": "1.0",
       "instance-types": "2.0",
-      "invoice": "3.0",
+      "invoice": "4.0 5.0",
       "loan-types": "2.2",
       "location-units": "2.0",
       "locations": "3.0",
