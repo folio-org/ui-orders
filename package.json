@@ -299,6 +299,9 @@
     "react-router-dom": "^4.3.1",
     "redux": "*"
   },
+  "resolutions": {
+    "moment": "2.24.0"
+  },
   "optionalDependencies": {
     "@folio/plugin-find-instance": "*",
     "@folio/plugin-find-organization": "*",
