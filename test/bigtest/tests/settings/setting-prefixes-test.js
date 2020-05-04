@@ -1,16 +1,20 @@
 import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
+import { Response } from 'miragejs';
 
 import { ConfirmationInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
+import { PREFIXES_API } from '../../../../src/common/constants';
 import setupApplication from '../../helpers/setup-application';
 import PrefixesInteractor from '../../interactors/settings/setting-prefixes';
+import ModalIteractor from '../../interactors/modal';
 
 describe('Setting of Closing Reasons', function () {
   setupApplication();
 
   const prefixesSetting = new PrefixesInteractor();
   const deleteConfirmation = new ConfirmationInteractor('#delete-controlled-vocab-entry-confirmation');
+  const errorModal = new ModalIteractor();
 
   beforeEach(async function () {
     this.visit('/settings/orders/prefixes');
@@ -77,6 +81,21 @@ describe('Setting of Closing Reasons', function () {
 
         it('does not render empty list', () => {
           expect(prefixesSetting.prefixes.isPresent).to.be.false;
+        });
+      });
+
+      describe('Prefix cannot be deleted, as it is in use', function () {
+        beforeEach(async function () {
+          this.server.delete(
+            `${PREFIXES_API}/:id`,
+            () => new Response(500, { errors: [{ cause: 'prefix is in use' }] }),
+          );
+          await prefixesSetting.prefixes.list(0).deleteButton.click();
+          await deleteConfirmation.confirm();
+        });
+
+        it('Error modal is present', () => {
+          expect(errorModal.isPresent).to.be.true;
         });
       });
     });
