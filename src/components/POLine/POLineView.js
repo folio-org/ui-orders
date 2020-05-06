@@ -28,13 +28,13 @@ import {
 
 import {
   FundDistributionView,
-  ORDER_STATUSES,
   TagsBadge,
 } from '@folio/stripes-acq-components';
 
 import {
   isCheckInAvailableForLine,
   isReceiveAvailableForLine,
+  isWorkflowStatusClosed,
 } from '../PurchaseOrder/util';
 import {
   NOTE_TYPES,
@@ -246,7 +246,7 @@ class POLineView extends Component {
     const fundDistributions = get(line, 'fundDistribution');
     const currency = get(line, 'cost.currency');
     const metadata = get(line, 'metadata');
-    const isOrderClosed = order.workflowStatus === ORDER_STATUSES.closed;
+    const isClosedOrder = isWorkflowStatusClosed(order);
 
     return (
       <Pane
@@ -265,7 +265,7 @@ class POLineView extends Component {
         >
           <Row end="xs">
             <Col xs={10}>
-              {isOrderClosed && (
+              {isClosedOrder && (
                 <MessageBanner type="warning">
                   <FormattedMessage
                     id="ui-orders.line.closedOrderMessage"

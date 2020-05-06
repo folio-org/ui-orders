@@ -33,7 +33,10 @@ import {
   FieldOrganization,
 } from '../../../common/POFields';
 import FieldOrderType from './FieldOrderType';
-import { isWorkflowStatusIsPending } from '../util';
+import {
+  isWorkflowStatusClosed,
+  isWorkflowStatusIsPending,
+} from '../util';
 
 import css from './PODetailsForm.css';
 
@@ -76,6 +79,7 @@ class PODetailsForm extends Component {
 
     const isEditMode = Boolean(order.id);
     const isPostPendingOrder = Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order);
+    const isClosedOrder = isWorkflowStatusClosed(order);
     const addressesOptions = getAddressOptions(addresses);
     const addressBillTo = get(addresses.find(el => el.id === formValues.billTo), 'address', '');
     const addressShipTo = get(addresses.find(el => el.id === formValues.shipTo), 'address', '');
@@ -114,7 +118,7 @@ class PODetailsForm extends Component {
             <FieldOrganization
               dispatch={dispatch}
               change={change}
-              disabled={isPostPendingOrder}
+              disabled={isClosedOrder}
               id={formValues.vendor}
               labelId="ui-orders.orderDetails.vendor"
               name="vendor"
@@ -187,7 +191,7 @@ class PODetailsForm extends Component {
           >
             <FieldBillTo
               addresses={addressesOptions}
-              disabled={isPostPendingOrder}
+              disabled={isClosedOrder}
             />
           </Col>
           <Col

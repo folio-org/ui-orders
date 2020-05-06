@@ -16,20 +16,24 @@ import {
   FieldExpectedActivation,
   FieldActivationDue,
 } from '../../../common/POLFields';
-import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
+import {
+  isWorkflowStatusClosed,
+  isWorkflowStatusIsPending,
+} from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
 const EresourcesForm = ({ materialTypes, order, formValues, dispatch, change }) => {
   const created = get(order, 'metadata.createdDate', '');
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+  const isClosedOrder = isWorkflowStatusClosed(order);
 
   return (
     <Row>
       <Col xs={6} md={3}>
         <FieldAccessProvider
           accessProviderId={formValues?.eresource?.accessProvider}
-          disabled={isPostPendingOrder}
+          disabled={isClosedOrder}
           dispatch={dispatch}
           change={change}
         />
