@@ -11,7 +11,7 @@ import FundFilter from './FundFilter';
 const filterAccordionTitle = 'instance.title';
 
 const renderFundFilter = () => (render(
-  <IntlProvider locale="en" key="en" timeZone="UTC" messages={prefixKeys(translations)}>
+  <IntlProvider locale="en" key="en" timeZone="UTC" messages={prefixKeys(translations, 'ui-orders')}>
     <FundFilter
       id="fund"
       activeFilters={[]}
