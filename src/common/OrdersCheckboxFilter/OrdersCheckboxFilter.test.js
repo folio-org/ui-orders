@@ -4,17 +4,19 @@ import { IntlProvider } from 'react-intl';
 import { noop } from 'lodash';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
-
+import prefixKeys from '@folio/stripes-acq-components/test/bigtest/helpers/prefixKeys';
 import OrderCheckboxFilter from './OrdersCheckboxFilter';
+import translations from '../../../translations/ui-orders/en';
 
 const filterOptions = [
   { label: 'Status Open', value: 'open' },
   { label: 'Status Closed', value: 'closed' },
 ];
+
 const filterAccordionTitle = 'filter.status';
 
 const renderUserFilter = (id, name, closedByDefault, onChange = noop) => (render(
-  <IntlProvider locale="en">
+  <IntlProvider locale="en" key="en" timeZone="UTC" messages={prefixKeys(translations, 'ui-orders')}>
     <OrderCheckboxFilter
       id={id}
       activeFilters={[]}
