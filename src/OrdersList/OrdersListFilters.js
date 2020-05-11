@@ -7,7 +7,6 @@ import {
 import {
   AcqTagsFilter,
   AcqUnitFilter,
-  acqUnitsShape,
   BooleanFilter,
   PluggableOrganizationFilter,
   PluggableUserFilter,
@@ -28,7 +27,7 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-function OrdersListFilters({ activeFilters, closingReasons, applyFilters, acqUnits }) {
+function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
   const onChange = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -58,7 +57,6 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, acqUni
         labelId="ui-orders.order.acquisitionsUnit"
         name={FILTERS.ACQUISITIONS_UNIT}
         onChange={onChange}
-        acqUnits={acqUnits}
       />
       <PluggableUserFilter
         id={FILTERS.ASSIGNED_TO}
@@ -154,7 +152,6 @@ OrdersListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   applyFilters: PropTypes.func.isRequired,
   closingReasons: closingReasonsShape,
-  acqUnits: acqUnitsShape,
 };
 
 export default OrdersListFilters;
