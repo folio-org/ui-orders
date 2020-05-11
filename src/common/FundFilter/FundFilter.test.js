@@ -3,15 +3,20 @@ import { render, cleanup } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
-import prefixKeys from '@folio/stripes-acq-components/test/bigtest/helpers/prefixKeys';
-import translations from '../../../translations/ui-orders/en';
 
 import FundFilter from './FundFilter';
+
+const messages = {
+  'stripes-components.selection.filterOptionsPlaceholder': 'Placeholder',
+  'stripes-components.selection.filterOptionsLabel': 'Label',
+  'stripes-components.selection.emptyList': 'The list is empty',
+  'stripes-components.selection.noMatches': 'No any matches',
+};
 
 const filterAccordionTitle = 'instance.title';
 
 const renderFundFilter = () => (render(
-  <IntlProvider locale="en" key="en" timeZone="UTC" messages={prefixKeys(translations, 'ui-orders')}>
+  <IntlProvider locale="en" messages={messages}>
     <FundFilter
       id="fund"
       activeFilters={[]}
