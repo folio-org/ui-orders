@@ -1,10 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import {
-  getFormSyncErrors,
-  getFormValues,
-} from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
 import { stripesShape } from '@folio/stripes/core';
@@ -23,9 +19,10 @@ import {
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import stripesForm from '@folio/stripes/form';
+import stripesForm from '@folio/stripes/final-form';
 import {
   FundDistributionFields,
+  useAccordionToggle,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -54,64 +51,47 @@ import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
 import validate from './validate';
 
-class POLineForm extends Component {
-  static propTypes = {
-    initialValues: PropTypes.object,
-    handleSubmit: PropTypes.func.isRequired,
-    stripes: stripesShape.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onCancel: PropTypes.func,
-    order: PropTypes.object.isRequired,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
-    parentResources: PropTypes.object,
-    change: PropTypes.func,
-    dispatch: PropTypes.func,
-    vendor: PropTypes.object,
-    isSaveAndOpenButtonVisible: PropTypes.bool,
-    enableSaveBtn: PropTypes.bool,
-  };
+function dispatch() { }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      sections: {
-        [ACCORDION_ID.lineDetails]: true,
-        [ACCORDION_ID.costDetails]: true,
-        [ACCORDION_ID.vendor]: true,
-        [ACCORDION_ID.eresources]: true,
-        [ACCORDION_ID.itemDetails]: true,
-        [ACCORDION_ID.other]: true,
-        [ACCORDION_ID.physical]: true,
-        [ACCORDION_ID.fundDistribution]: true,
-        [ACCORDION_ID.location]: true,
-      },
-    };
-  }
+function POLineForm({
+  form: { change },
+  initialValues,
+  onCancel,
+  order,
+  parentResources,
+  stripes,
+  vendor = {},
+  pristine,
+  submitting,
+  handleSubmit,
+  isSaveAndOpenButtonVisible,
+  onSubmit,
+  values: formValues,
+  enableSaveBtn,
+}) {
+  // static getDerivedStateFromProps({ stripes: { store } }, { sections }) {
+  //   const errorKeys = Object.keys(getFormSyncErrors('POLineForm')(store.getState()));
 
-  static getDerivedStateFromProps({ stripes: { store } }, { sections }) {
-    const errorKeys = Object.keys(getFormSyncErrors('POLineForm')(store.getState()));
+  //   if (errorKeys.length > 0) {
+  //     const newSections = { ...sections };
 
-    if (errorKeys.length > 0) {
-      const newSections = { ...sections };
+  //     errorKeys.forEach(key => {
+  //       const accordionName = MAP_FIELD_ACCORDION[key];
 
-      errorKeys.forEach(key => {
-        const accordionName = MAP_FIELD_ACCORDION[key];
+  //       if (accordionName) {
+  //         newSections[accordionName] = true;
+  //       }
+  //     });
 
-        if (accordionName) {
-          newSections[accordionName] = true;
-        }
-      });
+  //     return { sections: newSections };
+  //   }
 
-      return { sections: newSections };
-    }
+  //   return null;
+  // }
+  console.log('initialValues', { ...initialValues });
+  console.log('formValues', { ...formValues });
 
-    return null;
-  }
-
-  getAddFirstMenu = () => {
-    const { onCancel } = this.props;
-
+  const getAddFirstMenu = () => {
     return (
       <PaneMenu>
         <FormattedMessage id="ui-orders.buttons.line.close">
@@ -128,17 +108,7 @@ class POLineForm extends Component {
     );
   };
 
-  getPaneFooter() {
-    const {
-      pristine,
-      submitting,
-      handleSubmit,
-      onCancel,
-      isSaveAndOpenButtonVisible,
-      onSubmit,
-      enableSaveBtn,
-    } = this.props;
-
+  const getPaneFooter = () => {
     const start = (
       <FormattedMessage id="ui-orders.buttons.line.cancel">
         {(btnLabel) => (
@@ -187,264 +157,248 @@ class POLineForm extends Component {
         renderEnd={end}
       />
     );
-  }
-
-  onToggleSection = ({ id }) => {
-    this.setState(({ sections }) => {
-      const isSectionOpened = sections[id];
-
-      return {
-        sections: {
-          ...sections,
-          [id]: !isSectionOpened,
-        },
-      };
-    });
   };
 
-  handleExpandAll = (sections) => {
-    this.setState({ sections });
-  };
+  const [expandAll, sections, toggleSection] = useAccordionToggle({});
+  const lineId = get(initialValues, 'id');
+  const lineNumber = get(initialValues, 'poLineNumber', '');
+  const firstMenu = getAddFirstMenu();
+  const paneTitle = lineId
+    ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
+    : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
+  const paneFooter = getPaneFooter();
 
-  changeLocation = (location, fieldName) => {
-    const { change, dispatch } = this.props;
-
+  const changeLocation = (location, fieldName) => {
     dispatch(change(fieldName, location.id));
   };
 
-  render() {
-    const {
-      change,
-      dispatch,
-      initialValues,
-      onCancel,
-      order,
-      parentResources,
-      stripes,
-      vendor = {},
-    } = this.props;
-    const { store } = stripes;
-    const lineId = get(initialValues, 'id');
-    const lineNumber = get(initialValues, 'poLineNumber', '');
-    const firstMenu = this.getAddFirstMenu();
-    const paneTitle = lineId
-      ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
-      : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
-    const paneFooter = this.getPaneFooter();
+  if (!initialValues) {
+    return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
+  }
 
-    if (!initialValues) {
-      return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
-    }
+  const orderFormat = get(formValues, 'orderFormat');
+  const showEresources = isEresource(orderFormat);
+  const showPhresources = isFresource(orderFormat);
+  const showOther = isOtherResource(orderFormat);
+  const materialTypes = getMaterialTypesForSelect(parentResources);
+  const identifierTypes = getIdentifierTypesForSelect(parentResources);
+  const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
+  const orderTemplates = getOrderTemplatesForSelect(parentResources);
+  const locations = parentResources?.locations?.records;
+  const locationIds = locations?.map(({ id }) => id);
+  const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
+  const estimatedPrice = calculateEstimatedPrice(formValues);
+  const { accounts } = vendor;
+  const fundDistribution = get(formValues, 'fundDistribution');
+  const vendorRefNumberType = get(formValues, 'vendorDetail.refNumberType');
+  const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
+  const metadata = get(initialValues, 'metadata');
+  const currency = get(formValues, 'cost.currency');
+  const isPackage = get(formValues, 'isPackage');
 
-    const formValues = getFormValues('POLineForm')(store.getState());
-    const orderFormat = get(formValues, 'orderFormat');
-    const showEresources = isEresource(orderFormat);
-    const showPhresources = isFresource(orderFormat);
-    const showOther = isOtherResource(orderFormat);
-    const materialTypes = getMaterialTypesForSelect(parentResources);
-    const identifierTypes = getIdentifierTypesForSelect(parentResources);
-    const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
-    const orderTemplates = getOrderTemplatesForSelect(parentResources);
-    const locations = parentResources?.locations?.records;
-    const locationIds = locations?.map(({ id }) => id);
-    const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
-    const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
-    const { accounts } = vendor;
-    const fundDistribution = get(formValues, 'fundDistribution');
-    const vendorRefNumberType = get(formValues, 'vendorDetail.refNumberType');
-    const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
-    const metadata = get(initialValues, 'metadata');
-    const currency = get(formValues, 'cost.currency');
-    const isPackage = get(formValues, 'isPackage');
+  return (
+    <Pane
+      id="pane-poLineForm"
+      data-test-line-edit
+      defaultWidth="fill"
+      paneTitle={paneTitle}
+      footer={paneFooter}
+      onClose={onCancel}
+      firstMenu={firstMenu}
+    >
+      <form id="form-po-line" style={{ height: '100vh' }}>
+        <Row>
+          <Col xs={12}>
+            <Row center="xs">
+              <Col xs={12} md={8}>
+                <Row end="xs">
+                  <Col xs={12}>
+                    <ExpandAllButton
+                      accordionStatus={sections}
+                      onToggle={expandAll}
+                    />
+                  </Col>
+                </Row>
+              </Col>
 
-    return (
-      <Pane
-        id="pane-poLineForm"
-        data-test-line-edit
-        defaultWidth="fill"
-        paneTitle={paneTitle}
-        footer={paneFooter}
-        onClose={onCancel}
-        firstMenu={firstMenu}
-      >
-        <form id="form-po-line" style={{ height: '100vh' }}>
-          <Row>
-            <Col xs={12}>
-              <Row center="xs">
+              {!initialValues.id && (
                 <Col xs={12} md={8}>
-                  <Row end="xs">
-                    <Col xs={12}>
-                      <ExpandAllButton
-                        accordionStatus={this.state.sections}
-                        onToggle={this.handleExpandAll}
-                      />
+                  <Row>
+                    <Col xs={4}>
+                      <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
+                        {translatedLabel => (
+                          <Selection
+                            dataOptions={orderTemplates}
+                            label={translatedLabel}
+                            value={order.template}
+                            disabled
+                          />
+                        )}
+                      </FormattedMessage>
                     </Col>
                   </Row>
                 </Col>
+              )}
 
-                {!initialValues.id && (
-                  <Col xs={12} md={8}>
-                    <Row>
-                      <Col xs={4}>
-                        <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
-                          {translatedLabel => (
-                            <Selection
-                              dataOptions={orderTemplates}
-                              label={translatedLabel}
-                              value={order.template}
-                              disabled
-                            />
-                          )}
-                        </FormattedMessage>
-                      </Col>
-                    </Row>
-                  </Col>
-                )}
-
-                <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                  <AccordionSet
-                    accordionStatus={this.state.sections}
-                    onToggle={this.onToggleSection}
+              <Col xs={12} md={8} style={{ textAlign: 'left' }}>
+                <AccordionSet
+                  accordionStatus={sections}
+                  onToggle={toggleSection}
+                >
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
+                    id={ACCORDION_ID.itemDetails}
                   >
-                    <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
-                      id={ACCORDION_ID.itemDetails}
-                    >
-                      {metadata && <ViewMetaData metadata={metadata} />}
+                    {metadata && <ViewMetaData metadata={metadata} />}
 
-                      <ItemForm
-                        formName="POLineForm"
-                        formValues={formValues}
+                    <ItemForm
+                      formName="POLineForm"
+                      formValues={formValues}
+                      order={order}
+                      contributorNameTypes={contributorNameTypes}
+                      change={change}
+                      dispatch={dispatch}
+                      identifierTypes={identifierTypes}
+                      initialValues={initialValues}
+                      stripes={stripes}
+                    />
+                  </Accordion>
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.details" />}
+                    id={ACCORDION_ID.lineDetails}
+                  >
+                    <POLineDetailsForm
+                      change={change}
+                      dispatch={dispatch}
+                      formValues={formValues}
+                      initialValues={initialValues}
+                      order={order}
+                      parentResources={parentResources}
+                      vendor={vendor}
+                    />
+                  </Accordion>
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
+                    id={ACCORDION_ID.costDetails}
+                  >
+                    <CostForm
+                      change={change}
+                      dispatch={dispatch}
+                      formValues={formValues}
+                      order={order}
+                    />
+                  </Accordion>
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
+                    id={ACCORDION_ID.fundDistribution}
+                  >
+                    <FundDistributionFields
+                      currency={currency}
+                      formName="POLineForm"
+                      fundDistribution={fundDistribution}
+                      name="fundDistribution"
+                      disabled={isDisabledToChangePaymentInfo}
+                      totalAmount={estimatedPrice}
+                    />
+                  </Accordion>
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+                    id={ACCORDION_ID.location}
+                  >
+                    <LocationForm
+                      changeLocation={changeLocation}
+                      formValues={formValues}
+                      isPackage={isPackage}
+                      locationIds={locationIds}
+                      locations={locations}
+                      order={order}
+                    />
+                  </Accordion>
+                  {showPhresources && (
+                    <Accordion
+                      label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
+                      id={ACCORDION_ID.physical}
+                    >
+                      <PhysicalForm
+                        materialTypes={materialTypes}
                         order={order}
-                        contributorNameTypes={contributorNameTypes}
+                        formValues={formValues}
                         change={change}
                         dispatch={dispatch}
-                        identifierTypes={identifierTypes}
-                        initialValues={initialValues}
-                        stripes={stripes}
                       />
                     </Accordion>
+                  )}
+                  {showEresources && (
                     <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.details" />}
-                      id={ACCORDION_ID.lineDetails}
+                      label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
+                      id={ACCORDION_ID.eresources}
                     >
-                      <POLineDetailsForm
+                      <EresourcesForm
+                        materialTypes={materialTypes}
+                        order={order}
+                        formValues={formValues}
                         change={change}
                         dispatch={dispatch}
-                        formValues={formValues}
-                        initialValues={initialValues}
-                        order={order}
-                        parentResources={parentResources}
-                        vendor={vendor}
                       />
                     </Accordion>
+                  )}
+                  {showOther && (
                     <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
-                      id={ACCORDION_ID.costDetails}
+                      label={<FormattedMessage id="ui-orders.line.accordion.other" />}
+                      id={ACCORDION_ID.other}
                     >
-                      <CostForm
+                      <OtherForm
+                        materialTypes={materialTypes}
+                        order={order}
+                        formValues={formValues}
                         change={change}
                         dispatch={dispatch}
-                        formValues={formValues}
-                        order={order}
                       />
                     </Accordion>
-                    <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
-                      id={ACCORDION_ID.fundDistribution}
-                    >
-                      <FundDistributionFields
-                        currency={currency}
-                        formName="POLineForm"
-                        fundDistribution={fundDistribution}
-                        name="fundDistribution"
-                        disabled={isDisabledToChangePaymentInfo}
-                        totalAmount={estimatedPrice}
-                      />
-                    </Accordion>
-                    <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.location" />}
-                      id={ACCORDION_ID.location}
-                    >
-                      <LocationForm
-                        changeLocation={this.changeLocation}
-                        formValues={formValues}
-                        isPackage={isPackage}
-                        locationIds={locationIds}
-                        locations={locations}
-                        order={order}
-                      />
-                    </Accordion>
-                    {showPhresources && (
-                      <Accordion
-                        label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
-                        id={ACCORDION_ID.physical}
-                      >
-                        <PhysicalForm
-                          materialTypes={materialTypes}
-                          order={order}
-                          formValues={formValues}
-                          change={change}
-                          dispatch={dispatch}
-                        />
-                      </Accordion>
-                    )}
-                    {showEresources && (
-                      <Accordion
-                        label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
-                        id={ACCORDION_ID.eresources}
-                      >
-                        <EresourcesForm
-                          materialTypes={materialTypes}
-                          order={order}
-                          formValues={formValues}
-                          change={change}
-                          dispatch={dispatch}
-                        />
-                      </Accordion>
-                    )}
-                    {showOther && (
-                      <Accordion
-                        label={<FormattedMessage id="ui-orders.line.accordion.other" />}
-                        id={ACCORDION_ID.other}
-                      >
-                        <OtherForm
-                          materialTypes={materialTypes}
-                          order={order}
-                          formValues={formValues}
-                          change={change}
-                          dispatch={dispatch}
-                        />
-                      </Accordion>
-                    )}
-                    <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
-                      id={ACCORDION_ID.vendor}
-                    >
-                      <VendorForm
-                        accounts={accounts}
-                        order={order}
-                        vendorRefNumber={vendorRefNumber}
-                        vendorRefNumberType={vendorRefNumberType}
-                      />
-                    </Accordion>
-                  </AccordionSet>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </form>
-      </Pane>
-    );
-  }
+                  )}
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
+                    id={ACCORDION_ID.vendor}
+                  >
+                    <VendorForm
+                      accounts={accounts}
+                      order={order}
+                      vendorRefNumber={vendorRefNumber}
+                      vendorRefNumberType={vendorRefNumberType}
+                    />
+                  </Accordion>
+                </AccordionSet>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </form>
+    </Pane>
+  );
 }
 
+POLineForm.propTypes = {
+  initialValues: PropTypes.object,
+  handleSubmit: PropTypes.func.isRequired,
+  stripes: stripesShape.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  order: PropTypes.object.isRequired,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+  parentResources: PropTypes.object,
+  form: PropTypes.object.isRequired,
+  vendor: PropTypes.object,
+  isSaveAndOpenButtonVisible: PropTypes.bool,
+  values: PropTypes.object.isRequired,
+};
+
 export default stripesForm({
-  asyncValidate,
-  asyncBlurFields: ['details.productIds[].productId', 'details.productIds[].productIdType'],
+  // asyncValidate,
+  // asyncBlurFields: ['details.productIds[].productId', 'details.productIds[].productIdType'],
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
-  form: 'POLineForm',
   navigationCheck: true,
-  validate,
+  // validate,
+  subscription: { values: true },
 })(POLineForm);

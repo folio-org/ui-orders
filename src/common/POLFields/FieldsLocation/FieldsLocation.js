@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Field,
-  FieldArray,
-} from 'redux-form';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -12,7 +10,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import {
-  FieldLocation,
+  FieldLocationFinal,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -51,7 +49,7 @@ const FieldsLocation = ({
       renderField={(field) => (
         <Row>
           <Col xs={6}>
-            <FieldLocation
+            <FieldLocationFinal
               isDisabled={disabled}
               labelId="ui-orders.location.nameCode"
               locationsForDict={locations}

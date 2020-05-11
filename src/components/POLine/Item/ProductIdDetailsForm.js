@@ -1,10 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import {
-  Field,
-  FieldArray,
-} from 'redux-form';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Col,
@@ -12,7 +10,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import {
-  FieldSelect,
+  FieldSelectFinal,
   RepeatableFieldWithErrorMessage,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -51,7 +49,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
           />
         </Col>
         <Col xs>
-          <FieldSelect
+          <FieldSelectFinal
             dataOptions={identifierTypes}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}

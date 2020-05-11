@@ -168,7 +168,7 @@ function POLineDetailsForm({
         >
           <FieldPOLineDescription />
         </Col>
-        <Col
+        {/* <Col
           xs={6}
           md={3}
         >
@@ -176,7 +176,7 @@ function POLineDetailsForm({
             formName="POLineForm"
             name="tags.tagList"
           />
-        </Col>
+        </Col> */}
       </Row>
     </>
   );

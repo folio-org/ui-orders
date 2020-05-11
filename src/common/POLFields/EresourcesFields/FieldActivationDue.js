@@ -5,12 +5,12 @@ import moment from 'moment';
 
 import {
   DATE_FORMAT,
-  FieldDatepicker,
+  FieldDatepickerFinal,
 } from '@folio/stripes-acq-components';
 
 const FieldActivationDue = ({ created }) => {
   return (
-    <FieldDatepicker
+    <FieldDatepickerFinal
       format={(value) => {
         return Number.isInteger(value)
           ? moment.utc(created).add(value, 'days').format(DATE_FORMAT)

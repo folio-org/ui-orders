@@ -8,7 +8,6 @@ import {
 } from 'lodash';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
-import { getFormValues } from 'redux-form';
 
 import {
   stripesConnect,
@@ -371,7 +370,6 @@ function LayerPOLine({
 
   if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
 
-  const formValues = getFormValues('POLineForm')(stripes.store.getState());
   const initialValues = lineId ? poLine : getCreatePOLIneInitialValues();
   const onSubmit = lineId ? updatePOLine : submitPOLine;
 
@@ -387,7 +385,6 @@ function LayerPOLine({
         parentResources={resources}
         stripes={stripes}
         isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
-        formValues={formValues} // hack to re-render redux-form
         enableSaveBtn={Boolean(savingValues)}
       />
       {isLinesLimitExceededModalOpened && (

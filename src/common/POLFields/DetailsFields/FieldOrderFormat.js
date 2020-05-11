@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 import {
   ERESOURCE,
@@ -34,7 +34,10 @@ function FieldOrderFormat({
   required,
   vendor,
 }) {
-  const onChangeSelect = (_, value) => {
+  const onChangeSelect = (event) => {
+    const value = event.target.value;
+
+    change('orderFormat', value);
     dispatch(change('cost.quantityPhysical', ''));
     dispatch(change('cost.quantityElectronic', ''));
     dispatch(change('cost.listUnitPriceElectronic', ''));
@@ -56,7 +59,7 @@ function FieldOrderFormat({
   };
 
   return (
-    <FieldSelect
+    <FieldSelectFinal
       dataOptions={ORDER_FORMAT_OPTIONS}
       label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
       name="orderFormat"

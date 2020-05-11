@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { currenciesOptions } from '@folio/stripes/components';
-import { FieldSelection } from '@folio/stripes-acq-components';
+import { FieldSelectionFinal } from '@folio/stripes-acq-components';
 
 const FieldCurrency = ({ required, disabled }) => (
-  <FieldSelection
+  <FieldSelectionFinal
     dataOptions={currenciesOptions}
     disabled={disabled}
     id="cost-currency"

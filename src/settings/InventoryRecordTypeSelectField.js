@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 import { INVENTORY_RECORDS_TYPE_FOR_SELECT } from '../components/POLine/const';
 
 const InventoryRecordTypeSelectField = ({ label, name, disabled, ...rest }) => (
-  <FieldSelect
+  <FieldSelectFinal
     dataOptions={INVENTORY_RECORDS_TYPE_FOR_SELECT}
     fullWidth
     label={<FormattedMessage id={label} />}

@@ -1,11 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldDatepicker } from '@folio/stripes-acq-components';
+import { FieldDatepickerFinal } from '@folio/stripes-acq-components';
 
 const FieldReceiptDue = () => {
   return (
-    <FieldDatepicker
+    <FieldDatepickerFinal
       label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
       name="physical.receiptDue"
     />

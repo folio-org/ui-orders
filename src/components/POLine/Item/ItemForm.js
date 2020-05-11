@@ -2,10 +2,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import {
-  Field,
-  getFormValues,
-} from 'redux-form';
+import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { get } from 'lodash';
 
@@ -20,7 +17,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import {
-  FieldDatepicker,
+  FieldDatepickerFinal,
   selectOptionsShape,
   validateRequired,
 } from '@folio/stripes-acq-components';
@@ -148,12 +145,10 @@ class ItemForm extends Component {
   };
 
   onChangeField = (value, fieldName) => {
-    const { formName, dispatch, change, stripes: { store } } = this.props;
+    const { formValues, dispatch, change } = this.props;
     const inventoryData = this.state;
 
     dispatch(change(fieldName, value));
-
-    const formValues = getFormValues(formName)(store.getState());
 
     if (shouldSetInstanceId(formValues, inventoryData)) {
       dispatch(change('instanceId', inventoryData.instanceId));
@@ -299,7 +294,7 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
               name="publicationDate"
               onChange={this.setPublicationDate}
-              normalize={v => (v || null)}
+              // normalize={v => (v || null)}
               validate={validateYear}
               disabled={isPostPendingOrder}
             />
@@ -333,7 +328,7 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldDatepicker
+            <FieldDatepickerFinal
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
               name="details.subscriptionFrom"
             />
@@ -342,7 +337,7 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldDatepicker
+            <FieldDatepickerFinal
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
               name="details.subscriptionTo"
               disabled={isPostPendingOrder}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { get } from 'lodash';
 
 import {
@@ -212,7 +212,7 @@ class CostForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.discount" />}
             name="cost.discount"
-            normalize={this.normalizeDiscount}
+            // normalize={this.normalizeDiscount}
             validate={validateNotNegative}
             disabled={isDisabledToChangePaymentInfo}
           />

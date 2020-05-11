@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
 import { TextField } from '@folio/stripes/components';
 import {
-  FieldSelect,
+  FieldSelectFinal,
   fieldSelectOptionsShape,
 } from '@folio/stripes-acq-components';
 
@@ -13,7 +13,7 @@ const FieldVendorAccountNumber = ({ accounts, disabled }) => {
   return (
     accounts.length
       ? (
-        <FieldSelect
+        <FieldSelectFinal
           dataOptions={accounts}
           fullWidth
           label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 import { PO_WORKFLOW_STATUSES } from '../../constants';
 
@@ -38,7 +38,7 @@ const FieldReceiptStatus = ({ workflowStatus }) => {
   }));
 
   return (
-    <FieldSelect
+    <FieldSelectFinal
       dataOptions={statuses}
       label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
       name="receiptStatus"

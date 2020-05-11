@@ -7,7 +7,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import {
-  FieldDatepicker,
+  FieldDatepickerFinal,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -42,7 +42,7 @@ const OtherForm = ({ order, materialTypes, formValues, dispatch, change }) => {
         xs={6}
         md={3}
       >
-        <FieldDatepicker
+        <FieldDatepickerFinal
           label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
           name="physical.receiptDue"
         />
@@ -51,7 +51,7 @@ const OtherForm = ({ order, materialTypes, formValues, dispatch, change }) => {
         xs={6}
         md={3}
       >
-        <FieldDatepicker
+        <FieldDatepickerFinal
           label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
           name="physical.expectedReceiptDate"
         />

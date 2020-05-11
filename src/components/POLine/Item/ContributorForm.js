@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import {
-  Field,
-  FieldArray,
-} from 'redux-form';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
+
 import {
   Button,
   Col,
@@ -12,7 +11,7 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 class ContributorForm extends Component {
   static propTypes = {
@@ -79,7 +78,7 @@ class ContributorForm extends Component {
           />
         </Col>
         <Col xs={5}>
-          <FieldSelect
+          <FieldSelectFinal
             dataOptions={this.props.contributorNameTypes}
             fullWidth
             required={required}

@@ -2,10 +2,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
-  <FieldSelect
+  <FieldSelectFinal
     dataOptions={materialTypes}
     fullWidth
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}

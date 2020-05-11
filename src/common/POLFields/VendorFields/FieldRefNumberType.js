@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 import { requiredRefNumber } from '../../../components/Utils/Validate';
 
@@ -25,7 +25,7 @@ const FieldRefNumberType = ({ required }) => {
   const validateRefNumberType = required ? { validate: [requiredRefNumber] } : {};
 
   return (
-    <FieldSelect
+    <FieldSelectFinal
       dataOptions={REF_NUMBER_TYPE_OPTIONS}
       fullWidth
       label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}

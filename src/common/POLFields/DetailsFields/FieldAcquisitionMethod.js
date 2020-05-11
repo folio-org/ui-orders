@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 export const ACQUISITION_METHOD = {
   approvalPlan: 'Approval Plan',
@@ -22,7 +22,7 @@ const ACQUISITION_METHOD_OPTIONS = Object.keys(ACQUISITION_METHOD).map((key) => 
 }));
 
 const FieldAcquisitionMethod = ({ disabled, required }) => (
-  <FieldSelect
+  <FieldSelectFinal
     dataOptions={ACQUISITION_METHOD_OPTIONS}
     label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
     name="acquisitionMethod"
