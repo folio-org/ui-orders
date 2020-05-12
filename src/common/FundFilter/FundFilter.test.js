@@ -6,6 +6,12 @@ import '@folio/stripes-acq-components/test/jest/__mock__';
 
 import FundFilter from './FundFilter';
 
+const fundRecords = [
+  { id: '001', code: 'Fund #1' },
+  { id: '002', code: 'Fund #2' },
+  { id: '003', code: 'Fund #3' },
+];
+
 const messages = {
   'stripes-components.selection.filterOptionsPlaceholder': 'Placeholder',
   'stripes-components.selection.filterOptionsLabel': 'Label',
@@ -41,5 +47,13 @@ describe('FundFilter component', () => {
     const { getByRole } = renderFundFilter();
 
     expect(getByRole('tab').getAttribute('aria-expanded') || 'false').toBe('false');
+  });
+
+  it('should render all passed options', async () => {
+    const { findAllByText } = renderFundFilter(fundRecords);
+
+    const renderedFilterOptions = await findAllByText(/Fund #[0-9]/);
+
+    expect(renderedFilterOptions.length).toBe(fundRecords.length);
   });
 });

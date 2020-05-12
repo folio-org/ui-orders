@@ -13,10 +13,10 @@ const filterOptions = [
   { label: 'Status Closed', value: 'closed' },
 ];
 
-const filterAccordionTitle = 'filter.status';
+const filterAccordionTitle = 'ui-orders.meta.title';
 
 const renderUserFilter = (id, name, closedByDefault, onChange = noop) => (render(
-  <IntlProvider locale="en" key="en" timeZone="UTC" messages={prefixKeys(translations, 'ui-orders')}>
+  <IntlProvider locale="en">
     <OrderCheckboxFilter
       id={id}
       activeFilters={[]}
