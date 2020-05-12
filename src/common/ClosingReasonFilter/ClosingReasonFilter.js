@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   injectIntl,
-  intlShape,
 } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import { SelectionFilter } from '@folio/stripes-acq-components';
 
@@ -22,7 +22,7 @@ const ClosingReasonFilter = ({ closingReasons, intl: { formatMessage }, ...rest 
 
 ClosingReasonFilter.propTypes = {
   closingReasons: closingReasonsShape,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired,
 };
 
 export default injectIntl(ClosingReasonFilter);

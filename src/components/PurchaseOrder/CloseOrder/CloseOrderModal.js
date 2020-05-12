@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import {
   FormattedMessage,
   injectIntl,
-  intlShape,
 } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -100,7 +99,7 @@ CloseOrderModal.propTypes = {
   cancel: PropTypes.func.isRequired,
   closeOrder: PropTypes.func.isRequired,
   closingReasons: closingReasonsShape,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired,
   orderNumber: PropTypes.string,
 };
 

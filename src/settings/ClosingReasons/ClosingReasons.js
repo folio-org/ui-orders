@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {
   FormattedMessage,
   injectIntl,
-  intlShape,
 } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
@@ -75,7 +75,7 @@ class ClosingReasons extends Component {
 }
 
 ClosingReasons.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
 };
 
