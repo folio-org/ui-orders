@@ -40,23 +40,20 @@ import { SummaryForm } from './Summary';
 import { OngoingInfoForm } from './OngoingOgderInfo';
 import { PO_TEMPLATE_FIELDS_MAP } from './constants';
 
-const throwError = () => {
-  const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
-
-  throw errorInfo;
-};
-
-const asyncValidate = (values, dispatchRedux, props) => {
+const asyncValidate = (values, dispatchRedux, props, blurredField) => {
+  const fieldName = blurredField || 'poNumber';
   const { poNumber } = values;
   const fullOrderNumber = getFullOrderNumber(values);
   const { parentMutator: { orderNumber: validator }, stripes: { store } } = props;
-  const orderNumberFieldIsDirty = isDirty(PO_FORM_NAME)(store.getState(), ['poNumber']);
+  const orderNumberFieldIsDirty = isDirty(PO_FORM_NAME)(store.getState(), [fieldName]);
 
   return orderNumberFieldIsDirty && poNumber
     ? validator.POST({ poNumber: fullOrderNumber })
-      .catch(response => response.json()
-        .catch(() => throwError())
-        .then(() => throwError()))
+      .catch(() => {
+        const errorInfo = { [fieldName]: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
+
+        throw errorInfo;
+      })
     : Promise.resolve();
 };
 
@@ -331,7 +328,7 @@ class POForm extends Component {
 }
 
 export default stripesForm({
-  asyncBlurFields: ['poNumber'],
+  asyncBlurFields: ['poNumber', 'poNumberPrefix', 'poNumberSuffix'],
   asyncValidate,
   enableReinitialize: true,
   form: PO_FORM_NAME,
