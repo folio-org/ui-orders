@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { DICT_FUNDS, fundsManifest } from '@folio/stripes-acq-components';
+import {
+  DICT_FUNDS,
+  fundsManifest,
+ } from '@folio/stripes-acq-components';
 
 import FundFilter from './FundFilter';
 
