@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import { get } from 'lodash';
 
 import { ERROR_CODES } from '../../../common/constants';
@@ -15,7 +14,7 @@ const showMessage = (callout, code, error, path) => {
     message: (
       <FormattedMessage
         id={`ui-orders.errors.${code}`}
-        values={{ value: <Link to={`/settings/inventory/${path}`}>{title}</Link> }}
+        values={{ value: <a href={`/settings/inventory/${path}`}>{title}</a> }}
       />
     ),
     timeout: 0,
