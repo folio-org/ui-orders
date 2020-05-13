@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 ### Stories
+* [UIOR-456](https://issues.folio.org/browse/UIOR-456) Ability to "Unopen" and once again "Open" purchase orders
 * [UIOR-559](https://issues.folio.org/browse/UIOR-559) Orders app: Update to Stripes v4
 * [UIREC-42](https://issues.folio.org/browse/UIREC-42) Filter by Acq Unit
 * [UIOR-453](https://issues.folio.org/browse/UIOR-453) Ability to change Vendor and Bill to and Ship to without closing order

@@ -6,7 +6,10 @@ import {
   text,
 } from '@bigtest/interactor';
 
-import Button from './button';
+import {
+  ButtonInteractor,
+} from '@folio/stripes-acq-components/test/bigtest/interactors';
+
 import { TIMEOUT } from './const';
 
 @interactor class BillTo {
@@ -31,9 +34,10 @@ import { TIMEOUT } from './const';
 
 @interactor class OrderDetailsActions {
   static defaultScope = '#order-details-actions';
-  delete = new Button('[data-test-button-delete-order]');
-  edit = new Button('[data-test-button-edit-order]');
-  clone = new Button('[data-test-clone-order-button]');
+  delete = new ButtonInteractor('[data-test-button-delete-order]');
+  edit = new ButtonInteractor('[data-test-button-edit-order]');
+  clone = new ButtonInteractor('[data-test-clone-order-button]');
+  unopen= new ButtonInteractor('[data-test-unopen-order-button]');
 }
 
 @interactor class RelatedInvoicesAccordion {
@@ -49,12 +53,12 @@ export default interactor(class OrderDetailsPage {
   actionsMenu = new OrderDetailsActions();
   header = new Header();
   closeReasonBlock = isPresent('[data-test-close-reason-block]');
-  addLineButton = new Button('[data-test-add-line-button]');
-  receivingButton = new Button('[data-test-receiving-button]');
-  openOrderButton = new Button('[data-test-open-order-button]');
-  approveOrderButton = new Button('[data-test-approve-order-button]');
-  closeOrderButton = new Button('[data-test-close-order-button]');
-  reopenOrderButton = new Button('[data-test-reopen-order-button]');
+  addLineButton = new ButtonInteractor('[data-test-add-line-button]');
+  receivingButton = new ButtonInteractor('[data-test-receiving-button]');
+  openOrderButton = new ButtonInteractor('[data-test-open-order-button]');
+  approveOrderButton = new ButtonInteractor('[data-test-approve-order-button]');
+  closeOrderButton = new ButtonInteractor('[data-test-close-order-button]');
+  reopenOrderButton = new ButtonInteractor('[data-test-reopen-order-button]');
   renewalsAccordion = isPresent('#ongoing');
   billTo = new BillTo();
   shipTo = new ShipTo();

@@ -16,6 +16,7 @@ import {
   isOpenAvailableForOrder,
   isReceiveAvailableForOrder,
   isWorkflowStatusClosed,
+  isWorkflowStatusOpen,
 } from './util';
 
 export function getPOActionMenu({
@@ -28,6 +29,7 @@ export function getPOActionMenu({
   clickOpen,
   clickReceive,
   clickReopen,
+  clickUnopen,
   order,
 }) {
   const { isApprovalRequired } = getConfigSetting(approvalsSetting);
@@ -38,6 +40,7 @@ export function getPOActionMenu({
   const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
   const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
   const isReopenButtonVisible = isWorkflowStatusClosed(order);
+  const isUnopenButtonVisible = isWorkflowStatusOpen(order);
 
   return ({ onToggle }) => (
     <MenuSection id="order-details-actions">
@@ -89,6 +92,17 @@ export function getPOActionMenu({
             </Icon>
           </Button>
         )}
+        <IfPermission perm="orders.item.unopen">
+          {isUnopenButtonVisible && (
+            <Button
+              buttonStyle="dropdownItem"
+              data-test-unopen-order-button
+              onClick={clickUnopen}
+            >
+              <FormattedMessage id="ui-orders.paneBlock.unopenBtn" />
+            </Button>
+          )}
+        </IfPermission>
       </IfPermission>
       <IfPermission perm="ui-receiving.view">
         {isReceiveButtonVisible && (

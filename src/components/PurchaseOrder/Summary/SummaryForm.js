@@ -11,7 +11,6 @@ import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
 import { FieldIsApproved } from '../../../common/POFields';
 import {
-  isWorkflowStatusClosed,
   isWorkflowStatusIsPending,
 } from '../util';
 import FieldWorkflowStatus from './FieldWorkflowStatus';
@@ -33,7 +32,7 @@ const SummaryForm = ({ initialValues: order }) => (
       <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />
     </Col>
     <Col xs={6} md={3}>
-      <FieldWorkflowStatus disabled={isWorkflowStatusClosed(order)} />
+      <FieldWorkflowStatus disabled />
     </Col>
   </Row>
 );

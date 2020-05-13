@@ -217,6 +217,16 @@
         ]
       },
       {
+        "permissionName": "ui-orders.order.unopen",
+        "displayName": "Orders: Unopen purchase orders",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.item.put",
+          "orders.item.unopen"
+        ]
+      },
+      {
         "permissionName": "settings.orders.enabled",
         "displayName": "Settings (Orders): Can view and edit settings",
         "visible": true,
