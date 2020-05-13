@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { getFormValues } from 'redux-form';
 
+import { LoadingView } from '@folio/stripes/components';
 import {
-  CalloutContext,
   stripesConnect,
 } from '@folio/stripes/core';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { PO_FORM_NAME } from '../../common/constants';
 import {
@@ -21,8 +21,7 @@ import {
   ORDER_NUMBER_VALIDATE_API,
 } from '../Utils/api';
 import {
-  createOrderResource,
-  updateOrderResource,
+  createOrEditOrderResource,
 } from '../Utils/orderResource';
 import {
   ADDRESSES,
@@ -37,162 +36,159 @@ import {
 import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 
-class LayerPO extends Component {
-  static contextType = CalloutContext;
-  static manifest = Object.freeze({
-    order: ORDER,
-    addresses: ADDRESSES,
-    users: {
-      ...USERS,
-      accumulate: true,
-      fetch: false,
-    },
-    orderNumber: {
-      accumulate: true,
-      fetch: false,
-      path: ORDER_NUMBER_API,
-      throwErrors: false,
-      clientGeneratePk: false,
-      type: 'okapi',
-      POST: {
-        path: ORDER_NUMBER_VALIDATE_API,
-      },
-    },
-    orderNumberSetting: ORDER_NUMBER_SETTING,
-    prefixesSetting: prefixesResource,
-    suffixesSetting: suffixesResource,
-    orderTemplates: ORDER_TEMPLATES,
-  });
+function LayerPO({
+  history,
+  location,
+  match: { params: { id } },
+  mutator,
+  resources,
+  stripes,
+}) {
+  const sendCallout = useShowCallout();
 
-  static propTypes = {
-    order: PropTypes.object,
-    location: ReactRouterPropTypes.location.isRequired,
-    stripes: PropTypes.object.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    resources: PropTypes.object.isRequired,
-    mutator: PropTypes.object.isRequired,
-  };
+  // this is required to avoid huge refactoring of processing error messages for now
+  const context = useMemo(() => ({ sendCallout }), [sendCallout]);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      createdByName: '',
-      assignedToUser: '',
-      updateOrderError: null,
-    };
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedMutator = useMemo(() => mutator, []);
 
-  componentDidMount() {
-    this.setUserFields();
-  }
+  const [savingValues, setSavingValues] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [createdByName, setCreatedByName] = useState('');
+  const [assignedToUser, setAssignedToUser] = useState('');
+  const [updateOrderError, setUpdateOrderError] = useState(null);
+  const order = id ? resources?.order?.records[0] : {};
+  const metadata = order?.metadata;
+  const assignedTo = order?.assignedTo;
 
-  getOrder = () => this.props.resources?.order?.records[0];
-
-  setUserFields = () => {
-    const { mutator } = this.props;
-    const { assignedTo, metadata } = this.getOrder() || {};
-
+  const setUserFields = useCallback(() => {
     if (metadata) {
-      getUserNameById(mutator.users, get(metadata, 'createdByUserId'))
-        .then(userName => this.setState({ createdByName: userName }));
+      getUserNameById(memoizedMutator.users, get(metadata, 'createdByUserId'))
+        .then(setCreatedByName);
     }
 
     if (assignedTo) {
-      getUserNameById(mutator.users, assignedTo)
-        .then(userName => this.setState({ assignedToUser: userName }));
+      getUserNameById(memoizedMutator.users, assignedTo)
+        .then(setAssignedToUser);
     }
-  }
+  }, [assignedTo, memoizedMutator.users, metadata]);
 
-  goToOrderDetails = () => {
-    const { history, location, match: { params: { id } } } = this.props;
+  useEffect(() => {
+    setUserFields();
 
-    history.push({
-      pathname: `/orders/view/${id}`,
-      search: location.search,
-    });
-  }
+    memoizedMutator.orderNumber.reset();
+    memoizedMutator.orderNumber.GET()
+      .finally(setIsLoading);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  goToOrders = () => {
-    const { history, location } = this.props;
+  const closeErrorModal = useCallback(() => {
+    setUpdateOrderError(null);
+  }, []);
 
-    history.push({
-      pathname: '/orders',
-      search: location.search,
-    });
-  }
+  const openOrderErrorModalShow = useCallback(setUpdateOrderError, []);
 
-  closeErrorModal = () => {
-    this.setState({ updateOrderError: null });
-  };
+  const updatePO = useCallback(values => {
+    setIsLoading(true);
+    setSavingValues(values);
 
-  openOrderErrorModalShow = (errors) => {
-    this.setState(() => ({ updateOrderError: errors }));
-  };
-
-  updatePO = (order) => {
-    const { history, location, mutator } = this.props;
-    const saveFn = order.id
-      ? updateOrderResource
-      : createOrderResource;
-
-    return saveFn(order, mutator.order)
-      .then(({ id, poNumber }) => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: poNumber }} />,
+    return createOrEditOrderResource(values, memoizedMutator.order)
+      .then(savedOrder => {
+        sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: savedOrder.poNumber }} />,
         });
         setTimeout(() => history.push({
-          pathname: `/orders/view/${id}`,
+          pathname: `/orders/view/${savedOrder.id}`,
           search: location.search,
         }));
       })
       .catch(async e => {
-        await showUpdateOrderError(e, this.context, this.openOrderErrorModalShow);
+        setIsLoading(false);
+        await showUpdateOrderError(e, context, openOrderErrorModalShow);
       });
+  }, [context, history, location.search, memoizedMutator.order, openOrderErrorModalShow, sendCallout]);
+
+  const onCancel = useCallback(
+    () => {
+      history.push({
+        pathname: id ? `/orders/view/${id}` : '/orders',
+        search: location.search,
+      });
+    },
+    [history, id, location.search],
+  );
+
+  if (isLoading || !order) return <LoadingView dismissible onClose={onCancel} />;
+
+  const { poNumber, poNumberPrefix, poNumberSuffix } = order;
+  const generatedNumber = get(resources, 'orderNumber.records.0.poNumber');
+  const purePONumber = id
+    ? poNumber.slice(poNumberPrefix?.length, -poNumberSuffix?.length || undefined)
+    : generatedNumber;
+  const patchedOrder = {
+    ...order,
+    poNumber: purePONumber,
+    createdByName,
+    assignedToUser,
   };
+  const initialValues = savingValues || patchedOrder; // use entered values in case of error response
+  const formValues = getFormValues(PO_FORM_NAME)(stripes.store.getState());
 
-  render() {
-    const {
-      match,
-      mutator,
-      resources,
-      stripes,
-    } = this.props;
-    const id = match.params.id;
-    const order = id
-      ? this.getOrder()
-      : {};
-
-    if (!order) return null;
-    const { updateOrderError, createdByName, assignedToUser } = this.state;
-    const patchedOrder = {
-      ...order,
-      createdByName,
-      assignedToUser,
-    };
-    const formValues = getFormValues(PO_FORM_NAME)(stripes.store.getState());
-
-    return (
-      <>
-        <POForm
-          formValues={formValues}
-          initialValues={patchedOrder}
-          onCancel={id ? this.goToOrderDetails : this.goToOrders}
-          onSubmit={this.updatePO}
-          parentMutator={mutator}
-          parentResources={resources}
-          stripes={stripes}
+  return (
+    <>
+      <POForm
+        formValues={formValues} // hack to re-render redux-form
+        generatedNumber={generatedNumber}
+        initialValues={initialValues}
+        onCancel={onCancel}
+        onSubmit={updatePO}
+        parentMutator={memoizedMutator}
+        parentResources={resources}
+        stripes={stripes}
+      />
+      {updateOrderError && (
+        <UpdateOrderErrorModal
+          orderNumber={patchedOrder.poNumber}
+          errors={updateOrderError}
+          cancel={closeErrorModal}
         />
-        {updateOrderError && (
-          <UpdateOrderErrorModal
-            orderNumber={patchedOrder.poNumber}
-            errors={updateOrderError}
-            cancel={this.closeErrorModal}
-          />
-        )}
-      </>
-    );
-  }
+      )}
+    </>
+  );
 }
+
+LayerPO.manifest = Object.freeze({
+  order: ORDER,
+  addresses: ADDRESSES,
+  users: {
+    ...USERS,
+    accumulate: true,
+    fetch: false,
+  },
+  orderNumber: {
+    accumulate: true,
+    fetch: false,
+    path: ORDER_NUMBER_API,
+    throwErrors: false,
+    clientGeneratePk: false,
+    type: 'okapi',
+    POST: {
+      path: ORDER_NUMBER_VALIDATE_API,
+    },
+  },
+  orderNumberSetting: ORDER_NUMBER_SETTING,
+  prefixesSetting: prefixesResource,
+  suffixesSetting: suffixesResource,
+  orderTemplates: ORDER_TEMPLATES,
+});
+
+LayerPO.propTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  mutator: PropTypes.object.isRequired,
+  resources: PropTypes.object.isRequired,
+  stripes: PropTypes.object.isRequired,
+};
 
 export default stripesConnect(LayerPO);

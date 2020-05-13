@@ -182,7 +182,7 @@ class ItemForm extends Component {
     const instanceId = get(formValues, 'instanceId');
     const isPackage = get(formValues, 'isPackage');
     const title = (
-      <Label className={css.titleLabel} marginBottom0 required={required} tagName="div">
+      <Label className={css.titleLabel} required={required} tagName="div">
         {
           isPackage
             ? <FormattedMessage id="ui-orders.itemDetails.packageName" />

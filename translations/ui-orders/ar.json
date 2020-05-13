@@ -839,5 +839,6 @@
     "errors.closeOrder": "فشل إغلاق الطلبية",
     "line.closedOrderMessage": "تم غلق أمر الشراء - {reason}",
     "itemDetails.titleLookUp": "بحث العنوان",
-    "itemDetails.titleLookUpNoPlugin": "[لا يوجد برنامج مساعد لتحديد الأوعية]"
+    "itemDetails.titleLookUpNoPlugin": "[لا يوجد برنامج مساعد لتحديد الأوعية]",
+    "orderSummary.totalEncumbered": "إجمالي التكاليف"
 }

@@ -1,6 +1,7 @@
 import { some } from 'lodash';
 
-import { WORKFLOW_STATUS } from '../../common/constants';
+import { ORDER_STATUSES } from '@folio/stripes-acq-components';
+
 import { RECEIPT_STATUS } from '../../common/POLFields';
 
 const isLineAbleToBeReceived = (line = { cost: {} }) => {
@@ -17,22 +18,22 @@ const isLineAbleToBeReceived = (line = { cost: {} }) => {
 const isWorkflowStatusNotPending = (order) => {
   const { workflowStatus } = order;
 
-  return workflowStatus !== WORKFLOW_STATUS.pending;
+  return workflowStatus !== ORDER_STATUSES.pending;
 };
 
 export const isWorkflowStatusIsPending = (order) => {
   const { workflowStatus } = order;
 
-  return workflowStatus === WORKFLOW_STATUS.pending;
+  return workflowStatus === ORDER_STATUSES.pending;
 };
 
 export const isWorkflowStatusOpen = (order) => {
   const { workflowStatus } = order;
 
-  return workflowStatus === WORKFLOW_STATUS.open;
+  return workflowStatus === ORDER_STATUSES.open;
 };
 
-export const isWorkflowStatusClosed = ({ workflowStatus }) => workflowStatus === WORKFLOW_STATUS.closed;
+export const isWorkflowStatusClosed = ({ workflowStatus }) => workflowStatus === ORDER_STATUSES.closed;
 
 export const isReceiveAvailableForLine = (line = {}, order = {}) => {
   const hasLineItemsToReceive = isLineAbleToBeReceived(line);

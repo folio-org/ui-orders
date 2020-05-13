@@ -13,7 +13,7 @@ import { OptionListInteractor } from '@folio/stripes-acq-components/test/bigtest
 import Button from './button';
 
 @interactor class SuffixSelect {
-  static defaultScope = 'select[name="numberSuffix"]';
+  static defaultScope = 'select[name="poNumberSuffix"]';
   value = value();
 }
 

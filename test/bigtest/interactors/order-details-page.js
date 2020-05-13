@@ -63,6 +63,7 @@ export default interactor(class OrderDetailsPage {
   isLoaded = isPresent('#POListing');
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();
   orderInvoicesIsPresent = isPresent('#orderInvoices');
+  totalEncumbered = isPresent('[data-test-total-encumbered]');
 
   whenLoaded() {
     return this.timeout(20000).when(() => this.isLoaded);

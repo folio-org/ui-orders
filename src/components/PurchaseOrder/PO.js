@@ -152,7 +152,7 @@ const PO = ({
             message: <SafeHTMLMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
             type: 'success',
           });
-          history.push({
+          history.replace({
             pathname: '/orders',
             search: location.search,
           });

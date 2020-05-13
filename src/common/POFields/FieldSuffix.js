@@ -11,7 +11,7 @@ const FieldSuffix = ({ suffixes, disabled }) => {
   return (
     <FieldSelect
       label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
-      name="numberSuffix"
+      name="poNumberSuffix"
       dataOptions={suffixes}
       disabled={disabled}
     />

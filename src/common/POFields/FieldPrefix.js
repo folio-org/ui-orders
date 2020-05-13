@@ -11,7 +11,7 @@ const FieldPrefix = ({ prefixes, disabled }) => {
   return (
     <FieldSelect
       label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
-      name="numberPrefix"
+      name="poNumberPrefix"
       dataOptions={prefixes}
       disabled={disabled}
     />

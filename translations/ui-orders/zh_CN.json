@@ -837,7 +837,8 @@
     "errors.missingOngoing": "持续订单中必须存在持续字段",
     "errors.ongoingNotAllowed": "一次性订单必须没有持续字段",
     "errors.closeOrder": "订单无法关闭",
-    "line.closedOrderMessage": "Purchase order is closed - {reason}",
+    "line.closedOrderMessage": "采购订单已关闭- {reason}",
     "itemDetails.titleLookUp": "Title look-up",
-    "itemDetails.titleLookUpNoPlugin": "[no instance-selection plugin]"
+    "itemDetails.titleLookUpNoPlugin": "[no instance-selection plugin]",
+    "orderSummary.totalEncumbered": "预支总额"
 }

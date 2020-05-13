@@ -2,9 +2,19 @@
 
 ## (IN PROGRESS)
 ### Stories
+* [UIOR-559](https://issues.folio.org/browse/UIOR-559) Orders app: Update to Stripes v4
+* [UIREC-42](https://issues.folio.org/browse/UIREC-42) Filter by Acq Unit
+* [UIOR-453](https://issues.folio.org/browse/UIOR-453) Ability to change Vendor and Bill to and Ship to without closing order
+* [UIOR-497](https://issues.folio.org/browse/UIOR-497) Prevent deletion of prefix/suffix values that are in use
+* [UIOR-539](https://issues.folio.org/browse/UIOR-539) Disable Buttons after user clicks "Save and Close" or "Save and open purchase order"
+* [UIOR-495](https://issues.folio.org/browse/UIOR-495) Populate poNumberPrefix & poNumberSuffix fields on order creation
+* [UIOR-518](https://issues.folio.org/browse/UIOR-518) Display "Total encumbered" in PO summary
 * [UIOR-531](https://issues.folio.org/browse/UIOR-531) Display order closed and reason for closure on POL
 * [UINV-138](https://issues.folio.org/browse/UINV-138) Align actions icons in table to right hand side of view pane(s)
 * [UIOR-540](https://issues.folio.org/browse/UIOR-540) Add loading indicator when selecting new records
+
+## [2.0.4](https://github.com/folio-org/ui-orders/tree/v2.0.4) (2020-04-24)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.3...v2.0.4)
 
 ### Bug fixes
 * [UIOR-555](https://issues.folio.org/browse/UIOR-555) Refine styling of Title field at PO Line form

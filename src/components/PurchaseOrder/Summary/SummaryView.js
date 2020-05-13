@@ -1,86 +1,98 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-
-import { get } from 'lodash';
-
 import {
   Checkbox,
   Col,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
+import {
+  AmountWithCurrencyField,
+  ORDER_STATUSES,
+} from '@folio/stripes-acq-components';
 
-import { WORKFLOW_STATUS } from '../../../common/constants';
+import TotalEncumberedValue from './TotalEncumberedValue';
 
-const SummaryView = ({ order }) => {
-  const workflowStatus = get(order, 'workflowStatus');
+const SummaryView = ({ order }) => (
+  <>
+    <Row start="xs">
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
+          value={order.totalItems}
+        />
+      </Col>
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.approved" />}>
+          <Checkbox
+            checked={order.approved}
+            disabled
+          />
+        </KeyValue>
+      </Col>
+      <Col
+        data-test-workflow-status
+        xs={6}
+        lg={3}
+      >
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.orderSummary.workflowStatus" />}
+          value={order.workflowStatus}
+        />
+      </Col>
+    </Row>
 
-  return (
-    <Fragment>
-      <Row start="xs">
+    <Row>
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}>
+          <AmountWithCurrencyField amount={order.totalEstimatedPrice} />
+        </KeyValue>
+      </Col>
+      {order.workflowStatus !== ORDER_STATUSES.pending && (
         <Col
+          data-test-total-encumbered
           xs={6}
           lg={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
-            value={get(order, 'totalItems')}
+          <TotalEncumberedValue
+            orderId={order.id}
+            label={<FormattedMessage id="ui-orders.orderSummary.totalEncumbered" />}
           />
         </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.approved" />}>
-            <Checkbox
-              checked={get(order, ['approved'])}
-              disabled
-            />
-          </KeyValue>
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}>
-            <AmountWithCurrencyField amount={order.totalEstimatedPrice} />
-          </KeyValue>
-        </Col>
-        <Col
-          data-test-workflow-status
-          xs={6}
-          lg={3}
-        >
+      )}
+    </Row>
+
+    {(order.workflowStatus === ORDER_STATUSES.closed) && (
+      <Row
+        data-test-close-reason-block
+        start="xs"
+      >
+        <Col xs={6}>
           <KeyValue
-            label={<FormattedMessage id="ui-orders.orderSummary.workflowStatus" />}
-            value={workflowStatus}
+            label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
+            value={order.closeReason?.reason}
+          />
+        </Col>
+        <Col xs={6}>
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
+            value={order.closeReason?.note}
           />
         </Col>
       </Row>
-      {(workflowStatus === WORKFLOW_STATUS.closed) && (
-        <Row
-          data-test-close-reason-block
-          start="xs"
-        >
-          <Col xs={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
-              value={get(order, ['closeReason', 'reason'])}
-            />
-          </Col>
-          <Col xs={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
-              value={get(order, ['closeReason', 'note'])}
-            />
-          </Col>
-        </Row>
-      )}
-    </Fragment>
-  );
-};
+    )}
+  </>
+);
 
 SummaryView.propTypes = {
   order: PropTypes.object,

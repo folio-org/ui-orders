@@ -839,5 +839,6 @@
     "errors.closeOrder": "La commande n'a pas pu être clôturée",
     "line.closedOrderMessage": "Purchase order is closed - {reason}",
     "itemDetails.titleLookUp": "Title look-up",
-    "itemDetails.titleLookUpNoPlugin": "[no instance-selection plugin]"
+    "itemDetails.titleLookUpNoPlugin": "[no instance-selection plugin]",
+    "orderSummary.totalEncumbered": "Total encumbered"
 }

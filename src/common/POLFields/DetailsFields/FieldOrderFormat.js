@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
@@ -25,33 +25,16 @@ const ORDER_FORMAT_OPTIONS = Object.keys(ORDER_FORMAT).map((key) => ({
   value: ORDER_FORMAT[key],
 }));
 
-class FieldOrderFormat extends Component {
-  static propTypes = {
-    change: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    orderVendorId: PropTypes.string,
-    formValues: PropTypes.object.isRequired,
-    vendors: PropTypes.arrayOf(PropTypes.object),
-    createInventorySetting: PropTypes.object.isRequired,
-    disabled: PropTypes.bool,
-    required: PropTypes.bool,
-  }
-
-  static defaultProps = {
-    vendors: [],
-    required: true,
-  };
-
-  onChangeSelect = (_, value) => {
-    const {
-      dispatch,
-      change,
-      createInventorySetting,
-      vendors,
-      orderVendorId,
-      formValues,
-    } = this.props;
-
+function FieldOrderFormat({
+  change,
+  createInventorySetting,
+  disabled,
+  dispatch,
+  formValues,
+  required,
+  vendor,
+}) {
+  const onChangeSelect = (_, value) => {
     dispatch(change('cost.quantityPhysical', ''));
     dispatch(change('cost.quantityElectronic', ''));
     dispatch(change('cost.listUnitPriceElectronic', ''));
@@ -59,7 +42,6 @@ class FieldOrderFormat extends Component {
 
     if (ERESOURCES.includes(value)) {
       const activationDue = get(formValues, 'eresource.activationDue');
-      const vendor = vendors.find(v => v.id === orderVendorId);
 
       if (activationDue === undefined && vendor && vendor.expectedActivationInterval) {
         dispatch(change('eresource.activationDue', vendor.expectedActivationInterval));
@@ -71,25 +53,32 @@ class FieldOrderFormat extends Component {
     } else {
       dispatch(change('physical.createInventory', createInventorySetting.physical));
     }
-  }
+  };
 
-  render() {
-    const {
-      disabled,
-      required,
-    } = this.props;
-
-    return (
-      <FieldSelect
-        dataOptions={ORDER_FORMAT_OPTIONS}
-        label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
-        name="orderFormat"
-        onChange={this.onChangeSelect}
-        required={required}
-        disabled={disabled}
-      />
-    );
-  }
+  return (
+    <FieldSelect
+      dataOptions={ORDER_FORMAT_OPTIONS}
+      label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
+      name="orderFormat"
+      onChange={onChangeSelect}
+      required={required}
+      disabled={disabled}
+    />
+  );
 }
+
+FieldOrderFormat.propTypes = {
+  change: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  formValues: PropTypes.object.isRequired,
+  vendor: PropTypes.object,
+  createInventorySetting: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
+  required: PropTypes.bool,
+};
+
+FieldOrderFormat.defaultProps = {
+  required: true,
+};
 
 export default FieldOrderFormat;

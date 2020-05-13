@@ -1,16 +1,20 @@
 import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
+import { Response } from 'miragejs';
 
 import { ConfirmationInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
+import { SUFFIXES_API } from '../../../../src/common/constants';
 import setupApplication from '../../helpers/setup-application';
 import SuffixesInteractor from '../../interactors/settings/setting-suffixes';
+import ModalInteractor from '../../interactors/modal';
 
 describe('Setting of Closing Reasons', function () {
   setupApplication();
 
   const suffixesSetting = new SuffixesInteractor();
   const deleteConfirmation = new ConfirmationInteractor('#delete-controlled-vocab-entry-confirmation');
+  const errorModal = new ModalInteractor();
 
   beforeEach(async function () {
     this.visit('/settings/orders/suffixes');
@@ -77,6 +81,21 @@ describe('Setting of Closing Reasons', function () {
 
         it('does not render empty list', () => {
           expect(suffixesSetting.suffixes.isPresent).to.be.false;
+        });
+      });
+
+      describe('Suffix cannot be deleted, as it is in use', function () {
+        beforeEach(async function () {
+          this.server.delete(
+            `${SUFFIXES_API}/:id`,
+            () => new Response(500, { errors: [{ cause: 'suffix is in use' }] }),
+          );
+          await suffixesSetting.suffixes.list(0).deleteButton.click();
+          await deleteConfirmation.confirm();
+        });
+
+        it('Error modal is present', () => {
+          expect(errorModal.isPresent).to.be.true;
         });
       });
     });

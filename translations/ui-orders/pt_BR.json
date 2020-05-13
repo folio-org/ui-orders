@@ -839,5 +839,6 @@
     "errors.closeOrder": "Falha ao fechar o pedido",
     "line.closedOrderMessage": "Pedido de compra fechado - {reason}",
     "itemDetails.titleLookUp": "Pesquisa de título",
-    "itemDetails.titleLookUpNoPlugin": "[nenhum plugin de seleção de instância]"
+    "itemDetails.titleLookUpNoPlugin": "[nenhum plugin de seleção de instância]",
+    "orderSummary.totalEncumbered": "Total onerado"
 }

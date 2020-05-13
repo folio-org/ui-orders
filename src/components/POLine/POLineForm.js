@@ -19,12 +19,12 @@ import {
   Pane,
   PaneMenu,
   PaneFooter,
+  Selection,
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/form';
 import {
-  FieldSelection,
   FundDistributionFields,
   getLocationOptions,
 } from '@folio/stripes-acq-components';
@@ -57,21 +57,15 @@ import validate from './validate';
 
 class POLineForm extends Component {
   static propTypes = {
-    formValues: PropTypes.object,
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
     stripes: stripesShape.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onSave: PropTypes.func,
     onCancel: PropTypes.func,
-    onRemove: PropTypes.func,
     order: PropTypes.object.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object,
-    poURL: PropTypes.string,
-    location: PropTypes.object.isRequired,
     change: PropTypes.func,
     dispatch: PropTypes.func,
     vendor: PropTypes.object,
@@ -134,7 +128,7 @@ class POLineForm extends Component {
     );
   };
 
-  getPaneFooter(id, label) {
+  getPaneFooter() {
     const {
       pristine,
       submitting,
@@ -163,13 +157,14 @@ class POLineForm extends Component {
     const end = (
       <Fragment>
         <Button
-          id={id}
+          data-test-button-save
+          id="clickable-updatePoLine"
           type="submit"
           buttonStyle={buttonSaveStyle}
           disabled={pristine || submitting}
           onClick={handleSubmit}
         >
-          {label}
+          <FormattedMessage id="ui-orders.buttons.line.save" />
         </Button>
         {isSaveAndOpenButtonVisible && (
           <Button
@@ -228,9 +223,7 @@ class POLineForm extends Component {
     const paneTitle = lineId
       ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
       : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
-    const paneFooter = lineId ?
-      this.getPaneFooter('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.save" />) :
-      this.getPaneFooter('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.save" />);
+    const paneFooter = this.getPaneFooter();
 
     if (!initialValues) {
       return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
@@ -285,12 +278,16 @@ class POLineForm extends Component {
                   <Col xs={12} md={8}>
                     <Row>
                       <Col xs={4}>
-                        <FieldSelection
-                          dataOptions={orderTemplates}
-                          labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                          name="template"
-                          readOnly
-                        />
+                        <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
+                          {translatedLabel => (
+                            <Selection
+                              dataOptions={orderTemplates}
+                              label={translatedLabel}
+                              value={order.template}
+                              disabled
+                            />
+                          )}
+                        </FormattedMessage>
                       </Col>
                     </Row>
                   </Col>
@@ -324,8 +321,13 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.lineDetails}
                     >
                       <POLineDetailsForm
-                        {...this.props}
+                        change={change}
+                        dispatch={dispatch}
                         formValues={formValues}
+                        initialValues={initialValues}
+                        order={order}
+                        parentResources={parentResources}
+                        vendor={vendor}
                       />
                     </Accordion>
                     <Accordion

@@ -14,12 +14,16 @@ import {
   FieldMaterialType,
   FieldMaterialSupplier,
 } from '../../../common/POLFields';
-import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
+import {
+  isWorkflowStatusClosed,
+  isWorkflowStatusIsPending,
+} from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
 const OtherForm = ({ order, materialTypes, formValues, dispatch, change }) => {
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+  const isClosedOrder = isWorkflowStatusClosed(order);
 
   return (
     <Row>
@@ -29,7 +33,7 @@ const OtherForm = ({ order, materialTypes, formValues, dispatch, change }) => {
       >
         <FieldMaterialSupplier
           materialSupplierId={formValues?.physical?.materialSupplier}
-          disabled={isPostPendingOrder}
+          disabled={isClosedOrder}
           dispatch={dispatch}
           change={change}
         />
