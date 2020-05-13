@@ -33,8 +33,8 @@ class OrderTemplates extends Component {
     resources: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
 
     const { stripes } = props;
 
@@ -50,10 +50,12 @@ class OrderTemplates extends Component {
   }
 
   showSuccessDeleteMessage = () => {
-    this.context.sendCallout({
-      type: 'success',
-      message: <FormattedMessage id="ui-orders.settings.orderTemplates.remove.success" />,
-    });
+    if (this.context) {
+      this.context.sendCallout({
+        type: 'success',
+        message: <FormattedMessage id="ui-orders.settings.orderTemplates.remove.success" />,
+      });
+    }
   }
 
   render() {

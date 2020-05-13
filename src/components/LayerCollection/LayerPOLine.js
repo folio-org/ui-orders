@@ -92,8 +92,8 @@ class LayerPOLine extends Component {
     query: {},
   });
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       isLinesLimitExceededModalOpened: false,
@@ -115,6 +115,8 @@ class LayerPOLine extends Component {
     });
   };
 
+  sendCallout = (args) => this.context?.sendCallout(args);
+
   handleErrorResponse = async (e, line) => {
     let response;
 
@@ -130,13 +132,13 @@ class LayerPOLine extends Component {
       } else {
         const messageCode = get(ERROR_CODES, response.errors[0].code, 'orderLineGenericError');
 
-        this.context.sendCallout({
+        this.sendCallout({
           message: <SafeHTMLMessage id={`ui-orders.errors.${messageCode}`} />,
           type: 'error',
         });
       }
     } else {
-      this.context.sendCallout({
+      this.sendCallout({
         message: <SafeHTMLMessage id="ui-orders.errors.orderLineGenericError" />,
         type: 'error',
       });
@@ -149,19 +151,24 @@ class LayerPOLine extends Component {
 
     delete newLine.template;
 
-    poLines.POST(newLine)
-      .then(() => this.openOrder(saveAndOpen))
+    return poLines.POST(newLine)
+      .then(
+        () => {
+          this.sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.line.create.success" />,
+            type: 'success',
+          });
+
+          return this.openOrder(saveAndOpen);
+        },
+        e => this.handleErrorResponse(e, line),
+      )
       .then(() => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.line.create.success" />,
-          type: 'success',
-        });
-        history.push({
+        setTimeout(() => history.push({
           pathname: `/orders/view/${id}`,
           search: location.search,
-        });
-      })
-      .catch(e => this.handleErrorResponse(e, line));
+        }), e => this.handleErrorResponse(e, line));
+      });
   };
 
   getOrder = () => get(this.props, 'resources.order.records.0');
@@ -186,7 +193,7 @@ class LayerPOLine extends Component {
         layer: null,
       });
     } catch (e) {
-      this.context.sendCallout({
+      this.sendCallout({
         message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
         type: 'error',
       });
@@ -202,13 +209,13 @@ class LayerPOLine extends Component {
     return saveAndOpen
       ? updateOrderResource(order, mutator.order, { workflowStatus: WORKFLOW_STATUS.open })
         .then(() => {
-          this.context.sendCallout({
+          this.sendCallout({
             message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber: order.poNumber }} />,
             type: 'success',
           });
         })
         .catch(() => {
-          this.context.sendCallout({
+          this.sendCallout({
             message: <SafeHTMLMessage id="ui-orders.errors.openOrder" values={{ orderNumber: order.poNumber }} />,
             type: 'error',
           });
@@ -225,7 +232,7 @@ class LayerPOLine extends Component {
     return mutator.poLines.PUT(line)
       .then(() => this.openOrder(saveAndOpen))
       .then(() => {
-        this.context.sendCallout({
+        this.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.line.update.success" values={{ lineNumber: line.poLineNumber }} />,
           type: 'success',
         });

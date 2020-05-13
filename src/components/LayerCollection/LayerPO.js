@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { getFormValues } from 'redux-form';
 
+import { LoadingPane } from '@folio/stripes/components';
 import {
   CalloutContext,
   stripesConnect,
@@ -40,7 +40,11 @@ import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 class LayerPO extends Component {
   static contextType = CalloutContext;
   static manifest = Object.freeze({
-    order: ORDER,
+    order: {
+      ...ORDER,
+      accumulate: true,
+      fetch: false,
+    },
     addresses: ADDRESSES,
     users: {
       ...USERS,
@@ -74,33 +78,41 @@ class LayerPO extends Component {
     mutator: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
-      createdByName: '',
-      assignedToUser: '',
       updateOrderError: null,
+      patchedOrder: {},
     };
   }
 
   componentDidMount() {
-    this.setUserFields();
-  }
+    const { match: { params: { id } }, mutator } = this.props;
 
-  getOrder = () => this.props.resources?.order?.records[0];
+    if (id) {
+      this.props.mutator.order.GET()
+        .then(o => Promise.all([
+          o,
+          getUserNameById(mutator.users, o.metadata?.createdByUserId),
+          getUserNameById(mutator.users, o.assignedTo),
+        ]), () => {
+          setTimeout(() => this.context?.sendCallout({
+            message: `Unable to load the order ${id}`,
+            type: 'error',
+            timeout: 0,
+          }));
 
-  setUserFields = () => {
-    const { mutator } = this.props;
-    const { assignedTo, metadata } = this.getOrder() || {};
-
-    if (metadata) {
-      getUserNameById(mutator.users, get(metadata, 'createdByUserId'))
-        .then(userName => this.setState({ createdByName: userName }));
-    }
-
-    if (assignedTo) {
-      getUserNameById(mutator.users, assignedTo)
-        .then(userName => this.setState({ assignedToUser: userName }));
+          return Promise.reject();
+        })
+        .then(([o, createdByName, assignedToUser]) => {
+          this.setState({
+            patchedOrder: {
+              ...o,
+              createdByName,
+              assignedToUser,
+            },
+          });
+        });
     }
   }
 
@@ -138,9 +150,11 @@ class LayerPO extends Component {
 
     return saveFn(order, mutator.order)
       .then(({ id, poNumber }) => {
-        this.context.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: poNumber }} />,
-        });
+        if (this.context) {
+          this.context.sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: poNumber }} />,
+          });
+        }
         setTimeout(() => history.push({
           pathname: `/orders/view/${id}`,
           search: location.search,
@@ -159,17 +173,10 @@ class LayerPO extends Component {
       stripes,
     } = this.props;
     const id = match.params.id;
-    const order = id
-      ? this.getOrder()
-      : {};
+    const { updateOrderError, patchedOrder } = this.state;
 
-    if (!order) return null;
-    const { updateOrderError, createdByName, assignedToUser } = this.state;
-    const patchedOrder = {
-      ...order,
-      createdByName,
-      assignedToUser,
-    };
+    if (id && patchedOrder.id !== id) return <LoadingPane dismissible defaultWidth="fill" onClose={this.goToOrders} />;
+
     const formValues = getFormValues(PO_FORM_NAME)(stripes.store.getState());
 
     return (

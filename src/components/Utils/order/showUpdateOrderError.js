@@ -10,16 +10,18 @@ const POL_NUMBER_KEY = 'poLineNumber';
 const showMessage = (callout, code, error, path) => {
   const title = get(error, 'errors.0.parameters.0.value', '');
 
-  callout.sendCallout({
-    type: 'error',
-    message: (
-      <FormattedMessage
-        id={`ui-orders.errors.${code}`}
-        values={{ value: <Link to={`/settings/inventory/${path}`}>{title}</Link> }}
-      />
-    ),
-    timeout: 0,
-  });
+  if (callout) {
+    callout.sendCallout({
+      type: 'error',
+      message: (
+        <FormattedMessage
+          id={`ui-orders.errors.${code}`}
+          values={{ value: <Link to={`/settings/inventory/${path}`}>{title}</Link> }}
+        />
+      ),
+      timeout: 0,
+    });
+  }
 };
 
 const showUpdateOrderError = async (response, callout, openModal, genericCode = 'orderGenericError1') => {
@@ -65,10 +67,12 @@ const showUpdateOrderError = async (response, callout, openModal, genericCode = 
       break;
     }
     default: {
-      callout.sendCallout({
-        message: <FormattedMessage id={`ui-orders.errors.${code}`} />,
-        type: 'error',
-      });
+      if (callout) {
+        callout.sendCallout({
+          message: <FormattedMessage id={`ui-orders.errors.${code}`} />,
+          type: 'error',
+        });
+      }
     }
   }
 };
