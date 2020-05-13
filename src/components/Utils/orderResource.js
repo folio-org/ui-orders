@@ -12,6 +12,8 @@ const saveOrder = (order, mutator) => {
     delete order.compositePoLines;
   }
 
+  if (!order.metadata?.createdByUserId) delete order.metadata; // fix sample data
+
   return method(order);
 };
 
