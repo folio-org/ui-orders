@@ -96,6 +96,8 @@ class POLine extends Component {
     return lines.find(u => u.id === lineId);
   }
 
+  sendCallout = (args) => this.context?.sendCallout(args);
+
   deleteLine = () => {
     const { mutator, poURL } = this.props;
     const line = this.getLine();
@@ -103,14 +105,14 @@ class POLine extends Component {
 
     mutator.poLine.DELETE(line)
       .then(() => {
-        this.context?.sendCallout({
+        this.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.line.delete.success" values={{ lineNumber }} />,
           type: 'success',
         });
         mutator.query.update({ _path: poURL });
       })
       .catch(async errorResponse => {
-        this.context?.sendCallout({
+        this.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.errors.lineWasNotDeleted" />,
           type: 'error',
         });
@@ -125,7 +127,7 @@ class POLine extends Component {
         } catch (e) {}
 
         if (message) {
-          this.context?.sendCallout({
+          this.sendCallout({
             message,
             timeout: 0,
             type: 'error',

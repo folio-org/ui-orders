@@ -150,9 +150,11 @@ class LayerPO extends Component {
 
     return saveFn(order, mutator.order)
       .then(({ id, poNumber }) => {
-        this.context?.sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: poNumber }} />,
-        });
+        if (this.context) {
+          this.context.sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: poNumber }} />,
+          });
+        }
         setTimeout(() => history.push({
           pathname: `/orders/view/${id}`,
           search: location.search,
