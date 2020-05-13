@@ -5,7 +5,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   DICT_FUNDS,
   fundsManifest,
- } from '@folio/stripes-acq-components';
+} from '@folio/stripes-acq-components';
 
 import FundFilter from './FundFilter';
 
