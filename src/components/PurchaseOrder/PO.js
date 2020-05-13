@@ -79,8 +79,8 @@ class PO extends Component {
     resources: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       sections: {
         purchaseOrder: true,
@@ -114,7 +114,7 @@ class PO extends Component {
     this.unmountDeleteOrderConfirm();
     mutator.order.DELETE(order)
       .then(() => {
-        this.context.sendCallout({
+        this.context?.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
           type: 'success',
         });
@@ -124,7 +124,7 @@ class PO extends Component {
         });
       })
       .catch(() => {
-        this.context.sendCallout({
+        this.context?.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.errors.orderWasNotDeleted" />,
           type: 'error',
         });
@@ -173,8 +173,8 @@ class PO extends Component {
     };
 
     updateOrderResource(order, mutator.order, closeOrderProps)
-      .then(() => this.context.sendCallout({ message: <SafeHTMLMessage id="ui-orders.closeOrder.success" /> }))
-      .catch(() => this.context.sendCallout({
+      .then(() => this.context?.sendCallout({ message: <SafeHTMLMessage id="ui-orders.closeOrder.success" /> }))
+      .catch(() => this.context?.sendCallout({
         message: <SafeHTMLMessage id="ui-orders.closeOrder.error" />,
         type: 'error',
       }))
@@ -188,7 +188,7 @@ class PO extends Component {
 
     updateOrderResource(order, mutator.order, { approved: true })
       .then(() => {
-        this.context.sendCallout({
+        this.context?.sendCallout({
           message: <SafeHTMLMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
         });
       })
@@ -206,7 +206,7 @@ class PO extends Component {
 
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
-      this.context.sendCallout({
+      this.context?.sendCallout({
         message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber: order.poNumber }} />,
         type: 'success',
       });
@@ -226,7 +226,7 @@ class PO extends Component {
 
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
-      this.context.sendCallout({
+      this.context?.sendCallout({
         message: <SafeHTMLMessage id="ui-orders.order.reopen.success" values={{ orderNumber: order.poNumber }} />,
         type: 'success',
       });
@@ -243,7 +243,7 @@ class PO extends Component {
     try {
       const newOrder = await cloneOrder(order, mutator.order, order.compositePoLines);
 
-      this.context.sendCallout({
+      this.context?.sendCallout({
         message: <SafeHTMLMessage id="ui-orders.order.clone.success" />,
         type: 'success',
       });
@@ -373,7 +373,7 @@ class PO extends Component {
     );
 
     if (hasError && !this.hasError) {
-      this.context.sendCallout({
+      this.context?.sendCallout({
         message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
         type: 'error',
       });
