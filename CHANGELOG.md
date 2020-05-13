@@ -2,6 +2,12 @@
 
 ## (IN PROGRESS)
 
+## [2.0.5](https://github.com/folio-org/ui-orders/tree/v2.0.5) (2020-05-13)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.4...v2.0.5)
+
+### Bug fixes
+* [UIOR-562](https://issues.folio.org/browse/UIOR-562) Created By shows last clicked User name
+
 ## [2.0.4](https://github.com/folio-org/ui-orders/tree/v2.0.4) (2020-04-24)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.3...v2.0.4)
 
