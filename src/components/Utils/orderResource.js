@@ -1,5 +1,7 @@
 import { cloneDeep, omit } from 'lodash';
 
+import { ORDER_TYPE } from '../../common/constants';
+
 const saveOrder = (order, mutator) => {
   let method = mutator.POST;
 
@@ -31,6 +33,13 @@ export const updateOrderResource = (order, mutator, changedProps) => {
 
 export const createOrEditOrderResource = (orderFormValues, mutator) => {
   const clonedOrder = cloneDeep(orderFormValues);
+  const isOngoingOrder = clonedOrder.orderType === ORDER_TYPE.ongoing;
+
+  if (isOngoingOrder) {
+    clonedOrder.ongoing = clonedOrder.ongoing || {};
+  } else {
+    delete clonedOrder.ongoing;
+  }
 
   clonedOrder.poNumber = getFullOrderNumber(clonedOrder) || undefined;
 

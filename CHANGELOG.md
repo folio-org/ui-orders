@@ -14,6 +14,7 @@
 * [UIOR-540](https://issues.folio.org/browse/UIOR-540) Add loading indicator when selecting new records
 
 ### Bug fixes
+* [UIOR-565](https://issues.folio.org/browse/UIOR-565) Ongoing order not saving when not using template
 * [UIOR-562](https://issues.folio.org/browse/UIOR-562) Fix PO number validation error message not showing to user
 
 ## [2.0.4](https://github.com/folio-org/ui-orders/tree/v2.0.4) (2020-04-24)
