@@ -4,6 +4,7 @@ import {
   Route,
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import PropTypes from 'prop-types';
 
 import {
   IfPermission,
@@ -19,17 +20,23 @@ import { POLine } from '../POLine';
 class Panes extends Component {
   static propTypes = {
     match: ReactRouterPropTypes.match,
+    refreshList: PropTypes.func.isRequired,
   }
 
   render() {
-    const { match: { url } } = this.props;
+    const { match: { url }, refreshList } = this.props;
 
     return (
       <Switch>
         <Route
           exact
           path={ORDER_VIEW_ROUTE}
-          component={PO}
+          render={props => (
+            <PO
+              {...props}
+              refreshList={refreshList}
+            />
+          )}
         />
         <IfPermission perm="orders.po-lines.item.get">
           <Route

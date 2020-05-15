@@ -153,6 +153,7 @@ const OrdersListContainer = ({ history, mutator, location }) => {
       isLoading={isLoading}
       onNeedMoreData={onNeedMoreData}
       orders={orders}
+      refreshList={refreshList}
       resetData={resetData}
     />
   );

@@ -863,5 +863,7 @@
   "requests.request.isOpened": "Yes",
 
   "poLine": "PO line",
-  "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
+  "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}",
+
+  "permission.order.unopen": "Orders: Unopen purchase orders"
 }

@@ -57,6 +57,7 @@ function OrdersList({
   orders,
   ordersCount,
   resetData,
+  refreshList,
 }) {
   const [
     filters,
@@ -153,7 +154,12 @@ function OrdersList({
 
       <Route
         path="/orders/view/:id"
-        component={Panes}
+        render={props => (
+          <Panes
+            {...props}
+            refreshList={refreshList}
+          />
+        )}
       />
     </Paneset>
   );
@@ -167,6 +173,7 @@ OrdersList.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 OrdersList.defaultProps = {

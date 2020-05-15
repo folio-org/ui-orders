@@ -64,6 +64,7 @@ const PO = ({
   match,
   mutator,
   resources,
+  refreshList,
 }) => {
   const sendCallout = useShowCallout();
 
@@ -133,6 +134,7 @@ const PO = ({
             pathname: `/orders/view/${newOrder.id}`,
             search: location.search,
           });
+          refreshList();
         })
         .catch(e => {
           showUpdateOrderError(e, context, orderErrorModalShow, 'clone.error');
@@ -140,7 +142,7 @@ const PO = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, history, location.search, order, orderErrorModalShow, sendCallout, toggleCloneConfirmation],
+    [context, history, location.search, order, orderErrorModalShow, sendCallout, toggleCloneConfirmation, refreshList],
   );
 
   const deletePO = useCallback(
@@ -167,7 +169,7 @@ const PO = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, location.search, order, orderNumber, sendCallout, toggleDeleteOrderConfirm],
+    [history, location.search, order, orderNumber, sendCallout, toggleDeleteOrderConfirm, refreshList],
   );
 
   const closeOrder = useCallback(
@@ -186,6 +188,7 @@ const PO = ({
         .then(
           () => {
             sendCallout({ message: <SafeHTMLMessage id="ui-orders.closeOrder.success" /> });
+            refreshList();
 
             return fetchOrder();
           },
@@ -196,7 +199,7 @@ const PO = ({
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleCloseOrderModal],
+    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleCloseOrderModal, refreshList],
   );
 
   const approveOrder = useCallback(
@@ -208,6 +211,7 @@ const PO = ({
             sendCallout({
               message: <SafeHTMLMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
             });
+            refreshList();
 
             return fetchOrder();
           },
@@ -218,7 +222,7 @@ const PO = ({
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, orderNumber, sendCallout],
+    [context, fetchOrder, order, orderErrorModalShow, orderNumber, sendCallout, refreshList],
   );
 
   const openOrder = useCallback(
@@ -236,6 +240,7 @@ const PO = ({
               message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber }} />,
               type: 'success',
             });
+            refreshList();
 
             return fetchOrder();
           },
@@ -246,7 +251,7 @@ const PO = ({
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleOpenOrderModal],
+    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleOpenOrderModal, refreshList],
   );
 
   const reopenOrder = useCallback(
@@ -262,6 +267,7 @@ const PO = ({
               message: <SafeHTMLMessage id="ui-orders.order.reopen.success" values={{ orderNumber }} />,
               type: 'success',
             });
+            refreshList();
 
             return fetchOrder();
           },
@@ -272,7 +278,7 @@ const PO = ({
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, sendCallout],
+    [context, fetchOrder, order, orderErrorModalShow, sendCallout, refreshList],
   );
 
   const unopenOrder = useCallback(
@@ -290,6 +296,7 @@ const PO = ({
               message: <SafeHTMLMessage id="ui-orders.order.unopen.success" values={{ orderNumber }} />,
               type: 'success',
             });
+            refreshList();
 
             return fetchOrder();
           },
@@ -300,7 +307,7 @@ const PO = ({
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleUnopenOrderModal],
+    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleUnopenOrderModal, refreshList],
   );
 
   const createNewOrder = useCallback(
@@ -556,6 +563,7 @@ PO.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 export default stripesConnect(PO);
