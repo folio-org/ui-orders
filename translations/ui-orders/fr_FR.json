@@ -842,7 +842,7 @@
     "itemDetails.titleLookUpNoPlugin": "[no instance-selection plugin]",
     "orderSummary.totalEncumbered": "Total encumbered",
     "unopenOrderModal.title": "Unopen - purchase order - {orderNumber}",
-    "unopenOrderModal.confirmLabel": "Submit",
+    "unopenOrderModal.confirmLabel": "Envoyer",
     "unopenOrderModal.message": "Are you sure you want to unopen the order?",
     "order.unopen.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>unopened</b>",
     "paneBlock.unopenBtn": "Unopen",

@@ -841,10 +841,10 @@
     "itemDetails.titleLookUp": "Поиск по названию",
     "itemDetails.titleLookUpNoPlugin": "[no instance-selection plugin]",
     "orderSummary.totalEncumbered": "Всего заполнено",
-    "unopenOrderModal.title": "Unopen - purchase order - {orderNumber}",
+    "unopenOrderModal.title": "Отменить открытие - заказ на покупку - {Номер_заказа}",
     "unopenOrderModal.confirmLabel": "Отправить",
-    "unopenOrderModal.message": "Are you sure you want to unopen the order?",
-    "order.unopen.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>unopened</b>",
-    "paneBlock.unopenBtn": "Unopen",
-    "permission.order.unopen": "Orders: Unopen purchase orders"
+    "unopenOrderModal.message": "Вы уверены, что хотите отменить открытие заказа?",
+    "order.unopen.success": "Открытие <b>Заказа на покупку - {Номер_заказа}<b>было успешно </b>отменено</b>",
+    "paneBlock.unopenBtn": "Отменить открытие",
+    "permission.order.unopen": "Заказы: отменить открытие заказов на покупку"
 }
