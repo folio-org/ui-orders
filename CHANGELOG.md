@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 ### Stories
+* [UIORGS-178](https://issues.folio.org/browse/UIORGS-178) Redirect API calls from mod-organizations-storage to mod-organzations
 * [UIOR-456](https://issues.folio.org/browse/UIOR-456) Ability to "Unopen" and once again "Open" purchase orders
 * [UIOR-559](https://issues.folio.org/browse/UIOR-559) Orders app: Update to Stripes v4
 * [UIREC-42](https://issues.folio.org/browse/UIREC-42) Filter by Acq Unit
