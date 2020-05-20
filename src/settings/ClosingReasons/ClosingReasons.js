@@ -25,15 +25,22 @@ const columnMapping = {
 const reasonsLabel = <FormattedMessage id="ui-orders.settings.closingReasons.reason" />;
 const formatter = {
   // eslint-disable-next-line react/prop-types
-  reason: ({ reason }) => (
-    <FormattedMessage
-      id={`ui-orders.closeOrderModal.closingReasons.${DEFAULT_CLOSE_ORDER_REASONS[reason]}`}
-      defaultMessage={reason}
-    />
-  ),
+  reason: ({ reason }) => {
+    const reasonTranslationKey = DEFAULT_CLOSE_ORDER_REASONS[reason];
+
+    return reasonTranslationKey
+      ? (
+        <FormattedMessage
+          id={`ui-orders.closeOrderModal.closingReasons.${reasonTranslationKey}`}
+          defaultMessage={reason}
+        />
+      )
+      : reason || '-';
+  },
   // eslint-disable-next-line react/prop-types
-  source: ({ source }) => (
-    <FormattedMessage id={`ui-orders.settings.closingReasons.${source}`} defaultMessage=" " />
+  source: ({ source }) => (source
+    ? <FormattedMessage id={`ui-orders.settings.closingReasons.${source}`} defaultMessage="-" />
+    : '-'
   ),
 };
 
