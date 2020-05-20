@@ -62,9 +62,7 @@ export default function config() {
   this.get(INVOICES_API);
   this.get(INVOICE_LINES_API);
 
-  this.get(RECEIVING_API, (schema) => {
-    return schema.pieces.all();
-  });
+  this.get(RECEIVING_API, (schema) => schema.receivingHistories.all());
 
   this.get('/isbn/convertTo13', () => {
     return { isbn: '1234567890123' };
