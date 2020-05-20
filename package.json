@@ -313,6 +313,7 @@
   "optionalDependencies": {
     "@folio/plugin-find-instance": "*",
     "@folio/plugin-find-organization": "*",
+    "@folio/plugin-find-po-line": "*",
     "@folio/plugin-find-user": "*"
   }
 }

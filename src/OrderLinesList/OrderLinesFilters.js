@@ -135,13 +135,6 @@ function OrderLinesFilters({ activeFilters, applyFilters, materialTypes }) {
         onChange={onChange}
       />
       <BooleanFilter
-        activeFilters={activeFilters[FILTERS.COLLECTION]}
-        id={FILTERS.COLLECTION}
-        labelId="ui-orders.filter.collection"
-        name={FILTERS.COLLECTION}
-        onChange={onChange}
-      />
-      <BooleanFilter
         activeFilters={activeFilters[FILTERS.RUSH]}
         id={FILTERS.RUSH}
         labelId="ui-orders.filter.rush"

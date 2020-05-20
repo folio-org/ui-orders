@@ -41,9 +41,9 @@ import {
   getInventoryData,
 } from './util';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
-
-import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
+import PackagePoLineField from './PackagePoLineField';
+import css from './ItemForm.css';
 
 class ItemForm extends Component {
   static propTypes = {
@@ -69,6 +69,12 @@ class ItemForm extends Component {
 
     this.state = getInventoryData(props.initialValues);
   }
+
+  onAddLinkPackage = ([selectedPoLine]) => {
+    const { dispatch, change } = this.props;
+
+    dispatch(change('packagePoLineId', selectedPoLine?.id || null));
+  };
 
   onAddInstance = (instance) => {
     const { dispatch, change, identifierTypes } = this.props;
@@ -231,7 +237,8 @@ class ItemForm extends Component {
       identifierTypes,
       required,
     } = this.props;
-    const isSelectInstanceVisible = !(get(formValues, 'isPackage') || isPostPendingOrder);
+    const isPackage = Boolean(formValues?.isPackage);
+    const isSelectInstanceVisible = !(isPackage || isPostPendingOrder);
 
     return (
       <>
@@ -312,6 +319,16 @@ class ItemForm extends Component {
           </Col>
         </Row>
         <Row>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <PackagePoLineField
+              disabled={isPackage}
+              onSelectLine={this.onAddLinkPackage}
+              poLineId={formValues?.packagePoLineId}
+            />
+          </Col>
           <Col
             xs={6}
             md={3}

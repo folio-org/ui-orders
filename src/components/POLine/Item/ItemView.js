@@ -15,6 +15,8 @@ import {
   ProductIdDetails,
 } from '@folio/stripes-acq-components';
 
+import LinkToPoLine from '../../LinkToPoLine';
+
 const ItemView = ({ poLineDetails }) => {
   const instanceId = get(poLineDetails, 'instanceId');
   const title = get(poLineDetails, 'titleOrPackage');
@@ -60,6 +62,15 @@ const ItemView = ({ poLineDetails }) => {
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
             value={<FolioFormattedDate value={get(poLineDetails, ['details', 'subscriptionTo'])} />}
+          />
+        </Col>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.itemDetails.linkPackage" />}
+            value={<LinkToPoLine poLineId={poLineDetails?.packagePoLineId} />}
           />
         </Col>
         <Col
