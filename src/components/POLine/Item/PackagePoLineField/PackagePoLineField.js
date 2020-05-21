@@ -13,7 +13,7 @@ function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
   const { id, titleOrPackage } = resources?.linkedPoLine?.records?.[0] ?? {};
   const title = poLineId && poLineId === id && titleOrPackage;
   const onClearField = useCallback(() => onSelectLine([]), [onSelectLine]);
-  const pluginButton = useCallback((buttonRef, onClick) => (
+  const pluginButton = useCallback(({ buttonRef, onClick }) => (
     <Button
       buttonRef={buttonRef}
       buttonStyle="link"
