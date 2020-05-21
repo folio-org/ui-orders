@@ -2,19 +2,36 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { TextField } from '@folio/stripes/components';
+import { Button, TextField } from '@folio/stripes/components';
 import { Pluggable, stripesConnect } from '@folio/stripes/core';
-import { LINES_API } from '@folio/stripes-acq-components';
+import {
+  baseManifest,
+  LINES_API,
+} from '@folio/stripes-acq-components';
 
 function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
   const { id, titleOrPackage } = resources?.linkedPoLine?.records?.[0] ?? {};
   const title = poLineId && poLineId === id && titleOrPackage;
   const onClearField = useCallback(() => onSelectLine([]), [onSelectLine]);
+  const pluginButton = useCallback((buttonRef, onClick) => (
+    <Button
+      buttonRef={buttonRef}
+      buttonStyle="link"
+      data-test-plugin-find-po-line
+      key="searchButton"
+      marginBottom0
+      onClick={onClick}
+    >
+      <FormattedMessage id="ui-orders.itemDetails.linkPackageLookUp" />
+    </Button>
+  ), []);
 
   return (
     <>
       <TextField
+        data-test-package-line-title
         fullWidth
+        id="linkPackageTitle"
         label={<FormattedMessage id="ui-orders.itemDetails.linkPackage" />}
         marginBottom0
         onClearField={onClearField}
@@ -28,9 +45,8 @@ function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
           filters="isPackage.true"
           initialFilterState={{ isPackage: ['true'] }}
           isSingleSelect
-          searchButtonStyle="link"
-          searchLabel={<FormattedMessage id="ui-orders.itemDetails.linkPackageLookUp" />}
           type="find-po-line"
+          renderTrigger={pluginButton}
         >
           <FormattedMessage id="ui-orders.find-po-line-plugin-unavailable" />
         </Pluggable>
@@ -41,9 +57,8 @@ function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
 
 PackagePoLineField.manifest = Object.freeze({
   linkedPoLine: {
+    ...baseManifest,
     path: `${LINES_API}/!{poLineId}`,
-    throwErrors: false,
-    type: 'okapi',
   },
 });
 

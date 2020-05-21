@@ -15,6 +15,7 @@ import {
 import {
   OptionListInteractor,
   TextFieldInteractor,
+  ButtonInteractor,
 } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
 import Button from './button';
@@ -146,6 +147,10 @@ const ITEM_DETAILS = {
   edition = fillable('[name="edition"]');
   publisher = fillable('[name="publisher"]');
   publicationDate = new TextFieldInteractor('[name="publicationDate"]');
+
+  linkPackageLineBtn = new ButtonInteractor('[data-test-plugin-find-po-line]');
+  linkPackageLineTitle = new TextFieldInteractor('[data-test-package-line-title]');
+  linkPackageLineTitleClear = new ButtonInteractor('#clickable-linkPackageTitle-clear-field');
 }
 
 @interactor class OrderFormat {

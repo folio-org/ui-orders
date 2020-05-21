@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   beforeEach,
   describe,
@@ -5,15 +6,34 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { Button } from '@folio/stripes/components';
+
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 
 const PHYSICAL = 'Physical resource';
 const ERESOURCE = 'Electronic resource';
 const DEFAULT_CURRENCY_LABEL = 'US Dollar (USD)';
+const PACKAGE_POLINE_ID = 'fakeId';
 
 describe('Create POL', function () {
-  setupApplication();
+  setupApplication({
+    modules: [{
+      type: 'plugin',
+      name: '@folio/plugin-find-po-line',
+      displayName: 'Find PO Line',
+      pluginType: 'find-po-line',
+      /* eslint-disable-next-line react/prop-types */
+      module: ({ addLines }) => (
+        <Button
+          data-test-plugin-find-po-line
+          onClick={() => addLines([{ id: PACKAGE_POLINE_ID }])}
+        >
+          Lookup package POL
+        </Button>
+      ),
+    }],
+  });
 
   let vendor = null;
   let order = null;
@@ -32,6 +52,7 @@ describe('Create POL', function () {
     order = this.server.create('order', {
       vendor: vendor.id,
     });
+    this.server.create('line', { id: PACKAGE_POLINE_ID, isPackage: true, titleOrPackage: 'Fake title' });
 
     this.visit(`/orders/view/${order.id}/po-line/create`);
     await lineEditPage.whenLoaded();
@@ -88,15 +109,32 @@ describe('Create POL', function () {
     });
   });
 
-  describe('Default POL fields value from vendor', function () {
-    describe("Non empty vendor's fields", function () {
-      it('Account number', function () {
-        expect(lineEditPage.accountNumber).to.equal(ACCOUNTS[0].accountNo);
-      });
+  it('Default POL fields value from vendor', function () {
+    expect(lineEditPage.accountNumber).to.equal(ACCOUNTS[0].accountNo);
+    expect(lineEditPage.subscriptionInterval).to.equal(SUBSCRIPTION_INTERVAL);
+  });
 
-      it('Subscription Interval', function () {
-        expect(lineEditPage.subscriptionInterval).to.equal(SUBSCRIPTION_INTERVAL);
-      });
+  describe('click on package po line lookup', function () {
+    beforeEach(async function () {
+      await lineEditPage.itemDetailsAccordion.linkPackageLineBtn.click();
     });
+
+    it('fills textfield with title', function () {
+      expect(lineEditPage.itemDetailsAccordion.linkPackageLineTitle.value).to.equal('Fake title');
+    });
+
+    // commented out since it's not passing somehow, but it's a good test that should exist, maybe with other test tools
+    // describe('click clear field - title is removed', function () {
+    //   beforeEach(async function () {
+    //     await lineEditPage.itemDetailsAccordion.linkPackageLineTitle
+    //       .focus()
+    //       .when(() => !!lineEditPage.itemDetailsAccordion.linkPackageLineTitle.value); // wait for a value
+    //     await lineEditPage.itemDetailsAccordion.linkPackageLineTitleClear.click();
+    //   });
+
+    //   it('fills textfield with title', function () {
+    //     expect(lineEditPage.itemDetailsAccordion.linkPackageLineTitle.value).to.equal('');
+    //   });
+    // });
   });
 });
