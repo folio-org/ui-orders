@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
+import { stripesConnect } from '@folio/stripes/core';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
 import {
@@ -79,4 +80,4 @@ OrderTemplateViewContainer.propTypes = {
   resources: PropTypes.object,
 };
 
-export default OrderTemplateViewContainer;
+export default stripesConnect(OrderTemplateViewContainer);

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { getFormValues } from 'redux-form';
 import { get } from 'lodash';
 
-import { withStripes } from '@folio/stripes/core';
+import { stripesConnect } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
@@ -136,4 +136,4 @@ OrderTemplatesEditorContainer.propTypes = {
   stripes: PropTypes.object.isRequired,
 };
 
-export default withStripes(OrderTemplatesEditorContainer);
+export default stripesConnect(OrderTemplatesEditorContainer);

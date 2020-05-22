@@ -347,6 +347,7 @@ class POLineForm extends Component {
                     >
                       <FundDistributionFields
                         currency={currency}
+                        formName="POLineForm"
                         fundDistribution={fundDistribution}
                         name="fundDistribution"
                         disabled={isPostPendingOrder}

@@ -79,26 +79,30 @@ class OrderTemplatesEditor extends Component {
     stripes: PropTypes.object.isRequired,
   };
 
-  state = {
-    sections: {
-      [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
-      [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
-      [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: false,
-      [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: false,
-      [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
-      [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
-    },
-  };
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      sections: {
+        [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
+        [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
+        [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: false,
+        [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: false,
+        [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
+        [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
+        [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
+      },
+    };
+  }
 
   onToggleSection = ({ id }) => {
     this.setState(({ sections }) => {
@@ -309,6 +313,7 @@ class OrderTemplatesEditor extends Component {
                     id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
                   >
                     <FundDistributionFields
+                      formName={ORDER_TEMPLATES_FORM_NAME}
                       fundDistribution={fundDistribution}
                       name="fundDistribution"
                       totalAmount={estimatedPrice}
