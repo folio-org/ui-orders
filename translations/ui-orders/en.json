@@ -450,7 +450,7 @@
   "itemDetails.contributorType": "Contributor type",
   "itemDetails.internalNote": "Internal note",
   "itemDetails.edition": "Edition",
-  "itemDetails.linkPackage": "Link package",
+  "itemDetails.linkPackage": "Linked package",
   "itemDetails.linkPackageLookUp": "Lookup package POL",
   "find-po-line-plugin-unavailable": "Find PO line plugin is not available",
   "itemDetails.productId": "Product ID",
