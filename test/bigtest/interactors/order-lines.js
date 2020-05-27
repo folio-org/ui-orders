@@ -36,7 +36,7 @@ import { TIMEOUT } from './const';
 export default interactor(class OrderLinesInteractor {
   static defaultScope = '[data-test-order-line-instances]';
 
-  instances = collection('[role=rowgroup] [role=row]');
+  instances = collection('[data-row-inner]');
 
   navigation = new OrdersNavigation();
 
