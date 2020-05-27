@@ -57,6 +57,7 @@ import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 import { getPOActionMenu } from './getPOActionMenu';
+import ModalDeletePieces from '../ModalDeletePieces';
 
 const PO = ({
   history,
@@ -104,6 +105,7 @@ const PO = ({
   const [showConfirmDelete, toggleDeleteOrderConfirm] = useModalToggle();
   const [isOpenOrderModalOpened, toggleOpenOrderModal] = useModalToggle();
   const [isUnopenOrderModalOpened, toggleUnopenOrderModal] = useModalToggle();
+  const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
   const poLines = get(order, 'compositePoLines', []);
@@ -245,7 +247,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            showUpdateOrderError(e, context, orderErrorModalShow);
+            showUpdateOrderError(e, context, orderErrorModalShow, 'orderGenericError1', toggleDeletePieces);
           },
         )
         .finally(setIsLoading);
@@ -525,6 +527,12 @@ const PO = ({
           onCancel={toggleUnopenOrderModal}
           onConfirm={unopenOrder}
           open
+        />
+      )}
+      {isDeletePiecesOpened && (
+        <ModalDeletePieces
+          onCancel={toggleDeletePieces}
+          poLines={order?.compositePoLines}
         />
       )}
     </Pane>

@@ -33,7 +33,7 @@ export default interactor(class OrdersInteractor {
   static defaultScope = '[data-test-order-instances]';
 
   hasCreateOrderButton = isPresent('#clickable-neworder');
-  orders = collection('[role=group] [role=row]');
+  orders = collection('[role=rowgroup] [role=row]');
   order = scoped('[data-test-order-details]');
 
   filters = new OrdersFilterInteractor();

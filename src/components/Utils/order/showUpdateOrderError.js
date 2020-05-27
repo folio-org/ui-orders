@@ -21,7 +21,7 @@ const showMessage = (callout, code, error, path) => {
   });
 };
 
-const showUpdateOrderError = async (response, callout, openModal, genericCode = 'orderGenericError1') => {
+const showUpdateOrderError = async (response, callout, openModal, genericCode = 'orderGenericError1', toggleDeletePieces) => {
   let error;
 
   try {
@@ -49,6 +49,10 @@ const showUpdateOrderError = async (response, callout, openModal, genericCode = 
 
       errors = errors.length ? errors : [{ code }];
       openModal(errors);
+      break;
+    }
+    case ERROR_CODES.piecesNeedToBeDeleted: {
+      toggleDeletePieces();
       break;
     }
     case ERROR_CODES.missingInstanceStatus: {

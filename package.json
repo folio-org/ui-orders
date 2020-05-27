@@ -33,8 +33,10 @@
       "locations": "3.0",
       "material-types": "2.2",
       "order-lines": "1.0",
+      "orders-storage.pieces": "4.0",
       "orders": "10.0",
       "organizations.organizations": "1.0",
+      "pieces": "2.0",
       "po-number": "1.0",
       "receiving": "1.0",
       "tags": "1.0",
@@ -175,8 +177,10 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders-storage.pieces.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
+          "orders.pieces.item.delete",
           "orders.po-lines.item.put"
         ]
       },
@@ -282,7 +286,6 @@
     "moment": "^2.24.0",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
-    "react-hot-loader": "^4.3.12",
     "react-intl": "^4.5.1",
     "react-redux": "^5.1.1",
     "react-router": "^4.3.1",
@@ -297,6 +300,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
+    "react-hot-loader": "^4.3.12",
     "react-router-prop-types": "^1.0.4",
     "redux-form": "^7.4.2"
   },

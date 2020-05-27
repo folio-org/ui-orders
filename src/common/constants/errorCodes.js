@@ -43,6 +43,7 @@ export const ERROR_CODES = {
   orderOpen: 'orderOpen',
   organizationNotAVendor: 'organizationNotAVendor',
   physicalLocCostQtyMismatch: 'physicalLocCostQtyMismatch',
+  piecesNeedToBeDeleted: 'piecesNeedToBeDeleted',
   poNumberNotUnique: 'poNumberNotUnique',
   poNumberRequired: 'poNumberRequired',
   protectedFieldChanging: 'protectedFieldChanging',

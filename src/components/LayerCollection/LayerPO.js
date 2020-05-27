@@ -8,7 +8,10 @@ import { LoadingView } from '@folio/stripes/components';
 import {
   stripesConnect,
 } from '@folio/stripes/core';
-import { useShowCallout } from '@folio/stripes-acq-components';
+import {
+  useModalToggle,
+  useShowCallout,
+} from '@folio/stripes-acq-components';
 
 import { PO_FORM_NAME } from '../../common/constants';
 import {
@@ -35,6 +38,7 @@ import {
 } from '../Utils/order';
 import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
+import ModalDeletePieces from '../ModalDeletePieces';
 
 function LayerPO({
   history,
@@ -57,6 +61,7 @@ function LayerPO({
   const [createdByName, setCreatedByName] = useState('');
   const [assignedToUser, setAssignedToUser] = useState('');
   const [updateOrderError, setUpdateOrderError] = useState(null);
+  const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const order = id ? resources?.order?.records[0] : {};
   const metadata = order?.metadata;
   const assignedTo = order?.assignedTo;
@@ -151,6 +156,12 @@ function LayerPO({
           orderNumber={patchedOrder.poNumber}
           errors={updateOrderError}
           cancel={closeErrorModal}
+        />
+      )}
+      {isDeletePiecesOpened && (
+        <ModalDeletePieces
+          onCancel={toggleDeletePieces}
+          poLines={order?.compositePoLines}
         />
       )}
     </>

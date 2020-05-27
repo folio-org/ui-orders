@@ -25,6 +25,7 @@ import {
   locationsManifest,
   materialTypesManifest,
   sourceValues,
+  useModalToggle,
   useShowCallout,
   VENDORS_API,
 } from '@folio/stripes-acq-components';
@@ -56,6 +57,7 @@ import {
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
+import ModalDeletePieces from '../ModalDeletePieces';
 
 function LayerPOLine({
   history,
@@ -66,6 +68,7 @@ function LayerPOLine({
   stripes,
 }) {
   const [isLinesLimitExceededModalOpened, setLinesLimitExceededModalOpened] = useState(false);
+  const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const [savingValues, setSavingValues] = useState();
   const sendCallout = useShowCallout();
   const [isLoading, setIsLoading] = useState(false);
@@ -104,6 +107,8 @@ function LayerPOLine({
       if (response.errors && response.errors.length) {
         if (response.errors.find(el => el.code === 'lines_limit')) {
           openLineLimitExceededModal(line);
+        } else if (response.errors.find(el => el.code === 'piecesNeedToBeDeleted')) {
+          toggleDeletePieces();
         } else {
           const messageCode = get(ERROR_CODES, response.errors[0].code, 'orderLineGenericError');
 
@@ -119,7 +124,7 @@ function LayerPOLine({
         });
       }
     },
-    [openLineLimitExceededModal, sendCallout],
+    [openLineLimitExceededModal, sendCallout, toggleDeletePieces],
   );
 
   const openOrder = useCallback(
@@ -352,6 +357,12 @@ function LayerPOLine({
         <LinesLimit
           cancel={closeLineLimitExceededModal}
           createOrder={createNewOrder}
+        />
+      )}
+      {isDeletePiecesOpened && (
+        <ModalDeletePieces
+          onCancel={toggleDeletePieces}
+          poLines={[poLine]}
         />
       )}
     </>

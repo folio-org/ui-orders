@@ -12,6 +12,9 @@ import {
   configLines,
   configOrders,
   configConfigs,
+  configPieces,
+  configItems,
+  configRequests,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
@@ -46,6 +49,9 @@ export default function config() {
   configPrefixes(this);
   configConfigs(this);
   configTemplates(this);
+  configPieces(this);
+  configItems(this);
+  configRequests(this);
 
   this.get('/contributor-name-types');
   this.get('/identifier-types');

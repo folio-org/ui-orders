@@ -1,4 +1,11 @@
 {
+  "deletePiece.btn.cancel": "Cancel",
+  "deletePiece.btn.deletePiece": "Delete",
+  "deletePiece.title": "Piece(s) to be deleted",
+  "deletePiece.warning": "The selected piece(s) and its' linked item record(s) in inventory will be PERMANENTLY DELETED. You can NOT delete items that have open requests.",
+  "deletePiece.delete.success": "Selected pieces were deleted",
+  "deletePiece.delete.fail": "Selected pieces were not deleted",
+  "deletePiece.delete.thereAreRequestsOnItem": "Selected pieces were not deleted. There are requests on item",
   "acquisition_method.approvalPlan": "Approval plan",
   "acquisition_method.dda": "Demand driven acquisitions (DDA)",
   "acquisition_method.depository": "Depository",
