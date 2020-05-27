@@ -107,7 +107,7 @@ function LayerPOLine({
       if (response.errors && response.errors.length) {
         if (response.errors.find(el => el.code === 'lines_limit')) {
           openLineLimitExceededModal(line);
-        } else if (response.errors.find(el => el.code === 'piecesNeedToBeDeleted')) {
+        } else if (response.errors.find(el => el.code === ERROR_CODES.piecesNeedToBeDeleted)) {
           toggleDeletePieces();
         } else {
           const messageCode = get(ERROR_CODES, response.errors[0].code, 'orderLineGenericError');

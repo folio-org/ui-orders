@@ -18,6 +18,7 @@ const CALLOUT_ERROR_CODES = omit(
     'vendorNotFound',
     'accessProviderNotFound',
     'userHasNoPermission',
+    ERROR_CODES.piecesNeedToBeDeleted,
   ] // eslint-disable-line comma-dangle
 );
 
