@@ -35,7 +35,7 @@ const ModalDeletePiecesContainer = ({ mutator, onCancel, poLines }) => {
         })
           .then(piecesResp => getHydratedPieces(piecesResp, mmutator.requests, mmutator.items, mmutator.pieceLocations))
           .then(setPieces)
-          .then(setIsLoading);
+          .then(() => setIsLoading(false));
       }
     },
     [mmutator.items, mmutator.linePieces, mmutator.pieceLocations, mmutator.requests, poLines],
