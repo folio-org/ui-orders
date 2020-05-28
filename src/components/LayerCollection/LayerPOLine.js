@@ -362,7 +362,7 @@ function LayerPOLine({
       {isDeletePiecesOpened && (
         <ModalDeletePieces
           onCancel={toggleDeletePieces}
-          poLines={[poLine]}
+          poLines={order?.compositePoLines}
         />
       )}
     </>

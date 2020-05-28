@@ -32,7 +32,7 @@ const ModalDeletePiecesContainer = ({ mutator, onCancel, poLines }) => {
             .join(' or ');
 
           return query ? `(${query}) sortby locationId` : '';
-        }, {})
+        })
           .then(piecesResp => getHydratedPieces(piecesResp, mmutator.requests, mmutator.items, mmutator.pieceLocations))
           .then(setPieces)
           .then(setIsLoading);
