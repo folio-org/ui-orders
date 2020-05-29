@@ -352,6 +352,7 @@ function LayerPOLine({
         stripes={stripes}
         isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
         formValues={formValues} // hack to re-render redux-form
+        enableSaveBtn={Boolean(savingValues)}
       />
       {isLinesLimitExceededModalOpened && (
         <LinesLimit

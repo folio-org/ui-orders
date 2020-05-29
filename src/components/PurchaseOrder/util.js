@@ -64,3 +64,7 @@ export const isReopenAvailableForOrder = (order = {}) => {
 
   return hasLineItemsToReceive && isWorkflowStatusNotPending(order);
 };
+
+export const ifDisabledToChangePaymentInfo = (order = {}) => {
+  return !(isWorkflowStatusIsPending(order) || isWorkflowStatusOpen(order));
+};

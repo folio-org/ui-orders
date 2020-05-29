@@ -21,7 +21,7 @@ import {
   stripesShape,
 } from '@folio/stripes/core';
 
-import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
+import { ifDisabledToChangePaymentInfo, isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
 import FieldCurrency from './FieldCurrency';
 import {
@@ -96,6 +96,7 @@ class CostForm extends Component {
     const { order, required, formValues, stripes } = this.props;
     const orderFormat = formValues.orderFormat;
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+    const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
 
     let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
     let validateEresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
@@ -161,7 +162,7 @@ class CostForm extends Component {
               name="cost.quantityPhysical"
               type="number"
               parse={parseNumber}
-              disabled={isPostPendingOrder}
+              disabled={isDisabledToChangePaymentInfo}
               {...validatePhresourcesQuantities}
             />
           </Col>
@@ -229,7 +230,7 @@ class CostForm extends Component {
               name="cost.quantityElectronic"
               type="number"
               parse={parseNumber}
-              disabled={isPostPendingOrder}
+              disabled={isDisabledToChangePaymentInfo}
               {...validateEresourcesQuantities}
             />
           </Col>

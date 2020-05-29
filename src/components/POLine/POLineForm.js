@@ -70,6 +70,7 @@ class POLineForm extends Component {
     dispatch: PropTypes.func,
     vendor: PropTypes.object,
     isSaveAndOpenButtonVisible: PropTypes.bool,
+    enableSaveBtn: PropTypes.bool,
   };
 
   constructor(props) {
@@ -136,6 +137,7 @@ class POLineForm extends Component {
       onCancel,
       isSaveAndOpenButtonVisible,
       onSubmit,
+      enableSaveBtn,
     } = this.props;
 
     const start = (
@@ -161,7 +163,7 @@ class POLineForm extends Component {
           id="clickable-updatePoLine"
           type="submit"
           buttonStyle={buttonSaveStyle}
-          disabled={pristine || submitting}
+          disabled={!enableSaveBtn && (pristine || submitting)}
           onClick={handleSubmit}
         >
           <FormattedMessage id="ui-orders.buttons.line.save" />

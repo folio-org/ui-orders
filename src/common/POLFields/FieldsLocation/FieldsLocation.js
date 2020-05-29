@@ -28,7 +28,7 @@ import {
 
 const NO_VALIDATE = [];
 
-const FieldsLocation = ({ locations, disabled, withValidation }) => {
+const FieldsLocation = ({ locations, disabled, isDisabledToChangePaymentInfo, withValidation }) => {
   return (
     <FieldArray
       addLabel={<FormattedMessage id="ui-orders.location.button.addLocation" />}
@@ -36,8 +36,8 @@ const FieldsLocation = ({ locations, disabled, withValidation }) => {
       name="locations"
       validate={withValidation ? isLocationsRequired : NO_VALIDATE}
       props={{
-        canAdd: !disabled,
-        canRemove: !disabled,
+        canAdd: !isDisabledToChangePaymentInfo,
+        canRemove: !isDisabledToChangePaymentInfo,
       }}
       renderField={(field) => (
         <Row>
@@ -60,7 +60,7 @@ const FieldsLocation = ({ locations, disabled, withValidation }) => {
               parse={parseQuantity}
               type="number"
               validate={withValidation ? [validateNotNegative, validateQuantityPhysical] : NO_VALIDATE}
-              disabled={disabled}
+              disabled={isDisabledToChangePaymentInfo}
             />
           </Col>
           <Col xs={3}>
@@ -71,7 +71,7 @@ const FieldsLocation = ({ locations, disabled, withValidation }) => {
               parse={parseQuantity}
               type="number"
               validate={withValidation ? [validateNotNegative, validateQuantityElectronic] : NO_VALIDATE}
-              disabled={disabled}
+              disabled={isDisabledToChangePaymentInfo}
             />
           </Col>
         </Row>
@@ -83,12 +83,14 @@ const FieldsLocation = ({ locations, disabled, withValidation }) => {
 FieldsLocation.propTypes = {
   locations: PropTypes.arrayOf(PropTypes.object),
   disabled: PropTypes.bool,
+  isDisabledToChangePaymentInfo: PropTypes.bool,
   withValidation: PropTypes.bool,
 };
 
 FieldsLocation.defaultProps = {
   locations: [],
   disabled: false,
+  isDisabledToChangePaymentInfo: false,
   withValidation: true,
 };
 
