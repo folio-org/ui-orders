@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 ### Stories
+* [UIOR-433](https://issues.folio.org/browse/UIOR-433) Ability to change price and fund distribution information without closing order
 * [UIOR-444](https://issues.folio.org/browse/UIOR-444) Ability to change quantity ordered without closing order
 * [UIOR-564](https://issues.folio.org/browse/UIOR-564) Link title POL to Package POL
 * [UIORGS-178](https://issues.folio.org/browse/UIORGS-178) Redirect API calls from mod-organizations-storage to mod-organzations

@@ -241,7 +241,7 @@ class POLineForm extends Component {
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const locations = getLocationOptions(parentResources?.locations?.records || []);
-    const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+    const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const { accounts } = vendor;
     const fundDistribution = get(formValues, 'fundDistribution');
@@ -352,7 +352,7 @@ class POLineForm extends Component {
                         formName="POLineForm"
                         fundDistribution={fundDistribution}
                         name="fundDistribution"
-                        disabled={isPostPendingOrder}
+                        disabled={isDisabledToChangePaymentInfo}
                         totalAmount={estimatedPrice}
                       />
                     </Accordion>
