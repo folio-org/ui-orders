@@ -50,7 +50,7 @@ import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
-import { isWorkflowStatusIsPending } from '../PurchaseOrder/util';
+import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
 import validate from './validate';
