@@ -6,9 +6,10 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
-import { FieldSelect } from '@folio/stripes-acq-components';
-
-import { CONFIG_LOAN_TYPE } from '../../common/constants';
+import {
+  CONFIG_LOAN_TYPE,
+  FieldSelect,
+} from '@folio/stripes-acq-components';
 
 const LoanTypeForm = ({ loanTypes }) => (
   <Row>

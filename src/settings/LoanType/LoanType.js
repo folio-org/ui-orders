@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { ConfigManager } from '@folio/stripes/smart-components';
+import {
+  CONFIG_LOAN_TYPE,
+  LOAN_TYPES,
+  MODULE_ORDERS,
+} from '@folio/stripes-acq-components';
 
-import { CONFIG_LOAN_TYPE } from '../../common/constants';
-import { LOAN_TYPES } from '../../common/resources';
-import { MODULE_ORDERS } from '../../components/Utils/const';
 import LoanTypeForm from './LoanTypeForm';
 import css from '../CreateInventory.css';
 
