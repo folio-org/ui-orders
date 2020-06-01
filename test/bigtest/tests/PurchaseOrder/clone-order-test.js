@@ -4,11 +4,14 @@ import { expect } from 'chai';
 import setupApplication from '../../helpers/setup-application';
 import OrderDetailsPage from '../../interactors/order-details-page';
 import ConfirmationModal from '../../interactors/confirmation';
+import { CalloutInteractor } from '../../interactors';
 
 describe('Clone order', function () {
   setupApplication();
 
   const page = new OrderDetailsPage();
+  const cloneOrderConfirmation = new ConfirmationModal('#order-clone-confirmation');
+  const calloutInteractor = new CalloutInteractor();
   let order = null;
 
   beforeEach(async function () {
@@ -18,8 +21,6 @@ describe('Clone order', function () {
   });
 
   describe('click clone order', () => {
-    const cloneOrderConfirmation = new ConfirmationModal('#order-clone-confirmation');
-
     beforeEach(async function () {
       await page.header.click();
       await page.actionsMenu.clone.click();
@@ -28,11 +29,22 @@ describe('Clone order', function () {
     it('shows clone order confirmation', () => {
       expect(cloneOrderConfirmation.isVisible).to.be.true;
     });
+
+    describe('click OK', () => {
+      beforeEach(async function () {
+        await cloneOrderConfirmation.confirm();
+        await page.whenLoaded();
+      });
+
+      it('shows Callout', () => {
+        expect(calloutInteractor.anyCalloutIsPresent).to.be.true;
+        expect(calloutInteractor.list().length).to.equal(1);
+        expect(calloutInteractor.list(0).message).to.equal('The purchase order was successfully cloned');
+      });
+    });
   });
 
   describe('click clone order and cancel', () => {
-    const cloneOrderConfirmation = new ConfirmationModal('#order-clone-confirmation');
-
     beforeEach(async function () {
       await page.header.click();
       await page.actionsMenu.clone.click();
@@ -46,8 +58,6 @@ describe('Clone order', function () {
   });
 
   describe('click clone order and confirm', () => {
-    const cloneOrderConfirmation = new ConfirmationModal('#order-clone-confirmation');
-
     beforeEach(async function () {
       await page.header.click();
       await page.actionsMenu.clone.click();

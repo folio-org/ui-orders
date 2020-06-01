@@ -24,6 +24,7 @@ import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 import LineDetailsPage from '../interactors/line-details-page';
 import OrderDetailsPage from '../interactors/order-details-page';
+import { CalloutInteractor } from '../interactors';
 
 const TITLE = 'TEST_VALUE';
 const requiredField = 'Required!';
@@ -51,6 +52,7 @@ describe('Line edit test', function () {
   const lineEditPage = new LineEditPage();
   const lineDetailsPage = new LineDetailsPage();
   const orderDetailsPage = new OrderDetailsPage();
+  const calloutInteractor = new CalloutInteractor();
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
@@ -353,6 +355,10 @@ describe('Line edit test', function () {
     });
 
     it('POL is saved, PO Line details pane is open', function () {
+      expect(calloutInteractor.anyCalloutIsPresent).to.be.true;
+      expect(calloutInteractor.list().length).to.equal(2);
+      expect(calloutInteractor.list(0).message).to.equal(`The Purchase order - ${order.poNumber} has been successfully opened`);
+      expect(calloutInteractor.list(1).message).to.equal(`The purchase order line ${line.poLineNumber} was successfully updated`);
       expect(lineDetailsPage.isPresent).to.be.true;
     });
 
