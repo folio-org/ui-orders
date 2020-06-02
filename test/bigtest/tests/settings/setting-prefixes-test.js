@@ -28,6 +28,7 @@ describe('Setting of Closing Reasons', function () {
 
   describe('Add new prefix', function () {
     beforeEach(async function () {
+      await prefixesSetting.whenLoaded();
       await prefixesSetting.addPrefixBtn.click();
       await prefixesSetting.whenLoaded();
     });
