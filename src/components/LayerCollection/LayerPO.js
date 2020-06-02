@@ -38,7 +38,6 @@ import {
 } from '../Utils/order';
 import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
-import ModalDeletePieces from '../ModalDeletePieces';
 
 function LayerPO({
   history,
@@ -60,8 +59,8 @@ function LayerPO({
   const [isLoading, setIsLoading] = useState(true);
   const [createdByName, setCreatedByName] = useState('');
   const [assignedToUser, setAssignedToUser] = useState('');
-  const [updateOrderError, setUpdateOrderError] = useState(null);
-  const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
+  const [updateOrderError, setUpdateOrderError] = useState();
+  const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const order = id ? resources?.order?.records[0] : {};
   const metadata = order?.metadata;
   const assignedTo = order?.assignedTo;
@@ -88,10 +87,14 @@ function LayerPO({
   }, []);
 
   const closeErrorModal = useCallback(() => {
-    setUpdateOrderError(null);
-  }, []);
+    toggleErrorsModal();
+    setUpdateOrderError();
+  }, [toggleErrorsModal]);
 
-  const openOrderErrorModalShow = useCallback(setUpdateOrderError, []);
+  const openOrderErrorModalShow = useCallback((errors) => {
+    toggleErrorsModal();
+    setUpdateOrderError(errors);
+  }, [toggleErrorsModal]);
 
   const updatePO = useCallback(values => {
     setIsLoading(true);
@@ -151,17 +154,11 @@ function LayerPO({
         parentResources={resources}
         stripes={stripes}
       />
-      {updateOrderError && (
+      {isErrorsModalOpened && (
         <UpdateOrderErrorModal
           orderNumber={patchedOrder.poNumber}
           errors={updateOrderError}
           cancel={closeErrorModal}
-        />
-      )}
-      {isDeletePiecesOpened && (
-        <ModalDeletePieces
-          onCancel={toggleDeletePieces}
-          poLines={order?.compositePoLines}
         />
       )}
     </>

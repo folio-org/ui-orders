@@ -73,8 +73,17 @@ const PO = ({
   const context = useMemo(() => ({ sendCallout }), [sendCallout]);
   const [order, setOrder] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [updateOrderErrors, setUpdateOrderErrors] = useState(null);
-  const orderErrorModalShow = useCallback(setUpdateOrderErrors, [setUpdateOrderErrors]);
+  const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
+  const [updateOrderErrors, setUpdateOrderErrors] = useState();
+  const orderErrorModalShow = useCallback((errors) => {
+    toggleErrorsModal();
+    setUpdateOrderErrors(errors);
+  }, [toggleErrorsModal]);
+
+  const orderErrorModalClose = useCallback(() => {
+    toggleErrorsModal();
+    setUpdateOrderErrors();
+  }, [toggleErrorsModal]);
 
   const fetchOrder = useCallback(
     () => mutator.orderDetails.GET()
@@ -489,11 +498,11 @@ const PO = ({
           createOrder={createNewOrder}
         />
       )}
-      {updateOrderErrors && (
+      {isErrorsModalOpened && (
         <UpdateOrderErrorModal
           orderNumber={orderNumber}
           errors={updateOrderErrors}
-          cancel={setUpdateOrderErrors}
+          cancel={orderErrorModalClose}
         />
       )}
       {showConfirmDelete && (
