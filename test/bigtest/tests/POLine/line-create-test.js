@@ -7,7 +7,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../../helpers/setup-application';
 import LineEditPage from '../../interactors/line-edit-page';
-import OrderDetailsPage from '../../interactors/order-details-page';
+import OrdersInteractor from '../../interactors/orders';
 
 describe('Create PO Line simple test', function () {
   setupApplication();
@@ -15,7 +15,7 @@ describe('Create PO Line simple test', function () {
   let order = null;
   let vendor = null;
   const lineEditPage = new LineEditPage();
-  const orderDetailsPage = new OrderDetailsPage();
+  const ordersList = new OrdersInteractor();
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
@@ -49,11 +49,12 @@ describe('Create PO Line simple test', function () {
         await lineEditPage.quantityPhysical.fill(2);
         await lineEditPage.physicalCreateInventory.select('None');
         await lineEditPage.saveButton.click();
-        await orderDetailsPage.whenLoaded();
+        await ordersList.whenListLoaded();
       });
 
       it('goes to details page', function () {
-        expect(orderDetailsPage.isPresent).to.be.true;
+        expect(lineEditPage.isPresent).to.be.false;
+        expect(ordersList.isPresent).to.be.true;
       });
     });
   });

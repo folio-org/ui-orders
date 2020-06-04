@@ -19,6 +19,7 @@
 * [UIOR-540](https://issues.folio.org/browse/UIOR-540) Add loading indicator when selecting new records
 
 ### Bug fixes
+* [UIOR-493](https://issues.folio.org/browse/UIOR-493) Display the PO Line record when a new PO Line is added
 * [UIOR-567](https://issues.folio.org/browse/UIOR-567) Can not tell that order has been cloned successfully
 * [UIOR-565](https://issues.folio.org/browse/UIOR-565) Ongoing order not saving when not using template
 * [UIOR-562](https://issues.folio.org/browse/UIOR-562) Fix PO number validation error message not showing to user

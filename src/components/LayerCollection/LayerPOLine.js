@@ -167,14 +167,18 @@ function LayerPOLine({
 
     return memoizedMutator.poLines
       .POST(newLine)
-      .then(() => openOrder(saveAndOpen))
-      .then(() => {
+      .then(({ id: poLineId }) => {
+        openOrder(saveAndOpen);
+
+        return poLineId;
+      })
+      .then(poLineId => {
         sendCallout({
           message: <SafeHTMLMessage id="ui-orders.line.create.success" />,
           type: 'success',
         });
         history.push({
-          pathname: `/orders/view/${id}`,
+          pathname: `/orders/view/${id}/po-line/view/${poLineId}`,
           search,
         });
       })
