@@ -60,8 +60,8 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
           type: 'error',
         });
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [close, id, showToast]);
 
   const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
 
