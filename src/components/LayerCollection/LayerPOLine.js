@@ -128,7 +128,7 @@ function LayerPOLine({
   );
 
   const openOrder = useCallback(
-    (saveAndOpen) => {
+    (saveAndOpen, poLineId) => {
       return saveAndOpen
         ? updateOrderResource(order, memoizedMutator.lineOrder, {
           workflowStatus: WORKFLOW_STATUS.open,
@@ -155,7 +155,7 @@ function LayerPOLine({
               type: 'error',
             });
           })
-        : Promise.resolve();
+        : Promise.resolve(poLineId);
     },
     [memoizedMutator.lineOrder, order, sendCallout],
   );
@@ -167,18 +167,19 @@ function LayerPOLine({
 
     return memoizedMutator.poLines
       .POST(newLine)
-      .then(({ id: poLineId }) => {
-        openOrder(saveAndOpen);
-
-        return poLineId;
-      })
-      .then(poLineId => {
+      .then(({ id: poLineId }) => openOrder(saveAndOpen, poLineId))
+      .then(lineIdResponse => {
         sendCallout({
           message: <SafeHTMLMessage id="ui-orders.line.create.success" />,
           type: 'success',
         });
+
+        const pathname = lineIdResponse
+          ? `/orders/view/${id}/po-line/view/${lineIdResponse}`
+          : `/orders/view/${id}`;
+
         history.push({
-          pathname: `/orders/view/${id}/po-line/view/${poLineId}`,
+          pathname,
           search,
         });
       })
