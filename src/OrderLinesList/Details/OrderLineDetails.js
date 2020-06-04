@@ -98,7 +98,7 @@ const OrderLineDetails = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [lineId, location.search],
+    [lineId, location.search, showToast],
   );
 
   const updateLineTagList = async (orderLine) => {
