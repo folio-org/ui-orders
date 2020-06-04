@@ -41,7 +41,7 @@ function OrderTemplateViewContainer({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [id],
+    [close, id, sendCallout, showSuccessDeleteMessage],
   );
 
   const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
