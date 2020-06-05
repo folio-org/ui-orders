@@ -7,7 +7,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../../helpers/setup-application';
 import LineEditPage from '../../interactors/line-edit-page';
-import OrdersInteractor from '../../interactors/orders';
+import LineDetailsPage from '../../interactors/line-details-page';
 
 describe('Create PO Line simple test', function () {
   setupApplication();
@@ -15,7 +15,7 @@ describe('Create PO Line simple test', function () {
   let order = null;
   let vendor = null;
   const lineEditPage = new LineEditPage();
-  const ordersList = new OrdersInteractor();
+  const lineDetailsPage = new LineDetailsPage();
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
@@ -43,18 +43,24 @@ describe('Create PO Line simple test', function () {
 
     describe('Fill values and click save', () => {
       beforeEach(async function () {
+        const purchaseOrder = this.server.schema.orders.first();
+
         await lineEditPage.acquisitionMethod('Approval plan');
         await lineEditPage.selectOrderFormat('Physical resource');
         await lineEditPage.listUnitPrice.fill(3.333);
         await lineEditPage.quantityPhysical.fill(2);
         await lineEditPage.physicalCreateInventory.select('None');
         await lineEditPage.saveButton.click();
-        await ordersList.whenListLoaded();
+
+        const newLine = this.server.schema.lines.first();
+
+        purchaseOrder.update({ ...purchaseOrder.attrs, compositePoLines: [newLine.attrs] });
+
+        await lineDetailsPage.whenLoaded();
       });
 
       it('goes to details page', function () {
-        expect(lineEditPage.isPresent).to.be.false;
-        expect(ordersList.isPresent).to.be.true;
+        expect(lineDetailsPage.isPresent).to.be.true;
       });
     });
   });
