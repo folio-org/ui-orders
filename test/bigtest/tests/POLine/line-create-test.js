@@ -43,8 +43,6 @@ describe('Create PO Line simple test', function () {
 
     describe('Fill values and click save', () => {
       beforeEach(async function () {
-        const purchaseOrder = this.server.schema.orders.first();
-
         await lineEditPage.acquisitionMethod('Approval plan');
         await lineEditPage.selectOrderFormat('Physical resource');
         await lineEditPage.listUnitPrice.fill(3.333);
@@ -52,9 +50,10 @@ describe('Create PO Line simple test', function () {
         await lineEditPage.physicalCreateInventory.select('None');
         await lineEditPage.saveButton.click();
 
+        const purchaseOrder = this.server.schema.orders.first();
         const newLine = this.server.schema.lines.first();
 
-        purchaseOrder.update({ ...purchaseOrder.attrs, compositePoLines: [newLine.attrs] });
+        purchaseOrder.update({ compositePoLines: [newLine.attrs] });
 
         await lineDetailsPage.whenLoaded();
       });
