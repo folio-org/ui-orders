@@ -67,6 +67,7 @@ class OrderTemplatesEditor extends Component {
     submitting: PropTypes.bool.isRequired,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
+    locationIds: PropTypes.arrayOf(PropTypes.string),
     locations: PropTypes.arrayOf(PropTypes.object),
     createInventorySetting: PropTypes.object,
     prefixesSetting: PropTypes.arrayOf(PropTypes.object),
@@ -152,6 +153,7 @@ class OrderTemplatesEditor extends Component {
       prefixesSetting,
       suffixesSetting,
       addresses,
+      locationIds,
       locations,
       materialTypes,
       handleSubmit,
@@ -325,7 +327,12 @@ class OrderTemplatesEditor extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
                   >
-                    <POLineLocationsForm locations={locations} />
+                    <POLineLocationsForm
+                      change={change}
+                      dispatch={dispatch}
+                      locationIds={locationIds}
+                      locations={locations}
+                    />
                   </Accordion>
 
                   {

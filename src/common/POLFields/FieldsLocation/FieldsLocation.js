@@ -12,7 +12,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import {
-  FieldSelect,
+  FieldLocation,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -28,7 +28,15 @@ import {
 
 const NO_VALIDATE = [];
 
-const FieldsLocation = ({ locations, disabled, isDisabledToChangePaymentInfo, withValidation }) => {
+const FieldsLocation = ({
+  change,
+  disabled,
+  dispatch,
+  isDisabledToChangePaymentInfo,
+  locationIds,
+  locations,
+  withValidation,
+}) => {
   return (
     <FieldArray
       addLabel={<FormattedMessage id="ui-orders.location.button.addLocation" />}
@@ -42,14 +50,16 @@ const FieldsLocation = ({ locations, disabled, isDisabledToChangePaymentInfo, wi
       renderField={(field) => (
         <Row>
           <Col xs={6}>
-            <FieldSelect
-              dataOptions={locations}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.location.nameCode" />}
+            <FieldLocation
+              isDisabled={disabled}
+              isReduxField
+              labelId="ui-orders.location.nameCode"
+              locationsForDict={locations}
               name={`${field}.locationId`}
+              onChange={({ id }) => dispatch(change(`${field}.locationId`, id))}
+              prepopulatedLocationsIds={locationIds}
               required={withValidation}
               validate={withValidation ? [validateRequired, validateLocation] : NO_VALIDATE}
-              disabled={disabled}
             />
           </Col>
           <Col xs={3}>
@@ -81,9 +91,12 @@ const FieldsLocation = ({ locations, disabled, isDisabledToChangePaymentInfo, wi
 };
 
 FieldsLocation.propTypes = {
-  locations: PropTypes.arrayOf(PropTypes.object),
+  change: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
   isDisabledToChangePaymentInfo: PropTypes.bool,
+  locationIds: PropTypes.arrayOf(PropTypes.string),
+  locations: PropTypes.arrayOf(PropTypes.object),
   withValidation: PropTypes.bool,
 };
 

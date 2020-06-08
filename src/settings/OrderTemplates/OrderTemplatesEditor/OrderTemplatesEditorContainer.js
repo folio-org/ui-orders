@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -9,7 +9,6 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
-  getLocationOptions,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -64,8 +63,8 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   }, [close, id, showToast]);
 
   const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
-
-  const locations = getLocationOptions(get(resources, 'locations.records', []));
+  const locations = resources?.locations?.records ?? [];
+  const locationIds = useMemo(() => locations.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
   const identifierTypes = getIdentifierTypesForSelect(resources);
   const contributorNameTypes = getContributorNameTypesForSelect(resources);
@@ -96,6 +95,7 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
       funds={funds}
       initialValues={orderTemplate}
       identifierTypes={identifierTypes}
+      locationIds={locationIds}
       locations={locations}
       createInventorySetting={createInventorySetting}
       prefixesSetting={prefixesSetting}

@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 ### Stories
+* [UIOR-530](https://issues.folio.org/browse/UIOR-530) Improve Select location dropdown to use only select Location plugin
 * [UIOR-433](https://issues.folio.org/browse/UIOR-433) Ability to change price and fund distribution information without closing order
 * [UIOR-444](https://issues.folio.org/browse/UIOR-444) Ability to change quantity ordered without closing order
 * [UIOR-564](https://issues.folio.org/browse/UIOR-564) Link title POL to Package POL

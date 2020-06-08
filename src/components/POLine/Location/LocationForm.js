@@ -4,24 +4,37 @@ import PropTypes from 'prop-types';
 import { ifDisabledToChangePaymentInfo, isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { FieldsLocation } from '../../../common/POLFields';
 
-const LocationForm = ({ order, locations, isPackage }) => {
+const LocationForm = ({
+  change,
+  dispatch,
+  isPackage,
+  locationIds,
+  locations,
+  order,
+}) => {
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
 
   return (
     <FieldsLocation
-      locations={locations}
+      change={change}
       disabled={isPostPendingOrder}
+      dispatch={dispatch}
       isDisabledToChangePaymentInfo={isDisabledToChangePaymentInfo}
+      locationIds={locationIds}
+      locations={locations}
       withValidation={!isPackage}
     />
   );
 };
 
 LocationForm.propTypes = {
+  change: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isPackage: PropTypes.bool,
+  locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object.isRequired,
-  isPackage: PropTypes.bool,
 };
 
 LocationForm.defaultProps = {

@@ -26,7 +26,6 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/form';
 import {
   FundDistributionFields,
-  getLocationOptions,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -240,7 +239,8 @@ class POLineForm extends Component {
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
-    const locations = getLocationOptions(parentResources?.locations?.records || []);
+    const locations = parentResources?.locations?.records ?? [];
+    const locationIds = locations.map(({ id }) => id);
     const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const { accounts } = vendor;
@@ -361,9 +361,13 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.location}
                     >
                       <LocationForm
+                        change={change}
+                        dispatch={dispatch}
+                        formValues={formValues}
+                        isPackage={isPackage}
+                        locationIds={locationIds}
                         locations={locations}
                         order={order}
-                        isPackage={isPackage}
                       />
                     </Accordion>
                     {showPhresources && (
