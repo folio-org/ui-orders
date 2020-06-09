@@ -59,8 +59,6 @@ import LinesLimit from '../PurchaseOrder/LinesLimit';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import ModalDeletePieces from '../ModalDeletePieces';
 
-const DELETE_PIECES_LINE = [];
-
 function LayerPOLine({
   history,
   location: { search },
@@ -227,10 +225,9 @@ function LayerPOLine({
   }, [history, id, lineId, search]);
 
   const updatePOLine = useCallback(formValues => {
-    DELETE_PIECES_LINE[0] = formValues;
+    setSavingValues(formValues);
     const { saveAndOpen, ...data } = formValues;
 
-    setSavingValues(data);
     setIsLoading(true);
     const line = cloneDeep(data);
 
@@ -255,6 +252,10 @@ function LayerPOLine({
         handleErrorResponse(e, line);
       });
   }, [handleErrorResponse, memoizedMutator.poLines, onCancel, openOrder, sendCallout]);
+
+  const saveAfterDelete = useCallback(() => {
+    updatePOLine(savingValues);
+  }, [savingValues, updatePOLine]);
 
   const getCreatePOLIneInitialValues = () => {
     const orderId = order?.id;
@@ -398,8 +399,8 @@ function LayerPOLine({
       {isDeletePiecesOpened && (
         <ModalDeletePieces
           onCancel={toggleDeletePieces}
-          onSubmit={onSubmit}
-          poLines={DELETE_PIECES_LINE}
+          onSubmit={saveAfterDelete}
+          poLines={order?.compositePoLines}
         />
       )}
     </>

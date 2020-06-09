@@ -57,9 +57,9 @@ const ModalDeletePiecesContainer = ({ mutator, onCancel, onSubmit, poLines }) =>
       )
       .finally(() => {
         onCancel();
-        if (onSubmit) onSubmit(poLines?.[0]);
+        if (onSubmit) onSubmit();
       });
-  }, [mmutator.deletePiece, onCancel, onSubmit, poLines, showCallout]);
+  }, [mmutator.deletePiece, onCancel, onSubmit, showCallout]);
 
   return (
     <ModalDeletePieces
