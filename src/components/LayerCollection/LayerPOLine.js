@@ -224,9 +224,9 @@ function LayerPOLine({
     });
   }, [history, id, lineId, search]);
 
-  const updatePOLine = useCallback(formValues => {
-    setSavingValues(formValues);
-    const { saveAndOpen, ...data } = formValues;
+  const updatePOLine = useCallback(hydratedLine => {
+    setSavingValues(hydratedLine);
+    const { saveAndOpen, ...data } = hydratedLine;
 
     setIsLoading(true);
     const line = cloneDeep(data);

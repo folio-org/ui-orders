@@ -230,6 +230,7 @@ export default interactor(class LineEditPage {
   isLoaded = isPresent('#itemDetails');
   hasTemplateField = isPresent('[name="template"]');
   acquisitionMethod = selectable('[name="acquisitionMethod"]');
+  closeBtn = new Button('[data-test-pane-header-dismiss-button]');
 
   whenLoaded() {
     return this.timeout(20000).when(() => this.isLoaded);
