@@ -63,8 +63,8 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   }, [close, id, showToast]);
 
   const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
-  const locations = resources?.locations?.records ?? [];
-  const locationIds = useMemo(() => locations.map(location => location.id), [locations]);
+  const locations = resources?.locations?.records;
+  const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
   const identifierTypes = getIdentifierTypesForSelect(resources);
   const contributorNameTypes = getContributorNameTypesForSelect(resources);

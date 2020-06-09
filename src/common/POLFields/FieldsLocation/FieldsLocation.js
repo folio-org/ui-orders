@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   Field,
@@ -29,14 +29,15 @@ import {
 const NO_VALIDATE = [];
 
 const FieldsLocation = ({
-  change,
+  changeLocation,
   disabled,
-  dispatch,
   isDisabledToChangePaymentInfo,
   locationIds,
   locations,
   withValidation,
 }) => {
+  const onChangeLocation = useCallback((name, id) => changeLocation(name, id), [changeLocation]);
+
   return (
     <FieldArray
       addLabel={<FormattedMessage id="ui-orders.location.button.addLocation" />}
@@ -52,11 +53,10 @@ const FieldsLocation = ({
           <Col xs={6}>
             <FieldLocation
               isDisabled={disabled}
-              isReduxField
               labelId="ui-orders.location.nameCode"
               locationsForDict={locations}
               name={`${field}.locationId`}
-              onChange={({ id }) => dispatch(change(`${field}.locationId`, id))}
+              onChange={({ id }) => onChangeLocation(`${field}.locationId`, id)}
               prepopulatedLocationsIds={locationIds}
               required={withValidation}
               validate={withValidation ? [validateRequired, validateLocation] : NO_VALIDATE}
@@ -91,9 +91,8 @@ const FieldsLocation = ({
 };
 
 FieldsLocation.propTypes = {
-  change: PropTypes.func.isRequired,
+  changeLocation: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  dispatch: PropTypes.func.isRequired,
   isDisabledToChangePaymentInfo: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),

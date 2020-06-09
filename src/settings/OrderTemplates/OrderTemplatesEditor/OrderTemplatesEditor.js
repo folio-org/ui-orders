@@ -122,6 +122,12 @@ class OrderTemplatesEditor extends Component {
     this.setState({ sections });
   };
 
+  changeLocation = (name, id) => {
+    const { dispatch, change } = this.props;
+
+    dispatch(change(name, id));
+  };
+
   getLastMenu() {
     const { pristine, submitting } = this.props;
 
@@ -328,7 +334,7 @@ class OrderTemplatesEditor extends Component {
                     id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
                   >
                     <POLineLocationsForm
-                      change={change}
+                      changeLocation={this.changeLocation}
                       dispatch={dispatch}
                       locationIds={locationIds}
                       locations={locations}

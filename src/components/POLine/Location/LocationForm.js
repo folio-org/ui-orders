@@ -5,8 +5,7 @@ import { ifDisabledToChangePaymentInfo, isWorkflowStatusIsPending } from '../../
 import { FieldsLocation } from '../../../common/POLFields';
 
 const LocationForm = ({
-  change,
-  dispatch,
+  changeLocation,
   isPackage,
   locationIds,
   locations,
@@ -17,9 +16,8 @@ const LocationForm = ({
 
   return (
     <FieldsLocation
-      change={change}
+      changeLocation={changeLocation}
       disabled={isPostPendingOrder}
-      dispatch={dispatch}
       isDisabledToChangePaymentInfo={isDisabledToChangePaymentInfo}
       locationIds={locationIds}
       locations={locations}
@@ -29,8 +27,7 @@ const LocationForm = ({
 };
 
 LocationForm.propTypes = {
-  change: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  changeLocation: PropTypes.func.isRequired,
   isPackage: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
