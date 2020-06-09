@@ -242,7 +242,7 @@ const PO = ({
         workflowStatus: WORKFLOW_STATUS.open,
       };
 
-      toggleOpenOrderModal();
+      if (isOpenOrderModalOpened) toggleOpenOrderModal();
       setIsLoading(true);
       updateOrderResource(order, mutator.orderDetails, openOrderProps)
         .then(
@@ -541,6 +541,7 @@ const PO = ({
       {isDeletePiecesOpened && (
         <ModalDeletePieces
           onCancel={toggleDeletePieces}
+          onSubmit={openOrder}
           poLines={order?.compositePoLines}
         />
       )}

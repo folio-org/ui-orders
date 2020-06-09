@@ -16,7 +16,7 @@ import {
 import ModalDeletePieces from './ModalDeletePieces';
 import { getHydratedPieces } from './getHydratedPieces';
 
-const ModalDeletePiecesContainer = ({ mutator, onCancel, poLines }) => {
+const ModalDeletePiecesContainer = ({ mutator, onCancel, onSubmit, poLines }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const mmutator = useMemo(() => mutator, []);
   const [pieces, setPieces] = useState();
@@ -55,8 +55,11 @@ const ModalDeletePiecesContainer = ({ mutator, onCancel, poLines }) => {
           });
         },
       )
-      .finally(onCancel);
-  }, [mmutator.deletePiece, onCancel, showCallout]);
+      .finally(() => {
+        onCancel();
+        if (onSubmit) onSubmit(poLines?.[0]);
+      });
+  }, [mmutator.deletePiece, onCancel, onSubmit, poLines, showCallout]);
 
   return (
     <ModalDeletePieces
@@ -79,6 +82,7 @@ ModalDeletePiecesContainer.manifest = Object.freeze({
 ModalDeletePiecesContainer.propTypes = {
   poLines: PropTypes.arrayOf(PropTypes.object),
   onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
   mutator: PropTypes.object.isRequired,
 };
 

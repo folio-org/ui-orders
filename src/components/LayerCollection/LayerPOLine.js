@@ -59,6 +59,8 @@ import LinesLimit from '../PurchaseOrder/LinesLimit';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import ModalDeletePieces from '../ModalDeletePieces';
 
+const DELETE_PIECES_LINE = [];
+
 function LayerPOLine({
   history,
   location: { search },
@@ -144,7 +146,7 @@ function LayerPOLine({
               type: 'success',
             });
           })
-          .catch(() => {
+          .catch(errorResponse => {
             sendCallout({
               message: (
                 <SafeHTMLMessage
@@ -154,6 +156,7 @@ function LayerPOLine({
               ),
               type: 'error',
             });
+            throw errorResponse;
           })
         : Promise.resolve();
     },
@@ -223,15 +226,17 @@ function LayerPOLine({
     });
   }, [history, id, lineId, search]);
 
-  const updatePOLine = useCallback(({ saveAndOpen, ...data }) => {
+  const updatePOLine = useCallback(formValues => {
+    DELETE_PIECES_LINE[0] = formValues;
+    const { saveAndOpen, ...data } = formValues;
+
     setSavingValues(data);
     setIsLoading(true);
     const line = cloneDeep(data);
 
     delete line.metadata;
 
-    return memoizedMutator.poLines
-      .PUT(line)
+    return memoizedMutator.poLines.PUT(line)
       .then(() => openOrder(saveAndOpen))
       .then(() => {
         sendCallout({
@@ -304,8 +309,37 @@ function LayerPOLine({
 
   useEffect(
     () => {
-      if (vendorId) memoizedMutator.orderVendor.GET({ path: `${VENDORS_API}/${vendorId}` }).then(setVendor);
+      if (vendorId) {
+        memoizedMutator.orderVendor.GET({ path: `${VENDORS_API}/${vendorId}` })
+          .then(
+            setVendor,
+            errorResponse => {
+              let response;
+
+              try {
+                response = JSON.parse(errorResponse?.message);
+              } catch (parsingException) {
+                response = errorResponse;
+              }
+
+              sendCallout({
+                message: <FormattedMessage id="ui-orders.error.fetching.vendor" />,
+                type: 'error',
+              });
+
+              const message = response?.errors?.[0]?.message;
+
+              if (message) {
+                sendCallout({
+                  message: <FormattedMessage id={`ui-orders.${message}`} defaultMessage={message} />,
+                  type: 'error',
+                });
+              }
+            },
+          );
+      }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [memoizedMutator.orderVendor, vendorId],
   );
 
@@ -364,7 +398,8 @@ function LayerPOLine({
       {isDeletePiecesOpened && (
         <ModalDeletePieces
           onCancel={toggleDeletePieces}
-          poLines={order?.compositePoLines}
+          onSubmit={onSubmit}
+          poLines={DELETE_PIECES_LINE}
         />
       )}
     </>
