@@ -21,6 +21,8 @@ describe('Order lines', function () {
 
   it('is no results message label present', () => {
     expect(orderLines.isNoResultsMessageLabelPresent).to.equal(true);
+    expect(orderLines.navigation.isPresent).to.be.true;
+    expect(orderLines.filter.searchButton.isDisabled).to.be.true;
   });
 
   describe('search by poNumber', function () {
@@ -32,18 +34,6 @@ describe('Order lines', function () {
     it('shows the list of order line items', () => {
       expect(orderLines.isVisible).to.equal(true);
       expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
-    });
-  });
-
-  describe('navigation', () => {
-    it('should be present', () => {
-      expect(orderLines.navigation.isPresent).to.be.true;
-    });
-  });
-
-  describe('renders search button', () => {
-    it('search button is disabled', () => {
-      expect(orderLines.filter.searchButton.isDisabled).to.be.true;
     });
   });
 
