@@ -6,7 +6,7 @@
   "repository": "",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=8.9.4"
+    "node": ">=10"
   },
   "stripes": {
     "actsAs": [
@@ -319,8 +319,5 @@
     "@folio/plugin-find-organization": "*",
     "@folio/plugin-find-po-line": "*",
     "@folio/plugin-find-user": "*"
-  },
-  "resolutions": {
-    "keyboardjs": "~2.5.1"
   }
 }
