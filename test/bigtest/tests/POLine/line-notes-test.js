@@ -67,6 +67,7 @@ describe('PO line notes', function () {
     describe('close new note form', () => {
       beforeEach(async () => {
         await noteFormPage.closeButton.click();
+        await lineDetails.whenLoaded();
       });
 
       it('should go back to line details', function () {

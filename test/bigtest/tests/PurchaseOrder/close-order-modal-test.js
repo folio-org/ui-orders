@@ -41,6 +41,7 @@ describe('Close Order Modal', function () {
     beforeEach(async function () {
       await modal.reasonSelect.select(REASON);
       await modal.submitButton.click();
+      await page.whenLoaded();
     });
 
     it('Close Order Modal is closed and workflow status is updated', () => {

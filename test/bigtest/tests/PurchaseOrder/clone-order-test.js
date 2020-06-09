@@ -49,6 +49,7 @@ describe('Clone order', function () {
       await page.header.click();
       await page.actionsMenu.clone.click();
       await cloneOrderConfirmation.cancel();
+      await page.whenLoaded();
     });
 
     it('closes clone order confirmation', () => {
@@ -62,6 +63,7 @@ describe('Clone order', function () {
       await page.header.click();
       await page.actionsMenu.clone.click();
       await cloneOrderConfirmation.confirm();
+      await page.whenLoaded();
     });
 
     it('closes clone order confirmation', () => {
