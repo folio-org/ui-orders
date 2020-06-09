@@ -36,7 +36,9 @@ const FieldsLocation = ({
   locations,
   withValidation,
 }) => {
-  const onChangeLocation = useCallback((name, id) => changeLocation(name, id), [changeLocation]);
+  const onChangeLocation = useCallback((location, name) => changeLocation(name, location.id), [changeLocation]);
+
+  if (!locations) return null;
 
   return (
     <FieldArray
@@ -56,7 +58,7 @@ const FieldsLocation = ({
               labelId="ui-orders.location.nameCode"
               locationsForDict={locations}
               name={`${field}.locationId`}
-              onChange={({ id }) => onChangeLocation(`${field}.locationId`, id)}
+              onChange={onChangeLocation}
               prepopulatedLocationsIds={locationIds}
               required={withValidation}
               validate={withValidation ? [validateRequired, validateLocation] : NO_VALIDATE}
