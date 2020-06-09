@@ -122,10 +122,10 @@ class OrderTemplatesEditor extends Component {
     this.setState({ sections });
   };
 
-  changeLocation = (name, id) => {
+  changeLocation = (location, fieldName) => {
     const { dispatch, change } = this.props;
 
-    dispatch(change(name, id));
+    dispatch(change(fieldName, location.id));
   };
 
   getLastMenu() {

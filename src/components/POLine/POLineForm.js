@@ -206,10 +206,10 @@ class POLineForm extends Component {
     this.setState({ sections });
   };
 
-  changeLocation = (name, id) => {
+  changeLocation = (location, fieldName) => {
     const { change, dispatch } = this.props;
 
-    dispatch(change(name, id));
+    dispatch(change(fieldName, location.id));
   };
 
   render() {

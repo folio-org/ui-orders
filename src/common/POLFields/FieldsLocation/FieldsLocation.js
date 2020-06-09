@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Field,
@@ -36,8 +36,6 @@ const FieldsLocation = ({
   locations,
   withValidation,
 }) => {
-  const onChangeLocation = useCallback((location, name) => changeLocation(name, location.id), [changeLocation]);
-
   if (!locations) return null;
 
   return (
@@ -58,7 +56,7 @@ const FieldsLocation = ({
               labelId="ui-orders.location.nameCode"
               locationsForDict={locations}
               name={`${field}.locationId`}
-              onChange={onChangeLocation}
+              onChange={changeLocation}
               prepopulatedLocationsIds={locationIds}
               required={withValidation}
               validate={withValidation ? [validateRequired, validateLocation] : NO_VALIDATE}
