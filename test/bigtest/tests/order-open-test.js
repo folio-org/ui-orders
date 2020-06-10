@@ -33,6 +33,7 @@ describe('Open order action', function () {
 
   const orderDetailsPage = new OrderDetailsPage();
   const openOrderConfirmationModal = new OpenOrderConfirmationModal();
+  const openOrderErrorModal = new OpenOrderErrorModal();
 
   beforeEach(async function () {
     const line = this.server.create('line', {
@@ -80,13 +81,12 @@ describe('Open order action', function () {
   });
 
   describe('click submit action on modal', () => {
-    const openOrderErrorModal = new OpenOrderErrorModal();
-
     beforeEach(async function () {
       this.server.put(`${ORDERS_API}/:id`, VENDOR_IS_INACTIVE_RESPONSE, 422);
       await orderDetailsPage.openOrderButton.click();
       await openOrderConfirmationModal.whenLoaded();
       await openOrderConfirmationModal.submitAction();
+      await orderDetailsPage.whenLoaded();
     });
 
     it('should close Open Order Confirmation Modal and open Error modal', () => {
