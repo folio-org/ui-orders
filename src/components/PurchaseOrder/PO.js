@@ -248,7 +248,7 @@ const PO = ({
         .then(
           () => {
             sendCallout({
-              message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber }} />,
+              message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber: order.poNumber }} />,
               type: 'success',
             });
             refreshList();
@@ -262,7 +262,17 @@ const PO = ({
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleOpenOrderModal, refreshList],
+    [
+      isOpenOrderModalOpened,
+      toggleOpenOrderModal,
+      order,
+      sendCallout,
+      refreshList,
+      fetchOrder,
+      context,
+      orderErrorModalShow,
+      toggleDeletePieces,
+    ],
   );
 
   const reopenOrder = useCallback(
