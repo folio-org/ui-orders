@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -296,6 +296,7 @@
   },
   "dependencies": {
     "@folio/stripes-acq-components": "^2.0.1",
+    "@rehooks/local-storage": "^2.3.0",
     "classnames": "^2.2.5",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
