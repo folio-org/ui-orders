@@ -1,6 +1,10 @@
 # Change history for ui-orders
 
 ## (IN PROGRESS)
+
+## [2.1.0](https://github.com/folio-org/ui-orders/tree/v2.1.0) (2020-06-12)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.4...v2.1.0)
+
 ### Stories
 * [UIOR-530](https://issues.folio.org/browse/UIOR-530) Improve Select location dropdown to use only select Location plugin
 * [UIOR-433](https://issues.folio.org/browse/UIOR-433) Ability to change price and fund distribution information without closing order
