@@ -21,7 +21,7 @@ import {
   stripesShape,
 } from '@folio/stripes/core';
 
-import { ifDisabledToChangePaymentInfo } from '../../PurchaseOrder/util';
+import { ifDisabledToChangePaymentInfo, isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
 import FieldCurrency from './FieldCurrency';
 import {
@@ -95,6 +95,7 @@ class CostForm extends Component {
   render() {
     const { order, required, formValues, stripes } = this.props;
     const orderFormat = formValues.orderFormat;
+    const isPostPendingOrder = !isWorkflowStatusIsPending(order);
     const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
 
     let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
@@ -135,7 +136,7 @@ class CostForm extends Component {
               name="cost.listUnitPrice"
               parse={parseNumberFieldValue}
               type="number"
-              disabled={isDisabledToChangePaymentInfo}
+              disabled={isPostPendingOrder}
               {...validatePhresourcesPrices}
             />
           </Col>
@@ -145,7 +146,7 @@ class CostForm extends Component {
           md={3}
         >
           <FieldCurrency
-            disabled={isDisabledToChangePaymentInfo}
+            disabled={isPostPendingOrder}
             required={required}
           />
         </Col>
@@ -178,7 +179,7 @@ class CostForm extends Component {
             parse={parseNumberFieldValue}
             type="number"
             validate={validateNotNegative}
-            disabled={isDisabledToChangePaymentInfo}
+            disabled={isPostPendingOrder}
           />
         </Col>
         {isElectornicFieldsVisible && (
@@ -193,7 +194,7 @@ class CostForm extends Component {
               name="cost.listUnitPriceElectronic"
               parse={parseNumberFieldValue}
               type="number"
-              disabled={isDisabledToChangePaymentInfo}
+              disabled={isPostPendingOrder}
               {...validateEresourcesPrices}
             />
           </Col>
@@ -214,7 +215,7 @@ class CostForm extends Component {
             name="cost.discount"
             normalize={this.normalizeDiscount}
             validate={validateNotNegative}
-            disabled={isDisabledToChangePaymentInfo}
+            disabled={isPostPendingOrder}
           />
         </Col>
         {isElectornicFieldsVisible && (
