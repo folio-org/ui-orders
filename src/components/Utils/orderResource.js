@@ -53,16 +53,9 @@ export const cloneOrder = (order, mutator, lines) => {
   );
 
   if (lines) {
-    clonedOrder.compositePoLines = lines.map(line => {
-      const clonedLine = omit(line, ['id', 'purchaseOrderId', 'metadata', 'fundDistribution']);
-
-      if (line.fundDistribution) {
-        const fundDistribution = line.fundDistribution.map(fund => omit(fund, ['encumbrance']));
-
-        clonedLine.fundDistribution = fundDistribution;
-      }
-
-      return clonedLine;
+    clonedOrder.compositePoLines = lines.map(line => ({
+      ...omit(line, ['id', 'purchaseOrderId', 'metadata']),
+      fundDistribution: line.fundDistribution?.map(fund => omit(fund, ['encumbrance'])),
     });
   }
 
