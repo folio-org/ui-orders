@@ -2,6 +2,11 @@
 
 ## (IN PROGRESS)
 
+### Stories
+
+### Bug fixes
+* [UIOR-570](https://issues.folio.org/browse/UIOR-570) Fund distributions link to existing encumbrance when order is cloned
+
 ## [2.1.0](https://github.com/folio-org/ui-orders/tree/v2.1.0) (2020-06-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.4...v2.1.0)
 
