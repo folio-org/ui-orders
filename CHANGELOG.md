@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-417](https://issues.folio.org/browse/UIOR-417) Retain filters when switching from PO to POL and back
 
 ### Bug fixes
 * [UIOR-570](https://issues.folio.org/browse/UIOR-570) Fund distributions link to existing encumbrance when order is cloned

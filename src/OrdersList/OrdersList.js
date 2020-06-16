@@ -18,7 +18,7 @@ import {
   ResetButton,
   ResultsPane,
   SingleSearchForm,
-  useLocationFilters,
+  useLocalStorageFilters,
   useLocationSorting,
   useToggle,
 } from '@folio/stripes-acq-components';
@@ -68,7 +68,7 @@ function OrdersList({
     resetFilters,
     changeIndex,
     searchIndex,
-  ] = useLocationFilters(location, history, resetData);
+  ] = useLocalStorageFilters('OrdersList/filters', location, history, resetData);
   const [
     sortingField,
     sortingDirection,
