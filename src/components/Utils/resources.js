@@ -1,4 +1,5 @@
 import {
+  baseManifest,
   ACQUISITIONS_UNITS_API,
   CONFIG_API,
   CONTRIBUTOR_NAME_TYPES_API,
@@ -12,6 +13,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  AGREEMENT_LINES_API,
   INVOICE_LINES_API,
   INVOICES_API,
   ISBN_VALIDATOR,
@@ -250,4 +252,17 @@ export const ORDERS = {
   fetch: false,
   path: ORDERS_API,
   records: 'purchaseOrders',
+};
+
+export const AGREEMENT_LINES = {
+  ...baseManifest,
+  accumulate: true,
+  fetch: false,
+  limitParam: 'perPage',
+  path: AGREEMENT_LINES_API,
+  GET: {
+    params: {
+      filters: 'poLines.poLineId==!{lineId}',
+    },
+  },
 };

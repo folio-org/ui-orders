@@ -51,6 +51,7 @@ import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
 import { OtherView } from './Other';
 import POLineInvoicesContainer from './POLineInvoices';
+import POLineAgreementLinesContainer from './POLineAgreementLines';
 import {
   ACCORDION_ID,
   ERESOURCES,
@@ -380,6 +381,10 @@ class POLineView extends Component {
           <POLineInvoicesContainer
             label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoices" />}
             lineId={get(line, 'id')}
+          />
+          <POLineAgreementLinesContainer
+            label={<FormattedMessage id="ui-orders.line.accordion.relatedAgreementLines" />}
+            lineId={line.id}
           />
         </AccordionSet>
         {this.state.showConfirmDelete && (

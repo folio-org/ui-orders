@@ -17,6 +17,7 @@ export const ACCORDION_ID = {
   notes: 'notes',
   physical: 'physical',
   poLine: 'poLine',
+  relatedAgreementLines: 'relatedAgreementLines',
   relatedInvoices: 'relatedInvoices',
   vendor: 'vendor',
 };

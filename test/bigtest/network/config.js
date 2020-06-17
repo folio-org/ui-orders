@@ -18,6 +18,7 @@ import {
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
+  AGREEMENT_LINES_API,
   INVOICE_LINES_API,
   INVOICES_API,
   ISBN_VALIDATOR,
@@ -91,4 +92,5 @@ export default function config() {
       return link.type === params.type && link.id === params.id;
     }));
   });
+  this.get(AGREEMENT_LINES_API);
 }

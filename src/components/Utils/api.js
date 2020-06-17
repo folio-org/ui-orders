@@ -11,3 +11,4 @@ export const ORDER_INVOICE_RELNS_API = 'orders-storage/order-invoice-relns';
 export const INVOICES_API = 'invoice/invoices';
 export const INVOICE_LINES_API = 'invoice/invoice-lines';
 export const ISBN_VALIDATOR = 'isbn/validator';
+export const AGREEMENT_LINES_API = 'erm/entitlements';

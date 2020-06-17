@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-445](https://issues.folio.org/browse/UIOR-445) Add linked agreement lines accordion to the POL
 * [UIOR-417](https://issues.folio.org/browse/UIOR-417) Retain filters when switching from PO to POL and back
 
 ### Bug fixes
