@@ -856,5 +856,7 @@
     "deletePiece.warning": "سيتم حذف القطع المحددة وتسجيلات المواد المرتبطة بها نهائياً. لا يمكنك حذف المواد ذات الطلبات المفتوحة.",
     "deletePiece.delete.success": "تم حذف القطع المحددة",
     "deletePiece.delete.fail": "لم يتم حذف القطع المحددة",
-    "deletePiece.delete.thereAreRequestsOnItem": "لم يتم حذف القطع المحددة. توجد طلبات على المادة"
+    "deletePiece.delete.thereAreRequestsOnItem": "لم يتم حذف القطع المحددة. توجد طلبات على المادة",
+    "User does not have permissions - operation is restricted": "لا يملك المستخدم الصلاحيات - العملية مقيدة",
+    "error.fetching.vendor": "خطأ في الحصول على مورد أمر الشراء"
 }

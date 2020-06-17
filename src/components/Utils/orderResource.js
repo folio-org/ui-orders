@@ -53,7 +53,10 @@ export const cloneOrder = (order, mutator, lines) => {
   );
 
   if (lines) {
-    clonedOrder.compositePoLines = lines.map(line => omit(line, ['id', 'purchaseOrderId', 'metadata']));
+    clonedOrder.compositePoLines = lines.map(line => ({
+      ...omit(line, ['id', 'purchaseOrderId', 'metadata']),
+      fundDistribution: line.fundDistribution?.map(fund => omit(fund, ['encumbrance'])),
+    }));
   }
 
   return saveOrder(clonedOrder, mutator);

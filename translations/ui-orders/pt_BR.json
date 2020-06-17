@@ -856,5 +856,7 @@
     "deletePiece.warning": "A(s) peça(s) selecionada(s) e seu(s) registro(s) de itens vinculados no inventário serão EXCLUÍDOS PERMANENTEMENTE. Você NÃO pode excluir itens que tenham solicitações em aberto.",
     "deletePiece.delete.success": "As peças selecionadas foram excluídas",
     "deletePiece.delete.fail": "As peças selecionadas não foram excluídas",
-    "deletePiece.delete.thereAreRequestsOnItem": "As peças selecionadas não foram excluídas. Existem requisições no item"
+    "deletePiece.delete.thereAreRequestsOnItem": "As peças selecionadas não foram excluídas. Existem requisições no item",
+    "User does not have permissions - operation is restricted": "O usuário não tem permissões - a operação é restrita",
+    "error.fetching.vendor": "Erro ao buscar fornecedor de pedidos"
 }

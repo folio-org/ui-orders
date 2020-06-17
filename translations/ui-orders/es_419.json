@@ -856,5 +856,7 @@
     "deletePiece.warning": "The selected piece(s) and its' linked item record(s) in inventory will be PERMANENTLY DELETED. You can NOT delete items that have open requests.",
     "deletePiece.delete.success": "Selected pieces were deleted",
     "deletePiece.delete.fail": "Las piezas no fueron eliminadas.",
-    "deletePiece.delete.thereAreRequestsOnItem": "Las piezas seleccionadas no fueron eliminadas. Hay solicitudes de artículos."
+    "deletePiece.delete.thereAreRequestsOnItem": "Las piezas seleccionadas no fueron eliminadas. Hay solicitudes de artículos.",
+    "User does not have permissions - operation is restricted": "User does not have permissions - operation is restricted",
+    "error.fetching.vendor": "Error on fetching PO Vendor"
 }
