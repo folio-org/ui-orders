@@ -51,7 +51,7 @@ import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
 import { OtherView } from './Other';
 import POLineInvoicesContainer from './POLineInvoices';
-import POLineAgreementLinesContainer from './POLineAgreementLines';
+import { POLineAgreementLinesContainer } from './POLineAgreementLines';
 import {
   ACCORDION_ID,
   ERESOURCES,

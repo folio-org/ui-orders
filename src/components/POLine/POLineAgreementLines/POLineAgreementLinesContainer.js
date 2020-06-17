@@ -28,6 +28,8 @@ const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
     mutator.agreementLines.GET()
       .then(setAgreementLines)
       .catch(() => {
+        setAgreementLines([]);
+
         showCallout({ messageId: 'ui-orders.relatedAgreementLines.actions.load.error', type: 'error' });
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
