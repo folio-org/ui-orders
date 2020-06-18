@@ -8,13 +8,12 @@ import {
   Loading,
 } from '@folio/stripes/components';
 import {
+  baseManifest,
+  LIMIT_MAX,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import {
-  AGREEMENT_LINES,
-} from '../../Utils/resources';
-
+import { AGREEMENT_LINES_API } from '../../Utils/api';
 import { ACCORDION_ID } from '../const';
 import POLineAgreementLines from './POLineAgreementLines';
 
@@ -25,15 +24,18 @@ const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
   useEffect(() => {
     setAgreementLines();
 
-    mutator.agreementLines.GET()
+    mutator.agreementLines.GET({
+      params: {
+        filters: `poLines.poLineId==${lineId}`,
+        perPage: LIMIT_MAX,
+      },
+    })
       .then(setAgreementLines)
       .catch(() => {
-        setAgreementLines([]);
-
         showCallout({ messageId: 'ui-orders.relatedAgreementLines.actions.load.error', type: 'error' });
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lineId, showCallout]);
+  }, [lineId]);
 
   if (!agreementLines) return <Loading />;
 
@@ -49,14 +51,18 @@ const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
 };
 
 POLineAgreementLinesContainer.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
   lineId: PropTypes.string.isRequired,
   label: PropTypes.object.isRequired,
   mutator: PropTypes.object.isRequired,
 };
 
 POLineAgreementLinesContainer.manifest = Object.freeze({
-  agreementLines: AGREEMENT_LINES,
+  agreementLines: {
+    ...baseManifest,
+    accumulate: true,
+    fetch: false,
+    path: AGREEMENT_LINES_API,
+  },
 });
 
 export default stripesConnect(POLineAgreementLinesContainer);
