@@ -126,17 +126,23 @@ class PODetailsView extends Component {
             xs={6}
             lg={3}
           >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}>
-              <Checkbox checked={get(order, 'manualPo')} disabled />
-            </KeyValue>
+            <Checkbox
+              checked={get(order, 'manualPo')}
+              disabled
+              label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
+              vertical
+            />
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}>
-              <Checkbox checked={get(order, 'reEncumber')} disabled />
-            </KeyValue>
+            <Checkbox
+              checked={get(order, 'reEncumber')}
+              disabled
+              label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}
+              vertical
+            />
           </Col>
           <Col
             xs={6}

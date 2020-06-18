@@ -29,12 +29,12 @@ const OngoingOrderInfoView = ({ order: { ongoing = {} } }) => {
         xs={6}
         lg={3}
       >
-        <KeyValue label={<FormattedMessage id="ui-orders.renewals.subscription" />}>
-          <Checkbox
-            checked={isSubscription}
-            disabled
-          />
-        </KeyValue>
+        <Checkbox
+          checked={isSubscription}
+          disabled
+          label={<FormattedMessage id="ui-orders.renewals.subscription" />}
+          vertical
+        />
       </Col>
       {isSubscription ? (
         <>
@@ -68,12 +68,12 @@ const OngoingOrderInfoView = ({ order: { ongoing = {} } }) => {
             xs={6}
             lg={3}
           >
-            <KeyValue label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}>
-              <Checkbox
-                checked={manualRenewal}
-                disabled
-              />
-            </KeyValue>
+            <Checkbox
+              checked={manualRenewal}
+              disabled
+              label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
+              vertical
+            />
           </Col>
         </>
       ) : (

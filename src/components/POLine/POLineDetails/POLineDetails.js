@@ -140,43 +140,53 @@ const POLineDetails = ({ line }) => {
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}>
-            <Checkbox checked={get(line, 'cancellationRestriction')} disabled />
-          </KeyValue>
+          <Checkbox
+            checked={get(line, 'cancellationRestriction')}
+            disabled
+            label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}
+            vertical
+          />
         </Col>
         <Col
           data-col-line-details-rush
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id="ui-orders.poLine.rush" />}>
-            <Checkbox checked={get(line, 'rush')} disabled />
-          </KeyValue>
+          <Checkbox
+            checked={get(line, 'rush')}
+            disabled
+            label={<FormattedMessage id="ui-orders.poLine.rush" />}
+            vertical
+          />
         </Col>
         <Col
           data-col-line-details-collection
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id="ui-orders.poLine.сollection" />}>
-            <Checkbox checked={get(line, 'collection')} disabled />
-          </KeyValue>
+          <Checkbox
+            checked={get(line, 'collection')}
+            disabled
+            label={<FormattedMessage id="ui-orders.poLine.сollection" />}
+            vertical
+          />
         </Col>
         <Col
           data-col-line-details-checkin-items
           xs={6}
           lg={3}
         >
-          <KeyValue
+          <Checkbox
+            checked={get(line, 'checkinItems')}
+            disabled
             label={(
               <>
                 <FormattedMessage id="ui-orders.poLine.receiveItems" />
                 <InfoPopover content={<FormattedMessage id="ui-orders.poLine.receiveItems.info" />} />
               </>
             )}
-          >
-            <Checkbox checked={get(line, 'checkinItems')} disabled />
-          </KeyValue>
+            vertical
+          />
         </Col>
         <Col xs={12}>
           <KeyValue

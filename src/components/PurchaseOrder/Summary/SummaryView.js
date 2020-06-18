@@ -30,12 +30,12 @@ const SummaryView = ({ order }) => (
         xs={6}
         lg={3}
       >
-        <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.approved" />}>
-          <Checkbox
-            checked={order.approved}
-            disabled
-          />
-        </KeyValue>
+        <Checkbox
+          checked={order.approved}
+          disabled
+          label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
+          vertical
+        />
       </Col>
       <Col
         data-test-workflow-status

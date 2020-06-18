@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import {
   Accordion,
@@ -30,16 +30,20 @@ const OrdersTextFilter = ({
       : clearFilter();
   };
 
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: labelId });
+
   return (
     <Accordion
       id={id}
       closedByDefault={closedByDefault}
       displayClearButton={activeFilters.length > 0}
       header={FilterAccordionHeader}
-      label={<FormattedMessage id={labelId} />}
+      label={label}
       onClearFilter={clearFilter}
     >
       <TextField
+        ariaLabel={label}
         type={type}
         value={activeFilters[0] || ''}
         onChange={changeFilter}

@@ -35,9 +35,12 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
         />
       </Col>
       <Col xs={3}>
-        <KeyValue label={<FormattedMessage id="ui-orders.eresource.activationStatus" />}>
-          <Checkbox checked={get(eresource, 'activated')} disabled />
-        </KeyValue>
+        <Checkbox
+          checked={get(eresource, 'activated')}
+          disabled
+          label={<FormattedMessage id="ui-orders.eresource.activationStatus" />}
+          vertical
+        />
       </Col>
       <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-orders.eresource.activationDue" />}>
@@ -57,9 +60,12 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
         />
       </Col>
       <Col xs={3}>
-        <KeyValue label={<FormattedMessage id="ui-orders.eresource.trial" />}>
-          <Checkbox checked={get(eresource, 'trial')} disabled />
-        </KeyValue>
+        <Checkbox
+          checked={get(eresource, 'trial')}
+          disabled
+          label={<FormattedMessage id="ui-orders.eresource.trial" />}
+          vertical
+        />
       </Col>
       <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-orders.eresource.expectedActivation" />}>
