@@ -41,6 +41,7 @@ const resultsFormatter = {
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   [VENDOR_REF_NUMBER]: line => get(line, 'vendorDetail.refNumber', ''),
   title: line => get(line, 'titleOrPackage', ''),
+  funCodes: line => line.fundDistribution?.map(({ code }) => code).filter(Boolean).join(', '),
 };
 
 export const columnMapping = {

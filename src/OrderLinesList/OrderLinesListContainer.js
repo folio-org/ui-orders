@@ -11,7 +11,6 @@ import queryString from 'query-string';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  fundsManifest,
   getFilterParams,
   SEARCH_INDEX_PARAMETER,
   SEARCH_PARAMETER,
@@ -26,7 +25,6 @@ import { QUALIFIER_SEPARATOR } from '../common/constants';
 import OrderLinesList from './OrderLinesList';
 import {
   buildOrderLinesQuery,
-  fetchOrderLinesFunds,
 } from './utils';
 
 const RESULT_COUNT_INCREMENT = 30;
@@ -35,7 +33,6 @@ const resetData = () => { };
 
 const OrderLinesListContainer = ({ history, mutator, location }) => {
   const [orderLines, setOrderLines] = useState([]);
-  const [fundsMap, setFundsMap] = useState({});
   const [orderLinesCount, setOrderLinesCount] = useState(0);
   const [orderLinesOffset, setOrderLinesOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,31 +82,11 @@ const OrderLinesListContainer = ({ history, mutator, location }) => {
         },
       })
         .then(orderLinesResponse => {
-          const fetchFundsPromise = fetchOrderLinesFunds(
-            mutator.orderLinesFunds, orderLinesResponse.poLines, fundsMap,
-          );
-
-          return Promise.all([orderLinesResponse, fetchFundsPromise]);
-        })
-        .then(([orderLinesResponse, fundsResponse]) => {
           if (!offset) setOrderLinesCount(orderLinesResponse.totalRecords);
 
-          const newFundsMap = {
-            ...fundsMap,
-            ...fundsResponse.reduce((acc, fund) => {
-              acc[fund.id] = fund;
-
-              return acc;
-            }, {}),
-          };
-
-          setFundsMap(newFundsMap);
           setOrderLines((prev) => [
             ...prev,
-            ...orderLinesResponse.poLines.map(orderLine => ({
-              ...orderLine,
-              funCodes: orderLine.fundDistribution?.map(fund => fundsMap[fund.fundId]?.code).filter(Boolean).join(', '),
-            })),
+            ...orderLinesResponse.poLines,
           ]);
         })
       : Promise.resolve();
@@ -154,11 +131,6 @@ OrderLinesListContainer.manifest = Object.freeze({
   orderLinesListRecords: {
     ...ORDER_LINES,
     records: null,
-  },
-  orderLinesFunds: {
-    ...fundsManifest,
-    accumulate: true,
-    fetch: false,
   },
   identifierTypeISBN: {
     ...IDENTIFIER_TYPES,

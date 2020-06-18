@@ -5,6 +5,7 @@
 ### Stories
 
 ### Bug fixes
+* [UIOR-572](https://issues.folio.org/browse/UIOR-572) Fund codes doesn't display in Order lines list
 * [UIOR-570](https://issues.folio.org/browse/UIOR-570) Fund distributions link to existing encumbrance when order is cloned
 
 ## [2.1.0](https://github.com/folio-org/ui-orders/tree/v2.1.0) (2020-06-12)

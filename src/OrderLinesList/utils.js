@@ -1,7 +1,4 @@
-import { uniq } from 'lodash';
-
 import {
-  batchFetch,
   buildFilterQuery,
   buildDateRangeQuery,
   buildSortingQuery,
@@ -14,19 +11,6 @@ import {
 import {
   getKeywordQuery,
 } from './OrdersLinesSearchConfig';
-
-export const fetchOrderLinesFunds = (mutator, orderLines, fetchedFundsMap) => {
-  const unfetchedFunds = orderLines
-    .reduce((acc, { fundDistribution = [] }) => [...acc, ...fundDistribution], [])
-    .filter(({ fundId }) => !fetchedFundsMap[fundId])
-    .map(({ fundId }) => fundId);
-
-  const fetchFundsPromise = unfetchedFunds.length
-    ? batchFetch(mutator, uniq(unfetchedFunds))
-    : Promise.resolve([]);
-
-  return fetchFundsPromise;
-};
 
 function defaultSearchFn(query, qindex) {
   if (qindex) {
