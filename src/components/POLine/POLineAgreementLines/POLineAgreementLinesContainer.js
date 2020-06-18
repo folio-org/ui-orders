@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  Accordion,
-  Badge,
   Loading,
 } from '@folio/stripes/components';
 import {
@@ -14,7 +12,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { AGREEMENT_LINES_API } from '../../Utils/api';
-import { ACCORDION_ID } from '../const';
 import POLineAgreementLines from './POLineAgreementLines';
 
 const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
@@ -40,19 +37,16 @@ const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
   if (!agreementLines) return <Loading />;
 
   return (
-    <Accordion
-      displayWhenClosed={<Badge>{agreementLines?.length}</Badge>}
-      id={ACCORDION_ID.relatedAgreementLines}
+    <POLineAgreementLines
+      agreementLines={agreementLines}
       label={label}
-    >
-      <POLineAgreementLines agreementLines={agreementLines} />
-    </Accordion>
+    />
   );
 };
 
 POLineAgreementLinesContainer.propTypes = {
   lineId: PropTypes.string.isRequired,
-  label: PropTypes.object.isRequired,
+  label: PropTypes.node.isRequired,
   mutator: PropTypes.object.isRequired,
 };
 
