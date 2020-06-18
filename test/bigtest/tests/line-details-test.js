@@ -58,9 +58,16 @@ describe('Line details test', function () {
       invoiceId: invoice.id,
     });
 
+    this.server.create('agreement-line', {
+      items: [{
+        poLineId: line.id,
+      }],
+    });
+
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
     await page.whenLoaded();
     await page.whenInvoicesLoaded();
+    await page.whenAgreementLinesLoaded();
   });
 
   it('displays Line details pane', function () {
@@ -69,6 +76,7 @@ describe('Line details test', function () {
     expect(page.actions.isPresent).to.be.true;
     expect(page.relatedInvoicesAccordion.invoices().length).to.be.equal(1);
     expect(page.closingReasonMessage).to.be.false;
+    expect(page.relatedAgreementLinesAccordion.agreementLines().length).to.be.equal(1);
   });
 
   describe('Receive button can be clicked on PO Line level', function () {
@@ -97,6 +105,17 @@ describe('Line details test', function () {
     beforeEach(async function () {
       await page.whenInvoicesLoaded();
       await page.relatedInvoicesAccordion.invoices(0).link();
+    });
+
+    it('Line Details page is not presented', function () {
+      expect(page.isPresent).to.be.false;
+    });
+  });
+
+  describe('Go to Agreements app', function () {
+    beforeEach(async function () {
+      await page.whenAgreementLinesLoaded();
+      await page.relatedAgreementLinesAccordion.agreementLines(0).link();
     });
 
     it('Line Details page is not presented', function () {

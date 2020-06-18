@@ -24,6 +24,14 @@ import Button from './button';
   });
 }
 
+@interactor class RelatedAgreementLinesAccordion {
+  static defaultScope = '#relatedAgreementLines';
+
+  agreementLines = collection('[class*=mclRow---]', {
+    link: clickable('[data-test-link-to-agreement]'),
+  });
+}
+
 @interactor class NotesAccordion {
   static defaultScope = '#notes';
 
@@ -44,6 +52,8 @@ export default interactor(class LineDetailsPage {
   notesAccordion = new NotesAccordion();
   lineInvoicesIsPresent = isPresent('#lineInvoices');
   closingReasonMessage = isPresent('[data-test-message-banner]');
+  relatedAgreementLinesAccordion = new RelatedAgreementLinesAccordion();
+  agreementLinesArePresent = isPresent('#po-line-agreement-lines');
 
   actions = new LineDetailsPageActions();
   whenLoaded() {
@@ -52,5 +62,9 @@ export default interactor(class LineDetailsPage {
 
   whenInvoicesLoaded() {
     return this.timeout(20000).when(() => this.lineInvoicesIsPresent);
+  }
+
+  whenAgreementLinesLoaded() {
+    return this.timeout(20000).when(() => this.agreementLinesArePresent);
   }
 });

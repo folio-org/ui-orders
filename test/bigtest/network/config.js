@@ -16,6 +16,9 @@ import {
   configItems,
   configRequests,
 } from '@folio/stripes-acq-components/test/bigtest/network';
+import {
+  createGetAll,
+} from '@folio/stripes-acq-components/test/bigtest/network/configs';
 
 import {
   AGREEMENT_LINES_API,
@@ -92,5 +95,5 @@ export default function config() {
       return link.type === params.type && link.id === params.id;
     }));
   });
-  this.get(AGREEMENT_LINES_API);
+  this.get(AGREEMENT_LINES_API, createGetAll('agreementLines'));
 }
