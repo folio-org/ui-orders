@@ -1,12 +1,3 @@
-import ApplicationSerializer from './application';
+import { buildBaseSerializer } from '@folio/stripes-acq-components/test/bigtest/network';
 
-export default ApplicationSerializer.extend({
-  serialize(...args) {
-    const json = ApplicationSerializer.prototype.serialize.apply(this, args);
-
-    return ({
-      results: json.agreementLines,
-      totalRecords: json.agreementLines.length,
-    });
-  },
-});
+export default buildBaseSerializer('agreementLines', 'results');
