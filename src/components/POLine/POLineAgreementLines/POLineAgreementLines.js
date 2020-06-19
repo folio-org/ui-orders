@@ -34,8 +34,8 @@ const resultFormatter = {
       {name}
     </Link>
   ),
-  startDate: ({ startDate }) => startDate,
-  endDate: ({ endDate }) => endDate,
+  startDate: ({ startDate }) => startDate || '',
+  endDate: ({ endDate }) => endDate || '',
   // eslint-disable-next-line react/prop-types
   status: ({ owner: { agreementStatus: { label, value } } }) => (
     <FormattedMessage
@@ -46,10 +46,10 @@ const resultFormatter = {
   arrow: () => <Icon icon="caret-right" />,
 };
 
-const POLineAgreementLines = ({ agreementLines, label }) => {
+const POLineAgreementLines = ({ agreementLines, label, onNeedMoreData, totalCount }) => {
   return (
     <Accordion
-      displayWhenClosed={<Badge>{agreementLines.length}</Badge>}
+      displayWhenClosed={<Badge>{totalCount}</Badge>}
       id={ACCORDION_ID.relatedAgreementLines}
       label={label}
     >
@@ -59,8 +59,13 @@ const POLineAgreementLines = ({ agreementLines, label }) => {
         formatter={resultFormatter}
         id="po-line-agreement-lines"
         interactive={false}
+        maxHeight={800}
+        onNeedMoreData={onNeedMoreData}
+        pagingType="click"
         rowFormatter={acqRowFormatter}
         rowProps={alignRowProps}
+        totalCount={totalCount}
+        virtualize
         visibleColumns={visibleColumns}
       />
     </Accordion>
@@ -68,8 +73,10 @@ const POLineAgreementLines = ({ agreementLines, label }) => {
 };
 
 POLineAgreementLines.propTypes = {
-  agreementLines: PropTypes.arrayOf(PropTypes.object),
+  agreementLines: PropTypes.arrayOf(PropTypes.object).isRequired,
   label: PropTypes.node.isRequired,
+  onNeedMoreData: PropTypes.func.isRequired,
+  totalCount: PropTypes.number.isRequired,
 };
 
 export default POLineAgreementLines;
