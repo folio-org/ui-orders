@@ -49,7 +49,7 @@ import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
-import { isWorkflowStatusIsPending } from '../PurchaseOrder/util';
+import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
 import validate from './validate';
@@ -247,7 +247,7 @@ class POLineForm extends Component {
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const locations = parentResources?.locations?.records;
     const locationIds = locations?.map(({ id }) => id);
-    const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+    const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
     const { accounts } = vendor;
     const fundDistribution = get(formValues, 'fundDistribution');
@@ -358,7 +358,7 @@ class POLineForm extends Component {
                         formName="POLineForm"
                         fundDistribution={fundDistribution}
                         name="fundDistribution"
-                        disabled={isPostPendingOrder}
+                        disabled={isDisabledToChangePaymentInfo}
                         totalAmount={estimatedPrice}
                       />
                     </Accordion>
