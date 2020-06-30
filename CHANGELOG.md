@@ -5,6 +5,7 @@
 ### Stories
 
 ### Bug fixes
+* [UIOR-578](https://issues.folio.org/browse/UIOR-578) Claim filters not working
 * [UIOR-572](https://issues.folio.org/browse/UIOR-572) Fund codes doesn't display in Order lines list
 * [UIOR-570](https://issues.folio.org/browse/UIOR-570) Fund distributions link to existing encumbrance when order is cloned
 
