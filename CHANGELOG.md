@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UISACQCOMP-3](https://issues.folio.org/browse/UISACQCOMP-3) Handle import of stripes-acq-components to modules and platform
 * [UIOR-446](https://issues.folio.org/browse/UIOR-446) Populate linked agreement lines accordion with agreement line detail
 * [UIOR-445](https://issues.folio.org/browse/UIOR-445) Add linked agreement lines accordion to the POL
 * [UIOR-417](https://issues.folio.org/browse/UIOR-417) Retain filters when switching from PO to POL and back
