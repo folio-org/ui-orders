@@ -51,6 +51,9 @@
         "title": "Orders"
       }
     ],
+    "stripesDeps": [
+      "@folio/stripes-acq-components"
+    ],
     "permissionSets": [
       {
         "permissionName": "module.orders.enabled",
@@ -306,9 +309,6 @@
     "react-router-prop-types": "^1.0.4",
     "redux-form": "^7.4.2"
   },
-  "stripesDeps": [
-    "@folio/stripes-acq-components"
-  ],
   "peerDependencies": {
     "@folio/stripes": "^4.0.0",
     "moment": "^2.24.0",
