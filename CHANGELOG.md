@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-569](https://issues.folio.org/browse/UIOR-569) Ability to change price and fund distribution information for Open order
 
 ### Bug fixes
 * [UIOR-578](https://issues.folio.org/browse/UIOR-578) Claim filters not working
