@@ -204,7 +204,7 @@ function OrderLinesFilters({ activeFilters, applyFilters, materialTypes }) {
         name={FILTERS.RECEIPT_DUE}
         onChange={onChange}
       />
-      <BooleanFilter
+      {/* <BooleanFilter
         activeFilters={activeFilters[FILTERS.CLAIM]}
         id={FILTERS.CLAIM}
         labelId="ui-orders.filter.claim"
@@ -225,7 +225,7 @@ function OrderLinesFilters({ activeFilters, applyFilters, materialTypes }) {
         labelId="ui-orders.filter.claimSent"
         name={FILTERS.CLAIM_SENT}
         onChange={onChange}
-      />
+      /> */}
     </AccordionSet>
   );
 }

@@ -51,6 +51,9 @@
         "title": "Orders"
       }
     ],
+    "stripesDeps": [
+      "@folio/stripes-acq-components"
+    ],
     "permissionSets": [
       {
         "permissionName": "module.orders.enabled",
