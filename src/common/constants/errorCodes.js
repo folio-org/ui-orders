@@ -44,6 +44,7 @@ export const ERROR_CODES = {
   organizationNotAVendor: 'organizationNotAVendor',
   physicalLocCostQtyMismatch: 'physicalLocCostQtyMismatch',
   piecesNeedToBeDeleted: 'piecesNeedToBeDeleted',
+  polLimitExceeded: 'polLimitExceeded',
   poNumberNotUnique: 'poNumberNotUnique',
   poNumberRequired: 'poNumberRequired',
   protectedFieldChanging: 'protectedFieldChanging',
