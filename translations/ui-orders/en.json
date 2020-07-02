@@ -411,6 +411,7 @@
   "errors.orderWasNotDeleted": "Error while deleting purchase order",
   "errors.organizationNotAVendor": "Order cannot be opened as the associated vendorId belongs to non-vendor organization",
   "errors.physicalLocCostQtyMismatch": "PO line physical quantity and locations physical quantity do not match",
+  "errors.polLimitExceeded": "Your FOLIO system is configured to limit the number of PO Lines on each order",
   "errors.poNumberNotUnique": "PO Number already exists",
   "errors.poNumberRequired": "PO Number is missing",
   "errors.protectedFieldChanging": "Protected fields can't be modified",
