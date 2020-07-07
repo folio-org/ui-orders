@@ -35,6 +35,8 @@ class ContributorForm extends Component {
   }
 
   renderForm = ({ fields }) => {
+    const { disabled, required } = this.props;
+
     return (
       <Row start="xs">
         <Col xs={12}>
@@ -47,60 +49,56 @@ class ContributorForm extends Component {
               </div>
             </Col>
           )}
-          {fields.map(this.renderSubForm)}
+          {fields.map((elem, index) => (
+            <Row key={index}>
+              <Col xs={6}>
+                <Field
+                  component={TextField}
+                  fullWidth
+                  label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
+                  name={`${elem}.contributor`}
+                  onChange={({ target: { value } }) => this.props.onChangeField(value, `${elem}.contributor`)}
+                  disabled={disabled}
+                  validateFields={[`${elem}.contributorNameTypeId`]}
+                />
+              </Col>
+              <Col xs={5}>
+                <FieldSelectFinal
+                  dataOptions={this.props.contributorNameTypes}
+                  fullWidth
+                  required={required}
+                  label={<FormattedMessage id="ui-orders.itemDetails.contributorType" />}
+                  name={`${elem}.contributorNameTypeId`}
+                  onChange={({ target: { value } }) => this.props.onChangeField(value, `${elem}.contributorNameTypeId`)}
+                  disabled={disabled}
+                  validateFields={[`${elem}.contributor`]}
+                />
+              </Col>
+              <Col
+                style={{ paddingTop: '10px' }}
+                xs={1}
+              >
+                <br />
+                <IconButton
+                  data-test-remove-contributor-button
+                  icon="trash"
+                  onClick={() => this.removeFields(fields, index)}
+                  disabled={disabled}
+                >
+                  <FormattedMessage id="ui-orders.itemDetails.removeBtn" />
+                </IconButton>
+              </Col>
+            </Row>
+          ))}
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
           <Button
             data-test-add-contributor-button
             onClick={() => this.addFields(fields)}
-            disabled={this.props.disabled}
+            disabled={disabled}
           >
             <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />
           </Button>
-        </Col>
-      </Row>
-    );
-  }
-
-  renderSubForm = (elem, index, fields) => {
-    const { required } = this.props;
-
-    return (
-      <Row key={index}>
-        <Col xs={6}>
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
-            name={`${elem}.contributor`}
-            onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributor`)}
-            disabled={this.props.disabled}
-          />
-        </Col>
-        <Col xs={5}>
-          <FieldSelectFinal
-            dataOptions={this.props.contributorNameTypes}
-            fullWidth
-            required={required}
-            label={<FormattedMessage id="ui-orders.itemDetails.contributorType" />}
-            name={`${elem}.contributorNameTypeId`}
-            onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributorNameTypeId`)}
-            disabled={this.props.disabled}
-          />
-        </Col>
-        <Col
-          style={{ paddingTop: '10px' }}
-          xs={1}
-        >
-          <br />
-          <IconButton
-            data-test-remove-contributor-button
-            icon="trash"
-            onClick={() => this.removeFields(fields, index)}
-            disabled={this.props.disabled}
-          >
-            <FormattedMessage id="ui-orders.itemDetails.removeBtn" />
-          </IconButton>
         </Col>
       </Row>
     );

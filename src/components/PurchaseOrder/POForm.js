@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import {
-  isDirty,
-} from 'redux-form';
 
-import stripesForm from '@folio/stripes/form';
+import stripesForm from '@folio/stripes/final-form';
 import {
   Accordion,
   AccordionSet,
@@ -21,11 +18,8 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import { FieldSelection } from '@folio/stripes-acq-components';
+import { FieldSelectionFinal as FieldSelection } from '@folio/stripes-acq-components';
 
-import {
-  PO_FORM_NAME,
-} from '../../common/constants';
 import {
   getAddresses,
 } from '../../common/utils';
@@ -40,26 +34,10 @@ import { SummaryForm } from './Summary';
 import { OngoingInfoForm } from './OngoingOgderInfo';
 import { PO_TEMPLATE_FIELDS_MAP } from './constants';
 
-const asyncValidate = (values, dispatchRedux, props, blurredField) => {
-  const fieldName = blurredField || 'poNumber';
-  const { poNumber } = values;
-  const fullOrderNumber = getFullOrderNumber(values);
-  const { parentMutator: { orderNumber: validator }, stripes: { store } } = props;
-  const orderNumberFieldIsDirty = isDirty(PO_FORM_NAME)(store.getState(), [fieldName]);
-
-  return orderNumberFieldIsDirty && poNumber
-    ? validator.POST({ poNumber: fullOrderNumber })
-      .catch(() => {
-        const errorInfo = { [fieldName]: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
-
-        throw errorInfo;
-      })
-    : Promise.resolve();
-};
-
 class POForm extends Component {
   static propTypes = {
-    formValues: PropTypes.object,
+    values: PropTypes.object,
+    form: PropTypes.object.isRequired,
     generatedNumber: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     initialValues: PropTypes.object.isRequired,
@@ -68,8 +46,6 @@ class POForm extends Component {
     submitting: PropTypes.bool.isRequired,
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
     stripes: PropTypes.object.isRequired,
   }
 
@@ -83,6 +59,28 @@ class POForm extends Component {
       },
     };
   }
+
+  callAPI = (fieldName, formValues) => {
+    const fullOrderNumber = getFullOrderNumber(formValues);
+    const { parentMutator: { orderNumber: validator }, values } = this.props;
+    const poNumber = formValues.poNumber;
+    const initialFullOrderNumber = getFullOrderNumber(values);
+
+    return poNumber && initialFullOrderNumber !== fullOrderNumber
+      ? validator.POST({ poNumber: fullOrderNumber })
+        .then(() => {})
+        .catch(() => <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" />)
+      : Promise.resolve();
+  }
+
+  validateNumber = (poNumber, formValues) => {
+    const { form } = this.props;
+    const isDirty = form.getFieldState('poNumber').dirty;
+
+    return poNumber && isDirty
+      ? this.callAPI('poNumber', formValues)
+      : Promise.resolve();
+  };
 
   getAddFirstMenu() {
     const { onCancel } = this.props;
@@ -162,44 +160,43 @@ class POForm extends Component {
   }
 
   onChangeTemplate = (e, value) => {
-    const { change, dispatch, parentResources, stripes } = this.props;
+    const { form: { batch, change, getRegisteredFields }, parentResources, stripes } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
-    let form = get(stripes.store.getState(), 'form', {});
 
-    dispatch(change('template', value));
-    dispatch(change('vendor', ''));
-    dispatch(change('assignedToUser', ''));
-    dispatch(change('manualPo', false));
-    dispatch(change('reEncumber', false));
-    dispatch(change('orderType', ''));
-    dispatch(change('acqUnitIds', []));
-    dispatch(change('tags', { tagList: [] }));
-    dispatch(change('notes', []));
-    dispatch(change('billTo', ''));
-    dispatch(change('shipTo', ''));
+    batch(() => {
+      change('template', value);
+      change('vendor', '');
+      change('assignedToUser', '');
+      change('manualPo', false);
+      change('reEncumber', false);
+      change('orderType', '');
+      change('acqUnitIds', []);
+      change('tags', { tagList: [] });
+      change('notes', []);
+      change('billTo', '');
+      change('shipTo', '');
+    });
 
-    Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))
+    getRegisteredFields()
       .forEach(field => {
         const templateField = PO_TEMPLATE_FIELDS_MAP[field] || field;
         const templateFieldValue = get(templateValue, templateField);
 
-        if (templateFieldValue) dispatch(change(field, templateFieldValue));
+        if (templateFieldValue) change(field, templateFieldValue);
       });
     if (isOngoing(templateValue.orderType)) {
-      dispatch(change('ongoing', templateValue.ongoing || {}));
+      change('ongoing', templateValue.ongoing || {});
       setTimeout(() => {
-        form = get(stripes.store.getState(), 'form', {});
-        Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))
-          .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
+        getRegisteredFields()
+          .forEach(field => get(templateValue, field) && change(field, get(templateValue, field)));
       });
     }
   };
 
   render() {
     const {
-      change,
-      dispatch,
-      formValues = {},
+      form: { change },
+      values: formValues,
       generatedNumber,
       initialValues,
       onCancel,
@@ -290,7 +287,6 @@ class POForm extends Component {
                           <PODetailsForm
                             addresses={addresses}
                             change={change}
-                            dispatch={dispatch}
                             formValues={formValues}
                             generatedNumber={generatedNumber}
                             order={initialValues}
@@ -298,6 +294,7 @@ class POForm extends Component {
                             prefixesSetting={prefixesSetting}
                             suffixesSetting={suffixesSetting}
                             stripes={stripes}
+                            validateNumber={this.validateNumber}
                           />
                         </Accordion>
                         {isOngoing(formValues.orderType) && (
@@ -312,7 +309,7 @@ class POForm extends Component {
                           id="POSummary"
                           label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
                         >
-                          <SummaryForm {...this.props} />
+                          <SummaryForm initialValues={initialValues} />
                         </Accordion>
                       </AccordionSet>
                     </Col>
@@ -328,9 +325,7 @@ class POForm extends Component {
 }
 
 export default stripesForm({
-  asyncBlurFields: ['poNumber', 'poNumberPrefix', 'poNumberSuffix'],
-  asyncValidate,
   enableReinitialize: true,
-  form: PO_FORM_NAME,
   navigationCheck: true,
+  subscription: { values: true },
 })(POForm);

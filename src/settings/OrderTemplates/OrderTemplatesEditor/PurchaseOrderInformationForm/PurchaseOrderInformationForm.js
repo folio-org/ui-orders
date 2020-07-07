@@ -26,7 +26,6 @@ const PurchaseOrderInformationForm = ({
   addresses,
   formValues,
   change,
-  dispatch,
 }) => {
   return (
     <Row>
@@ -49,7 +48,6 @@ const PurchaseOrderInformationForm = ({
         data-col-order-template-vendor
       >
         <FieldOrganization
-          dispatch={dispatch}
           change={change}
           id={formValues.vendor}
           labelId="ui-orders.orderDetails.vendor"
@@ -63,7 +61,6 @@ const PurchaseOrderInformationForm = ({
         data-col-order-template-assign-to
       >
         <FieldAssignedTo
-          dispatch={dispatch}
           change={change}
           assignedToValue={formValues.assignedTo || formValues.assignedToUser}
         />
@@ -124,7 +121,6 @@ PurchaseOrderInformationForm.propTypes = {
   addresses: PropTypes.arrayOf(PropTypes.object),
   formValues: PropTypes.object.isRequired,
   change: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
 };
 
 export default PurchaseOrderInformationForm;

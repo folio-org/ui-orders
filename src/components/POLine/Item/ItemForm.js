@@ -44,13 +44,11 @@ import css from './ItemForm.css';
 
 class ItemForm extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     identifierTypes: selectOptionsShape,
     contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
     order: PropTypes.object.isRequired,
-    formName: PropTypes.string.isRequired,
     formValues: PropTypes.object.isRequired,
     required: PropTypes.bool,
     stripes: stripesShape.isRequired,
@@ -68,32 +66,33 @@ class ItemForm extends Component {
   }
 
   onAddLinkPackage = ([selectedPoLine]) => {
-    const { dispatch, change } = this.props;
+    const { change } = this.props;
 
-    dispatch(change('packagePoLineId', selectedPoLine?.id || null));
+    change('packagePoLineId', selectedPoLine?.id || null);
   };
 
   onAddInstance = (instance) => {
-    const { dispatch, change, identifierTypes } = this.props;
+    console.log('onAddInstance', instance);
+    const { change, identifierTypes } = this.props;
     const { contributors, editions, publication, title, identifiers, id } = instance;
     const inventoryData = { instanceId: id };
 
-    dispatch(change('instanceId', id));
-    dispatch(change('titleOrPackage', title || ''));
+    change('instanceId', id);
+    change('titleOrPackage', title || '');
     inventoryData.title = title || '';
     const { publisher, dateOfPublication } = publication?.[0] || {};
 
-    dispatch(change('publisher', publisher || ''));
+    change('publisher', publisher || '');
     inventoryData.publisher = publisher || '';
 
     const publicationDate = dateOfPublication?.length === ALLOWED_YEAR_LENGTH ? dateOfPublication : '';
 
-    dispatch(change('publicationDate', publicationDate));
+    change('publicationDate', publicationDate);
     inventoryData.publicationDate = publicationDate;
 
     const edition = editions?.[0] || '';
 
-    dispatch(change('edition', edition));
+    change('edition', edition);
     inventoryData.edition = edition;
 
     const lineContributors = contributors?.map(({ name, contributorNameTypeId }) => ({
@@ -101,7 +100,7 @@ class ItemForm extends Component {
       contributorNameTypeId,
     })) || [];
 
-    dispatch(change('contributors', lineContributors));
+    change('contributors', lineContributors);
     inventoryData.contributors = lineContributors;
 
     if (identifiers && identifiers.length) {
@@ -126,13 +125,13 @@ class ItemForm extends Component {
           return result;
         });
 
-      dispatch(change('details.productIds', lineidentifiers));
+      change('details.productIds', lineidentifiers);
       inventoryData.productIds = lineidentifiers;
     } else {
-      dispatch(change('details.productIds', []));
+      change('details.productIds', []);
       inventoryData.productIds = [];
     }
-
+    console.log('onadd inst', inventoryData);
     this.setState(({
       instanceId: inventoryData.instanceId,
       title: get(inventoryData, 'title', ''),
@@ -145,14 +144,14 @@ class ItemForm extends Component {
   };
 
   onChangeField = (value, fieldName) => {
-    const { formValues, dispatch, change } = this.props;
+    const { formValues, change } = this.props;
     const inventoryData = this.state;
 
-    dispatch(change(fieldName, value));
+    if (fieldName) change(fieldName, value);
 
     if (shouldSetInstanceId(formValues, inventoryData)) {
-      dispatch(change('instanceId', inventoryData.instanceId));
-    } else dispatch(change('instanceId', null));
+      change('instanceId', inventoryData.instanceId);
+    } else change('instanceId', null);
   };
 
   setTitleOrPackage = ({ target: { value } }) => {

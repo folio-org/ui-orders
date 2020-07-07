@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal as FieldSelect } from '@folio/stripes-acq-components';
 
 import { ORDER_TYPE } from '../../../common/constants';
 
@@ -19,6 +19,7 @@ const FieldOrderType = ({ disabled, required }) => {
       name="orderType"
       required={required}
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };

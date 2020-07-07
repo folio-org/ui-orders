@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  FieldSelect,
+  FieldSelectFinal as FieldSelect,
   fieldSelectOptionsShape,
 } from '@folio/stripes-acq-components';
 
-const FieldPrefix = ({ prefixes, disabled }) => {
+const FieldPrefix = ({ prefixes, disabled, ...rest }) => {
   return (
     <FieldSelect
       label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
       name="poNumberPrefix"
       dataOptions={prefixes}
       disabled={disabled}
+      validateFields={[]}
+      {...rest}
     />
   );
 };

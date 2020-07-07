@@ -16,7 +16,7 @@ const FieldActivationDue = ({ created }) => {
           ? moment.utc(created).add(value, 'days').format(DATE_FORMAT)
           : '';
       }}
-      normalize={(value) => {
+      parse={(value) => {
         return value
           ? moment.utc(value).diff(moment(created), 'days') + 1
           : undefined;

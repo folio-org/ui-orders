@@ -256,11 +256,12 @@ function LayerPOLine({
     updatePOLine(savingValues);
   }, [savingValues, updatePOLine]);
 
-  const getCreatePOLIneInitialValues = () => {
+  const getCreatePOLIneInitialValues = useMemo(() => {
     const orderId = order?.id;
     const newObj = {
       source: sourceValues.user,
       cost: {
+        discountType: DISCOUNT_TYPE.percentage,
       },
       vendorDetail: {
         instructions: '',
@@ -291,19 +292,19 @@ function LayerPOLine({
     }
     const templateValue = getOrderTemplateValue(resources, order?.template);
 
-    const { form } = stripes.store.getState();
+    // const { form } = stripes.store.getState();
 
-    Object.keys(get(form, 'POLineForm.registeredFields', {}))
-      .forEach(field => {
-        const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
-        const templateFieldValue = get(templateValue, templateField);
+    // Object.keys(get(form, 'POLineForm.registeredFields', {}))
+    //   .forEach(field => {
+    //     const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
+    //     const templateFieldValue = get(templateValue, templateField);
 
-        if (templateFieldValue !== undefined) set(newObj, field, templateFieldValue);
-      });
+    //     if (templateFieldValue !== undefined) set(newObj, field, templateFieldValue);
+    //   });
     set(newObj, 'cost.currency', newObj?.cost?.currency || stripes.currency);
 
     return newObj;
-  };
+  }, [createInventorySetting.eresource, createInventorySetting.physical, order, stripes.currency, vendor]);
 
   const vendorId = order?.vendor;
 
@@ -370,7 +371,7 @@ function LayerPOLine({
 
   if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
 
-  const initialValues = lineId ? poLine : getCreatePOLIneInitialValues();
+  const initialValues = lineId ? poLine : getCreatePOLIneInitialValues;
   const onSubmit = lineId ? updatePOLine : submitPOLine;
 
   return (

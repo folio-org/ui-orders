@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
 import {
   Button,
@@ -12,21 +12,8 @@ import {
 } from '@folio/stripes/components';
 import { validateRequired } from '@folio/stripes-acq-components';
 
-const renderNotesField = ({ input, label }) => (
-  <Field
-    component={TextArea}
-    {...input}
-    label={label}
-  />
-);
-
-renderNotesField.propTypes = {
-  input: PropTypes.object,
-  label: PropTypes.object,
-};
-
 const NotesForm = ({ fields }) => (
-  <Fragment>
+  <>
     {fields.map((note, index) => (
       <Row key={note.id || index}>
         <Col
@@ -36,8 +23,9 @@ const NotesForm = ({ fields }) => (
           <Field
             name={note}
             type="text"
-            component={renderNotesField}
+            component={TextArea}
             validate={validateRequired}
+            validateFields={[]}
           />
         </Col>
         <Col xs={1}>
@@ -59,7 +47,7 @@ const NotesForm = ({ fields }) => (
         <FormattedMessage id="ui-orders.orderDetails.addNoteBtn" />
       </Button>
     </Col>
-  </Fragment>
+  </>
 );
 
 NotesForm.displayName = 'NotesForm';

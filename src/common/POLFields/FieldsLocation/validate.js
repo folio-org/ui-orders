@@ -1,6 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
+
+import { validateRequired } from '@folio/stripes-acq-components';
+
 import {
   ERESOURCES,
   INVENTORY_RECORDS_TYPE,
@@ -42,6 +45,10 @@ export const validateNotNegative = value => {
 };
 
 export const validateQuantityPhysical = (value, { cost, locations = [], physical, orderFormat }) => {
+  const validateNotNegativeMessage = validateNotNegative(value);
+
+  if (validateNotNegativeMessage) return validateNotNegativeMessage;
+
   const allLocationsQuantity = getTotalLocationsQuantities(locations, 'quantityPhysical');
   const overallLineQuantity = Number(get(cost, 'quantityPhysical', 0));
   const inventoryType = get(physical, 'createInventory', '');
@@ -59,6 +66,10 @@ export const validateQuantityPhysical = (value, { cost, locations = [], physical
 };
 
 export const validateQuantityElectronic = (value, { cost, locations = [], eresource, orderFormat }) => {
+  const validateNotNegativeMessage = validateNotNegative(value);
+
+  if (validateNotNegativeMessage) return validateNotNegativeMessage;
+
   const allLocationsQuantity = getTotalLocationsQuantities(locations, 'quantityElectronic');
   const overallLineQuantity = Number(get(cost, 'quantityElectronic', 0));
   const inventoryType = get(eresource, 'createInventory', '');
@@ -95,6 +106,10 @@ export const isLocationsRequired = (values, valuesAll) => {
 };
 
 export const validateLocation = (value, { locations }) => {
+  const validateRequiredMessage = validateRequired(value);
+
+  if (validateRequiredMessage) return validateRequiredMessage;
+
   const { quantityPhysical, quantityElectronic } = locations.find(({ locationId }) => locationId === value);
   const isQuantitiesNeed =
     (!quantityPhysical || quantityPhysical === 0) && (!quantityElectronic || quantityElectronic === 0);

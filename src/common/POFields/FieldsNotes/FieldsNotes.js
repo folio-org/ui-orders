@@ -1,5 +1,5 @@
 import React from 'react';
-import { FieldArray } from 'redux-form';
+import { FieldArray } from 'react-final-form-arrays';
 
 import NotesForm from '../../../components/NotesForm';
 

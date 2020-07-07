@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FieldSelection } from '@folio/stripes-acq-components';
+import { FieldSelectionFinal as FieldSelection } from '@folio/stripes-acq-components';
 
 const FieldBillTo = ({ addresses, disabled }) => {
   return (
@@ -10,6 +10,7 @@ const FieldBillTo = ({ addresses, disabled }) => {
       labelId="ui-orders.orderDetails.billTo"
       name="billTo"
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };

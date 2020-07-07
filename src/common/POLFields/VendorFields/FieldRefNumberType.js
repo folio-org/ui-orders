@@ -22,8 +22,6 @@ const REF_NUMBER_TYPE_OPTIONS = Object.keys(REF_NUMBER_TYPE).map((key) => ({
 const parseRefNumberValue = (value) => (value === '' ? null : value);
 
 const FieldRefNumberType = ({ required }) => {
-  const validateRefNumberType = required ? { validate: [requiredRefNumber] } : {};
-
   return (
     <FieldSelectFinal
       dataOptions={REF_NUMBER_TYPE_OPTIONS}
@@ -32,7 +30,7 @@ const FieldRefNumberType = ({ required }) => {
       name="vendorDetail.refNumberType"
       required={required}
       parse={parseRefNumberValue}
-      {...validateRefNumberType}
+      validate={required ? requiredRefNumber : undefined}
     />
   );
 };

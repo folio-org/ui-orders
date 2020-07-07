@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal as FieldSelect } from '@folio/stripes-acq-components';
 
 import { WORKFLOW_STATUS } from '../../../common/constants';
 

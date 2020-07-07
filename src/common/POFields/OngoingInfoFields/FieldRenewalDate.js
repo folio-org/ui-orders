@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  FieldDatepicker,
+  FieldDatepickerFinal,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
 const FieldRenewalDate = ({ required, disabled }) => {
   return (
-    <FieldDatepicker
+    <FieldDatepickerFinal
       label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}
       name="ongoing.renewalDate"
       required={required}
       validate={required ? validateRequired : undefined}
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };

@@ -11,7 +11,6 @@ import {
 } from '@folio/stripes/components';
 import {
   FieldLocationFinal,
-  validateRequired,
 } from '@folio/stripes-acq-components';
 
 import { RepeatableFieldWithErrorMessage } from '../../RepeatableFieldWithErrorMessage/RepeatableFieldWithErrorMessage';
@@ -19,12 +18,11 @@ import {
   isLocationsRequired,
   parseQuantity,
   validateLocation,
-  validateNotNegative,
   validateQuantityElectronic,
   validateQuantityPhysical,
 } from './validate';
 
-const NO_VALIDATE = [];
+const NO_VALIDATE = undefined;
 
 const FieldsLocation = ({
   changeLocation,
@@ -57,7 +55,7 @@ const FieldsLocation = ({
               onChange={changeLocation}
               prepopulatedLocationsIds={locationIds}
               required={withValidation}
-              validate={withValidation ? [validateRequired, validateLocation] : NO_VALIDATE}
+              validate={withValidation ? validateLocation : NO_VALIDATE}
             />
           </Col>
           <Col xs={3}>
@@ -67,7 +65,7 @@ const FieldsLocation = ({
               name={`${field}.quantityPhysical`}
               parse={parseQuantity}
               type="number"
-              validate={withValidation ? [validateNotNegative, validateQuantityPhysical] : NO_VALIDATE}
+              validate={withValidation ? validateQuantityPhysical : NO_VALIDATE}
               disabled={isDisabledToChangePaymentInfo}
             />
           </Col>
@@ -78,7 +76,7 @@ const FieldsLocation = ({
               name={`${field}.quantityElectronic`}
               parse={parseQuantity}
               type="number"
-              validate={withValidation ? [validateNotNegative, validateQuantityElectronic] : NO_VALIDATE}
+              validate={withValidation ? validateQuantityElectronic : NO_VALIDATE}
               disabled={isDisabledToChangePaymentInfo}
             />
           </Col>

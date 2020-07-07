@@ -1,10 +1,14 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
+
 import {
   ALLOWED_YEAR_LENGTH,
   INVENTORY_RECORDS_TYPE,
 } from '../POLine/const';
 
-const REQUIRED = 'Required!';
+const REQUIRED = <FormattedMessage id="stripes-acq-components.validation.required" />;
+const NOT_VALID_YEAR = <FormattedMessage id="ui-orders.validation.year" />;
 
 // Field is required only if 'vendorDetail.refNumber' isn't empty
 export const requiredRefNumber = (value, allValues) => {
@@ -34,7 +38,7 @@ export const validateYear = (value) => {
     return undefined;
   }
 
-  return 'Field should be 4-digit year';
+  return NOT_VALID_YEAR;
 };
 
 // Field is required only if 'createInventory' includes 'Instanse, Holding, Item'

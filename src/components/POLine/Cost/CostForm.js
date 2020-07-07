@@ -10,9 +10,12 @@ import {
   KeyValue,
   Row,
   TextField,
+  Button,
+  ButtonGroup,
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
+  CurrencySymbol,
   parseNumberFieldValue,
   validateRequiredNotNegative,
 } from '@folio/stripes-acq-components';
@@ -58,6 +61,34 @@ const validateNotNegative = (value) => {
     ? undefined
     : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
 };
+
+const TypeToggle = (({ input: { value, onChange }, label, disabled, currency }) => {
+  return (
+    <KeyValue label={label}>
+      <ButtonGroup
+        fullWidth
+        data-test-fund-distr-type
+      >
+        <Button
+          onClick={() => value !== DISCOUNT_TYPE.percentage && onChange(DISCOUNT_TYPE.percentage)}
+          buttonStyle={value === DISCOUNT_TYPE.percentage ? 'primary' : 'default'}
+          data-test-fund-distr-type-percent
+          disabled={disabled}
+        >
+          <FormattedMessage id="stripes-acq-components.fundDistribution.type.sign.percent" />
+        </Button>
+        <Button
+          onClick={() => value !== DISCOUNT_TYPE.amount && onChange(DISCOUNT_TYPE.amount)}
+          buttonStyle={value === DISCOUNT_TYPE.amount ? 'primary' : 'default'}
+          data-test-fund-distr-type-amount
+          disabled={disabled}
+        >
+          <CurrencySymbol currency={currency} />
+        </Button>
+      </ButtonGroup>
+    </KeyValue>
+  );
+});
 
 class CostForm extends Component {
   static propTypes = {
@@ -114,7 +145,7 @@ class CostForm extends Component {
 
     const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
     const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
-    const poLineEstimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
+    const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
     const currency = get(formValues, 'cost.currency');
     const isPackage = get(formValues, 'isPackage');
     const isElectornicFieldsVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;
@@ -199,22 +230,35 @@ class CostForm extends Component {
           </Col>
         )}
         <Col
-          xs={6}
-          md={3}
+          xs={3}
+          md={1}
         >
           <Field
             component={TextField}
-            format={(value) => {
-              return !value || isAmountDiscountType
-                ? value
-                : `${value}%`;
-            }}
+            // format={(value) => {
+            //   return !value || isAmountDiscountType
+            //     ? value
+            //     : `${value}%`;
+            // }}
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.discount" />}
             name="cost.discount"
-            // normalize={this.normalizeDiscount}
+            // parse={this.normalizeDiscount}
+            type="number"
             validate={validateNotNegative}
             disabled={isDisabledToChangePaymentInfo}
+          />
+        </Col>
+        <Col
+          xs={3}
+          md={2}
+        >
+          <Field
+            component={TypeToggle}
+            currency={currency}
+            disabled={isPostPendingOrder}
+            label={<FormattedMessage id="ui-orders.cost.discountType" />}
+            name="cost.discountType"
           />
         </Col>
         {isElectornicFieldsVisible && (

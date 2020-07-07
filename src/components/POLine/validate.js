@@ -4,10 +4,10 @@ import { validateFundDistribution } from '@folio/stripes-acq-components';
 
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 
-function validate(values, { stripes }) {
+function validate(values) {
   const errors = {};
-  const currency = get(values, 'cost.currency') || stripes.currency;
-  const totalAmount = calculateEstimatedPrice(values, stripes.currency);
+  const currency = get(values, 'cost.currency');
+  const totalAmount = calculateEstimatedPrice(values);
   const fundDistributionErrors = validateFundDistribution(values.fundDistribution, totalAmount, currency);
 
   if (fundDistributionErrors) errors.fundDistribution = fundDistributionErrors;

@@ -32,10 +32,11 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             name={`${elem}.productId`}
-            onChange={(e, value) => onChangeField(value, `${elem}.productId`)}
+            onChange={({ target: { value } }) => onChangeField(value, `${elem}.productId`)}
             disabled={disabled}
             required={required}
             validate={required ? validateRequired : undefined}
+            validateFields={[`${elem}.productIdType`]}
           />
         </Col>
         <Col xs>
@@ -44,8 +45,9 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.qualifier" />}
             name={`${elem}.qualifier`}
-            onChange={(e, value) => onChangeField(value, `${elem}.qualifier`)}
+            onChange={({ target: { value } }) => onChangeField(value, `${elem}.qualifier`)}
             disabled={disabled}
+            validateFields={[`${elem}.productId`, `${elem}.productIdType`]}
           />
         </Col>
         <Col xs>
@@ -54,10 +56,11 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
             name={`${elem}.productIdType`}
-            onChange={(e, value) => onChangeField(value, `${elem}.productIdType`)}
+            onChange={({ target: { value } }) => onChangeField(value, `${elem}.productIdType`)}
             required={required}
             disabled={disabled}
             validate={required ? validateRequired : undefined}
+            validateFields={[`${elem}.productId`]}
           />
         </Col>
       </Row>

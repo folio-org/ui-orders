@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
@@ -17,6 +17,7 @@ const FieldRenewalInterval = ({ required, disabled }) => {
       required={required}
       validate={required ? validateRequired : undefined}
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };

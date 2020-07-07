@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
-import { getFormValues } from 'redux-form';
 
 import { LoadingView } from '@folio/stripes/components';
 import {
@@ -13,7 +12,6 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { PO_FORM_NAME } from '../../common/constants';
 import {
   prefixesResource,
   suffixesResource,
@@ -105,10 +103,10 @@ function LayerPO({
         sendCallout({
           message: <SafeHTMLMessage id="ui-orders.order.save.success" values={{ orderNumber: savedOrder.poNumber }} />,
         });
-        setTimeout(() => history.push({
+        history.push({
           pathname: `/orders/view/${savedOrder.id}`,
           search: location.search,
-        }));
+        });
       })
       .catch(async e => {
         setIsLoading(false);
@@ -140,12 +138,10 @@ function LayerPO({
     assignedToUser,
   };
   const initialValues = savingValues || patchedOrder; // use entered values in case of error response
-  const formValues = getFormValues(PO_FORM_NAME)(stripes.store.getState());
 
   return (
     <>
       <POForm
-        formValues={formValues} // hack to re-render redux-form
         generatedNumber={generatedNumber}
         initialValues={initialValues}
         onCancel={onCancel}

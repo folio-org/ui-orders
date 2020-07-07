@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { Checkbox } from '@folio/stripes/components';
@@ -15,6 +15,7 @@ const FieldIsManualPO = ({ disabled }) => {
       type="checkbox"
       disabled={disabled}
       vertical
+      validateFields={[]}
     />
   );
 };

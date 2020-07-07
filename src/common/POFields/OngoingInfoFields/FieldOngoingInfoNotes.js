@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { TextArea } from '@folio/stripes/components';
@@ -13,6 +13,7 @@ const FieldOngoingInfoNotes = ({ disabled }) => {
       label={<FormattedMessage id="ui-orders.renewals.notes" />}
       name="ongoing.notes"
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };

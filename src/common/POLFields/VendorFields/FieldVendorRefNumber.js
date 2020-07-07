@@ -8,8 +8,6 @@ import { TextField } from '@folio/stripes/components';
 import { requiredRefNumberType } from '../../../components/Utils/Validate';
 
 const FieldVendorRefNumber = ({ required }) => {
-  const validateRefNumber = required ? { validate: [requiredRefNumberType] } : {};
-
   return (
     <Field
       component={TextField}
@@ -17,7 +15,7 @@ const FieldVendorRefNumber = ({ required }) => {
       label={<FormattedMessage id="ui-orders.vendor.refNumber" />}
       name="vendorDetail.refNumber"
       required={required}
-      {...validateRefNumber}
+      validate={required ? requiredRefNumberType : undefined}
     />
   );
 };

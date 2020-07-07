@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -41,12 +41,14 @@ import { OtherForm } from './Other';
 import {
   ACCORDION_ID,
   MAP_FIELD_ACCORDION,
+  POL_TEMPLATE_FIELDS_MAP,
 } from './const';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
 import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
+import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
 import validate from './validate';
@@ -55,6 +57,7 @@ function dispatch() { }
 
 function POLineForm({
   form: { change },
+  form,
   initialValues,
   onCancel,
   order,
@@ -88,8 +91,27 @@ function POLineForm({
 
   //   return null;
   // }
-  console.log('initialValues', { ...initialValues });
-  console.log('formValues', { ...formValues });
+  // console.log('initialValues', { ...initialValues });
+  // console.log('formValues', { ...formValues });
+
+  // const templateValue = getOrderTemplateValue(parentResources, order?.template);
+  // const fields = form.getRegisteredFields();
+  // console.log('templateValue', templateValue, fields);
+
+  // useEffect(() => {
+  //   console.log('useEffect', templateValue.id, fields);
+  //   if (templateValue.id && fields.length > 0) {
+  //     fields.forEach(field => {
+  //       console.log('field', field);
+  //       const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
+  //       console.log('templateField', templateField);
+  //       const templateFieldValue = get(templateValue, templateField);
+  //       console.log('templateFieldValue', templateFieldValue);
+
+  //       if (templateFieldValue !== undefined) change(field, templateFieldValue);
+  //     });
+  //   }
+  // }, [change, fields, templateValue.id]);
 
   const getAddFirstMenu = () => {
     return (
@@ -126,7 +148,7 @@ function POLineForm({
     const buttonSaveStyle = isSaveAndOpenButtonVisible ? 'default mega' : 'primary mega';
 
     const end = (
-      <Fragment>
+      <>
         <Button
           data-test-button-save
           id="clickable-updatePoLine"
@@ -148,7 +170,7 @@ function POLineForm({
             <FormattedMessage id="ui-orders.buttons.line.saveAndOpen" />
           </Button>
         )}
-      </Fragment>
+      </>
     );
 
     return (
@@ -169,7 +191,7 @@ function POLineForm({
   const paneFooter = getPaneFooter();
 
   const changeLocation = (location, fieldName) => {
-    dispatch(change(fieldName, location.id));
+    change(fieldName, location.id);
   };
 
   if (!initialValues) {
@@ -252,12 +274,11 @@ function POLineForm({
                     {metadata && <ViewMetaData metadata={metadata} />}
 
                     <ItemForm
-                      formName="POLineForm"
+                      form={form}
                       formValues={formValues}
                       order={order}
                       contributorNameTypes={contributorNameTypes}
                       change={change}
-                      dispatch={dispatch}
                       identifierTypes={identifierTypes}
                       initialValues={initialValues}
                       stripes={stripes}
@@ -288,7 +309,7 @@ function POLineForm({
                       order={order}
                     />
                   </Accordion>
-                  <Accordion
+                  {/* <Accordion
                     label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
                     id={ACCORDION_ID.fundDistribution}
                   >
@@ -300,7 +321,7 @@ function POLineForm({
                       disabled={isDisabledToChangePaymentInfo}
                       totalAmount={estimatedPrice}
                     />
-                  </Accordion>
+                  </Accordion> */}
                   <Accordion
                     label={<FormattedMessage id="ui-orders.line.accordion.location" />}
                     id={ACCORDION_ID.location}
@@ -391,6 +412,7 @@ POLineForm.propTypes = {
   vendor: PropTypes.object,
   isSaveAndOpenButtonVisible: PropTypes.bool,
   values: PropTypes.object.isRequired,
+  enableSaveBtn: PropTypes.bool,
 };
 
 export default stripesForm({
@@ -399,6 +421,7 @@ export default stripesForm({
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
-  // validate,
+  validate,
+  validateOnBlur: true,
   subscription: { values: true },
 })(POLineForm);

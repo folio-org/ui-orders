@@ -4,8 +4,12 @@ import { getMoneyMultiplier } from '@folio/stripes-acq-components';
 
 import { DISCOUNT_TYPE } from './const';
 
-const calculateEstimatedPrice = (formValues, systemCurrency) => {
-  const currency = get(formValues, 'cost.currency') || systemCurrency;
+// `formValues` is PO line form values
+const calculateEstimatedPrice = (formValues) => {
+  const currency = get(formValues, 'cost.currency');
+
+  if (!currency) return null;
+
   const multiplier = getMoneyMultiplier(currency);
   const listUnitPrice = Number(get(formValues, 'cost.listUnitPrice') || 0) * multiplier;
   const quantityPhysical = get(formValues, 'cost.quantityPhysical') || 0;

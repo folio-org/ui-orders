@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -26,7 +26,6 @@ const visibleColumns = ['name', 'patronGroup', 'username', 'barcode'];
 class FieldAssignedTo extends Component {
   static propTypes = {
     stripes: stripesShape.isRequired,
-    dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     assignedToValue: PropTypes.string,
   };
@@ -36,17 +35,17 @@ class FieldAssignedTo extends Component {
   };
 
   clearUser = () => {
-    const { dispatch, change } = this.props;
+    const { change } = this.props;
 
-    dispatch(change('assignedToUser', ''));
-    dispatch(change('assignedTo', null));
+    change('assignedToUser', '');
+    change('assignedTo', null);
   };
 
   addUser = (user) => {
-    const { dispatch, change } = this.props;
+    const { change } = this.props;
 
-    dispatch(change('assignedToUser', `${user.personal.firstName} ${user.personal.lastName}`));
-    dispatch(change('assignedTo', `${user.id}`));
+    change('assignedToUser', `${user.personal.firstName} ${user.personal.lastName}`);
+    change('assignedTo', `${user.id}`);
   };
 
   renderClearButton = () => {

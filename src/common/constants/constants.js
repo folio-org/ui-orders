@@ -1,6 +1,5 @@
 export const ORGANIZATION_STATUS_ACTIVE = 'Active';
 
-export const PO_FORM_NAME = 'FormPO';
 export const PRODUCT_ID_TYPE = {
   isbn: 'ISBN',
 };

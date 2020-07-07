@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FieldSelection } from '@folio/stripes-acq-components';
+import { FieldSelectionFinal as FieldSelection } from '@folio/stripes-acq-components';
 
 const FieldShipTo = ({ addresses }) => {
   return (
@@ -9,6 +9,7 @@ const FieldShipTo = ({ addresses }) => {
       dataOptions={addresses}
       labelId="ui-orders.orderDetails.shipTo"
       name="shipTo"
+      validateFields={[]}
     />
   );
 };

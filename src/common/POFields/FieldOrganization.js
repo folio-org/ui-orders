@@ -24,7 +24,6 @@ import {
 const FieldOrganization = ({
   change,
   disabled,
-  dispatch,
   labelId,
   name,
   required,
@@ -45,7 +44,7 @@ const FieldOrganization = ({
     (organization) => {
       setSelectedOrganization(organization);
 
-      dispatch(change(name, organization.id));
+      change(name, organization.id);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [name],
@@ -55,7 +54,7 @@ const FieldOrganization = ({
     () => {
       setSelectedOrganization({});
 
-      dispatch(change(name, null));
+      change(name, null);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [name],
@@ -117,7 +116,6 @@ const FieldOrganization = ({
 FieldOrganization.propTypes = {
   change: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  dispatch: PropTypes.func.isRequired,
   id: PropTypes.string,
   labelId: PropTypes.string,
   name: PropTypes.string,

@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  FieldDatepicker,
+  FieldDatepickerFinal,
 } from '@folio/stripes-acq-components';
 
 const FieldReviewDate = ({ disabled }) => {
   return (
-    <FieldDatepicker
+    <FieldDatepickerFinal
       label={<FormattedMessage id="ui-orders.renewals.reviewDate" />}
       name="ongoing.reviewDate"
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };
