@@ -4,16 +4,24 @@
 
 ### Stories
 * [UISACQCOMP-3](https://issues.folio.org/browse/UISACQCOMP-3) Handle import of stripes-acq-components to modules and platform
-* [UIOR-569](https://issues.folio.org/browse/UIOR-569) Ability to change price and fund distribution information for Open order
 * [UIOR-446](https://issues.folio.org/browse/UIOR-446) Populate linked agreement lines accordion with agreement line detail
 * [UIOR-445](https://issues.folio.org/browse/UIOR-445) Add linked agreement lines accordion to the POL
 * [UIOR-417](https://issues.folio.org/browse/UIOR-417) Retain filters when switching from PO to POL and back
 
 ### Bug fixes
 * [UIOR-577](https://issues.folio.org/browse/UIOR-577) Update agreement line accordion label
+* [UIOR-524](https://issues.folio.org/browse/UIOR-524) Accessibility Error: Form elements must have labels
+
+## [2.1.1](https://github.com/folio-org/ui-orders/tree/v2.1.0) (2020-07-08)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.1.0...v2.1.1)
+
+### Stories
+* [UIOR-569](https://issues.folio.org/browse/UIOR-569) Ability to change price and fund distribution information for Open order
+
+### Bug fixes
+* [UIOR-576](https://issues.folio.org/browse/UIOR-576) Reason for closure not removed from POL when reopened
 * [UIOR-578](https://issues.folio.org/browse/UIOR-578) Claim filters not working
 * [UIOR-572](https://issues.folio.org/browse/UIOR-572) Fund codes doesn't display in Order lines list
-* [UIOR-524](https://issues.folio.org/browse/UIOR-524) Accessibility Error: Form elements must have labels
 * [UIOR-570](https://issues.folio.org/browse/UIOR-570) Fund distributions link to existing encumbrance when order is cloned
 
 ## [2.1.0](https://github.com/folio-org/ui-orders/tree/v2.1.0) (2020-06-12)
