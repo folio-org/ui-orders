@@ -12,7 +12,7 @@
 * [UIOR-577](https://issues.folio.org/browse/UIOR-577) Update agreement line accordion label
 * [UIOR-524](https://issues.folio.org/browse/UIOR-524) Accessibility Error: Form elements must have labels
 
-## [2.1.1](https://github.com/folio-org/ui-orders/tree/v2.1.0) (2020-07-08)
+## [2.1.1](https://github.com/folio-org/ui-orders/tree/v2.1.1) (2020-07-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.1.0...v2.1.1)
 
 ### Stories
