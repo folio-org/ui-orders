@@ -2,10 +2,14 @@
 
 ## (IN PROGRESS)
 
+## [2.1.1](https://github.com/folio-org/ui-orders/tree/v2.1.0) (2020-07-08)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.1.0...v2.1.1)
+
 ### Stories
 * [UIOR-569](https://issues.folio.org/browse/UIOR-569) Ability to change price and fund distribution information for Open order
 
 ### Bug fixes
+* [UIOR-576](https://issues.folio.org/browse/UIOR-576) Reason for closure not removed from POL when reopened
 * [UIOR-578](https://issues.folio.org/browse/UIOR-578) Claim filters not working
 * [UIOR-572](https://issues.folio.org/browse/UIOR-572) Fund codes doesn't display in Order lines list
 * [UIOR-570](https://issues.folio.org/browse/UIOR-570) Fund distributions link to existing encumbrance when order is cloned
