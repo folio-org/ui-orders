@@ -21,7 +21,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/final-form';
 import {
-  FundDistributionFields,
+  FundDistributionFieldsFinal,
   useAccordionToggle,
 } from '@folio/stripes-acq-components';
 
@@ -309,19 +309,19 @@ function POLineForm({
                       order={order}
                     />
                   </Accordion>
-                  {/* <Accordion
+                  <Accordion
                     label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
                     id={ACCORDION_ID.fundDistribution}
                   >
-                    <FundDistributionFields
+                    <FundDistributionFieldsFinal
+                      change={change}
                       currency={currency}
-                      formName="POLineForm"
+                      disabled={isDisabledToChangePaymentInfo}
                       fundDistribution={fundDistribution}
                       name="fundDistribution"
-                      disabled={isDisabledToChangePaymentInfo}
                       totalAmount={estimatedPrice}
                     />
-                  </Accordion> */}
+                  </Accordion>
                   <Accordion
                     label={<FormattedMessage id="ui-orders.line.accordion.location" />}
                     id={ACCORDION_ID.location}

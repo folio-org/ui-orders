@@ -43,7 +43,6 @@ function LayerPO({
   match: { params: { id } },
   mutator,
   resources,
-  stripes,
 }) {
   const sendCallout = useShowCallout();
 
@@ -148,7 +147,6 @@ function LayerPO({
         onSubmit={updatePO}
         parentMutator={memoizedMutator}
         parentResources={resources}
-        stripes={stripes}
       />
       {isErrorsModalOpened && (
         <UpdateOrderErrorModal
@@ -192,7 +190,6 @@ LayerPO.propTypes = {
   match: PropTypes.object.isRequired,
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
-  stripes: PropTypes.object.isRequired,
 };
 
 export default stripesConnect(LayerPO);

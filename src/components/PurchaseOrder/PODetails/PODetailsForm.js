@@ -17,7 +17,6 @@ import {
   FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
-import { getFullOrderNumber } from '../../Utils/orderResource';
 import { getAddressOptions } from '../../../common/utils';
 import {
   FieldPrefix,

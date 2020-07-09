@@ -46,7 +46,6 @@ class POForm extends Component {
     submitting: PropTypes.bool.isRequired,
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.object.isRequired,
-    stripes: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -159,8 +158,8 @@ class POForm extends Component {
     this.setState({ sections });
   }
 
-  onChangeTemplate = (e, value) => {
-    const { form: { batch, change, getRegisteredFields }, parentResources, stripes } = this.props;
+  onChangeTemplate = (value) => {
+    const { form: { batch, change, getRegisteredFields }, parentResources } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
 
     batch(() => {
@@ -201,7 +200,6 @@ class POForm extends Component {
       initialValues,
       onCancel,
       parentResources,
-      stripes,
     } = this.props;
     const { sections } = this.state;
     const firstMenu = this.getAddFirstMenu();
@@ -293,7 +291,6 @@ class POForm extends Component {
                             orderNumberSetting={orderNumberSetting}
                             prefixesSetting={prefixesSetting}
                             suffixesSetting={suffixesSetting}
-                            stripes={stripes}
                             validateNumber={this.validateNumber}
                           />
                         </Accordion>
