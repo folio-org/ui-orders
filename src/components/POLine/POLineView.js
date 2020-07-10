@@ -248,6 +248,7 @@ class POLineView extends Component {
     const currency = get(line, 'cost.currency');
     const metadata = get(line, 'metadata');
     const isClosedOrder = isWorkflowStatusClosed(order);
+    const paneTitle = <FormattedMessage id="ui-orders.line.paneTitle.details" values={{ poLineNumber }} />
 
     return (
       <Pane
@@ -258,7 +259,7 @@ class POLineView extends Component {
         onClose={onClose}
         id="pane-poLineDetails"
         lastMenu={lastMenu}
-        paneTitle="PO Line Details"
+        paneTitle={paneTitle}
       >
         <AccordionSet
           accordionStatus={this.state.sections}

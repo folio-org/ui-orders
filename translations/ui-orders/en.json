@@ -494,7 +494,7 @@
   "line.accordion.relatedInvoices": "Related invoices",
   "line.accordion.vendor": "Vendor",
   "line.closedOrderMessage": "Purchase order is closed - {reason}",
-  "line.paneTitle.details": "Details",
+  "line.paneTitle.details": "PO Line details - {poLineNumber}",
   "line.paneTitle.edit": "Edit - {lineNumber}",
   "line.paneTitle.new": "Add PO line",
   "lineListing.titleOrPackage": "Title or package name",
