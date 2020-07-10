@@ -248,7 +248,7 @@ class POLineView extends Component {
     const currency = get(line, 'cost.currency');
     const metadata = get(line, 'metadata');
     const isClosedOrder = isWorkflowStatusClosed(order);
-    const paneTitle = <FormattedMessage id="ui-orders.line.paneTitle.details" values={{ poLineNumber }} />
+    const paneTitle = <FormattedMessage id="ui-orders.line.paneTitle.details" values={{ poLineNumber }} />;
 
     return (
       <Pane

@@ -15,7 +15,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import MaterialTypeFilter from '../common/MaterialTypeFilter';
-import OrdersTextFilter from '../common/OrdersTextFilter';
+// import OrdersTextFilter from '../common/OrdersTextFilter';
 import FundFilter from '../common/FundFilter';
 import {
   ACQUISITION_METHOD_FILTER_OPTIONS,
