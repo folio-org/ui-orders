@@ -54,29 +54,11 @@ function LayerPO({
 
   const [savingValues, setSavingValues] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [createdByName, setCreatedByName] = useState('');
-  const [assignedToUser, setAssignedToUser] = useState('');
   const [updateOrderError, setUpdateOrderError] = useState();
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const order = id ? resources?.order?.records[0] : {};
-  const metadata = order?.metadata;
-  const assignedTo = order?.assignedTo;
-
-  const setUserFields = useCallback(() => {
-    if (metadata) {
-      getUserNameById(memoizedMutator.users, get(metadata, 'createdByUserId'))
-        .then(setCreatedByName);
-    }
-
-    if (assignedTo) {
-      getUserNameById(memoizedMutator.users, assignedTo)
-        .then(setAssignedToUser);
-    }
-  }, [assignedTo, memoizedMutator.users, metadata]);
 
   useEffect(() => {
-    setUserFields();
-
     memoizedMutator.orderNumber.reset();
     memoizedMutator.orderNumber.GET()
       .finally(setIsLoading);
@@ -133,8 +115,6 @@ function LayerPO({
   const patchedOrder = {
     ...order,
     poNumber: purePONumber,
-    createdByName,
-    assignedToUser,
   };
   const initialValues = savingValues || patchedOrder; // use entered values in case of error response
 

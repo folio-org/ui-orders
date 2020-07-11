@@ -23,7 +23,7 @@ import {
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
-const EresourcesForm = ({ materialTypes, order, formValues, dispatch, change }) => {
+const EresourcesForm = ({ materialTypes, order, formValues, change }) => {
   const created = get(order, 'metadata.createdDate', '');
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isClosedOrder = isWorkflowStatusClosed(order);
@@ -34,7 +34,6 @@ const EresourcesForm = ({ materialTypes, order, formValues, dispatch, change }) 
         <FieldAccessProvider
           accessProviderId={formValues?.eresource?.accessProvider}
           disabled={isClosedOrder}
-          dispatch={dispatch}
           change={change}
         />
       </Col>
@@ -80,7 +79,6 @@ EresourcesForm.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
   })).isRequired,
-  dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
 };
 

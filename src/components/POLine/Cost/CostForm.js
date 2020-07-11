@@ -19,10 +19,6 @@ import {
   parseNumberFieldValue,
   validateRequiredNotNegative,
 } from '@folio/stripes-acq-components';
-import {
-  withStripes,
-  stripesShape,
-} from '@folio/stripes/core';
 
 import { ifDisabledToChangePaymentInfo } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
@@ -93,11 +89,9 @@ const TypeToggle = (({ input: { value, onChange }, label, disabled, currency }) 
 class CostForm extends Component {
   static propTypes = {
     formValues: PropTypes.object,
-    dispatch: PropTypes.func,
     change: PropTypes.func,
     order: PropTypes.object.isRequired,
     required: PropTypes.bool,
-    stripes: stripesShape.isRequired,
   };
 
   static defaultProps = {
@@ -115,16 +109,16 @@ class CostForm extends Component {
       : DISCOUNT_TYPE.amount;
 
     if (previousDiscountType !== discountType) {
-      const { dispatch, change } = this.props;
+      const { change } = this.props;
 
-      dispatch(change('cost.discountType', discountType));
+      change('cost.discountType', discountType);
     }
 
     return parseFloat(value) || undefined;
   };
 
   render() {
-    const { order, required, formValues, stripes } = this.props;
+    const { order, required, formValues } = this.props;
     const orderFormat = formValues.orderFormat;
     const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
 
@@ -256,7 +250,7 @@ class CostForm extends Component {
           <Field
             component={TypeToggle}
             currency={currency}
-            disabled={isPostPendingOrder}
+            disabled={isDisabledToChangePaymentInfo}
             label={<FormattedMessage id="ui-orders.cost.discountType" />}
             name="cost.discountType"
           />
@@ -307,4 +301,4 @@ class CostForm extends Component {
   }
 }
 
-export default withStripes(CostForm);
+export default CostForm;

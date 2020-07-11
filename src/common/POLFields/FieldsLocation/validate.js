@@ -30,7 +30,7 @@ export const isLocationEresourceQuantityRequired = (orderFormat, inventory) => {
     : false;
 };
 
-const LOCATION_MUST_BE_SPECIFIED = 'required';
+const LOCATION_MUST_BE_SPECIFIED = <FormattedMessage id="ui-orders.location.required" />;
 
 const getTotalLocationsQuantities = (locations, propName) => {
   const reducer = (accumulator, d) => accumulator + (d[propName] || 0);

@@ -1,3 +1,5 @@
+import { getFullName } from '@folio/stripes/util';
+
 export const getUserNameById = (mutator, id) => {
   if (!id) {
     return Promise.resolve('');
@@ -11,7 +13,7 @@ export const getUserNameById = (mutator, id) => {
     .then(users => {
       const user = users[0];
       const newUserValue = user && user.personal
-        ? `${user.personal.firstName} ${user.personal.lastName}`
+        ? getFullName(user)
         : '';
 
       return newUserValue;

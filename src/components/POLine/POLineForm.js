@@ -50,10 +50,7 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
-import asyncValidate from './asyncValidate';
-import validate from './validate';
-
-function dispatch() { }
+import validateFundDistribution from './validate';
 
 function POLineForm({
   form: { change },
@@ -94,24 +91,21 @@ function POLineForm({
   // console.log('initialValues', { ...initialValues });
   // console.log('formValues', { ...formValues });
 
-  // const templateValue = getOrderTemplateValue(parentResources, order?.template);
-  // const fields = form.getRegisteredFields();
-  // console.log('templateValue', templateValue, fields);
+  const templateValue = getOrderTemplateValue(parentResources, order?.template);
 
-  // useEffect(() => {
-  //   console.log('useEffect', templateValue.id, fields);
-  //   if (templateValue.id && fields.length > 0) {
-  //     fields.forEach(field => {
-  //       console.log('field', field);
-  //       const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
-  //       console.log('templateField', templateField);
-  //       const templateFieldValue = get(templateValue, templateField);
-  //       console.log('templateFieldValue', templateFieldValue);
+  useEffect(() => {
+    setTimeout(() => {
+      if (templateValue.id) {
+        form.getRegisteredFields().forEach(field => {
+          const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
+          const templateFieldValue = get(templateValue, templateField);
 
-  //       if (templateFieldValue !== undefined) change(field, templateFieldValue);
-  //     });
-  //   }
-  // }, [change, fields, templateValue.id]);
+          if (templateFieldValue !== undefined) change(field, templateFieldValue);
+        });
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [change, templateValue.id]);
 
   const getAddFirstMenu = () => {
     return (
@@ -290,7 +284,6 @@ function POLineForm({
                   >
                     <POLineDetailsForm
                       change={change}
-                      dispatch={dispatch}
                       formValues={formValues}
                       initialValues={initialValues}
                       order={order}
@@ -304,7 +297,6 @@ function POLineForm({
                   >
                     <CostForm
                       change={change}
-                      dispatch={dispatch}
                       formValues={formValues}
                       order={order}
                     />
@@ -320,6 +312,7 @@ function POLineForm({
                       fundDistribution={fundDistribution}
                       name="fundDistribution"
                       totalAmount={estimatedPrice}
+                      validate={validateFundDistribution}
                     />
                   </Accordion>
                   <Accordion
@@ -345,7 +338,6 @@ function POLineForm({
                         order={order}
                         formValues={formValues}
                         change={change}
-                        dispatch={dispatch}
                       />
                     </Accordion>
                   )}
@@ -359,7 +351,6 @@ function POLineForm({
                         order={order}
                         formValues={formValues}
                         change={change}
-                        dispatch={dispatch}
                       />
                     </Accordion>
                   )}
@@ -373,7 +364,6 @@ function POLineForm({
                         order={order}
                         formValues={formValues}
                         change={change}
-                        dispatch={dispatch}
                       />
                     </Accordion>
                   )}
@@ -416,12 +406,9 @@ POLineForm.propTypes = {
 };
 
 export default stripesForm({
-  // asyncValidate,
-  // asyncBlurFields: ['details.productIds[].productId', 'details.productIds[].productIdType'],
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
-  validate,
   validateOnBlur: true,
   subscription: { values: true },
 })(POLineForm);

@@ -5,8 +5,6 @@ import { ORDER_TYPE } from '../../common/constants';
 const saveOrder = (order, mutator) => {
   let method = mutator.POST;
 
-  delete order.createdByName;
-  delete order.assignedToUser;
   delete order.vendorName;
 
   if (order.id) {

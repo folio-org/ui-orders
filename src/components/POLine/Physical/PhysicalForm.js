@@ -20,7 +20,7 @@ import {
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import { isMaterialTypeRequired } from '../../Utils/Validate';
 
-const PhysicalForm = ({ order, materialTypes, formValues, dispatch, change }) => {
+const PhysicalForm = ({ order, materialTypes, formValues, change }) => {
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isClosedOrder = isWorkflowStatusClosed(order);
 
@@ -34,7 +34,6 @@ const PhysicalForm = ({ order, materialTypes, formValues, dispatch, change }) =>
           <FieldMaterialSupplier
             materialSupplierId={formValues?.physical?.materialSupplier}
             disabled={isClosedOrder}
-            dispatch={dispatch}
             change={change}
           />
         </Col>
@@ -92,7 +91,6 @@ PhysicalForm.propTypes = {
   })),
   order: PropTypes.object.isRequired,
   formValues: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
 };
 

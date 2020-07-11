@@ -1,18 +1,14 @@
 import { get } from 'lodash';
 
-import { validateFundDistribution } from '@folio/stripes-acq-components';
+import { validateFundDistributionFinal } from '@folio/stripes-acq-components';
 
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 
-function validate(values) {
-  const errors = {};
-  const currency = get(values, 'cost.currency');
-  const totalAmount = calculateEstimatedPrice(values);
-  const fundDistributionErrors = validateFundDistribution(values.fundDistribution, totalAmount, currency);
+function validate(fundDistribution, formValues) {
+  const currency = get(formValues, 'cost.currency');
+  const totalAmount = calculateEstimatedPrice(formValues);
 
-  if (fundDistributionErrors) errors.fundDistribution = fundDistributionErrors;
-
-  return errors;
+  return validateFundDistributionFinal(fundDistribution, totalAmount, currency);
 }
 
 export default validate;

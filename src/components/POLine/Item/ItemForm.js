@@ -72,7 +72,6 @@ class ItemForm extends Component {
   };
 
   onAddInstance = (instance) => {
-    console.log('onAddInstance', instance);
     const { change, identifierTypes } = this.props;
     const { contributors, editions, publication, title, identifiers, id } = instance;
     const inventoryData = { instanceId: id };
@@ -85,7 +84,7 @@ class ItemForm extends Component {
     change('publisher', publisher || '');
     inventoryData.publisher = publisher || '';
 
-    const publicationDate = dateOfPublication?.length === ALLOWED_YEAR_LENGTH ? dateOfPublication : '';
+    const publicationDate = dateOfPublication?.length === ALLOWED_YEAR_LENGTH ? dateOfPublication : null;
 
     change('publicationDate', publicationDate);
     inventoryData.publicationDate = publicationDate;
@@ -131,7 +130,7 @@ class ItemForm extends Component {
       change('details.productIds', []);
       inventoryData.productIds = [];
     }
-    console.log('onadd inst', inventoryData);
+
     this.setState(({
       instanceId: inventoryData.instanceId,
       title: get(inventoryData, 'title', ''),

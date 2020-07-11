@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 
 import { FieldOrganization } from '../../POFields';
 
-const FieldAccessProvider = ({ change, dispatch, disabled, required, accessProviderId }) => {
+const FieldAccessProvider = ({ change, disabled, required, accessProviderId }) => {
   return (
     <FieldOrganization
-      dispatch={dispatch}
       change={change}
       labelId="ui-orders.eresource.accessProvider"
       name="eresource.accessProvider"
@@ -18,7 +17,6 @@ const FieldAccessProvider = ({ change, dispatch, disabled, required, accessProvi
 };
 
 FieldAccessProvider.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,

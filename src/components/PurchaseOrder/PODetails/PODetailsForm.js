@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -34,7 +34,7 @@ import {
   isWorkflowStatusClosed,
   isWorkflowStatusIsPending,
 } from '../util';
-
+import UserValue from './UserValue';
 import css from './PODetailsForm.css';
 
 const CREATE_UNITS_PERM = 'orders.acquisitions-units-assignments.assign';
@@ -53,12 +53,11 @@ class PODetailsForm extends Component {
     validateNumber: PropTypes.func.isRequired,
   }
 
-  fillBackGeneratedNumber = (e, value) => {
+  fillBackGeneratedNumber = ({ target: { value } }) => {
     const { change, generatedNumber } = this.props;
 
     if (value === '') {
-      // setTimeout is required due to async nature of redux-form CHANGE field value event.
-      window.setTimeout(() => change('poNumber', generatedNumber));
+      change('poNumber', generatedNumber);
     }
   }
 
@@ -82,7 +81,7 @@ class PODetailsForm extends Component {
     const addressShipTo = get(addresses.find(el => el.id === formValues.shipTo), 'address', '');
 
     return (
-      <Fragment>
+      <>
         <Row>
           <Col xs={4}>
             <FieldPrefix
@@ -126,14 +125,9 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
-              name="createdByName"
-              disabled
-              validateFields={[]}
-            />
+            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}>
+              <UserValue userId={formValues?.metadata?.createdByUserId} />
+            </KeyValue>
           </Col>
           <Col
             xs={6}
@@ -149,7 +143,7 @@ class PODetailsForm extends Component {
           >
             <FieldAssignedTo
               change={change}
-              assignedToValue={formValues.assignedTo || formValues.assignedToUser}
+              userId={formValues?.assignedTo}
             />
           </Col>
         </Row>
@@ -235,7 +229,7 @@ class PODetailsForm extends Component {
             <FieldsNotes />
           </Col>
         </Row>
-      </Fragment>
+      </>
     );
   }
 }

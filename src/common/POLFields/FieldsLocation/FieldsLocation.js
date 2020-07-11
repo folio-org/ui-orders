@@ -11,9 +11,9 @@ import {
 } from '@folio/stripes/components';
 import {
   FieldLocationFinal,
+  RepeatableFieldWithValidation,
 } from '@folio/stripes-acq-components';
 
-import { RepeatableFieldWithErrorMessage } from '../../RepeatableFieldWithErrorMessage/RepeatableFieldWithErrorMessage';
 import {
   isLocationsRequired,
   parseQuantity,
@@ -37,7 +37,7 @@ const FieldsLocation = ({
   return (
     <FieldArray
       addLabel={<FormattedMessage id="ui-orders.location.button.addLocation" />}
-      component={RepeatableFieldWithErrorMessage}
+      component={RepeatableFieldWithValidation}
       name="locations"
       validate={withValidation ? isLocationsRequired : NO_VALIDATE}
       props={{

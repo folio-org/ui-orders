@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -6,18 +7,19 @@ import { getUserNameById } from '../../../common/utils';
 import { USERS } from '../../Utils/resources';
 
 const UserValue = ({ userId, mutator }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedMutator = useMemo(() => mutator, []);
   const [userValue, setUserValue] = useState('');
 
   useEffect(
     () => {
-      getUserNameById(mutator.userValueResource, userId)
+      getUserNameById(memoizedMutator.userValueResource, userId)
         .then(userName => setUserValue(userName));
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [userId],
+    [memoizedMutator.userValueResource, userId],
   );
 
-  return userValue;
+  return <span data-test-created-by-name>{userValue}</span>;
 };
 
 UserValue.manifest = Object.freeze({
@@ -27,5 +29,10 @@ UserValue.manifest = Object.freeze({
     fetch: false,
   },
 });
+
+UserValue.propTypes = {
+  userId: PropTypes.string,
+  mutator: PropTypes.object.isRequired,
+};
 
 export default stripesConnect(UserValue);

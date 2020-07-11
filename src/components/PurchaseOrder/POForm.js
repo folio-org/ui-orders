@@ -165,7 +165,7 @@ class POForm extends Component {
     batch(() => {
       change('template', value);
       change('vendor', '');
-      change('assignedToUser', '');
+      change('assignedTo', null);
       change('manualPo', false);
       change('reEncumber', false);
       change('orderType', '');
@@ -323,6 +323,7 @@ class POForm extends Component {
 
 export default stripesForm({
   enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
   navigationCheck: true,
   subscription: { values: true },
 })(POForm);

@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 
 import { FieldOrganization } from '../../POFields';
 
-const FieldMaterialSupplier = ({ change, dispatch, disabled, materialSupplierId }) => {
+const FieldMaterialSupplier = ({ change, disabled, materialSupplierId }) => {
   return (
     <FieldOrganization
-      dispatch={dispatch}
       change={change}
       labelId="ui-orders.physical.materialSupplier"
       name="physical.materialSupplier"
@@ -18,7 +17,6 @@ const FieldMaterialSupplier = ({ change, dispatch, disabled, materialSupplierId 
 };
 
 FieldMaterialSupplier.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   materialSupplierId: PropTypes.string,

@@ -29,7 +29,6 @@ function FieldOrderFormat({
   change,
   createInventorySetting,
   disabled,
-  dispatch,
   formValues,
   required,
   vendor,
@@ -38,23 +37,23 @@ function FieldOrderFormat({
     const value = event.target.value;
 
     change('orderFormat', value);
-    dispatch(change('cost.quantityPhysical', ''));
-    dispatch(change('cost.quantityElectronic', ''));
-    dispatch(change('cost.listUnitPriceElectronic', ''));
-    dispatch(change('cost.listUnitPrice', ''));
+    change('cost.quantityPhysical', '');
+    change('cost.quantityElectronic', '');
+    change('cost.listUnitPriceElectronic', '');
+    change('cost.listUnitPrice', '');
 
     if (ERESOURCES.includes(value)) {
       const activationDue = get(formValues, 'eresource.activationDue');
 
       if (activationDue === undefined && vendor && vendor.expectedActivationInterval) {
-        dispatch(change('eresource.activationDue', vendor.expectedActivationInterval));
+        change('eresource.activationDue', vendor.expectedActivationInterval);
       }
     }
 
     if (value === OTHER) {
-      dispatch(change('physical.createInventory', createInventorySetting.other));
+      change('physical.createInventory', createInventorySetting.other);
     } else {
-      dispatch(change('physical.createInventory', createInventorySetting.physical));
+      change('physical.createInventory', createInventorySetting.physical);
     }
   };
 
@@ -72,7 +71,6 @@ function FieldOrderFormat({
 
 FieldOrderFormat.propTypes = {
   change: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
   formValues: PropTypes.object.isRequired,
   vendor: PropTypes.object,
   createInventorySetting: PropTypes.object.isRequired,
