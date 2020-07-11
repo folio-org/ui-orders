@@ -33,9 +33,13 @@ const FieldOrganization = ({
   const [selectedOrganization, setSelectedOrganization] = useState({});
 
   useEffect(() => {
-    if (id && selectedOrganization.id !== id) {
-      mutator.fieldOrganizationOrg.GET()
-        .then(setSelectedOrganization);
+    if (id) {
+      if (selectedOrganization.id !== id) {
+        mutator.fieldOrganizationOrg.GET()
+          .then(setSelectedOrganization);
+      }
+    } else {
+      setSelectedOrganization({});
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
