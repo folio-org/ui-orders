@@ -60,6 +60,8 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
         return <FormattedMessage id="ui-orders.errors.invalidISBN" />;
       }
     }
+
+    return undefined;
   }, [identifierTypes, memoizedGet]);
 
   const renderSubForm = (elem) => {

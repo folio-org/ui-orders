@@ -37,10 +37,10 @@ function FieldOrderFormat({
     const value = event.target.value;
 
     change('orderFormat', value);
-    change('cost.quantityPhysical', '');
-    change('cost.quantityElectronic', '');
-    change('cost.listUnitPriceElectronic', '');
-    change('cost.listUnitPrice', '');
+    change('cost.quantityPhysical', null);
+    change('cost.quantityElectronic', null);
+    change('cost.listUnitPriceElectronic', null);
+    change('cost.listUnitPrice', null);
 
     if (ERESOURCES.includes(value)) {
       const activationDue = get(formValues, 'eresource.activationDue');

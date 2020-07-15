@@ -60,8 +60,11 @@ describe('Edit PO Line - Save updated PO Line', function () {
 
     this.visit(`/orders/view/${order.id}/po-line/edit/${line.id}`);
     await lineEditPage.whenLoaded();
-    await lineEditPage.physicalDetailsAccordion.toggle();
+    await lineEditPage.physicalCreateInventory.focus();
     await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.none);
+    await lineEditPage.physicalCreateInventory.blur();
+    await lineEditPage.updateLineButton.blur();
+    await lineEditPage.updateLineButton.focus();
     await lineEditPage.updateLineButton.click();
     await lineDetailsPage.whenLoaded();
   });

@@ -11,6 +11,7 @@ const FieldCancellationRestrictionNote = () => {
       fullWidth
       label={<FormattedMessage id="ui-orders.poLine.cancellationRestrictionNote" />}
       name="cancellationRestrictionNote"
+      validateFields={[]}
     />
   );
 };

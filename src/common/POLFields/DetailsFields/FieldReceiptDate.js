@@ -8,6 +8,7 @@ const FieldReceiptDate = () => {
     <FieldDatepickerFinal
       label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
       name="receiptDate"
+      validateFields={[]}
     />
   );
 };

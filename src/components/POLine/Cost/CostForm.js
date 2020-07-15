@@ -86,6 +86,13 @@ const TypeToggle = (({ input: { value, onChange }, label, disabled, currency }) 
   );
 });
 
+TypeToggle.propTypes = {
+  currency: PropTypes.string,
+  disabled: PropTypes.bool,
+  input: PropTypes.object.isRequired,
+  label: PropTypes.node,
+};
+
 class CostForm extends Component {
   static propTypes = {
     formValues: PropTypes.object,
@@ -96,25 +103,6 @@ class CostForm extends Component {
 
   static defaultProps = {
     required: true,
-  };
-
-  normalizeDiscount = (value, previousValue, allValues, previousAllValues) => {
-    if (!value) {
-      return value;
-    }
-
-    const previousDiscountType = get(previousAllValues, 'cost.discountType');
-    const discountType = value.includes('%')
-      ? DISCOUNT_TYPE.percentage
-      : DISCOUNT_TYPE.amount;
-
-    if (previousDiscountType !== discountType) {
-      const { change } = this.props;
-
-      change('cost.discountType', discountType);
-    }
-
-    return parseFloat(value) || undefined;
   };
 
   render() {
@@ -137,8 +125,6 @@ class CostForm extends Component {
       validatePhresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
     }
 
-    const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
-    const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
     const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
     const currency = get(formValues, 'cost.currency');
     const isPackage = get(formValues, 'isPackage');
@@ -229,15 +215,9 @@ class CostForm extends Component {
         >
           <Field
             component={TextField}
-            // format={(value) => {
-            //   return !value || isAmountDiscountType
-            //     ? value
-            //     : `${value}%`;
-            // }}
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.discount" />}
             name="cost.discount"
-            // parse={this.normalizeDiscount}
             type="number"
             validate={validateNotNegative}
             disabled={isDisabledToChangePaymentInfo}

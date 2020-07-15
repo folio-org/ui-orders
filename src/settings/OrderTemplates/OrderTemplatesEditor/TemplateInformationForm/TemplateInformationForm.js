@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -21,6 +21,7 @@ const TemplateInformationForm = () => {
           name="templateName"
           required
           validate={validateRequired}
+          validateFields={[]}
           type="text"
         />
       </Col>
@@ -32,6 +33,7 @@ const TemplateInformationForm = () => {
           label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.code" />}
           name="templateCode"
           type="text"
+          validateFields={[]}
         />
       </Col>
 
@@ -41,6 +43,7 @@ const TemplateInformationForm = () => {
           fullWidth
           label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.description" />}
           name="templateDescription"
+          validateFields={[]}
         />
       </Col>
     </Row>

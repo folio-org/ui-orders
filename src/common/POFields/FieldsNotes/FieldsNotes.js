@@ -8,6 +8,7 @@ const FieldsNotes = () => {
     <FieldArray
       name="notes"
       component={NotesForm}
+      validateFields={[]}
     />
   );
 };

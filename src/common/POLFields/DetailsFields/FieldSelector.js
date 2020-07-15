@@ -15,6 +15,7 @@ const FieldSelector = ({ disabled }) => {
       name="selector"
       type="text"
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };

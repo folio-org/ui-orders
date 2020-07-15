@@ -16,7 +16,6 @@ import {
   prefixesResource,
   suffixesResource,
 } from '../../common/resources';
-import { getUserNameById } from '../../common/utils';
 import {
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,

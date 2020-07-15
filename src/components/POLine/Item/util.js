@@ -10,7 +10,7 @@ export const getInventoryData = (initialValues) => {
     instanceId: get(initialValues, 'instanceId', null),
     title: get(initialValues, 'titleOrPackage', ''),
     publisher: get(initialValues, 'publisher', ''),
-    publicationDate: get(initialValues, 'publicationDate', ''),
+    publicationDate: get(initialValues, 'publicationDate', null),
     edition: get(initialValues, 'edition', ''),
     contributors: get(initialValues, 'contributors', []),
     productIds: get(initialValues, 'details.productIds', []),
@@ -37,7 +37,7 @@ export const shouldSetInstanceId = (formValues, inventoryData) => {
     inventoryData.instanceId
     && (inventoryData.title === get(formValues, 'titleOrPackage', ''))
     && (inventoryData.publisher === get(formValues, 'publisher', ''))
-    && (inventoryData.publicationDate === (formValues?.publicationDate || '')) // publicationDate might be null in form values
+    && (inventoryData.publicationDate === get(formValues, 'publicationDate', null))
     && (inventoryData.edition === get(formValues, 'edition', ''))
     && isEqualContributors
     && isEqualProductIds

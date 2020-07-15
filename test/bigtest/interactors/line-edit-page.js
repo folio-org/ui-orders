@@ -20,6 +20,7 @@ import {
 
 import Button from './button';
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
+import { TIMEOUT } from './const';
 
 const ITEM_DETAILS = {
   root: '#itemDetails',
@@ -132,6 +133,7 @@ const ITEM_DETAILS = {
   static defaultScope = ITEM_DETAILS.root;
   toggle = clickable('[class*=defaultCollapseButton---]');
   inputTitle = fillable(ITEM_DETAILS.inputTitle);
+  inputTitleField = new TextFieldInteractor(ITEM_DETAILS.inputTitle);
   inputTitleError = new Interactor('[class*=titleWrapper---] [class*=feedbackError---]');
   inputTitleErrorText = text('[class*=titleWrapper---] [class*=feedbackError---]');
   contributorTypes = collection(ContributorType.defaultScope);
@@ -151,6 +153,10 @@ const ITEM_DETAILS = {
   linkPackageLineBtn = new ButtonInteractor('[data-test-plugin-find-po-line]');
   linkPackageLineTitle = new TextFieldInteractor('[data-test-package-line-title]');
   linkPackageLineTitleClear = new ButtonInteractor('#clickable-linkPackageTitle-clear-field');
+
+  whenErrorIsPresent() {
+    return this.timeout(TIMEOUT).when(() => isPresent('[class*=titleWrapper---] [class*=feedbackError---]'));
+  }
 }
 
 @interactor class OrderFormat {
@@ -231,6 +237,10 @@ export default interactor(class LineEditPage {
   hasTemplateField = isPresent('[name="template"]');
   acquisitionMethod = selectable('[name="acquisitionMethod"]');
   closeBtn = new Button('[data-test-pane-header-dismiss-button]');
+
+  whenSaveIsEnabled() {
+    return this.timeout(TIMEOUT).when(() => !this.saveButton.isDisabled);
+  }
 
   whenLoaded() {
     return this.timeout(20000).when(() => this.isLoaded);

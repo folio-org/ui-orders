@@ -95,6 +95,7 @@ const FieldOrganization = ({
         name={name}
         required={required}
         validate={required ? validateRequired : undefined}
+        validateFields={[]}
         format={() => selectedOrganization.name}
       />
 

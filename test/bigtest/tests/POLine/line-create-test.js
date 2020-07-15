@@ -45,9 +45,17 @@ describe('Create PO Line simple test', function () {
       beforeEach(async function () {
         await lineEditPage.acquisitionMethod('Approval plan');
         await lineEditPage.selectOrderFormat('Physical resource');
+        await lineEditPage.listUnitPrice.focus();
         await lineEditPage.listUnitPrice.fill(3.333);
+        await lineEditPage.listUnitPrice.blur();
+        await lineEditPage.quantityPhysical.focus();
         await lineEditPage.quantityPhysical.fill(2);
+        await lineEditPage.quantityPhysical.blur();
+        await lineEditPage.physicalCreateInventory.focus();
         await lineEditPage.physicalCreateInventory.select('None');
+        await lineEditPage.physicalCreateInventory.blur();
+        await lineEditPage.saveButton.blur();
+        await lineEditPage.saveButton.focus();
         await lineEditPage.saveButton.click();
 
         const purchaseOrder = this.server.schema.orders.first();

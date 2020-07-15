@@ -15,6 +15,7 @@ const FieldDonor = ({ disabled }) => {
       name="donor"
       type="text"
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };

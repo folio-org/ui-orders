@@ -45,7 +45,7 @@ export default interactor(class OrderEditPage {
   orderTemplate = new OrderTemplate();
   hasPONumberField = isPresent('[name="poNumber"]');
   hasVendorNameField = isPresent('[name="vendor"]');
-  hasCreatedByField = isPresent('[data-test-created-by-name] [data-test-kv-value]');
+  hasCreatedByField = isPresent('[data-test-created-by-name]');
   suffixSelect = new SuffixSelect();
   isOngoingInfoOpen = isPresent(OngoingInfoAccordion.defaultScope)
   renewalsAccordion = new OngoingInfoAccordion();

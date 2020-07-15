@@ -164,16 +164,16 @@ class POForm extends Component {
 
     batch(() => {
       change('template', value);
-      change('vendor', '');
+      change('vendor', null);
       change('assignedTo', null);
       change('manualPo', false);
       change('reEncumber', false);
-      change('orderType', '');
+      change('orderType', null);
       change('acqUnitIds', []);
       change('tags', { tagList: [] });
       change('notes', []);
-      change('billTo', '');
-      change('shipTo', '');
+      change('billTo', null);
+      change('shipTo', null);
     });
 
     getRegisteredFields()

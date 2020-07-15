@@ -11,6 +11,7 @@ const FieldPOLineDescription = () => {
       fullWidth
       label={<FormattedMessage id="ui-orders.poLine.poLineDescription" />}
       name="poLineDescription"
+      validateFields={[]}
     />
   );
 };

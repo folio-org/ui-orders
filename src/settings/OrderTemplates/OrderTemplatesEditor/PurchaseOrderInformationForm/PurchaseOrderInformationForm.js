@@ -62,7 +62,7 @@ const PurchaseOrderInformationForm = ({
       >
         <FieldAssignedTo
           change={change}
-          assignedToValue={formValues.assignedTo || formValues.assignedToUser}
+          userId={formValues?.assignedTo}
         />
       </Col>
 
@@ -92,6 +92,7 @@ const PurchaseOrderInformationForm = ({
         data-col-order-template-order-units
       >
         <AcqUnitsField
+          isFinal
           name="acqUnitIds"
           preselectedUnits={acqUnitIds}
         />

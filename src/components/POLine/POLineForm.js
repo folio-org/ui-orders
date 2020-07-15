@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -40,6 +40,7 @@ import { ItemForm } from './Item';
 import { OtherForm } from './Other';
 import {
   ACCORDION_ID,
+  INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
   POL_TEMPLATE_FIELDS_MAP,
 } from './const';
@@ -51,6 +52,8 @@ import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import validateFundDistribution from './validate';
+
+const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId'];
 
 function POLineForm({
   form: { change },
@@ -65,46 +68,34 @@ function POLineForm({
   submitting,
   handleSubmit,
   isSaveAndOpenButtonVisible,
-  onSubmit,
   values: formValues,
   enableSaveBtn,
 }) {
-  // static getDerivedStateFromProps({ stripes: { store } }, { sections }) {
-  //   const errorKeys = Object.keys(getFormSyncErrors('POLineForm')(store.getState()));
-
-  //   if (errorKeys.length > 0) {
-  //     const newSections = { ...sections };
-
-  //     errorKeys.forEach(key => {
-  //       const accordionName = MAP_FIELD_ACCORDION[key];
-
-  //       if (accordionName) {
-  //         newSections[accordionName] = true;
-  //       }
-  //     });
-
-  //     return { sections: newSections };
-  //   }
-
-  //   return null;
-  // }
-  // console.log('initialValues', { ...initialValues });
-  // console.log('formValues', { ...formValues });
-
   const templateValue = getOrderTemplateValue(parentResources, order?.template);
 
   useEffect(() => {
     setTimeout(() => {
       if (templateValue.id) {
-        form.getRegisteredFields().forEach(field => {
-          const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
-          const templateFieldValue = get(templateValue, templateField);
+        form.batch(() => {
+          GAME_CHANGER_FIELDS.forEach(field => {
+            const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
+            const templateFieldValue = get(templateValue, templateField);
 
-          if (templateFieldValue !== undefined) change(field, templateFieldValue);
+            if (templateFieldValue !== undefined) change(field, templateFieldValue);
+          });
+        });
+
+        form.batch(() => {
+          form.getRegisteredFields().forEach(field => {
+            const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
+            const templateFieldValue = get(templateValue, templateField);
+
+            if (templateFieldValue !== undefined) change(field, templateFieldValue);
+          });
         });
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [change, templateValue.id]);
 
   const getAddFirstMenu = () => {
@@ -123,6 +114,16 @@ function POLineForm({
       </PaneMenu>
     );
   };
+
+  const submitAndOpen = useCallback(() => {
+    change('saveAndOpen', true);
+    handleSubmit();
+  }, [change, handleSubmit]);
+
+  const submit = useCallback(() => {
+    change('saveAndOpen', false);
+    handleSubmit();
+  }, [change, handleSubmit]);
 
   const getPaneFooter = () => {
     const start = (
@@ -149,7 +150,7 @@ function POLineForm({
           type="submit"
           buttonStyle={buttonSaveStyle}
           disabled={!enableSaveBtn && (pristine || submitting)}
-          onClick={handleSubmit}
+          onClick={submit}
         >
           <FormattedMessage id="ui-orders.buttons.line.save" />
         </Button>
@@ -159,7 +160,7 @@ function POLineForm({
             type="submit"
             buttonStyle="primary mega"
             disabled={submitting}
-            onClick={handleSubmit(values => onSubmit({ ...values, saveAndOpen: true }))}
+            onClick={submitAndOpen}
           >
             <FormattedMessage id="ui-orders.buttons.line.saveAndOpen" />
           </Button>
@@ -175,7 +176,17 @@ function POLineForm({
     );
   };
 
-  const [expandAll, sections, toggleSection] = useAccordionToggle({});
+  const [expandAll, stateSections, toggleSection] = useAccordionToggle(INITIAL_SECTIONS);
+
+  const errorAccordions = Object.keys(form.getState().errors).map(
+    (fieldName) => ({ [MAP_FIELD_ACCORDION[fieldName]]: true }),
+  );
+  const sections = errorAccordions.length
+    ? {
+      ...stateSections,
+      ...(errorAccordions.reduce((accum, section) => ({ ...accum, ...section }), {})),
+    }
+    : stateSections;
   const lineId = get(initialValues, 'id');
   const lineNumber = get(initialValues, 'poLineNumber', '');
   const firstMenu = getAddFirstMenu();
@@ -268,7 +279,6 @@ function POLineForm({
                     {metadata && <ViewMetaData metadata={metadata} />}
 
                     <ItemForm
-                      form={form}
                       formValues={formValues}
                       order={order}
                       contributorNameTypes={contributorNameTypes}
@@ -392,7 +402,6 @@ POLineForm.propTypes = {
   initialValues: PropTypes.object,
   handleSubmit: PropTypes.func.isRequired,
   stripes: stripesShape.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
   order: PropTypes.object.isRequired,
   pristine: PropTypes.bool,

@@ -8,6 +8,7 @@ const FieldReceiptDue = () => {
     <FieldDatepickerFinal
       label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
       name="physical.receiptDue"
+      validateFields={[]}
     />
   );
 };

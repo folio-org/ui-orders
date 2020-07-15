@@ -60,6 +60,7 @@ class ContributorForm extends Component {
                   onChange={({ target: { value } }) => this.props.onChangeField(value, `${elem}.contributor`)}
                   disabled={disabled}
                   validateFields={[`${elem}.contributorNameTypeId`]}
+                  required={required}
                 />
               </Col>
               <Col xs={5}>

@@ -34,7 +34,7 @@ export const MAP_FIELD_ACCORDION = {
   physical: ACCORDION_ID.physical,
   poLineNumber: ACCORDION_ID.lineDetails,
   publicationDate: ACCORDION_ID.itemDetails,
-  title: ACCORDION_ID.itemDetails,
+  titleOrPackage: ACCORDION_ID.itemDetails,
   vendorDetail: ACCORDION_ID.vendor,
 };
 
@@ -62,3 +62,7 @@ export const ALLOWED_YEAR_LENGTH = 4;
 export const POL_TEMPLATE_FIELDS_MAP = {
   'tags.tagList': 'polTags.tagList',
 };
+
+export const INITIAL_SECTIONS = Object.keys(ACCORDION_ID).reduce(
+  (accum, id) => ({ ...accum, [id]: true }), {},
+);

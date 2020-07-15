@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
-import { getFormValues } from 'redux-form';
 import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
@@ -62,7 +61,6 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, id, showToast]);
 
-  const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
   const locations = resources?.locations?.records;
   const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
@@ -81,11 +79,6 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
     ? get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES)
     : INITIAL_VALUES;
   const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
-  const vendor = vendors.find(v => v.id === get(formValues, 'vendor'));
-  const accounts = get(vendor, 'accounts', []).map(({ accountNo }) => ({
-    label: accountNo,
-    value: accountNo,
-  }));
 
   return (
     <OrderTemplatesEditor
@@ -102,9 +95,8 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
       suffixesSetting={suffixesSetting}
       addresses={addresses}
       materialTypes={materialTypes}
-      formValues={formValues}
+      vendors={vendors}
       contributorNameTypes={contributorNameTypes}
-      accounts={accounts}
       stripes={stripes}
     />
   );

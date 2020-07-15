@@ -21,7 +21,6 @@ import {
   selectOptionsShape,
   validateRequired,
 } from '@folio/stripes-acq-components';
-import { stripesShape } from '@folio/stripes/core';
 
 import {
   validateYear,
@@ -51,7 +50,6 @@ class ItemForm extends Component {
     order: PropTypes.object.isRequired,
     formValues: PropTypes.object.isRequired,
     required: PropTypes.bool,
-    stripes: stripesShape.isRequired,
   };
 
   static defaultProps = {
@@ -135,7 +133,7 @@ class ItemForm extends Component {
       instanceId: inventoryData.instanceId,
       title: get(inventoryData, 'title', ''),
       publisher: get(inventoryData, 'publisher', ''),
-      publicationDate: get(inventoryData, 'publicationDate', ''),
+      publicationDate: get(inventoryData, 'publicationDate', null),
       edition: get(inventoryData, 'edition', ''),
       contributors: get(inventoryData, 'contributors', []),
       productIds: get(inventoryData, 'productIds', []),
@@ -143,22 +141,24 @@ class ItemForm extends Component {
   };
 
   onChangeField = (value, fieldName) => {
-    const { formValues, change } = this.props;
+    const { change } = this.props;
     const inventoryData = this.state;
 
     if (fieldName) change(fieldName, value);
 
-    if (shouldSetInstanceId(formValues, inventoryData)) {
-      change('instanceId', inventoryData.instanceId);
-    } else change('instanceId', null);
+    setTimeout(() => {
+      if (shouldSetInstanceId(this.props.formValues, inventoryData)) {
+        change('instanceId', inventoryData.instanceId);
+      } else change('instanceId', null);
+    });
   };
 
   setTitleOrPackage = ({ target: { value } }) => {
     this.onChangeField(value, 'titleOrPackage');
   };
 
-  setIsPackage = ({ target: { value } }) => {
-    const isPackageValue = value === 'false';
+  setIsPackage = () => {
+    const isPackageValue = !this.props.formValues?.isPackage;
 
     this.onChangeField(isPackageValue, 'isPackage');
     this.onChangeField(isPackageValue, 'checkinItems');
@@ -169,7 +169,7 @@ class ItemForm extends Component {
   };
 
   setPublicationDate = ({ target: { value } }) => {
-    this.onChangeField(value, 'publicationDate');
+    this.onChangeField(value || null, 'publicationDate');
   };
 
   setEdition = ({ target: { value } }) => {
@@ -266,6 +266,7 @@ class ItemForm extends Component {
               onChange={this.setTitleOrPackage}
               validate={required ? validateRequired : undefined}
               disabled={isPostPendingOrder}
+              validateFields={[]}
             />
             {isSelectInstanceVisible && <InstancePlugin addInstance={this.onAddInstance} />}
           </Col>
@@ -280,6 +281,7 @@ class ItemForm extends Component {
               name="publisher"
               onChange={this.setPublisher}
               disabled={isPostPendingOrder}
+              validateFields={[]}
             />
           </Col>
           <Col
@@ -292,9 +294,9 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
               name="publicationDate"
               onChange={this.setPublicationDate}
-              // normalize={v => (v || null)}
               validate={validateYear}
               disabled={isPostPendingOrder}
+              validateFields={[]}
             />
           </Col>
           <Col
@@ -308,6 +310,7 @@ class ItemForm extends Component {
               onChange={this.setEdition}
               name="edition"
               disabled={isPostPendingOrder}
+              validateFields={[]}
             />
           </Col>
         </Row>
@@ -329,6 +332,7 @@ class ItemForm extends Component {
             <FieldDatepickerFinal
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
               name="details.subscriptionFrom"
+              validateFields={[]}
             />
           </Col>
           <Col
@@ -339,6 +343,7 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
               name="details.subscriptionTo"
               disabled={isPostPendingOrder}
+              validateFields={[]}
             />
           </Col>
           <Col
@@ -352,6 +357,7 @@ class ItemForm extends Component {
               type="number"
               fullWidth
               disabled={isPostPendingOrder}
+              validateFields={[]}
             />
           </Col>
         </Row>
@@ -385,6 +391,7 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
               name="details.receivingNote"
+              validateFields={[]}
             />
           </Col>
           <Col
@@ -396,6 +403,7 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
               name="description"
+              validateFields={[]}
             />
           </Col>
         </Row>

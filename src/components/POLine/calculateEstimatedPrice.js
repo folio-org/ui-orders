@@ -8,7 +8,7 @@ import { DISCOUNT_TYPE } from './const';
 const calculateEstimatedPrice = (formValues) => {
   const currency = get(formValues, 'cost.currency');
 
-  if (!currency) return null;
+  if (!currency) return 0;
 
   const multiplier = getMoneyMultiplier(currency);
   const listUnitPrice = Number(get(formValues, 'cost.listUnitPrice') || 0) * multiplier;

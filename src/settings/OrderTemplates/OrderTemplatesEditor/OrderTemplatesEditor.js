@@ -13,9 +13,9 @@ import {
   PaneMenu,
   Button,
 } from '@folio/stripes/components';
-import stripesForm from '@folio/stripes/form';
+import stripesForm from '@folio/stripes/final-form';
 import {
-  FundDistributionFields,
+  FundDistributionFieldsFinal,
   FieldTags,
 } from '@folio/stripes-acq-components';
 
@@ -54,13 +54,10 @@ const ORDER = {
   workflowStatus: WORKFLOW_STATUS.pending,
 };
 
-const ORDER_TEMPLATES_FORM_NAME = 'orderTemplateForm';
-
 class OrderTemplatesEditor extends Component {
   static propTypes = {
-    formValues: PropTypes.object.isRequired,
-    change: PropTypes.func,
-    dispatch: PropTypes.func,
+    values: PropTypes.object.isRequired,
+    form: PropTypes.object.isRequired,
     close: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -75,7 +72,7 @@ class OrderTemplatesEditor extends Component {
     addresses: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     title: PropTypes.node,
-    accounts: PropTypes.arrayOf(PropTypes.object),
+    vendors: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
     stripes: PropTypes.object.isRequired,
   };
@@ -123,9 +120,9 @@ class OrderTemplatesEditor extends Component {
   };
 
   changeLocation = (location, fieldName) => {
-    const { dispatch, change } = this.props;
+    const { form: { change } } = this.props;
 
-    dispatch(change(fieldName, location.id));
+    change(fieldName, location.id);
   };
 
   getLastMenu() {
@@ -164,17 +161,22 @@ class OrderTemplatesEditor extends Component {
       materialTypes,
       handleSubmit,
       close,
-      formValues,
-      dispatch,
-      change,
+      values: formValues,
+      form: { change },
       title,
-      accounts,
+      vendors,
       stripes,
     } = this.props;
     const { sections } = this.state;
     const orderFormat = formValues.orderFormat;
-    const estimatedPrice = calculateEstimatedPrice(formValues, stripes.currency);
+    const estimatedPrice = calculateEstimatedPrice(formValues);
+    const currency = formValues?.cost?.currency || stripes.currency;
     const fundDistribution = formValues.fundDistribution || [];
+    const vendor = vendors?.find(v => v.id === formValues.vendor);
+    const accounts = vendor?.accounts.map(({ accountNo }) => ({
+      label: accountNo,
+      value: accountNo,
+    }));
 
     return (
       <Layer
@@ -231,7 +233,6 @@ class OrderTemplatesEditor extends Component {
                       addresses={addresses}
                       formValues={formValues}
                       change={change}
-                      dispatch={dispatch}
                     />
                   </Accordion>
 
@@ -260,7 +261,8 @@ class OrderTemplatesEditor extends Component {
                     <Row>
                       <Col xs={3}>
                         <FieldTags
-                          formName={ORDER_TEMPLATES_FORM_NAME}
+                          change={change}
+                          formValues={formValues}
                           name="poTags.tagList"
                         />
                       </Col>
@@ -282,10 +284,8 @@ class OrderTemplatesEditor extends Component {
                       identifierTypes={identifierTypes}
                       contributorNameTypes={contributorNameTypes}
                       order={ORDER}
-                      formName={ORDER_TEMPLATES_FORM_NAME}
                       formValues={formValues}
                       change={change}
-                      dispatch={dispatch}
                       required={false}
                       stripes={stripes}
                     />
@@ -297,7 +297,6 @@ class OrderTemplatesEditor extends Component {
                   >
                     <POLineDetailsForm
                       change={change}
-                      dispatch={dispatch}
                       formValues={formValues}
                       createInventorySetting={createInventorySetting}
                     />
@@ -309,7 +308,6 @@ class OrderTemplatesEditor extends Component {
                   >
                     <CostForm
                       change={change}
-                      dispatch={dispatch}
                       formValues={formValues}
                       order={ORDER}
                       required={false}
@@ -320,8 +318,9 @@ class OrderTemplatesEditor extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
                   >
-                    <FundDistributionFields
-                      formName={ORDER_TEMPLATES_FORM_NAME}
+                    <FundDistributionFieldsFinal
+                      change={change}
+                      currency={currency}
                       fundDistribution={fundDistribution}
                       name="fundDistribution"
                       totalAmount={estimatedPrice}
@@ -335,7 +334,6 @@ class OrderTemplatesEditor extends Component {
                   >
                     <POLineLocationsForm
                       changeLocation={this.changeLocation}
-                      dispatch={dispatch}
                       locationIds={locationIds}
                       locations={locations}
                     />
@@ -350,7 +348,6 @@ class OrderTemplatesEditor extends Component {
                         <POLinePhysicalForm
                           materialTypes={materialTypes}
                           change={change}
-                          dispatch={dispatch}
                           formValues={formValues}
                         />
                       </Accordion>
@@ -366,7 +363,6 @@ class OrderTemplatesEditor extends Component {
                         <POLineEresourcesForm
                           materialTypes={materialTypes}
                           change={change}
-                          dispatch={dispatch}
                           formValues={formValues}
                         />
                       </Accordion>
@@ -382,7 +378,6 @@ class OrderTemplatesEditor extends Component {
                         <POLineOtherResourcesForm
                           materialTypes={materialTypes}
                           change={change}
-                          dispatch={dispatch}
                           formValues={formValues}
                         />
                       </Accordion>
@@ -403,7 +398,8 @@ class OrderTemplatesEditor extends Component {
                     <Row>
                       <Col xs={3}>
                         <FieldTags
-                          formName={ORDER_TEMPLATES_FORM_NAME}
+                          change={change}
+                          formValues={formValues}
                           name="polTags.tagList"
                         />
                       </Col>
@@ -421,6 +417,8 @@ class OrderTemplatesEditor extends Component {
 
 export default stripesForm({
   enableReinitialize: true,
-  form: ORDER_TEMPLATES_FORM_NAME,
+  keepDirtyOnReinitialize: true,
   navigationCheck: true,
+  validateOnBlur: true,
+  subscription: { values: true },
 })(OrderTemplatesEditor);

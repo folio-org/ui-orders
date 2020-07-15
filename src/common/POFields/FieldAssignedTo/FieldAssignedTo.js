@@ -70,6 +70,7 @@ function FieldAssignedTo({ change, userId, mutator, stripes }) {
         hasClearIcon={false}
         label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
         name="assignedTo"
+        validateFields={[]}
       />
       <div className={styles.FieldAssignedToButtonWrapper}>
         <Pluggable

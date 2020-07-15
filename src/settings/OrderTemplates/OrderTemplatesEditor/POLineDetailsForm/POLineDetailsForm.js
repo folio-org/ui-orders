@@ -24,7 +24,7 @@ import {
   FieldPOLineDescription,
 } from '../../../../common/POLFields';
 
-const POLineDetailsForm = ({ change, dispatch, formValues, createInventorySetting }) => {
+const POLineDetailsForm = ({ change, formValues, createInventorySetting }) => {
   return (
     <Row>
       <Col
@@ -47,7 +47,6 @@ const POLineDetailsForm = ({ change, dispatch, formValues, createInventorySettin
       >
         <FieldOrderFormat
           change={change}
-          dispatch={dispatch}
           formValues={formValues}
           createInventorySetting={createInventorySetting}
           required={false}
@@ -143,7 +142,6 @@ const POLineDetailsForm = ({ change, dispatch, formValues, createInventorySettin
 
 POLineDetailsForm.propTypes = {
   change: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
   formValues: PropTypes.object.isRequired,
   createInventorySetting: PropTypes.object,
 };

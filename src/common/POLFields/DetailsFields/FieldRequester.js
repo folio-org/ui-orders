@@ -15,6 +15,7 @@ const FieldRequester = ({ disabled }) => {
       name="requester"
       type="text"
       disabled={disabled}
+      validateFields={[]}
     />
   );
 };

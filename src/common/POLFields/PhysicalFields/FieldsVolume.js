@@ -40,7 +40,33 @@ class FieldsVolume extends Component {
               </div>
             </Col>
           )}
-          {fields.map(this.renderSubForm)}
+          {fields.map((elem, index) => (
+            <Row key={index}>
+              <Col xs={11}>
+                <Field
+                  component={TextField}
+                  fullWidth
+                  label={<FormattedMessage id="ui-orders.physical.volume" />}
+                  name={elem}
+                  disabled={disabled}
+                />
+              </Col>
+              <Col
+                style={{ paddingTop: '10px' }}
+                xs={1}
+              >
+                <br />
+                <IconButton
+                  data-test-remove-volume-button
+                  icon="trash"
+                  onClick={() => this.removeFields(fields, index)}
+                  disabled={disabled}
+                >
+                  <FormattedMessage id="ui-orders.physical.removeBtn" />
+                </IconButton>
+              </Col>
+            </Row>
+          ))}
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
           <Button
@@ -50,38 +76,6 @@ class FieldsVolume extends Component {
           >
             <FormattedMessage id="ui-orders.physical.addVolumeBtn" />
           </Button>
-        </Col>
-      </Row>
-    );
-  }
-
-  renderSubForm = (elem, index, fields) => {
-    const { disabled } = this.props;
-
-    return (
-      <Row key={index}>
-        <Col xs={11}>
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.physical.volume" />}
-            name={elem}
-            disabled={disabled}
-          />
-        </Col>
-        <Col
-          style={{ paddingTop: '10px' }}
-          xs={1}
-        >
-          <br />
-          <IconButton
-            data-test-remove-volume-button
-            icon="trash"
-            onClick={() => this.removeFields(fields, index)}
-            disabled={disabled}
-          >
-            <FormattedMessage id="ui-orders.physical.removeBtn" />
-          </IconButton>
         </Col>
       </Row>
     );

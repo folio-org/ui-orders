@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -15,9 +15,9 @@ import {
 } from '../../../../common/POLFields';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 
-const POLinePhysicalForm = ({ materialTypes, dispatch, change, formValues }) => {
+const POLinePhysicalForm = ({ materialTypes, change, formValues }) => {
   return (
-    <Fragment>
+    <>
       <Row>
         <Col
           xs={3}
@@ -25,7 +25,6 @@ const POLinePhysicalForm = ({ materialTypes, dispatch, change, formValues }) => 
         >
           <FieldMaterialSupplier
             materialSupplierId={formValues?.physical?.materialSupplier}
-            dispatch={dispatch}
             change={change}
           />
         </Col>
@@ -70,14 +69,13 @@ const POLinePhysicalForm = ({ materialTypes, dispatch, change, formValues }) => 
           <FieldsVolume />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 };
 
 POLinePhysicalForm.propTypes = {
   materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   formValues: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
 };
 

@@ -13,6 +13,7 @@ const FieldCancellationRestriction = () => {
       name="cancellationRestriction"
       type="checkbox"
       vertical
+      validateFields={[]}
     />
   );
 };

@@ -3,7 +3,6 @@ export * from './createOnChangeSelectionFilter';
 export * from './getActiveFilters';
 export * from './getFundOptions';
 export * from './getMaterialTypesOptions';
-export * from './getUserOptions';
 export * from './handleFilterChange';
 export * from './getSettingsList';
 export * from './getAddresses';
