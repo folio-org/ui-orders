@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 ### Stories
+* [UIOR-561](https://issues.folio.org/browse/UIOR-561) Migrate to react-final-form
 * [UIOR-585](https://issues.folio.org/browse/UIOR-585) Add POL number to the POL details header
 * [UISACQCOMP-3](https://issues.folio.org/browse/UISACQCOMP-3) Handle import of stripes-acq-components to modules and platform
 * [UIOR-446](https://issues.folio.org/browse/UIOR-446) Populate linked agreement lines accordion with agreement line detail
