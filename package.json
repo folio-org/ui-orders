@@ -303,7 +303,7 @@
     "@folio/stripes-acq-components": "^2.0.1",
     "classnames": "^2.2.5",
     "final-form": "^4.19.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
     "react-final-form": "^6.4.0",
