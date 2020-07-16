@@ -44,9 +44,9 @@ describe('FundFilter component', () => {
   });
 
   it('should be closed by default', () => {
-    const { getByRole } = renderFundFilter();
+    const { getByLabelText } = renderFundFilter();
 
-    expect(getByRole('tab').getAttribute('aria-expanded') || 'false').toBe('false');
+    expect(getByLabelText('ui-orders.filter.fundCode filter list').getAttribute('aria-expanded') || 'false').toBe('false');
   });
 
   it('should render all passed options', async () => {
