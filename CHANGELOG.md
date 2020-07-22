@@ -17,6 +17,7 @@
 * [UIOR-417](https://issues.folio.org/browse/UIOR-417) Retain filters when switching from PO to POL and back
 
 ### Bug fixes
+* [UIOR-583](https://issues.folio.org/browse/UIOR-583) Can use invalid characters in prefix and suffix
 * [UISACQCOMP-2](https://issues.folio.org/browse/UISACQCOMP-2) ACQ - CurrencySelect values are not translated
 * [UIOR-577](https://issues.folio.org/browse/UIOR-577) Update agreement line accordion label
 * [UIOR-524](https://issues.folio.org/browse/UIOR-524) Accessibility Error: Form elements must have labels

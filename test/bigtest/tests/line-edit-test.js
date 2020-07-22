@@ -27,8 +27,8 @@ import OrderDetailsPage from '../interactors/order-details-page';
 import { CalloutInteractor } from '../interactors';
 
 const TITLE = 'TEST_VALUE';
-const requiredField = 'Required!';
-const validationYearMessage = 'Field should be 4-digit year';
+// const requiredField = 'Required!';
+// const validationYearMessage = 'Field should be 4-digit year';
 const LIST_UNIT_PRICE = 1.1;
 const QUANTITY_PHYSICAL = 2;
 const cost = {

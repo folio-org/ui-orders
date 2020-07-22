@@ -9,6 +9,7 @@ import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 
 import { PREFIXES_API } from '../../common/constants';
+import { validatePrefixSuffixName } from '../utils';
 
 const prefixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
@@ -41,6 +42,7 @@ class Prefixes extends Component {
         sortby="name"
         stripes={stripes}
         visibleFields={prefixVisibleFields}
+        validate={validatePrefixSuffixName}
       />
     );
   }
