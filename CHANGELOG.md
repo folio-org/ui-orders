@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Fix Missing asterisk on location quantity fields. Refs UIOR-590
+
 ### Stories
 * [UIOR-561](https://issues.folio.org/browse/UIOR-561) Migrate to react-final-form
 * [UIOR-585](https://issues.folio.org/browse/UIOR-585) Add POL number to the POL details header

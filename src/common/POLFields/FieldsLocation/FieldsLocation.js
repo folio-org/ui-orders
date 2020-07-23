@@ -15,6 +15,8 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  isLocationEresourceQuantityRequired,
+  isLocationPhysicalQuantityRequired,
   isLocationsRequired,
   parseQuantity,
   validateLocation,
@@ -30,9 +32,13 @@ const FieldsLocation = ({
   isDisabledToChangePaymentInfo,
   locationIds,
   locations,
+  pOLineFormValues: { orderFormat, physical, eresource } = {},
   withValidation,
 }) => {
   if (!locations) return null;
+
+  const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
+  const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresource?.createInventory);
 
   return (
     <FieldArray
@@ -64,6 +70,7 @@ const FieldsLocation = ({
               label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
               name={`${field}.quantityPhysical`}
               parse={parseQuantity}
+              required={withValidation && isPhysicalQuantityRequired}
               type="number"
               validate={withValidation ? validateQuantityPhysical : NO_VALIDATE}
               disabled={isDisabledToChangePaymentInfo}
@@ -75,6 +82,7 @@ const FieldsLocation = ({
               label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
               name={`${field}.quantityElectronic`}
               parse={parseQuantity}
+              required={withValidation && isElectronicQuantityRequired}
               type="number"
               validate={withValidation ? validateQuantityElectronic : NO_VALIDATE}
               disabled={isDisabledToChangePaymentInfo}
@@ -92,6 +100,7 @@ FieldsLocation.propTypes = {
   isDisabledToChangePaymentInfo: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
+  pOLineFormValues: PropTypes.object,
   withValidation: PropTypes.bool,
 };
 

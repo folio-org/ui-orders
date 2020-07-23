@@ -6,6 +6,7 @@ import { FieldsLocation } from '../../../common/POLFields';
 
 const LocationForm = ({
   changeLocation,
+  formValues,
   isPackage,
   locationIds,
   locations,
@@ -21,6 +22,7 @@ const LocationForm = ({
       isDisabledToChangePaymentInfo={isDisabledToChangePaymentInfo}
       locationIds={locationIds}
       locations={locations}
+      pOLineFormValues={formValues}
       withValidation={!isPackage}
     />
   );
@@ -28,6 +30,7 @@ const LocationForm = ({
 
 LocationForm.propTypes = {
   changeLocation: PropTypes.func.isRequired,
+  formValues: PropTypes.object.isRequired,
   isPackage: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),

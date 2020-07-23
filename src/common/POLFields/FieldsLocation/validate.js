@@ -20,13 +20,13 @@ export const REQUIRED_LOCATION_QUANTITY_MAP_TO_INVENTORY = {
 
 export const isLocationPhysicalQuantityRequired = (orderFormat, inventory) => {
   return [...PHRESOURCES, OTHER].includes(orderFormat)
-    ? REQUIRED_LOCATION_QUANTITY_MAP_TO_INVENTORY[inventory]
+    ? Boolean(REQUIRED_LOCATION_QUANTITY_MAP_TO_INVENTORY[inventory])
     : false;
 };
 
 export const isLocationEresourceQuantityRequired = (orderFormat, inventory) => {
   return ERESOURCES.includes(orderFormat)
-    ? REQUIRED_LOCATION_QUANTITY_MAP_TO_INVENTORY[inventory]
+    ? Boolean(REQUIRED_LOCATION_QUANTITY_MAP_TO_INVENTORY[inventory])
     : false;
 };
 
