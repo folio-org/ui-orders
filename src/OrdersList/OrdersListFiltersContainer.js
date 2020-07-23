@@ -6,7 +6,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import { reasonsForClosureResource } from '../common/resources';
 import OrdersListFilters from './OrdersListFilters';
 
-const OrdersListFiltersContainer = ({ resources, activeFilters, applyFilters }) => {
+const OrdersListFiltersContainer = ({ resources, activeFilters, applyFilters, disabled }) => {
   const closingReasons = resources?.closingReasons?.records;
 
   return (
@@ -14,6 +14,7 @@ const OrdersListFiltersContainer = ({ resources, activeFilters, applyFilters }) 
       activeFilters={activeFilters}
       applyFilters={applyFilters}
       closingReasons={closingReasons}
+      disabled={disabled}
     />
   );
 };
@@ -25,6 +26,7 @@ OrdersListFiltersContainer.manifest = Object.freeze({
 OrdersListFiltersContainer.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   applyFilters: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
   resources: PropTypes.object.isRequired,
 };
 

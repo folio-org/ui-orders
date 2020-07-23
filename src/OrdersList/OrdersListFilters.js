@@ -5,6 +5,8 @@ import {
   AccordionSet,
 } from '@folio/stripes/components';
 import {
+  AcqCheckboxFilter,
+  AcqDateRangeFilter,
   AcqTagsFilter,
   AcqUnitFilter,
   BooleanFilter,
@@ -13,8 +15,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import ClosingReasonFilter from '../common/ClosingReasonFilter';
-import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
-import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 import OrdersTextFilter from '../common/OrdersTextFilter';
 import {
   closingReasonsShape,
@@ -27,7 +27,7 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
+function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabled }) {
   const onChange = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -35,7 +35,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
 
   return (
     <AccordionSet>
-      <OrdersCheckboxFilter
+      <AcqCheckboxFilter
         id={FILTERS.STATUS}
         activeFilters={activeFilters[FILTERS.STATUS]}
         labelId="ui-orders.workflowStatus"
@@ -43,6 +43,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         onChange={onChange}
         options={STATUS_FILTER_OPTIONS}
         closedByDefault={false}
+        disabled={disabled}
       />
       <BooleanFilter
         id={FILTERS.APPROVED}
@@ -50,6 +51,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         labelId="ui-orders.orderSummary.approved"
         name={FILTERS.APPROVED}
         onChange={onChange}
+        disabled={disabled}
       />
       <AcqUnitFilter
         id={FILTERS.ACQUISITIONS_UNIT}
@@ -57,6 +59,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         labelId="ui-orders.order.acquisitionsUnit"
         name={FILTERS.ACQUISITIONS_UNIT}
         onChange={onChange}
+        disabled={disabled}
       />
       <PluggableUserFilter
         id={FILTERS.ASSIGNED_TO}
@@ -64,6 +67,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         labelId="ui-orders.orderDetails.assignedTo"
         name={FILTERS.ASSIGNED_TO}
         onChange={onChange}
+        disabled={disabled}
       />
       <PluggableUserFilter
         id={FILTERS.CREATED_BY}
@@ -71,28 +75,32 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         labelId="ui-orders.orderDetails.createdBy"
         name={FILTERS.CREATED_BY}
         onChange={onChange}
+        disabled={disabled}
       />
-      <OrdersDateRangeFilter
+      <AcqDateRangeFilter
         id={FILTERS.DATE_CREATED}
         activeFilters={activeFilters[FILTERS.DATE_CREATED]}
         labelId="ui-orders.filter.dateCreated"
         name={FILTERS.DATE_CREATED}
         onChange={onChange}
+        disabled={disabled}
       />
-      <OrdersDateRangeFilter
+      <AcqDateRangeFilter
         id={FILTERS.DATE_ORDERED}
         activeFilters={activeFilters[FILTERS.DATE_ORDERED]}
         labelId="ui-orders.dateOrdered"
         name={FILTERS.DATE_ORDERED}
         onChange={onChange}
+        disabled={disabled}
       />
-      <OrdersCheckboxFilter
+      <AcqCheckboxFilter
         id={FILTERS.ORDER_TYPE}
         activeFilters={activeFilters[FILTERS.ORDER_TYPE]}
         labelId="ui-orders.order.orderType"
         name={FILTERS.ORDER_TYPE}
         onChange={onChange}
         options={ORDER_TYPE_FILTER_OPTIONS}
+        disabled={disabled}
       />
       <PluggableOrganizationFilter
         id={`filter-${FILTERS.VENDOR}`}
@@ -100,12 +108,14 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         labelId="ui-orders.line.accordion.vendor"
         name={FILTERS.VENDOR}
         onChange={onChange}
+        disabled={disabled}
       />
       <AcqTagsFilter
         activeFilters={activeFilters[FILTERS.TAGS]}
         id={FILTERS.TAGS}
         name={FILTERS.TAGS}
         onChange={onChange}
+        disabled={disabled}
       />
       <ClosingReasonFilter
         id={FILTERS.CLOSE_REASON}
@@ -114,6 +124,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         name={FILTERS.CLOSE_REASON}
         onChange={onChange}
         closingReasons={closingReasons}
+        disabled={disabled}
       />
       <BooleanFilter
         id={FILTERS.RE_ENCUMBER}
@@ -121,13 +132,15 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         labelId="ui-orders.orderDetails.reEncumber"
         name={FILTERS.RE_ENCUMBER}
         onChange={onChange}
+        disabled={disabled}
       />
-      <OrdersDateRangeFilter
+      <AcqDateRangeFilter
         id={FILTERS.RENEWAL_DATE}
         activeFilters={activeFilters[FILTERS.RENEWAL_DATE]}
         labelId="ui-orders.renewal.date"
         name={FILTERS.RENEWAL_DATE}
         onChange={onChange}
+        disabled={disabled}
       />
       <BooleanFilter
         id={FILTERS.MANUAL_RENEWAL}
@@ -135,6 +148,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         labelId="ui-orders.renewal.manualRenewal"
         name={FILTERS.MANUAL_RENEWAL}
         onChange={onChange}
+        disabled={disabled}
       />
       <OrdersTextFilter
         id="order-reviewPeriod"
@@ -143,6 +157,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters }) {
         name={FILTERS.RENEWAL_REVIEW_PERIOD}
         type="number"
         onChange={onChange}
+        disabled={disabled}
       />
     </AccordionSet>
   );
@@ -152,6 +167,7 @@ OrdersListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   applyFilters: PropTypes.func.isRequired,
   closingReasons: closingReasonsShape,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default OrdersListFilters;

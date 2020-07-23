@@ -115,12 +115,13 @@ function OrderLinesList({
 
           <ResetButton
             reset={resetFilters}
-            disabled={!location.search}
+            disabled={!location.search || isLoading}
           />
 
           <OrderLinesFiltersContainer
             activeFilters={filters}
             applyFilters={applyFilters}
+            disabled={isLoading}
           />
         </FiltersPane>
       )}

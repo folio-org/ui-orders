@@ -1,54 +1,53 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 
 import {
-  Accordion,
-  FilterAccordionHeader,
   TextField,
 } from '@folio/stripes/components';
 
 import {
-  createClearFilterHandler,
-} from '../utils';
+  FilterAccordion,
+} from '@folio/stripes-acq-components';
 
 const OrdersTextFilter = ({
   id,
-  activeFilters = [],
-  closedByDefault = true,
+  activeFilters,
+  closedByDefault,
+  disabled,
   labelId,
   name,
   type,
   onChange,
 }) => {
-  const clearFilter = createClearFilterHandler(onChange, name);
-  const changeFilter = (e) => {
+  const changeFilter = useCallback((e) => {
     const value = e.target.value;
 
     return value
       ? onChange({ name, values: [value] })
-      : clearFilter();
-  };
+      : onChange({ name, values: [] });
+  }, [name, onChange]);
 
   const intl = useIntl();
   const label = intl.formatMessage({ id: labelId });
 
   return (
-    <Accordion
-      id={id}
+    <FilterAccordion
+      activeFilters={activeFilters}
       closedByDefault={closedByDefault}
-      displayClearButton={activeFilters.length > 0}
-      header={FilterAccordionHeader}
+      disabled={disabled}
+      id={id}
       label={label}
-      onClearFilter={clearFilter}
+      name={name}
+      onChange={onChange}
     >
       <TextField
         ariaLabel={label}
         type={type}
-        value={activeFilters[0] || ''}
+        value={activeFilters?.[0] || ''}
         onChange={changeFilter}
       />
-    </Accordion>
+    </FilterAccordion>
   );
 };
 
@@ -56,6 +55,7 @@ OrdersTextFilter.propTypes = {
   id: PropTypes.string,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   closedByDefault: PropTypes.bool,
+  disabled: PropTypes.bool,
   labelId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -63,6 +63,8 @@ OrdersTextFilter.propTypes = {
 };
 
 OrdersTextFilter.defaultProps = {
+  closedByDefault: true,
+  disabled: false,
   type: 'text',
 };
 
