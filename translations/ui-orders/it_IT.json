@@ -500,7 +500,7 @@
     "settings.loanType": "Tipologia prestito",
     "settings.loanType.select": "Tipologia prestito predefinito",
     "receiving.itemStatus.In process": "In lavorazione",
-    "receiving.itemStatus.On order": "Ordinato",
+    "receiving.itemStatus.On order": "In acquisizione",
     "receiving.itemStatus.Available": "Disponibile",
     "receiving.itemStatus.In transit": "In transito",
     "receiving.itemStatus.Undefined": "Non definito",
