@@ -1,5 +1,5 @@
 import React, {
-  useEffect,
+  useCallback,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -11,9 +11,9 @@ import queryString from 'query-string';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  getFilterParams,
   SEARCH_INDEX_PARAMETER,
   SEARCH_PARAMETER,
+  useList,
   useLocationReset,
 } from '@folio/stripes-acq-components';
 
@@ -32,22 +32,16 @@ const RESULT_COUNT_INCREMENT = 30;
 const resetData = () => { };
 
 const OrderLinesListContainer = ({ history, mutator, location }) => {
-  const [orderLines, setOrderLines] = useState([]);
-  const [orderLinesCount, setOrderLinesCount] = useState(0);
-  const [orderLinesOffset, setOrderLinesOffset] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
   const [isbnId, setIsbnId] = useState();
 
-  const loadOrderLines = async (offset) => {
-    setIsLoading(true);
+  const loadOrderLines = useCallback(async (offset, hasFilters) => {
     const queryParams = queryString.parse(location.search);
-    const filterParams = getFilterParams(queryParams);
-    let hasToCallAPI = Object.keys(filterParams).length > 0;
+    let hasToCallAPI = hasFilters;
     const isISBNSearch = queryParams[SEARCH_INDEX_PARAMETER] === 'productIdISBN';
     let normalizedISBN = null;
     let typeISBNId = isbnId;
 
-    if (isISBNSearch && hasToCallAPI) {
+    if (isISBNSearch && hasFilters) {
       const isbnNumber = queryParams[SEARCH_PARAMETER].split(QUALIFIER_SEPARATOR)[0];
 
       if (isbnNumber) {
@@ -81,39 +75,27 @@ const OrderLinesListContainer = ({ history, mutator, location }) => {
           query: buildOrderLinesQuery(queryParams, typeISBNId, normalizedISBN),
         },
       })
-        .then(orderLinesResponse => {
-          if (!offset) setOrderLinesCount(orderLinesResponse.totalRecords);
-
-          setOrderLines((prev) => [
-            ...prev,
-            ...orderLinesResponse.poLines,
-          ]);
-        })
       : Promise.resolve();
 
-    return loadRecordsPromise.finally(() => setIsLoading(false));
-  };
+    return loadRecordsPromise;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isbnId, location.search]);
 
-  const onNeedMoreData = () => {
-    const newOffset = orderLinesOffset + RESULT_COUNT_INCREMENT;
+  const loadOrderLinesCB = useCallback((setOrderLines, orderLinesResponse) => {
+    setOrderLines((prev) => [
+      ...prev,
+      ...orderLinesResponse.poLines,
+    ]);
+  }, []);
 
-    loadOrderLines(newOffset)
-      .then(() => {
-        setOrderLinesOffset(newOffset);
-      });
-  };
-
-  const refreshList = () => {
-    setOrderLines([]);
-    setOrderLinesOffset(0);
-    loadOrderLines(0);
-  };
-
-  useEffect(
+  const {
+    records: orderLines,
+    recordsCount: orderLinesCount,
+    isLoading,
+    onNeedMoreData,
     refreshList,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [location.search],
-  );
+  } = useList(false, loadOrderLines, loadOrderLinesCB, RESULT_COUNT_INCREMENT);
+
   useLocationReset(history, location, '/orders/lines', refreshList);
 
   return (
