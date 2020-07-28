@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* remove duplicated id. Refs STCOM-655
 * Fix Missing asterisk on location quantity fields. Refs UIOR-590
 
 ### Stories

@@ -9,7 +9,7 @@ export const PHRESOURCES = [PHYSICAL, PE_MIX];
 export const ACCORDION_ID = {
   costDetails: 'costDetails',
   eresources: 'eresources',
-  fundDistribution: 'fundDistribution',
+  fundDistribution: 'fundDistributionAccordion',
   itemDetails: 'itemDetails',
   lineDetails: 'lineDetails',
   location: 'location',
