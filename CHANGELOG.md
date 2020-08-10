@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Select expense class for Order & Invoice Fund distribution. Refs UIF-213
 * remove duplicated id. Refs STCOM-655
 * Fix Missing asterisk on location quantity fields. Refs UIOR-590
 
