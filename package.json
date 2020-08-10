@@ -24,7 +24,6 @@
       "configuration": "2.0",
       "contributor-name-types": "1.2",
       "erm": "2.0",
-      "finance.expense-classes": "1.0",
       "finance.funds": "1.0",
       "identifier-types": "1.2",
       "instance-statuses": "1.0",
@@ -159,7 +158,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "finance.expense-classes.collection.get",
+          "finance.funds.expense-classes.collection.get",
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
@@ -173,7 +172,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "finance.expense-classes.collection.get",
+          "finance.funds.expense-classes.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.po-lines.item.post"
@@ -185,7 +184,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "finance.expense-classes.collection.get",
+          "finance.funds.expense-classes.collection.get",
           "orders-storage.pieces.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
