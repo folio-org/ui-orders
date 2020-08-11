@@ -121,7 +121,9 @@ export function getPOActionMenu({
           data-test-clone-order-button
           onClick={clickClone}
         >
-          <FormattedMessage id="ui-orders.paneBlock.cloneBtn" />
+          <Icon size="small" icon="duplicate">
+            <FormattedMessage id="ui-orders.paneBlock.cloneBtn" />
+          </Icon>
         </Button>
       </IfPermission>
       {isReopenButtonVisible && (
