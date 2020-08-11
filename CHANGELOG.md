@@ -1,8 +1,8 @@
 # Change history for ui-orders
 
 ## (IN PROGRESS)
-
-* New icon for "Clone"
+* New icon for Receive. Refs UIREC-58
+* New icon for "Clone". Refs UIOR-520
 * Select expense class for Order & Invoice Fund distribution. Refs UIF-213
 * remove duplicated id. Refs STCOM-655
 * Fix Missing asterisk on location quantity fields. Refs UIOR-590

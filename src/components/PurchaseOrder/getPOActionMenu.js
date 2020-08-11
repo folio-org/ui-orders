@@ -111,7 +111,9 @@ export function getPOActionMenu({
             data-test-receiving-button
             onClick={clickReceive}
           >
-            <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+            <Icon size="small" icon="receive">
+              <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+            </Icon>
           </Button>
         )}
       </IfPermission>

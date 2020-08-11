@@ -186,7 +186,9 @@ class POLineView extends Component {
               data-test-line-receive-button
               to={`/receiving?qindex=poLine.poLineNumber&query=${line.poLineNumber}`}
             >
-              <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+              <Icon size="small" icon="receive">
+                <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+              </Icon>
             </Button>
           )}
         </IfPermission>
