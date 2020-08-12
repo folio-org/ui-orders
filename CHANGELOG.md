@@ -1,6 +1,7 @@
 # Change history for ui-orders
 
 ## (IN PROGRESS)
+* Fix Orders: View orders permission doesn't give access to Orders app. Refs UIOR-589
 * New icon for Receive. Refs UIREC-58
 * New icon for "Clone". Refs UIOR-520
 * Select expense class for Order & Invoice Fund distribution. Refs UIF-213

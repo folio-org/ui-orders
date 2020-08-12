@@ -251,7 +251,6 @@
         "subPermissions": [
           "configuration.all",
           "finance.expense-classes.collection.get",
-          "module.orders.enabled",
           "orders.configuration.prefixes.all",
           "orders.configuration.reasons-for-closure.all",
           "orders.configuration.suffixes.all",
