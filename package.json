@@ -58,7 +58,7 @@
       {
         "permissionName": "module.orders.enabled",
         "displayName": "UI: Orders module is enabled",
-        "visible": true
+        "visible": false
       },
       {
         "permissionName": "ui-orders.third-party-services",
@@ -99,6 +99,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "module.orders.enabled",
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.collection.get",
           "orders.configuration.prefixes.collection.get",
@@ -115,6 +116,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "module.orders.enabled",
           "orders.configuration.prefixes.collection.get",
           "orders.configuration.suffixes.collection.get",
           "orders.configuration.reasons-for-closure.collection.get",
@@ -132,6 +134,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "module.orders.enabled",
           "orders.configuration.prefixes.collection.get",
           "orders.configuration.suffixes.collection.get",
           "orders.configuration.reasons-for-closure.collection.get",
@@ -158,6 +161,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "module.orders.enabled",
           "finance.funds.expense-classes.collection.get",
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.po-lines.collection.get",
@@ -172,6 +176,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "module.orders.enabled",
           "finance.funds.expense-classes.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
@@ -184,6 +189,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "module.orders.enabled",
           "finance.funds.expense-classes.collection.get",
           "orders-storage.pieces.collection.get",
           "orders.order-templates.collection.get",
@@ -245,6 +251,7 @@
         "subPermissions": [
           "configuration.all",
           "finance.expense-classes.collection.get",
+          "module.orders.enabled",
           "orders.configuration.prefixes.all",
           "orders.configuration.reasons-for-closure.all",
           "orders.configuration.suffixes.all",

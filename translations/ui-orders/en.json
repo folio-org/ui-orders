@@ -648,5 +648,16 @@
 
   "validation.year": "Field should be 4-digit year",
 
+  "permission.order.view": "Orders: View orders",
+  "permission.order.create": "Orders: Create orders",
+  "permission.order.edit": "Orders: Edit orders",
+  "permission.order.delete": "Orders: Remove orders",
+  "permission.order-lines.view": "Orders: View order lines",
+  "permission.order-lines.create": "Orders: Create order lines",
+  "permission.order-lines.edit": "Orders: Edit order lines",
+  "permission.order-lines.delete": "Orders: Delete order lines",
+  "permission.acq.unit.assignment.assign": "Orders: Assign acquisition units to new order",
+  "permission.acq.unit.assignment.manage": "Orders: Manage acquisition units",
+  "permission.order.reopen": "Orders: Reopen purchase orders",
   "permission.order.unopen": "Orders: Unopen purchase orders"
 }
