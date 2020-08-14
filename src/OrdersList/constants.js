@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { PAYMENT_STATUS } from '@folio/stripes-acq-components';
+
 import {
   ORDER_TYPE,
   WORKFLOW_STATUS,
@@ -8,7 +10,6 @@ import {
 import {
   ACQUISITION_METHOD,
   ORDER_FORMAT,
-  PAYMENT_STATUS,
   RECEIPT_STATUS,
 } from '../common/POLFields';
 

@@ -183,6 +183,7 @@
   "errors.zeroCostQtyPhysical": "Physical cost quantity must be specified",
   "errors.zeroLocQty": "Physical or electronic location quantity must be specified",
   "errors.closeOrder": "Order failed to close",
+  "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because <b>{expenseClass}</b> is inactive.",
   "filter.activated": "Activated",
   "filter.actualReceiptDate": "Actual receipt date",
   "filter.claim": "Claim",

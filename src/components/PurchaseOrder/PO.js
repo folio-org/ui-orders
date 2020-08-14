@@ -10,6 +10,7 @@ import {
   stripesConnect,
 } from '@folio/stripes/core';
 import {
+  baseManifest,
   Tags,
   TagsBadge,
   useModalToggle,
@@ -31,6 +32,7 @@ import {
 import {
   getAddresses,
 } from '../../common/utils';
+import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
 import { isOngoing } from '../../common/POFields';
 import { WORKFLOW_STATUS } from '../../common/constants';
 import { reasonsForClosureResource } from '../../common/resources';
@@ -45,7 +47,6 @@ import {
   cloneOrder,
   updateOrderResource,
 } from '../Utils/orderResource';
-import { showUpdateOrderError } from '../Utils/order';
 import { LINES_LIMIT_DEFAULT } from '../Utils/const';
 import CloseOrderModal from './CloseOrder';
 import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
@@ -68,9 +69,8 @@ const PO = ({
   refreshList,
 }) => {
   const sendCallout = useShowCallout();
+  const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
 
-  // this is required to avoid huge refactoring of processing error messages for now
-  const context = useMemo(() => ({ sendCallout }), [sendCallout]);
   const [order, setOrder] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
@@ -148,12 +148,21 @@ const PO = ({
           refreshList();
         })
         .catch(e => {
-          showUpdateOrderError(e, context, orderErrorModalShow, 'clone.error');
+          handleErrorResponse(e, orderErrorModalShow, 'clone.error');
           setIsLoading();
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, history, location.search, order, orderErrorModalShow, sendCallout, toggleCloneConfirmation, refreshList],
+    [
+      toggleCloneConfirmation,
+      order,
+      sendCallout,
+      history,
+      location.search,
+      refreshList,
+      handleErrorResponse,
+      orderErrorModalShow,
+    ],
   );
 
   const deletePO = useCallback(
@@ -180,7 +189,7 @@ const PO = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, location.search, order, orderNumber, sendCallout, toggleDeleteOrderConfirm, refreshList],
+    [toggleDeleteOrderConfirm, order, sendCallout, orderNumber, history, location.search],
   );
 
   const closeOrder = useCallback(
@@ -204,13 +213,13 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            showUpdateOrderError(e, context, orderErrorModalShow, 'closeOrder');
+            handleErrorResponse(e, orderErrorModalShow, 'closeOrder');
           },
         )
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleCloseOrderModal, refreshList],
+    [toggleCloseOrderModal, order, sendCallout, refreshList, fetchOrder, handleErrorResponse, orderErrorModalShow],
   );
 
   const approveOrder = useCallback(
@@ -227,13 +236,13 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            showUpdateOrderError(e, context, orderErrorModalShow);
+            handleErrorResponse(e, orderErrorModalShow);
           },
         )
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, orderNumber, sendCallout, refreshList],
+    [order, sendCallout, orderNumber, refreshList, fetchOrder, handleErrorResponse, orderErrorModalShow],
   );
 
   const openOrder = useCallback(
@@ -256,7 +265,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            showUpdateOrderError(e, context, orderErrorModalShow, 'orderGenericError1', toggleDeletePieces);
+            handleErrorResponse(e, orderErrorModalShow, 'orderGenericError1', toggleDeletePieces);
           },
         )
         .finally(setIsLoading);
@@ -269,7 +278,7 @@ const PO = ({
       sendCallout,
       refreshList,
       fetchOrder,
-      context,
+      handleErrorResponse,
       orderErrorModalShow,
       toggleDeletePieces,
     ],
@@ -293,13 +302,13 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            showUpdateOrderError(e, context, orderErrorModalShow);
+            handleErrorResponse(e, orderErrorModalShow);
           },
         )
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, sendCallout, refreshList],
+    [order, sendCallout, orderNumber, refreshList, fetchOrder, handleErrorResponse, orderErrorModalShow],
   );
 
   const unopenOrder = useCallback(
@@ -322,13 +331,22 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            showUpdateOrderError(e, context, orderErrorModalShow);
+            handleErrorResponse(e, orderErrorModalShow);
           },
         )
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, fetchOrder, order, orderErrorModalShow, sendCallout, toggleUnopenOrderModal, refreshList],
+    [
+      toggleUnopenOrderModal,
+      order,
+      sendCallout,
+      orderNumber,
+      refreshList,
+      fetchOrder,
+      handleErrorResponse,
+      orderErrorModalShow,
+    ],
   );
 
   const createNewOrder = useCallback(
@@ -342,12 +360,12 @@ const PO = ({
           });
         })
         .catch(e => {
-          showUpdateOrderError(e, context, orderErrorModalShow, 'noCreatedOrder');
+          handleErrorResponse(e, orderErrorModalShow, 'noCreatedOrder');
           setIsLoading();
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, history, location.search, order, orderErrorModalShow, toggleLinesLimitExceededModal],
+    [handleErrorResponse, history, location.search, order, orderErrorModalShow, toggleLinesLimitExceededModal],
   );
 
   const gotToOrdersList = useCallback(
@@ -583,6 +601,11 @@ PO.manifest = Object.freeze({
   fund: FUND,
   approvalsSetting: APPROVALS_SETTING,
   addresses: ADDRESSES,
+  expenseClass: {
+    ...baseManifest,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 PO.propTypes = {

@@ -2,18 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldSelectFinal } from '@folio/stripes-acq-components';
+import {
+  FieldSelectFinal,
+  PAYMENT_STATUS,
+} from '@folio/stripes-acq-components';
 
 import { PO_WORKFLOW_STATUSES } from '../../constants';
-
-export const PAYMENT_STATUS = {
-  awaitingPayment: 'Awaiting Payment',
-  cancelled: 'Cancelled',
-  fullyPaid: 'Fully Paid',
-  partiallyPaid: 'Partially Paid',
-  paymentNotRequired: 'Payment Not Required',
-  pending: 'Pending',
-};
 
 const PAYMENT_STATUSES_BY_ORDER_STATUS = {
   [PO_WORKFLOW_STATUSES.pending]: [

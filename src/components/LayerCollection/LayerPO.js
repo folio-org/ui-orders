@@ -8,6 +8,7 @@ import {
   stripesConnect,
 } from '@folio/stripes/core';
 import {
+  baseManifest,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -30,9 +31,7 @@ import {
   ORDER_TEMPLATES,
   USERS,
 } from '../Utils/resources';
-import {
-  showUpdateOrderError,
-} from '../Utils/order';
+import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
 import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 
@@ -44,9 +43,7 @@ function LayerPO({
   resources,
 }) {
   const sendCallout = useShowCallout();
-
-  // this is required to avoid huge refactoring of processing error messages for now
-  const context = useMemo(() => ({ sendCallout }), [sendCallout]);
+  const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -90,9 +87,9 @@ function LayerPO({
       })
       .catch(async e => {
         setIsLoading(false);
-        await showUpdateOrderError(e, context, openOrderErrorModalShow);
+        await handleErrorResponse(e, openOrderErrorModalShow);
       });
-  }, [context, history, location.search, memoizedMutator.order, openOrderErrorModalShow, sendCallout]);
+  }, [handleErrorResponse, history, location.search, memoizedMutator.order, openOrderErrorModalShow, sendCallout]);
 
   const onCancel = useCallback(
     () => {
@@ -161,6 +158,11 @@ LayerPO.manifest = Object.freeze({
   prefixesSetting: prefixesResource,
   suffixesSetting: suffixesResource,
   orderTemplates: ORDER_TEMPLATES,
+  expenseClass: {
+    ...baseManifest,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 LayerPO.propTypes = {
