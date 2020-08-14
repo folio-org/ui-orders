@@ -148,8 +148,9 @@ const PO = ({
           refreshList();
         })
         .catch(e => {
-          handleErrorResponse(e, orderErrorModalShow, 'clone.error');
           setIsLoading();
+
+          return handleErrorResponse(e, orderErrorModalShow, 'clone.error');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -213,7 +214,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            handleErrorResponse(e, orderErrorModalShow, 'closeOrder');
+            return handleErrorResponse(e, orderErrorModalShow, 'closeOrder');
           },
         )
         .finally(setIsLoading);
@@ -236,7 +237,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            handleErrorResponse(e, orderErrorModalShow);
+            return handleErrorResponse(e, orderErrorModalShow);
           },
         )
         .finally(setIsLoading);
@@ -265,7 +266,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            handleErrorResponse(e, orderErrorModalShow, 'orderGenericError1', toggleDeletePieces);
+            return handleErrorResponse(e, orderErrorModalShow, 'orderGenericError1', toggleDeletePieces);
           },
         )
         .finally(setIsLoading);
@@ -302,7 +303,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            handleErrorResponse(e, orderErrorModalShow);
+            return handleErrorResponse(e, orderErrorModalShow);
           },
         )
         .finally(setIsLoading);
@@ -331,7 +332,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            handleErrorResponse(e, orderErrorModalShow);
+            return handleErrorResponse(e, orderErrorModalShow);
           },
         )
         .finally(setIsLoading);
@@ -360,8 +361,9 @@ const PO = ({
           });
         })
         .catch(e => {
-          handleErrorResponse(e, orderErrorModalShow, 'noCreatedOrder');
           setIsLoading();
+
+          return handleErrorResponse(e, orderErrorModalShow, 'noCreatedOrder');
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

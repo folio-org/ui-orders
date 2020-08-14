@@ -31,7 +31,7 @@ const showUpdateOrderError = async (
   let error;
 
   try {
-    error = await response.json();
+    error = await response.clone().json();
   } catch (parsingException) {
     error = response;
   }

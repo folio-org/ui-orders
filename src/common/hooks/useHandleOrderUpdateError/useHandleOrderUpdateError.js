@@ -16,7 +16,7 @@ const useHandleOrderUpdateError = (mutatorExpenseClass) => {
 
   const handleErrorResponse = useCallback(async (response, orderErrorModalShow, defaultCode, toggleDeletePieces) => {
     try {
-      const { errors } = await response.json();
+      const { errors } = await response.clone().json();
       const errorCode = errors?.[0]?.code;
 
       if (errorCode === 'inactiveExpenseClass') {
@@ -33,10 +33,10 @@ const useHandleOrderUpdateError = (mutatorExpenseClass) => {
           });
         }
       } else {
-        showUpdateOrderError(response, context, orderErrorModalShow, defaultCode, toggleDeletePieces);
+        await showUpdateOrderError(response, context, orderErrorModalShow, defaultCode, toggleDeletePieces);
       }
     } catch (e) {
-      showUpdateOrderError(response, context);
+      await showUpdateOrderError(response, context);
     }
     throw new Error('Order update error');
   }, [context, mutator, sendCallout]);
