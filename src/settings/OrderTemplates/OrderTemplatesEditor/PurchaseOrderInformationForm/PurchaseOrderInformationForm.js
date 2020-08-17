@@ -92,6 +92,7 @@ const PurchaseOrderInformationForm = ({
         data-col-order-template-order-units
       >
         <AcqUnitsField
+          id="po-acq-units"
           isFinal
           name="acqUnitIds"
           preselectedUnits={acqUnitIds}

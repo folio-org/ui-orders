@@ -171,6 +171,7 @@ class PODetailsForm extends Component {
             lg={3}
           >
             <AcqUnitsField
+              id="order-acq-units"
               name="acqUnitIds"
               perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
               isEdit={isEditMode}
