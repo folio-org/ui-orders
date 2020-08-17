@@ -23,7 +23,10 @@ import {
   useToggle,
 } from '@folio/stripes-acq-components';
 
-import { WORKFLOW_STATUS_LABELS } from '../common/constants';
+import {
+  RESULT_COUNT_INCREMENT,
+  WORKFLOW_STATUS_LABELS,
+} from '../common/constants';
 import OrdersNavigation from '../common/OrdersNavigation';
 import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 import Panes from '../components/Panes';
@@ -144,6 +147,7 @@ function OrdersList({
           onHeaderClick={changeSorting}
           onNeedMoreData={onNeedMoreData}
           onRowClick={selectOrder}
+          pageAmount={RESULT_COUNT_INCREMENT}
           pagingType="click"
           sortDirection={sortingDirection}
           sortOrder={sortingField}

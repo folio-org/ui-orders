@@ -14,7 +14,6 @@ import {
   SEARCH_INDEX_PARAMETER,
   SEARCH_PARAMETER,
   useList,
-  useLocationReset,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -31,7 +30,7 @@ const RESULT_COUNT_INCREMENT = 30;
 
 const resetData = () => { };
 
-const OrderLinesListContainer = ({ history, mutator, location }) => {
+const OrderLinesListContainer = ({ mutator, location }) => {
   const [isbnId, setIsbnId] = useState();
 
   const loadOrderLines = useCallback(async (offset, hasFilters) => {
@@ -96,14 +95,13 @@ const OrderLinesListContainer = ({ history, mutator, location }) => {
     refreshList,
   } = useList(false, loadOrderLines, loadOrderLinesCB, RESULT_COUNT_INCREMENT);
 
-  useLocationReset(history, location, '/orders/lines', refreshList);
-
   return (
     <OrderLinesList
       orderLinesCount={orderLinesCount}
       isLoading={isLoading}
       onNeedMoreData={onNeedMoreData}
       orderLines={orderLines}
+      refreshList={refreshList}
       resetData={resetData}
     />
   );
@@ -131,7 +129,6 @@ OrderLinesListContainer.manifest = Object.freeze({
 });
 
 OrderLinesListContainer.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
 };

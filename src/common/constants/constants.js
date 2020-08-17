@@ -23,3 +23,5 @@ export const CLOSING_REASONS_SOURCE = {
   system: 'System',
   user: 'User',
 };
+
+export const RESULT_COUNT_INCREMENT = 30;

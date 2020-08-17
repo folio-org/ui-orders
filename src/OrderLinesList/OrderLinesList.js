@@ -61,6 +61,7 @@ function OrderLinesList({
   resetData,
   orderLines,
   orderLinesCount,
+  refreshList,
 }) {
   const [
     filters,
@@ -155,9 +156,14 @@ function OrderLinesList({
       </ResultsPane>
 
       <Route
-        path="/orders/lines/view/:id"
-        component={Details}
         exact
+        path="/orders/lines/view/:id"
+        render={props => (
+          <Details
+            {...props}
+            refreshList={refreshList}
+          />
+        )}
       />
     </Paneset>
   );
@@ -171,6 +177,7 @@ OrderLinesList.propTypes = {
   orderLines: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 OrderLinesList.defaultProps = {

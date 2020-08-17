@@ -10,9 +10,9 @@ import {
   makeQueryBuilder,
   organizationsManifest,
   useList,
-  useLocationReset,
 } from '@folio/stripes-acq-components';
 
+import { RESULT_COUNT_INCREMENT } from '../common/constants';
 import {
   ACQUISITIONS_UNITS,
   ORDERS,
@@ -26,8 +26,6 @@ import {
 } from './utils';
 import { getKeywordQuery } from './OrdersListSearchConfig';
 import { customFilterMap } from './OrdersListFilterConfig';
-
-const RESULT_COUNT_INCREMENT = 30;
 
 const resetData = () => { };
 
@@ -44,19 +42,21 @@ const buildQuery = makeQueryBuilder(
   customFilterMap,
 );
 
-const OrdersListContainer = ({ history, mutator, location }) => {
+const OrdersListContainer = ({ mutator, location }) => {
   const [vendorsMap, setVendorsMap] = useState({});
   const [acqUnitsMap, setAcqUnitsMap] = useState({});
   const [usersMap, setUsersMap] = useState({});
 
-  const loadOrders = useCallback(async (offset) => mutator.ordersListRecords.GET({
-    params: {
-      limit: RESULT_COUNT_INCREMENT,
-      offset,
-      query: buildQuery(queryString.parse(location.search)),
-    },
+  const loadOrders = useCallback(async (offset) => {
+    return mutator.ordersListRecords.GET({
+      params: {
+        limit: RESULT_COUNT_INCREMENT,
+        offset,
+        query: buildQuery(queryString.parse(location.search)),
+      },
+    });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [location.search]);
+  }, [location.search]);
 
   const loadOrdersCB = useCallback((setOrders, ordersResponse) => {
     const fetchVendorsPromise = fetchOrderVendors(
@@ -120,8 +120,6 @@ const OrdersListContainer = ({ history, mutator, location }) => {
     refreshList,
   } = useList(false, loadOrders, loadOrdersCB, RESULT_COUNT_INCREMENT);
 
-  useLocationReset(history, location, '/orders', refreshList);
-
   return (
     <OrdersList
       ordersCount={ordersCount}
@@ -157,7 +155,6 @@ OrdersListContainer.manifest = Object.freeze({
 });
 
 OrdersListContainer.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   mutator: PropTypes.object.isRequired,
 };

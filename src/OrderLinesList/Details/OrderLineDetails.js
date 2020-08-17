@@ -28,6 +28,7 @@ const OrderLineDetails = ({
   location,
   match,
   mutator,
+  refreshList,
   resources,
 }) => {
   const lineId = match.params.id;
@@ -84,6 +85,7 @@ const OrderLineDetails = ({
             type: 'success',
             values: { lineNumber },
           });
+          refreshList();
           history.replace({
             pathname: '/orders/lines',
             search: location.search,
@@ -175,6 +177,7 @@ OrderLineDetails.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match,
   mutator: PropTypes.object.isRequired,
+  refreshList: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,
 };
 
