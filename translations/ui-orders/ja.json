@@ -639,5 +639,7 @@
     "permission.order-lines.delete": "Orders: Delete order lines",
     "permission.acq.unit.assignment.assign": "Orders: Assign acquisition units to new order",
     "permission.acq.unit.assignment.manage": "Orders: Manage acquisition units",
-    "permission.order.reopen": "Orders: Reopen purchase orders"
+    "permission.order.reopen": "Orders: Reopen purchase orders",
+    "settings.poNumber.nameValidation": "Name is not valid",
+    "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because <b>{expenseClass}</b> is inactive."
 }

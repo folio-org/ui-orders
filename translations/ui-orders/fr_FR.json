@@ -639,5 +639,7 @@
     "permission.order-lines.delete": "Commandes: supprimer les lignes de commande",
     "permission.acq.unit.assignment.assign": "Commandes: attribuer des unités d'acquisition à une nouvelle commande",
     "permission.acq.unit.assignment.manage": "Commandes: gérer les unités d'acquisition",
-    "permission.order.reopen": "Commandes: rouvrir les bons de commande"
+    "permission.order.reopen": "Commandes: rouvrir les bons de commande",
+    "settings.poNumber.nameValidation": "Name is not valid",
+    "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because <b>{expenseClass}</b> is inactive."
 }

@@ -639,5 +639,7 @@
     "permission.order-lines.delete": "Pedidos: Excluir linhas de pedido",
     "permission.acq.unit.assignment.assign": "Pedidos: Atribuirr unidades de aquisição ao novo pedido",
     "permission.acq.unit.assignment.manage": "Pedidos: Gerenciar unidades de aquisição",
-    "permission.order.reopen": "Pedidos: Reabrir pedidos de compra"
+    "permission.order.reopen": "Pedidos: Reabrir pedidos de compra",
+    "settings.poNumber.nameValidation": "Nome não é válido",
+    "errors.openOrder.inactiveExpenseClass": "O pedido NÃO pode ser <b>aberto</b> porque <b>{expenseClass}</b> está inativo."
 }

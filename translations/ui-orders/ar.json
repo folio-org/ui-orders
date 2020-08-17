@@ -639,5 +639,7 @@
     "permission.order-lines.delete": "الطلبيات: احذف سطور الطلبيات",
     "permission.acq.unit.assignment.assign": "الطلبيات: عيّن وحدات التزويد إلى طلبية جديدة",
     "permission.acq.unit.assignment.manage": "الطلبيات: أدر وحدات التزويد",
-    "permission.order.reopen": "الطلبيات: إعادة فتح أوامر الشراء"
+    "permission.order.reopen": "الطلبيات: إعادة فتح أوامر الشراء",
+    "settings.poNumber.nameValidation": "الاسم غير صالح",
+    "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because <b>{expenseClass}</b> is inactive."
 }
