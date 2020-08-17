@@ -22,6 +22,14 @@ const CALLOUT_ERROR_CODES = omit(
   ] // eslint-disable-line comma-dangle
 );
 
+const getMockedResponse = (errors) => ({
+  clone: () => ({
+    json: () => ({
+      errors,
+    }),
+  }),
+});
+
 describe('showUpdateOrderError', () => {
   Object.keys(CALLOUT_ERROR_CODES).forEach(errorCode => {
     describe(`process callout for ${errorCode} error`, () => {
@@ -33,15 +41,11 @@ describe('showUpdateOrderError', () => {
         fakeCallout = {
           sendCallout: sinon.spy(),
         };
-        fakeResponse = {
-          json: () => ({
-            errors: [
-              {
-                code: errorCode,
-              },
-            ],
-          }),
-        };
+        fakeResponse = getMockedResponse([
+          {
+            code: errorCode,
+          },
+        ]);
         fakeOpenModal = sinon.spy();
 
         await showUpdateOrderError(fakeResponse, fakeCallout, fakeOpenModal);
@@ -67,11 +71,7 @@ describe('showUpdateOrderError', () => {
       fakeCallout = {
         sendCallout: sinon.spy(),
       };
-      fakeResponse = {
-        json: () => ({
-          errors: ERRORS,
-        }),
-      };
+      fakeResponse = getMockedResponse(ERRORS);
       fakeOpenModal = sinon.spy();
 
       await showUpdateOrderError(fakeResponse, fakeCallout, fakeOpenModal);
@@ -96,11 +96,7 @@ describe('showUpdateOrderError', () => {
       fakeCallout = {
         sendCallout: sinon.spy(),
       };
-      fakeResponse = {
-        json: () => ({
-          errors: ERRORS,
-        }),
-      };
+      fakeResponse = getMockedResponse(ERRORS);
       fakeOpenModal = sinon.spy();
 
       await showUpdateOrderError(fakeResponse, fakeCallout, fakeOpenModal);
@@ -131,11 +127,7 @@ describe('showUpdateOrderError', () => {
       fakeCallout = {
         sendCallout: sinon.spy(),
       };
-      fakeResponse = {
-        json: () => ({
-          errors: ERRORS,
-        }),
-      };
+      fakeResponse = getMockedResponse(ERRORS);
       fakeOpenModal = sinon.spy();
 
       await showUpdateOrderError(fakeResponse, fakeCallout, fakeOpenModal);
@@ -170,11 +162,7 @@ describe('showUpdateOrderError', () => {
       fakeCallout = {
         sendCallout: sinon.spy(),
       };
-      fakeResponse = {
-        json: () => ({
-          errors: ERRORS,
-        }),
-      };
+      fakeResponse = getMockedResponse(ERRORS);
       fakeOpenModal = sinon.spy();
 
       await showUpdateOrderError(fakeResponse, fakeCallout, fakeOpenModal);
