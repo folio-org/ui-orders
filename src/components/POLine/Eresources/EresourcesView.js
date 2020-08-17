@@ -78,6 +78,12 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
           value={get(eresource, 'userLimit')}
         />
       </Col>
+      <Col xs={3}>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.eresource.url" />}
+          value={eresource.resourceUrl}
+        />
+      </Col>
     </Row>
   );
 };

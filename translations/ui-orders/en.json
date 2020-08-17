@@ -102,7 +102,6 @@
   "createdDateAndTime": "Created date and time",
   "createdSource": "Created source",
 
-  "dropdown.select": "--- Select ---",
   "eresource.accessProvider": "Access provider",
   "eresource.activationDue": "Activation due",
   "eresource.activationStatus": "Activation status",
@@ -110,6 +109,8 @@
   "eresource.expectedActivation": "Expected activation",
   "eresource.trial": "Trial",
   "eresource.userLimit": "User limit",
+  "eresource.url": "URL",
+
   "User does not have permissions - operation is restricted": "User does not have permissions - operation is restricted",
   "error.fetching.vendor": "Error on fetching PO Vendor",
   "errors.accessProviderIsInactive": "POL {poLineNumber} is using an Access Provider that is inactive or has been removed, please select an active Access Provider to continue.",

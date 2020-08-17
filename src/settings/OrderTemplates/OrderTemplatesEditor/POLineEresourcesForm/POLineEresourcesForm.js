@@ -16,6 +16,7 @@ import {
   FieldTrial,
   FieldUserLimit,
   FieldExpectedActivation,
+  FieldURL,
 } from '../../../../common/POLFields';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 import parseNumber from '../../../../components/Utils/parseNumber';
@@ -95,6 +96,12 @@ const POLineEresourcesForm = ({ materialTypes, formValues, change }) => {
         data-col-order-template-eresources-trial
       >
         <FieldTrial />
+      </Col>
+      <Col
+        xs={3}
+        data-col-order-template-url
+      >
+        <FieldURL />
       </Col>
     </Row>
   );

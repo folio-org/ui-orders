@@ -31,6 +31,7 @@ export { default as FieldTrial } from './EresourcesFields/FieldTrial';
 export { default as FieldUserLimit } from './EresourcesFields/FieldUserLimit';
 export { default as FieldExpectedActivation } from './EresourcesFields/FieldExpectedActivation';
 export { default as FieldActivationDue } from './EresourcesFields/FieldActivationDue';
+export { default as FieldURL } from './EresourcesFields/FieldURL';
 
 // physical
 export { default as FieldMaterialSupplier } from './PhysicalFields/FieldMaterialSupplier';

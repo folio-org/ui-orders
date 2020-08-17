@@ -15,6 +15,7 @@ import {
   FieldUserLimit,
   FieldExpectedActivation,
   FieldActivationDue,
+  FieldURL,
 } from '../../../common/POLFields';
 import {
   isWorkflowStatusClosed,
@@ -67,6 +68,9 @@ const EresourcesForm = ({ materialTypes, order, formValues, change }) => {
       </Col>
       <Col xs={6} md={3}>
         <FieldUserLimit disabled={isPostPendingOrder} />
+      </Col>
+      <Col xs={6} md={3}>
+        <FieldURL />
       </Col>
     </Row>
   );
