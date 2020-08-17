@@ -589,6 +589,7 @@
   "settings.poNumber.prefix": "Prefix",
   "settings.poNumber.suffixes": "Suffixes",
   "settings.poNumber.suffix": "Suffix",
+  "settings.poNumber.nameValidation": "Name is not valid",
   "settings.poNumber": "Purchase order number",
   "settings.saveBtn": "Save",
   "settings.setPOLInesLimit.changed": "The limit of purchase order lines has been successfully saved",
