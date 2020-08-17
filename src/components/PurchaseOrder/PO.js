@@ -416,6 +416,14 @@ const PO = ({
     [resources, match.params.id, history, location.search, poLines.length, toggleLinesLimitExceededModal],
   );
 
+  const updateOrderCB = useCallback(async (orderWithTags) => {
+    setIsLoading(true);
+    await mutator.orderDetails.PUT(orderWithTags);
+    await fetchOrder();
+    setIsLoading(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchOrder]);
+
   const addPOLineButton = (
     <IfPermission perm="orders.po-lines.item.post">
       <Button
@@ -583,7 +591,7 @@ const PO = ({
       {POPane}
       {isTagsPaneOpened && (
         <Tags
-          putMutator={mutator.orderDetails.PUT}
+          putMutator={updateOrderCB}
           recordObj={order}
           onClose={toggleTagsPane}
         />

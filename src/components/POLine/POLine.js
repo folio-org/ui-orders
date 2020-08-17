@@ -120,6 +120,14 @@ function POLine({
     [search],
   );
 
+  const updatePOLineCB = useCallback(async (poLineWithTags) => {
+    setIsLoading(true);
+    await mutator.poLine.PUT(poLineWithTags);
+    await fetchOrder();
+    setIsLoading(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchOrder]);
+
   if (isLoading || line?.id !== lineId) {
     return (
       <LoadingPane
@@ -149,7 +157,7 @@ function POLine({
       />
       {isTagsPaneOpened && (
         <Tags
-          putMutator={mutator.poLine.PUT}
+          putMutator={updatePOLineCB}
           recordObj={line}
           onClose={toggleTagsPane}
         />
