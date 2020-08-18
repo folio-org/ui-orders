@@ -418,10 +418,8 @@ const PO = ({
   );
 
   const updateOrderCB = useCallback(async (orderWithTags) => {
-    setIsLoading(true);
     await mutator.orderDetails.PUT(orderWithTags);
     await fetchOrder();
-    setIsLoading(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchOrder]);
 

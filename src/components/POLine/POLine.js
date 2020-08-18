@@ -121,10 +121,8 @@ function POLine({
   );
 
   const updatePOLineCB = useCallback(async (poLineWithTags) => {
-    setIsLoading(true);
     await mutator.poLine.PUT(poLineWithTags);
     await fetchOrder();
-    setIsLoading(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchOrder]);
 
