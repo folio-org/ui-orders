@@ -72,10 +72,11 @@ function POLineForm({
   enableSaveBtn,
 }) {
   const templateValue = getOrderTemplateValue(parentResources, order?.template);
+  const lineId = get(initialValues, 'id');
 
   useEffect(() => {
     setTimeout(() => {
-      if (templateValue.id) {
+      if (!lineId && templateValue.id) {
         form.batch(() => {
           GAME_CHANGER_FIELDS.forEach(field => {
             const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
@@ -95,8 +96,8 @@ function POLineForm({
         });
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [change, templateValue.id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [change, lineId, templateValue.id]);
 
   const getAddFirstMenu = () => {
     return (
@@ -187,7 +188,7 @@ function POLineForm({
       ...(errorAccordions.reduce((accum, section) => ({ ...accum, ...section }), {})),
     }
     : stateSections;
-  const lineId = get(initialValues, 'id');
+
   const lineNumber = get(initialValues, 'poLineNumber', '');
   const firstMenu = getAddFirstMenu();
   const paneTitle = lineId
