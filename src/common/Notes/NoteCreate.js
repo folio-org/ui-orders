@@ -1,46 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { Redirect } from 'react-router-dom';
 
-import { NoteCreatePage } from '@folio/stripes/smart-components';
+import { AcqNoteCreatePage } from '@folio/stripes-acq-components';
 
 import {
   ORDERS_DOMAIN,
   ORDERS_ROUTE,
 } from '../constants';
-import { getReferredEntityData } from './util';
+import {
+  ENTITY_TYPE_TRANSLATION_KEYS,
+  PANE_HEADER_APP_ICON,
+} from './const';
 
-const translationKeys = {
-  poLine: 'ui-orders.poLine',
-};
-
-const NoteCreate = ({
-  history: { goBack },
-  location: { state },
-}) => {
-  const referredEntityData = getReferredEntityData(state);
-
-  if (!state) {
-    return <Redirect to={ORDERS_ROUTE} />;
-  }
-
+const NoteCreate = () => {
   return (
-    <NoteCreatePage
+    <AcqNoteCreatePage
       domain={ORDERS_DOMAIN}
-      entityTypeTranslationKeys={translationKeys}
-      navigateBack={goBack}
-      paneHeaderAppIcon="orders"
-      referredEntityData={referredEntityData}
+      entityTypeTranslationKeys={ENTITY_TYPE_TRANSLATION_KEYS}
+      fallbackPath={ORDERS_ROUTE}
+      paneHeaderAppIcon={PANE_HEADER_APP_ICON}
     />
   );
-};
-
-NoteCreate.propTypes = {
-  history: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-  }).isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
 };
 
 export default NoteCreate;

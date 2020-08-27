@@ -1,6 +1,7 @@
 # Change history for ui-orders
 
 ## (IN PROGRESS)
+* Leverage common Notes route components. Refs UIORGS-184
 * Fix set template values for existing order. Refs UIOR-601
 * Add URL to Electronic format data. Refs UIOR-556
 * Fix When adding tags to a PO or POL, the new tags do not display automatically. Refs UIOR-597

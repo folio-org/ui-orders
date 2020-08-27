@@ -1,70 +1,27 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import React from 'react';
 
-import { NoteViewPage } from '@folio/stripes/smart-components';
+import { AcqNoteViewPage } from '@folio/stripes-acq-components';
 
 import {
   NOTES_ROUTE,
   ORDERS_ROUTE,
 } from '../constants';
-import { getReferredEntityData } from './util';
+import {
+  ENTITY_TYPE_PLURALIZED_TRANSLATION_KEYS,
+  ENTITY_TYPE_TRANSLATION_KEYS,
+  PANE_HEADER_APP_ICON,
+} from './const';
 
-const NoteView = ({
-  history,
-  location: { state },
-  match: { params: { id } },
-}) => {
-  const onEdit = useCallback(
-    () => {
-      history.replace({
-        pathname: `${NOTES_ROUTE}/${id}/edit`,
-        state,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [id],
-  );
-
-  const navigateBack = useCallback(
-    () => {
-      if (state) {
-        history.goBack();
-      } else {
-        history.push({
-          pathname: ORDERS_ROUTE,
-        });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [id],
-  );
-
-  const referredEntityData = getReferredEntityData(state);
-
+const NoteView = () => {
   return (
-    <div data-test-note-view-container>
-      <NoteViewPage
-        entityTypePluralizedTranslationKeys={{ poLine: 'ui-orders.poLine.pluralized' }}
-        entityTypeTranslationKeys={{ poLine: 'ui-orders.poLine' }}
-        navigateBack={navigateBack}
-        noteId={id}
-        onEdit={onEdit}
-        paneHeaderAppIcon="orders"
-        referredEntityData={referredEntityData}
-      />
-    </div>
+    <AcqNoteViewPage
+      entityTypePluralizedTranslationKeys={ENTITY_TYPE_PLURALIZED_TRANSLATION_KEYS}
+      entityTypeTranslationKeys={ENTITY_TYPE_TRANSLATION_KEYS}
+      fallbackPath={ORDERS_ROUTE}
+      notesPath={NOTES_ROUTE}
+      paneHeaderAppIcon={PANE_HEADER_APP_ICON}
+    />
   );
-};
-
-NoteView.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 export default NoteView;

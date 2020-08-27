@@ -1,53 +1,27 @@
-import React, { useCallback } from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import React from 'react';
 
-import { NoteEditPage } from '@folio/stripes/smart-components';
+import { AcqNoteEditPage } from '@folio/stripes-acq-components';
 
 import {
   NOTES_ROUTE,
   ORDERS_DOMAIN,
 } from '../constants';
-import { getReferredEntityData } from './util';
+import {
+  ENTITY_TYPE_PLURALIZED_TRANSLATION_KEYS,
+  ENTITY_TYPE_TRANSLATION_KEYS,
+  PANE_HEADER_APP_ICON,
+} from './const';
 
-const translationKeys = {
-  poLine: 'ui-orders.poLine.pluralized',
-};
-
-const NoteEdit = ({
-  history,
-  location: { state },
-  match: { params: { id } },
-}) => {
-  const goToNoteView = useCallback(
-    () => {
-      history.replace({
-        pathname: `${NOTES_ROUTE}/${id}`,
-        state,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [id],
-  );
-
-  const referredEntityData = getReferredEntityData(state);
-
+const NoteEdit = () => {
   return (
-    <NoteEditPage
+    <AcqNoteEditPage
       domain={ORDERS_DOMAIN}
-      entityTypePluralizedTranslationKeys={translationKeys}
-      entityTypeTranslationKeys={{ poLine: 'ui-orders.poLine' }}
-      navigateBack={goToNoteView}
-      noteId={id}
-      paneHeaderAppIcon="orders"
-      referredEntityData={referredEntityData}
+      entityTypePluralizedTranslationKeys={ENTITY_TYPE_PLURALIZED_TRANSLATION_KEYS}
+      entityTypeTranslationKeys={ENTITY_TYPE_TRANSLATION_KEYS}
+      notesPath={NOTES_ROUTE}
+      paneHeaderAppIcon={PANE_HEADER_APP_ICON}
     />
   );
-};
-
-NoteEdit.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  location: ReactRouterPropTypes.location.isRequired,
-  match: ReactRouterPropTypes.match.isRequired,
 };
 
 export default NoteEdit;
