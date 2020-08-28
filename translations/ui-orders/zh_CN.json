@@ -640,6 +640,6 @@
     "permission.acq.unit.assignment.manage": "订单：管理采购单元",
     "permission.order.reopen": "订单：重新打开采购订单",
     "settings.poNumber.nameValidation": "名称无效",
-    "errors.openOrder.inactiveExpenseClass": "由于费用类别<b> {expenseClass} </b>未激活，因此无法<b>打开</b>订单。",
+    "errors.openOrder.inactiveExpenseClass": "由于支出类别<b> {expenseClass} </b>未激活，因此无法<b>打开</b>订单。",
     "eresource.url": "URL"
 }
