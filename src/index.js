@@ -22,11 +22,7 @@ import {
   ORDER_LINE_EDIT_ROUTE,
   ORDER_LINES_ROUTE,
 } from './common/constants';
-import {
-  NoteCreate,
-  NoteEdit,
-  NoteView,
-} from './common/Notes';
+import { Notes } from './common/Notes';
 
 const Orders = ({ match, location, showSettings }) => {
   const { path } = match;
@@ -55,19 +51,8 @@ const Orders = ({ match, location, showSettings }) => {
           component={OrderLinesList}
         />
         <Route
-          exact
-          path={`${NOTES_ROUTE}/new`}
-          component={NoteCreate}
-        />
-        <Route
-          exact
-          path={`${NOTES_ROUTE}/:id`}
-          component={NoteView}
-        />
-        <Route
-          exact
-          path={`${NOTES_ROUTE}/:id/edit`}
-          component={NoteEdit}
+          path={NOTES_ROUTE}
+          component={Notes}
         />
         <Route
           path={path}
