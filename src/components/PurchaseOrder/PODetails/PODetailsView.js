@@ -50,6 +50,15 @@ class PODetailsView extends Component {
             xs={6}
             lg={3}
           >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
+              value={get(order, 'poNumber')}
+            />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <OrganizationValue
               id={order.vendor}
               label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
@@ -60,27 +69,15 @@ class PODetailsView extends Component {
             lg={3}
           >
             <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
-            >
-              <UserValue userId={get(order, 'metadata.createdByUserId')} />
-            </KeyValue>
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-              value={get(order, 'poNumber')}
+              label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
+              value={get(order, 'orderType')}
             />
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
-              <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />
-            </KeyValue>
+            <AcqUnitsView units={order.acqUnitIds} />
           </Col>
           <Col
             xs={6}
@@ -149,15 +146,18 @@ class PODetailsView extends Component {
             lg={3}
           >
             <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
-              value={get(order, 'orderType')}
-            />
+              label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
+            >
+              <UserValue userId={get(order, 'metadata.createdByUserId')} />
+            </KeyValue>
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <AcqUnitsView units={order.acqUnitIds} />
+            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
+              <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />
+            </KeyValue>
           </Col>
           <Col xs={12}>
             {get(order, 'notes', []).map((note, index) => (

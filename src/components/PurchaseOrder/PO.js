@@ -512,10 +512,6 @@ const PO = ({
           >
             <SummaryView order={order} />
           </Accordion>
-          <POInvoicesContainer
-            label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
-            orderId={match.params.id}
-          />
           <Accordion
             displayWhenOpen={addPOLineButton}
             id="POListing"
@@ -527,6 +523,10 @@ const PO = ({
               poLines={poLines}
             />
           </Accordion>
+          <POInvoicesContainer
+            label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
+            orderId={match.params.id}
+          />
         </AccordionSet>
       </AccordionStatus>
       {isLinesLimitExceededModalOpened && (

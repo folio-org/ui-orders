@@ -1,6 +1,8 @@
 # Change history for ui-orders
 
 ## (IN PROGRESS)
+
+* Update order record data layout. Refs UIOR-603
 * Update layout of data on the POL. Refs UIOR-604
 * Leverage common Notes route components. Refs UIORGS-184
 * Fix set template values for existing order. Refs UIOR-601
