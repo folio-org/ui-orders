@@ -74,6 +74,26 @@ const POLineDetails = ({ line }) => {
           </KeyValue>
         </Col>
         <Col
+          data-col-line-details-receipt-status
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
+            value={get(line, 'receiptStatus')}
+          />
+        </Col>
+        <Col
+          data-col-line-details-payment-status
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
+            value={get(line, 'paymentStatus')}
+          />
+        </Col>
+        <Col
           data-col-line-details-source
           xs={6}
           lg={3}
@@ -91,26 +111,6 @@ const POLineDetails = ({ line }) => {
           <KeyValue
             label={<FormattedMessage id="ui-orders.poLine.donor" />}
             value={get(line, 'donor')}
-          />
-        </Col>
-        <Col
-          data-col-line-details-payment-status
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
-            value={get(line, 'paymentStatus')}
-          />
-        </Col>
-        <Col
-          data-col-line-details-receipt-status
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
-            value={get(line, 'receiptStatus')}
           />
         </Col>
         <Col

@@ -300,6 +300,12 @@ class POLineView extends Component {
             <POLineDetails line={line} />
           </Accordion>
           <Accordion
+            label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
+            id="Vendor"
+          >
+            <VendorView vendorDetail={line.vendorDetail} />
+          </Accordion>
+          <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
             id="CostDetails"
           >
@@ -362,12 +368,6 @@ class POLineView extends Component {
               />
             </Accordion>
           )}
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
-            id="Vendor"
-          >
-            <VendorView vendorDetail={line.vendorDetail} />
-          </Accordion>
           <IfPermission perm="ui-notes.item.view">
             <NotesSmartAccordion
               domainName={ORDERS_DOMAIN}

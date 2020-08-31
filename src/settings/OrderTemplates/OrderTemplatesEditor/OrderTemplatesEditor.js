@@ -303,6 +303,13 @@ class OrderTemplatesEditor extends Component {
                   </Accordion>
 
                   <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
+                  >
+                    <POLineVendorForm accounts={accounts} />
+                  </Accordion>
+
+                  <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS}
                   >
@@ -383,13 +390,6 @@ class OrderTemplatesEditor extends Component {
                       </Accordion>
                     )
                   }
-
-                  <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
-                  >
-                    <POLineVendorForm accounts={accounts} />
-                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_TAGS]}

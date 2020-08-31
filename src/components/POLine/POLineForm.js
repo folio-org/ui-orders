@@ -303,6 +303,17 @@ function POLineForm({
                     />
                   </Accordion>
                   <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
+                    id={ACCORDION_ID.vendor}
+                  >
+                    <VendorForm
+                      accounts={accounts}
+                      order={order}
+                      vendorRefNumber={vendorRefNumber}
+                      vendorRefNumberType={vendorRefNumberType}
+                    />
+                  </Accordion>
+                  <Accordion
                     label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
                     id={ACCORDION_ID.costDetails}
                   >
@@ -378,17 +389,6 @@ function POLineForm({
                       />
                     </Accordion>
                   )}
-                  <Accordion
-                    label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
-                    id={ACCORDION_ID.vendor}
-                  >
-                    <VendorForm
-                      accounts={accounts}
-                      order={order}
-                      vendorRefNumber={vendorRefNumber}
-                      vendorRefNumberType={vendorRefNumberType}
-                    />
-                  </Accordion>
                 </AccordionSet>
               </Col>
             </Row>

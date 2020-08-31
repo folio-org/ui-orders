@@ -252,10 +252,7 @@ class ItemForm extends Component {
           </Col>
         </Row>
         <Row>
-          <Col
-            xs={6}
-            md={3}
-          >
+          <Col xs={12}>
             <Field
               className={css.titleWrapper}
               component={TextField}
@@ -270,59 +267,18 @@ class ItemForm extends Component {
             />
             {isSelectInstanceVisible && <InstancePlugin addInstance={this.onAddInstance} />}
           </Col>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
-              name="publisher"
-              onChange={this.setPublisher}
-              disabled={isPostPendingOrder}
-              validateFields={[]}
-            />
-          </Col>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-              name="publicationDate"
-              onChange={this.setPublicationDate}
-              validate={validateYear}
-              disabled={isPostPendingOrder}
-              validateFields={[]}
-            />
-          </Col>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
-              onChange={this.setEdition}
-              name="edition"
-              disabled={isPostPendingOrder}
-              validateFields={[]}
-            />
-          </Col>
         </Row>
         <Row>
           <Col
             xs={6}
             md={3}
           >
-            <PackagePoLineField
-              disabled={isPackage}
-              onSelectLine={this.onAddLinkPackage}
-              poLineId={formValues?.packagePoLineId}
+            <Field
+              component={TextArea}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
+              name="details.receivingNote"
+              validateFields={[]}
             />
           </Col>
           <Col
@@ -362,6 +318,61 @@ class ItemForm extends Component {
           </Col>
         </Row>
         <Row>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
+              name="publicationDate"
+              onChange={this.setPublicationDate}
+              validate={validateYear}
+              disabled={isPostPendingOrder}
+              validateFields={[]}
+            />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
+              name="publisher"
+              onChange={this.setPublisher}
+              disabled={isPostPendingOrder}
+              validateFields={[]}
+            />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
+              onChange={this.setEdition}
+              name="edition"
+              disabled={isPostPendingOrder}
+              validateFields={[]}
+            />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <PackagePoLineField
+              disabled={isPackage}
+              onSelectLine={this.onAddLinkPackage}
+              poLineId={formValues?.packagePoLineId}
+            />
+          </Col>
+        </Row>
+        <Row>
           <Col xs={12}>
             <ContributorForm
               contributorNameTypes={contributorNameTypes}
@@ -382,18 +393,6 @@ class ItemForm extends Component {
           </Col>
         </Row>
         <Row>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextArea}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-              name="details.receivingNote"
-              validateFields={[]}
-            />
-          </Col>
           <Col
             xs={6}
             md={3}

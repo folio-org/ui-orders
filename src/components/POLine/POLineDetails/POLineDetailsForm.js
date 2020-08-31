@@ -91,16 +91,7 @@ function POLineDetailsForm({
           xs={6}
           md={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.poLine.source" />}
-            value={sourceLabels[poLine.source]}
-          />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldDonor disabled={isPostPendingOrder} />
+          <FieldReceiptStatus workflowStatus={order.workflowStatus} />
         </Col>
         <Col
           xs={6}
@@ -112,7 +103,16 @@ function POLineDetailsForm({
           xs={6}
           md={3}
         >
-          <FieldReceiptStatus workflowStatus={order.workflowStatus} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.poLine.source" />}
+            value={sourceLabels[poLine.source]}
+          />
+        </Col>
+        <Col
+          xs={6}
+          md={3}
+        >
+          <FieldDonor disabled={isPostPendingOrder} />
         </Col>
         <Col
           xs={6}

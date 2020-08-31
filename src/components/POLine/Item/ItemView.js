@@ -28,10 +28,7 @@ const ItemView = ({ poLineDetails }) => {
   return (
     <>
       <Row start="xs">
-        <Col
-          xs={6}
-          lg={3}
-        >
+        <Col xs={12}>
           <KeyValue
             label={<FormattedMessage id={`ui-orders.itemDetails.${poLineDetails.isPackage ? 'packageName' : 'title'}`} />}
             value={titleValue}
@@ -69,15 +66,6 @@ const ItemView = ({ poLineDetails }) => {
           lg={3}
         >
           <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.linkPackage" />}
-            value={<LinkToPoLine poLineId={poLineDetails?.packagePoLineId} />}
-          />
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
             value={get(poLineDetails, ['details', 'subscriptionInterval'])}
           />
@@ -107,6 +95,15 @@ const ItemView = ({ poLineDetails }) => {
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
             value={toString(get(poLineDetails, 'edition'))}
+          />
+        </Col>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.itemDetails.linkPackage" />}
+            value={<LinkToPoLine poLineId={poLineDetails?.packagePoLineId} />}
           />
         </Col>
         <Col xs={12}>

@@ -26,117 +26,127 @@ import {
 
 const POLineDetailsForm = ({ change, formValues, createInventorySetting }) => {
   return (
-    <Row>
-      <Col
-        xs={3}
-        data-col-order-template-pol-number
-      >
-        <FieldPOLineNumber />
-      </Col>
+    <>
+      <Row>
+        <Col
+          xs={3}
+          data-col-order-template-pol-number
+        >
+          <FieldPOLineNumber />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-acq-method
-      >
-        <FieldAcquisitionMethod required={false} />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-acq-method
+        >
+          <FieldAcquisitionMethod required={false} />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-order-format
-      >
-        <FieldOrderFormat
-          change={change}
-          formValues={formValues}
-          createInventorySetting={createInventorySetting}
-          required={false}
-        />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-order-format
+        >
+          <FieldOrderFormat
+            change={change}
+            formValues={formValues}
+            createInventorySetting={createInventorySetting}
+            required={false}
+          />
+        </Col>
+      </Row>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-receipt-date
-      >
-        <FieldReceiptDate />
-      </Col>
+      <Row>
+        <Col
+          xs={3}
+          data-col-order-template-pol-receipt-date
+        >
+          <FieldReceiptDate />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-donor
-      >
-        <FieldDonor />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-receipt-status
+        >
+          <FieldReceiptStatus workflowStatus="template" />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-payment-status
-      >
-        <FieldPaymentStatus workflowStatus="template" />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-payment-status
+        >
+          <FieldPaymentStatus workflowStatus="template" />
+        </Col>
+      </Row>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-receipt-status
-      >
-        <FieldReceiptStatus workflowStatus="template" />
-      </Col>
+      <Row>
+        <Col
+          xs={3}
+          data-col-order-template-pol-donor
+        >
+          <FieldDonor />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-selector
-      >
-        <FieldSelector />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-selector
+        >
+          <FieldSelector />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-cancel-restriction
-      >
-        <FieldCancellationRestriction />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-requester
+        >
+          <FieldRequester />
+        </Col>
+      </Row>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-rush
-      >
-        <FieldRush />
-      </Col>
+      <Row>
+        <Col
+          xs={3}
+          data-col-order-template-pol-cancel-restriction
+        >
+          <FieldCancellationRestriction />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-collection
-      >
-        <FieldCollection />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-rush
+        >
+          <FieldRush />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-check-in
-      >
-        <FieldCheckInItems disabled={formValues.isPackage} />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-collection
+        >
+          <FieldCollection />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-requester
-      >
-        <FieldRequester />
-      </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-check-in
+        >
+          <FieldCheckInItems disabled={formValues.isPackage} />
+        </Col>
+      </Row>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-cancel-restr-note
-      >
-        <FieldCancellationRestrictionNote />
-      </Col>
+      <Row>
+        <Col
+          xs={3}
+          data-col-order-template-pol-cancel-restr-note
+        >
+          <FieldCancellationRestrictionNote />
+        </Col>
 
-      <Col
-        xs={3}
-        data-col-order-template-pol-description
-      >
-        <FieldPOLineDescription />
-      </Col>
-    </Row>
+        <Col
+          xs={3}
+          data-col-order-template-pol-description
+        >
+          <FieldPOLineDescription />
+        </Col>
+      </Row>
+    </>
   );
 };
 
