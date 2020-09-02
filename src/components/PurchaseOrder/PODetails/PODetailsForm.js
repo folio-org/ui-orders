@@ -12,6 +12,7 @@ import {
 } from '@folio/stripes/components';
 import {
   AcqUnitsField,
+  FieldOrganization,
   fieldSelectOptionsShape,
   FieldTags,
   FolioFormattedTime,
@@ -27,7 +28,6 @@ import {
   FieldIsReEncumber,
   FieldsNotes,
   FieldAssignedTo,
-  FieldOrganization,
 } from '../../../common/POFields';
 import FieldOrderType from './FieldOrderType';
 import {

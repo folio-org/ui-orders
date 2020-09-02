@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Update fund distribution UX. Refs UIF-245
 * Update order record data layout. Refs UIOR-603
 * Update layout of data on the POL. Refs UIOR-604
 * Leverage common Notes route components. Refs UIORGS-184

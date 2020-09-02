@@ -5,12 +5,14 @@ import {
   Row,
   Col,
 } from '@folio/stripes/components';
-import { AcqUnitsField } from '@folio/stripes-acq-components';
+import {
+  AcqUnitsField,
+  FieldOrganization,
+} from '@folio/stripes-acq-components';
 
 import {
   FieldPrefix,
   FieldSuffix,
-  FieldOrganization,
   FieldBillTo,
   FieldShipTo,
   FieldIsManualPO,

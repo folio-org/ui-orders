@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FieldOrganization } from '../../POFields';
+import { FieldOrganization } from '@folio/stripes-acq-components';
 
 const FieldMaterialSupplier = ({ change, disabled, materialSupplierId }) => {
   return (

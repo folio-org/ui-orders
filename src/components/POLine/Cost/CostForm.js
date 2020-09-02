@@ -10,13 +10,11 @@ import {
   KeyValue,
   Row,
   TextField,
-  Button,
-  ButtonGroup,
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
-  CurrencySymbol,
   parseNumberFieldValue,
+  TypeToggle,
   validateRequiredNotNegative,
 } from '@folio/stripes-acq-components';
 
@@ -24,7 +22,6 @@ import { ifDisabledToChangePaymentInfo } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
 import FieldCurrency from './FieldCurrency';
 import {
-  DISCOUNT_TYPE,
   ERESOURCE,
   ERESOURCES,
   OTHER,
@@ -56,41 +53,6 @@ const validateNotNegative = (value) => {
   return !value || value > 0
     ? undefined
     : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
-};
-
-const TypeToggle = (({ input: { value, onChange }, label, disabled, currency }) => {
-  return (
-    <KeyValue label={label}>
-      <ButtonGroup
-        fullWidth
-        data-test-fund-distr-type
-      >
-        <Button
-          onClick={() => value !== DISCOUNT_TYPE.percentage && onChange(DISCOUNT_TYPE.percentage)}
-          buttonStyle={value === DISCOUNT_TYPE.percentage ? 'primary' : 'default'}
-          data-test-fund-distr-type-percent
-          disabled={disabled}
-        >
-          <FormattedMessage id="stripes-acq-components.fundDistribution.type.sign.percent" />
-        </Button>
-        <Button
-          onClick={() => value !== DISCOUNT_TYPE.amount && onChange(DISCOUNT_TYPE.amount)}
-          buttonStyle={value === DISCOUNT_TYPE.amount ? 'primary' : 'default'}
-          data-test-fund-distr-type-amount
-          disabled={disabled}
-        >
-          <CurrencySymbol currency={currency} />
-        </Button>
-      </ButtonGroup>
-    </KeyValue>
-  );
-});
-
-TypeToggle.propTypes = {
-  currency: PropTypes.string,
-  disabled: PropTypes.bool,
-  input: PropTypes.object.isRequired,
-  label: PropTypes.node,
 };
 
 class CostForm extends Component {

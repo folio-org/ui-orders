@@ -1,6 +1,5 @@
 export { default as FieldPrefix } from './FieldPrefix';
 export { default as FieldSuffix } from './FieldSuffix';
-export { default as FieldOrganization } from './FieldOrganization';
 export { default as FieldBillTo } from './FieldBillTo';
 export { default as FieldShipTo } from './FieldShipTo';
 export { default as FieldIsManualPO } from './FieldIsManualPO';
