@@ -125,45 +125,6 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}>
-              <UserValue userId={formValues?.metadata?.createdByUserId} />
-            </KeyValue>
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
-              <FolioFormattedTime dateString={get(formValues, 'metadata.createdDate')} />
-            </KeyValue>
-          </Col>
-          <Col
-            xs={12}
-            lg={3}
-          >
-            <FieldAssignedTo
-              change={change}
-              userId={formValues?.assignedTo}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <FieldIsManualPO disabled={isPostPendingOrder} />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <FieldIsReEncumber disabled={isPostPendingOrder} />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
             <FieldOrderType disabled={isPostPendingOrder} />
           </Col>
           <Col
@@ -179,6 +140,17 @@ class PODetailsForm extends Component {
               isFinal
             />
           </Col>
+          <Col
+            xs={12}
+            lg={3}
+          >
+            <FieldAssignedTo
+              change={change}
+              userId={formValues?.assignedTo}
+            />
+          </Col>
+        </Row>
+        <Row>
           <Col
             xs={6}
             lg={3}
@@ -214,6 +186,38 @@ class PODetailsForm extends Component {
               value={addressShipTo}
             />
           </Col>
+        </Row>
+        <Row>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <FieldIsManualPO disabled={isPostPendingOrder} />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <FieldIsReEncumber disabled={isPostPendingOrder} />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}>
+              <UserValue userId={formValues?.metadata?.createdByUserId} />
+            </KeyValue>
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
+              <FolioFormattedTime dateString={get(formValues, 'metadata.createdDate')} />
+            </KeyValue>
+          </Col>
+        </Row>
+        <Row>
           <Col
             xs={6}
             lg={3}
