@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Make URL in e-resource accordion a hyperlink. Refs UIOR-600
 * Update fund distribution UX. Refs UIF-245
 * Update order record data layout. Refs UIOR-603
 * Update layout of data on the POL. Refs UIOR-604

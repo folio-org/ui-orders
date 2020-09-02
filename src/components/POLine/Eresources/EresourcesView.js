@@ -11,6 +11,7 @@ import {
   Col,
   KeyValue,
   Row,
+  TextLink,
 } from '@folio/stripes/components';
 import {
   FolioFormattedDate,
@@ -25,6 +26,16 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
   const accessProviderId = get(eresource, 'accessProvider');
   const materialTypeId = get(eresource, 'materialType');
   const materialType = materialTypes.find((type => materialTypeId === type.id));
+
+  const resourceUrl = (
+    <TextLink
+      href={eresource.resourceUrl}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      {eresource.resourceUrl}
+    </TextLink>
+  );
 
   return (
     <Row start="xs">
@@ -81,7 +92,7 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
       <Col xs={3}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.eresource.url" />}
-          value={eresource.resourceUrl}
+          value={resourceUrl}
         />
       </Col>
     </Row>
