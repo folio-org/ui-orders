@@ -5,6 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { TIMEOUT } from '../interactors/const';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import {
@@ -17,6 +18,8 @@ describe('Approve order action', function () {
   setupApplication();
 
   const orderDetailsPage = new OrderDetailsPage();
+
+  this.timeout(TIMEOUT);
 
   beforeEach(async function () {
     this.server.create('config', {

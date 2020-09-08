@@ -5,6 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { TIMEOUT } from '../../interactors/const';
 import setupApplication from '../../helpers/setup-application';
 import LineEditPage from '../../interactors/line-edit-page';
 import LineDetailsPage from '../../interactors/line-details-page';
@@ -16,6 +17,8 @@ describe('Create PO Line simple test', function () {
   let vendor = null;
   const lineEditPage = new LineEditPage();
   const lineDetailsPage = new LineDetailsPage();
+
+  this.timeout(TIMEOUT);
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');

@@ -5,6 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { TIMEOUT } from '../interactors/const';
 import {
   INVENTORY_RECORDS_TYPE,
   PHYSICAL,
@@ -33,6 +34,8 @@ describe('Edit PO Line - Save updated PO Line', function () {
   let vendor = null;
   const lineEditPage = new LineEditPage();
   const lineDetailsPage = new LineDetailsPage();
+
+  this.timeout(TIMEOUT);
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');

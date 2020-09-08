@@ -5,6 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { TIMEOUT } from '../../interactors/const';
 import { WORKFLOW_STATUS } from '../../../../src/common/constants';
 import { PHYSICAL } from '../../../../src/components/POLine/const';
 import setupApplication from '../../helpers/setup-application';
@@ -17,6 +18,8 @@ describe('Order lines list - Line details test', function () {
   let line = null;
   const page = new LineDetailsPage();
   const orderPage = new OrderDetailsPage();
+
+  this.timeout(TIMEOUT);
 
   beforeEach(async function () {
     line = this.server.create('line', {

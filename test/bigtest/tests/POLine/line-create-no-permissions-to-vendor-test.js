@@ -8,6 +8,7 @@ import { Response } from 'miragejs';
 
 import { VENDORS_API } from '@folio/stripes-acq-components';
 
+import { TIMEOUT } from '../../interactors/const';
 import setupApplication from '../../helpers/setup-application';
 import LineEditPage from '../../interactors/line-edit-page';
 import {
@@ -23,6 +24,8 @@ describe('Create PO Line with no permissions to vendor', function () {
   const lineEditPage = new LineEditPage();
   const poDetails = new OrderDetailsPage();
   const calloutInteractor = new CalloutInteractor();
+
+  this.timeout(TIMEOUT);
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');

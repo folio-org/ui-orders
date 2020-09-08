@@ -5,6 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { TIMEOUT } from '../interactors/const';
 import {
   ORDER_TYPE,
   WORKFLOW_STATUS,
@@ -24,6 +25,8 @@ describe('Order details with Line', function () {
   let vendor = null;
   let line = null;
   let invoice = null;
+
+  this.timeout(TIMEOUT);
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
