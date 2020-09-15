@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Field, useForm, useFormState } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
-import { TooltipCheckbox } from '@folio/stripes-acq-components';
+import { TooltippedControl } from '@folio/stripes-acq-components';
+import { Checkbox } from '@folio/stripes/components';
 
 const FieldRenewalSubscription = ({ disabled, isNonInteractive }) => {
   const { batch, change, resetFieldState } = useForm();
@@ -32,7 +33,8 @@ const FieldRenewalSubscription = ({ disabled, isNonInteractive }) => {
 
   return (
     <Field
-      component={TooltipCheckbox}
+      component={TooltippedControl}
+      controlComponent={Checkbox}
       disabled={!disabled && isNonInteractive}
       label={<FormattedMessage id="ui-orders.renewals.subscription" />}
       name="ongoing.isSubscription"

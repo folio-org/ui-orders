@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
-import { TooltipTextField } from '@folio/stripes-acq-components';
+import { TooltippedControl } from '@folio/stripes-acq-components';
+import { TextField } from '@folio/stripes/components';
 
 import RenewalPeriod from './RenewalPeriod';
 
@@ -12,7 +13,8 @@ const FieldRenewalPeriod = ({ disabled, isNonInteractive }) => {
     ? <RenewalPeriod value={isNonInteractive} />
     : (
       <Field
-        component={TooltipTextField}
+        component={TooltippedControl}
+        controlComponent={TextField}
         fullWidth
         label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
         name="ongoing.reviewPeriod"

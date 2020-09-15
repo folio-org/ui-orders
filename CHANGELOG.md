@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Update create/edit form inactive fields - PO. Refs UIOR-606
 * Make URL in e-resource accordion a hyperlink. Refs UIOR-600
 * Update fund distribution UX. Refs UIF-245
 * Update order record data layout. Refs UIOR-603

@@ -4,9 +4,10 @@ import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  TooltipTextField,
+  TooltippedControl,
   validateRequired,
 } from '@folio/stripes-acq-components';
+import { TextField } from '@folio/stripes/components';
 
 import RenewalInterval from './RenewalInterval';
 
@@ -17,7 +18,8 @@ const FieldRenewalInterval = ({ required, disabled, isNonInteractive }) => {
     ? <RenewalInterval value={isNonInteractive} />
     : (
       <Field
-        component={TooltipTextField}
+        component={TooltippedControl}
+        controlComponent={TextField}
         fullWidth
         key={fieldIsRequired ? 1 : 0}
         label={<FormattedMessage id="ui-orders.renewals.renewalInterval" />}

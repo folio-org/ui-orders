@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
-import { TooltipCheckbox } from '@folio/stripes-acq-components';
+import { TooltippedControl } from '@folio/stripes-acq-components';
+import { Checkbox } from '@folio/stripes/components';
 
 const FieldIsManualRenewal = ({ disabled, isNonInteractive }) => {
   return (
     <Field
-      component={TooltipCheckbox}
+      component={TooltippedControl}
+      controlComponent={Checkbox}
       label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
       name="ongoing.manualRenewal"
       readOnly={disabled}
