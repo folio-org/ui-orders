@@ -298,7 +298,6 @@
     "jest-css-modules": "^2.1.0",
     "jest-junit": "^11.1.0",
     "miragejs": "^0.1.32",
-    "mocha": "^8.1.3",
     "moment": "^2.24.0",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",

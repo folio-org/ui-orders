@@ -21,11 +21,11 @@ import {
   useLocalStorageFilters,
   useLocationSorting,
   useToggle,
+  ORDER_STATUS_LABEL,
 } from '@folio/stripes-acq-components';
 
 import {
   RESULT_COUNT_INCREMENT,
-  WORKFLOW_STATUS_LABELS,
 } from '../common/constants';
 import OrdersNavigation from '../common/OrdersNavigation';
 import OrdersListFiltersContainer from './OrdersListFiltersContainer';
@@ -39,7 +39,7 @@ const visibleColumns = ['poNumber', 'vendorCode', 'workflowStatus', 'orderType',
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', UPDATED_DATE];
 const resultsFormatter = {
   [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} />,
-  workflowStatus: order => WORKFLOW_STATUS_LABELS[order.workflowStatus],
+  workflowStatus: order => ORDER_STATUS_LABEL[order.workflowStatus],
 };
 
 export const columnMapping = {

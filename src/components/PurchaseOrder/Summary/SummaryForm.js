@@ -14,14 +14,12 @@ import {
   isWorkflowStatusIsPending,
 } from '../util';
 import FieldWorkflowStatus from './FieldWorkflowStatus';
+import TotalUnits from './TotalUnits';
 
 const SummaryForm = ({ initialValues: order }) => (
   <Row>
     <Col xs={6} md={3}>
-      <KeyValue
-        label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
-        value={order.totalItems}
-      />
+      <TotalUnits value={order.totalItems} />
     </Col>
     <Col xs={6} md={3}>
       <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}>
@@ -32,7 +30,7 @@ const SummaryForm = ({ initialValues: order }) => (
       <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />
     </Col>
     <Col xs={6} md={3}>
-      <FieldWorkflowStatus disabled />
+      <FieldWorkflowStatus isNonInteractive={order?.workflowStatus} />
     </Col>
   </Row>
 );

@@ -54,7 +54,7 @@ class POForm extends Component {
       sections: {
         purchaseOrder: true,
         POSummary: true,
-        renewals: true,
+        ongoing: true,
       },
     };
   }
@@ -67,7 +67,7 @@ class POForm extends Component {
 
     return poNumber && initialFullOrderNumber !== fullOrderNumber
       ? validator.POST({ poNumber: fullOrderNumber })
-        .then(() => {})
+        .then(() => { })
         .catch(() => <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" />)
       : Promise.resolve();
   }
@@ -294,14 +294,7 @@ class POForm extends Component {
                             validateNumber={this.validateNumber}
                           />
                         </Accordion>
-                        {isOngoing(formValues.orderType) && (
-                          <Accordion
-                            id="ongoing"
-                            label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
-                          >
-                            <OngoingInfoForm order={initialValues} ongoingFormValues={formValues.ongoing} />
-                          </Accordion>
-                        )}
+                        <OngoingInfoForm />
                         <Accordion
                           id="POSummary"
                           label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}

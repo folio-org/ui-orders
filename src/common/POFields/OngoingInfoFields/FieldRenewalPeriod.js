@@ -3,24 +3,30 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
-import { TextField } from '@folio/stripes/components';
+import { TooltipTextField } from '@folio/stripes-acq-components';
 
-const FieldRenewalPeriod = ({ disabled }) => {
-  return (
-    <Field
-      component={TextField}
-      fullWidth
-      label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
-      name="ongoing.reviewPeriod"
-      type="number"
-      disabled={disabled}
-      validateFields={[]}
-    />
-  );
+import RenewalPeriod from './RenewalPeriod';
+
+const FieldRenewalPeriod = ({ disabled, isNonInteractive }) => {
+  return isNonInteractive
+    ? <RenewalPeriod value={isNonInteractive} />
+    : (
+      <Field
+        component={TooltipTextField}
+        fullWidth
+        label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
+        name="ongoing.reviewPeriod"
+        readOnly={disabled}
+        tooltipText={disabled && <FormattedMessage id="ui-orders.renewals.manualRenewal.tooltip" />}
+        type="number"
+        validateFields={[]}
+      />
+    );
 };
 
 FieldRenewalPeriod.propTypes = {
   disabled: PropTypes.bool,
+  isNonInteractive: PropTypes.node,
 };
 
 FieldRenewalPeriod.defaultProps = {

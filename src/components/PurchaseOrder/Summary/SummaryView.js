@@ -5,6 +5,7 @@ import {
   Checkbox,
   Col,
   KeyValue,
+  NoValue,
   Row,
 } from '@folio/stripes/components';
 import {
@@ -13,6 +14,8 @@ import {
 } from '@folio/stripes-acq-components';
 
 import TotalEncumberedValue from './TotalEncumberedValue';
+import WorkflowStatus from './WorkflowStatus';
+import TotalUnits from './TotalUnits';
 
 const SummaryView = ({ order }) => (
   <>
@@ -21,10 +24,7 @@ const SummaryView = ({ order }) => (
         xs={6}
         lg={3}
       >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
-          value={order.totalItems}
-        />
+        <TotalUnits value={order.totalItems} />
       </Col>
       <Col
         xs={6}
@@ -42,10 +42,7 @@ const SummaryView = ({ order }) => (
         xs={6}
         lg={3}
       >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.orderSummary.workflowStatus" />}
-          value={order.workflowStatus}
-        />
+        <WorkflowStatus value={order.workflowStatus} />
       </Col>
     </Row>
 
@@ -80,13 +77,13 @@ const SummaryView = ({ order }) => (
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
-            value={order.closeReason?.reason}
+            value={order.closeReason?.reason || <NoValue />}
           />
         </Col>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
-            value={order.closeReason?.note}
+            value={order.closeReason?.note || <NoValue />}
           />
         </Col>
       </Row>

@@ -417,6 +417,8 @@
   "receipt_status.pending": "Pending",
   "receipt_status.receiptNotRequired": "Receipt not required",
   "renewals.subscription": "Subscription",
+  "renewals.subscription.tooltip": "Choose Order type as Ongoing to interact with this field",
+  "renewals.manualRenewal.tooltip": "Check Subscription to interact with this field",
   "renewals.manualRenewal": "Manual renewal",
   "renewals.renewalDate": "Renewal date",
   "renewals.reviewDate": "Review date",

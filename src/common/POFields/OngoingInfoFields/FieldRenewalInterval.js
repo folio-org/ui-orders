@@ -3,28 +3,39 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
-import { TextField } from '@folio/stripes/components';
-import { validateRequired } from '@folio/stripes-acq-components';
+import {
+  TooltipTextField,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
-const FieldRenewalInterval = ({ required, disabled }) => {
-  return (
-    <Field
-      component={TextField}
-      fullWidth
-      label={<FormattedMessage id="ui-orders.renewals.renewalInterval" />}
-      name="ongoing.interval"
-      type="number"
-      required={required}
-      validate={required ? validateRequired : undefined}
-      disabled={disabled}
-      validateFields={[]}
-    />
-  );
+import RenewalInterval from './RenewalInterval';
+
+const FieldRenewalInterval = ({ required, disabled, isNonInteractive }) => {
+  const fieldIsRequired = required && !disabled && !isNonInteractive;
+
+  return isNonInteractive
+    ? <RenewalInterval value={isNonInteractive} />
+    : (
+      <Field
+        component={TooltipTextField}
+        fullWidth
+        key={fieldIsRequired ? 1 : 0}
+        label={<FormattedMessage id="ui-orders.renewals.renewalInterval" />}
+        name="ongoing.interval"
+        readOnly={disabled}
+        tooltipText={disabled && <FormattedMessage id="ui-orders.renewals.manualRenewal.tooltip" />}
+        type="number"
+        required={fieldIsRequired}
+        validate={fieldIsRequired ? validateRequired : undefined}
+        validateFields={[]}
+      />
+    );
 };
 
 FieldRenewalInterval.propTypes = {
   disabled: PropTypes.bool,
   required: PropTypes.bool,
+  isNonInteractive: PropTypes.node,
 };
 
 FieldRenewalInterval.defaultProps = {

@@ -236,16 +236,7 @@ class OrderTemplatesEditor extends Component {
                     />
                   </Accordion>
 
-                  {
-                    isOngoing(formValues.orderType) && (
-                      <Accordion
-                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_ONGOING]}
-                        id={ORDER_TEMPLATES_ACCORDION.PO_ONGOING}
-                      >
-                        <OngoingInfoForm ongoingFormValues={formValues.ongoing} />
-                      </Accordion>
-                    )
-                  }
+                  <OngoingInfoForm />
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_NOTES]}

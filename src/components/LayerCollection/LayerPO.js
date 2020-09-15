@@ -9,6 +9,7 @@ import {
 } from '@folio/stripes/core';
 import {
   baseManifest,
+  ORDER_STATUSES,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -35,6 +36,10 @@ import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpda
 import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 
+const NEW_ORDER = {
+  workflowStatus: ORDER_STATUSES.pending,
+};
+
 function LayerPO({
   history,
   location,
@@ -52,7 +57,7 @@ function LayerPO({
   const [isLoading, setIsLoading] = useState(true);
   const [updateOrderError, setUpdateOrderError] = useState();
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
-  const order = id ? resources?.order?.records[0] : {};
+  const order = id ? resources?.order?.records[0] : NEW_ORDER;
 
   useEffect(() => {
     memoizedMutator.orderNumber.reset();

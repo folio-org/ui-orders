@@ -6,27 +6,33 @@ import {
   FieldSelectFinal as FieldSelect,
   fieldSelectOptionsShape,
 } from '@folio/stripes-acq-components';
+import {
+  KeyValue,
+  NoValue,
+} from '@folio/stripes/components';
 
-const FieldPrefix = ({ prefixes, disabled, ...rest }) => {
-  return (
-    <FieldSelect
-      label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
-      name="poNumberPrefix"
-      dataOptions={prefixes}
-      disabled={disabled}
-      validateFields={[]}
-      {...rest}
-    />
-  );
+const FieldPrefix = ({ prefixes, isNonInteractive, ...rest }) => {
+  return isNonInteractive
+    ? (
+      <KeyValue
+        label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
+        value={isNonInteractive || <NoValue />}
+      />
+    )
+    : (
+      <FieldSelect
+        label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
+        name="poNumberPrefix"
+        dataOptions={prefixes}
+        validateFields={[]}
+        {...rest}
+      />
+    );
 };
 
 FieldPrefix.propTypes = {
   prefixes: fieldSelectOptionsShape.isRequired,
-  disabled: PropTypes.bool,
-};
-
-FieldPrefix.defaultProps = {
-  disabled: false,
+  isNonInteractive: PropTypes.node,
 };
 
 export default FieldPrefix;

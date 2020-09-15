@@ -6,27 +6,33 @@ import {
   FieldSelectFinal as FieldSelect,
   fieldSelectOptionsShape,
 } from '@folio/stripes-acq-components';
+import {
+  KeyValue,
+  NoValue,
+} from '@folio/stripes/components';
 
-const FieldSuffix = ({ suffixes, disabled, ...rest }) => {
-  return (
-    <FieldSelect
-      label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
-      name="poNumberSuffix"
-      dataOptions={suffixes}
-      disabled={disabled}
-      validateFields={[]}
-      {...rest}
-    />
-  );
+const FieldSuffix = ({ suffixes, isNonInteractive, ...rest }) => {
+  return isNonInteractive
+    ? (
+      <KeyValue
+        label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
+        value={isNonInteractive || <NoValue />}
+      />
+    )
+    : (
+      <FieldSelect
+        label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
+        name="poNumberSuffix"
+        dataOptions={suffixes}
+        validateFields={[]}
+        {...rest}
+      />
+    );
 };
 
 FieldSuffix.propTypes = {
   suffixes: fieldSelectOptionsShape.isRequired,
-  disabled: PropTypes.bool,
-};
-
-FieldSuffix.defaultProps = {
-  disabled: false,
+  isNonInteractive: PropTypes.node,
 };
 
 export default FieldSuffix;

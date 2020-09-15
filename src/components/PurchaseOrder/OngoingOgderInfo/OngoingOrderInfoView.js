@@ -8,9 +8,15 @@ import {
   Checkbox,
   Col,
   Row,
-  KeyValue,
 } from '@folio/stripes/components';
-import { FolioFormattedDate } from '@folio/stripes-acq-components';
+
+import {
+  OngoingInfoNotes,
+  RenewalDate,
+  RenewalInterval,
+  RenewalPeriod,
+  ReviewDate,
+} from '../../../common/POFields/OngoingInfoFields';
 
 const OngoingOrderInfoView = ({ order: { ongoing = {} } }) => {
   const {
@@ -42,27 +48,19 @@ const OngoingOrderInfoView = ({ order: { ongoing = {} } }) => {
             xs={6}
             lg={3}
           >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.renewals.renewalInterval" />}
-              value={interval}
-            />
+            <RenewalInterval value={interval} />
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <KeyValue label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}>
-              <FolioFormattedDate value={renewalDate} />
-            </KeyValue>
+            <RenewalDate value={renewalDate} />
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
-              value={reviewPeriod}
-            />
+            <RenewalPeriod value={reviewPeriod} />
           </Col>
           <Col
             xs={6}
@@ -81,19 +79,14 @@ const OngoingOrderInfoView = ({ order: { ongoing = {} } }) => {
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id="ui-orders.renewals.reviewDate" />}>
-            <FolioFormattedDate value={reviewDate} />
-          </KeyValue>
+          <ReviewDate value={reviewDate} />
         </Col>
       )}
       <Col
         xs={6}
         lg={3}
       >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.renewals.notes" />}
-          value={notes}
-        />
+        <OngoingInfoNotes value={notes} />
       </Col>
     </Row>
   );
