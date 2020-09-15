@@ -29,9 +29,6 @@ import {
   isFresource,
   isOtherResource,
 } from '../../../common/POLFields';
-import {
-  isOngoing,
-} from '../../../common/POFields';
 import { WORKFLOW_STATUS } from '../../../common/constants';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
