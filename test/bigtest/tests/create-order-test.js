@@ -43,7 +43,6 @@ describe('Create order', function () {
     expect(form.hasPONumberField).to.be.true;
     expect(form.hasVendorNameField).to.be.true;
     expect(form.hasCreatedByField).to.be.true;
-    expect(form.suffixSelect.value).to.be.equal('');
     expect(form.createOrderButton.isPresent).to.be.true;
   });
 

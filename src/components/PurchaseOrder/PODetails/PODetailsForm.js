@@ -93,12 +93,14 @@ class PODetailsForm extends Component {
           <Col xs={4}>
             {(!canUserEditOrderNumber || isPostPendingOrder) ? (
               <KeyValue
+                data-test-po-number
                 label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
                 value={formValues?.poNumber || <NoValue />}
               />
             ) : (
               <Field
                 component={TextField}
+                data-test-po-number
                 fullWidth
                 label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
                 name="poNumber"

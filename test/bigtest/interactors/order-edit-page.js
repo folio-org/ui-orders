@@ -43,7 +43,7 @@ export default interactor(class OrderEditPage {
   title = text('[class*=paneTitleLabel---]');
   hasTemplateField = isPresent('[name="template"]');
   orderTemplate = new OrderTemplate();
-  hasPONumberField = isPresent('[name="poNumber"]');
+  hasPONumberField = isPresent('[data-test-po-number]');
   hasVendorNameField = isPresent('[name="vendor"]');
   hasCreatedByField = isPresent('[data-test-created-by-name]');
   suffixSelect = new SuffixSelect();
