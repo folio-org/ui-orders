@@ -1,7 +1,3 @@
 .titleLabel {
   margin-bottom: 0;
 }
-
-.titleWrapper > label {
-  justify-content: space-between;
-}

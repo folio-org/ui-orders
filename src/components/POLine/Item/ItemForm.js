@@ -19,7 +19,6 @@ import {
 import {
   FieldDatepickerFinal,
   selectOptionsShape,
-  validateRequired,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -39,6 +38,9 @@ import {
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { ALLOWED_YEAR_LENGTH } from '../const';
 import PackagePoLineField from './PackagePoLineField';
+import { EditionField } from './EditionField';
+import { TitleField } from './TitleField';
+import { SubscriptionIntervalField } from './SubscriptionIntervalField';
 import css from './ItemForm.css';
 
 class ItemForm extends Component {
@@ -253,17 +255,12 @@ class ItemForm extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-            <Field
-              className={css.titleWrapper}
-              component={TextField}
-              fullWidth
+            <TitleField
               label={this.getTitleLabel()}
-              marginBottom0
-              name="titleOrPackage"
+              isNonInteractive={isPostPendingOrder}
               onChange={this.setTitleOrPackage}
-              validate={required ? validateRequired : undefined}
-              disabled={isPostPendingOrder}
-              validateFields={[]}
+              poLineDetails={formValues}
+              required={required}
             />
             {isSelectInstanceVisible && <InstancePlugin addInstance={this.onAddInstance} />}
           </Col>
@@ -306,14 +303,9 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <Field
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-              name="details.subscriptionInterval"
-              component={TextField}
-              type="number"
-              fullWidth
-              disabled={isPostPendingOrder}
-              validateFields={[]}
+            <SubscriptionIntervalField
+              isNonInteractive={isPostPendingOrder}
+              value={formValues?.details?.subscriptionInterval}
             />
           </Col>
         </Row>
@@ -351,14 +343,10 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
+            <EditionField
+              isNonInteractive={isPostPendingOrder}
               onChange={this.setEdition}
-              name="edition"
-              disabled={isPostPendingOrder}
-              validateFields={[]}
+              value={formValues.edition}
             />
           </Col>
           <Col

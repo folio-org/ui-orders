@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import { NoValue } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 
 import { getUserNameById } from '../../../common/utils';
@@ -19,7 +20,7 @@ const UserValue = ({ userId, mutator }) => {
     [memoizedMutator.userValueResource, userId],
   );
 
-  return <span data-test-created-by-name>{userValue}</span>;
+  return <span data-test-created-by-name>{userValue || <NoValue />}</span>;
 };
 
 UserValue.manifest = Object.freeze({

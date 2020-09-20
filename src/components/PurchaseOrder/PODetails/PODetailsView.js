@@ -8,6 +8,7 @@ import {
   Checkbox,
   Col,
   KeyValue,
+  NoValue,
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
@@ -84,7 +85,7 @@ class PODetailsView extends Component {
             lg={3}
           >
             <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.approvalDate" />}>
-              <FolioFormattedTime dateString={get(order, 'approvalDate')} />
+              <FolioFormattedTime dateString={order?.approvalDate} />
             </KeyValue>
           </Col>
           <Col
@@ -105,7 +106,7 @@ class PODetailsView extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-              value={addressBillTo}
+              value={addressBillTo || <NoValue />}
             />
           </Col>
           <Col
@@ -116,7 +117,7 @@ class PODetailsView extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-              value={addressShipTo}
+              value={addressShipTo || <NoValue />}
             />
           </Col>
           <Col

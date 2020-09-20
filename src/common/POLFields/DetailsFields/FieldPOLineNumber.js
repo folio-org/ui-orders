@@ -1,20 +1,20 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'react-final-form';
+import PropTypes from 'prop-types';
 
-import { TextField } from '@folio/stripes/components';
+import { KeyValue, NoValue } from '@folio/stripes/components';
 
-const FieldPOLineNumber = () => {
+const FieldPOLineNumber = ({ poLineNumber }) => {
   return (
-    <Field
-      component={TextField}
-      disabled
-      fullWidth
+    <KeyValue
       label={<FormattedMessage id="ui-orders.poLine.number" />}
-      name="poLineNumber"
-      type="text"
+      value={poLineNumber || <NoValue />}
     />
   );
+};
+
+FieldPOLineNumber.propTypes = {
+  poLineNumber: PropTypes.string,
 };
 
 export default FieldPOLineNumber;

@@ -166,7 +166,7 @@ class PODetailsForm extends Component {
           >
             <FieldBillTo
               addresses={addressesOptions}
-              isNonInteractive={isClosedOrder && formValues?.billTo}
+              isNonInteractive={isClosedOrder}
             />
           </Col>
           <Col
@@ -176,7 +176,7 @@ class PODetailsForm extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.address" />}
-              value={addressBillTo}
+              value={addressBillTo || <NoValue />}
             />
           </Col>
           <Col
@@ -192,7 +192,7 @@ class PODetailsForm extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.address" />}
-              value={addressShipTo}
+              value={addressShipTo || <NoValue />}
             />
           </Col>
         </Row>

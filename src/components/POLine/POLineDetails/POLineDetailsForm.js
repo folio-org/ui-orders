@@ -53,7 +53,7 @@ function POLineDetailsForm({
           xs={6}
           md={3}
         >
-          {poLine.id && <FieldPOLineNumber />}
+          <FieldPOLineNumber poLineNumber={poLine.poLineNumber} />
         </Col>
         <Col
           xs={6}

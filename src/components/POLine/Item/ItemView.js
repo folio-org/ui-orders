@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, toString } from 'lodash';
-import { Link } from 'react-router-dom';
 
 import {
   Col,
@@ -15,24 +14,19 @@ import {
   ProductIdDetails,
 } from '@folio/stripes-acq-components';
 
+import { EditionView } from './EditionField';
+import { TitleView } from './TitleField';
+import { SubscriptionIntervalView } from './SubscriptionIntervalField';
 import LinkToPoLine from '../../LinkToPoLine';
 
 const ItemView = ({ poLineDetails }) => {
-  const instanceId = get(poLineDetails, 'instanceId');
-  const title = get(poLineDetails, 'titleOrPackage');
-  const titleValue = instanceId
-    ? <Link to={`/inventory/view/${instanceId}`}>{title}</Link>
-    : title;
   const contributors = get(poLineDetails, 'contributors', []);
 
   return (
     <>
       <Row start="xs">
         <Col xs={12}>
-          <KeyValue
-            label={<FormattedMessage id={`ui-orders.itemDetails.${poLineDetails.isPackage ? 'packageName' : 'title'}`} />}
-            value={titleValue}
-          />
+          <TitleView poLineDetails={poLineDetails} />
         </Col>
         <Col
           xs={6}
@@ -40,7 +34,7 @@ const ItemView = ({ poLineDetails }) => {
         >
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-            value={get(poLineDetails, ['details', 'receivingNote'])}
+            value={poLineDetails.details?.receivingNote}
           />
         </Col>
         <Col
@@ -65,10 +59,7 @@ const ItemView = ({ poLineDetails }) => {
           xs={6}
           lg={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-            value={get(poLineDetails, ['details', 'subscriptionInterval'])}
-          />
+          <SubscriptionIntervalView value={poLineDetails?.details?.subscriptionInterval} />
         </Col>
         <Col
           xs={6}
@@ -92,10 +83,7 @@ const ItemView = ({ poLineDetails }) => {
           xs={6}
           lg={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
-            value={toString(get(poLineDetails, 'edition'))}
-          />
+          <EditionView value={poLineDetails?.edition} />
         </Col>
         <Col
           xs={6}
