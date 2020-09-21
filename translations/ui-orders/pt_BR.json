@@ -641,5 +641,7 @@
     "permission.order.reopen": "Pedidos: Reabrir pedidos de compra",
     "settings.poNumber.nameValidation": "Nome não é válido",
     "errors.openOrder.inactiveExpenseClass": "O pedido NÃO pode ser <b>aberto</b> porque a classe <b>{expenseClass}</b> está inativa.",
-    "eresource.url": "URL"
+    "eresource.url": "URL",
+    "renewals.subscription.tooltip": "Escolha o tipo de pedido como em andamento para interagir com este campo",
+    "renewals.manualRenewal.tooltip": "Verifique a assinatura para interagir com este campo"
 }
