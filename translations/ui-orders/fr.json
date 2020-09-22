@@ -641,5 +641,7 @@
     "permission.order.reopen": "Orders: Reopen purchase orders",
     "settings.poNumber.nameValidation": "Name is not valid",
     "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because expense class <b>{expenseClass}</b> is inactive.",
-    "eresource.url": "URL"
+    "eresource.url": "URL",
+    "renewals.subscription.tooltip": "Choose Order type as Ongoing to interact with this field",
+    "renewals.manualRenewal.tooltip": "Check Subscription to interact with this field"
 }

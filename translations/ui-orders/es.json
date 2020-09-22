@@ -228,7 +228,7 @@
     "receiving.btn.remove": "Remove",
     "receivingHistory.dateReceived": "Fecha de recepción",
     "receivingHistory.note": "Nota de recepción",
-    "receivingHistory.paneTitle": "Recibiendo historial - Orden de pedido {orderNumber}",
+    "receivingHistory.paneTitle": "Historial de recepción - Orden de pedido {orderNumber}",
     "receivingHistory.confirmation.confirm": "Confirm",
     "receivingHistory.confirmation.heading": "Remove from history",
     "receivingHistory.confirmation.message": "Are you sure you want to remove the piece(s) from Receiving history? They will return to a status of Expected and any associated item will be set as On-Order.",
@@ -641,5 +641,7 @@
     "permission.order.reopen": "Orders: Reopen purchase orders",
     "settings.poNumber.nameValidation": "Name is not valid",
     "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because expense class <b>{expenseClass}</b> is inactive.",
-    "eresource.url": "URL"
+    "eresource.url": "URL",
+    "renewals.subscription.tooltip": "Choose Order type as Ongoing to interact with this field",
+    "renewals.manualRenewal.tooltip": "Check Subscription to interact with this field"
 }
