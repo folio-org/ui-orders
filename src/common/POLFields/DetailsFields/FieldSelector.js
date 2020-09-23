@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 
-import { TextField } from '@folio/stripes/components';
+import { TextField } from '@folio/stripes-acq-components';
 
 const FieldSelector = ({ disabled }) => {
   return (
@@ -14,7 +14,7 @@ const FieldSelector = ({ disabled }) => {
       label={<FormattedMessage id="ui-orders.poLine.selector" />}
       name="selector"
       type="text"
-      disabled={disabled}
+      isNonInteractive={disabled}
       validateFields={[]}
     />
   );

@@ -9,11 +9,11 @@ import {
   InfoPopover,
   KeyValue,
   Row,
-  TextField,
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
   parseNumberFieldValue,
+  TextField,
   TypeToggle,
   validateRequiredNotNegative,
 } from '@folio/stripes-acq-components';
@@ -108,7 +108,7 @@ class CostForm extends Component {
               name="cost.listUnitPrice"
               parse={parseNumberFieldValue}
               type="number"
-              disabled={isDisabledToChangePaymentInfo}
+              isNonInteractive={isDisabledToChangePaymentInfo}
               {...validatePhresourcesPrices}
             />
           </Col>
@@ -134,7 +134,7 @@ class CostForm extends Component {
               name="cost.quantityPhysical"
               type="number"
               parse={parseNumber}
-              disabled={isDisabledToChangePaymentInfo}
+              isNonInteractive={isDisabledToChangePaymentInfo}
               {...validatePhresourcesQuantities}
             />
           </Col>
@@ -151,7 +151,7 @@ class CostForm extends Component {
             parse={parseNumberFieldValue}
             type="number"
             validate={validateNotNegative}
-            disabled={isDisabledToChangePaymentInfo}
+            isNonInteractive={isDisabledToChangePaymentInfo}
           />
         </Col>
         {isElectornicFieldsVisible && (
@@ -166,7 +166,7 @@ class CostForm extends Component {
               name="cost.listUnitPriceElectronic"
               parse={parseNumberFieldValue}
               type="number"
-              disabled={isDisabledToChangePaymentInfo}
+              isNonInteractive={isDisabledToChangePaymentInfo}
               {...validateEresourcesPrices}
             />
           </Col>
@@ -182,7 +182,7 @@ class CostForm extends Component {
             name="cost.discount"
             type="number"
             validate={validateNotNegative}
-            disabled={isDisabledToChangePaymentInfo}
+            isNonInteractive={isDisabledToChangePaymentInfo}
           />
         </Col>
         <Col
@@ -209,7 +209,7 @@ class CostForm extends Component {
               name="cost.quantityElectronic"
               type="number"
               parse={parseNumber}
-              disabled={isDisabledToChangePaymentInfo}
+              isNonInteractive={isDisabledToChangePaymentInfo}
               {...validateEresourcesQuantities}
             />
           </Col>

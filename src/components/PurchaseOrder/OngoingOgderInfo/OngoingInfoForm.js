@@ -52,7 +52,7 @@ const OngoingInfoForm = () => {
             >
               <FieldRenewalInterval
                 disabled={!isSubscription}
-                isNonInteractive={isNonInteractive && ongoingFormValues?.interval}
+                isNonInteractive={isNonInteractive}
               />
             </Col>
             <Col
@@ -61,7 +61,7 @@ const OngoingInfoForm = () => {
             >
               <FieldRenewalDate
                 disabled={!isSubscription}
-                isNonInteractive={isNonInteractive && ongoingFormValues?.renewalDate}
+                isNonInteractive={isNonInteractive}
               />
             </Col>
             <Col
@@ -70,7 +70,7 @@ const OngoingInfoForm = () => {
             >
               <FieldRenewalPeriod
                 disabled={!isSubscription}
-                isNonInteractive={isNonInteractive && ongoingFormValues?.reviewPeriod}
+                isNonInteractive={isNonInteractive}
               />
             </Col>
             <Col
@@ -88,7 +88,7 @@ const OngoingInfoForm = () => {
             >
               <FieldReviewDate
                 disabled={isSubscription}
-                isNonInteractive={isNonInteractive && ongoingFormValues?.reviewDate}
+                isNonInteractive={isNonInteractive}
               />
             </Col>
             <Col
@@ -96,7 +96,7 @@ const OngoingInfoForm = () => {
               md={3}
             >
               <FieldOngoingInfoNotes
-                isNonInteractive={isNonInteractive && ongoingFormValues?.notes}
+                isNonInteractive={isNonInteractive}
               />
             </Col>
           </>

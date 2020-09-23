@@ -14,7 +14,8 @@ const InventoryRecordTypeSelectField = ({ label, name, disabled, isRedux, ...res
       fullWidth
       label={<FormattedMessage id={label} />}
       name={name}
-      disabled={disabled}
+      disabled={isRedux ? disabled : undefined}
+      isNonInteractive={isRedux ? undefined : disabled}
       {...rest}
     />
   );

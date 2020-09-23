@@ -64,7 +64,7 @@ function FieldOrderFormat({
       name="orderFormat"
       onChange={onChangeSelect}
       required={required}
-      disabled={disabled}
+      isNonInteractive={disabled}
     />
   );
 }

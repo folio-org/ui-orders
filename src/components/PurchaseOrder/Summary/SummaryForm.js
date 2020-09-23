@@ -30,7 +30,7 @@ const SummaryForm = ({ initialValues: order }) => (
       <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />
     </Col>
     <Col xs={6} md={3}>
-      <FieldWorkflowStatus isNonInteractive={order?.workflowStatus} />
+      <FieldWorkflowStatus isNonInteractive />
     </Col>
   </Row>
 );

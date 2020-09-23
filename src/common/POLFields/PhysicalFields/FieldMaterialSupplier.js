@@ -9,7 +9,7 @@ const FieldMaterialSupplier = ({ change, disabled, materialSupplierId }) => {
       change={change}
       labelId="ui-orders.physical.materialSupplier"
       name="physical.materialSupplier"
-      disabled={disabled}
+      isNonInteractive={disabled}
       id={materialSupplierId}
       required={false}
     />

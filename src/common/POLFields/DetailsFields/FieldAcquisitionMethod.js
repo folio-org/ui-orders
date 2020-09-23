@@ -27,7 +27,7 @@ const FieldAcquisitionMethod = ({ disabled, required }) => (
     label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
     name="acquisitionMethod"
     required={required}
-    disabled={disabled}
+    isNonInteractive={disabled}
   />
 );
 

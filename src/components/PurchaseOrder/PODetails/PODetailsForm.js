@@ -86,7 +86,7 @@ class PODetailsForm extends Component {
         <Row>
           <Col xs={4}>
             <FieldPrefix
-              isNonInteractive={isPostPendingOrder && formValues?.poNumberPrefix}
+              isNonInteractive={isPostPendingOrder}
               prefixes={prefixesSetting}
             />
           </Col>
@@ -112,7 +112,7 @@ class PODetailsForm extends Component {
           </Col>
           <Col xs={4}>
             <FieldSuffix
-              isNonInteractive={isPostPendingOrder && formValues?.poNumberSuffix}
+              isNonInteractive={isPostPendingOrder}
               suffixes={suffixesSetting}
             />
           </Col>
@@ -134,7 +134,7 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <FieldOrderType isNonInteractive={isPostPendingOrder && formValues?.orderType} />
+            <FieldOrderType isNonInteractive={isPostPendingOrder} />
           </Col>
           <Col
             xs={6}

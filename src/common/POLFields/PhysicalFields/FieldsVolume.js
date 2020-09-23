@@ -9,8 +9,8 @@ import {
   Col,
   IconButton,
   Row,
-  TextField,
 } from '@folio/stripes/components';
+import { TextField } from '@folio/stripes-acq-components';
 
 class FieldsVolume extends Component {
   static propTypes = {
@@ -31,7 +31,7 @@ class FieldsVolume extends Component {
     return (
       <Row>
         <Col xs={12}>
-          {fields.length === 0 && (
+          {fields.length === 0 && !disabled && (
             <Col xs={12}>
               <div>
                 <em>
@@ -48,35 +48,39 @@ class FieldsVolume extends Component {
                   fullWidth
                   label={<FormattedMessage id="ui-orders.physical.volume" />}
                   name={elem}
-                  disabled={disabled}
+                  isNonInteractive={disabled}
                 />
               </Col>
-              <Col
-                style={{ paddingTop: '10px' }}
-                xs={1}
-              >
-                <br />
-                <IconButton
-                  data-test-remove-volume-button
-                  icon="trash"
-                  onClick={() => this.removeFields(fields, index)}
-                  disabled={disabled}
+              {!disabled && (
+                <Col
+                  style={{ paddingTop: '10px' }}
+                  xs={1}
                 >
-                  <FormattedMessage id="ui-orders.physical.removeBtn" />
-                </IconButton>
-              </Col>
+                  <br />
+                  <IconButton
+                    data-test-remove-volume-button
+                    icon="trash"
+                    onClick={() => this.removeFields(fields, index)}
+                    disabled={disabled}
+                  >
+                    <FormattedMessage id="ui-orders.physical.removeBtn" />
+                  </IconButton>
+                </Col>
+              )}
             </Row>
           ))}
         </Col>
-        <Col xs={12} style={{ paddingTop: '10px' }}>
-          <Button
-            data-test-add-volume-button
-            onClick={() => this.addFields(fields)}
-            disabled={disabled}
-          >
-            <FormattedMessage id="ui-orders.physical.addVolumeBtn" />
-          </Button>
-        </Col>
+        {!disabled && (
+          <Col xs={12} style={{ paddingTop: '10px' }}>
+            <Button
+              data-test-add-volume-button
+              onClick={() => this.addFields(fields)}
+              disabled={disabled}
+            >
+              <FormattedMessage id="ui-orders.physical.addVolumeBtn" />
+            </Button>
+          </Col>
+        )}
       </Row>
     );
   }

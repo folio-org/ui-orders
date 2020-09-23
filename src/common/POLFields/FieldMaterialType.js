@@ -11,7 +11,7 @@ const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}
     name={name}
     required={required}
-    disabled={disabled}
+    isNonInteractive={disabled}
   />
 );
 

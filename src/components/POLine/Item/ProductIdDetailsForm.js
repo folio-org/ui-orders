@@ -9,12 +9,12 @@ import memoize from 'lodash/memoize';
 import {
   Col,
   Row,
-  TextField,
 } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   FieldSelectFinal,
   RepeatableFieldWithErrorMessage,
+  TextField,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -78,7 +78,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             name={`${elem}.productId`}
             onChange={({ target: { value } }) => onChangeField(value, `${elem}.productId`)}
-            disabled={disabled}
+            isNonInteractive={disabled}
             required={required}
             validate={validateProductId}
             validateFields={[]}
@@ -91,7 +91,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
             label={<FormattedMessage id="ui-orders.itemDetails.qualifier" />}
             name={`${elem}.qualifier`}
             onChange={({ target: { value } }) => onChangeField(value, `${elem}.qualifier`)}
-            disabled={disabled}
+            isNonInteractive={disabled}
             validateFields={[]}
           />
         </Col>
@@ -103,7 +103,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
             name={`${elem}.productIdType`}
             onChange={({ target: { value } }) => onChangeField(value, `${elem}.productIdType`)}
             required={required}
-            disabled={disabled}
+            isNonInteractive={disabled}
             validate={required ? validateRequired : undefined}
             validateFields={[`${elem}.productId`]}
           />
@@ -114,17 +114,15 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
 
   return (
     <FieldArray
-      addLabel={<FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />}
+      addLabel={disabled ? null : <FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />}
       component={RepeatableFieldWithErrorMessage}
       emptyMessage={<FormattedMessage id="ui-orders.itemDetails.addProductId" />}
       id="productIds"
       legend={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
       name="details.productIds"
       onRemove={removeField}
-      props={{
-        canAdd: !disabled,
-        canRemove: !disabled,
-      }}
+      canAdd={!disabled}
+      canRemove={!disabled}
       renderField={renderSubForm}
     />
   );

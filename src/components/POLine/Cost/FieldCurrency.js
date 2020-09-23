@@ -10,7 +10,7 @@ const FieldCurrency = ({ required, disabled }) => {
   return (
     <FieldSelectionFinal
       dataOptions={currenciesOptions}
-      disabled={disabled}
+      isNonInteractive={disabled}
       id="cost-currency"
       labelId="ui-orders.cost.currency"
       name="cost.currency"

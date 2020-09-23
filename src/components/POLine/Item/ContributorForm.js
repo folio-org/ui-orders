@@ -9,9 +9,11 @@ import {
   Col,
   IconButton,
   Row,
-  TextField,
 } from '@folio/stripes/components';
-import { FieldSelectFinal } from '@folio/stripes-acq-components';
+import {
+  FieldSelectFinal,
+  TextField,
+} from '@folio/stripes-acq-components';
 
 class ContributorForm extends Component {
   static propTypes = {
@@ -40,7 +42,7 @@ class ContributorForm extends Component {
     return (
       <Row start="xs">
         <Col xs={12}>
-          {fields.length === 0 && (
+          {fields.length === 0 && !disabled && (
             <Col xs={12}>
               <div>
                 <em>
@@ -58,7 +60,7 @@ class ContributorForm extends Component {
                   label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
                   name={`${elem}.contributor`}
                   onChange={({ target: { value } }) => this.props.onChangeField(value, `${elem}.contributor`)}
-                  disabled={disabled}
+                  isNonInteractive={disabled}
                   validateFields={[`${elem}.contributorNameTypeId`]}
                   required={required}
                 />
@@ -71,36 +73,40 @@ class ContributorForm extends Component {
                   label={<FormattedMessage id="ui-orders.itemDetails.contributorType" />}
                   name={`${elem}.contributorNameTypeId`}
                   onChange={({ target: { value } }) => this.props.onChangeField(value, `${elem}.contributorNameTypeId`)}
-                  disabled={disabled}
+                  isNonInteractive={disabled}
                   validateFields={[`${elem}.contributor`]}
                 />
               </Col>
-              <Col
-                style={{ paddingTop: '10px' }}
-                xs={1}
-              >
-                <br />
-                <IconButton
-                  data-test-remove-contributor-button
-                  icon="trash"
-                  onClick={() => this.removeFields(fields, index)}
-                  disabled={disabled}
+              {!disabled && (
+                <Col
+                  style={{ paddingTop: '10px' }}
+                  xs={1}
                 >
-                  <FormattedMessage id="ui-orders.itemDetails.removeBtn" />
-                </IconButton>
-              </Col>
+                  <br />
+                  <IconButton
+                    data-test-remove-contributor-button
+                    icon="trash"
+                    onClick={() => this.removeFields(fields, index)}
+                    disabled={disabled}
+                  >
+                    <FormattedMessage id="ui-orders.itemDetails.removeBtn" />
+                  </IconButton>
+                </Col>
+              )}
             </Row>
           ))}
         </Col>
-        <Col xs={12} style={{ paddingTop: '10px' }}>
-          <Button
-            data-test-add-contributor-button
-            onClick={() => this.addFields(fields)}
-            disabled={disabled}
-          >
-            <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />
-          </Button>
-        </Col>
+        {!disabled && (
+          <Col xs={12} style={{ paddingTop: '10px' }}>
+            <Button
+              data-test-add-contributor-button
+              onClick={() => this.addFields(fields)}
+              disabled={disabled}
+            >
+              <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />
+            </Button>
+          </Col>
+        )}
       </Row>
     );
   }
@@ -109,6 +115,7 @@ class ContributorForm extends Component {
     return (
       <FieldArray
         component={this.renderForm}
+        legend={<FormattedMessage id="ui-orders.itemDetails.contributors" />}
         name="contributors"
       />
     );

@@ -7,11 +7,11 @@ import { FormattedMessage } from 'react-intl';
 import {
   Col,
   Row,
-  TextField,
 } from '@folio/stripes/components';
 import {
   FieldLocationFinal,
   RepeatableFieldWithValidation,
+  TextField,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -28,7 +28,6 @@ const NO_VALIDATE = undefined;
 
 const FieldsLocation = ({
   changeLocation,
-  disabled,
   isDisabledToChangePaymentInfo,
   locationIds,
   locations,
@@ -42,19 +41,17 @@ const FieldsLocation = ({
 
   return (
     <FieldArray
-      addLabel={<FormattedMessage id="ui-orders.location.button.addLocation" />}
+      addLabel={isDisabledToChangePaymentInfo ? null : <FormattedMessage id="ui-orders.location.button.addLocation" />}
       component={RepeatableFieldWithValidation}
       name="locations"
       validate={withValidation ? isLocationsRequired : NO_VALIDATE}
-      props={{
-        canAdd: !isDisabledToChangePaymentInfo,
-        canRemove: !isDisabledToChangePaymentInfo,
-      }}
+      canAdd={!isDisabledToChangePaymentInfo}
+      canRemove={!isDisabledToChangePaymentInfo}
       renderField={(field) => (
         <Row>
           <Col xs={6}>
             <FieldLocationFinal
-              isDisabled={disabled}
+              isDisabled={isDisabledToChangePaymentInfo}
               labelId="ui-orders.location.nameCode"
               locationsForDict={locations}
               name={`${field}.locationId`}
@@ -73,7 +70,7 @@ const FieldsLocation = ({
               required={withValidation && isPhysicalQuantityRequired}
               type="number"
               validate={withValidation ? validateQuantityPhysical : NO_VALIDATE}
-              disabled={isDisabledToChangePaymentInfo}
+              isNonInteractive={isDisabledToChangePaymentInfo}
             />
           </Col>
           <Col xs={3}>
@@ -85,7 +82,7 @@ const FieldsLocation = ({
               required={withValidation && isElectronicQuantityRequired}
               type="number"
               validate={withValidation ? validateQuantityElectronic : NO_VALIDATE}
-              disabled={isDisabledToChangePaymentInfo}
+              isNonInteractive={isDisabledToChangePaymentInfo}
             />
           </Col>
         </Row>
@@ -96,7 +93,6 @@ const FieldsLocation = ({
 
 FieldsLocation.propTypes = {
   changeLocation: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
   isDisabledToChangePaymentInfo: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
@@ -106,7 +102,6 @@ FieldsLocation.propTypes = {
 
 FieldsLocation.defaultProps = {
   locations: [],
-  disabled: false,
   isDisabledToChangePaymentInfo: false,
   withValidation: true,
 };

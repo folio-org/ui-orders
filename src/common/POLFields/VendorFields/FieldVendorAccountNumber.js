@@ -18,7 +18,7 @@ const FieldVendorAccountNumber = ({ accounts, disabled }) => {
           fullWidth
           label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
           name="vendorDetail.vendorAccount"
-          disabled={disabled}
+          isNonInteractive={disabled}
         />
       )
       : (
