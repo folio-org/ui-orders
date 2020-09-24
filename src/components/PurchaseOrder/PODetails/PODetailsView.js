@@ -106,7 +106,7 @@ class PODetailsView extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-              value={addressBillTo || <NoValue />}
+              value={addressBillTo}
             />
           </Col>
           <Col
@@ -117,7 +117,7 @@ class PODetailsView extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-              value={addressShipTo || <NoValue />}
+              value={addressShipTo}
             />
           </Col>
           <Col

@@ -95,7 +95,7 @@ class PODetailsForm extends Component {
               <KeyValue
                 data-test-po-number
                 label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-                value={formValues?.poNumber || <NoValue />}
+                value={formValues?.poNumber}
               />
             ) : (
               <Field
@@ -176,7 +176,7 @@ class PODetailsForm extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.address" />}
-              value={addressBillTo || <NoValue />}
+              value={addressBillTo}
             />
           </Col>
           <Col
@@ -192,7 +192,7 @@ class PODetailsForm extends Component {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.address" />}
-              value={addressShipTo || <NoValue />}
+              value={addressShipTo}
             />
           </Col>
         </Row>

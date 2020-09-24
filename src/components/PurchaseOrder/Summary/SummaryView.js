@@ -77,13 +77,13 @@ const SummaryView = ({ order }) => (
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
-            value={order.closeReason?.reason || <NoValue />}
+            value={order.closeReason?.reason}
           />
         </Col>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
-            value={order.closeReason?.note || <NoValue />}
+            value={order.closeReason?.note}
           />
         </Col>
       </Row>

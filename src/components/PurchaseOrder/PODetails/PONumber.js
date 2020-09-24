@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 
 import {
   KeyValue,
-  NoValue,
 } from '@folio/stripes/components';
 
 function PONumber({ value }) {
   return (
     <KeyValue
       label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-      value={value || <NoValue />}
+      value={value}
     />
   );
 }

@@ -4,14 +4,13 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   KeyValue,
-  NoValue,
 } from '@folio/stripes/components';
 
 const FieldBillToView = ({ value }) => {
   return (
     <KeyValue
       label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-      value={value || <NoValue />}
+      value={value}
     />
   );
 };

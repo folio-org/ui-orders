@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import {
   KeyValue,
-  NoValue,
 } from '@folio/stripes/components';
 
 function TitleView({ poLineDetails }) {
@@ -18,7 +17,7 @@ function TitleView({ poLineDetails }) {
   return (
     <KeyValue
       label={<FormattedMessage id={`ui-orders.itemDetails.${poLineDetails.isPackage ? 'packageName' : 'title'}`} />}
-      value={titleValue || <NoValue />}
+      value={titleValue}
     />
   );
 }
