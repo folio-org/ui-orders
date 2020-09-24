@@ -38,7 +38,6 @@ import {
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { ALLOWED_YEAR_LENGTH } from '../const';
 import PackagePoLineField from './PackagePoLineField';
-import { EditionField } from './EditionField';
 import { TitleField } from './TitleField';
 // import { SubscriptionIntervalField } from './SubscriptionIntervalField';
 import css from './ItemForm.css';

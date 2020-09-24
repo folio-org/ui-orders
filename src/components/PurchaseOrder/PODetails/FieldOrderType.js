@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { FieldSelectFinal as FieldSelect } from '@folio/stripes-acq-components';
-import {
-  KeyValue,
-  NoValue,
-} from '@folio/stripes/components';
 
 import { ORDER_TYPE } from '../../../common/constants';
 
