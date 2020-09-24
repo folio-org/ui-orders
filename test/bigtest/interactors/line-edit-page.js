@@ -204,7 +204,7 @@ export default interactor(class LineEditPage {
   updateLineButton = new Button('#clickable-updatePoLine');
   saveButton = new Button('[data-test-button-save]')
   saveAndOpenButton = new Button('[data-test-button-save-and-open]')
-  lineNumberInputValue = value('input[name="poLineNumber"]');
+  lineNumberInputValue = text('[data-test-po-line-number] [data-test-kv-value]');
   selectOrderFormat = selectable('[name="orderFormat"]');
   validationMessage = text('[class*=feedbackError---]');
   publicationDateField = new PublicationDateField();

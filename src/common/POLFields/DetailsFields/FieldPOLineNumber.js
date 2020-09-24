@@ -7,6 +7,7 @@ import { KeyValue, NoValue } from '@folio/stripes/components';
 const FieldPOLineNumber = ({ poLineNumber }) => {
   return (
     <KeyValue
+      data-test-po-line-number
       label={<FormattedMessage id="ui-orders.poLine.number" />}
       value={poLineNumber || <NoValue />}
     />
