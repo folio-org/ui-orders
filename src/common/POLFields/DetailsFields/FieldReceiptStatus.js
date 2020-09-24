@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useField } from 'react-final-form';
 
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
@@ -32,10 +33,15 @@ const RECEIPT_STATUSES_BY_ORDER_STATUS = {
 };
 
 const FieldReceiptStatus = ({ workflowStatus }) => {
-  const statuses = (RECEIPT_STATUSES_BY_ORDER_STATUS[workflowStatus] || []).map((key) => ({
-    labelId: `ui-orders.receipt_status.${key}`,
-    value: RECEIPT_STATUS[key],
-  }));
+  const { meta: { initial } } = useField('receiptStatus');
+  const statuses = Object.keys(RECEIPT_STATUS)
+    .filter(key => {
+      return (RECEIPT_STATUSES_BY_ORDER_STATUS[workflowStatus] || []).includes(key) || RECEIPT_STATUS[key] === initial;
+    })
+    .map(key => ({
+      labelId: `ui-orders.receipt_status.${key}`,
+      value: RECEIPT_STATUS[key],
+    }));
 
   return (
     <FieldSelectFinal

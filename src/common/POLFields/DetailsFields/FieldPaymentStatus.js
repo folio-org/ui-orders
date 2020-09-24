@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useField } from 'react-final-form';
 
 import {
   FieldSelectFinal,
@@ -26,10 +27,15 @@ const PAYMENT_STATUSES_BY_ORDER_STATUS = {
 };
 
 const FieldPaymentStatus = ({ workflowStatus }) => {
-  const statuses = (PAYMENT_STATUSES_BY_ORDER_STATUS[workflowStatus] || []).map((key) => ({
-    labelId: `ui-orders.payment_status.${key}`,
-    value: PAYMENT_STATUS[key],
-  }));
+  const { meta: { initial } } = useField('paymentStatus');
+  const statuses = Object.keys(PAYMENT_STATUS)
+    .filter(key => {
+      return (PAYMENT_STATUSES_BY_ORDER_STATUS[workflowStatus] || []).includes(key) || PAYMENT_STATUS[key] === initial;
+    })
+    .map(key => ({
+      labelId: `ui-orders.payment_status.${key}`,
+      value: PAYMENT_STATUS[key],
+    }));
 
   return (
     <FieldSelectFinal
