@@ -113,15 +113,6 @@ class CostForm extends Component {
             />
           </Col>
         )}
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldCurrency
-            disabled={isDisabledToChangePaymentInfo}
-            required={required}
-          />
-        </Col>
         {isPhysicalFieldsVisible && (
           <Col
             xs={6}
@@ -139,6 +130,15 @@ class CostForm extends Component {
             />
           </Col>
         )}
+        <Col
+          xs={6}
+          md={3}
+        >
+          <FieldCurrency
+            disabled={isDisabledToChangePaymentInfo}
+            required={required}
+          />
+        </Col>
         <Col
           xs={6}
           md={3}
@@ -171,6 +171,23 @@ class CostForm extends Component {
             />
           </Col>
         )}
+        {isElectornicFieldsVisible && (
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityElectronic'}`} />}
+              name="cost.quantityElectronic"
+              type="number"
+              parse={parseNumber}
+              isNonInteractive={isDisabledToChangePaymentInfo}
+              {...validateEresourcesQuantities}
+            />
+          </Col>
+        )}
         <Col
           xs={3}
           md={1}
@@ -197,23 +214,6 @@ class CostForm extends Component {
             name="cost.discountType"
           />
         </Col>
-        {isElectornicFieldsVisible && (
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityElectronic'}`} />}
-              name="cost.quantityElectronic"
-              type="number"
-              parse={parseNumber}
-              isNonInteractive={isDisabledToChangePaymentInfo}
-              {...validateEresourcesQuantities}
-            />
-          </Col>
-        )}
         <Col
           data-test-polineestimatedprice
           xs={6}

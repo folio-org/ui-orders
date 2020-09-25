@@ -49,16 +49,6 @@ function CostView({ cost, isPackage, orderFormat }) {
           </KeyValue>
         </Col>
       )}
-      <Col
-        data-col-cost-currency
-        xs={6}
-        lg={3}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.cost.currency" />}
-          value={currency}
-        />
-      </Col>
       {isPhysicalValuesVisible && (
         <Col
           data-col-cost-qty-physical
@@ -71,6 +61,17 @@ function CostView({ cost, isPackage, orderFormat }) {
           />
         </Col>
       )}
+      <Col
+        data-col-cost-currency
+        xs={6}
+        lg={3}
+      >
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.cost.currency" />}
+          value={currency}
+        />
+      </Col>
+
       <Col
         data-col-cost-addition-cost
         xs={6}
@@ -99,16 +100,6 @@ function CostView({ cost, isPackage, orderFormat }) {
           </KeyValue>
         </Col>
       )}
-      <Col
-        data-col-cost-discount
-        xs={6}
-        lg={3}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.cost.discount" />}
-          value={displayDiscount}
-        />
-      </Col>
       {isElectornicValuesVisible && (
         <Col
           data-col-cost-qty-electronic
@@ -121,6 +112,16 @@ function CostView({ cost, isPackage, orderFormat }) {
           />
         </Col>
       )}
+      <Col
+        data-col-cost-discount
+        xs={6}
+        lg={3}
+      >
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.cost.discount" />}
+          value={displayDiscount}
+        />
+      </Col>
       <Col
         data-col-cost-estimated-price
         xs={6}
