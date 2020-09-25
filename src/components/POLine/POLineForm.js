@@ -51,7 +51,6 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
-import validateFundDistribution from './validate';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId'];
 
@@ -334,7 +333,6 @@ function POLineForm({
                       fundDistribution={fundDistribution}
                       name="fundDistribution"
                       totalAmount={estimatedPrice}
-                      validate={validateFundDistribution}
                     />
                   </Accordion>
                   <Accordion
