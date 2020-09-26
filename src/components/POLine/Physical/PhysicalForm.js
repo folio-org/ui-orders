@@ -56,7 +56,7 @@ const PhysicalForm = ({ order, materialTypes, formValues, change }) => {
           <InventoryRecordTypeSelectField
             label="ui-orders.physical.createInventory"
             name="physical.createInventory"
-            disabled={isPostPendingOrder}
+            isNonInteractive={isPostPendingOrder}
             required
           />
         </Col>
@@ -68,7 +68,7 @@ const PhysicalForm = ({ order, materialTypes, formValues, change }) => {
             materialTypes={materialTypes}
             name="physical.materialType"
             required={isMaterialTypeRequired(formValues, 'physical.createInventory')}
-            disabled={isPostPendingOrder}
+            isNonInteractive={isPostPendingOrder}
           />
         </Col>
       </Row>

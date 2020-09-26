@@ -7,9 +7,7 @@ import { Field } from 'react-final-form';
 import {
   Col,
   KeyValue,
-  NoValue,
   Row,
-  TextField,
 } from '@folio/stripes/components';
 import {
   AcqUnitsField,
@@ -17,6 +15,7 @@ import {
   fieldSelectOptionsShape,
   FieldTags,
   FolioFormattedTime,
+  TextField,
 } from '@folio/stripes-acq-components';
 
 import { getAddressOptions } from '../../../common/utils';

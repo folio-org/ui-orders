@@ -34,7 +34,7 @@ const EresourcesForm = ({ materialTypes, order, formValues, change }) => {
       <Col xs={6} md={3}>
         <FieldAccessProvider
           accessProviderId={formValues?.eresource?.accessProvider}
-          disabled={isClosedOrder}
+          isNonInteractive={isClosedOrder}
           change={change}
         />
       </Col>
@@ -48,7 +48,7 @@ const EresourcesForm = ({ materialTypes, order, formValues, change }) => {
         <InventoryRecordTypeSelectField
           label="ui-orders.eresource.createInventory"
           name="eresource.createInventory"
-          disabled={isPostPendingOrder}
+          isNonInteractive={isPostPendingOrder}
           required
         />
       </Col>
@@ -57,7 +57,7 @@ const EresourcesForm = ({ materialTypes, order, formValues, change }) => {
           materialTypes={materialTypes}
           name="eresource.materialType"
           required={isMaterialTypeRequired(formValues, 'eresource.createInventory')}
-          disabled={isPostPendingOrder}
+          isNonInteractive={isPostPendingOrder}
         />
       </Col>
       <Col xs={6} md={3}>
@@ -67,7 +67,7 @@ const EresourcesForm = ({ materialTypes, order, formValues, change }) => {
         <FieldExpectedActivation />
       </Col>
       <Col xs={6} md={3}>
-        <FieldUserLimit disabled={isPostPendingOrder} />
+        <FieldUserLimit isNonInteractive={isPostPendingOrder} />
       </Col>
       <Col xs={6} md={3}>
         <FieldURL />

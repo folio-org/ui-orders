@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 
-import { TextField } from '@folio/stripes/components';
 import {
   FieldSelectFinal,
   fieldSelectOptionsShape,
+  TextField,
 } from '@folio/stripes-acq-components';
 
 const FieldVendorAccountNumber = ({ accounts, disabled }) => {
@@ -25,6 +25,7 @@ const FieldVendorAccountNumber = ({ accounts, disabled }) => {
         <Field
           component={TextField}
           fullWidth
+          isNonInteractive={disabled}
           label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
           name="vendorDetail.vendorAccount"
         />

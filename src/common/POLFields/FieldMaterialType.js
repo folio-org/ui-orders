@@ -4,14 +4,12 @@ import PropTypes from 'prop-types';
 
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
-const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
+const FieldMaterialType = ({ materialTypes, ...rest }) => (
   <FieldSelectFinal
     dataOptions={materialTypes}
     fullWidth
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}
-    name={name}
-    required={required}
-    isNonInteractive={disabled}
+    {...rest}
   />
 );
 

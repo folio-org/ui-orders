@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 
 import { FieldOrganization } from '@folio/stripes-acq-components';
 
-const FieldAccessProvider = ({ change, disabled, required, accessProviderId }) => {
+const FieldAccessProvider = ({ accessProviderId, ...rest }) => {
   return (
     <FieldOrganization
-      change={change}
       labelId="ui-orders.eresource.accessProvider"
       name="eresource.accessProvider"
-      required={required}
-      disabled={disabled}
       id={accessProviderId}
+      {...rest}
     />
   );
 };

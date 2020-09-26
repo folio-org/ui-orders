@@ -2,8 +2,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 
-import { TextField } from '@folio/stripes/components';
-import { validateURL } from '@folio/stripes-acq-components';
+import {
+  TextField,
+  validateURL,
+} from '@folio/stripes-acq-components';
 
 const FieldURL = props => (
   <Field

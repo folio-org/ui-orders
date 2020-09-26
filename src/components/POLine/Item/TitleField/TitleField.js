@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 
-import { validateRequired } from '@folio/stripes-acq-components';
-import { TextField } from '@folio/stripes/components';
+import {
+  TextField,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
 import TitleView from './TitleView';
 import css from './TitleField.css';
