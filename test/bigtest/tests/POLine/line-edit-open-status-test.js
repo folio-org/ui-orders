@@ -19,7 +19,7 @@ const INSTANCE_ID = '12345';
 const EDITION = 'Test Edition';
 const PUBLISHER = 'Test Publisher';
 
-describe('Line edit test, order is Open, quantity is reduced', function () {
+describe.skip('Line edit test, order is Open, quantity is reduced', function () {
   setupApplication();
 
   let order = null;
