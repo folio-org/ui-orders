@@ -92,7 +92,7 @@
   "cost.discountType": "Type",
   "cost.estimatedPrice": "Estimated price",
   "cost.info": "List unit price(s) x quantities ordered + additional cost - discount",
-  "cost.listPrice": "List unit price",
+  "cost.listPrice": "Physical unit price",
   "cost.quantity": "Quantity",
   "cost.quantityElectronic": "Quantity electronic",
   "cost.quantityPhysical": "Quantity physical",
