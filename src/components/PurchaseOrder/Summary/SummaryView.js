@@ -5,7 +5,6 @@ import {
   Checkbox,
   Col,
   KeyValue,
-  NoValue,
   Row,
 } from '@folio/stripes/components';
 import {
@@ -14,10 +13,11 @@ import {
 } from '@folio/stripes-acq-components';
 
 import TotalEncumberedValue from './TotalEncumberedValue';
+import TotalExpendedValue from './TotalExpendedValue';
 import WorkflowStatus from './WorkflowStatus';
 import TotalUnits from './TotalUnits';
 
-const SummaryView = ({ order }) => (
+const SummaryView = ({ order, orderInvoicesIds }) => (
   <>
     <Row start="xs">
       <Col
@@ -67,6 +67,16 @@ const SummaryView = ({ order }) => (
           />
         </Col>
       )}
+      <Col
+        data-test-total-expended
+        xs={6}
+        lg={3}
+      >
+        <TotalExpendedValue
+          orderInvoicesIds={orderInvoicesIds}
+          label={<FormattedMessage id="ui-orders.orderSummary.totalExpended" />}
+        />
+      </Col>
     </Row>
 
     {(order.workflowStatus === ORDER_STATUSES.closed) && (
@@ -93,6 +103,7 @@ const SummaryView = ({ order }) => (
 
 SummaryView.propTypes = {
   order: PropTypes.object,
+  orderInvoicesIds: PropTypes.arrayOf(PropTypes.string),
 };
 
 SummaryView.defaultProps = {

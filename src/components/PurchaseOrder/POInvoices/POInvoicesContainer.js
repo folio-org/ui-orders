@@ -8,15 +8,12 @@ import {
   organizationsManifest,
 } from '@folio/stripes-acq-components';
 
-import {
-  INVOICES,
-  ORDER_INVOICES,
-} from '../../Utils/resources';
+import { INVOICES } from '../../Utils/resources';
 
 import POInvoices from './POInvoices';
 import { ACCORDION_ID } from '../../POLine/const';
 
-const POInvoicesContainer = ({ label, orderId, mutator }) => {
+const POInvoicesContainer = ({ label, orderInvoicesIds, mutator }) => {
   const [orderInvoices, setOrderInvoices] = useState();
   const [vendors, setVendors] = useState();
 
@@ -24,23 +21,20 @@ const POInvoicesContainer = ({ label, orderId, mutator }) => {
     setOrderInvoices();
     setVendors();
 
-    mutator.orderInvoicesRelns.GET().then(response => {
-      const invoicesIds = response.map(item => item.invoiceId);
+    batchFetch(mutator.invoices, orderInvoicesIds)
+      .then(orderInvoicesResponse => {
+        setOrderInvoices(orderInvoicesResponse);
 
-      batchFetch(mutator.invoices, invoicesIds)
-        .then(orderInvoicesResponse => {
-          setOrderInvoices(orderInvoicesResponse);
+        return orderInvoicesResponse;
+      })
+      .then(orderInvoicesResponse => {
+        const vendorIds = orderInvoicesResponse.map(item => item.vendorId);
 
-          return orderInvoicesResponse;
-        }).then(orderInvoicesResponse => {
-          const vendorIds = orderInvoicesResponse.map(item => item.vendorId);
-
-          batchFetch(mutator.invoicesVendors, vendorIds)
-            .then(setVendors);
-        });
-    });
+        return batchFetch(mutator.invoicesVendors, vendorIds);
+      })
+      .then(setVendors);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderId]);
+  }, [orderInvoicesIds]);
 
   return (
     <Accordion
@@ -56,28 +50,19 @@ const POInvoicesContainer = ({ label, orderId, mutator }) => {
 };
 
 POInvoicesContainer.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  orderId: PropTypes.string.isRequired,
+  orderInvoicesIds: PropTypes.arrayOf(PropTypes.string),
   label: PropTypes.object.isRequired,
   mutator: PropTypes.shape({
-    orderInvoicesRelns: PropTypes.object.isRequired,
     invoices: PropTypes.object.isRequired,
     invoicesVendors: PropTypes.object.isRequired,
   }).isRequired,
 };
 
 POInvoicesContainer.defaultProps = {
+  orderInvoicesIds: [],
 };
 
 POInvoicesContainer.manifest = Object.freeze({
-  orderInvoicesRelns: {
-    ...ORDER_INVOICES,
-    fetch: false,
-    accumulate: true,
-    params: {
-      query: 'purchaseOrderId==!{orderId}',
-    },
-  },
   invoices: {
     ...INVOICES,
     fetch: false,

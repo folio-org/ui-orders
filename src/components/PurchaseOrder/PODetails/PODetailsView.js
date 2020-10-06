@@ -8,7 +8,6 @@ import {
   Checkbox,
   Col,
   KeyValue,
-  NoValue,
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';

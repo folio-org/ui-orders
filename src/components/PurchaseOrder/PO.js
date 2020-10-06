@@ -42,6 +42,7 @@ import {
   FUND,
   LINES_LIMIT,
   ORDER,
+  ORDER_INVOICES,
 } from '../Utils/resources';
 import {
   cloneOrder,
@@ -72,6 +73,7 @@ const PO = ({
   const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
 
   const [order, setOrder] = useState();
+  const [orderInvoicesIds, setOrderInvoicesIds] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const [updateOrderErrors, setUpdateOrderErrors] = useState();
@@ -87,7 +89,20 @@ const PO = ({
 
   const fetchOrder = useCallback(
     () => mutator.orderDetails.GET()
-      .then(setOrder)
+      .then(orderResp => {
+        setOrder(orderResp);
+
+        return mutator.orderInvoicesRelns.GET({
+          params: {
+            query: `purchaseOrderId==${orderResp.id}`,
+          },
+        });
+      })
+      .then(orderInvoicesResp => {
+        const invoicesIds = orderInvoicesResp.map(({ invoiceId }) => invoiceId);
+
+        setOrderInvoicesIds(invoicesIds);
+      }, () => setOrderInvoicesIds([]))
       .catch(() => {
         sendCallout({
           message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
@@ -510,7 +525,10 @@ const PO = ({
             id="POSummary"
             label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
           >
-            <SummaryView order={order} />
+            <SummaryView
+              order={order}
+              orderInvoicesIds={orderInvoicesIds}
+            />
           </Accordion>
           <Accordion
             displayWhenOpen={addPOLineButton}
@@ -525,7 +543,7 @@ const PO = ({
           </Accordion>
           <POInvoicesContainer
             label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
-            orderId={match.params.id}
+            orderInvoicesIds={orderInvoicesIds}
           />
         </AccordionSet>
       </AccordionStatus>
@@ -614,6 +632,11 @@ PO.manifest = Object.freeze({
     ...baseManifest,
     accumulate: true,
     fetch: false,
+  },
+  orderInvoicesRelns: {
+    ...ORDER_INVOICES,
+    fetch: false,
+    accumulate: true,
   },
 });
 

@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Display "Total expended" in PO summary. Refs UIOR-487
 * Remove validation from fund distribution fields, leverage it to stripes-acq-components repo. Refs UIF-253
 * Update POL Cost detail accordion. Refs UIOR-608
 * Update create/edit form inactive fields - PO. Refs UIOR-606
