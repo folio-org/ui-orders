@@ -13,6 +13,7 @@ import {
   AmountWithCurrencyField,
   batchFetch,
   transactionsManifest,
+  TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
 
 const TotalExpendedValue = ({ orderInvoicesIds, label, mutator }) => {
@@ -28,7 +29,7 @@ const TotalExpendedValue = ({ orderInvoicesIds, label, mutator }) => {
             .map(id => `sourceInvoiceId==${id}`)
             .join(' or ');
 
-          return `(transactionType=Payment or transactionType=Credit) and (${query})`;
+          return `(transactionType=${TRANSACTION_TYPES.payment} or transactionType=${TRANSACTION_TYPES.credit}) and (${query})`;
         })
           .then(transactions => {
             const total = transactions.reduce((acc, { amount }) => acc + amount, 0);

@@ -11,6 +11,7 @@ import {
 } from '@folio/stripes/core';
 import {
   baseManifest,
+  LIMIT_MAX,
   Tags,
   TagsBadge,
   useModalToggle,
@@ -95,6 +96,7 @@ const PO = ({
         return mutator.orderInvoicesRelns.GET({
           params: {
             query: `purchaseOrderId==${orderResp.id}`,
+            limit: LIMIT_MAX,
           },
         });
       })
@@ -102,7 +104,7 @@ const PO = ({
         const invoicesIds = orderInvoicesResp.map(({ invoiceId }) => invoiceId);
 
         setOrderInvoicesIds(invoicesIds);
-      }, () => setOrderInvoicesIds([]))
+      })
       .catch(() => {
         sendCallout({
           message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
