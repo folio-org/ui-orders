@@ -643,5 +643,6 @@
     "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because <b>{expenseClass}</b> is inactive.",
     "eresource.url": "URL",
     "renewals.subscription.tooltip": "Choose Order type as Ongoing to interact with this field",
-    "renewals.manualRenewal.tooltip": "Check Subscription to interact with this field"
+    "renewals.manualRenewal.tooltip": "Check Subscription to interact with this field",
+    "orderSummary.totalExpended": "Total expended"
 }

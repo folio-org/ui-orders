@@ -643,5 +643,6 @@
     "errors.openOrder.inactiveExpenseClass": "لا يمكن <b>فتح</b> الطلبية لأن فئة المصروفات <b>{expenseClass}</b> غير نشطة.",
     "eresource.url": "عنوان URL",
     "renewals.subscription.tooltip": "اختر نوع الطلبية جارٍ للتفاعل مع هذا الحقل",
-    "renewals.manualRenewal.tooltip": "تحقق من الاشتراك للتفاعل مع هذا الحقل"
+    "renewals.manualRenewal.tooltip": "تحقق من الاشتراك للتفاعل مع هذا الحقل",
+    "orderSummary.totalExpended": "Total expended"
 }

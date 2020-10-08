@@ -643,5 +643,6 @@
     "errors.openOrder.inactiveExpenseClass": "由于支出类别<b> {expenseClass} </b>未激活，因此无法<b>打开</b>订单。",
     "eresource.url": "URL",
     "renewals.subscription.tooltip": "选择订单类型为“进行中”，以与此字段进行交互",
-    "renewals.manualRenewal.tooltip": "检查订阅以与该字段进行交互"
+    "renewals.manualRenewal.tooltip": "检查订阅以与该字段进行交互",
+    "orderSummary.totalExpended": "Total expended"
 }

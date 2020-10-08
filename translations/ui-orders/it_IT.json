@@ -44,7 +44,7 @@
     "receipt_status.partiallyReceived": "Parzialmente ricevuto",
     "receipt_status.pending": "In attesa",
     "receipt_status.receiptNotRequired": "Ricevuta non richiesta",
-    "user.barcode": "Barcode",
+    "user.barcode": "Codice a barre ",
     "user.name": "Nome",
     "user.patronGroup": "Categoria utenti",
     "user.username": "Username",
@@ -210,7 +210,7 @@
     "receiving.receivingItems": "Ricezione",
     "receiving.note": "Nota di ricezione",
     "receiving.status": "Stato ricevuta",
-    "receiving.barcode": "Barcode",
+    "receiving.barcode": "Codice a barre",
     "receiving.location": "Sezione",
     "receiving.itemStatus": "Stato item",
     "receiving.modalPaneTitle": "POL {poLineNumber} - Titolo {title}",
@@ -460,7 +460,7 @@
     "requests.title.multiple": "Multiple items have open requests",
     "requests.message.single": "The following item has an open request",
     "requests.message.multiple": "The following items have open requests",
-    "requests.message.barcode": "Barcode ({barcode})",
+    "requests.message.barcode": "Codice a barre  ({barcode})",
     "requests.message.itemId": "Item ({itemId})",
     "requests.request": "Richiesta",
     "requests.request.isOpened": "Si",
@@ -643,5 +643,6 @@
     "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because expense class <b>{expenseClass}</b> is inactive.",
     "eresource.url": "URL",
     "renewals.subscription.tooltip": "Choose Order type as Ongoing to interact with this field",
-    "renewals.manualRenewal.tooltip": "Check Subscription to interact with this field"
+    "renewals.manualRenewal.tooltip": "Check Subscription to interact with this field",
+    "orderSummary.totalExpended": "Total expended"
 }
