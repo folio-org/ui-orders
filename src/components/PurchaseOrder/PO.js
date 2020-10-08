@@ -99,18 +99,17 @@ const PO = ({
             limit: LIMIT_MAX,
           },
         });
+      }, () => {
+        sendCallout({
+          message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
+          type: 'error',
+        });
       })
       .then(orderInvoicesResp => {
         const invoicesIds = orderInvoicesResp.map(({ invoiceId }) => invoiceId);
 
         setOrderInvoicesIds(invoicesIds);
-      })
-      .catch(() => {
-        sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
-          type: 'error',
-        });
-      }),
+      }, () => setOrderInvoicesIds([])),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [match.params.id, sendCallout],
   );

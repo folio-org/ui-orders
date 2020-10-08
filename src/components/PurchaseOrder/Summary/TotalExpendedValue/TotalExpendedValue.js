@@ -37,7 +37,7 @@ const TotalExpendedValue = ({ orderInvoicesIds, label, mutator }) => {
             setTotalExpended(total);
           })
           .catch(() => setTotalExpended(0));
-      }
+      } else setTotalExpended(0);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [orderInvoicesIds],
