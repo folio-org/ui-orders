@@ -2,6 +2,11 @@
 
 ## (IN PROGRESS)
 
+## [2.2.0](https://github.com/folio-org/ui-orders/tree/v2.2.0) (2020-10-09)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.1.1...v2.2.0)
+
+* Can remove but can not edit location on Open POL. Refs UIOR-609
+* Tags with ALL CAPS labels are not displayed in tag drop-down. Fix UIOR-619
 * Display "Total expended" in PO summary. Refs UIOR-487
 * Remove validation from fund distribution fields, leverage it to stripes-acq-components repo. Refs UIF-253
 * Update POL Cost detail accordion. Refs UIOR-608

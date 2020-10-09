@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -25,6 +25,7 @@
       "contributor-name-types": "1.2",
       "erm": "2.0 3.0",
       "finance.funds": "1.0",
+      "finance.transactions": "3.0 4.0",
       "identifier-types": "1.2",
       "instance-statuses": "1.0",
       "instance-types": "2.0",
@@ -310,7 +311,7 @@
     "sinon": "^7.0.0"
   },
   "dependencies": {
-    "@folio/stripes-acq-components": "^2.0.1",
+    "@folio/stripes-acq-components": "^2.2.0",
     "classnames": "^2.2.5",
     "final-form": "^4.19.1",
     "lodash": "^4.17.19",
