@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Orders and receiving - want to see that an order is closed in search result list. Refs UIOR-620
+
 ## [2.2.0](https://github.com/folio-org/ui-orders/tree/v2.2.0) (2020-10-09)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.1.1...v2.2.0)
 

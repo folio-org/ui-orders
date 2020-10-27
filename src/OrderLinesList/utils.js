@@ -1,6 +1,9 @@
+import uniq from 'lodash/uniq';
+
 import {
-  buildFilterQuery,
+  batchFetch,
   buildDateRangeQuery,
+  buildFilterQuery,
   buildSortingQuery,
   connectQuery,
 } from '@folio/stripes-acq-components';
@@ -44,4 +47,17 @@ export const buildOrderLinesQuery = (queryParams, isbnId, normalizedISBN) => {
   const sortingQuery = buildSortingQuery(queryParams) || 'sortby poLineNumber/sort.descending';
 
   return connectQuery(filterQuery, sortingQuery);
+};
+
+export const fetchLinesOrders = (mutator, lines, fetchedOrdersMap) => {
+  const unfetched = lines
+    .filter(({ purchaseOrderId }) => !fetchedOrdersMap[purchaseOrderId])
+    .map(({ purchaseOrderId }) => purchaseOrderId)
+    .filter(Boolean);
+
+  const fetchPromise = unfetched.length
+    ? batchFetch(mutator, uniq(unfetched))
+    : Promise.resolve([]);
+
+  return fetchPromise;
 };

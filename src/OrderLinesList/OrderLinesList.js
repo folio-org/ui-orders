@@ -18,6 +18,7 @@ import {
   FiltersPane,
   FolioFormattedDate,
   NoResultsMessage,
+  ORDER_STATUS_LABEL,
   ResetButton,
   ResultsPane,
   SingleSearchForm,
@@ -34,7 +35,7 @@ import { searchableIndexes } from './OrdersLinesSearchConfig';
 const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
-const visibleColumns = ['poLineNumber', UPDATED_DATE, 'title', 'productIds', VENDOR_REF_NUMBER, 'funCodes'];
+const visibleColumns = ['poLineNumber', UPDATED_DATE, 'title', 'productIds', VENDOR_REF_NUMBER, 'funCodes', 'orderWorkflow'];
 const sortableColumns = ['poLineNumber', UPDATED_DATE, 'title', VENDOR_REF_NUMBER];
 const resultsFormatter = {
   [UPDATED_DATE]: line => <FolioFormattedDate value={get(line, 'metadata.updatedDate')} />,
@@ -42,6 +43,7 @@ const resultsFormatter = {
   [VENDOR_REF_NUMBER]: line => get(line, 'vendorDetail.refNumber', ''),
   title: line => get(line, 'titleOrPackage', ''),
   funCodes: line => line.fundDistribution?.map(({ code }) => code).filter(Boolean).join(', '),
+  orderWorkflow: line => ORDER_STATUS_LABEL[line.orderWorkflow],
 };
 
 export const columnMapping = {
@@ -51,6 +53,7 @@ export const columnMapping = {
   productIds: <FormattedMessage id="ui-orders.orderLineList.productIds" />,
   [VENDOR_REF_NUMBER]: <FormattedMessage id="ui-orders.orderLineList.vendorRefNumber" />,
   funCodes: <FormattedMessage id="ui-orders.orderLineList.funCodes" />,
+  orderWorkflow: <FormattedMessage id="ui-orders.orderLineList.orderWorkflow" />,
 };
 
 function OrderLinesList({

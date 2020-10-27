@@ -19,11 +19,13 @@ import {
 import {
   IDENTIFIER_TYPES,
   ORDER_LINES,
+  ORDERS,
 } from '../components/Utils/resources';
 import { QUALIFIER_SEPARATOR } from '../common/constants';
 import OrderLinesList from './OrderLinesList';
 import {
   buildOrderLinesQuery,
+  fetchLinesOrders,
 } from './utils';
 
 const RESULT_COUNT_INCREMENT = 30;
@@ -32,6 +34,7 @@ const resetData = () => { };
 
 const OrderLinesListContainer = ({ mutator, location }) => {
   const [isbnId, setIsbnId] = useState();
+  const [ordersMap, setOrdersMap] = useState({});
 
   const loadOrderLines = useCallback(async (offset, hasFilters) => {
     const queryParams = queryString.parse(location.search);
@@ -81,11 +84,28 @@ const OrderLinesListContainer = ({ mutator, location }) => {
   }, [isbnId, location.search]);
 
   const loadOrderLinesCB = useCallback((setOrderLines, orderLinesResponse) => {
-    setOrderLines((prev) => [
-      ...prev,
-      ...orderLinesResponse.poLines,
-    ]);
-  }, []);
+    return fetchLinesOrders(mutator.lineOrders, orderLinesResponse.poLines, ordersMap)
+      .then((ordersResponse) => {
+        const newOrdersMap = {
+          ...ordersMap,
+          ...ordersResponse.reduce((acc, d) => {
+            acc[d.id] = d;
+
+            return acc;
+          }, {}),
+        };
+
+        setOrdersMap(newOrdersMap);
+        setOrderLines((prev) => [
+          ...prev,
+          ...orderLinesResponse.poLines.map(line => ({
+            ...line,
+            orderWorkflow: newOrdersMap[line.purchaseOrderId]?.workflowStatus,
+          })),
+        ]);
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ordersMap]);
 
   const {
     records: orderLines,
@@ -125,6 +145,11 @@ OrderLinesListContainer.manifest = Object.freeze({
     fetch: false,
     type: 'okapi',
     throwErrors: false,
+  },
+  lineOrders: {
+    ...ORDERS,
+    accumulate: true,
+    fetch: false,
   },
 });
 
