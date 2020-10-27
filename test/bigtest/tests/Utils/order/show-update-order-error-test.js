@@ -19,6 +19,7 @@ const CALLOUT_ERROR_CODES = omit(
     'accessProviderNotFound',
     'userHasNoPermission',
     ERROR_CODES.piecesNeedToBeDeleted,
+    ERROR_CODES.budgetExpenseClassNotFound,
   ] // eslint-disable-line comma-dangle
 );
 
@@ -173,6 +174,42 @@ describe('showUpdateOrderError', () => {
         { code: ERRORS[0].code, poLineNumber: ERRORS[0].parameters[0].value },
         { code: ERRORS[0].code, poLineNumber: ERRORS[0].parameters[1].value },
       ]);
+    });
+  });
+
+  describe('', () => {
+    let fakeCallout;
+    let fakeResponse;
+    let fakeOpenModal;
+    const ERRORS = [
+      {
+        code: ERROR_CODES.budgetExpenseClassNotFound,
+        parameters: [
+          {
+            key: 'fundCode',
+            value: 'TEST_FUND',
+          },
+          {
+            key: 'expenseClassName',
+            value: 'TEST_EXPENSE_CLASS',
+          },
+        ],
+      },
+    ];
+
+    beforeEach(async () => {
+      fakeCallout = {
+        sendCallout: sinon.spy(),
+      };
+      fakeResponse = getMockedResponse(ERRORS);
+      fakeOpenModal = sinon.spy();
+
+      await showUpdateOrderError(fakeResponse, fakeCallout, fakeOpenModal);
+    });
+
+    it('call callout with budgetExpenseClassNotFound error', () => {
+      expect(fakeCallout.sendCallout.firstCall.args[0].values.fundCode).to.equal('TEST_FUND');
+      expect(fakeCallout.sendCallout.firstCall.args[0].values.expenseClassName).to.equal('TEST_EXPENSE_CLASS');
     });
   });
 });
