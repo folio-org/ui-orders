@@ -73,6 +73,17 @@ const showUpdateOrderError = async (
       showMessage(callout, code, error, 'loantypes');
       break;
     }
+    case ERROR_CODES.budgetExpenseClassNotFound: {
+      const fundCode = error?.errors?.[0]?.parameters?.filter(({ key }) => key === 'fundCode')[0]?.value;
+      const expenseClassName = error?.errors[0]?.parameters?.filter(({ key }) => key === 'expenseClassName')[0]?.value;
+
+      callout.sendCallout({
+        messageId: `ui-orders.errors.${code}`,
+        type: 'error',
+        values: { fundCode, expenseClassName },
+      });
+      break;
+    }
     default: {
       callout.sendCallout({
         message: <FormattedMessage id={`ui-orders.errors.${code}`} />,

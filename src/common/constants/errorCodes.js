@@ -1,6 +1,7 @@
 export const ERROR_CODES = {
   accessProviderIsInactive: 'accessProviderIsInactive',
   accessProviderNotFound: 'accessProviderNotFound',
+  budgetExpenseClassNotFound: 'budgetExpenseClassNotFound',
   budgetIsInactive: 'budgetIsInactive',
   budgetNotFoundForTransaction: 'budgetNotFoundForTransaction',
   costAdditionalCostInvalid: 'costAdditionalCostInvalid',

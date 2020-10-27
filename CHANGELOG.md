@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Error message: Budget Expense Class not found. Refs UIOR-621.
 * Orders and receiving - want to see that an order is closed in search result list. Refs UIOR-620
 
 ## [2.2.0](https://github.com/folio-org/ui-orders/tree/v2.2.0) (2020-10-09)
