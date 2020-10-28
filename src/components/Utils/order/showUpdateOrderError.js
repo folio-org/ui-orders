@@ -74,8 +74,8 @@ const showUpdateOrderError = async (
       break;
     }
     case ERROR_CODES.budgetExpenseClassNotFound: {
-      const fundCode = error?.errors?.[0]?.parameters?.filter(({ key }) => key === 'fundCode')[0]?.value;
-      const expenseClassName = error?.errors[0]?.parameters?.filter(({ key }) => key === 'expenseClassName')[0]?.value;
+      const fundCode = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'fundCode')?.value;
+      const expenseClassName = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'expenseClassName')?.value;
 
       callout.sendCallout({
         messageId: `ui-orders.errors.${code}`,
