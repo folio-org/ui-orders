@@ -639,7 +639,7 @@
   "orderLineList.productIds": "Product ID",
   "orderLineList.vendorRefNumber": "Vendor reference number",
   "orderLineList.funCodes": "Fund code",
-  "orderLineList.orderWorkflow": "Order workflow",
+  "orderLineList.orderWorkflow": "Order status",
 
   "requests.title.single": "An item has an open request",
   "requests.title.multiple": "Multiple items have open requests",
