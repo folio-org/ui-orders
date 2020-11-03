@@ -37,6 +37,7 @@ import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 
 const NEW_ORDER = {
+  reEncumber: true,
   workflowStatus: ORDER_STATUSES.pending,
 };
 

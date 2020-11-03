@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Activate "re-encumber' toggle by default when creating order. Refs UIOR-622
 * Error message: Budget Expense Class not found. Refs UIOR-621.
 * Orders and receiving - want to see that an order is closed in search result list. Refs UIOR-620
 
