@@ -144,7 +144,8 @@
           "orders.item.put",
           "orders.item.approve",
           "orders.po-number.item.post",
-          "orders.po-number.item.get"
+          "orders.po-number.item.get",
+          "ui-orders.order.view"
         ]
       },
       {
