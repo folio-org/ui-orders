@@ -32,9 +32,9 @@ export const searchableIndexes = [keywordIndex, createdDate, dateOrdered, poNumb
 export const getKeywordQuery = query => indexes.reduce(
   (acc, sIndex) => {
     if (acc) {
-      return `${acc} or ${sIndex}="*${query}*"`;
+      return `${acc} or ${sIndex}=="*${query}*"`;
     } else {
-      return `${sIndex}="*${query}*"`;
+      return `${sIndex}=="*${query}*"`;
     }
   },
   '',
