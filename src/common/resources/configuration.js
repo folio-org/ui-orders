@@ -13,6 +13,7 @@ export const prefixesResource = {
     query: 'cql.allRecords=1 sortby name',
   },
   records: 'prefixes',
+  shouldRefresh: () => false,
 };
 
 export const suffixesResource = {
@@ -22,6 +23,7 @@ export const suffixesResource = {
     query: 'cql.allRecords=1 sortby name',
   },
   records: 'suffixes',
+  shouldRefresh: () => false,
 };
 
 export const reasonsForClosureResource = {

@@ -187,6 +187,7 @@ export const ORDER_TEMPLATES = {
       query: 'cql.allRecords=1 sortby templateName',
     },
   },
+  shouldRefresh: () => false,
 };
 
 export const ORDER_TEMPLATE = {
