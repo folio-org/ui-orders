@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Invoice date filters are off set by timezone somehow. Refs UINV-202.
 * Add substring searching for orders and order lines search options. Refs UIOR-623
 * "Orders: Can edit Order" doesn't allow me to view orders. Refs UIOR-625
 * Activate "re-encumber' toggle by default when creating order. Refs UIOR-622

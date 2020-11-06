@@ -3,6 +3,7 @@ import uniq from 'lodash/uniq';
 import {
   batchFetch,
   buildDateRangeQuery,
+  buildDateTimeRangeQuery,
   buildFilterQuery,
   buildSortingQuery,
   connectQuery,
@@ -32,7 +33,7 @@ export const buildOrderLinesQuery = (queryParams, isbnId, normalizedISBN) => {
     queryParams,
     searchFn,
     {
-      [FILTERS.DATE_CREATED]: buildDateRangeQuery.bind(null, [FILTERS.DATE_CREATED]),
+      [FILTERS.DATE_CREATED]: buildDateTimeRangeQuery.bind(null, [FILTERS.DATE_CREATED]),
       [FILTERS.EXPECTED_ACTIVATION_DATE]: buildDateRangeQuery.bind(null, [FILTERS.EXPECTED_ACTIVATION_DATE]),
       [FILTERS.SUBSCRIPTION_FROM]: buildDateRangeQuery.bind(null, [FILTERS.SUBSCRIPTION_FROM]),
       [FILTERS.SUBSCRIPTION_TO]: buildDateRangeQuery.bind(null, [FILTERS.SUBSCRIPTION_TO]),
