@@ -19,15 +19,12 @@ import {
   suffixesResource,
 } from '../../common/resources';
 import {
-  ORDER_NUMBER_API,
-  ORDER_NUMBER_VALIDATE_API,
-} from '../Utils/api';
-import {
   createOrEditOrderResource,
 } from '../Utils/orderResource';
 import {
   ADDRESSES,
   ORDER,
+  ORDER_NUMBER,
   ORDER_NUMBER_SETTING,
   ORDER_TEMPLATES,
   USERS,
@@ -149,17 +146,7 @@ LayerPO.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
-  orderNumber: {
-    accumulate: true,
-    fetch: false,
-    path: ORDER_NUMBER_API,
-    throwErrors: false,
-    clientGeneratePk: false,
-    type: 'okapi',
-    POST: {
-      path: ORDER_NUMBER_VALIDATE_API,
-    },
-  },
+  orderNumber: ORDER_NUMBER,
   orderNumberSetting: ORDER_NUMBER_SETTING,
   prefixesSetting: prefixesResource,
   suffixesSetting: suffixesResource,

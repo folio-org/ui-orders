@@ -47,6 +47,7 @@ import {
   IDENTIFIER_TYPES,
   OPEN_ORDER_SETTING,
   ORDER_LINES,
+  ORDER_NUMBER,
   ORDER_TEMPLATES,
   ORDER,
   VALIDATE_ISBN,
@@ -191,6 +192,7 @@ function LayerPOLine({
         const newOrder = await cloneOrder(
           order,
           memoizedMutator.lineOrder,
+          memoizedMutator.orderNumber,
           savingValues && [savingValues],
         );
 
@@ -416,6 +418,7 @@ LayerPOLine.manifest = Object.freeze({
   },
   validateISBN: VALIDATE_ISBN,
   [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
+  orderNumber: ORDER_NUMBER,
 });
 
 LayerPOLine.propTypes = {

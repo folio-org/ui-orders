@@ -44,6 +44,7 @@ import {
   LINES_LIMIT,
   ORDER,
   ORDER_INVOICES,
+  ORDER_NUMBER,
 } from '../Utils/resources';
 import {
   cloneOrder,
@@ -151,7 +152,7 @@ const PO = ({
     () => {
       toggleCloneConfirmation();
       setIsLoading(true);
-      cloneOrder(order, mutator.orderDetails, order.compositePoLines)
+      cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber, order.compositePoLines)
         .then(newOrder => {
           sendCallout({
             message: <SafeHTMLMessage id="ui-orders.order.clone.success" />,
@@ -370,7 +371,7 @@ const PO = ({
   const createNewOrder = useCallback(
     () => {
       toggleLinesLimitExceededModal();
-      cloneOrder(order, mutator.orderDetails)
+      cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber)
         .then(newOrder => {
           history.push({
             pathname: `/orders/view/${newOrder.id}/po-line/create`,
@@ -639,6 +640,7 @@ PO.manifest = Object.freeze({
     fetch: false,
     accumulate: true,
   },
+  generatedOrderNumber: ORDER_NUMBER,
 });
 
 PO.propTypes = {

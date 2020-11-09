@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Clone purchase order does not clone Prefix and suffix. Refs UIOR-626.
 * Invoice date filters are off set by timezone somehow. Refs UINV-202.
 * Add substring searching for orders and order lines search options. Refs UIOR-623
 * "Orders: Can edit Order" doesn't allow me to view orders. Refs UIOR-625

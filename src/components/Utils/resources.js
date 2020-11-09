@@ -1,5 +1,6 @@
 import {
   ACQUISITIONS_UNITS_API,
+  baseManifest,
   CONFIG_API,
   CONTRIBUTOR_NAME_TYPES_API,
   fundsManifest,
@@ -23,6 +24,8 @@ import {
   ORDER_TEMPLATE_DETAIL_API,
   ORDER_TEMPLATES_API,
   RECEIVING_API,
+  ORDER_NUMBER_API,
+  ORDER_NUMBER_VALIDATE_API,
 } from './api';
 import {
   CONFIG_ADDRESSES,
@@ -251,4 +254,15 @@ export const ORDERS = {
   fetch: false,
   path: ORDERS_API,
   records: 'purchaseOrders',
+};
+
+export const ORDER_NUMBER = {
+  ...baseManifest,
+  accumulate: true,
+  fetch: false,
+  path: ORDER_NUMBER_API,
+  clientGeneratePk: false,
+  POST: {
+    path: ORDER_NUMBER_VALIDATE_API,
+  },
 };
