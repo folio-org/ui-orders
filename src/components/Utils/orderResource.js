@@ -47,6 +47,9 @@ export const createOrEditOrderResource = (orderFormValues, mutator) => {
 export const cloneOrder = async (order, mutator, orderNumberMutator, lines) => {
   const orderNumberResponse = await orderNumberMutator.GET();
   const poNumber = orderNumberResponse?.poNumber;
+
+  if (!poNumber) throw new Error();
+
   const clonedOrder = {
     ...omit(
       order,
@@ -64,5 +67,5 @@ export const cloneOrder = async (order, mutator, orderNumberMutator, lines) => {
     }));
   }
 
-  return poNumber ? saveOrder(clonedOrder, mutator) : Promise.reject();
+  return saveOrder(clonedOrder, mutator);
 };
