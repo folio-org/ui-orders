@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.2.1](https://github.com/folio-org/ui-orders/tree/v2.2.1) (2020-11-11)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.0...v2.2.1)
+
 * Clone purchase order does not clone Prefix and suffix. Refs UIOR-626.
 * Invoice date filters are off set by timezone somehow. Refs UINV-202.
 * Add substring searching for orders and order lines search options. Refs UIOR-623

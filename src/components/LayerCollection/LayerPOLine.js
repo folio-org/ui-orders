@@ -208,7 +208,16 @@ function LayerPOLine({
         });
       }
     },
-    [closeLineLimitExceededModal, history, savingValues, search, memoizedMutator.lineOrder, order, sendCallout],
+    [
+      closeLineLimitExceededModal,
+      history,
+      memoizedMutator.lineOrder,
+      memoizedMutator.orderNumber,
+      order,
+      savingValues,
+      search,
+      sendCallout,
+    ],
   );
 
   const onCancel = useCallback(() => {
