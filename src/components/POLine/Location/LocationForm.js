@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ifDisabledToChangePaymentInfo } from '../../PurchaseOrder/util';
+import {
+  ifDisabledToChangePaymentInfo,
+  isWorkflowStatusIsPending,
+} from '../../PurchaseOrder/util';
 import { FieldsLocation } from '../../../common/POLFields';
 
 const LocationForm = ({
@@ -13,11 +16,13 @@ const LocationForm = ({
   order,
 }) => {
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
+  const isPostPendingOrder = !isWorkflowStatusIsPending(order);
 
   return (
     <FieldsLocation
       changeLocation={changeLocation}
       isDisabledToChangePaymentInfo={isDisabledToChangePaymentInfo}
+      isPostPendingOrder={isPostPendingOrder}
       locationIds={locationIds}
       locations={locations}
       pOLineFormValues={formValues}

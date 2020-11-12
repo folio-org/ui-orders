@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* UIOR-609 revert - disable field location of order is not pending
+
 ## [2.2.1](https://github.com/folio-org/ui-orders/tree/v2.2.1) (2020-11-11)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.0...v2.2.1)
 

@@ -29,6 +29,7 @@ const NO_VALIDATE = undefined;
 const FieldsLocation = ({
   changeLocation,
   isDisabledToChangePaymentInfo,
+  isPostPendingOrder,
   locationIds,
   locations,
   pOLineFormValues: { orderFormat, physical, eresource } = {},
@@ -51,7 +52,7 @@ const FieldsLocation = ({
         <Row>
           <Col xs={6}>
             <FieldLocationFinal
-              isDisabled={isDisabledToChangePaymentInfo}
+              isDisabled={isPostPendingOrder}
               labelId="ui-orders.location.nameCode"
               locationsForDict={locations}
               name={`${field}.locationId`}
@@ -94,6 +95,7 @@ const FieldsLocation = ({
 FieldsLocation.propTypes = {
   changeLocation: PropTypes.func.isRequired,
   isDisabledToChangePaymentInfo: PropTypes.bool,
+  isPostPendingOrder: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
   pOLineFormValues: PropTypes.object,
@@ -103,6 +105,7 @@ FieldsLocation.propTypes = {
 FieldsLocation.defaultProps = {
   locations: [],
   isDisabledToChangePaymentInfo: false,
+  isPostPendingOrder: false,
   withValidation: true,
 };
 
