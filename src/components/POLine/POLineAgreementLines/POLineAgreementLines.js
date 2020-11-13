@@ -8,6 +8,7 @@ import {
   Badge,
   Icon,
   MultiColumnList,
+  NoValue,
 } from '@folio/stripes/components';
 import {
   acqRowFormatter,
@@ -37,11 +38,15 @@ const resultFormatter = {
   startDate: ({ startDate }) => startDate || '',
   endDate: ({ endDate }) => endDate || '',
   // eslint-disable-next-line react/prop-types
-  status: ({ owner: { agreementStatus: { label, value } } }) => (
-    <FormattedMessage
-      id={`ui-orders.relatedAgreementLines.status.${value}`}
-      defaultMessage={label}
-    />
+  status: ({ owner: { agreementStatus } }) => (
+    agreementStatus?.value
+      ? (
+        <FormattedMessage
+          id={`ui-orders.relatedAgreementLines.status.${agreementStatus?.value}`}
+          defaultMessage={agreementStatus?.label}
+        />
+      )
+      : agreementStatus?.label || <NoValue />
   ),
   arrow: () => <Icon icon="caret-right" />,
 };
