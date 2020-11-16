@@ -47,7 +47,7 @@ const resultsFormatter = {
 };
 
 export const columnMapping = {
-  poLineNumber: <FormattedMessage id="ui-orders.orderLineList.poLineNumber" />,
+  poLineNumber: 'нумар лайна',
   [UPDATED_DATE]: <FormattedMessage id="ui-orders.orderLineList.updatedDate" />,
   title: <FormattedMessage id="ui-orders.orderLineList.titleOrPackage" />,
   productIds: <FormattedMessage id="ui-orders.orderLineList.productIds" />,
