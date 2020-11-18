@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Unable to view PO Line when accessing via Agreements app. Refs UIOR-627
+
 ## [2.2.3](https://github.com/folio-org/ui-orders/tree/v2.2.3) (2020-11-13)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.2...v2.2.3)
 

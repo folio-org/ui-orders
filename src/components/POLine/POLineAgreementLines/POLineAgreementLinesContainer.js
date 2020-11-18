@@ -4,10 +4,14 @@ import PropTypes from 'prop-types';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   baseManifest,
+  batchFetch,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { AGREEMENT_LINES_API } from '../../Utils/api';
+import {
+  AGREEMENTS_API,
+  AGREEMENT_LINES_API,
+} from '../../Utils/api';
 import POLineAgreementLines from './POLineAgreementLines';
 
 const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
@@ -26,7 +30,20 @@ const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
         },
       })
         .then(agreementLinesResp => {
-          setAgreementLines(prev => [...(prev || []), ...agreementLinesResp.results]);
+          const agreementIds = agreementLinesResp.results
+            .filter(({ owner }) => owner?.id && !owner.agreementStatus)
+            .map(({ owner }) => owner?.id);
+
+          return Promise.all([batchFetch(mutator.agreements, agreementIds, undefined, undefined, 'filters'), agreementLinesResp]);
+        })
+        .then(([agreementsResponse, agreementLinesResp]) => {
+          setAgreementLines(prev => [
+            ...(prev || []),
+            ...agreementLinesResp.results.map(line => ({
+              ...line,
+              owner: agreementsResponse.find(({ id }) => id === line.owner?.id) || line.owner,
+            })),
+          ]);
           setTotalCount(agreementLinesResp.totalRecords);
           setPage(nextPage);
         })
@@ -78,6 +95,12 @@ POLineAgreementLinesContainer.propTypes = {
 };
 
 POLineAgreementLinesContainer.manifest = Object.freeze({
+  agreements: {
+    ...baseManifest,
+    accumulate: true,
+    fetch: false,
+    path: AGREEMENTS_API,
+  },
   agreementLines: {
     ...baseManifest,
     accumulate: true,

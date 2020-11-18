@@ -26,27 +26,26 @@ const columnMapping = {
 };
 const alignRowProps = { alignLastColToEnd: true };
 const resultFormatter = {
-  // eslint-disable-next-line react/prop-types
-  name: ({ owner: { id, name } }) => (
+  name: (agrLine) => (!agrLine.owner?.id ? <NoValue /> : (
     <Link
       data-test-link-to-agreement
-      to={`/erm/agreements/${id}`}
+      to={`/erm/agreements/${agrLine.owner.id}`}
     >
-      {name}
+      {agrLine.owner.name}
     </Link>
-  ),
+  )),
   startDate: ({ startDate }) => startDate || '',
   endDate: ({ endDate }) => endDate || '',
   // eslint-disable-next-line react/prop-types
-  status: ({ owner: { agreementStatus } }) => (
-    agreementStatus?.value
+  status: ({ owner }) => (
+    owner?.agreementStatus?.value
       ? (
         <FormattedMessage
-          id={`ui-orders.relatedAgreementLines.status.${agreementStatus?.value}`}
-          defaultMessage={agreementStatus?.label}
+          id={`ui-orders.relatedAgreementLines.status.${owner?.agreementStatus?.value}`}
+          defaultMessage={owner?.agreementStatus?.label}
         />
       )
-      : agreementStatus?.label || <NoValue />
+      : owner?.agreementStatus?.label || <NoValue />
   ),
   arrow: () => <Icon icon="caret-right" />,
 };

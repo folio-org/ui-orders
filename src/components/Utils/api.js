@@ -12,3 +12,4 @@ export const INVOICES_API = 'invoice/invoices';
 export const INVOICE_LINES_API = 'invoice/invoice-lines';
 export const ISBN_VALIDATOR = 'isbn/validator';
 export const AGREEMENT_LINES_API = 'erm/entitlements';
+export const AGREEMENTS_API = 'erm/sas';

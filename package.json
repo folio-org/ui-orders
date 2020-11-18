@@ -86,6 +86,7 @@
           "inventory.items.collection.get",
           "invoice.invoice-lines.collection.get",
           "invoice.invoices.collection.get",
+          "isbn-utils.convert-to-13.get",
           "isbn-utils.validator.get",
           "organizations.organizations.collection.get",
           "organizations.organizations.item.get",
