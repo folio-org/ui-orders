@@ -32,7 +32,7 @@ const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
         .then(agreementLinesResp => {
           const agreementIds = agreementLinesResp.results
             .filter(({ owner }) => owner?.id && !owner.agreementStatus)
-            .map(({ owner }) => owner?.id);
+            .map(({ owner: { id } }) => id);
 
           return Promise.all([batchFetch(mutator.agreements, agreementIds, undefined, undefined, 'filters'), agreementLinesResp]);
         })
