@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   baseManifest,
-  batchFetch,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -13,6 +12,7 @@ import {
   AGREEMENT_LINES_API,
 } from '../../Utils/api';
 import POLineAgreementLines from './POLineAgreementLines';
+import fetchAgreementLines from './fetchAgreementLines';
 
 const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
   const [agreementLines, setAgreementLines] = useState();
@@ -22,27 +22,11 @@ const POLineAgreementLinesContainer = ({ lineId, label, mutator }) => {
 
   const fetchAgeementLines = useCallback(
     (nextPage) => {
-      mutator.agreementLines.GET({
-        params: {
-          filters: `poLines.poLineId==${lineId}`,
-          stats: true,
-          page: nextPage,
-        },
-      })
-        .then(agreementLinesResp => {
-          const agreementIds = agreementLinesResp.results
-            .filter(({ owner }) => owner?.id && !owner.agreementStatus)
-            .map(({ owner: { id } }) => id);
-
-          return Promise.all([batchFetch(mutator.agreements, agreementIds, undefined, undefined, 'filters'), agreementLinesResp]);
-        })
-        .then(([agreementsResponse, agreementLinesResp]) => {
+      fetchAgreementLines(mutator.agreementLines, mutator.agreements, lineId, nextPage)
+        .then((agreementLinesResp) => {
           setAgreementLines(prev => [
             ...(prev || []),
-            ...agreementLinesResp.results.map(line => ({
-              ...line,
-              owner: agreementsResponse.find(({ id }) => id === line.owner?.id) || line.owner,
-            })),
+            ...agreementLinesResp.results,
           ]);
           setTotalCount(agreementLinesResp.totalRecords);
           setPage(nextPage);

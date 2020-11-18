@@ -2,6 +2,11 @@
 
 ## (IN PROGRESS)
 
+## [2.2.5](https://github.com/folio-org/ui-orders/tree/v2.2.5) (2020-11-19)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.4...v2.2.5)
+
+* UIOR-627 fix for more than one related agreement
+
 ## [2.2.4](https://github.com/folio-org/ui-orders/tree/v2.2.4) (2020-11-18)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.3...v2.2.4)
 
