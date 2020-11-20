@@ -3,7 +3,7 @@ import { batchFetch } from '@folio/stripes-acq-components';
 const buildQueryByIds = (itemsChunk) => {
   const query = itemsChunk
     .map(id => `id==${id}`)
-    .join(' || ');  // ERM api works with that format
+    .join('||');  // ERM api works with that format
 
   return query || '';
 };

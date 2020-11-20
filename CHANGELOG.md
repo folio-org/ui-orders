@@ -2,6 +2,12 @@
 
 ## (IN PROGRESS)
 
+## [2.2.6](https://github.com/folio-org/ui-orders/tree/v2.2.6) (2020-11-20)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.5...v2.2.6)
+
+* UIOR-627 fix for fix: remove extra spaces in `||` query filter param.
+
+
 ## [2.2.5](https://github.com/folio-org/ui-orders/tree/v2.2.5) (2020-11-19)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.4...v2.2.5)
 
