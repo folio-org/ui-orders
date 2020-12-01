@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Add "Export results (CSV)" action to orders app. Refs UIOR-631.
+
 ## [2.2.6](https://github.com/folio-org/ui-orders/tree/v2.2.6) (2020-11-20)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.5...v2.2.6)
 

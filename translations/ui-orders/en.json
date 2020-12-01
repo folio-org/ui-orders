@@ -15,6 +15,7 @@
   "acquisition_method.purchase": "Purchase",
   "acquisition_method.purchaseAtVendorSystem": "Purchase at vendor system",
   "acquisition_method.technical": "Technical",
+  "button.exportCSV": "Export results (CSV)",
   "button.addLine": "Add PO line",
   "button.edit": "Edit",
   "button.delete": "Delete",
@@ -667,5 +668,6 @@
   "permission.acq.unit.assignment.assign": "Orders: Assign acquisition units to new order",
   "permission.acq.unit.assignment.manage": "Orders: Manage acquisition units",
   "permission.order.reopen": "Orders: Reopen purchase orders",
-  "permission.order.unopen": "Orders: Unopen purchase orders"
+  "permission.order.unopen": "Orders: Unopen purchase orders",
+  "permission.order.exportCSV": "Orders: Export search results"
 }

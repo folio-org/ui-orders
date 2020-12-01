@@ -31,7 +31,7 @@ import OrdersNavigation from '../common/OrdersNavigation';
 import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 import Panes from '../components/Panes';
 import { searchableIndexes } from './OrdersListSearchConfig';
-import OrdersListLastMenu from './OrdersListLastMenu';
+import OrdersListActionMenu from './OrdersListActionMenu';
 
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orders" />;
@@ -96,7 +96,16 @@ function OrdersList({
       toggleFilters={toggleFilters}
     />
   );
-  const renderLastMenu = useCallback(() => <OrdersListLastMenu search={location.search} />, [location.search]);
+  const renderActionMenu = useCallback(
+    ({ onToggle }) => (
+      <OrdersListActionMenu
+        ordersCount={ordersCount}
+        search={location.search}
+        onToggle={onToggle}
+      />
+    ),
+    [location.search, ordersCount],
+  );
 
   return (
     <Paneset data-test-order-instances>
@@ -129,7 +138,7 @@ function OrdersList({
 
       <ResultsPane
         count={ordersCount}
-        renderLastMenu={renderLastMenu}
+        renderActionMenu={renderActionMenu}
         title={title}
         toggleFiltersPane={toggleFilters}
         filters={filters}

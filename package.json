@@ -261,6 +261,13 @@
           "settings.enabled",
           "ui-orders.third-party-services"
         ]
+      },
+      {
+        "permissionName": "ui-orders.order.exportCSV",
+        "displayName": "Orders: Export search results",
+        "description": "",
+        "visible": true,
+        "subPermissions": []
       }
     ]
   },
