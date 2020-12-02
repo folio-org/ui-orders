@@ -32,7 +32,7 @@ import { TIMEOUT } from './const';
 export default interactor(class OrdersInteractor {
   static defaultScope = '[data-test-order-instances]';
 
-  hasCreateOrderButton = isPresent('#clickable-neworder');
+  hasActionMenu = isPresent('#orders-list-actions');
   orders = collection('[data-row-inner]');
   order = scoped('[data-test-order-details]');
 

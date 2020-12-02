@@ -19,6 +19,7 @@ describe('Orders', function () {
 
   it('is no results message label present', () => {
     expect(orders.isNoResultsMessageLabelPresent).to.equal(true);
+    expect(orders.hasActionMenu).to.be.true;
   });
 
   describe('search by poNumber', function () {
