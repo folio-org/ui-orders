@@ -23,7 +23,7 @@ FieldAccessProvider.propTypes = {
 
 FieldAccessProvider.defaultProps = {
   disabled: false,
-  required: true,
+  required: false,
 };
 
 export default FieldAccessProvider;

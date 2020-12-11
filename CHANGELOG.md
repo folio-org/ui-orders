@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Remove accessProvider field requirement. Refs UIOR-629
 * Add "Export results (CSV)" action to orders app. Refs UIOR-631.
 
 ## [2.2.6](https://github.com/folio-org/ui-orders/tree/v2.2.6) (2020-11-20)
