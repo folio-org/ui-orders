@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Add personal data disclosure form. Refs UIOR-639
 * Remove accessProvider field requirement. Refs UIOR-629
 * Add "Export results (CSV)" action to orders app. Refs UIOR-631.
 
