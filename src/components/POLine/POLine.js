@@ -20,7 +20,7 @@ import {
   FUND,
   LOCATIONS,
   MATERIAL_TYPES,
-  ORDER,
+  ORDERS,
 } from '../Utils/resources';
 import POLineView from './POLineView';
 
@@ -39,16 +39,21 @@ function POLine({
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchOrder = useCallback(
-    () => mutator.lineOrder.GET()
-      .then(fetchedOrder => {
-        setOrder(fetchedOrder);
-        setLine(fetchedOrder?.compositePoLines?.find(u => u.id === lineId));
-      })
-      .catch(() => {
-        sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
-          type: 'error',
-        });
+    () => Promise.all([
+      mutator.lineOrder.GET({ params: { query: `id==${orderId}` } }),
+      mutator.poLine.GET({ params: { query: `id==${lineId}` } })
+        .catch(() => {
+          sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.errors.orderLinesNotLoaded" />,
+            type: 'error',
+          });
+
+          return [];
+        }),
+    ])
+      .then(([fetchedOrders, lines]) => {
+        setOrder(fetchedOrders[0]);
+        setLine(lines?.[0]);
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [lineId, sendCallout],
@@ -166,7 +171,7 @@ function POLine({
 
 POLine.manifest = Object.freeze({
   lineOrder: {
-    ...ORDER,
+    ...ORDERS,
     accumulate: true,
     fetch: false,
   },

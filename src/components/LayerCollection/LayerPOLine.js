@@ -20,6 +20,7 @@ import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getConfigSetting,
+  LIMIT_MAX,
   locationsManifest,
   materialTypesManifest,
   sourceValues,
@@ -49,7 +50,7 @@ import {
   ORDER_LINES,
   ORDER_NUMBER,
   ORDER_TEMPLATES,
-  ORDER,
+  ORDERS,
   VALIDATE_ISBN,
 } from '../Utils/resources';
 import { POLineForm } from '../POLine';
@@ -75,11 +76,23 @@ function LayerPOLine({
     () => getCreateInventorySetting(createInventory),
     [createInventory],
   );
-  const poLine = get(order, 'compositePoLines', []).find((u) => u.id === lineId);
+  const [poLines, setPoLines] = useState();
+  const poLine = poLines?.find((u) => u.id === lineId);
   const [vendor, setVendor] = useState();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
+
+  useEffect(() => {
+    setPoLines();
+    memoizedMutator.poLines.GET({
+      params: {
+        query: `purchaseOrderId==${id}`,
+        limit: LIMIT_MAX,
+      },
+    })
+      .then(setPoLines);
+  }, [id, memoizedMutator.poLines]);
 
   const openLineLimitExceededModal = useCallback(line => {
     setLinesLimitExceededModalOpened(true);
@@ -355,6 +368,7 @@ function LayerPOLine({
   const isntLoaded = !(
     get(resources, 'createInventory.hasLoaded') &&
     get(resources, 'lineOrder.hasLoaded') &&
+    poLine &&
     get(resources, 'openOrderSetting.hasLoaded') &&
     get(resources, 'approvalsSetting.hasLoaded') &&
     get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
@@ -395,7 +409,7 @@ function LayerPOLine({
         <ModalDeletePieces
           onCancel={toggleDeletePieces}
           onSubmit={saveAfterDelete}
-          poLines={order?.compositePoLines}
+          poLines={poLines}
         />
       )}
     </>
@@ -403,7 +417,14 @@ function LayerPOLine({
 }
 
 LayerPOLine.manifest = Object.freeze({
-  lineOrder: ORDER,
+  lineOrder: {
+    ...ORDERS,
+    accumulate: false,
+    fetch: true,
+    params: {
+      query: 'id==:{id}',
+    },
+  },
   openOrderSetting: OPEN_ORDER_SETTING,
   approvalsSetting: APPROVALS_SETTING,
   [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,

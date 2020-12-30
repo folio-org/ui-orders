@@ -42,9 +42,11 @@ import {
   APPROVALS_SETTING,
   FUND,
   LINES_LIMIT,
-  ORDER,
   ORDER_INVOICES,
+  ORDER_LINES,
   ORDER_NUMBER,
+  ORDER,
+  ORDERS,
 } from '../Utils/resources';
 import {
   cloneOrder,
@@ -72,6 +74,7 @@ const PO = ({
   refreshList,
 }) => {
   const sendCallout = useShowCallout();
+  const orderId = match.params.id;
   const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
 
   const [order, setOrder] = useState();
@@ -90,29 +93,54 @@ const PO = ({
   }, [toggleErrorsModal]);
 
   const fetchOrder = useCallback(
-    () => mutator.orderDetails.GET()
-      .then(orderResp => {
-        setOrder(orderResp);
+    () => Promise.all([
+      mutator.orderDetails.GET()
+        .catch((response) => {
+          const isGeneralError = response.message?.indexOf('Operator failed: CurrencyConversion') === -1;
+          const errorKey = isGeneralError ? 'orderNotLoaded' : 'conversionError';
 
-        return mutator.orderInvoicesRelns.GET({
-          params: {
-            query: `purchaseOrderId==${orderResp.id}`,
-            limit: LIMIT_MAX,
-          },
-        });
-      }, () => {
-        sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.errors.orderNotLoaded" />,
-          type: 'error',
-        });
+          sendCallout({
+            message: <SafeHTMLMessage id={`ui-orders.errors.${errorKey}`} />,
+            type: 'error',
+          });
+
+          return {};
+        }),
+      mutator.orderInvoicesRelns.GET({
+        params: {
+          query: `purchaseOrderId==${orderId}`,
+          limit: LIMIT_MAX,
+        },
       })
-      .then(orderInvoicesResp => {
+        .catch(() => []),
+      mutator.orderLines.GET({
+        params: {
+          query: `purchaseOrderId==${orderId}`,
+          limit: LIMIT_MAX,
+        },
+      })
+        .catch(() => {
+          sendCallout({
+            message: <SafeHTMLMessage id="ui-orders.errors.orderLinesNotLoaded" />,
+            type: 'error',
+          });
+
+          return [];
+        }),
+      mutator.orderDetailsList.GET({ params: { query: `id==${orderId}` } }),
+    ])
+      .then(([orderResp, orderInvoicesResp, compositePoLines, orderListResp]) => {
+        setOrder({
+          ...orderListResp[0],
+          compositePoLines,
+          ...orderResp,
+        });
         const invoicesIds = orderInvoicesResp.map(({ invoiceId }) => invoiceId);
 
         setOrderInvoicesIds(invoicesIds);
-      }, () => setOrderInvoicesIds([])),
+      }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [match.params.id, sendCallout],
+    [orderId, sendCallout],
   );
 
   useEffect(
@@ -641,6 +669,12 @@ PO.manifest = Object.freeze({
     accumulate: true,
   },
   generatedOrderNumber: ORDER_NUMBER,
+  orderLines: ORDER_LINES,
+  orderDetailsList: {
+    ...ORDERS,
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 PO.propTypes = {

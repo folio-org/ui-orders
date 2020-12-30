@@ -165,6 +165,8 @@
   "errors.orderLineGenericError": "Purchase order line could not be saved.",
   "errors.orderNotFound": "The order cannot be found by provided order id",
   "errors.orderNotLoaded": "Purchase order was not loaded.",
+  "errors.conversionError": "No exchange rate could be retrieved for the chosen currency in PO lines",
+  "errors.orderLinesNotLoaded": "Error while loading PO Lines",
   "errors.orderNumberIsNotValid": "Order number is not valid",
   "errors.orderOpen": "Order cannot be modified in open status",
   "errors.orderWasNotDeleted": "Error while deleting purchase order",
