@@ -368,7 +368,7 @@ function LayerPOLine({
   const isntLoaded = !(
     get(resources, 'createInventory.hasLoaded') &&
     get(resources, 'lineOrder.hasLoaded') &&
-    poLine &&
+    (!lineId || poLine) &&
     get(resources, 'openOrderSetting.hasLoaded') &&
     get(resources, 'approvalsSetting.hasLoaded') &&
     get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
