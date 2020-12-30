@@ -11,7 +11,6 @@ import {
 import { IfPermission } from '@folio/stripes/core';
 import { getConfigSetting } from '@folio/stripes-acq-components';
 
-import { WORKFLOW_STATUS } from '../../common/constants';
 import {
   isOpenAvailableForOrder,
   isReceiveAvailableForOrder,
@@ -30,17 +29,16 @@ export function getPOActionMenu({
   clickReceive,
   clickReopen,
   clickUnopen,
+  clickUpdateEncumbrances,
   order,
 }) {
   const { isApprovalRequired } = getConfigSetting(approvalsSetting);
   const isApproved = get(order, 'approved');
-  const workflowStatus = get(order, 'workflowStatus');
-  const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
   const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
   const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
   const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
   const isReopenButtonVisible = isWorkflowStatusClosed(order);
-  const isUnopenButtonVisible = isWorkflowStatusOpen(order);
+  const isOrderInOpenStatus = isWorkflowStatusOpen(order);
 
   return ({ onToggle }) => (
     <MenuSection id="order-details-actions">
@@ -70,7 +68,7 @@ export function getPOActionMenu({
             </Button>
           )}
         </IfPermission>
-        {isCloseOrderButtonVisible && (
+        {isOrderInOpenStatus && (
           <Button
             buttonStyle="dropdownItem"
             data-test-close-order-button
@@ -93,7 +91,7 @@ export function getPOActionMenu({
           </Button>
         )}
         <IfPermission perm="orders.item.unopen">
-          {isUnopenButtonVisible && (
+          {isOrderInOpenStatus && (
             <Button
               buttonStyle="dropdownItem"
               data-test-unopen-order-button
@@ -114,6 +112,16 @@ export function getPOActionMenu({
             <Icon size="small" icon="receive">
               <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
             </Icon>
+          </Button>
+        )}
+      </IfPermission>
+      <IfPermission perm="ui-orders.order.updateEncumbrances">
+        {isOrderInOpenStatus && (
+          <Button
+            buttonStyle="dropdownItem"
+            onClick={clickUpdateEncumbrances}
+          >
+            <FormattedMessage id="ui-orders.paneBlock.updateEncumbrances" />
           </Button>
         )}
       </IfPermission>

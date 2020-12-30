@@ -10,6 +10,7 @@
 * Update stripes to v6.0.0 in Thunderjet's modules. Refs UIOR-650.
 * Add "Export results (CSV)" action to orders app - POL search. Refs UIOR-638.
 * Fix order not loading when system cannot get exchange rate for chosen currency. Refs UIOR-642
+* Add Update encumbrances order action. Refs UIOR-644
 * Add personal data disclosure form. Refs UIOR-639
 * Remove accessProvider field requirement. Refs UIOR-629
 * Add "Export results (CSV)" action to orders app. Refs UIOR-631.

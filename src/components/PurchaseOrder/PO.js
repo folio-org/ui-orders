@@ -36,7 +36,10 @@ import {
 import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
 import { isOngoing } from '../../common/POFields';
 import { WORKFLOW_STATUS } from '../../common/constants';
-import { reasonsForClosureResource } from '../../common/resources';
+import {
+  reasonsForClosureResource,
+  updateEncumbrancesResource,
+} from '../../common/resources';
 import {
   ADDRESSES,
   APPROVALS_SETTING,
@@ -480,6 +483,26 @@ const PO = ({
     </IfPermission>
   );
 
+  const updateEncumbrances = useCallback(
+    () => {
+      setIsLoading(true);
+      mutator.updateEncumbrances.GET()
+        .then(
+          () => {
+            sendCallout({ message: <SafeHTMLMessage id="ui-orders.order.updateEncumbrances.success" /> });
+
+            return fetchOrder();
+          },
+          e => {
+            return handleErrorResponse(e, orderErrorModalShow, 'ui-orders.order.updateEncumbrances.error');
+          },
+        )
+        .finally(setIsLoading);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fetchOrder, handleErrorResponse, orderErrorModalShow, sendCallout],
+  );
+
   if (isLoading || order?.id !== match.params.id) {
     return (
       <LoadingPane dismissible defaultWidth="fill" onClose={gotToOrdersList} />
@@ -504,6 +527,7 @@ const PO = ({
         clickReceive: goToReceiving,
         clickReopen: reopenOrder,
         clickUnopen: toggleUnopenOrderModal,
+        clickUpdateEncumbrances: updateEncumbrances,
         order,
       })}
       data-test-order-details
@@ -675,6 +699,7 @@ PO.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
+  updateEncumbrances: updateEncumbrancesResource,
 });
 
 PO.propTypes = {
