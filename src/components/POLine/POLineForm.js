@@ -102,7 +102,7 @@ function POLineForm({
     return (
       <PaneMenu>
         <FormattedMessage id="ui-orders.buttons.line.close">
-          {(title) => (
+          {([title]) => (
             <IconButton
               ariaLabel={title}
               icon="times"
@@ -128,7 +128,7 @@ function POLineForm({
   const getPaneFooter = () => {
     const start = (
       <FormattedMessage id="ui-orders.buttons.line.cancel">
-        {(btnLabel) => (
+        {([btnLabel]) => (
           <Button
             id="clickable-close-new-line-dialog-footer"
             buttonStyle="default mega"
@@ -253,7 +253,7 @@ function POLineForm({
                   <Row>
                     <Col xs={4}>
                       <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
-                        {translatedLabel => (
+                        {([translatedLabel]) => (
                           <Selection
                             dataOptions={orderTemplates}
                             label={translatedLabel}

@@ -3,11 +3,13 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import OrdersInteractor from '../interactors/orders';
+import { TIMEOUT } from '../interactors/const';
 
 const ORDERS_COUNT = 15;
 
 describe('Orders', function () {
   setupApplication();
+  this.timeout(TIMEOUT);
 
   const orders = new OrdersInteractor();
 

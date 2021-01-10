@@ -136,10 +136,10 @@ describe('Line edit test', function () {
   describe('Check required fields and fields with incorrect inputs', function () {
     beforeEach(async function () {
       await lineEditPage.publicationDateField.focus();
-      await lineEditPage.publicationDateField.fill('111');
+      await lineEditPage.publicationDateField.fill('111').focus();
       await lineEditPage.publicationDateField.blur();
-      await lineEditPage.updateLineButton.focus();
-      await lineEditPage.updateLineButton.click();
+      await lineEditPage.updateLineButton.focus().click();
+      await lineEditPage.updateLineButton.blur();
     });
 
     // it('displays required and error messages', function () {
