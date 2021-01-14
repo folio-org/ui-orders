@@ -8,24 +8,36 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
+import {
+  uniq,
+  flatten,
+} from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
+import { exportCsv } from '@folio/stripes/util';
 import {
   SEARCH_INDEX_PARAMETER,
   SEARCH_PARAMETER,
   useList,
+  usersManifest,
+  fetchAllRecords,
+  acqUnitsManifest,
 } from '@folio/stripes-acq-components';
 
 import {
   IDENTIFIER_TYPES,
   ORDER_LINES,
   ORDERS,
+  VENDORS,
+  ADDRESSES,
 } from '../components/Utils/resources';
 import { QUALIFIER_SEPARATOR } from '../common/constants';
 import OrderLinesList from './OrderLinesList';
 import {
   buildOrderLinesQuery,
   fetchLinesOrders,
+  fetchReportDataByIds,
+  getExportData,
 } from './utils';
 
 const RESULT_COUNT_INCREMENT = 30;
@@ -35,6 +47,7 @@ const resetData = () => { };
 const OrderLinesListContainer = ({ mutator, location }) => {
   const [isbnId, setIsbnId] = useState();
   const [ordersMap, setOrdersMap] = useState({});
+  const [isExporting, setIsExporting] = useState(false);
 
   const loadOrderLines = useCallback(async (offset, hasFilters) => {
     const queryParams = queryString.parse(location.search);
@@ -107,6 +120,40 @@ const OrderLinesListContainer = ({ mutator, location }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ordersMap]);
 
+  const onExportCSV = useCallback(async () => {
+    setIsExporting(true);
+    const linesQuery = buildOrderLinesQuery(queryString.parse(location.search));
+    const orderLineRecords = await fetchAllRecords(mutator.orderLinesListRecords, linesQuery);
+    const orderIds = uniq(orderLineRecords.map(({ purchaseOrderId }) => purchaseOrderId));
+    const orderRecords = await fetchReportDataByIds(mutator.lineOrders, orderIds);
+    const orderVendorIds = uniq(orderRecords.map(({ vendor }) => vendor));
+    const lineVendorIds = uniq(flatten((orderLineRecords.map(({ physical, eresource }) => ([
+      physical?.materialSupplier, eresource?.accessProvider,
+    ]))))).filter(Boolean);
+    const vendorIds = uniq(flatten([...orderVendorIds, ...lineVendorIds]));
+    const vendorRecords = await fetchReportDataByIds(mutator.vendors, vendorIds);
+    const userIds = uniq(flatten((orderRecords.map(({ metadata, assignedTo, approvedBy }) => ([
+      metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedBy,
+    ]))))).filter(Boolean);
+    const userRecords = await fetchReportDataByIds(mutator.users, userIds);
+    const acqUnitsIds = uniq(flatten((orderRecords.map(({ acqUnitIds }) => acqUnitIds))));
+    const acqUnitRecords = await fetchReportDataByIds(mutator.acqUnits, acqUnitsIds);
+
+    const exportData = getExportData(
+      orderLineRecords,
+      orderRecords,
+      vendorRecords,
+      userRecords,
+      acqUnitRecords,
+    );
+
+    setIsExporting(false);
+
+    return exportCsv(exportData, {});
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [location.search]);
+
   const {
     records: orderLines,
     recordsCount: orderLinesCount,
@@ -123,6 +170,8 @@ const OrderLinesListContainer = ({ mutator, location }) => {
       orderLines={orderLines}
       refreshList={refreshList}
       resetData={resetData}
+      isExporting={isExporting}
+      onExportCSV={onExportCSV}
     />
   );
 };
@@ -150,6 +199,26 @@ OrderLinesListContainer.manifest = Object.freeze({
     ...ORDERS,
     accumulate: true,
     fetch: false,
+  },
+  vendors: {
+    ...VENDORS,
+    fetch: false,
+    accumulate: true,
+  },
+  users: {
+    ...usersManifest,
+    fetch: false,
+    accumulate: true,
+  },
+  addresses: {
+    ...ADDRESSES,
+    fetch: false,
+    accumulate: true,
+  },
+  acqUnits: {
+    ...acqUnitsManifest,
+    fetch: false,
+    accumulate: true,
   },
 });
 

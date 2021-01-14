@@ -68,6 +68,8 @@ function OrderLinesList({
   orderLines,
   orderLinesCount,
   refreshList,
+  isExporting,
+  onExportCSV,
 }) {
   const [
     filters,
@@ -177,6 +179,8 @@ function OrderLinesList({
       {isExportModalOpened && (
         <ExportSettingsModal
           onCancel={toggleExportModal}
+          isExporting={isExporting}
+          onExportCSV={onExportCSV}
         />
       )}
 
@@ -203,12 +207,15 @@ OrderLinesList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   refreshList: PropTypes.func.isRequired,
+  isExporting: PropTypes.bool,
+  onExportCSV: PropTypes.func.isRequired,
 };
 
 OrderLinesList.defaultProps = {
   orderLinesCount: 0,
   isLoading: false,
   orderLines: [],
+  isExporting: false,
 };
 
 export default withRouter(OrderLinesList);
