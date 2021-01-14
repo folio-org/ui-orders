@@ -25,12 +25,15 @@ import {
   useLocalStorageFilters,
   useLocationSorting,
   useToggle,
+  useModalToggle,
 } from '@folio/stripes-acq-components';
 
 import OrdersNavigation from '../common/OrdersNavigation';
+import ExportSettingsModal from '../common/ExportSettingsModal/ExportSettingsModal';
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
 import Details from './Details';
 import { searchableIndexes } from './OrdersLinesSearchConfig';
+import OrderLinesListActionMenu from './OrderLinesListActionMenu';
 
 const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
@@ -82,6 +85,7 @@ function OrderLinesList({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableColumns);
   const [isFiltersOpened, toggleFilters] = useToggle(true);
+  const [isExportModalOpened, toggleExportModal] = useModalToggle();
   const selectOrderLine = useCallback(
     (e, { id }) => {
       history.push({
@@ -99,6 +103,17 @@ function OrderLinesList({
       isFiltersOpened={isFiltersOpened}
       toggleFilters={toggleFilters}
     />
+  );
+
+  const renderActionMenu = useCallback(
+    ({ onToggle }) => (
+      <OrderLinesListActionMenu
+        orderLinesCount={orderLinesCount}
+        onToggle={onToggle}
+        toggleExportModal={toggleExportModal}
+      />
+    ),
+    [orderLinesCount, toggleExportModal],
   );
 
   return (
@@ -132,6 +147,7 @@ function OrderLinesList({
 
       <ResultsPane
         count={orderLinesCount}
+        renderActionMenu={renderActionMenu}
         filters={filters}
         isFiltersOpened={isFiltersOpened}
         title={title}
@@ -157,6 +173,12 @@ function OrderLinesList({
           visibleColumns={visibleColumns}
         />
       </ResultsPane>
+
+      {isExportModalOpened && (
+        <ExportSettingsModal
+          onCancel={toggleExportModal}
+        />
+      )}
 
       <Route
         exact

@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Add "Export results (CSV)" action to orders app - POL search. Refs UIOR-638.
 * Fix order not loading when system cannot get exchange rate for chosen currency. Refs UIOR-642
 * Add personal data disclosure form. Refs UIOR-639
 * Remove accessProvider field requirement. Refs UIOR-629
