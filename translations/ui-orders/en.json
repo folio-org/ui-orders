@@ -195,6 +195,7 @@
   "exportSettings.orderFieldsLabel": "PO fields to export",
   "exportSettings.lineFieldsLabel": "POL fields to export",
   "exportSettings.label": "Export settings",
+  "exportSettings.message": "This export could take a few minutes. If you reload or close the page the export will not be completed. Once the file is ready it could take another minute for your browser to finish downloading the file. You can continue to work with orders and order lines in a different browser tab if needed.",
   "filter.activated": "Activated",
   "filter.actualReceiptDate": "Actual receipt date",
   "filter.claim": "Claim",

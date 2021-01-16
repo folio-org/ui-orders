@@ -22,12 +22,14 @@ import {
   useLocationSorting,
   useToggle,
   ORDER_STATUS_LABEL,
+  useModalToggle,
 } from '@folio/stripes-acq-components';
 
 import {
   RESULT_COUNT_INCREMENT,
 } from '../common/constants';
 import OrdersNavigation from '../common/OrdersNavigation';
+import ExportSettingsModal from '../common/ExportSettingsModal/ExportSettingsModal';
 import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 import Panes from '../components/Panes';
 import { searchableIndexes } from './OrdersListSearchConfig';
@@ -78,6 +80,7 @@ function OrdersList({
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableColumns);
   const [isFiltersOpened, toggleFilters] = useToggle(true);
+  const [isExportModalOpened, toggleExportModal] = useModalToggle();
   const selectOrder = useCallback(
     (e, { id }) => {
       history.push({
@@ -102,9 +105,10 @@ function OrdersList({
         ordersCount={ordersCount}
         search={location.search}
         onToggle={onToggle}
+        toggleExportModal={toggleExportModal}
       />
     ),
-    [location.search, ordersCount],
+    [location.search, ordersCount, toggleExportModal],
   );
 
   return (
@@ -165,6 +169,12 @@ function OrdersList({
           visibleColumns={visibleColumns}
         />
       </ResultsPane>
+
+      {isExportModalOpened && (
+        <ExportSettingsModal
+          onCancel={toggleExportModal}
+        />
+      )}
 
       <Route
         path="/orders/view/:id"

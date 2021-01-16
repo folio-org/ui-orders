@@ -33,6 +33,8 @@ const ExportSettingsModal = ({
       label={<FormattedMessage id="ui-orders.exportSettings.label" />}
       footer={exportModalFooter}
     >
+      <p><FormattedMessage id="ui-orders.exportSettings.message" /></p>
+
       <Label>
         <FormattedMessage id="ui-orders.exportSettings.orderFieldsLabel" />
       </Label>
