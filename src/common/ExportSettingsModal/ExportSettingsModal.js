@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
-  Headline,
   Label,
   Loading,
   Modal,

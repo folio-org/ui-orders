@@ -8,10 +8,7 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
-import {
-  uniq,
-  flatten,
-} from 'lodash';
+import { uniq } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { exportCsv } from '@folio/stripes/util';
@@ -22,8 +19,17 @@ import {
   usersManifest,
   fetchAllRecords,
   acqUnitsManifest,
+  contributorNameTypesManifest,
+  expenseClassesManifest,
+  identifierTypesManifest,
+  locationsManifest,
+  materialTypesManifest,
 } from '@folio/stripes-acq-components';
 
+import {
+  fetchExportDataByIds,
+  getExportData,
+} from '../common/utils';
 import {
   IDENTIFIER_TYPES,
   ORDER_LINES,
@@ -36,8 +42,6 @@ import OrderLinesList from './OrderLinesList';
 import {
   buildOrderLinesQuery,
   fetchLinesOrders,
-  fetchReportDataByIds,
-  getExportData,
 } from './utils';
 
 const RESULT_COUNT_INCREMENT = 30;
@@ -123,28 +127,21 @@ const OrderLinesListContainer = ({ mutator, location }) => {
   const onExportCSV = useCallback(async () => {
     setIsExporting(true);
     const linesQuery = buildOrderLinesQuery(queryString.parse(location.search));
-    const orderLineRecords = await fetchAllRecords(mutator.orderLinesListRecords, linesQuery);
+    const orderLineRecords = await fetchAllRecords(mutator.exportLines, linesQuery);
     const orderIds = uniq(orderLineRecords.map(({ purchaseOrderId }) => purchaseOrderId));
-    const orderRecords = await fetchReportDataByIds(mutator.lineOrders, orderIds);
-    const orderVendorIds = uniq(orderRecords.map(({ vendor }) => vendor));
-    const lineVendorIds = uniq(flatten((orderLineRecords.map(({ physical, eresource }) => ([
-      physical?.materialSupplier, eresource?.accessProvider,
-    ]))))).filter(Boolean);
-    const vendorIds = uniq(flatten([...orderVendorIds, ...lineVendorIds]));
-    const vendorRecords = await fetchReportDataByIds(mutator.vendors, vendorIds);
-    const userIds = uniq(flatten((orderRecords.map(({ metadata, assignedTo, approvedBy }) => ([
-      metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedBy,
-    ]))))).filter(Boolean);
-    const userRecords = await fetchReportDataByIds(mutator.users, userIds);
-    const acqUnitsIds = uniq(flatten((orderRecords.map(({ acqUnitIds }) => acqUnitIds))));
-    const acqUnitRecords = await fetchReportDataByIds(mutator.acqUnits, acqUnitsIds);
-
-    const exportData = getExportData(
+    const orderRecords = await fetchExportDataByIds(mutator.lineOrders, orderIds);
+    const exportData = await getExportData(
+      mutator.vendors,
+      mutator.users,
+      mutator.acqUnits,
+      mutator.materialTypes,
+      mutator.locations,
+      mutator.contributorsNameTypes,
+      mutator.identifierTypes,
+      mutator.expenseClasses,
+      mutator.addresses,
       orderLineRecords,
       orderRecords,
-      vendorRecords,
-      userRecords,
-      acqUnitRecords,
     );
 
     setIsExporting(false);
@@ -195,6 +192,7 @@ OrderLinesListContainer.manifest = Object.freeze({
     type: 'okapi',
     throwErrors: false,
   },
+  exportLines: ORDER_LINES,
   lineOrders: {
     ...ORDERS,
     accumulate: true,
@@ -219,6 +217,29 @@ OrderLinesListContainer.manifest = Object.freeze({
     ...acqUnitsManifest,
     fetch: false,
     accumulate: true,
+  },
+  contributorsNameTypes: {
+    ...contributorNameTypesManifest,
+    fetch: false,
+    accumulate: true,
+  },
+  expenseClasses: {
+    ...expenseClassesManifest,
+    fetch: false,
+    accumulate: true,
+  },
+  identifierTypes: {
+    ...identifierTypesManifest,
+    fetch: false,
+    accumulate: true,
+  },
+  locations: {
+    ...locationsManifest,
+    fetch: false,
+  },
+  materialTypes: {
+    ...materialTypesManifest,
+    fetch: false,
   },
 });
 

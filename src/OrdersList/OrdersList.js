@@ -63,6 +63,8 @@ function OrdersList({
   ordersCount,
   resetData,
   refreshList,
+  isExporting,
+  onExportCSV,
 }) {
   const [
     filters,
@@ -173,6 +175,8 @@ function OrdersList({
       {isExportModalOpened && (
         <ExportSettingsModal
           onCancel={toggleExportModal}
+          isExporting={isExporting}
+          onExportCSV={onExportCSV}
         />
       )}
 
@@ -198,12 +202,15 @@ OrdersList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   refreshList: PropTypes.func.isRequired,
+  isExporting: PropTypes.bool,
+  onExportCSV: PropTypes.func.isRequired,
 };
 
 OrdersList.defaultProps = {
   ordersCount: 0,
   isLoading: false,
   orders: [],
+  isExporting: false,
 };
 
 export default withRouter(OrdersList);
