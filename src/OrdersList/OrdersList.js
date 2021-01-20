@@ -29,7 +29,7 @@ import {
   RESULT_COUNT_INCREMENT,
 } from '../common/constants';
 import OrdersNavigation from '../common/OrdersNavigation';
-import ExportSettingsModal from '../common/ExportSettingsModal/ExportSettingsModal';
+import { OrderExportSettingsModal } from '../common/ExportSettingsModal';
 import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 import Panes from '../components/Panes';
 import { searchableIndexes } from './OrdersListSearchConfig';
@@ -63,8 +63,7 @@ function OrdersList({
   ordersCount,
   resetData,
   refreshList,
-  isExporting,
-  onExportCSV,
+  ordersQuery,
 }) {
   const [
     filters,
@@ -173,10 +172,9 @@ function OrdersList({
       </ResultsPane>
 
       {isExportModalOpened && (
-        <ExportSettingsModal
+        <OrderExportSettingsModal
           onCancel={toggleExportModal}
-          isExporting={isExporting}
-          onExportCSV={onExportCSV}
+          ordersQuery={ordersQuery}
         />
       )}
 
@@ -202,15 +200,13 @@ OrdersList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   refreshList: PropTypes.func.isRequired,
-  isExporting: PropTypes.bool,
-  onExportCSV: PropTypes.func.isRequired,
+  ordersQuery: PropTypes.string.isRequired,
 };
 
 OrdersList.defaultProps = {
   ordersCount: 0,
   isLoading: false,
   orders: [],
-  isExporting: false,
 };
 
 export default withRouter(OrdersList);

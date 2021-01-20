@@ -8,34 +8,18 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
-import { uniq } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { exportCsv } from '@folio/stripes/util';
 import {
   SEARCH_INDEX_PARAMETER,
   SEARCH_PARAMETER,
   useList,
-  usersManifest,
-  fetchAllRecords,
-  acqUnitsManifest,
-  contributorNameTypesManifest,
-  expenseClassesManifest,
-  identifierTypesManifest,
-  locationsManifest,
-  materialTypesManifest,
 } from '@folio/stripes-acq-components';
 
 import {
-  fetchExportDataByIds,
-  getExportData,
-} from '../common/utils';
-import {
   IDENTIFIER_TYPES,
-  ORDER_LINES,
   ORDERS,
-  VENDORS,
-  ADDRESSES,
+  ORDER_LINES,
 } from '../components/Utils/resources';
 import { QUALIFIER_SEPARATOR } from '../common/constants';
 import OrderLinesList from './OrderLinesList';
@@ -51,7 +35,7 @@ const resetData = () => { };
 const OrderLinesListContainer = ({ mutator, location }) => {
   const [isbnId, setIsbnId] = useState();
   const [ordersMap, setOrdersMap] = useState({});
-  const [isExporting, setIsExporting] = useState(false);
+  const [linesQuery, setLinesQuery] = useState();
 
   const loadOrderLines = useCallback(async (offset, hasFilters) => {
     const queryParams = queryString.parse(location.search);
@@ -86,12 +70,16 @@ const OrderLinesListContainer = ({ mutator, location }) => {
       }
     }
 
+    const query = buildOrderLinesQuery(queryParams, typeISBNId, normalizedISBN);
+
+    setLinesQuery(query);
+
     const loadRecordsPromise = hasToCallAPI
       ? mutator.orderLinesListRecords.GET({
         params: {
           limit: RESULT_COUNT_INCREMENT,
           offset,
-          query: buildOrderLinesQuery(queryParams, typeISBNId, normalizedISBN),
+          query,
         },
       })
       : Promise.resolve();
@@ -124,33 +112,6 @@ const OrderLinesListContainer = ({ mutator, location }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ordersMap]);
 
-  const onExportCSV = useCallback(async () => {
-    setIsExporting(true);
-    const linesQuery = buildOrderLinesQuery(queryString.parse(location.search));
-    const orderLineRecords = await fetchAllRecords(mutator.exportLines, linesQuery);
-    const orderIds = uniq(orderLineRecords.map(({ purchaseOrderId }) => purchaseOrderId));
-    const orderRecords = await fetchExportDataByIds(mutator.lineOrders, orderIds);
-    const exportData = await getExportData(
-      mutator.vendors,
-      mutator.users,
-      mutator.acqUnits,
-      mutator.materialTypes,
-      mutator.locations,
-      mutator.contributorsNameTypes,
-      mutator.identifierTypes,
-      mutator.expenseClasses,
-      mutator.addresses,
-      orderLineRecords,
-      orderRecords,
-    );
-
-    setIsExporting(false);
-
-    return exportCsv(exportData, {});
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [location.search]);
-
   const {
     records: orderLines,
     recordsCount: orderLinesCount,
@@ -167,8 +128,7 @@ const OrderLinesListContainer = ({ mutator, location }) => {
       orderLines={orderLines}
       refreshList={refreshList}
       resetData={resetData}
-      isExporting={isExporting}
-      onExportCSV={onExportCSV}
+      linesQuery={linesQuery}
     />
   );
 };
@@ -192,54 +152,10 @@ OrderLinesListContainer.manifest = Object.freeze({
     type: 'okapi',
     throwErrors: false,
   },
-  exportLines: ORDER_LINES,
   lineOrders: {
     ...ORDERS,
-    accumulate: true,
-    fetch: false,
-  },
-  vendors: {
-    ...VENDORS,
     fetch: false,
     accumulate: true,
-  },
-  users: {
-    ...usersManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  addresses: {
-    ...ADDRESSES,
-    fetch: false,
-    accumulate: true,
-  },
-  acqUnits: {
-    ...acqUnitsManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  contributorsNameTypes: {
-    ...contributorNameTypesManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  expenseClasses: {
-    ...expenseClassesManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  identifierTypes: {
-    ...identifierTypesManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  locations: {
-    ...locationsManifest,
-    fetch: false,
-  },
-  materialTypes: {
-    ...materialTypesManifest,
-    fetch: false,
   },
 });
 

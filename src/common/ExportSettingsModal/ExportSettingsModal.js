@@ -75,7 +75,7 @@ const ExportSettingsModal = ({
 ExportSettingsModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   isExporting: PropTypes.bool.isRequired,
-  onExportCSV: PropTypes.bool.isRequired,
+  onExportCSV: PropTypes.func.isRequired,
 };
 
 export default ExportSettingsModal;

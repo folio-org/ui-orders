@@ -4,33 +4,18 @@ import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
 
-import {
-  getFullName,
-  exportCsv,
-} from '@folio/stripes/util';
+import { getFullName } from '@folio/stripes/util';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryBuilder,
   organizationsManifest,
   useList,
-  fetchAllRecords,
-  contributorNameTypesManifest,
-  expenseClassesManifest,
-  identifierTypesManifest,
-  locationsManifest,
-  materialTypesManifest,
 } from '@folio/stripes-acq-components';
 
 import { RESULT_COUNT_INCREMENT } from '../common/constants';
 import {
-  fetchExportDataByIds,
-  getExportData,
-} from '../common/utils';
-import {
   ACQUISITIONS_UNITS,
-  ADDRESSES,
   ORDERS,
-  ORDER_LINES,
   USERS,
 } from '../components/Utils/resources';
 import OrdersList from './OrdersList';
@@ -61,14 +46,18 @@ const OrdersListContainer = ({ mutator, location }) => {
   const [vendorsMap, setVendorsMap] = useState({});
   const [acqUnitsMap, setAcqUnitsMap] = useState({});
   const [usersMap, setUsersMap] = useState({});
-  const [isExporting, setIsExporting] = useState(false);
+  const [ordersQuery, setOrdersQuery] = useState();
 
   const loadOrders = useCallback(async (offset) => {
+    const query = buildQuery(queryString.parse(location.search));
+
+    setOrdersQuery(query);
+
     return mutator.ordersListRecords.GET({
       params: {
         limit: RESULT_COUNT_INCREMENT,
         offset,
-        query: buildQuery(queryString.parse(location.search)),
+        query,
       },
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,40 +125,6 @@ const OrdersListContainer = ({ mutator, location }) => {
     refreshList,
   } = useList(false, loadOrders, loadOrdersCB, RESULT_COUNT_INCREMENT);
 
-  const onExportCSV = useCallback(async () => {
-    setIsExporting(true);
-    const ordersQuery = buildQuery(queryString.parse(location.search));
-    const orderRecords = await fetchAllRecords(mutator.exportOrders, ordersQuery);
-    const orderIds = orderRecords.map(({ id }) => id);
-    const buildLineQuery = (itemsChunk) => {
-      const query = itemsChunk
-        .map(id => `purchaseOrderId==${id}`)
-        .join(' or ');
-
-      return query || '';
-    };
-    const orderLineRecords = await fetchExportDataByIds(mutator.exportLines, orderIds, buildLineQuery);
-    const exportData = await getExportData(
-      mutator.orderVendors,
-      mutator.orderUsers,
-      mutator.orderAcqUnits,
-      mutator.materialTypes,
-      mutator.locations,
-      mutator.contributorsNameTypes,
-      mutator.identifierTypes,
-      mutator.expenseClasses,
-      mutator.addresses,
-      orderLineRecords,
-      orderRecords,
-    );
-
-    setIsExporting(false);
-
-    return exportCsv(exportData, {});
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [location.search]);
-
   return (
     <OrdersList
       ordersCount={ordersCount}
@@ -178,8 +133,7 @@ const OrdersListContainer = ({ mutator, location }) => {
       orders={orders}
       refreshList={refreshList}
       resetData={resetData}
-      isExporting={isExporting}
-      onExportCSV={onExportCSV}
+      ordersQuery={ordersQuery}
     />
   );
 };
@@ -202,36 +156,6 @@ OrdersListContainer.manifest = Object.freeze({
   orderUsers: {
     ...USERS,
     accumulate: true,
-    fetch: false,
-  },
-  exportOrders: ORDERS,
-  exportLines: ORDER_LINES,
-  addresses: {
-    ...ADDRESSES,
-    fetch: false,
-    accumulate: true,
-  },
-  contributorsNameTypes: {
-    ...contributorNameTypesManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  expenseClasses: {
-    ...expenseClassesManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  identifierTypes: {
-    ...identifierTypesManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  locations: {
-    ...locationsManifest,
-    fetch: false,
-  },
-  materialTypes: {
-    ...materialTypesManifest,
     fetch: false,
   },
 });

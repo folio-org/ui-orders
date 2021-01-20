@@ -189,6 +189,7 @@
   "errors.zeroLocQty": "Physical or electronic location quantity must be specified",
   "errors.closeOrder": "Order failed to close",
   "errors.openOrder.inactiveExpenseClass": "Order can NOT be <b>Opened</b> because expense class <b>{expenseClass}</b> is inactive.",
+  "exportSettings.load.error": "Failed to load data for export results (CSV)",
   "exportSettings.export": "Export",
   "exportSettings.cancel": "Cancel",
   "exportSettings.all": "All",

@@ -9,7 +9,7 @@ export const fetchExportDataByIds = async (mutator, ids, query) => {
     return acc.then(prevResp => {
       return batchFetch(mutator, nextBatch, query).then(nextResp => {
         return [...prevResp, ...nextResp];
-      });
+      }, () => Promise.reject());
     });
   }, Promise.resolve([]));
 };

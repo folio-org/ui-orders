@@ -28,8 +28,8 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
+import { LineExportSettingsModal } from '../common/ExportSettingsModal';
 import OrdersNavigation from '../common/OrdersNavigation';
-import ExportSettingsModal from '../common/ExportSettingsModal/ExportSettingsModal';
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
 import Details from './Details';
 import { searchableIndexes } from './OrdersLinesSearchConfig';
@@ -68,8 +68,7 @@ function OrderLinesList({
   orderLines,
   orderLinesCount,
   refreshList,
-  isExporting,
-  onExportCSV,
+  linesQuery,
 }) {
   const [
     filters,
@@ -177,10 +176,9 @@ function OrderLinesList({
       </ResultsPane>
 
       {isExportModalOpened && (
-        <ExportSettingsModal
+        <LineExportSettingsModal
           onCancel={toggleExportModal}
-          isExporting={isExporting}
-          onExportCSV={onExportCSV}
+          linesQuery={linesQuery}
         />
       )}
 
@@ -207,15 +205,13 @@ OrderLinesList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   refreshList: PropTypes.func.isRequired,
-  isExporting: PropTypes.bool,
-  onExportCSV: PropTypes.func.isRequired,
+  linesQuery: PropTypes.string.isRequired,
 };
 
 OrderLinesList.defaultProps = {
   orderLinesCount: 0,
   isLoading: false,
   orderLines: [],
-  isExporting: false,
 };
 
 export default withRouter(OrderLinesList);
