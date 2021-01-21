@@ -29,11 +29,13 @@ import {
   RESULT_COUNT_INCREMENT,
 } from '../common/constants';
 import OrdersNavigation from '../common/OrdersNavigation';
+import LineExportSettingsModalContainer from '../OrderLinesList/LineExportSettingModalContainer';
 import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 import Panes from '../components/Panes';
 import { searchableIndexes } from './OrdersListSearchConfig';
 import OrdersListActionMenu from './OrdersListActionMenu';
 import OrderExportSettingsModalContainer from './OrderExportSettingsModalContainer';
+import { FILTERS } from './constants';
 
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orders" />;
@@ -82,6 +84,10 @@ function OrdersList({
   ] = useLocationSorting(location, history, resetData, sortableColumns);
   const [isFiltersOpened, toggleFilters] = useToggle(true);
   const [isExportModalOpened, toggleExportModal] = useModalToggle();
+  const isOrderExport = ordersQuery.includes(`${FILTERS.CREATED_BY}=`) ||
+    ordersQuery.includes(`${FILTERS.DATE_CREATED}=`) ||
+    ordersQuery.includes(`${FILTERS.TAGS}=`);
+
   const selectOrder = useCallback(
     (e, { id }) => {
       history.push({
@@ -172,10 +178,19 @@ function OrdersList({
       </ResultsPane>
 
       {isExportModalOpened && (
-        <OrderExportSettingsModalContainer
-          onCancel={toggleExportModal}
-          ordersQuery={ordersQuery}
-        />
+        isOrderExport
+          ? (
+            <OrderExportSettingsModalContainer
+              onCancel={toggleExportModal}
+              ordersQuery={ordersQuery}
+            />
+          )
+          : (
+            <LineExportSettingsModalContainer
+              onCancel={toggleExportModal}
+              linesQuery={ordersQuery}
+            />
+          )
       )}
 
       <Route
@@ -200,13 +215,14 @@ OrdersList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   refreshList: PropTypes.func.isRequired,
-  ordersQuery: PropTypes.string.isRequired,
+  ordersQuery: PropTypes.string,
 };
 
 OrdersList.defaultProps = {
   ordersCount: 0,
   isLoading: false,
   orders: [],
+  ordersQuery: '',
 };
 
 export default withRouter(OrdersList);

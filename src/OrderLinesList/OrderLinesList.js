@@ -205,13 +205,14 @@ OrderLinesList.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   refreshList: PropTypes.func.isRequired,
-  linesQuery: PropTypes.string.isRequired,
+  linesQuery: PropTypes.string,
 };
 
 OrderLinesList.defaultProps = {
   orderLinesCount: 0,
   isLoading: false,
   orderLines: [],
+  linesQuery: '',
 };
 
 export default withRouter(OrderLinesList);
