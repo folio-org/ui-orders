@@ -28,12 +28,12 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
-import { LineExportSettingsModal } from '../common/ExportSettingsModal';
 import OrdersNavigation from '../common/OrdersNavigation';
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
 import Details from './Details';
 import { searchableIndexes } from './OrdersLinesSearchConfig';
 import OrderLinesListActionMenu from './OrderLinesListActionMenu';
+import LineExportSettingsModalContainer from './LineExportSettingModalContainer';
 
 const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
@@ -176,7 +176,7 @@ function OrderLinesList({
       </ResultsPane>
 
       {isExportModalOpened && (
-        <LineExportSettingsModal
+        <LineExportSettingsModalContainer
           onCancel={toggleExportModal}
           linesQuery={linesQuery}
         />

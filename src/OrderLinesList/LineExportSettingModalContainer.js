@@ -8,9 +8,9 @@ import { fetchAllRecords } from '@folio/stripes-acq-components';
 import {
   ORDERS,
   ORDER_LINES,
-} from '../../components/Utils/resources';
-import { fetchExportDataByIds } from './utils';
-import ExportSettingsModalContainer from './ExportSettingsModalContainer';
+} from '../components/Utils/resources';
+import { fetchExportDataByIds } from '../common/utils';
+import ExportSettingsModalContainer from '../common/ExportSettingsModal';
 
 const LineExportSettingsModalContainer = ({
   linesQuery,
@@ -24,12 +24,12 @@ const LineExportSettingsModalContainer = ({
       const orders = await fetchExportDataByIds(mutator.exportOrders, orderIds);
 
       return ({ lines, orders });
-    } catch {
-      return onCancel();
+    } catch (e) {
+      throw Error(e);
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [linesQuery, onCancel]);
+  [linesQuery]);
 
   return (
     <ExportSettingsModalContainer

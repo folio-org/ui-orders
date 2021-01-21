@@ -7,9 +7,9 @@ import {
   CONFIG_ADDRESSES,
   MODULE_TENANT,
 } from '../../../components/Utils/const';
+import { fetchExportDataByIds } from '../../utils';
 import { getAddresses } from '../../utils/getAddresses';
 import { createExportReport } from './createExportReport';
-import { fetchExportDataByIds } from './fetchExportDataByIds';
 
 export const getExportData = async (mutator, lines, orders) => {
   const orderVendorIds = uniq(orders.map(({ vendor }) => vendor));

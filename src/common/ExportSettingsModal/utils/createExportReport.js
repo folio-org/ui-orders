@@ -6,7 +6,7 @@ import {
   calculateFundAmount,
 } from '@folio/stripes-acq-components';
 
-const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm';
+const DATE_TIME_FORMAT = 'YYYY/MM/DD, HH:mm A';
 
 const getRecordMap = (records) => (
   records.reduce((acc, record) => {
@@ -16,20 +16,12 @@ const getRecordMap = (records) => (
   }, {})
 );
 
-const formatDate = (date) => {
+const formatDate = (date, format = DATE_FORMAT) => {
   if (!date) return null;
 
   const momentDate = moment.utc(date);
 
-  return momentDate.isValid() ? momentDate.format(DATE_FORMAT) : null;
-};
-
-const formatDateTime = (date) => {
-  if (!date) return null;
-
-  const momentDate = moment.utc(date);
-
-  return momentDate.isValid() ? momentDate.format(DATE_TIME_FORMAT) : null;
+  return momentDate.isValid() ? momentDate.format(format) : null;
 };
 
 const getContributorData = (line, contributorNameTypeMap) => (
@@ -87,14 +79,14 @@ export const createExportReport = (
     'Vendor': vendorMap[ordersMap[lineRecord.purchaseOrderId].vendor].code,
     'Order type': ordersMap[lineRecord.purchaseOrderId].orderType,
     'Acquisition Units': ordersMap[lineRecord.purchaseOrderId].acqUnitIds.map(id => acqUnitMap[id].name).join(' | '),
-    'Approval date': formatDateTime(ordersMap[lineRecord.purchaseOrderId].approvalDate),
+    'Approval date': formatDate(ordersMap[lineRecord.purchaseOrderId].approvalDate, DATE_TIME_FORMAT),
     'Assigned to': getFullName(userMap[ordersMap[lineRecord.purchaseOrderId].assignedTo]),
     'Bill to': addressMap[ordersMap[lineRecord.purchaseOrderId]?.billTo]?.address,
     'Ship to': addressMap[ordersMap[lineRecord.purchaseOrderId]?.shipTo]?.address,
     'Manual': ordersMap[lineRecord.purchaseOrderId].manualPo,
     'Re-encumber': ordersMap[lineRecord.purchaseOrderId].reEncumber,
     'Created by': getFullName(userMap[ordersMap[lineRecord.purchaseOrderId].metadata?.createdByUserId]),
-    'Created on': formatDateTime(ordersMap[lineRecord.purchaseOrderId].metadata?.createdDate),
+    'Created on': formatDate(ordersMap[lineRecord.purchaseOrderId].metadata?.createdDate, DATE_TIME_FORMAT),
     'Note': ordersMap[lineRecord.purchaseOrderId].notes?.join('|'),
     'Workflow status': ordersMap[lineRecord.purchaseOrderId].workflowStatus,
     'Approved': ordersMap[lineRecord.purchaseOrderId].approved,

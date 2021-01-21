@@ -39,16 +39,14 @@ const ExportSettingsModalContainer = ({
 
       return exportCsv(exportData, {});
     } catch {
-      showCallout({
+      return showCallout({
         messageId: 'ui-orders.exportSettings.load.error',
         type: 'error',
       });
-
-      return onCancel();
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [fetchOrdersAndLines, onCancel, showCallout]);
+  [fetchOrdersAndLines, showCallout]);
 
   return (
     <ExportSettingsModal

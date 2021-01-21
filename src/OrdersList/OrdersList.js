@@ -29,11 +29,11 @@ import {
   RESULT_COUNT_INCREMENT,
 } from '../common/constants';
 import OrdersNavigation from '../common/OrdersNavigation';
-import { OrderExportSettingsModal } from '../common/ExportSettingsModal';
 import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 import Panes from '../components/Panes';
 import { searchableIndexes } from './OrdersListSearchConfig';
 import OrdersListActionMenu from './OrdersListActionMenu';
+import OrderExportSettingsModalContainer from './OrderExportSettingsModalContainer';
 
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orders" />;
@@ -172,7 +172,7 @@ function OrdersList({
       </ResultsPane>
 
       {isExportModalOpened && (
-        <OrderExportSettingsModal
+        <OrderExportSettingsModalContainer
           onCancel={toggleExportModal}
           ordersQuery={ordersQuery}
         />
