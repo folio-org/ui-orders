@@ -11,15 +11,14 @@ import {
 import { fetchExportDataByIds } from '../common/utils';
 import ExportSettingsModalContainer from '../common/ExportSettingsModal';
 import LineExportSettingsModalContainer from '../OrderLinesList/LineExportSettingModalContainer';
-import { FILTERS } from './constants';
+import { ORDER_EXPORT_QUERY_FILTERS } from './constants';
 
 const OrderExportSettingsModalContainer = ({
   ordersQuery,
   onCancel,
   mutator,
 }) => {
-  const filters = [FILTERS.CREATED_BY, FILTERS.DATE_CREATED, FILTERS.TAGS];
-  const isOrderExport = filters.some(f => ordersQuery.includes(`${f}=`));
+  const isOrderExport = ORDER_EXPORT_QUERY_FILTERS.some(f => ordersQuery.includes(`${f}=`));
   const fetchOrdersAndLines = useCallback(async () => {
     const orders = await fetchAllRecords(mutator.exportOrders, ordersQuery);
     const orderIds = orders.map(({ id }) => id);

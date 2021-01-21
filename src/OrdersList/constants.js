@@ -63,3 +63,5 @@ export const ORDER_TYPE_FILTER_OPTIONS = Object.keys(ORDER_TYPE).map(key => ({
   value: ORDER_TYPE[key],
   label: <FormattedMessage id={`ui-orders.order_type.${key}`} />,
 }));
+
+export const ORDER_EXPORT_QUERY_FILTERS = [FILTERS.CREATED_BY, FILTERS.DATE_CREATED, FILTERS.TAGS];
