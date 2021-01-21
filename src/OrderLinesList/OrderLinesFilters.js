@@ -16,6 +16,8 @@ import {
 
 import MaterialTypeFilter from '../common/MaterialTypeFilter';
 // import OrdersTextFilter from '../common/OrdersTextFilter';
+import PrefixFilter from '../common/PrefixFilter';
+import SuffixFilter from '../common/SuffixFilter';
 import FundFilter from '../common/FundFilter';
 import {
   ACQUISITION_METHOD_FILTER_OPTIONS,
@@ -57,6 +59,22 @@ function OrderLinesFilters({ activeFilters, applyFilters, disabled, materialType
         name={FILTERS.PAYMENT_STATUS}
         onChange={onChange}
         options={PAYMENT_STATUS_FILTER_OPTIONS}
+      />
+      <PrefixFilter
+        id={FILTERS.PREFIX}
+        activeFilters={activeFilters[FILTERS.PREFIX]}
+        labelId="ui-orders.orderDetails.orderNumberPrefix"
+        name={FILTERS.PREFIX}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      <SuffixFilter
+        id={FILTERS.SUFFIX}
+        activeFilters={activeFilters[FILTERS.SUFFIX]}
+        labelId="ui-orders.orderDetails.orderNumberSuffix"
+        name={FILTERS.SUFFIX}
+        onChange={onChange}
+        disabled={disabled}
       />
       <AcqCheckboxFilter
         activeFilters={activeFilters[FILTERS.ACQUISITION_METHOD]}

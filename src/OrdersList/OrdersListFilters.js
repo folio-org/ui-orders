@@ -16,6 +16,8 @@ import {
 
 import ClosingReasonFilter from '../common/ClosingReasonFilter';
 import OrdersTextFilter from '../common/OrdersTextFilter';
+import PrefixFilter from '../common/PrefixFilter';
+import SuffixFilter from '../common/SuffixFilter';
 import {
   closingReasonsShape,
 } from '../common/shapes';
@@ -43,6 +45,22 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
         onChange={onChange}
         options={STATUS_FILTER_OPTIONS}
         closedByDefault={false}
+        disabled={disabled}
+      />
+      <PrefixFilter
+        id={FILTERS.PREFIX}
+        activeFilters={activeFilters[FILTERS.PREFIX]}
+        labelId="ui-orders.orderDetails.orderNumberPrefix"
+        name={FILTERS.PREFIX}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      <SuffixFilter
+        id={FILTERS.SUFFIX}
+        activeFilters={activeFilters[FILTERS.SUFFIX]}
+        labelId="ui-orders.orderDetails.orderNumberSuffix"
+        name={FILTERS.SUFFIX}
+        onChange={onChange}
         disabled={disabled}
       />
       <BooleanFilter

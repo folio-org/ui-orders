@@ -24,10 +24,12 @@ export const FILTERS = {
   MANUAL_RENEWAL: 'ongoing.manualRenewal',
   ORDER_TYPE: 'orderType',
   PO_NUMBER: 'poNumber',
+  PREFIX: 'poNumberPrefix',
   RE_ENCUMBER: 'reEncumber',
   RENEWAL_DATE: 'ongoing.renewalDate',
   RENEWAL_REVIEW_PERIOD: 'ongoing.reviewPeriod',
   STATUS: 'workflowStatus',
+  SUFFIX: 'poNumberSuffix',
   VENDOR: 'vendor',
   TAGS: 'tags.tagList',
 };
