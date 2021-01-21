@@ -10,12 +10,16 @@ import {
 } from '../components/Utils/resources';
 import { fetchExportDataByIds } from '../common/utils';
 import ExportSettingsModalContainer from '../common/ExportSettingsModal';
+import LineExportSettingsModalContainer from '../OrderLinesList/LineExportSettingModalContainer';
+import { FILTERS } from './constants';
 
 const OrderExportSettingsModalContainer = ({
   ordersQuery,
   onCancel,
   mutator,
 }) => {
+  const filters = [FILTERS.CREATED_BY, FILTERS.DATE_CREATED, FILTERS.TAGS];
+  const isOrderExport = filters.some(f => ordersQuery.includes(`${f}=`));
   const fetchOrdersAndLines = useCallback(async () => {
     const orders = await fetchAllRecords(mutator.exportOrders, ordersQuery);
     const orderIds = orders.map(({ id }) => id);
@@ -34,10 +38,19 @@ const OrderExportSettingsModalContainer = ({
   [ordersQuery]);
 
   return (
-    <ExportSettingsModalContainer
-      fetchOrdersAndLines={fetchOrdersAndLines}
-      onCancel={onCancel}
-    />
+    isOrderExport
+      ? (
+        <ExportSettingsModalContainer
+          fetchOrdersAndLines={fetchOrdersAndLines}
+          onCancel={onCancel}
+        />
+      )
+      : (
+        <LineExportSettingsModalContainer
+          onCancel={onCancel}
+          linesQuery={ordersQuery}
+        />
+      )
   );
 };
 
