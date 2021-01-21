@@ -11,7 +11,7 @@ import { fetchExportDataByIds } from '../../utils';
 import { getAddresses } from '../../utils/getAddresses';
 import { createExportReport } from './createExportReport';
 
-export const getExportData = async (mutator, lines, orders) => {
+export const getExportData = async (mutator, lines, orders, intl) => {
   const orderVendorIds = uniq(orders.map(({ vendor }) => vendor));
   const lineVendorIds = uniq(flatten((lines.map(({ physical, eresource }) => ([
     physical?.materialSupplier, eresource?.accessProvider,
@@ -57,6 +57,7 @@ export const getExportData = async (mutator, lines, orders) => {
   const addresses = getAddresses(addressRecords);
 
   return (createExportReport(
+    intl,
     lines,
     orders,
     vendors,

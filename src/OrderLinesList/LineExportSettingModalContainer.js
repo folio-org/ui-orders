@@ -18,15 +18,11 @@ const LineExportSettingsModalContainer = ({
   mutator,
 }) => {
   const fetchOrdersAndLines = useCallback(async () => {
-    try {
-      const lines = await fetchAllRecords(mutator.exportLines, linesQuery);
-      const orderIds = uniq(lines.map(({ purchaseOrderId }) => purchaseOrderId));
-      const orders = await fetchExportDataByIds(mutator.exportOrders, orderIds);
+    const lines = await fetchAllRecords(mutator.exportLines, linesQuery);
+    const orderIds = uniq(lines.map(({ purchaseOrderId }) => purchaseOrderId));
+    const orders = await fetchExportDataByIds(mutator.exportOrders, orderIds);
 
-      return ({ lines, orders });
-    } catch (e) {
-      throw Error(e);
-    }
+    return ({ lines, orders });
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [linesQuery]);

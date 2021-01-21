@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { exportCsv } from '@folio/stripes/util';
@@ -26,6 +27,7 @@ const ExportSettingsModalContainer = ({
 }) => {
   const [isExporting, setIsExporting] = useState(false);
   const showCallout = useShowCallout();
+  const intl = useIntl();
 
   const onExportCSV = useCallback(async () => {
     try {
@@ -33,7 +35,7 @@ const ExportSettingsModalContainer = ({
 
       const { lines, orders } = await fetchOrdersAndLines();
 
-      const exportData = await getExportData(mutator, lines, orders);
+      const exportData = await getExportData(mutator, lines, orders, intl);
 
       setIsExporting(false);
 

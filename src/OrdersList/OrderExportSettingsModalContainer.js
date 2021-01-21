@@ -17,22 +17,18 @@ const OrderExportSettingsModalContainer = ({
   mutator,
 }) => {
   const fetchOrdersAndLines = useCallback(async () => {
-    try {
-      const orders = await fetchAllRecords(mutator.exportOrders, ordersQuery);
-      const orderIds = orders.map(({ id }) => id);
-      const buildLineQuery = (itemsChunk) => {
-        const query = itemsChunk
-          .map(id => `purchaseOrderId==${id}`)
-          .join(' or ');
+    const orders = await fetchAllRecords(mutator.exportOrders, ordersQuery);
+    const orderIds = orders.map(({ id }) => id);
+    const buildLineQuery = (itemsChunk) => {
+      const query = itemsChunk
+        .map(id => `purchaseOrderId==${id}`)
+        .join(' or ');
 
-        return query || '';
-      };
-      const lines = await fetchExportDataByIds(mutator.exportLines, orderIds, buildLineQuery);
+      return query || '';
+    };
+    const lines = await fetchExportDataByIds(mutator.exportLines, orderIds, buildLineQuery);
 
-      return ({ lines, orders });
-    } catch (e) {
-      throw Error(e);
-    }
+    return ({ lines, orders });
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [ordersQuery]);

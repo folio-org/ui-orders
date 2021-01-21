@@ -1,12 +1,9 @@
-import moment from 'moment';
-
 import { getFullName } from '@folio/stripes/util';
 import {
-  DATE_FORMAT,
   calculateFundAmount,
+  formatDate,
+  formatDateTime,
 } from '@folio/stripes-acq-components';
-
-const DATE_TIME_FORMAT = 'YYYY/MM/DD, HH:mm A';
 
 const getRecordMap = (records) => (
   records.reduce((acc, record) => {
@@ -15,14 +12,6 @@ const getRecordMap = (records) => (
     return acc;
   }, {})
 );
-
-const formatDate = (date, format = DATE_FORMAT) => {
-  if (!date) return null;
-
-  const momentDate = moment.utc(date);
-
-  return momentDate.isValid() ? momentDate.format(format) : null;
-};
 
 const getContributorData = (line, contributorNameTypeMap) => (
   line.contributors?.map(({ contributor, contributorNameTypeId }) => (
@@ -50,6 +39,7 @@ const getLocationData = (line, locationMap) => (
 );
 
 export const createExportReport = (
+  intl,
   poLines = [],
   orders = [],
   vendors = [],
@@ -79,14 +69,14 @@ export const createExportReport = (
     'Vendor': vendorMap[ordersMap[lineRecord.purchaseOrderId].vendor].code,
     'Order type': ordersMap[lineRecord.purchaseOrderId].orderType,
     'Acquisition Units': ordersMap[lineRecord.purchaseOrderId].acqUnitIds.map(id => acqUnitMap[id].name).join(' | '),
-    'Approval date': formatDate(ordersMap[lineRecord.purchaseOrderId].approvalDate, DATE_TIME_FORMAT),
+    'Approval date': formatDateTime(ordersMap[lineRecord.purchaseOrderId].approvalDate, intl),
     'Assigned to': getFullName(userMap[ordersMap[lineRecord.purchaseOrderId].assignedTo]),
     'Bill to': addressMap[ordersMap[lineRecord.purchaseOrderId]?.billTo]?.address,
     'Ship to': addressMap[ordersMap[lineRecord.purchaseOrderId]?.shipTo]?.address,
     'Manual': ordersMap[lineRecord.purchaseOrderId].manualPo,
     'Re-encumber': ordersMap[lineRecord.purchaseOrderId].reEncumber,
     'Created by': getFullName(userMap[ordersMap[lineRecord.purchaseOrderId].metadata?.createdByUserId]),
-    'Created on': formatDate(ordersMap[lineRecord.purchaseOrderId].metadata?.createdDate, DATE_TIME_FORMAT),
+    'Created on': formatDateTime(ordersMap[lineRecord.purchaseOrderId].metadata?.createdDate, intl),
     'Note': ordersMap[lineRecord.purchaseOrderId].notes?.join('|'),
     'Workflow status': ordersMap[lineRecord.purchaseOrderId].workflowStatus,
     'Approved': ordersMap[lineRecord.purchaseOrderId].approved,
@@ -94,8 +84,8 @@ export const createExportReport = (
     'Total estimated price': ordersMap[lineRecord.purchaseOrderId].totalEstimatedPrice,
     'POLine number': lineRecord.poLineNumber,
     'Title': lineRecord.titleOrPackage,
-    'Subscription from': formatDate(lineRecord.subscriptionFrom),
-    'Subscription to': formatDate(lineRecord.subscriptionTo),
+    'Subscription from': formatDate(lineRecord.subscriptionFrom, intl),
+    'Subscription to': formatDate(lineRecord.subscriptionTo, intl),
     'Subscription interval': lineRecord.subscriptionInterval,
     'Receiving note': lineRecord.details?.receivingNote,
     'Publisher': lineRecord.publisher,
@@ -105,8 +95,8 @@ export const createExportReport = (
     'Product identifiers - Qualifier - Product ID type': getProductIdData(lineRecord, identifierTypeMap),
     'Acquisition method': lineRecord.acquisitionMethod,
     'Order format': lineRecord.orderFormat,
-    'Created on (PO Line)': formatDate(lineRecord.metadata?.createdDate),
-    'Receipt date': formatDate(lineRecord.receiptDate),
+    'Created on (PO Line)': formatDate(lineRecord.metadata?.createdDate, intl),
+    'Receipt date': formatDate(lineRecord.receiptDate, intl),
     'Receipt status': lineRecord.receiptStatus,
     'Payment status': lineRecord.paymentStatus,
     'Source': lineRecord.source,
@@ -129,18 +119,18 @@ export const createExportReport = (
     'Fund - Expense class - Value - Amount': getFundDistributionData(lineRecord, expenseClassMap),
     'Location - Quantity physical - Quantity electronic': getLocationData(lineRecord, locationMap),
     'Material supplier': vendorMap[lineRecord.physical?.accessProvider]?.name,
-    'Receipt due': formatDate(lineRecord.physical?.receiptDue),
-    'Expected receipt date': formatDate(lineRecord.physical?.expectedReceiptDate),
+    'Receipt due': formatDate(lineRecord.physical?.receiptDue, intl),
+    'Expected receipt date': formatDate(lineRecord.physical?.expectedReceiptDate, intl),
     'Volumes': lineRecord.physical?.volumes.join('|'),
     'Create inventory': lineRecord.physical?.createInventory,
     'Material type': materialTypeMap[lineRecord.physical?.materialType]?.name,
     'Access provider': vendorMap[lineRecord.eresource?.accessProvider]?.name,
     'Activation status': lineRecord.eresource?.activated,
-    'Activation due': formatDate(lineRecord.eresource?.activationDue),
+    'Activation due': formatDate(lineRecord.eresource?.activationDue, intl),
     'Create inventory E': lineRecord.eresource?.createInventory,
     'Material type E': materialTypeMap[lineRecord.eresource?.materialType]?.name,
     'Trial': lineRecord.eresource?.trial,
-    'Expected activation': formatDate(lineRecord.eresource?.expectedActivation),
+    'Expected activation': formatDate(lineRecord.eresource?.expectedActivation, intl),
     'User limit': lineRecord.eresource?.userLimit,
     'URL': lineRecord.eresource?.resourceUrl,
   }));
