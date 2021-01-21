@@ -1,4 +1,5 @@
 import {
+  buildArrayFieldQuery,
   buildDateRangeQuery,
   buildDateTimeRangeQuery,
   ORDER_STATUSES,
@@ -13,4 +14,6 @@ export const customFilterMap = {
   [FILTERS.CLOSE_REASON]: (filterValue) => {
     return `(${FILTERS.CLOSE_REASON}=="${filterValue}" and ${FILTERS.STATUS}=="${ORDER_STATUSES.closed}")`;
   },
+  [FILTERS.TAGS]: buildArrayFieldQuery.bind(null, [FILTERS.TAGS]),
+  [FILTERS.ACQUISITIONS_UNIT]: buildArrayFieldQuery.bind(null, [FILTERS.ACQUISITIONS_UNIT]),
 };
