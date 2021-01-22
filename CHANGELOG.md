@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Clone PO does not set POL status to Pending. Refs UIOR-647.
 * Export orders functionality - FE approach. Refs UIOR-645.
 * Filter order/order lines by prefix or suffix. Refs UIOR-646.
 * Update stripes to v6.0.0 in Thunderjet's modules. Refs UIOR-650.

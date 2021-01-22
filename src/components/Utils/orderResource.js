@@ -62,7 +62,7 @@ export const cloneOrder = async (order, mutator, orderNumberMutator, lines) => {
 
   if (lines) {
     clonedOrder.compositePoLines = lines.map(line => ({
-      ...omit(line, ['id', 'purchaseOrderId', 'metadata']),
+      ...omit(line, ['id', 'purchaseOrderId', 'metadata', 'paymentStatus', 'receiptStatus']),
       fundDistribution: line.fundDistribution?.map(fund => omit(fund, ['encumbrance'])),
     }));
   }
