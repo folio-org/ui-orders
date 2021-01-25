@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Allow user to select data points for Export results to CSV. Refs UIOR-632.
 * Clone PO does not set POL status to Pending. Refs UIOR-647.
 * Export orders functionality - FE approach. Refs UIOR-645.
 * Filter order/order lines by prefix or suffix. Refs UIOR-646.
