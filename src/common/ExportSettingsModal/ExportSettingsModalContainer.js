@@ -33,19 +33,12 @@ const ExportSettingsModalContainer = ({
   const showCallout = useShowCallout();
   const intl = useIntl();
 
-  const onExportCSV = useCallback(async (values) => {
+  const onExportCSV = useCallback(async (exportFields) => {
     try {
       setIsExporting(true);
 
       const { lines, orders } = await fetchOrdersAndLines();
 
-      const orderFields = values.orderExportAll === 'true'
-        ? Object.keys(EXPORT_ORDER_FIELDS)
-        : values.orderExportFields.map(({ value }) => value);
-      const lineFields = values.lineExportAll === 'true'
-        ? Object.keys(EXPORT_LINE_FIELDS)
-        : values.lineExportFields.map(({ value }) => value);
-      const exportFields = [...orderFields, ...lineFields];
       const exportData = await getExportData(mutator, lines, orders, intl);
 
       setIsExporting(false);
@@ -71,17 +64,11 @@ const ExportSettingsModalContainer = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [fetchOrdersAndLines, showCallout, onCancel]);
 
-  const initialValues = {
-    orderExportAll: 'true',
-    lineExportAll: 'true',
-  };
-
   return (
     <ExportSettingsModal
       isExporting={isExporting}
-      onSubmit={onExportCSV}
+      onExportCSV={onExportCSV}
       onCancel={onCancel}
-      initialValues={initialValues}
     />
   );
 };

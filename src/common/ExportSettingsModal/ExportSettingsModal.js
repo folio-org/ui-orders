@@ -1,12 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import { Field } from 'react-final-form';
 
-import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Button,
   Label,
@@ -16,36 +14,48 @@ import {
   ModalFooter,
   RadioButton,
   RadioButtonGroup,
+  MultiSelection,
 } from '@folio/stripes/components';
-import { FieldMultiSelectionFinal } from '@folio/stripes-acq-components';
 
-import { getExportFieldsOptions } from './utils';
 import {
   EXPORT_LINE_FIELDS,
   EXPORT_ORDER_FIELDS,
+  EXPORT_LINE_FIELDS_OPTIONS,
+  EXPORT_ORDER_FIELDS_OPTIONS,
 } from './constants';
 
 const ExportSettingsModal = ({
   onCancel,
   isExporting,
-  handleSubmit,
-  values,
+  onExportCSV,
 }) => {
   const intl = useIntl();
-  const isExportOrderFieldsDisabled = values.orderExportAll === 'true';
-  const isExportLineFieldsDisabled = values.lineExportAll === 'true';
-  const orderFieldsOptions = useMemo(() => getExportFieldsOptions(intl, EXPORT_ORDER_FIELDS), [intl]);
-  const lineFieldsOptions = useMemo(() => getExportFieldsOptions(intl, EXPORT_LINE_FIELDS), [intl]);
+  const [isOrderExportAll, setIsOrderExportAll] = useState(true);
+  const [orderFieldsToExport, setOrderFieldsToExport] = useState([]);
+  const [isLineExportAll, setIsLineExportAll] = useState(true);
+  const [lineFieldsToExport, setLineFieldsToExport] = useState([]);
 
   const isExportBtnDisabled = isExporting ||
-    (values.orderExportAll !== 'true' && !values.orderExportFields?.length) ||
-    (values.lineExportAll !== 'true' && !values.lineExportFields?.length);
+    (!isOrderExportAll && !orderFieldsToExport.length) ||
+    (!isLineExportAll && !lineFieldsToExport.length);
+
+  const onExport = useCallback(() => {
+    const orderFields = isOrderExportAll
+      ? Object.keys(EXPORT_ORDER_FIELDS)
+      : orderFieldsToExport.map(({ value }) => value);
+    const lineFields = isLineExportAll
+      ? Object.keys(EXPORT_LINE_FIELDS)
+      : lineFieldsToExport.map(({ value }) => value);
+
+    return onExportCSV([...orderFields, ...lineFields]);
+  },
+  [isOrderExportAll, isLineExportAll, orderFieldsToExport, lineFieldsToExport, onExportCSV]);
 
   const exportModalFooter = (
     <ModalFooter>
       <Button
         buttonStyle="primary"
-        onClick={handleSubmit}
+        onClick={onExport}
         disabled={isExportBtnDisabled}
       >
         <FormattedMessage id="ui-orders.exportSettings.export" />
@@ -68,7 +78,7 @@ const ExportSettingsModal = ({
       {isExporting
         ? <Loading size="large" />
         : (
-          <form>
+          <>
             <Label>
               <FormattedMessage id="ui-orders.exportSettings.orderFieldsLabel" />
             </Label>
@@ -81,33 +91,30 @@ const ExportSettingsModal = ({
                 className="padding-end-gutter"
                 data-test-order-radio-buttons
               >
-                <Field
-                  name="orderExportAll"
-                  id="order-export-all"
-                  component={RadioButtonGroup}
-                  ariaLabel={intl.formatMessage({ id: 'ui-orders.exportSettings.orderFieldsLabel' })}
-                >
+                <RadioButtonGroup>
                   <RadioButton
                     aria-label={intl.formatMessage({ id: 'ui-orders.exportSettings.order.all' })}
-                    value="true"
+                    name="orderExport"
+                    onChange={() => setIsOrderExportAll(true)}
+                    checked={isOrderExportAll}
                   />
                   <RadioButton
                     aria-label={intl.formatMessage({ id: 'ui-orders.exportSettings.order.selected' })}
-                    value="false"
+                    name="orderExport"
+                    onChange={() => setIsOrderExportAll(false)}
                   />
-                </Field>
+                </RadioButtonGroup>
 
               </Layout>
               <Layout data-test-order-labels>
                 <Label>
                   <FormattedMessage id="ui-orders.exportSettings.all" />
                 </Label>
-                <FieldMultiSelectionFinal
-                  name="orderExportFields"
-                  id="order-export-fields"
-                  dataOptions={orderFieldsOptions}
-                  disabled={isExportOrderFieldsDisabled}
-                  aria-label={intl.formatMessage({ id: 'ui-orders.exportSettings.orderFieldsLabel' })}
+                <MultiSelection
+                  dataOptions={EXPORT_ORDER_FIELDS_OPTIONS}
+                  onChange={setOrderFieldsToExport}
+                  value={orderFieldsToExport}
+                  disabled={isOrderExportAll}
                 />
               </Layout>
             </Layout>
@@ -124,38 +131,34 @@ const ExportSettingsModal = ({
                 className="padding-end-gutter"
                 data-test-line-radio-buttons
               >
-                <Field
-                  name="lineExportAll"
-                  id="line-export-all"
-                  component={RadioButtonGroup}
-                  ariaLabel={intl.formatMessage({ id: 'ui-orders.exportSettings.lineFieldsLabel' })}
-                >
+                <RadioButtonGroup>
                   <RadioButton
                     aria-label={intl.formatMessage({ id: 'ui-orders.exportSettings.line.all' })}
-                    value="true"
+                    name="lineExport"
+                    onChange={() => setIsLineExportAll(true)}
+                    checked={isLineExportAll}
                   />
                   <RadioButton
                     aria-label={intl.formatMessage({ id: 'ui-orders.exportSettings.line.selected' })}
-                    value="false"
+                    name="lineExport"
+                    onChange={() => setIsLineExportAll(false)}
                   />
-                </Field>
+                </RadioButtonGroup>
 
               </Layout>
-              <Layout data-test-line-labels>
+              <Layout data-test-order-labels>
                 <Label>
                   <FormattedMessage id="ui-orders.exportSettings.all" />
                 </Label>
-                <FieldMultiSelectionFinal
-                  name="lineExportFields"
-                  id="line-export-fields"
-                  dataOptions={lineFieldsOptions}
-                  disabled={isExportLineFieldsDisabled}
-                  fullWidth
-                  aria-label={intl.formatMessage({ id: 'ui-orders.exportSettings.lineFieldsLabel' })}
+                <MultiSelection
+                  dataOptions={EXPORT_LINE_FIELDS_OPTIONS}
+                  onChange={setLineFieldsToExport}
+                  value={lineFieldsToExport}
+                  disabled={isLineExportAll}
                 />
               </Layout>
             </Layout>
-          </form>
+          </>
         )
       }
     </Modal>
@@ -165,11 +168,7 @@ const ExportSettingsModal = ({
 ExportSettingsModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   isExporting: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  values: PropTypes.object.isRequired,
+  onExportCSV: PropTypes.func.isRequired,
 };
 
-export default stripesFinalForm({
-  navigationCheck: true,
-  subscription: { values: true },
-})(ExportSettingsModal);
+export default ExportSettingsModal;

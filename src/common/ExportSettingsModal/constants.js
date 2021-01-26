@@ -69,3 +69,13 @@ export const EXPORT_LINE_FIELDS = {
   userLimit: 'User limit',
   resourceUrl: 'URL',
 };
+
+export const EXPORT_ORDER_FIELDS_OPTIONS = Object.keys(EXPORT_ORDER_FIELDS).map(field => ({
+  label: EXPORT_ORDER_FIELDS[field],
+  value: field,
+}));
+
+export const EXPORT_LINE_FIELDS_OPTIONS = Object.keys(EXPORT_LINE_FIELDS).map(field => ({
+  label: EXPORT_LINE_FIELDS[field],
+  value: field,
+}));
