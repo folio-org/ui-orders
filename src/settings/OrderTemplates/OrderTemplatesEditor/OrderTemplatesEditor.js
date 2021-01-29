@@ -302,7 +302,6 @@ class OrderTemplatesEditor extends Component {
                     id={ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS}
                   >
                     <CostForm
-                      change={change}
                       formValues={formValues}
                       order={ORDER}
                       required={false}

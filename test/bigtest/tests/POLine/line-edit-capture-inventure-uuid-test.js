@@ -54,6 +54,9 @@ describe('Line edit test - Capture UUID from inventory', function () {
           qualifier: 'qualifier',
         }],
       },
+      cost: {
+        currency: 'USD',
+      },
     });
 
     order = this.server.create('order', {

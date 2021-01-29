@@ -71,7 +71,18 @@ function CostView({ cost, isPackage, orderFormat }) {
           value={currency}
         />
       </Col>
-
+      {cost.exchangeRate && (
+        <Col
+          data-col-cost-exchange-rate
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.cost.exchangeRate" />}
+            value={cost.exchangeRate}
+          />
+        </Col>
+      )}
       <Col
         data-col-cost-addition-cost
         xs={6}

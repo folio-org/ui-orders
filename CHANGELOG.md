@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Set exchange rate manually for purchase order line. Refs UIOR-610.
 * Allow user to select data points for Export results to CSV. Refs UIOR-632.
 * Clone PO does not set POL status to Pending. Refs UIOR-647.
 * Export orders functionality - FE approach. Refs UIOR-645.

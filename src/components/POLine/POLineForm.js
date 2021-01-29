@@ -317,9 +317,9 @@ function POLineForm({
                     id={ACCORDION_ID.costDetails}
                   >
                     <CostForm
-                      change={change}
                       formValues={formValues}
                       order={order}
+                      initialValues={initialValues}
                     />
                   </Accordion>
                   <Accordion

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
@@ -16,11 +16,11 @@ import {
   TextField,
   TypeToggle,
   validateRequiredNotNegative,
+  CurrencyExchangeRateFields,
 } from '@folio/stripes-acq-components';
 
 import { ifDisabledToChangePaymentInfo } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
-import FieldCurrency from './FieldCurrency';
 import {
   ERESOURCE,
   ERESOURCES,
@@ -55,46 +55,39 @@ const validateNotNegative = (value) => {
     : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
 };
 
-class CostForm extends Component {
-  static propTypes = {
-    formValues: PropTypes.object,
-    change: PropTypes.func,
-    order: PropTypes.object.isRequired,
-    required: PropTypes.bool,
-  };
+const CostForm = ({
+  formValues,
+  order,
+  required,
+  initialValues,
+}) => {
+  const orderFormat = formValues.orderFormat;
+  const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
 
-  static defaultProps = {
-    required: true,
-  };
+  let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
+  let validateEresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
+  let validatePhresourcesPrices = ATTRS_TO_DISABLE_FIELD;
+  let validatePhresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
 
-  render() {
-    const { order, required, formValues } = this.props;
-    const orderFormat = formValues.orderFormat;
-    const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
+  if (ERESOURCES.includes(orderFormat)) {
+    validateEresourcesPrices = required ? FIELD_ATTRS_FOR_REQUIRED_PRICE : {};
+    validateEresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
+  }
 
-    let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
-    let validateEresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
-    let validatePhresourcesPrices = ATTRS_TO_DISABLE_FIELD;
-    let validatePhresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
+  if (PHRESOURCES.includes(orderFormat) || orderFormat === OTHER) {
+    validatePhresourcesPrices = required ? FIELD_ATTRS_FOR_REQUIRED_PRICE : {};
+    validatePhresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
+  }
 
-    if (ERESOURCES.includes(orderFormat)) {
-      validateEresourcesPrices = required ? FIELD_ATTRS_FOR_REQUIRED_PRICE : {};
-      validateEresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
-    }
+  const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
+  const currency = get(formValues, 'cost.currency');
+  const isPackage = get(formValues, 'isPackage');
+  const isElectornicFieldsVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;
+  const isPhysicalFieldsVisible = isPackage ? orderFormat !== ERESOURCE : true;
+  const isPackageLabel = isPackage && orderFormat !== PE_MIX;
 
-    if (PHRESOURCES.includes(orderFormat) || orderFormat === OTHER) {
-      validatePhresourcesPrices = required ? FIELD_ATTRS_FOR_REQUIRED_PRICE : {};
-      validatePhresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
-    }
-
-    const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
-    const currency = get(formValues, 'cost.currency');
-    const isPackage = get(formValues, 'isPackage');
-    const isElectornicFieldsVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;
-    const isPhysicalFieldsVisible = isPackage ? orderFormat !== ERESOURCE : true;
-    const isPackageLabel = isPackage && orderFormat !== PE_MIX;
-
-    return (
+  return (
+    <>
       <Row>
         {isPhysicalFieldsVisible && (
           <Col
@@ -134,15 +127,6 @@ class CostForm extends Component {
           xs={6}
           md={3}
         >
-          <FieldCurrency
-            disabled={isDisabledToChangePaymentInfo}
-            required={required}
-          />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
           <Field
             component={TextField}
             fullWidth
@@ -154,6 +138,18 @@ class CostForm extends Component {
             isNonInteractive={isDisabledToChangePaymentInfo}
           />
         </Col>
+      </Row>
+      <CurrencyExchangeRateFields
+        currencyFieldName="cost.currency"
+        isCurrencyRequired={required}
+        exchangeRateFieldName="cost.exchangeRate"
+        initialCurrency={initialValues?.cost.currency}
+        isNonInteractive={isDisabledToChangePaymentInfo}
+        isTooltipTextExchangeRate={!isDisabledToChangePaymentInfo}
+        isUseExangeRateDisabled={isDisabledToChangePaymentInfo}
+        exchangeRate={initialValues?.cost?.exchangeRate}
+      />
+      <Row>
         {isElectornicFieldsVisible && (
           <Col
             xs={6}
@@ -239,8 +235,19 @@ class CostForm extends Component {
           </KeyValue>
         </Col>
       </Row>
-    );
-  }
-}
+    </>
+  );
+};
+
+CostForm.propTypes = {
+  formValues: PropTypes.object,
+  order: PropTypes.object.isRequired,
+  required: PropTypes.bool,
+  initialValues: PropTypes.object.isRequired,
+};
+
+CostForm.defaultProps = {
+  required: true,
+};
 
 export default CostForm;
