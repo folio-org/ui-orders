@@ -253,6 +253,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders.re-encumber.item.post"
         ]
       },
       {

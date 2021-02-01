@@ -486,7 +486,7 @@ const PO = ({
   const updateEncumbrances = useCallback(
     () => {
       setIsLoading(true);
-      mutator.updateEncumbrances.POST()
+      mutator.updateEncumbrances.POST({})
         .then(
           () => {
             sendCallout({ message: <SafeHTMLMessage id="ui-orders.order.updateEncumbrances.success" /> });
