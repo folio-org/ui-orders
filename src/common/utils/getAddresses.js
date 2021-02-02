@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/prefer-default-export
-export const getAddresses = (addresses) => {
+export const getAddresses = (addresses = []) => {
   return addresses.map(address => {
     let value;
 

@@ -18,6 +18,7 @@ import ClosingReasonFilter from '../common/ClosingReasonFilter';
 import OrdersTextFilter from '../common/OrdersTextFilter';
 import PrefixFilter from '../common/PrefixFilter';
 import SuffixFilter from '../common/SuffixFilter';
+import AddressFilter from '../common/AddressFilter';
 import {
   closingReasonsShape,
 } from '../common/shapes';
@@ -29,7 +30,7 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabled }) {
+function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabled, addresses }) {
   const onChange = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -177,6 +178,24 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
         onChange={onChange}
         disabled={disabled}
       />
+      <AddressFilter
+        activeFilters={activeFilters[FILTERS.BILL_TO]}
+        addresses={addresses}
+        disabled={disabled}
+        id={FILTERS.BILL_TO}
+        labelId="ui-orders.orderDetails.billTo"
+        name={FILTERS.BILL_TO}
+        onChange={onChange}
+      />
+      <AddressFilter
+        activeFilters={activeFilters[FILTERS.SHIP_TO]}
+        addresses={addresses}
+        disabled={disabled}
+        id={FILTERS.SHIP_TO}
+        labelId="ui-orders.orderDetails.shipTo"
+        name={FILTERS.SHIP_TO}
+        onChange={onChange}
+      />
     </AccordionSet>
   );
 }
@@ -186,6 +205,7 @@ OrdersListFilters.propTypes = {
   applyFilters: PropTypes.func.isRequired,
   closingReasons: closingReasonsShape,
   disabled: PropTypes.bool.isRequired,
+  addresses: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default OrdersListFilters;
