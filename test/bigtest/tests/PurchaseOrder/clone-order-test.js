@@ -39,7 +39,7 @@ describe('Clone order', function () {
       it('shows Callout', () => {
         expect(calloutInteractor.anyCalloutIsPresent).to.be.true;
         expect(calloutInteractor.list().length).to.equal(1);
-        expect(calloutInteractor.list(0).message).to.equal('The purchase order was successfully cloned');
+        expect(calloutInteractor.list(0).message).to.equal('The purchase order was successfully duplicated');
       });
     });
   });
