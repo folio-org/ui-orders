@@ -1,6 +1,7 @@
 export const FILTERS = {
   ACCESS_PROVIDER: 'eresource.accessProvider',
   ACQUISITION_METHOD: 'acquisitionMethod',
+  ACQUISITIONS_UNIT: 'acqUnitIds',
   ACTIVATED: 'eresource.activated',
   ACTUAL_RECEIPT_DATE: 'receiptDate',
   CLAIM_GRACE: 'grace',
@@ -24,7 +25,7 @@ export const FILTERS = {
   SUBSCRIPTION_FROM: 'details.subscriptionFrom',
   SUBSCRIPTION_TO: 'details.subscriptionTo',
   SUFFIX: 'poNumberSuffix',
+  TAGS: 'tags.tagList',
   TRIAL: 'eresource.trial',
   VENDOR: 'vendor',
-  TAGS: 'tags.tagList',
 };

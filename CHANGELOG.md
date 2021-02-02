@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Filter order lines by acquisition units. Refs UIOR-654.
 * Change label of "Clone" order to "Duplicate". Refs UIOR-652.
 * Set exchange rate manually for purchase order line. Refs UIOR-610.
 * Allow user to select data points for Export results to CSV. Refs UIOR-632.
