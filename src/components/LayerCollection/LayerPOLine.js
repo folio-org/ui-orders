@@ -303,7 +303,7 @@ function LayerPOLine({
       isPackage: false,
     };
 
-    if (vendor) {
+    if (vendor?.id) {
       newObj.eresource.accessProvider = vendor.id;
       newObj.physical.materialSupplier = vendor.id;
 

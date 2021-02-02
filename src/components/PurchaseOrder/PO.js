@@ -165,7 +165,8 @@ const PO = ({
   const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
-  const poLines = get(order, 'compositePoLines', []);
+  const poLines = order?.compositePoLines;
+  const poLinesCount = poLines?.length || 0;
   const workflowStatus = get(order, 'workflowStatus');
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
   const tags = get(order, 'tags.tagList', []);
@@ -183,7 +184,7 @@ const PO = ({
     () => {
       toggleCloneConfirmation();
       setIsLoading(true);
-      cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber, order.compositePoLines)
+      cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber, poLines)
         .then(newOrder => {
           sendCallout({
             message: <SafeHTMLMessage id="ui-orders.order.clone.success" />,
@@ -201,7 +202,6 @@ const PO = ({
           return handleErrorResponse(e, orderErrorModalShow, 'clone.error');
         });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       toggleCloneConfirmation,
       order,
@@ -211,6 +211,7 @@ const PO = ({
       refreshList,
       handleErrorResponse,
       orderErrorModalShow,
+      poLines,
     ],
   );
 
@@ -453,7 +454,7 @@ const PO = ({
     () => {
       const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
 
-      if (linesLimit <= poLines.length) {
+      if (linesLimit <= poLinesCount) {
         toggleLinesLimitExceededModal();
       } else {
         history.push({
@@ -462,7 +463,7 @@ const PO = ({
         });
       }
     },
-    [resources, match.params.id, history, location.search, poLines.length, toggleLinesLimitExceededModal],
+    [resources, match.params.id, history, location.search, poLinesCount, toggleLinesLimitExceededModal],
   );
 
   const updateOrderCB = useCallback(async (orderWithTags) => {
@@ -651,7 +652,7 @@ const PO = ({
         <ModalDeletePieces
           onCancel={toggleDeletePieces}
           onSubmit={openOrder}
-          poLines={order?.compositePoLines}
+          poLines={poLines}
         />
       )}
     </Pane>

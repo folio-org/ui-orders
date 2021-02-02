@@ -71,11 +71,12 @@ LineListing.propTypes = {
   funds: PropTypes.arrayOf(PropTypes.object),
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  poLines: PropTypes.arrayOf(PropTypes.object).isRequired,
+  poLines: PropTypes.arrayOf(PropTypes.object),
 };
 
 LineListing.defaultProps = {
   funds: [],
+  poLines: [],
 };
 
 export default withRouter(LineListing);

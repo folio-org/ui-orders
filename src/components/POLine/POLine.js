@@ -70,7 +70,7 @@ function POLine({
 
   const deleteLine = useCallback(
     () => {
-      const lineNumber = line.poLineNumber;
+      const lineNumber = line?.poLineNumber;
 
       setIsLoading(true);
       mutator.poLine.DELETE(line, { silent: true })
@@ -110,7 +110,6 @@ function POLine({
           }
         });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [history, line, poURL, search, sendCallout],
   );
 
