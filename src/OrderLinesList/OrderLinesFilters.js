@@ -77,6 +77,14 @@ function OrderLinesFilters({ activeFilters, applyFilters, disabled, materialType
         onChange={onChange}
         disabled={disabled}
       />
+      <AcqUnitFilter
+        id={FILTERS.ACQUISITIONS_UNIT}
+        activeFilters={activeFilters[FILTERS.ACQUISITIONS_UNIT]}
+        labelId="ui-orders.order.acquisitionsUnit"
+        name={FILTERS.ACQUISITIONS_UNIT}
+        onChange={onChange}
+        disabled={disabled}
+      />
       <AcqCheckboxFilter
         activeFilters={activeFilters[FILTERS.ACQUISITION_METHOD]}
         disabled={disabled}
@@ -245,14 +253,6 @@ function OrderLinesFilters({ activeFilters, applyFilters, disabled, materialType
         labelId="ui-orders.physical.receiptDue"
         name={FILTERS.RECEIPT_DUE}
         onChange={onChange}
-      />
-      <AcqUnitFilter
-        id={FILTERS.ACQUISITIONS_UNIT}
-        activeFilters={activeFilters[FILTERS.ACQUISITIONS_UNIT]}
-        labelId="ui-orders.order.acquisitionsUnit"
-        name={FILTERS.ACQUISITIONS_UNIT}
-        onChange={onChange}
-        disabled={disabled}
       />
       {/* <BooleanFilter
         activeFilters={activeFilters[FILTERS.CLAIM]}
