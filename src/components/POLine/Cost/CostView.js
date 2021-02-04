@@ -1,7 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+
+import { useStripes } from '@folio/stripes/core';
 import {
   Col,
   InfoPopover,
@@ -15,11 +16,13 @@ import {
   ERESOURCE,
   PE_MIX,
 } from '../const';
+import ExchangeRateValue from './ExchangeRateValue';
 
 function CostView({ cost, isPackage, orderFormat }) {
-  const discountType = get(cost, 'discountType');
-  const discount = get(cost, 'discount', 0);
-  const currency = get(cost, 'currency');
+  const stripes = useStripes();
+  const discountType = cost.discountType;
+  const discount = cost.discount || 0;
+  const currency = cost.currency;
   const isPercentageDiscountType = discountType === DISCOUNT_TYPE.percentage;
   const displayDiscount = isPercentageDiscountType
     ? `${discount}%`
@@ -32,6 +35,7 @@ function CostView({ cost, isPackage, orderFormat }) {
   const isElectornicValuesVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;
   const isPhysicalValuesVisible = isPackage ? orderFormat !== ERESOURCE : true;
   const isPackageLabel = isPackage && orderFormat !== PE_MIX;
+  const isExchangeRateVisible = stripes.currency !== currency;
 
   return (
     <Row start="xs">
@@ -44,7 +48,7 @@ function CostView({ cost, isPackage, orderFormat }) {
           <KeyValue label={<FormattedMessage id="ui-orders.cost.listPrice" />}>
             <AmountWithCurrencyField
               currency={currency}
-              amount={get(cost, 'listUnitPrice')}
+              amount={cost.listUnitPrice}
             />
           </KeyValue>
         </Col>
@@ -57,7 +61,7 @@ function CostView({ cost, isPackage, orderFormat }) {
         >
           <KeyValue
             label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
-            value={get(cost, 'quantityPhysical')}
+            value={cost.quantityPhysical}
           />
         </Col>
       )}
@@ -71,30 +75,20 @@ function CostView({ cost, isPackage, orderFormat }) {
           value={currency}
         />
       </Col>
-      {cost.exchangeRate && (
+      {isExchangeRateVisible && (
         <Col
           data-col-cost-exchange-rate
           xs={6}
           lg={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.cost.exchangeRate" />}
-            value={cost.exchangeRate}
+          <ExchangeRateValue
+            manualExchangeRate={cost.exchangeRate}
+            exchangeFrom={currency}
+            exchangeTo={stripes.currency}
+            labelId="ui-orders.cost.exchangeRate"
           />
         </Col>
       )}
-      <Col
-        data-col-cost-addition-cost
-        xs={6}
-        lg={3}
-      >
-        <KeyValue label={<FormattedMessage id="ui-orders.cost.additionalCost" />}>
-          <AmountWithCurrencyField
-            currency={currency}
-            amount={get(cost, 'additionalCost')}
-          />
-        </KeyValue>
-      </Col>
       {isElectornicValuesVisible && (
         <Col
           data-col-cost-qty-unit-price-electronic
@@ -106,7 +100,7 @@ function CostView({ cost, isPackage, orderFormat }) {
           >
             <AmountWithCurrencyField
               currency={currency}
-              amount={get(cost, 'listUnitPriceElectronic')}
+              amount={cost.listUnitPriceElectronic}
             />
           </KeyValue>
         </Col>
@@ -119,10 +113,22 @@ function CostView({ cost, isPackage, orderFormat }) {
         >
           <KeyValue
             label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityElectronic'}`} />}
-            value={get(cost, 'quantityElectronic')}
+            value={cost.quantityElectronic}
           />
         </Col>
       )}
+      <Col
+        data-col-cost-addition-cost
+        xs={6}
+        lg={3}
+      >
+        <KeyValue label={<FormattedMessage id="ui-orders.cost.additionalCost" />}>
+          <AmountWithCurrencyField
+            currency={currency}
+            amount={cost.additionalCost}
+          />
+        </KeyValue>
+      </Col>
       <Col
         data-col-cost-discount
         xs={6}
@@ -153,7 +159,7 @@ function CostView({ cost, isPackage, orderFormat }) {
         >
           <AmountWithCurrencyField
             currency={currency}
-            amount={get(cost, 'poLineEstimatedPrice')}
+            amount={cost.poLineEstimatedPrice}
           />
         </KeyValue>
       </Col>
