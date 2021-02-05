@@ -528,6 +528,7 @@
   "search.vendorDetail.refNumber": "Vendor reference number",
   "search.vendorDetail.vendorAccount": "Vendor account",
 
+  "settings": "Orders settings",
   "settings.closingOrderReasons": "Closing purchase order reasons",
   "settings.closingReasons.add": "Add reason",
   "settings.closingReasons.addBtn": "Add",
@@ -686,5 +687,11 @@
   "permission.acq.unit.assignment.manage": "Orders: Manage acquisition units",
   "permission.order.reopen": "Orders: Reopen purchase orders",
   "permission.order.unopen": "Orders: Unopen purchase orders",
-  "permission.order.exportCSV": "Orders: Export search results"
+  "permission.order.exportCSV": "Orders: Export search results",
+  "permission.settings.all": "Settings (Orders): Can view and edit all settings",
+  "permission.settings.order-templates.create": "Can view, edit, create new Order Templates",
+  "permission.settings.order-templates.delete": "Can view, edit, delete Order Templates",
+  "permission.settings.order-templates.edit": "Can view, edit Order Templates",
+  "permission.settings.order-templates.view": "Can view Order Templates",
+  "permission.settings.view": "Settings (Orders): Can view all settings"
 }

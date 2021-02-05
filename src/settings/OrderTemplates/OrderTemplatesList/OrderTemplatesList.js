@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
+import { IfPermission } from '@folio/stripes/core';
 import {
   Button,
   NavList,
@@ -24,13 +25,15 @@ class OrderTemplatesList extends Component {
     const { label, rootPath, orderTemplatesList } = this.props;
 
     const lastMenu = (
-      <Button
-        to={`${rootPath}/create`}
-        buttonStyle="primary paneHeaderNewButton"
-        marginBottom0
-      >
-        <FormattedMessage id="ui-orders.settings.newBtn" />
-      </Button>
+      <IfPermission perm="ui-orders.settings.order-templates.create">
+        <Button
+          to={`${rootPath}/create`}
+          buttonStyle="primary paneHeaderNewButton"
+          marginBottom0
+        >
+          <FormattedMessage id="ui-orders.settings.newBtn" />
+        </Button>
+      </IfPermission>
     );
 
     return (

@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
@@ -126,4 +127,4 @@ OrderTemplatesEditorContainer.propTypes = {
   stripes: PropTypes.object.isRequired,
 };
 
-export default stripesConnect(OrderTemplatesEditorContainer);
+export default withRouter(stripesConnect(OrderTemplatesEditorContainer));

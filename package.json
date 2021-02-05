@@ -24,6 +24,7 @@
       "configuration": "2.0",
       "contributor-name-types": "1.2",
       "erm": "2.0 3.0",
+      "finance.exchange-rate": "1.0",
       "finance.funds": "1.0",
       "finance.transactions": "3.0 4.0",
       "identifier-types": "1.2",
@@ -35,6 +36,7 @@
       "locations": "3.0",
       "material-types": "2.2",
       "order-lines": "1.0 2.0",
+      "order-templates": "1.0",
       "orders-storage.pieces": "4.0",
       "orders": "10.0 11.0",
       "organizations.organizations": "1.0",
@@ -59,6 +61,14 @@
       {
         "permissionName": "module.orders.enabled",
         "displayName": "UI: Orders module is enabled",
+        "visible": false
+      },
+      {
+        "permissionName": "settings.orders.enabled",
+        "displayName": "Settings (Orders): Can view and edit settings",
+        "subPermissions": [
+          "settings.enabled"
+        ],
         "visible": false
       },
       {
@@ -165,6 +175,7 @@
         "visible": true,
         "subPermissions": [
           "module.orders.enabled",
+          "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.po-lines.collection.get",
@@ -180,6 +191,7 @@
         "visible": true,
         "subPermissions": [
           "module.orders.enabled",
+          "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
@@ -193,6 +205,7 @@
         "visible": true,
         "subPermissions": [
           "module.orders.enabled",
+          "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
           "orders-storage.pieces.collection.get",
           "orders.order-templates.collection.get",
@@ -257,18 +270,81 @@
         ]
       },
       {
-        "permissionName": "settings.orders.enabled",
-        "displayName": "Settings (Orders): Can view and edit settings",
+        "permissionName": "ui-orders.settings.order-templates.view",
+        "displayName": "Can view Order Templates",
+        "description": "",
         "visible": true,
         "subPermissions": [
-          "configuration.all",
+          "settings.orders.enabled",
+          "configuration.entries.collection.get",
+          "finance.exchange-rate.item.get",
+          "finance.funds.expense-classes.collection.get",
+          "orders.order-templates.collection.get",
+          "orders.order-templates.item.get",
+          "ui-orders.third-party-services"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.settings.order-templates.edit",
+        "displayName": "Can view, edit Order Templates",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.settings.order-templates.view",
+          "orders.order-templates.item.put",
+          "orders.configuration.prefixes.collection.get",
+          "orders.configuration.suffixes.collection.get"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.settings.order-templates.create",
+        "displayName": "Can view, edit, create new Order Templates",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.settings.order-templates.edit",
+          "orders.order-templates.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.settings.order-templates.delete",
+        "displayName": "Can view, edit, delete Order Templates",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.settings.order-templates.edit",
+          "orders.order-templates.item.delete"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.settings.view",
+        "displayName": "Settings (Orders): Can view all settings",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "settings.orders.enabled",
+          "ui-orders.settings.order-templates.view",
+          "configuration.entries.collection.get",
+          "configuration.entries.item.get",
           "finance.expense-classes.collection.get",
+          "orders.configuration.prefixes.collection.get",
+          "orders.configuration.reasons-for-closure.collection.get",
+          "orders.configuration.suffixes.collection.get",
+          "ui-orders.third-party-services"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.settings.all",
+        "displayName": "Settings (Orders): Can view and edit all settings",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.settings.view",
+          "ui-orders.settings.order-templates.create",
+          "ui-orders.settings.order-templates.delete",
+          "configuration.all",
           "orders.configuration.prefixes.all",
           "orders.configuration.reasons-for-closure.all",
-          "orders.configuration.suffixes.all",
-          "orders.order-templates.all",
-          "settings.enabled",
-          "ui-orders.third-party-services"
+          "orders.configuration.suffixes.all"
         ]
       },
       {

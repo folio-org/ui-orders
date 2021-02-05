@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Add granular permissions for Order settings - order templates. Refs UIOR-649.
 * Default sorting by updatedDate. UIOR-648.
 * Fix orders date search format. Refs UISACQCOMP-16.
 * Filter orders by Bill to & Ship to address. Refs UIOR-653.

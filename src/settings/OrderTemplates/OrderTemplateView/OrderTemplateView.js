@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { get } from 'lodash';
 
+import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -122,27 +123,31 @@ class OrderTemplateView extends Component {
 
     return (
       <div data-test-view-order-template-actions>
-        <Button
-          data-test-view-order-template-action-edit
-          buttonStyle="dropdownItem"
-          to={`${rootPath}/${id}/edit`}
-        >
-          <Icon icon="edit">
-            <FormattedMessage id="ui-orders.button.edit" />
-          </Icon>
-        </Button>
-        <Button
-          data-test-view-order-template-action-delete
-          buttonStyle="dropdownItem"
-          onClick={() => {
-            onToggle();
-            this.showConfirmDelete();
-          }}
-        >
-          <Icon icon="trash">
-            <FormattedMessage id="ui-orders.button.delete" />
-          </Icon>
-        </Button>
+        <IfPermission perm="ui-orders.settings.order-templates.edit">
+          <Button
+            data-test-view-order-template-action-edit
+            buttonStyle="dropdownItem"
+            to={`${rootPath}/${id}/edit`}
+          >
+            <Icon icon="edit">
+              <FormattedMessage id="ui-orders.button.edit" />
+            </Icon>
+          </Button>
+        </IfPermission>
+        <IfPermission perm="ui-orders.settings.order-templates.delete">
+          <Button
+            data-test-view-order-template-action-delete
+            buttonStyle="dropdownItem"
+            onClick={() => {
+              onToggle();
+              this.showConfirmDelete();
+            }}
+          >
+            <Icon icon="trash">
+              <FormattedMessage id="ui-orders.button.delete" />
+            </Icon>
+          </Button>
+        </IfPermission>
       </div>
     );
   };

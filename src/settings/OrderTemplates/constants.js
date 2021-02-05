@@ -40,3 +40,6 @@ export const ORDER_TEMPLATES_ACCORDION_TITLES = {
   [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polLocation" />,
   [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polTags" />,
 };
+
+export const TEMPLATES_RETURN_LINK = '/settings/orders';
+export const TEMPLATES_RETURN_LINK_LABEL_ID = 'ui-orders.settings';
