@@ -14,7 +14,7 @@ function useBuildQuery() {
   const buildQuery = useCallback(makeQueryBuilder(
     'cql.allRecords=1',
     makeSearchQuery(localeDateFormat),
-    'sortby poNumber/sort.descending',
+    'sortby metadata.updatedDate/sort.descending',
     customFilterMap,
   ), [localeDateFormat]);
 

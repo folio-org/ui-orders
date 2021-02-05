@@ -50,7 +50,7 @@ export const buildOrderLinesQuery = (queryParams, isbnId, normalizedISBN) => {
   );
 
   const filterQuery = queryParamsFilterQuery || 'cql.allRecords=1';
-  const sortingQuery = buildSortingQuery(queryParams) || 'sortby poLineNumber/sort.descending';
+  const sortingQuery = buildSortingQuery(queryParams) || 'sortby metadata.updatedDate/sort.descending';
 
   return connectQuery(filterQuery, sortingQuery);
 };
