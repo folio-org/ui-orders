@@ -99,7 +99,6 @@
   "cost.quantityElectronic": "Quantity electronic",
   "cost.quantityPhysical": "Quantity physical",
   "cost.unitPriceOfElectronic": "Electronic unit price",
-  "cost.validation.shouldBePositive": "Should be positive",
   "cost.validation.cantBeNegative": "Can not be negative",
   "createdDateAndTime": "Created date and time",
   "createdSource": "Created source",

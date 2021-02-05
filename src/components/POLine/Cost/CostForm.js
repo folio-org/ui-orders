@@ -12,11 +12,12 @@ import {
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
+  CurrencyExchangeRateFields,
   parseNumberFieldValue,
   TextField,
   TypeToggle,
   validateRequiredNotNegative,
-  CurrencyExchangeRateFields,
+  validateRequiredPositiveNumber,
 } from '@folio/stripes-acq-components';
 
 import { ifDisabledToChangePaymentInfo } from '../../PurchaseOrder/util';
@@ -30,20 +31,13 @@ import {
 } from '../const';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
 
-// Validation for Fields with type 'number' requires positive integer
-export const requiredPositiveQuantity = (value) => {
-  return value >= 1
-    ? undefined
-    : <FormattedMessage id="ui-orders.cost.validation.shouldBePositive" />;
-};
-
 const FIELD_ATTRS_FOR_REQUIRED_PRICE = {
   required: true,
   validate: validateRequiredNotNegative,
 };
 const FIELD_ATTRS_FOR_REQUIRED_QUANTITY = {
   required: true,
-  validate: requiredPositiveQuantity,
+  validate: validateRequiredPositiveNumber,
 };
 const ATTRS_TO_DISABLE_FIELD = {
   disabled: true,
