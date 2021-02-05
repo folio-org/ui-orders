@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Fix orders date search format. Refs UISACQCOMP-16.
 * Filter orders by Bill to & Ship to address. Refs UIOR-653.
 * Filter order lines by acquisition units. Refs UIOR-654.
 * Change label of "Clone" order to "Duplicate". Refs UIOR-652.

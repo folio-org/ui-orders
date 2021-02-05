@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { DATE_FORMAT } from '@folio/stripes-acq-components';
 
 const indexes = [
@@ -6,36 +8,42 @@ const indexes = [
   'poNumber',
 ];
 
-const poNumber = {
-  labelId: 'ui-orders.search.poNumber',
-  value: 'poNumber',
+const searchByDate = (query, dateFormat) => {
+  const isoDate = moment.utc(query, dateFormat).format(DATE_FORMAT);
+
+  return `${isoDate}*`;
 };
 
-const keywordIndex = {
-  labelId: 'ui-orders.search.keyword',
-  value: '',
+const customSearchMap = {
+  'metadata.createdDate': searchByDate,
+  'dateOrdered': searchByDate,
 };
 
-const createdDate = {
-  labelId: 'ui-orders.search.metadata.createdDate',
-  value: 'metadata.createdDate',
-  placeholder: DATE_FORMAT,
-};
+function getCqlQuery(query, qindex, dateFormat) {
+  return customSearchMap[qindex]?.(query, dateFormat) || `*${query}*`;
+}
 
-const dateOrdered = {
-  labelId: 'ui-orders.search.dateOrdered',
-  value: 'dateOrdered',
-  placeholder: DATE_FORMAT,
-};
-
-export const searchableIndexes = [keywordIndex, createdDate, dateOrdered, poNumber];
-export const getKeywordQuery = query => indexes.reduce(
+const getKeywordQuery = (query, dateFormat) => indexes.reduce(
   (acc, sIndex) => {
+    const cqlQuery = getCqlQuery(query, sIndex, dateFormat);
+
     if (acc) {
-      return `${acc} or ${sIndex}=="*${query}*"`;
+      return `${acc} or ${sIndex}=="${cqlQuery}"`;
     } else {
-      return `${sIndex}=="*${query}*"`;
+      return `${sIndex}=="${cqlQuery}"`;
     }
   },
   '',
 );
+
+export function makeSearchQuery(dateFormat) {
+  return (query, qindex) => {
+    if (qindex) {
+      const cqlQuery = getCqlQuery(query, qindex, dateFormat);
+
+      return `(${qindex}==${cqlQuery})`;
+    }
+
+    return getKeywordQuery(query, dateFormat);
+  };
+}

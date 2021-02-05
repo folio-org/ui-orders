@@ -7,7 +7,6 @@ import queryString from 'query-string';
 import { getFullName } from '@folio/stripes/util';
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  makeQueryBuilder,
   organizationsManifest,
   useList,
 } from '@folio/stripes-acq-components';
@@ -24,29 +23,16 @@ import {
   fetchOrderUsers,
   fetchOrderVendors,
 } from './utils';
-import { getKeywordQuery } from './OrdersListSearchConfig';
-import { customFilterMap } from './OrdersListFilterConfig';
+import useBuildQuery from './useBuildQuery';
 
 const resetData = () => { };
-
-const buildQuery = makeQueryBuilder(
-  'cql.allRecords=1',
-  (query, qindex) => {
-    if (qindex) {
-      return `(${qindex}==*${query}*)`;
-    }
-
-    return getKeywordQuery(query);
-  },
-  'sortby poNumber/sort.descending',
-  customFilterMap,
-);
 
 const OrdersListContainer = ({ mutator, location }) => {
   const [vendorsMap, setVendorsMap] = useState({});
   const [acqUnitsMap, setAcqUnitsMap] = useState({});
   const [usersMap, setUsersMap] = useState({});
   const [ordersQuery, setOrdersQuery] = useState();
+  const buildQuery = useBuildQuery();
 
   const loadOrders = useCallback(async (offset) => {
     const query = buildQuery(queryString.parse(location.search));

@@ -31,7 +31,7 @@ import {
 import OrdersNavigation from '../common/OrdersNavigation';
 import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 import Panes from '../components/Panes';
-import { searchableIndexes } from './OrdersListSearchConfig';
+import useSearchableIndexes from './useSearchableIndexes';
 import OrdersListActionMenu from './OrdersListActionMenu';
 import OrderExportSettingsModalContainer from './OrderExportSettingsModalContainer';
 
@@ -82,6 +82,7 @@ function OrdersList({
   ] = useLocationSorting(location, history, resetData, sortableColumns);
   const [isFiltersOpened, toggleFilters] = useToggle(true);
   const [isExportModalOpened, toggleExportModal] = useModalToggle();
+  const searchableIndexes = useSearchableIndexes();
 
   const selectOrder = useCallback(
     (e, { id }) => {
