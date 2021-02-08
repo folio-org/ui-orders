@@ -17,7 +17,10 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import { FundDistributionView } from '@folio/stripes-acq-components';
+import {
+  FundDistributionView,
+  ORDER_FORMATS,
+} from '@folio/stripes-acq-components';
 
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
 import { SummaryView } from '../../../components/PurchaseOrder/Summary';
@@ -33,7 +36,6 @@ import LocationView from '../../../components/POLine/Location/LocationView';
 import {
   ERESOURCES,
   PHRESOURCES,
-  OTHER,
 } from '../../../components/POLine/const';
 import { isOngoing } from '../../../common/POFields';
 import {
@@ -158,7 +160,7 @@ class OrderTemplateView extends Component {
     const orderFormat = get(orderTemplate, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
-    const showOther = orderFormat === OTHER;
+    const showOther = orderFormat === ORDER_FORMATS.other;
     const orderType = get(orderTemplate, 'orderType');
 
     const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);

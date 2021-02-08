@@ -8,13 +8,11 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
+  prefixesResource,
+  suffixesResource,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import {
-  prefixesResource,
-  suffixesResource,
-} from '../../../common/resources';
 import {
   IDENTIFIER_TYPES,
   ADDRESSES,

@@ -4,7 +4,7 @@ import { Response } from 'miragejs';
 
 import { ConfirmationInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
 
-import { PREFIXES_API } from '../../../../src/common/constants';
+import { PREFIXES_API } from '@folio/stripes-acq-components';
 import setupApplication from '../../helpers/setup-application';
 import PrefixesInteractor from '../../interactors/settings/setting-prefixes';
 import ModalIteractor from '../../interactors/modal';

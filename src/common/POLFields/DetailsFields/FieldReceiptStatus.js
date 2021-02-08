@@ -3,18 +3,12 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useField } from 'react-final-form';
 
-import { FieldSelectFinal } from '@folio/stripes-acq-components';
+import {
+  FieldSelectFinal,
+  RECEIPT_STATUS,
+} from '@folio/stripes-acq-components';
 
 import { PO_WORKFLOW_STATUSES } from '../../constants';
-
-export const RECEIPT_STATUS = {
-  awaitingReceipt: 'Awaiting Receipt',
-  cancelled: 'Cancelled',
-  fullyReceived: 'Fully Received',
-  partiallyReceived: 'Partially Received',
-  pending: 'Pending',
-  receiptNotRequired: 'Receipt Not Required',
-};
 
 const RECEIPT_STATUSES_BY_ORDER_STATUS = {
   [PO_WORKFLOW_STATUSES.pending]: [

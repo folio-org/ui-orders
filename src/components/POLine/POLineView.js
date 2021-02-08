@@ -28,6 +28,7 @@ import {
 
 import {
   FundDistributionView,
+  ORDER_FORMATS,
   TagsBadge,
 } from '@folio/stripes-acq-components';
 
@@ -56,7 +57,6 @@ import {
   ACCORDION_ID,
   ERESOURCES,
   PHRESOURCES,
-  OTHER,
 } from './const';
 import { FILTERS as ORDER_FILTERS } from '../../OrdersList/constants';
 
@@ -244,7 +244,7 @@ class POLineView extends Component {
     const poLineNumber = line.poLineNumber;
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
-    const showOther = orderFormat === OTHER;
+    const showOther = orderFormat === ORDER_FORMATS.other;
     const estimatedPrice = get(line, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(line, 'fundDistribution');
     const currency = get(line, 'cost.currency');

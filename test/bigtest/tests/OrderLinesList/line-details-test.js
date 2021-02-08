@@ -5,9 +5,10 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+
 import { TIMEOUT } from '../../interactors/const';
 import { WORKFLOW_STATUS } from '../../../../src/common/constants';
-import { PHYSICAL } from '../../../../src/components/POLine/const';
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
 import OrderDetailsPage from '../../interactors/order-details-page';
@@ -23,7 +24,7 @@ describe('Order lines list - Line details test', function () {
 
   beforeEach(async function () {
     line = this.server.create('line', {
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost: {
         quantityPhysical: 2,
       },

@@ -13,11 +13,11 @@ import {
   PluggableOrganizationFilter,
   PluggableUserFilter,
 } from '@folio/stripes-acq-components';
+import OrdersTextFilter from '@folio/plugin-find-po-line/FindPOLine/OrdersTextFilter';
+import PrefixFilter from '@folio/plugin-find-po-line/FindPOLine/PrefixFilter';
+import SuffixFilter from '@folio/plugin-find-po-line/FindPOLine/SuffixFilter';
 
 import ClosingReasonFilter from '../common/ClosingReasonFilter';
-import OrdersTextFilter from '../common/OrdersTextFilter';
-import PrefixFilter from '../common/PrefixFilter';
-import SuffixFilter from '../common/SuffixFilter';
 import AddressFilter from '../common/AddressFilter';
 import {
   closingReasonsShape,

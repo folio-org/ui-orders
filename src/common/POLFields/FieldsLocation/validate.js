@@ -2,12 +2,14 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
-import { validateRequired } from '@folio/stripes-acq-components';
+import {
+  ORDER_FORMATS,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
 import {
   ERESOURCES,
   INVENTORY_RECORDS_TYPE,
-  OTHER,
   PHRESOURCES,
 } from '../../../components/POLine/const';
 
@@ -19,7 +21,7 @@ export const REQUIRED_LOCATION_QUANTITY_MAP_TO_INVENTORY = {
 };
 
 export const isLocationPhysicalQuantityRequired = (orderFormat, inventory) => {
-  return [...PHRESOURCES, OTHER].includes(orderFormat)
+  return [...PHRESOURCES, ORDER_FORMATS.other].includes(orderFormat)
     ? Boolean(REQUIRED_LOCATION_QUANTITY_MAP_TO_INVENTORY[inventory])
     : false;
 };

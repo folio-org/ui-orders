@@ -13,6 +13,7 @@ import {
 import {
   AmountWithCurrencyField,
   CurrencyExchangeRateFields,
+  ORDER_FORMATS,
   parseNumberFieldValue,
   TextField,
   TypeToggle,
@@ -23,10 +24,7 @@ import {
 import { ifDisabledToChangePaymentInfo } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
 import {
-  ERESOURCE,
   ERESOURCES,
-  OTHER,
-  PE_MIX,
   PHRESOURCES,
 } from '../const';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
@@ -68,7 +66,7 @@ const CostForm = ({
     validateEresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
   }
 
-  if (PHRESOURCES.includes(orderFormat) || orderFormat === OTHER) {
+  if (PHRESOURCES.includes(orderFormat) || orderFormat === ORDER_FORMATS.other) {
     validatePhresourcesPrices = required ? FIELD_ATTRS_FOR_REQUIRED_PRICE : {};
     validatePhresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
   }
@@ -76,9 +74,11 @@ const CostForm = ({
   const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
   const currency = get(formValues, 'cost.currency');
   const isPackage = get(formValues, 'isPackage');
-  const isElectornicFieldsVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;
-  const isPhysicalFieldsVisible = isPackage ? orderFormat !== ERESOURCE : true;
-  const isPackageLabel = isPackage && orderFormat !== PE_MIX;
+  const isElectornicFieldsVisible = isPackage
+    ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
+    : true;
+  const isPhysicalFieldsVisible = isPackage ? orderFormat !== ORDER_FORMATS.electronicResource : true;
+  const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
 
   return (
     <>

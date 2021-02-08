@@ -5,12 +5,13 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+
 import { TIMEOUT } from '../interactors/const';
 import {
   ORDER_TYPE,
   WORKFLOW_STATUS,
 } from '../../../src/common/constants';
-import { PHYSICAL } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import LineDetailsPage from '../interactors/line-details-page';
@@ -32,7 +33,7 @@ describe('Order details with Line', function () {
     vendor = this.server.create('vendor');
 
     line = this.server.create('line', {
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost: {
         quantityPhysical: 2,
       },

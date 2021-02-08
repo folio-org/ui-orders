@@ -9,12 +9,13 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
+import {
+  AmountWithCurrencyField,
+  ORDER_FORMATS,
+} from '@folio/stripes-acq-components';
 
 import {
   DISCOUNT_TYPE,
-  ERESOURCE,
-  PE_MIX,
 } from '../const';
 import ExchangeRateValue from './ExchangeRateValue';
 
@@ -32,9 +33,11 @@ function CostView({ cost, isPackage, orderFormat }) {
         amount={discount}
       />
     );
-  const isElectornicValuesVisible = isPackage ? (orderFormat === ERESOURCE || orderFormat === PE_MIX) : true;
-  const isPhysicalValuesVisible = isPackage ? orderFormat !== ERESOURCE : true;
-  const isPackageLabel = isPackage && orderFormat !== PE_MIX;
+  const isElectornicValuesVisible = isPackage
+    ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
+    : true;
+  const isPhysicalValuesVisible = isPackage ? orderFormat !== ORDER_FORMATS.electronicResource : true;
+  const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
   const isExchangeRateVisible = stripes.currency !== currency;
 
   return (

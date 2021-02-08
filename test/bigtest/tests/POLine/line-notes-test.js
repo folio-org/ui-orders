@@ -1,12 +1,12 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
 import NoteFormPage from '../../interactors/note-form-page';
 import NoteViewPage from '../../interactors/note-view-page';
-
-import { PHYSICAL } from '../../../../src/components/POLine/const';
 import { NOTE_TYPES } from '../../../../src/common/constants';
 
 describe('PO line notes', function () {
@@ -18,7 +18,7 @@ describe('PO line notes', function () {
 
   beforeEach(async function () {
     const line = this.server.create('line', {
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost: {
         quantityPhysical: 2,
       },

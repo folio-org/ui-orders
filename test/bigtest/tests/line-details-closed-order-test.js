@@ -5,9 +5,11 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { ORDER_STATUSES } from '@folio/stripes-acq-components';
+import {
+  ORDER_FORMATS,
+  ORDER_STATUSES,
+} from '@folio/stripes-acq-components';
 
-import { PHYSICAL } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import LineDetailsPage from '../interactors/line-details-page';
 
@@ -18,7 +20,7 @@ describe('PO Line details - warning message with closing reason is present', fun
   beforeEach(async function () {
     const vendor = this.server.create('vendor');
     const line = this.server.create('line', {
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost: {
         quantityPhysical: 2,
       },

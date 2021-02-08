@@ -5,7 +5,7 @@ import {
   ORDER_STATUSES,
 } from '@folio/stripes-acq-components';
 
-import { FILTERS } from './constants';
+import { FILTERS } from '@folio/plugin-find-po-line/FindPOLine/constants';
 
 export const customFilterMap = {
   [FILTERS.DATE_CREATED]: buildDateTimeRangeQuery.bind(null, [FILTERS.DATE_CREATED]),

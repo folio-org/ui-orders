@@ -330,6 +330,7 @@
     "sinon": "^7.0.0"
   },
   "dependencies": {
+    "@folio/plugin-find-po-line": "^2.2.1",
     "@folio/stripes-acq-components": "^2.2.0",
     "classnames": "^2.2.5",
     "final-form": "^4.19.1",
@@ -358,7 +359,6 @@
   "optionalDependencies": {
     "@folio/plugin-find-instance": "*",
     "@folio/plugin-find-organization": "*",
-    "@folio/plugin-find-po-line": "*",
     "@folio/plugin-find-user": "*"
   }
 }

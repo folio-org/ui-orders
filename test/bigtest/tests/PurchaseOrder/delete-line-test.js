@@ -1,7 +1,8 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { PHYSICAL } from '../../../../src/components/POLine/const';
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
 import ConfirmationModal from '../../interactors/confirmation';
@@ -15,7 +16,7 @@ describe('Delete Order Line', function () {
 
   beforeEach(async function () {
     line = this.server.create('line', {
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost: {
         quantityPhysical: 2,
       },

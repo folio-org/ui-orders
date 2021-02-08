@@ -10,14 +10,12 @@ import {
 import {
   baseManifest,
   ORDER_STATUSES,
+  prefixesResource,
+  suffixesResource,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import {
-  prefixesResource,
-  suffixesResource,
-} from '../../common/resources';
 import {
   createOrEditOrderResource,
 } from '../Utils/orderResource';

@@ -1,10 +1,11 @@
 import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 import { WORKFLOW_STATUS } from '../../../src/common/constants';
-import { PHYSICAL } from '../../../src/components/POLine/const';
 
 const ORDER_NUMBER = '10001';
 const LINE_NUMBER = `${ORDER_NUMBER}-1`;
@@ -22,7 +23,7 @@ describe('Line number generation', function () {
 
     line = this.server.create('line', {
       poLineNumber: LINE_NUMBER,
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost: {
         quantityPhysical: 2,
       },

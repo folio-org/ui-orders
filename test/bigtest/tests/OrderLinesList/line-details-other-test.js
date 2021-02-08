@@ -5,9 +5,10 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+
 import { TIMEOUT } from '../../interactors/const';
 import { WORKFLOW_STATUS } from '../../../../src/common/constants';
-import { OTHER } from '../../../../src/components/POLine/const';
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
 
@@ -20,7 +21,7 @@ describe('Order lines list - Line details with other format test', function () {
   beforeEach(async function () {
     const vendor = this.server.create('vendor');
     const line = this.server.create('line', {
-      orderFormat: OTHER,
+      orderFormat: ORDER_FORMATS.other,
       cost: {
         quantityPhysical: 2,
       },

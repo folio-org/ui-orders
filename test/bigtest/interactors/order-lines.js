@@ -6,8 +6,9 @@ import {
   selectable,
 } from '@bigtest/interactor';
 
+import { FILTERS } from '@folio/plugin-find-po-line/FindPOLine/constants';
+
 import Button from './button';
-import { FILTERS } from '../../../src/OrderLinesList/constants';
 import { TIMEOUT } from './const';
 
 @interactor class FilterAccordion {

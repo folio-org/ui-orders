@@ -3,11 +3,11 @@ export { default as FieldMaterialType } from './FieldMaterialType';
 
 // details
 export { default as FieldPOLineNumber } from './DetailsFields/FieldPOLineNumber';
-export { default as FieldAcquisitionMethod, ACQUISITION_METHOD } from './DetailsFields/FieldAcquisitionMethod';
-export { default as FieldOrderFormat, ORDER_FORMAT } from './DetailsFields/FieldOrderFormat';
+export { default as FieldAcquisitionMethod } from './DetailsFields/FieldAcquisitionMethod';
+export { default as FieldOrderFormat } from './DetailsFields/FieldOrderFormat';
 export { default as FieldReceiptDate } from './DetailsFields/FieldReceiptDate';
 export { default as FieldPaymentStatus } from './DetailsFields/FieldPaymentStatus';
-export { default as FieldReceiptStatus, RECEIPT_STATUS } from './DetailsFields/FieldReceiptStatus';
+export { default as FieldReceiptStatus } from './DetailsFields/FieldReceiptStatus';
 export { default as FieldDonor } from './DetailsFields/FieldDonor';
 export { default as FieldSelector } from './DetailsFields/FieldSelector';
 export { default as FieldRequester } from './DetailsFields/FieldRequester';

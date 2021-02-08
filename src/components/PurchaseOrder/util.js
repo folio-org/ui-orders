@@ -1,8 +1,9 @@
 import { some } from 'lodash';
 
-import { ORDER_STATUSES } from '@folio/stripes-acq-components';
-
-import { RECEIPT_STATUS } from '../../common/POLFields';
+import {
+  ORDER_STATUSES,
+  RECEIPT_STATUS,
+} from '@folio/stripes-acq-components';
 
 const isLineAbleToBeReceived = (line = { cost: {} }) => {
   const isNotCheckin = !line.checkinItems;

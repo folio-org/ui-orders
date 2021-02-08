@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
+import { PREFIXES_API } from '@folio/stripes-acq-components';
 
-import { PREFIXES_API } from '../../common/constants';
 import { validatePrefixSuffixName } from '../utils';
 
 const prefixColumnMapping = {

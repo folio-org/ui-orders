@@ -2,19 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldSelectFinal } from '@folio/stripes-acq-components';
-
-export const ACQUISITION_METHOD = {
-  approvalPlan: 'Approval Plan',
-  dda: 'Demand Driven Acquisitions (DDA)',
-  depository: 'Depository',
-  eba: 'Evidence Based Acquisitions (EBA)',
-  exchange: 'Exchange',
-  gift: 'Gift',
-  purchaseAtVendorSystem: 'Purchase At Vendor System',
-  purchase: 'Purchase',
-  technical: 'Technical',
-};
+import {
+  ACQUISITION_METHOD,
+  FieldSelectFinal,
+} from '@folio/stripes-acq-components';
 
 const ACQUISITION_METHOD_OPTIONS = Object.keys(ACQUISITION_METHOD).map((key) => ({
   labelId: `ui-orders.acquisition_method.${key}`,

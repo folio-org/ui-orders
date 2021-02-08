@@ -3,26 +3,18 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
-import { FieldSelectFinal } from '@folio/stripes-acq-components';
+import {
+  FieldSelectFinal,
+  ORDER_FORMATS,
+} from '@folio/stripes-acq-components';
 
 import {
-  ERESOURCE,
   ERESOURCES,
-  OTHER,
-  PE_MIX,
-  PHYSICAL,
 } from '../../../components/POLine/const';
 
-export const ORDER_FORMAT = {
-  electronicResource: ERESOURCE,
-  physicalResource: PHYSICAL,
-  PEMix: PE_MIX,
-  other: OTHER,
-};
-
-const ORDER_FORMAT_OPTIONS = Object.keys(ORDER_FORMAT).map((key) => ({
+const ORDER_FORMAT_OPTIONS = Object.keys(ORDER_FORMATS).map((key) => ({
   labelId: `ui-orders.order_format.${key}`,
-  value: ORDER_FORMAT[key],
+  value: ORDER_FORMATS[key],
 }));
 
 function FieldOrderFormat({
@@ -50,7 +42,7 @@ function FieldOrderFormat({
       }
     }
 
-    if (value === OTHER) {
+    if (value === ORDER_FORMATS.other) {
       change('physical.createInventory', createInventorySetting.other);
     } else {
       change('physical.createInventory', createInventorySetting.physical);

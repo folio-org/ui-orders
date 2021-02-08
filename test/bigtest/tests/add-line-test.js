@@ -5,11 +5,12 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+
 import {
   ORDER_TYPE,
   WORKFLOW_STATUS,
 } from '../../../src/common/constants';
-import { PHYSICAL } from '../../../src/components/POLine/const';
 import LinesLimitModal from '../interactors/lines-limit-modal';
 import OrderDetailsPage from '../interactors/order-details-page';
 import setupApplication from '../helpers/setup-application';
@@ -31,7 +32,7 @@ describe('clicking on add Line to open LinesLimit Modal', function () {
   beforeEach(async function () {
     vendor = this.server.create('vendor');
     line = this.server.create('line', {
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost: {
         quantityPhysical: 2,
       },

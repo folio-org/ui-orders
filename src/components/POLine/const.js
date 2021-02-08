@@ -1,10 +1,7 @@
-export const ERESOURCE = 'Electronic Resource';
-export const PHYSICAL = 'Physical Resource';
-export const PE_MIX = 'P/E Mix';
-export const OTHER = 'Other';
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
 
-export const ERESOURCES = [ERESOURCE, PE_MIX];
-export const PHRESOURCES = [PHYSICAL, PE_MIX];
+export const ERESOURCES = [ORDER_FORMATS.electronicResource, ORDER_FORMATS.PEMix];
+export const PHRESOURCES = [ORDER_FORMATS.physicalResource, ORDER_FORMATS.PEMix];
 
 export const ACCORDION_ID = {
   costDetails: 'costDetails',

@@ -5,7 +5,7 @@ import {
   createPut,
 } from '@folio/stripes-acq-components/test/bigtest/network/configs';
 
-import { SUFFIXES_API } from '../../../../src/common/constants';
+import { SUFFIXES_API } from '@folio/stripes-acq-components';
 
 const SCHEMA_NAME = 'suffixes';
 

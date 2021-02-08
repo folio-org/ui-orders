@@ -5,11 +5,13 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { ACQUISITION_METHOD } from '../../../src/common/POLFields/DetailsFields/FieldAcquisitionMethod';
+import {
+  ACQUISITION_METHOD,
+  ORDER_FORMATS,
+} from '@folio/stripes-acq-components';
+
 import {
   INVENTORY_RECORDS_TYPE,
-  OTHER,
-  PHYSICAL,
 } from '../../../src/components/POLine/const';
 import {
   CONFIG_OPEN_ORDER,
@@ -73,7 +75,7 @@ describe('Line edit test', function () {
 
     line = this.server.create('line', {
       acquisitionMethod: ACQUISITION_METHOD.purchase,
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost,
       locations,
       titleOrPackage: 't',
@@ -354,13 +356,13 @@ describe('Line edit test', function () {
 
   describe('Other Resource Details accordion is shown', function () {
     beforeEach(async function () {
-      await lineEditPage.orderFormat.select(OTHER);
+      await lineEditPage.orderFormat.select(ORDER_FORMATS.other);
       await lineEditPage.otherAccordion.clickHeader();
     });
 
     it('Displays create inventory field', function () {
       expect(lineEditPage.physicalCreateInventory.isSelect).to.be.true;
-      expect(lineEditPage.orderFormat.value).to.be.equal(OTHER);
+      expect(lineEditPage.orderFormat.value).to.be.equal(ORDER_FORMATS.other);
     });
 
     describe('Other Resource Details accordion is shown', function () {

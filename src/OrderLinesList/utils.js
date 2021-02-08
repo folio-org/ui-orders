@@ -10,9 +10,7 @@ import {
   connectQuery,
 } from '@folio/stripes-acq-components';
 
-import {
-  FILTERS,
-} from './constants';
+import { FILTERS } from '@folio/plugin-find-po-line/FindPOLine/constants';
 import {
   getKeywordQuery,
 } from './OrdersLinesSearchConfig';

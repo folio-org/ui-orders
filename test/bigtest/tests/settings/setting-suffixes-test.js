@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { Response } from 'miragejs';
 
 import { ConfirmationInteractor } from '@folio/stripes-acq-components/test/bigtest/interactors';
+import { SUFFIXES_API } from '@folio/stripes-acq-components';
 
-import { SUFFIXES_API } from '../../../../src/common/constants';
 import setupApplication from '../../helpers/setup-application';
 import SuffixesInteractor from '../../interactors/settings/setting-suffixes';
 import ModalInteractor from '../../interactors/modal';

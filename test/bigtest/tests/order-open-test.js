@@ -5,11 +5,12 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+
 import {
   ERROR_CODES,
   WORKFLOW_STATUS,
 } from '../../../src/common/constants';
-import { PHYSICAL } from '../../../src/components/POLine/const';
 import {
   ORDERS_API,
 } from '../../../src/components/Utils/api';
@@ -37,7 +38,7 @@ describe('Open order action', function () {
 
   beforeEach(async function () {
     const line = this.server.create('line', {
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost: {
         quantityPhysical: 2,
       },

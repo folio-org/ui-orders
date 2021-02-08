@@ -5,12 +5,15 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import {
+  ACQUISITION_METHOD,
+  ORDER_FORMATS,
+} from '@folio/stripes-acq-components';
+
 import { TIMEOUT } from '../interactors/const';
 import {
   INVENTORY_RECORDS_TYPE,
-  PHYSICAL,
 } from '../../../src/components/POLine/const';
-import { ACQUISITION_METHOD } from '../../../src/common/POLFields';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 import LineDetailsPage from '../interactors/line-details-page';
@@ -50,7 +53,7 @@ describe('Edit PO Line - Save updated PO Line', function () {
     ];
     line = this.server.create('line', {
       acquisitionMethod: ACQUISITION_METHOD.gift,
-      orderFormat: PHYSICAL,
+      orderFormat: ORDER_FORMATS.physicalResource,
       cost,
       titleOrPackage: TITLE,
       locations,
