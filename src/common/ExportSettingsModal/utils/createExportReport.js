@@ -43,6 +43,12 @@ const getAddressData = (addressId, addressMap) => (
   addressId ? `"${addressMap[addressId].name}""${addressMap[addressId].address}"` : ''
 );
 
+const getReferenceNumbers = (line) => (
+  line.vendorDetail?.referenceNumbers?.map(({ refNumber, refNumberType }) => (
+    `"${refNumber}""${refNumberType}"`
+  )).join(' | ')
+);
+
 export const createExportReport = (
   intl,
   poLines = [],
@@ -120,7 +126,7 @@ export const createExportReport = (
     rush: lineRecord.rush,
     collection: lineRecord.collection,
     poLineDescription: lineRecord.poLineDescription,
-    refNumber: `"${lineRecord.vendorDetail?.refNumber}""${lineRecord.vendorDetail?.refNumberType}"`,
+    refNumber: getReferenceNumbers(lineRecord),
     instructions: lineRecord.vendorDetail?.instructions,
     vendorAccount: lineRecord.vendorDetail?.vendorAccount,
     listUnitPrice: lineRecord.cost?.listUnitPrice,

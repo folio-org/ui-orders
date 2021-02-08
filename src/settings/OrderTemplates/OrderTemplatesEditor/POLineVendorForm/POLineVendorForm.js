@@ -5,10 +5,9 @@ import {
   Row,
   Col,
 } from '@folio/stripes/components';
+import { VendorReferenceNumbersFields } from '@folio/stripes-acq-components';
 
 import {
-  FieldRefNumberType,
-  FieldVendorRefNumber,
   FieldVendorInstructions,
   FieldVendorAccountNumber,
 } from '../../../../common/POLFields';
@@ -17,17 +16,13 @@ const POLineVendorForm = ({ accounts }) => {
   return (
     <Row>
       <Col
-        xs={3}
+        xs={12}
         data-col-order-template-vendor-number
       >
-        <FieldVendorRefNumber required={false} />
-      </Col>
-
-      <Col
-        xs={3}
-        data-col-order-template-vendor-ref-type
-      >
-        <FieldRefNumberType required={false} />
+        <VendorReferenceNumbersFields
+          fieldName="vendorDetail.referenceNumbers"
+          withValidation={false}
+        />
       </Col>
 
       <Col

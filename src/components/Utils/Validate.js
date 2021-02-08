@@ -7,26 +7,7 @@ import {
   INVENTORY_RECORDS_TYPE,
 } from '../POLine/const';
 
-const REQUIRED = <FormattedMessage id="stripes-acq-components.validation.required" />;
 const NOT_VALID_YEAR = <FormattedMessage id="ui-orders.validation.year" />;
-
-// Field is required only if 'vendorDetail.refNumber' isn't empty
-export const requiredRefNumber = (value, allValues) => {
-  const refNumber = get(allValues, 'vendorDetail.refNumber');
-
-  return refNumber && !value
-    ? REQUIRED
-    : undefined;
-};
-
-// Field is required only if 'vendorDetail.refNumberType' isn't empty
-export const requiredRefNumberType = (value, allValues) => {
-  const refNumberType = get(allValues, 'vendorDetail.refNumberType');
-
-  return refNumberType && !value
-    ? REQUIRED
-    : undefined;
-};
 
 export const validateYear = (value) => {
   if (!value) {

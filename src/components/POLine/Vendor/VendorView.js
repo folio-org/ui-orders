@@ -9,28 +9,14 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import { VendorReferenceNumbersDetails } from '@folio/stripes-acq-components';
 
 const VendorView = ({ vendorDetail }) => (
   <Row start="xs">
-    <Col
-      data-col-vendor-view-refnumber
-      xs={6}
-      lg={3}
-    >
-      <KeyValue
-        label={<FormattedMessage id="ui-orders.vendor.refNumber" />}
-        value={get(vendorDetail, 'refNumber')}
-      />
-    </Col>
-    <Col
-      data-col-vendor-view-refnumber-type
-      xs={6}
-      lg={3}
-    >
-      <KeyValue
-        label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
-        value={get(vendorDetail, 'refNumberType')}
-      />
+    <Col xs={12}>
+      <KeyValue label={<FormattedMessage id="ui-orders.vendor.referenceNumbers" />}>
+        <VendorReferenceNumbersDetails referenceNumbers={vendorDetail.referenceNumbers} />
+      </KeyValue>
     </Col>
     <Col
       data-col-vendor-view-instructions

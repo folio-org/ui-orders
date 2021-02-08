@@ -19,8 +19,6 @@ export { default as FieldCancellationRestrictionNote } from './DetailsFields/Fie
 export { default as FieldPOLineDescription } from './DetailsFields/FieldPOLineDescription';
 
 // vendor
-export { default as FieldRefNumberType } from './VendorFields/FieldRefNumberType';
-export { default as FieldVendorRefNumber } from './VendorFields/FieldVendorRefNumber';
 export { default as FieldVendorInstructions } from './VendorFields/FieldVendorInstructions';
 export { default as FieldVendorAccountNumber } from './VendorFields/FieldVendorAccountNumber';
 

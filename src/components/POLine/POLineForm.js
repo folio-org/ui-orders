@@ -217,8 +217,6 @@ function POLineForm({
   const estimatedPrice = calculateEstimatedPrice(formValues);
   const { accounts } = vendor;
   const fundDistribution = get(formValues, 'fundDistribution');
-  const vendorRefNumberType = get(formValues, 'vendorDetail.refNumberType');
-  const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
   const metadata = get(initialValues, 'metadata');
   const currency = get(formValues, 'cost.currency');
   const isPackage = get(formValues, 'isPackage');
@@ -308,8 +306,6 @@ function POLineForm({
                     <VendorForm
                       accounts={accounts}
                       order={order}
-                      vendorRefNumber={vendorRefNumber}
-                      vendorRefNumberType={vendorRefNumberType}
                     />
                   </Accordion>
                   <Accordion
