@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Make POL vendor reference number and type repeatable, paired fields. Refs UIOR-519.
 * Add granular permissions for Order settings - order templates. Refs UIOR-649.
 * Default sorting by updatedDate. UIOR-648.
 * Fix orders date search format. Refs UISACQCOMP-16.
