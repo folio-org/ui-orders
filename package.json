@@ -23,7 +23,7 @@
       "configuration.suffixes": "1.0",
       "configuration": "2.0",
       "contributor-name-types": "1.2",
-      "erm": "2.0 3.0",
+      "erm": "3.0 4.0",
       "finance.exchange-rate": "1.0",
       "finance.funds": "1.0",
       "finance.transactions": "3.0 4.0",
