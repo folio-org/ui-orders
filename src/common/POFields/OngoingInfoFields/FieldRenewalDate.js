@@ -12,7 +12,6 @@ const FieldRenewalDate = ({ required, disabled, isNonInteractive, ...rest }) => 
 
   return (
     <FieldDatepickerFinal
-      key={fieldIsRequired ? 1 : 0}
       isNonInteractive={isNonInteractive}
       label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}
       name="ongoing.renewalDate"

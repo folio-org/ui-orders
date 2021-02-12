@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Cannot save template with renewal date. Refs UIOR-659.
 * Make POL vendor reference number and type repeatable, paired fields. Refs UIOR-519.
 * Add granular permissions for Order settings - order templates. Refs UIOR-649.
 * Default sorting by updatedDate. UIOR-648.
