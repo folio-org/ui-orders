@@ -17,7 +17,6 @@ import {
 import {
   IDENTIFIER_TYPES,
   ADDRESSES,
-  ORDER_TEMPLATES,
   LOCATIONS,
   FUND,
   CREATE_INVENTORY,
@@ -44,7 +43,7 @@ const INITIAL_VALUES = { isPackage: false };
 function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
   const showToast = useShowCallout();
   const saveOrderTemplate = useCallback((values) => {
-    const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplates.POST;
+    const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplate.POST;
 
     mutatorMethod(values)
       .then(() => {
@@ -102,10 +101,6 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
 }
 
 OrderTemplatesEditorContainer.manifest = Object.freeze({
-  orderTemplates: {
-    ...ORDER_TEMPLATES,
-    fetch: false,
-  },
   [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
   locations: LOCATIONS,
   fund: FUND,

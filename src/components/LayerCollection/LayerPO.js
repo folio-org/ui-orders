@@ -148,7 +148,10 @@ LayerPO.manifest = Object.freeze({
   orderNumberSetting: ORDER_NUMBER_SETTING,
   prefixesSetting: prefixesResource,
   suffixesSetting: suffixesResource,
-  orderTemplates: ORDER_TEMPLATES,
+  orderTemplates: {
+    ...ORDER_TEMPLATES,
+    shouldRefresh: () => false,
+  },
   expenseClass: {
     ...baseManifest,
     accumulate: true,

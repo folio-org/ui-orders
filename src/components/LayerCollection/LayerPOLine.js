@@ -435,7 +435,10 @@ LayerPOLine.manifest = Object.freeze({
     fetch: false,
   },
   createInventory: CREATE_INVENTORY,
-  orderTemplates: ORDER_TEMPLATES,
+  orderTemplates: {
+    ...ORDER_TEMPLATES,
+    shouldRefresh: () => false,
+  },
   locations: {
     ...locationsManifest,
     accumulate: false,

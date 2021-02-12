@@ -190,12 +190,14 @@ export const ORDER_TEMPLATES = {
       query: 'cql.allRecords=1 sortby templateName',
     },
   },
-  shouldRefresh: () => false,
 };
 
 export const ORDER_TEMPLATE = {
   ...BASE_RESOURCE,
   path: ORDER_TEMPLATE_DETAIL_API,
+  POST: {
+    path: ORDER_TEMPLATES_API,
+  },
 };
 
 export const ORDER_INVOICES = {
