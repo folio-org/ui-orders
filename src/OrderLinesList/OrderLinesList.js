@@ -12,6 +12,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   MultiColumnList,
+  NoValue,
   Paneset,
 } from '@folio/stripes/components';
 import {
@@ -35,15 +36,16 @@ import { searchableIndexes } from './OrdersLinesSearchConfig';
 import OrderLinesListActionMenu from './OrderLinesListActionMenu';
 import LineExportSettingsModalContainer from './LineExportSettingModalContainer';
 
-const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
-const visibleColumns = ['poLineNumber', UPDATED_DATE, 'title', 'productIds', VENDOR_REF_NUMBER, 'funCodes', 'orderWorkflow'];
-const sortableColumns = ['poLineNumber', UPDATED_DATE, 'title', VENDOR_REF_NUMBER];
+const visibleColumns = ['poLineNumber', UPDATED_DATE, 'title', 'productIds', 'refNumber', 'funCodes', 'orderWorkflow'];
+const sortableColumns = ['poLineNumber', UPDATED_DATE, 'title'];
 const resultsFormatter = {
   [UPDATED_DATE]: line => <FolioFormattedDate value={get(line, 'metadata.updatedDate')} />,
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
-  [VENDOR_REF_NUMBER]: line => get(line, 'vendorDetail.refNumber', ''),
+  refNumber: line => (
+    line.vendorDetail?.referenceNumbers?.map(({ refNumber }) => refNumber)?.join(', ') || <NoValue />
+  ),
   title: line => get(line, 'titleOrPackage', ''),
   funCodes: line => line.fundDistribution?.map(({ code }) => code).filter(Boolean).join(', '),
   orderWorkflow: line => ORDER_STATUS_LABEL[line.orderWorkflow],
@@ -54,7 +56,7 @@ export const columnMapping = {
   [UPDATED_DATE]: <FormattedMessage id="ui-orders.orderLineList.updatedDate" />,
   title: <FormattedMessage id="ui-orders.orderLineList.titleOrPackage" />,
   productIds: <FormattedMessage id="ui-orders.orderLineList.productIds" />,
-  [VENDOR_REF_NUMBER]: <FormattedMessage id="ui-orders.orderLineList.vendorRefNumber" />,
+  refNumber: <FormattedMessage id="ui-orders.orderLineList.vendorRefNumber" />,
   funCodes: <FormattedMessage id="ui-orders.orderLineList.funCodes" />,
   orderWorkflow: <FormattedMessage id="ui-orders.orderLineList.orderWorkflow" />,
 };

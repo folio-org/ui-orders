@@ -8,6 +8,7 @@ import {
   Icon,
   Layout,
   MultiColumnList,
+  NoValue,
 } from '@folio/stripes/components';
 import { acqRowFormatter } from '@folio/stripes-acq-components';
 
@@ -32,7 +33,9 @@ function LineListing({ baseUrl, funds, poLines, history, location }) {
   const resultsFormatter = {
     title: ({ titleOrPackage }) => titleOrPackage || '',
     productId: item => map(get(item, 'details.productIds', []), 'productId').join(', '),
-    vendorRefNumber: item => get(item, 'vendorDetail.refNumber', ''),
+    vendorRefNumber: item => (
+      item.vendorDetail?.referenceNumbers?.map(({ refNumber }) => refNumber)?.join(', ') || <NoValue />
+    ),
     fundCode: item => get(item, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),
     arrow: () => <Icon icon="caret-right" />,
   };
@@ -53,7 +56,7 @@ function LineListing({ baseUrl, funds, poLines, history, location }) {
           poLineNumber: <FormattedMessage id="ui-orders.poLine.number" />,
           title: <FormattedMessage id="ui-orders.lineListing.titleOrPackage" />,
           productId: <FormattedMessage id="ui-orders.lineListing.productId" />,
-          vendorRefNumber: <FormattedMessage id="ui-orders.lineListing.vendorRefNumber" />,
+          vendorRefNumber: <FormattedMessage id="ui-orders.lineListing.refNumber" />,
           fundCode: <FormattedMessage id="ui-orders.lineListing.fundCode" />,
         }}
       />

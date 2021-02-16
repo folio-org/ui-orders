@@ -272,7 +272,7 @@
   "line.paneTitle.new": "Add PO line",
   "lineListing.titleOrPackage": "Title or package name",
   "lineListing.productId": "Product ID",
-  "lineListing.vendorRefNumber": "Vendor ref number",
+  "lineListing.refNumber": "Vendor reference number",
   "lineListing.fundCode": "Fund code",
   "linesLimit.adviceText": "For more information contact your system administrator.",
   "linesLimit.createBtn": "Create new purchase order",
