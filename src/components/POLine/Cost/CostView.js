@@ -11,13 +11,13 @@ import {
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
+  ExchangeRateValue,
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
 import {
   DISCOUNT_TYPE,
 } from '../const';
-import ExchangeRateValue from './ExchangeRateValue';
 
 function CostView({ cost, isPackage, orderFormat }) {
   const stripes = useStripes();
@@ -88,7 +88,6 @@ function CostView({ cost, isPackage, orderFormat }) {
             manualExchangeRate={cost.exchangeRate}
             exchangeFrom={currency}
             exchangeTo={stripes.currency}
-            labelId="ui-orders.cost.exchangeRate"
           />
         </Col>
       )}
