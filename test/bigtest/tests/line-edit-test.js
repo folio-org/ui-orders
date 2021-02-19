@@ -365,7 +365,7 @@ describe('Line edit test', function () {
 
     describe('Other Resource Details accordion is shown', function () {
       beforeEach(async function () {
-        await lineEditPage.physicalCreateInventory.select('Instance, holding, item');
+        await lineEditPage.physicalCreateInventory.select('Instance, holdings, item');
         await lineEditPage.updateLineButton.click();
       });
 
