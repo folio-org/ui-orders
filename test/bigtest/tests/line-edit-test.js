@@ -371,7 +371,7 @@ describe('Line edit test', function () {
 
       it('Displays warning message Required for Material Type', function () {
         // expect(lineEditPage.otherAccordion.warningMessage).to.be.equal(requiredField);
-        expect(lineEditPage.physicalCreateInventory.value).to.be.equal(INVENTORY_RECORDS_TYPE.all);
+        expect(lineEditPage.physicalCreateInventory.value).to.be.equal('Instance, holdings, item');
       });
 
       it.always('stays on the form', function () {
@@ -384,7 +384,7 @@ describe('Line edit test', function () {
     beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.inputTitle(TITLE);
       await lineEditPage.quantityPhysical.fill(2);
-      await lineEditPage.physicalCreateInventory.select('Instance, holding, item');
+      await lineEditPage.physicalCreateInventory.select('Instance, holdings, item');
       await lineEditPage.physicalDetailsAccordion.materialType(materialTypes[0].name);
       await lineEditPage.saveAndOpenButton.click();
       await lineDetailsPage.whenLoaded();
