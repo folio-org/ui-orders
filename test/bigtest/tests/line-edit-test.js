@@ -7,12 +7,10 @@ import { expect } from 'chai';
 
 import {
   ACQUISITION_METHOD,
+  INVENTORY_RECORDS_TYPE,
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
-import {
-  INVENTORY_RECORDS_TYPE,
-} from '../../../src/components/POLine/const';
 import {
   CONFIG_OPEN_ORDER,
   MODULE_ORDERS,

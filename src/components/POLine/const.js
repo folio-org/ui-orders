@@ -1,4 +1,7 @@
-import { ORDER_FORMATS } from '@folio/stripes-acq-components';
+import {
+  INVENTORY_RECORDS_TYPE,
+  ORDER_FORMATS,
+} from '@folio/stripes-acq-components';
 
 export const ERESOURCES = [ORDER_FORMATS.electronicResource, ORDER_FORMATS.PEMix];
 export const PHRESOURCES = [ORDER_FORMATS.physicalResource, ORDER_FORMATS.PEMix];
@@ -38,13 +41,6 @@ export const MAP_FIELD_ACCORDION = {
 export const DISCOUNT_TYPE = {
   amount: 'amount',
   percentage: 'percentage',
-};
-
-export const INVENTORY_RECORDS_TYPE = {
-  all: 'Instance, Holding, Item',
-  instance: 'Instance',
-  instanceAndHolding: 'Instance, Holding',
-  none: 'None',
 };
 
 export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [

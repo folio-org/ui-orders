@@ -3,13 +3,13 @@ import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
 import {
+  INVENTORY_RECORDS_TYPE,
   ORDER_FORMATS,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
 import {
   ERESOURCES,
-  INVENTORY_RECORDS_TYPE,
   PHRESOURCES,
 } from '../../../components/POLine/const';
 

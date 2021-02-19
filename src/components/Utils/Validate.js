@@ -2,9 +2,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
+import { INVENTORY_RECORDS_TYPE } from '@folio/stripes-acq-components';
+
 import {
   ALLOWED_YEAR_LENGTH,
-  INVENTORY_RECORDS_TYPE,
 } from '../POLine/const';
 
 const NOT_VALID_YEAR = <FormattedMessage id="ui-orders.validation.year" />;

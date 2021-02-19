@@ -7,13 +7,11 @@ import { expect } from 'chai';
 
 import {
   ACQUISITION_METHOD,
+  INVENTORY_RECORDS_TYPE,
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
 import { TIMEOUT } from '../interactors/const';
-import {
-  INVENTORY_RECORDS_TYPE,
-} from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 import LineDetailsPage from '../interactors/line-details-page';
