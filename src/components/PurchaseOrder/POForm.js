@@ -87,7 +87,7 @@ class POForm extends Component {
     return (
       <PaneMenu>
         <FormattedMessage id="ui-orders.buttons.line.close">
-          {(title) => (
+          {([title]) => (
             <IconButton
               ariaLabel={title}
               icon="times"

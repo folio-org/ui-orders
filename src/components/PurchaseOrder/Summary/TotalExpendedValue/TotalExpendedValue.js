@@ -1,52 +1,14 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import { stripesConnect } from '@folio/stripes/core';
 import {
   KeyValue,
-  Loading,
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
-  batchFetch,
-  transactionsManifest,
-  TRANSACTION_TYPES,
 } from '@folio/stripes-acq-components';
 
-const TotalExpendedValue = ({ orderInvoicesIds, label, mutator }) => {
-  const [totalExpended, setTotalExpended] = useState();
-
-  useEffect(
-    () => {
-      setTotalExpended();
-
-      if (orderInvoicesIds.length) {
-        batchFetch(mutator.transactions, orderInvoicesIds, (itemsChunk) => {
-          const query = itemsChunk
-            .map(id => `sourceInvoiceId==${id}`)
-            .join(' or ');
-
-          return `(transactionType=${TRANSACTION_TYPES.payment} or transactionType=${TRANSACTION_TYPES.credit}) and (${query})`;
-        })
-          .then(transactions => {
-            const total = transactions.reduce((acc, { amount }) => acc + amount, 0);
-
-            setTotalExpended(total);
-          })
-          .catch(() => setTotalExpended(0));
-      } else setTotalExpended(0);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [orderInvoicesIds],
-  );
-
-  if (totalExpended === undefined) {
-    return <Loading />;
-  }
-
+const TotalExpendedValue = ({ totalExpended, label }) => {
   return (
     <KeyValue label={label}>
       <AmountWithCurrencyField amount={totalExpended} />
@@ -54,18 +16,12 @@ const TotalExpendedValue = ({ orderInvoicesIds, label, mutator }) => {
   );
 };
 
-TotalExpendedValue.manifest = Object.freeze({
-  transactions: transactionsManifest,
-});
-
 TotalExpendedValue.propTypes = {
-  orderInvoicesIds: PropTypes.arrayOf(PropTypes.string),
+  totalExpended: PropTypes.number,
   label: PropTypes.node.isRequired,
-  mutator: PropTypes.object.isRequired,
 };
 
 TotalExpendedValue.defaultProps = {
-  orderInvoicesIds: [],
 };
 
-export default stripesConnect(TotalExpendedValue);
+export default TotalExpendedValue;

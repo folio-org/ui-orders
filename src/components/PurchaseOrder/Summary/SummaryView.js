@@ -17,7 +17,7 @@ import TotalExpendedValue from './TotalExpendedValue';
 import WorkflowStatus from './WorkflowStatus';
 import TotalUnits from './TotalUnits';
 
-const SummaryView = ({ order, orderInvoicesIds }) => (
+const SummaryView = ({ order }) => (
   <>
     <Row start="xs">
       <Col
@@ -62,7 +62,7 @@ const SummaryView = ({ order, orderInvoicesIds }) => (
           lg={3}
         >
           <TotalEncumberedValue
-            orderId={order.id}
+            totalEncumbered={order.totalEncumbred}
             label={<FormattedMessage id="ui-orders.orderSummary.totalEncumbered" />}
           />
         </Col>
@@ -73,7 +73,7 @@ const SummaryView = ({ order, orderInvoicesIds }) => (
         lg={3}
       >
         <TotalExpendedValue
-          orderInvoicesIds={orderInvoicesIds}
+          totalExpended={order.totalExpended}
           label={<FormattedMessage id="ui-orders.orderSummary.totalExpended" />}
         />
       </Col>
@@ -103,7 +103,6 @@ const SummaryView = ({ order, orderInvoicesIds }) => (
 
 SummaryView.propTypes = {
   order: PropTypes.object,
-  orderInvoicesIds: PropTypes.arrayOf(PropTypes.string),
 };
 
 SummaryView.defaultProps = {

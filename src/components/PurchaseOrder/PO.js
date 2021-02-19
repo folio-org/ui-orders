@@ -581,7 +581,6 @@ const PO = ({
           >
             <SummaryView
               order={order}
-              orderInvoicesIds={orderInvoicesIds}
             />
           </Accordion>
           <Accordion

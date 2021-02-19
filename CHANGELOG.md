@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Use "Total expended" and "Total encumbered" from composite order. Refs UIOR-658.
 * Update view for Vendor reference number in POL list. Refs UIOR-662.
 * Fix order templates list not refreshed after create new template. Refs UIOR-660.
 * Fix cannot save template with renewal date. Refs UIOR-659.
