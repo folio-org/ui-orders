@@ -371,7 +371,7 @@ describe('Line edit test', function () {
 
       it('Displays warning message Required for Material Type', function () {
         // expect(lineEditPage.otherAccordion.warningMessage).to.be.equal(requiredField);
-        expect(lineEditPage.physicalCreateInventory.value).to.be.equal('Instance, holdings, item');
+        expect(lineEditPage.physicalCreateInventory.value).to.be.equal('Instance, Holding, Item');
       });
 
       it.always('stays on the form', function () {
