@@ -525,7 +525,7 @@
   "search.requester": "Requester",
   "search.selector": "Selector",
   "search.titleOrPackage": "Title or package name",
-  "search.vendorDetail.refNumber": "Vendor reference number",
+  "search.vendorDetail.referenceNumbers": "Vendor reference number",
   "search.vendorDetail.vendorAccount": "Vendor account",
 
   "settings": "Orders settings",

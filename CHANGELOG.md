@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Vendor ref number search is not working in the POL. Refs UIOR-668.
 * Update labels for inventory interactions. Refs UIOR-665.
 * Use "Total expended" and "Total encumbered" from composite order. Refs UIOR-658.
 * Update view for Vendor reference number in POL list. Refs UIOR-662.

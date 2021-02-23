@@ -7,7 +7,7 @@ const indexes = [
   'titleOrPackage',
   'publisher',
   'vendorDetail.vendorAccount',
-  'vendorDetail.refNumber',
+  'vendorDetail.referenceNumbers',
   'donor',
   'selector',
   'physical.volumes',
