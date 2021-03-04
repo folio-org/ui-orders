@@ -25,6 +25,8 @@ jobs:
       NODEJS_VERSION: '12'
       JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest-junit'
       JEST_COVERAGE_REPORT_DIR: 'artifacts/coverage-jest/lcov-report/'
+      BIGTEST_JUNIT_OUTPUT_DIR: 'artifacts/runTest'
+      BIGTEST_COVERAGE_REPORT_DIR: 'artifacts/runTest'
 
     runs-on: ubuntu-latest
     steps:
@@ -75,6 +77,16 @@ jobs:
         with: 
           name: jest-coverage-report 
           path: ${{ env.JEST_COVERAGE_REPORT_DIR }}
+          retention-days: 30
+
+      - name: Publish BigTest unit test results
+        if: always()
+        with: 
+          github_token: ${{ github.token }}
+          files: "${{ env.BIGTEST_JUNIT_OUTPUT_DIR }}/*.xml"
+          check_name: BigTest Unit Test Results
+          comment_on_pr: true
+          comment_title: BigTest Unit Test Statistics
  
       - name: Publish yarn.lock 
         uses: actions/upload-artifact@v2
@@ -83,3 +95,4 @@ jobs:
           name: yarn.lock
           path: yarn.lock
           retention-days: 5
+
