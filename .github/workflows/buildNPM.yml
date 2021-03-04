@@ -23,6 +23,7 @@ jobs:
       YARN_TEST_OPTIONS: ''
       FOLIO_NPM_REGISTRY: 'https://repository.folio.org/repository/npm-folioci/'
       NODEJS_VERSION: '12'
+      JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest-junit'
 
     runs-on: ubuntu-latest
     steps:
@@ -56,15 +57,13 @@ jobs:
 
       - name: Yarn test
         run: xvfb-run --server-args="-screen 0 1024x768x24" yarn test:unit $YARN_TEST_OPTIONS 
-        env:
-          JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest-junit'
 
       - name: Publish Jest unit test results
         uses: docker://ghcr.io/enricomi/publish-unit-test-result-action:v1
         if: always()
         with: 
           github_token: ${{ github.token }}
-          files: artifacts/jest-unit/*.xml
+          files: "${{ env.JEST_JUNIT_OUTPUT_DIR }}/*.xml"
  
       - name: Publish yarn.lock 
         uses: actions/upload-artifact@v2
