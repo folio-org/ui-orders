@@ -64,6 +64,9 @@ jobs:
         with: 
           github_token: ${{ github.token }}
           files: "${{ env.JEST_JUNIT_OUTPUT_DIR }}/*.xml"
+          check_name: Jest Unit Test Results
+          comment_on_pr: true
+          comment_title: Jest Unit Test Statistics
  
       - name: Publish yarn.lock 
         uses: actions/upload-artifact@v2
