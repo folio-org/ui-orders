@@ -59,7 +59,7 @@ jobs:
         continue-on-error: true
 
       - name: Yarn test
-        run: xvfb-run --server-args="-screen 0 1024x768x24" yarn test:unit $YARN_TEST_OPTIONS 
+        run: xvfb-run --server-args="-screen 0 1024x768x24" yarn test $YARN_TEST_OPTIONS 
 
       - name: Publish Jest unit test results
         uses: docker://ghcr.io/enricomi/publish-unit-test-result-action:v1
