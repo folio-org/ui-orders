@@ -26,7 +26,7 @@ jobs:
       JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest-junit'
       JEST_COVERAGE_REPORT_DIR: 'artifacts/coverage-jest/lcov-report/'
       BIGTEST_JUNIT_OUTPUT_DIR: 'artifacts/runTest'
-      BIGTEST_COVERAGE_REPORT_DIR: 'artifacts/runTest'
+      BIGTEST_COVERAGE_REPORT_DIR: 'artifacts/coverage/lcov-report/'
 
     runs-on: ubuntu-latest
     steps:
@@ -88,6 +88,14 @@ jobs:
           check_name: BigTest Unit Test Results
           comment_on_pr: true
           comment_title: BigTest Unit Test Statistics
+
+      - name: Publish BigTest coverage report
+        uses: actions/upload-artifact@v2
+        if: always() 
+        with: 
+          name: bigtest-coverage-report 
+          path: ${{ env.BIGTEST_COVERAGE_REPORT_DIR }}
+          retention-days: 30
  
       - name: Publish yarn.lock 
         uses: actions/upload-artifact@v2
