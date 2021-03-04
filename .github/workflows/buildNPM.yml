@@ -24,6 +24,7 @@ jobs:
       FOLIO_NPM_REGISTRY: 'https://repository.folio.org/repository/npm-folioci/'
       NODEJS_VERSION: '12'
       JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest-junit'
+      JEST_COVERAGE_REPORT_DIR: 'artifacts/coverage-jest/lcov-report/'
 
     runs-on: ubuntu-latest
     steps:
@@ -67,6 +68,13 @@ jobs:
           check_name: Jest Unit Test Results
           comment_on_pr: true
           comment_title: Jest Unit Test Statistics
+
+      - name: Publish Jest coverage report
+        uses: actions/upload-artifact@v2
+        if: always() 
+        with: 
+          name: jest-coverage-report 
+          path: ${{ env.JEST_COVERAGE_REPORT_DIR }}
  
       - name: Publish yarn.lock 
         uses: actions/upload-artifact@v2
