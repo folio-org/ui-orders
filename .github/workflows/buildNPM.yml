@@ -5,7 +5,7 @@
 
 # FOLIO configurable env:
 #   - YARN_TEST_OPTIONS
-#   - SONAR_SRC_DIR
+#   - SQ_ROOT_DIR
 
 
 name: buildNPM Snapshot
@@ -35,6 +35,8 @@ jobs:
     steps:
       - uses: folio-org/checkout@v2
 
+      - name: Setup kernel for react native, increase watchers
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
