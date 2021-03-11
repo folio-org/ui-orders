@@ -1,9 +1,10 @@
-# This workflow will do a clean install of node dependencies, build the source code 
-# and run tests across different versions of node.  
+# This workflow will do a clean install of node dependencies, build the source code, 
+# run unit tests, and perform a SonarCloud scan. 
+
 # For more information see: 
 # https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-# FOLIO configurable env:
+# Common FOLIO configurable env:
 #   - YARN_TEST_OPTIONS
 #   - SQ_ROOT_DIR
 
@@ -13,9 +14,9 @@ on:
   push:
     paths-ignore:
       - 'translations/**'
-#  pull_request:
-#     paths-ignore:
-#      - 'translations/**'
+  pull_request:
+     paths-ignore:
+      - 'translations/**'
 
 jobs:
   Build:
@@ -53,17 +54,17 @@ jobs:
         env: 
           JOB_ID: ${{ github.run_number }}
 
-      - name: Yarn install
+      - name: Run yarn install
         run: yarn install
 
-      - name: Yarn list
+      - name: Run yarn list
         run: yarn list --pattern @folio
 
-      - name: Yarn lint
+      - name: Run yarn lint
         run: yarn lint
         continue-on-error: true
 
-      - name: Yarn test
+      - name: Run yarn test
         run: xvfb-run --server-args="-screen 0 1024x768x24" yarn test $YARN_TEST_OPTIONS 
 
       - name: Publish Jest unit test results
@@ -113,7 +114,7 @@ jobs:
       - name: Fetch branches for SonarCloud
         run: git fetch --no-tags ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY} +refs/heads/master:refs/remotes/origin/master
         
-      - name: SonarCloud scan 
+      - name: Run SonarCloud scan 
         uses: sonarsource/sonarcloud-github-action@master
         with:
           args: >
