@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.3.0](https://github.com/folio-org/ui-orders/tree/v2.3.0) (2021-03-18)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.6...v2.3.0)
+
 * Vendor ref number search is not working in the POL. Refs UIOR-668.
 * Update labels for inventory interactions. Refs UIOR-665.
 * Use "Total expended" and "Total encumbered" from composite order. Refs UIOR-658.
