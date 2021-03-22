@@ -665,6 +665,6 @@
     "permission.settings.order-templates.view": "Configurações (pedidos): pode visualizar modelos de pedidos",
     "permission.settings.view": "Configurações (pedidos): pode visualizar todas as configurações",
     "vendor.referenceNumbers": "Números de referência do fornecedor",
-    "lineListing.refNumber": "Vendor reference number",
-    "search.vendorDetail.referenceNumbers": "Vendor reference number"
+    "lineListing.refNumber": "Número de referência do fornecedor",
+    "search.vendorDetail.referenceNumbers": "Número de referência do fornecedor"
 }
