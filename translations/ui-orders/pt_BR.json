@@ -659,12 +659,14 @@
     "paneBlock.updateEncumbrances": "Update encumbrances",
     "settings": "Configurações de pedidos",
     "permission.settings.all": "Settings (Orders): Can view and edit all settings",
-    "permission.settings.order-templates.create": "Settings (Orders): Can view, edit, create new Order Templates",
+    "permission.settings.order-templates.create": "Configurações (Pedidos): Pode visualizar, editar e criar novos modelos de pedido",
     "permission.settings.order-templates.delete": "Configurações (pedidos): pode visualizar, editar e excluir modelos de pedido",
     "permission.settings.order-templates.edit": "Configurações (pedidos): pode visualizar, editar modelos de pedido",
     "permission.settings.order-templates.view": "Configurações (pedidos): pode visualizar modelos de pedidos",
     "permission.settings.view": "Configurações (pedidos): pode visualizar todas as configurações",
     "vendor.referenceNumbers": "Números de referência do fornecedor",
     "lineListing.refNumber": "Número de referência do fornecedor",
-    "search.vendorDetail.referenceNumbers": "Número de referência do fornecedor"
+    "search.vendorDetail.referenceNumbers": "Número de referência do fornecedor",
+    "payment_status.ongoing": "Ongoing",
+    "receipt_status.ongoing": "Ongoing"
 }

@@ -666,5 +666,7 @@
     "permission.settings.view": "الإعدادات (الطلبيات): إمكانية عرض كل الإعدادات",
     "vendor.referenceNumbers": "أرقام المورّدين المرجعية",
     "lineListing.refNumber": "رقم المورّد المرجعي",
-    "search.vendorDetail.referenceNumbers": "رقم المورّد المرجعي"
+    "search.vendorDetail.referenceNumbers": "رقم المورّد المرجعي",
+    "payment_status.ongoing": "جاري",
+    "receipt_status.ongoing": "جاري"
 }
