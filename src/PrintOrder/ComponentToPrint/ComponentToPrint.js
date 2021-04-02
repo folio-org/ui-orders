@@ -7,10 +7,12 @@ import {
   Col,
   Grid,
   Row,
+  KeyValue,
 } from '@folio/stripes/components';
 
 import { LINE_FIELDS_MAP, LINE_FIELDS_LABELS } from './constants';
 import css from '../PrintContent/PrintContent.css';
+import cSS from './CtoPr.css';
 
 const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
 const rules = [
@@ -136,6 +138,66 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
           );
         })}
       </div>
+
+      <Row className={cSS.space}>------------------------------------</Row>
+
+      <Row>
+        {Object.keys(LINE_FIELDS_MAP).map((col) => {
+          return (
+            <Col xs={3} className={cSS.colHead} kay={col}>
+              {LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
+            </Col>
+          );
+        })}
+      </Row>
+
+      {dataSource.compositePoLines.map((line) => {
+        return (
+          <Row key={line.id} className={cSS.dataRow}>
+            {Object.keys(LINE_FIELDS_MAP).map((col) => {
+              return (
+                <Col xs={3} key={col} className={cSS.colB}>
+                  <PrintColumn path={LINE_FIELDS_MAP[col]} source={line} />
+                </Col>
+              );
+            })}
+          </Row>
+        );
+      })}
+
+      <Row className={cSS.space}>------------------------------------</Row>
+
+      {dataSource.compositePoLines.map((line) => {
+        return (
+          <div key={line.id}>
+            <Row>
+              <Col xs={12}>
+                <KeyValue
+                  label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP.poLineNumber]}
+                >
+                  {line.poLineNumber}
+                </KeyValue>
+              </Col>
+            </Row>
+            <Row className={cSS.colB}>
+              {Object.keys(LINE_FIELDS_MAP).map((col) => {
+                if (col === LINE_FIELDS_MAP.poLineNumber) return null;
+
+                return (
+                  <Col xs={3} key={col}>
+                    <KeyValue
+                      label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
+                    >
+                      <PrintColumn path={LINE_FIELDS_MAP[col]} source={line} />
+                    </KeyValue>
+                  </Col>
+                );
+              })}
+            </Row>
+          </div>
+        );
+      })}
+
       <Row>
         <Col xs={6}>
           {LINE_FIELDS_LABELS['vendorDetail.instructions']}: {
