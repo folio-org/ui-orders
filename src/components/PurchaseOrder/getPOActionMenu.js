@@ -30,6 +30,7 @@ export function getPOActionMenu({
   clickReopen,
   clickUnopen,
   clickUpdateEncumbrances,
+  handlePrint,
   order,
 }) {
   const { isApprovalRequired } = getConfigSetting(approvalsSetting);
@@ -159,6 +160,15 @@ export function getPOActionMenu({
           </Icon>
         </Button>
       </IfPermission>
+      <Button
+        buttonStyle="dropdownItem"
+        onClick={() => {
+          onToggle();
+          handlePrint();
+        }}
+      >
+        Print order
+      </Button>
     </MenuSection>
   );
 }

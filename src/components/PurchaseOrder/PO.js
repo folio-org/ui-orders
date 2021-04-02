@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { get } from 'lodash';
+import { useReactToPrint } from 'react-to-print';
 
 import {
   IfPermission,
@@ -30,6 +31,10 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import { addresses as addr } from './mocks/addresses';
+import { order as ordr } from './mocks/order';
+import lines from './mocks/lines';
+import orders from './mocks/orders';
 import {
   getAddresses,
 } from '../../common/utils';
@@ -40,6 +45,8 @@ import {
   reasonsForClosureResource,
   updateEncumbrancesResource,
 } from '../../common/resources';
+import PrintContent from '../../PrintOrder/PrintContent';
+import printTemplate from '../../PrintOrder/printTemplate';
 import {
   ADDRESSES,
   APPROVALS_SETTING,
@@ -97,18 +104,19 @@ const PO = ({
 
   const fetchOrder = useCallback(
     () => Promise.all([
-      mutator.orderDetails.GET()
-        .catch((response) => {
-          const isGeneralError = response.message?.indexOf('Operator failed: CurrencyConversion') === -1;
-          const errorKey = isGeneralError ? 'orderNotLoaded' : 'conversionError';
+      ordr,
+      // mutator.orderDetails.GET()
+      //   .catch((response) => {
+      //     const isGeneralError = response.message?.indexOf('Operator failed: CurrencyConversion') === -1;
+      //     const errorKey = isGeneralError ? 'orderNotLoaded' : 'conversionError';
 
-          sendCallout({
-            message: <SafeHTMLMessage id={`ui-orders.errors.${errorKey}`} />,
-            type: 'error',
-          });
+      //     sendCallout({
+      //       message: <SafeHTMLMessage id={`ui-orders.errors.${errorKey}`} />,
+      //       type: 'error',
+      //     });
 
-          return {};
-        }),
+      //     return {};
+      //   }),
       mutator.orderInvoicesRelns.GET({
         params: {
           query: `purchaseOrderId==${orderId}`,
@@ -116,21 +124,23 @@ const PO = ({
         },
       })
         .catch(() => []),
-      mutator.orderLines.GET({
-        params: {
-          query: `purchaseOrderId==${orderId}`,
-          limit: LIMIT_MAX,
-        },
-      })
-        .catch(() => {
-          sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.errors.orderLinesNotLoaded" />,
-            type: 'error',
-          });
+      lines.poLines,
+      // mutator.orderLines.GET({
+      //   params: {
+      //     query: `purchaseOrderId==${orderId}`,
+      //     limit: LIMIT_MAX,
+      //   },
+      // })
+      //   .catch(() => {
+      //     sendCallout({
+      //       message: <SafeHTMLMessage id="ui-orders.errors.orderLinesNotLoaded" />,
+      //       type: 'error',
+      //     });
 
-          return [];
-        }),
-      mutator.orderDetailsList.GET({ params: { query: `id==${orderId}` } }),
+      //     return [];
+      //   }),
+      orders.purchaseOrders,
+      // mutator.orderDetailsList.GET({ params: { query: `id==${orderId}` } }),
     ])
       .then(([orderResp, orderInvoicesResp, compositePoLines, orderListResp]) => {
         setOrder({
@@ -503,7 +513,12 @@ const PO = ({
     [fetchOrder, handleErrorResponse, orderErrorModalShow, sendCallout],
   );
 
-  if (isLoading || order?.id !== match.params.id) {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  if (isLoading) {
     return (
       <LoadingPane
         id="order-details"
@@ -515,7 +530,7 @@ const PO = ({
   }
 
   const orderType = get(order, 'orderType');
-  const addresses = getAddresses(get(resources, 'addresses.records', []));
+  const addresses = getAddresses(addr.configs);
   const funds = get(resources, 'fund.records', []);
   const approvalsSetting = get(resources, 'approvalsSetting.records', {});
 
@@ -534,10 +549,12 @@ const PO = ({
         clickReopen: reopenOrder,
         clickUnopen: toggleUnopenOrderModal,
         clickUpdateEncumbrances: updateEncumbrances,
+        handlePrint,
         order,
       })}
       data-test-order-details
       defaultWidth="fill"
+      id="order-details-pane"
       paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
       lastMenu={lastMenu}
       dismissible
@@ -659,6 +676,11 @@ const PO = ({
           poLines={poLines}
         />
       )}
+      <PrintContent
+        ref={componentRef}
+        template={printTemplate}
+        dataSource={order}
+      />
     </Pane>
   );
 

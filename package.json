@@ -414,13 +414,16 @@
     "@folio/stripes-acq-components": "~2.3.0",
     "classnames": "^2.2.5",
     "final-form": "^4.19.1",
+    "html-to-react": "^1.4.5",
     "lodash": "^4.17.19",
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
+    "react-fast-compare": "^3.2.0",
     "react-final-form": "^6.4.0",
     "react-final-form-arrays": "^3.1.1",
     "react-hot-loader": "^4.3.12",
     "react-router-prop-types": "^1.0.4",
+    "react-to-print": "^2.12.3",
     "redux-form": "^8.3.0"
   },
   "peerDependencies": {
