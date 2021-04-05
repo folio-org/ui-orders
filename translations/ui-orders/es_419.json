@@ -667,6 +667,6 @@
     "vendor.referenceNumbers": "Vendor reference numbers",
     "lineListing.refNumber": "Vendor reference number",
     "search.vendorDetail.referenceNumbers": "Vendor reference number",
-    "payment_status.ongoing": "Ongoing",
-    "receipt_status.ongoing": "Ongoing"
+    "payment_status.ongoing": "Continúa",
+    "receipt_status.ongoing": "Continúa"
 }

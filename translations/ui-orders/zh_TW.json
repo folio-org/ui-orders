@@ -90,7 +90,7 @@
     "orderDetails.manualPO": "人工",
     "orderDetails.note": "附註",
     "orderDetails.removeNoteBtn": "移除",
-    "cost.listPrice": "列出单价",
+    "cost.listPrice": "實物單價",
     "cost.currency": "货币",
     "cost.quantityPhysical": "实体数量",
     "cost.quantityElectronic": "电子数量",
@@ -247,7 +247,7 @@
     "errors.zeroCostQtyPhysical": "必须指定实体成本数量",
     "cost.additionalCost": "附加费用",
     "cost.discount": "折扣",
-    "cost.unitPriceOfElectronic": "电子单价",
+    "cost.unitPriceOfElectronic": "電子單價",
     "cost.validation.cantBeNegative": "不能为负数",
     "eresource.createInventory": "创建库存",
     "physical.createInventory": "创建库存",
@@ -256,7 +256,7 @@
     "settings.createInventory.other": "其他默认值",
     "settings.createInventory.recordType.all": "實例、館藏、單件",
     "settings.createInventory.recordType.instance": "实例",
-    "settings.createInventory.recordType.instanceAndHolding": "实例，馆藏",
+    "settings.createInventory.recordType.instanceAndHolding": "實例，館藏",
     "settings.createInventory.recordType.none": "無",
     "checkIn.addPiece.error": "件未保存",
     "checkIn.addPiece.success": "件已成功保存",
@@ -667,6 +667,6 @@
     "vendor.referenceNumbers": "Vendor reference numbers",
     "lineListing.refNumber": "Vendor reference number",
     "search.vendorDetail.referenceNumbers": "Vendor reference number",
-    "payment_status.ongoing": "Ongoing",
-    "receipt_status.ongoing": "Ongoing"
+    "payment_status.ongoing": "進行中",
+    "receipt_status.ongoing": "進行中"
 }
