@@ -49,7 +49,7 @@ function PrintColumn({ path, source }) {
     return source[path]?.map(({ code }) => code).join() || null;
   }
 
-  console.log('path', path, get(source, path, null));
+  // console.log('path', path, get(source, path, null));
 
   const value = get(source, path, null);
 
@@ -100,17 +100,6 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
             </div>
           </Col>
         </Row>
-        {/* <div className={[css.row, css.group]}>
-          <div class="is-floated">tet </div>
-          <div class="is-floated">usurfsf </div>
-          <div class="is-floated">sdfksfksf</div>
-          <div class="is-floated">tet </div>
-          <div class="is-floated">usurfsf </div>
-          <div class="is-floated">sdfksfksf</div>
-          <div class="is-floated">tet </div>
-          <div class="is-floated">usurfsf </div>
-          <div class="is-floated">sdfksfksf</div>
-        </div> */}
 
       </Grid>
       <div className={css.table}>
@@ -162,39 +151,6 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
               );
             })}
           </Row>
-        );
-      })}
-
-      <Row className={cSS.space}>------------------------------------</Row>
-
-      {dataSource.compositePoLines.map((line) => {
-        return (
-          <div key={line.id}>
-            <Row>
-              <Col xs={12}>
-                <KeyValue
-                  label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP.poLineNumber]}
-                >
-                  {line.poLineNumber}
-                </KeyValue>
-              </Col>
-            </Row>
-            <Row className={cSS.colB}>
-              {Object.keys(LINE_FIELDS_MAP).map((col) => {
-                if (col === LINE_FIELDS_MAP.poLineNumber) return null;
-
-                return (
-                  <Col xs={3} key={col}>
-                    <KeyValue
-                      label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
-                    >
-                      <PrintColumn path={LINE_FIELDS_MAP[col]} source={line} />
-                    </KeyValue>
-                  </Col>
-                );
-              })}
-            </Row>
-          </div>
         );
       })}
 

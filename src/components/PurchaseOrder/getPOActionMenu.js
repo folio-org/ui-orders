@@ -31,6 +31,7 @@ export function getPOActionMenu({
   clickUnopen,
   clickUpdateEncumbrances,
   handlePrint,
+  handlePrintTable,
   order,
 }) {
   const { isApprovalRequired } = getConfigSetting(approvalsSetting);
@@ -167,7 +168,16 @@ export function getPOActionMenu({
           handlePrint();
         }}
       >
-        Print order
+        Print order in blocks
+      </Button>
+      <Button
+        buttonStyle="dropdownItem"
+        onClick={() => {
+          onToggle();
+          handlePrintTable();
+        }}
+      >
+        Print order in table (2 table options for lines)
       </Button>
     </MenuSection>
   );

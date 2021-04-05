@@ -7,8 +7,8 @@ import { buildTemplate } from '../utils';
 
 import css from './PrintContent.css';
 
-const PrintContent = forwardRef(({ dataSource, template }, ref) => {
-  const templateFn = useMemo(() => buildTemplate(template), [template]);
+const PrintContent = forwardRef(({ dataSource }, ref) => {
+  // const templateFn = useMemo(() => buildTemplate(template), [template]);
 
   return (
     <div className={css.hiddenContent}>
@@ -18,7 +18,7 @@ const PrintContent = forwardRef(({ dataSource, template }, ref) => {
       >
         <ComponentToPrint
           dataSource={dataSource}
-          templateFn={templateFn}
+          // templateFn={templateFn}
         />
       </div>
     </div>
@@ -28,7 +28,7 @@ const PrintContent = forwardRef(({ dataSource, template }, ref) => {
 PrintContent.propTypes = {
   // dataSource: PropTypes.arrayOf(PropTypes.object).isRequired,
   dataSource: PropTypes.object.isRequired,
-  template: PropTypes.string.isRequired,
+  // template: PropTypes.string.isRequired,
 };
 
 export default memo(PrintContent, isEqual);

@@ -46,6 +46,7 @@ import {
   updateEncumbrancesResource,
 } from '../../common/resources';
 import PrintContent from '../../PrintOrder/PrintContent';
+import PrintContentTable from '../../PrintOrder/PrintContent/PrintContentTable';
 import printTemplate from '../../PrintOrder/printTemplate';
 import {
   ADDRESSES,
@@ -518,6 +519,11 @@ const PO = ({
     content: () => componentRef.current,
   });
 
+  const componentTableRef = useRef();
+  const handlePrintTable = useReactToPrint({
+    content: () => componentTableRef.current,
+  });
+
   if (isLoading) {
     return (
       <LoadingPane
@@ -550,6 +556,7 @@ const PO = ({
         clickUnopen: toggleUnopenOrderModal,
         clickUpdateEncumbrances: updateEncumbrances,
         handlePrint,
+        handlePrintTable,
         order,
       })}
       data-test-order-details
@@ -679,6 +686,10 @@ const PO = ({
       <PrintContent
         ref={componentRef}
         template={printTemplate}
+        dataSource={order}
+      />
+      <PrintContentTable
+        ref={componentTableRef}
         dataSource={order}
       />
     </Pane>
