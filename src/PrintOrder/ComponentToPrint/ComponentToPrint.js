@@ -102,55 +102,36 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
         </Row>
 
       </Grid>
-      <div className={css.table}>
-        <div className={css.row}>
-          {Object.keys(LINE_FIELDS_MAP).map((col) => {
-            // console.log('col', col, LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]);
-            return (
-              <div key={col}>
-                {LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
-              </div>
-            );
-          })}
-        </div>
-        {dataSource.compositePoLines.map((line) => {
-          return (
-            <div className={css.row} key={line.id}>
-              {Object.keys(LINE_FIELDS_MAP).map((col) => {
-                return (
-                  <div key={col}>
-                    <PrintColumn path={LINE_FIELDS_MAP[col]} source={line} />
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
-
       <Row className={cSS.space}>------------------------------------</Row>
-
-      <Row>
-        {Object.keys(LINE_FIELDS_MAP).map((col) => {
-          return (
-            <Col xs={3} className={cSS.colHead} kay={col}>
-              {LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
-            </Col>
-          );
-        })}
-      </Row>
 
       {dataSource.compositePoLines.map((line) => {
         return (
-          <Row key={line.id} className={cSS.dataRow}>
-            {Object.keys(LINE_FIELDS_MAP).map((col) => {
-              return (
-                <Col xs={3} key={col} className={cSS.colB}>
-                  <PrintColumn path={LINE_FIELDS_MAP[col]} source={line} />
-                </Col>
-              );
-            })}
-          </Row>
+          <div key={line.id}>
+            <Row>
+              <Col xs={12}>
+                <KeyValue
+                  label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP.poLineNumber]}
+                >
+                  {line.poLineNumber}
+                </KeyValue>
+              </Col>
+            </Row>
+            <Row className={cSS.colB}>
+              {Object.keys(LINE_FIELDS_MAP).map((col) => {
+                if (col === LINE_FIELDS_MAP.poLineNumber) return null;
+
+                return (
+                  <Col xs={3} key={col}>
+                    <KeyValue
+                      label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
+                    >
+                      <PrintColumn path={LINE_FIELDS_MAP[col]} source={line} />
+                    </KeyValue>
+                  </Col>
+                );
+              })}
+            </Row>
+          </div>
         );
       })}
 

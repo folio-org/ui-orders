@@ -104,7 +104,7 @@ const PrintContentTable = forwardRef(({ dataSource }, ref) => {
           <Row>
             {Object.keys(LINE_FIELDS_MAP).map((col) => {
               return (
-                <Col xs={3} className={cSS.colHead} kay={col}>
+                <Col xs={3} className={cSS.colHead} key={col}>
                   {LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
                 </Col>
               );
