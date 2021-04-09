@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Filter order lines by Expense class. Refs UIOR-678.
 * Add Ongoing to the POL filters. Refs UIOR-688.
 * Material type E and P Filters not working in POL search. Refs UIOR-679.
 * With perm Orders: View order lines can not see order lines. Refs UIOR-699.
