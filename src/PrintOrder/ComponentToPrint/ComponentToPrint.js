@@ -1,110 +1,108 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HtmlToReact, { Parser } from 'html-to-react';
 import get from 'lodash/get';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
   Grid,
-  Row,
   KeyValue,
+  NoValue,
+  Row,
 } from '@folio/stripes/components';
+import {
+  AmountWithCurrencyField,
+  FolioFormattedTime,
+  ORDER_STATUS_LABEL,
+} from '@folio/stripes-acq-components';
 
+import {
+  DISCOUNT_TYPE,
+} from '../../components/POLine/const';
 import { LINE_FIELDS_MAP, LINE_FIELDS_LABELS } from './constants';
-import css from '../PrintContent/PrintContent.css';
-import cSS from './CtoPr.css';
+import css from './ComponentToPrint.css';
 
-const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
-const rules = [
-  // {
-  //   replaceChildren: true,
-  //   shouldProcessNode: node => node.name === 'barcode',
-  //   processNode: (_, children) => (<Barcode value={children[0] ? children[0].trim() : ' '} />),
-  // },
-  {
-    replaceChildren: false,
-    shouldProcessNode: node => node.name === 'col',
-    processNode: (_, children) => (<Col />),
-  },
-  {
-    replaceChildren: false,
-    shouldProcessNode: node => node.name === 'row',
-    processNode: (_, children) => (<Row />),
-  },
-  {
-    replaceChildren: false,
-    shouldProcessNode: node => node.name === 'grid',
-    processNode: (_, children) => (<Grid />),
-  },
-  {
-    shouldProcessNode: () => true,
-    processNode: processNodeDefinitions.processDefaultNode,
-  },
-];
+function PrintValue({ path, source, exportedLine }) {
+  const value = get(exportedLine, path, null) || get(source, path, null);
+  const currency = get(source, LINE_FIELDS_MAP.currency);
 
-const parser = new Parser();
+  switch (path) {
+    case LINE_FIELDS_MAP.listUnitPrice:
+    case LINE_FIELDS_MAP.listUnitPriceElectronic:
+    case LINE_FIELDS_MAP.additionalCost:
+    case LINE_FIELDS_MAP.poLineEstimatedPrice:
+      return (
+        <AmountWithCurrencyField
+          currency={currency}
+          amount={value}
+        />
+      );
+    case LINE_FIELDS_MAP.discount:
+      if (!value) return <NoValue />;
 
-function PrintColumn({ path, source }) {
-  if (path === LINE_FIELDS_MAP.fundDistribution) {
-    return source[path]?.map(({ code }) => code).join() || null;
+      return get(source, 'cost.discountType') === DISCOUNT_TYPE.percentage
+        ? `${value}%`
+        : (
+          <AmountWithCurrencyField
+            currency={currency}
+            amount={value}
+          />
+        );
+    default:
+      if (value === true) {
+        return 'true';
+      } else if (value === false) {
+        return 'false';
+      }
+
+      return value ?? <NoValue />;
   }
-
-  // console.log('path', path, get(source, path, null));
-
-  const value = get(source, path, null);
-
-  if (value === true) {
-    return 'true';
-  } else if (value === false) {
-    return 'false';
-  }
-
-  return value;
 }
 
-const ComponentToPrint = ({ dataSource, templateFn }) => {
-  // const componentStr = templateFn(dataSource);
-  // console.log('componentStr', componentStr);
-  // const Component = parser.parseWithInstructions(componentStr, () => true, rules) || null;
-  // console.log('Component', Component);
-
-  // return Component;
+const ComponentToPrint = ({ dataSource = {} }) => {
   return (
     <div>
       <Grid>
         <Row>
           <Col xs={6}>Lib name</Col>
-          <Col xs={6}>Purchase order</Col>
+          <Col xs={6}>
+            <div>Purchase order</div>
+            <div>
+              <FormattedMessage id="ui-orders.orderSummary.workflowStatus" />:&nbsp;
+              {dataSource.workflowStatus ? ORDER_STATUS_LABEL[dataSource.workflowStatus] : <NoValue />}
+            </div>
+          </Col>
         </Row>
         <Row>
           <Col xs={6}>
+            <div>
+              <FormattedMessage id="ui-orders.orderSummary.closingReason" />:&nbsp;
+              {dataSource.closeReason?.reason || <NoValue />}
+            </div>
             <div>Bill to address:</div>
-            <div>some billing address</div>
+            <div>{dataSource.billToAddress}</div>
           </Col>
           <Col xs={6}>
-            <div>Date: {dataSource.metadata.created_at}</div>
+            <div>Date ordered: <FolioFormattedTime dateString={dataSource.dateOrdered} /></div>
             <div>PO#: {dataSource.poNumber}</div>
           </Col>
         </Row>
         <Row>
           <Col xs={6}>
-            <div>Vendor</div>
-            <div>Primary address</div>
-            <div>Phone</div>
+            <div>Vendor: {dataSource.vendor?.name}</div>
+            <div>Primary address: {dataSource.vendorPrimaryAddress?.addressLine1}</div>
+            <div>Phone: {dataSource.vendorPrimaryPhone?.phoneNumber}</div>
           </Col>
           <Col xs={6}>
-            <div>Ship to</div>
-            <div>
-              some other adres
-              3434
-            </div>
+            <div>Ship to:</div>
+            <div>{dataSource.shipToAddress}</div>
           </Col>
         </Row>
 
       </Grid>
-      <Row className={cSS.space}>------------------------------------</Row>
+      <Row className={css.space}>------------------------------------</Row>
 
-      {dataSource.compositePoLines.map((line) => {
+      {dataSource.compositePoLines?.map((line, i) => {
         return (
           <div key={line.id}>
             <Row>
@@ -116,7 +114,7 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
                 </KeyValue>
               </Col>
             </Row>
-            <Row className={cSS.colB}>
+            <Row className={css.colB}>
               {Object.keys(LINE_FIELDS_MAP).map((col) => {
                 if (col === LINE_FIELDS_MAP.poLineNumber) return null;
 
@@ -125,7 +123,7 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
                     <KeyValue
                       label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
                     >
-                      <PrintColumn path={LINE_FIELDS_MAP[col]} source={line} />
+                      <PrintValue path={LINE_FIELDS_MAP[col]} source={line} exportedLine={dataSource.exportData[i]} />
                     </KeyValue>
                   </Col>
                 );
@@ -138,7 +136,7 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
       <Row>
         <Col xs={6}>
           {LINE_FIELDS_LABELS['vendorDetail.instructions']}: {
-            dataSource.compositePoLines.map((line) => {
+            dataSource.compositePoLines?.map((line) => {
               return (
                 <span key={line.id}>
                   {line.vendorDetail?.instructions}
@@ -148,10 +146,8 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
           }
         </Col>
         <Col xs={6}>
-          <div>Subtotal: ???</div>
-          <div>Add cost: ???</div>
-          <div>Discount: ???</div>
-          <div>Total: ???</div>
+          <div>Total items: {dataSource.totalItems}</div>
+          <div>Total: <AmountWithCurrencyField amount={dataSource.totalEstimatedPrice} /></div>
         </Col>
       </Row>
     </div>
@@ -159,8 +155,7 @@ const ComponentToPrint = ({ dataSource, templateFn }) => {
 };
 
 ComponentToPrint.propTypes = {
-  templateFn: PropTypes.func.isRequired,
-  dataSource: PropTypes.object.isRequired,
+  dataSource: PropTypes.object,
 };
 
 export default ComponentToPrint;

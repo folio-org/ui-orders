@@ -24,7 +24,6 @@ import {
   fetchOrderVendors,
 } from './utils';
 import useBuildQuery from './useBuildQuery';
-import allOrders from '../components/PurchaseOrder/mocks/allOrders';
 
 const resetData = () => { };
 
@@ -40,14 +39,13 @@ const OrdersListContainer = ({ mutator, location }) => {
 
     setOrdersQuery(query);
 
-    return allOrders;
-    // return mutator.ordersListRecords.GET({
-    //   params: {
-    //     limit: RESULT_COUNT_INCREMENT,
-    //     offset,
-    //     query,
-    //   },
-    // });
+    return mutator.ordersListRecords.GET({
+      params: {
+        limit: RESULT_COUNT_INCREMENT,
+        offset,
+        query,
+      },
+    });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
@@ -60,8 +58,7 @@ const OrdersListContainer = ({ mutator, location }) => {
     );
     const fetchUsersPromise = fetchOrderUsers(mutator.orderUsers, ordersResponse.purchaseOrders, usersMap);
 
-    // return Promise.all([fetchVendorsPromise, fetchAcqUnitsPromise, fetchUsersPromise])
-    return Promise.all([[], [], []])
+    return Promise.all([fetchVendorsPromise, fetchAcqUnitsPromise, fetchUsersPromise])
       .then(([vendorsResponse, acqUnitsResponse, usersResponse]) => {
         const newVendorsMap = {
           ...vendorsMap,
