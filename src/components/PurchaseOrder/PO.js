@@ -524,7 +524,7 @@ const PO = ({
     return hydrateOrderToPrint({ order: orderToPrint });
   }, [orderToPrint]);
 
-  if (isLoading) {
+  if (isLoading || order?.id !== match.params.id) {
     return (
       <LoadingPane
         id="order-details"
