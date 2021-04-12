@@ -100,7 +100,6 @@ const ComponentToPrint = ({ dataSource = {} }) => {
         </Row>
 
       </Grid>
-      <Row className={css.space}>------------------------------------</Row>
 
       {dataSource.compositePoLines?.map((line, i) => {
         return (
