@@ -5,6 +5,7 @@
 * Add Ongoing to the POL filters. Refs UIOR-688.
 * Material type E and P Filters not working in POL search. Refs UIOR-679.
 * With perm Orders: View order lines can not see order lines. Refs UIOR-699.
+* Duplicate PO is created as "Approved". Refs UIOR-698.
 
 ## [2.3.0](https://github.com/folio-org/ui-orders/tree/v2.3.0) (2021-03-18)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.6...v2.3.0)
