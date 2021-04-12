@@ -254,12 +254,12 @@ class POLineView extends Component {
 
     return (
       <Pane
+        id="order-lines-details"
         defaultWidth="fill"
         firstMenu={poURL ? firstMenu : null}
         actionMenu={this.getActionMenu}
         dismissible={!poURL}
         onClose={onClose}
-        id="pane-poLineDetails"
         lastMenu={lastMenu}
         paneTitle={paneTitle}
       >

@@ -13,8 +13,8 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   MultiColumnList,
   NoValue,
-  Paneset,
 } from '@folio/stripes/components';
+import { PersistedPaneset } from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   FolioFormattedDate,
@@ -23,9 +23,9 @@ import {
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  useFiltersToogle,
   useLocalStorageFilters,
   useLocationSorting,
-  useToggle,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -88,7 +88,7 @@ function OrderLinesList({
     sortingDirection,
     changeSorting,
   ] = useLocationSorting(location, history, resetData, sortableColumns);
-  const [isFiltersOpened, toggleFilters] = useToggle(true);
+  const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-orders/order-lines/filters');
   const [isExportModalOpened, toggleExportModal] = useModalToggle();
   const selectOrderLine = useCallback(
     (e, { id }) => {
@@ -121,9 +121,16 @@ function OrderLinesList({
   );
 
   return (
-    <Paneset data-test-order-line-instances>
+    <PersistedPaneset
+      appId="ui-orders"
+      id="order-lines"
+      data-test-order-line-instances
+    >
       {isFiltersOpened && (
-        <FiltersPane toggleFilters={toggleFilters}>
+        <FiltersPane
+          id="order-lines-filters-pane"
+          toggleFilters={toggleFilters}
+        >
           <OrdersNavigation isOrderLines />
           <SingleSearchForm
             applySearch={applySearch}
@@ -150,6 +157,7 @@ function OrderLinesList({
       )}
 
       <ResultsPane
+        id="order-lines-results-pane"
         count={orderLinesCount}
         renderActionMenu={renderActionMenu}
         filters={filters}
@@ -195,7 +203,7 @@ function OrderLinesList({
           />
         )}
       />
-    </Paneset>
+    </PersistedPaneset>
   );
 }
 

@@ -505,7 +505,12 @@ const PO = ({
 
   if (isLoading || order?.id !== match.params.id) {
     return (
-      <LoadingPane dismissible defaultWidth="fill" onClose={gotToOrdersList} />
+      <LoadingPane
+        id="order-details"
+        dismissible
+        defaultWidth="fill"
+        onClose={gotToOrdersList}
+      />
     );
   }
 
@@ -516,6 +521,7 @@ const PO = ({
 
   const POPane = (
     <Pane
+      id="order-details"
       actionMenu={getPOActionMenu({
         approvalsSetting,
         clickApprove: approveOrder,

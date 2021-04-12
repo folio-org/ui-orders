@@ -133,6 +133,7 @@ function POLine({
   if (isLoading || line?.id !== lineId) {
     return (
       <LoadingPane
+        id="order-lines-details"
         defaultWidth="fill"
         dismissible
         onClose={backToOrder}
