@@ -23,6 +23,17 @@ import {
 import { LINE_FIELDS_MAP, LINE_FIELDS_LABELS } from './constants';
 import css from './ComponentToPrint.css';
 
+// eslint-disable-next-line react/prop-types
+export function KeyValueInline({ label, value }) {
+  const displayValue = value == null || value === '' ? <NoValue /> : value;
+
+  return (
+    <div>
+      <Label style={{ display: 'inline' }} tagName="span">{label}</Label>: {displayValue}
+    </div>
+  );
+}
+
 function PrintValue({ path, source, exportedLine }) {
   const value = get(exportedLine, path, null) || get(source, path, null);
   const currency = get(source, LINE_FIELDS_MAP.currency);
@@ -69,6 +80,7 @@ const ComponentToPrint = ({ dataSource = {} }) => {
       messages={intl.messages}
       timeZone={intl.timeZone}
       currency={intl.currency}
+      textComponent="span"
     >
       <Grid>
         <Row>
@@ -78,50 +90,48 @@ const ComponentToPrint = ({ dataSource = {} }) => {
             </Label>
           </Col>
           <Col xs={6}>
-            <div>
-              <FormattedMessage id="ui-orders.orderSummary.workflowStatus" />:&nbsp;
-              {dataSource.workflowStatus ? ORDER_STATUS_LABEL[dataSource.workflowStatus] : <NoValue />}
-            </div>
+            <KeyValueInline
+              label={<FormattedMessage id="ui-orders.orderSummary.workflowStatus" />}
+              value={ORDER_STATUS_LABEL[dataSource.workflowStatus]}
+            />
           </Col>
         </Row>
         <Row>
           <Col xs={6}>
-            <div>
-              <FormattedMessage id="ui-orders.orderSummary.closingReason" />:&nbsp;
-              {dataSource.closeReason?.reason || <NoValue />}
-            </div>
-            <div><FormattedMessage id="ui-orders.print.billToAddress" />:</div>
-            <div>{dataSource.billToAddress}</div>
+            <KeyValueInline
+              label={<FormattedMessage id="ui-orders.print.vendor" />}
+              value={dataSource.vendor?.name}
+            />
+            <KeyValueInline
+              label={<FormattedMessage id="ui-orders.print.vendorPrimaryAddress" />}
+              value={dataSource.vendorPrimaryAddress?.addressLine1}
+            />
+            <KeyValueInline
+              label={<FormattedMessage id="ui-orders.print.vendorPhone" />}
+              value={dataSource.vendorPrimaryPhone?.phoneNumber}
+            />
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.print.billToAddress" />}
+              value={dataSource.billToAddress}
+            />
           </Col>
           <Col xs={6}>
-            <div>
-              <FormattedMessage id="ui-orders.dateOrdered" />:&nbsp;
-              <FolioFormattedTime dateString={dataSource.dateOrdered} />
-            </div>
-            <div>
-              <FormattedMessage id="ui-orders.print.poNumber" />:&nbsp;
-              {dataSource.poNumber}
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={6}>
-            <div>
-              <FormattedMessage id="ui-orders.print.vendor" />:&nbsp;
-              {dataSource.vendor?.name}
-            </div>
-            <div>
-              <FormattedMessage id="ui-orders.print.vendorPrimaryAddress" />:&nbsp;
-              {dataSource.vendorPrimaryAddress?.addressLine1}
-            </div>
-            <div>
-              <FormattedMessage id="ui-orders.print.vendorPhone" />:&nbsp;
-              {dataSource.vendorPrimaryPhone?.phoneNumber}
-            </div>
-          </Col>
-          <Col xs={6}>
-            <div><FormattedMessage id="ui-orders.print.shipToAddress" />:</div>
-            <div>{dataSource.shipToAddress}</div>
+            <KeyValueInline
+              label={<FormattedMessage id="ui-orders.dateOrdered" />}
+              value={<FolioFormattedTime dateString={dataSource.dateOrdered} />}
+            />
+            <KeyValueInline
+              label={<FormattedMessage id="ui-orders.print.poNumber" />}
+              value={dataSource.poNumber}
+            />
+            <KeyValueInline
+              label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
+              value={dataSource.closeReason?.reason}
+            />
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.print.shipToAddress" />}
+              value={dataSource.shipToAddress}
+            />
           </Col>
         </Row>
 
@@ -163,22 +173,22 @@ const ComponentToPrint = ({ dataSource = {} }) => {
           {LINE_FIELDS_LABELS['vendorDetail.instructions']}: {
             dataSource.compositePoLines?.map((line) => {
               return (
-                <span key={line.id}>
+                <div key={line.id}>
                   {line.vendorDetail?.instructions}
-                </span>
+                </div>
               );
             })
           }
         </Col>
         <Col xs={6}>
-          <div>
-            <FormattedMessage id="ui-orders.print.totalItems" />:&nbsp;
-            {dataSource.totalItems}
-          </div>
-          <div>
-            <FormattedMessage id="ui-orders.print.total" />:&nbsp;
-            <AmountWithCurrencyField amount={dataSource.totalEstimatedPrice} />
-          </div>
+          <KeyValueInline
+            label={<FormattedMessage id="ui-orders.print.totalItems" />}
+            value={dataSource.totalItems}
+          />
+          <KeyValueInline
+            label={<FormattedMessage id="ui-orders.print.total" />}
+            value={<AmountWithCurrencyField amount={dataSource.totalEstimatedPrice} />}
+          />
         </Col>
       </Row>
     </IntlProvider>
