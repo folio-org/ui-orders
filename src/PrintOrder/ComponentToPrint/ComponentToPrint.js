@@ -139,7 +139,7 @@ const ComponentToPrint = ({ dataSource = {} }) => {
                 </KeyValue>
               </Col>
             </Row>
-            <Row className={css.colB}>
+            <Row className={css.poLineBlock}>
               {Object.keys(LINE_FIELDS_MAP).map((col) => {
                 if (col === LINE_FIELDS_MAP.poLineNumber) return null;
 
