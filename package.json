@@ -25,6 +25,7 @@
       "contributor-name-types": "1.2",
       "erm": "4.0",
       "finance.exchange-rate": "1.0",
+      "finance.expense-classes": "1.0",
       "finance.funds": "1.0",
       "finance.transactions": "4.0",
       "identifier-types": "1.2",
