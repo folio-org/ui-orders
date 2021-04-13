@@ -14,5 +14,6 @@ export function hydrateOrderToPrint({ order }) {
     shipToAddress,
     vendorPrimaryAddress,
     vendorPrimaryPhone,
+    vendor: order.exportData?.[0].vendorRecord,
   };
 }
