@@ -179,6 +179,7 @@
           "module.orders.enabled",
           "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
+          "finance.expense-classes.collection.get",
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.collection.get",
           "orders.item.get",
