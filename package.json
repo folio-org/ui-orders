@@ -131,16 +131,12 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "module.orders.enabled",
-          "orders.configuration.prefixes.collection.get",
-          "orders.configuration.suffixes.collection.get",
-          "orders.configuration.reasons-for-closure.collection.get",
+          "ui-orders.order.view",
           "orders.item.post",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.po-number.item.get",
-          "orders.po-number.item.post",
-          "ui-orders.third-party-services"
+          "orders.po-number.item.post"
         ]
       },
       {
