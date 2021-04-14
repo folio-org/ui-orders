@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { FormattedMessage, IntlProvider, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
@@ -14,6 +14,7 @@ import {
 import {
   AmountWithCurrencyField,
   FolioFormattedTime,
+  KeyValueInline,
   ORDER_STATUS_LABEL,
 } from '@folio/stripes-acq-components';
 
@@ -22,17 +23,6 @@ import {
 } from '../../components/POLine/const';
 import { LINE_FIELDS_MAP, LINE_FIELDS_LABELS } from './constants';
 import css from './ComponentToPrint.css';
-
-// eslint-disable-next-line react/prop-types
-export function KeyValueInline({ label, value }) {
-  const displayValue = value == null || value === '' ? <NoValue /> : value;
-
-  return (
-    <div>
-      <Label style={{ display: 'inline' }} tagName="span">{label}</Label>: {displayValue}
-    </div>
-  );
-}
 
 function PrintValue({ path, source, exportedLine }) {
   const value = get(exportedLine, path, null) || get(source, path, null);
@@ -72,16 +62,8 @@ function PrintValue({ path, source, exportedLine }) {
 }
 
 const ComponentToPrint = ({ dataSource = {} }) => {
-  const intl = useIntl();
-
   return (
-    <IntlProvider
-      defaultLocale="en"
-      messages={intl.messages}
-      timeZone={intl.timeZone}
-      currency={intl.currency}
-      textComponent="span"
-    >
+    <>
       <Grid>
         <Row>
           <Col xs={6}>
@@ -191,7 +173,7 @@ const ComponentToPrint = ({ dataSource = {} }) => {
           />
         </Col>
       </Row>
-    </IntlProvider>
+    </>
   );
 };
 

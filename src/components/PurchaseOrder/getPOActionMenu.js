@@ -167,7 +167,9 @@ export function getPOActionMenu({
           handlePrint();
         }}
       >
-        <FormattedMessage id="ui-orders.button.print" />
+        <Icon size="small" icon="print">
+          <FormattedMessage id="ui-orders.button.print" />
+        </Icon>
       </Button>
     </MenuSection>
   );
