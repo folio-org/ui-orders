@@ -361,6 +361,7 @@
     ]
   },
   "scripts": {
+    "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-orders ./translations/ui-orders/compiled",
     "start": "yarn stripes serve",
     "build": "yarn stripes build --output ./output",
     "test": "yarn run test:unit && yarn run test:e2e",
@@ -379,9 +380,9 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
-    "@folio/react-intl-safe-html": "^2.0.0",
     "@folio/stripes": "^6.0.0",
     "@folio/stripes-cli": "^2.0.0",
+    "@formatjs/cli": "^4.2.7",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.0.2",
     "babel-eslint": "^10.1.0",

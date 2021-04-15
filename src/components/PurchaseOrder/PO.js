@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { get } from 'lodash';
 import { useReactToPrint } from 'react-to-print';
 
@@ -109,7 +108,7 @@ const PO = ({
           const errorKey = isGeneralError ? 'orderNotLoaded' : 'conversionError';
 
           sendCallout({
-            message: <SafeHTMLMessage id={`ui-orders.errors.${errorKey}`} />,
+            message: <FormattedMessage id={`ui-orders.errors.${errorKey}`} />,
             type: 'error',
           });
 
@@ -130,7 +129,7 @@ const PO = ({
       })
         .catch(() => {
           sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.errors.orderLinesNotLoaded" />,
+            message: <FormattedMessage id="ui-orders.errors.orderLinesNotLoaded" />,
             type: 'error',
           });
 
@@ -194,7 +193,7 @@ const PO = ({
       cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber, poLines)
         .then(newOrder => {
           sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.order.clone.success" />,
+            message: <FormattedMessage id="ui-orders.order.clone.success" />,
             type: 'success',
           });
           history.push({
@@ -229,7 +228,7 @@ const PO = ({
       mutator.orderDetails.DELETE(order, { silent: true })
         .then(() => {
           sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
+            message: <FormattedMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
             type: 'success',
           });
           refreshList();
@@ -240,7 +239,7 @@ const PO = ({
         })
         .catch(() => {
           sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.errors.orderWasNotDeleted" />,
+            message: <FormattedMessage id="ui-orders.errors.orderWasNotDeleted" />,
             type: 'error',
           });
           setIsLoading();
@@ -265,7 +264,7 @@ const PO = ({
       updateOrderResource(order, mutator.orderDetails, closeOrderProps)
         .then(
           () => {
-            sendCallout({ message: <SafeHTMLMessage id="ui-orders.closeOrder.success" /> });
+            sendCallout({ message: <FormattedMessage id="ui-orders.closeOrder.success" /> });
             refreshList();
 
             return fetchOrder();
@@ -287,7 +286,7 @@ const PO = ({
         .then(
           () => {
             sendCallout({
-              message: <SafeHTMLMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
+              message: <FormattedMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
             });
             refreshList();
 
@@ -315,7 +314,7 @@ const PO = ({
         .then(
           () => {
             sendCallout({
-              message: <SafeHTMLMessage id="ui-orders.order.open.success" values={{ orderNumber: order?.poNumber }} />,
+              message: <FormattedMessage id="ui-orders.order.open.success" values={{ orderNumber: order?.poNumber }} />,
               type: 'success',
             });
             refreshList();
@@ -351,7 +350,7 @@ const PO = ({
         .then(
           () => {
             sendCallout({
-              message: <SafeHTMLMessage id="ui-orders.order.reopen.success" values={{ orderNumber }} />,
+              message: <FormattedMessage id="ui-orders.order.reopen.success" values={{ orderNumber }} />,
               type: 'success',
             });
             refreshList();
@@ -380,7 +379,7 @@ const PO = ({
         .then(
           () => {
             sendCallout({
-              message: <SafeHTMLMessage id="ui-orders.order.unopen.success" values={{ orderNumber }} />,
+              message: <FormattedMessage id="ui-orders.order.unopen.success" values={{ orderNumber }} />,
               type: 'success',
             });
             refreshList();
@@ -496,7 +495,7 @@ const PO = ({
       mutator.updateEncumbrances.POST({})
         .then(
           () => {
-            sendCallout({ message: <SafeHTMLMessage id="ui-orders.order.updateEncumbrances.success" /> });
+            sendCallout({ message: <FormattedMessage id="ui-orders.order.updateEncumbrances.success" /> });
 
             return fetchOrder();
           },

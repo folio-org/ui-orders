@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
+import { FormattedMessage } from 'react-intl';
 
 import { LoadingPane } from '@folio/stripes/components';
 import {
@@ -43,7 +43,7 @@ function POLine({
     () => mutator.poLine.GET({ params: { query: `id==${lineId}` } })
       .catch(() => {
         sendCallout({
-          message: <SafeHTMLMessage id="ui-orders.errors.orderLinesNotLoaded" />,
+          message: <FormattedMessage id="ui-orders.errors.orderLinesNotLoaded" />,
           type: 'error',
         });
 
@@ -72,7 +72,7 @@ function POLine({
       mutator.poLine.DELETE(line, { silent: true })
         .then(() => {
           sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.line.delete.success" values={{ lineNumber }} />,
+            message: <FormattedMessage id="ui-orders.line.delete.success" values={{ lineNumber }} />,
             type: 'success',
           });
 
@@ -84,7 +84,7 @@ function POLine({
         .catch(async errorResponse => {
           setIsLoading();
           sendCallout({
-            message: <SafeHTMLMessage id="ui-orders.errors.lineWasNotDeleted" />,
+            message: <FormattedMessage id="ui-orders.errors.lineWasNotDeleted" />,
             type: 'error',
           });
 
