@@ -303,7 +303,10 @@ class POLineView extends Component {
             label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
             id="Vendor"
           >
-            <VendorView vendorDetail={line.vendorDetail} />
+            <VendorView
+              vendorDetail={line.vendorDetail}
+              vendorId={order?.vendor}
+            />
           </Accordion>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
