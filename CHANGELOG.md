@@ -9,6 +9,7 @@
 * With perm Orders: View order lines can not see order lines. Refs UIOR-699.
 * Duplicate PO is created as "Approved". Refs UIOR-698.
 * With perm "Orders: Create orders" user can NOT create orders. Refs UIOR-700.
+* POL: Adjust the UI for account number to also display the account name. Refs UIOR-706.
 
 ## [2.3.0](https://github.com/folio-org/ui-orders/tree/v2.3.0) (2021-03-18)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.6...v2.3.0)
