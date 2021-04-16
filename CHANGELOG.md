@@ -3,9 +3,13 @@
 ## (IN PROGRESS)
 
 * Filter order lines by Expense class. Refs UIOR-678.
+* Resizable Panes - Persistence. Refs UIOR-683.
+
+## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)
+
 * Add Ongoing to the POL filters. Refs UIOR-688.
 * Material type E and P Filters not working in POL search. Refs UIOR-679.
-* Resizable Panes - Persistence. Refs UIOR-683.
 * With perm Orders: View order lines can not see order lines. Refs UIOR-699.
 * Duplicate PO is created as "Approved". Refs UIOR-698.
 * With perm "Orders: Create orders" user can NOT create orders. Refs UIOR-700.
