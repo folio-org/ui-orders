@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)
+
 * Add Ongoing to the POL filters. Refs UIOR-688.
 * Material type E and P Filters not working in POL search. Refs UIOR-679.
 * With perm Orders: View order lines can not see order lines. Refs UIOR-699.
