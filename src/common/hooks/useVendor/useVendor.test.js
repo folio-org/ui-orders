@@ -16,27 +16,25 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-describe('Export job api queries', () => {
-  describe('useExportJobQuery', () => {
-    it('should fetch export job', async () => {
-      const vendor = {
-        id: 'uidVendor',
-        name: 'AMAZON',
-      };
+describe('useVendor', () => {
+  it('should fetch vendor', async () => {
+    const vendor = {
+      id: 'uidVendor',
+      name: 'AMAZON',
+    };
 
-      useOkapiKy.mockClear().mockReturnValue({
-        get: () => ({
-          json: () => vendor,
-        }),
-      });
-
-      const { result, waitFor } = renderHook(() => useVendor('uid'), { wrapper });
-
-      await waitFor(() => {
-        return !result.current.isLoading;
-      });
-
-      expect(result.current.vendor).toEqual(vendor);
+    useOkapiKy.mockClear().mockReturnValue({
+      get: () => ({
+        json: () => vendor,
+      }),
     });
+
+    const { result, waitFor } = renderHook(() => useVendor('uid'), { wrapper });
+
+    await waitFor(() => {
+      return !result.current.isLoading;
+    });
+
+    expect(result.current.vendor).toEqual(vendor);
   });
 });
