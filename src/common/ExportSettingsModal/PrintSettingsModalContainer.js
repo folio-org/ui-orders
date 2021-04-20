@@ -1,14 +1,27 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
+import {
+  PRINT_LINE_FIELDS_OPTIONS,
+  PRINT_ORDER_FIELDS_OPTIONS,
+} from './constants';
 import { getExportData, exportManifest } from './utils';
 import ExportSettingsModal from './ExportSettingsModal';
+
+const modalConfig = {
+  actionLabel: <FormattedMessage id="ui-orders.button.print" />,
+  lineDataOptions: PRINT_LINE_FIELDS_OPTIONS,
+  lineFieldsLabel: <FormattedMessage id="ui-orders.print.lineFieldsLabel" />,
+  modalLabel: <FormattedMessage id="ui-orders.print.modalLabel" />,
+  orderDataOptions: PRINT_ORDER_FIELDS_OPTIONS,
+  orderFieldsLabel: <FormattedMessage id="ui-orders.print.orderFieldsLabel" />,
+};
 
 const PrintSettingsModalContainer = ({
   mutator,
@@ -52,6 +65,7 @@ const PrintSettingsModalContainer = ({
       isExporting={isExporting}
       onExportCSV={onPrint}
       onCancel={onCancel}
+      modalConfig={modalConfig}
     />
   );
 };
