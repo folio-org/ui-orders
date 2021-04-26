@@ -10,7 +10,11 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   MultiColumnList,
 } from '@folio/stripes/components';
-import { PersistedPaneset } from '@folio/stripes/smart-components';
+import {
+  ColumnManagerMenu,
+  PersistedPaneset,
+  useColumnManager,
+} from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   FolioFormattedDate,
@@ -37,7 +41,6 @@ import OrderExportSettingsModalContainer from './OrderExportSettingsModalContain
 
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orders" />;
-const visibleColumns = ['poNumber', 'vendorCode', 'workflowStatus', 'orderType', UPDATED_DATE, 'acquisitionsUnit', 'assignedTo'];
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', UPDATED_DATE];
 const resultsFormatter = {
   [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} />,
@@ -83,6 +86,7 @@ function OrdersList({
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-orders/orders/filters');
   const [isExportModalOpened, toggleExportModal] = useModalToggle();
   const searchableIndexes = useSearchableIndexes();
+  const { visibleColumns, toggleColumn } = useColumnManager('orders-column-manager', columnMapping);
 
   const selectOrder = useCallback(
     (e, { id }) => {
@@ -104,14 +108,22 @@ function OrdersList({
   );
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
-      <OrdersListActionMenu
-        ordersCount={ordersCount}
-        search={location.search}
-        onToggle={onToggle}
-        toggleExportModal={toggleExportModal}
-      />
+      <>
+        <OrdersListActionMenu
+          ordersCount={ordersCount}
+          search={location.search}
+          onToggle={onToggle}
+          toggleExportModal={toggleExportModal}
+        />
+        <ColumnManagerMenu
+          prefix="orders"
+          columnMapping={columnMapping}
+          visibleColumns={visibleColumns}
+          toggleColumn={toggleColumn}
+        />
+      </>
     ),
-    [location.search, ordersCount, toggleExportModal],
+    [location.search, ordersCount, toggleExportModal, visibleColumns, toggleColumn],
   );
 
   return (
