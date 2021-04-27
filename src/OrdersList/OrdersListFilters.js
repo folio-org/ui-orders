@@ -164,7 +164,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
       <AcqDateRangeFilter
         id={FILTERS.RENEWAL_DATE}
         activeFilters={activeFilters[FILTERS.RENEWAL_DATE]}
-        labelId="ui-orders.renewal.date"
+        labelId="ui-orders.renewals.renewalDate"
         name={FILTERS.RENEWAL_DATE}
         onChange={onChange}
         disabled={disabled}
@@ -180,7 +180,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
       <OrdersTextFilter
         id="order-reviewPeriod"
         activeFilters={activeFilters[FILTERS.RENEWAL_REVIEW_PERIOD]}
-        labelId="ui-orders.renewal.reviewPeriod"
+        labelId="ui-orders.renewals.renewalPeriod"
         name={FILTERS.RENEWAL_REVIEW_PERIOD}
         type="number"
         onChange={onChange}

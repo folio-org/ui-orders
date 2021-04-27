@@ -462,8 +462,6 @@
   "renewals.renewalInterval": "Renewal interval",
   "renewals.renewalPeriod": "Renewal period",
   "renewals.reviewPeriod": "Review period",
-  "renewal.date": "Renewal date",
-  "renewal.reviewPeriod": "Renewal review period",
   "receiving.barcode": "Barcode",
   "receiving.btn.remove": "Remove",
   "receiving.links.items": "Receiving items",
