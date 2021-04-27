@@ -667,6 +667,6 @@
     "vendor.referenceNumbers": "供应商参考号",
     "lineListing.refNumber": "供应商参考号",
     "search.vendorDetail.referenceNumbers": "供应商参考号",
-    "payment_status.ongoing": "Ongoing",
-    "receipt_status.ongoing": "Ongoing"
+    "payment_status.ongoing": "进行中",
+    "receipt_status.ongoing": "进行中"
 }
