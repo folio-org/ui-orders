@@ -172,7 +172,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
       <BooleanFilter
         id={FILTERS.MANUAL_RENEWAL}
         activeFilters={activeFilters[FILTERS.MANUAL_RENEWAL]}
-        labelId="ui-orders.renewal.manualRenewal"
+        labelId="ui-orders.renewals.manualRenewal"
         name={FILTERS.MANUAL_RENEWAL}
         onChange={onChange}
         disabled={disabled}
