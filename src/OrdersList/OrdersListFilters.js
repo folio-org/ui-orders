@@ -153,6 +153,14 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
         onChange={onChange}
         disabled={disabled}
       />
+      <BooleanFilter
+        id={FILTERS.SUBSCRIPTION}
+        activeFilters={activeFilters[FILTERS.SUBSCRIPTION]}
+        labelId="ui-orders.renewals.subscription"
+        name={FILTERS.SUBSCRIPTION}
+        onChange={onChange}
+        disabled={disabled}
+      />
       <AcqDateRangeFilter
         id={FILTERS.RENEWAL_DATE}
         activeFilters={activeFilters[FILTERS.RENEWAL_DATE]}
