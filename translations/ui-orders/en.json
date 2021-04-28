@@ -178,6 +178,8 @@
   "errors.poNumberNotUnique": "PO Number already exists",
   "errors.poNumberRequired": "PO Number is missing",
   "errors.protectedFieldChanging": "Protected fields can't be modified",
+  "errors.renewalIntervalIsNotSet": "Renewal interval is not set",
+  "errors.renewalDateIsNotSet": "Renewal date is not set",
   "errors.userHasNoAcqUnitsPermission": "User does not have permissions to manage acquisition units assignments - operation is restricted",
   "errors.userHasNoApprovalPermission": "User does not have permissions to approve order - operation is restricted",
   "errors.userHasNoPermission": "This purchase order cannot be saved until the acquisition unit is removed or corrected",
