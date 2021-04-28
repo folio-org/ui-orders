@@ -267,6 +267,7 @@
   "line.accordion.physical": "Physical resource details",
   "line.accordion.poLine": "Purchase order line",
   "line.accordion.relatedInvoices": "Related invoices",
+  "line.accordion.linkedInstances": "Linked instances",
   "line.accordion.vendor": "Vendor",
   "line.closedOrderMessage": "Purchase order is closed - {reason}",
   "line.paneTitle.details": "PO Line details - {poLineNumber}",

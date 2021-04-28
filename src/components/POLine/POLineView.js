@@ -56,6 +56,7 @@ import CostView from './Cost/CostView';
 import VendorView from './Vendor/VendorView';
 import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
+import { LineLinkedInstances } from './LineLinkedInstances';
 import PhysicalView from './Physical/PhysicalView';
 import { OtherView } from './Other';
 import POLineInvoicesContainer from './POLineInvoices';
@@ -393,6 +394,8 @@ const POLineView = ({
           label={<FormattedMessage id="ui-orders.line.accordion.linkedAgreementLines" />}
           lineId={line.id}
         />
+
+        <LineLinkedInstances line={line} />
       </AccordionSet>
       {showConfirmDelete && (
         <ConfirmationModal

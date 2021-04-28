@@ -5,6 +5,7 @@
 * Filter order lines by Expense class. Refs UIOR-678.
 * Resizable Panes - Persistence. Refs UIOR-683.
 * Filter order by subscription = yes/no. Refs UIOR-710.
+* Add linked instances accordion to the POL. Refs UIOR-689.
 
 ## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)

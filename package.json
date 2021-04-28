@@ -31,6 +31,7 @@
       "identifier-types": "1.2",
       "instance-statuses": "1.0",
       "instance-types": "2.0",
+      "inventory": "10.10",
       "invoice": "7.0",
       "loan-types": "2.2",
       "location-units": "2.0",
@@ -174,6 +175,7 @@
         "visible": true,
         "subPermissions": [
           "module.orders.enabled",
+          "inventory.instances.collection.get",
           "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
           "finance.expense-classes.collection.get",
