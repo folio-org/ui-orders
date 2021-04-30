@@ -31,6 +31,7 @@ import {
   FundDistributionView,
   ORDER_FORMATS,
   TagsBadge,
+  useAcqRestrictions,
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
@@ -129,6 +130,10 @@ const POLineView = ({
     deleteLine();
   }, [deleteLine, toggleConfirmDelete]);
 
+  const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
+    order?.id, order?.acqUnitIds,
+  );
+
   // eslint-disable-next-line react/prop-types
   const getActionMenu = ({ onToggle }) => {
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
@@ -142,6 +147,7 @@ const POLineView = ({
             <Button
               buttonStyle="dropdownItem"
               data-test-button-edit-line
+              disabled={isRestrictionsLoading || restrictions.protectUpdate}
               onClick={() => {
                 onToggle();
                 onEditPOLine();
@@ -184,6 +190,7 @@ const POLineView = ({
           <Button
             buttonStyle="dropdownItem"
             data-test-button-delete-line
+            disabled={isRestrictionsLoading || restrictions.protectDelete}
             onClick={() => {
               onToggle();
               toggleConfirmDelete();
