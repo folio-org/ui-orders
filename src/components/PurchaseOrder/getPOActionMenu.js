@@ -42,6 +42,7 @@ export function getPOActionMenu({
   const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
   const isReopenButtonVisible = isWorkflowStatusClosed(order);
   const isOrderInOpenStatus = isWorkflowStatusOpen(order);
+  const isUpdateDisabled = isRestrictionsLoading || restrictions.protectUpdate;
 
   return ({ onToggle }) => (
     <MenuSection id="order-details-actions">
@@ -49,7 +50,7 @@ export function getPOActionMenu({
         <Button
           buttonStyle="dropdownItem"
           data-test-button-edit-order
-          disabled={isRestrictionsLoading || restrictions.protectUpdate}
+          disabled={isUpdateDisabled}
           onClick={() => {
             onToggle();
             clickEdit();
@@ -66,7 +67,7 @@ export function getPOActionMenu({
             <Button
               buttonStyle="dropdownItem"
               data-test-approve-order-button
-              disabled={isRestrictionsLoading || restrictions.protectUpdate}
+              disabled={isUpdateDisabled}
               onClick={clickApprove}
             >
               <FormattedMessage id="ui-orders.paneBlock.approveBtn" />
@@ -77,7 +78,7 @@ export function getPOActionMenu({
           <Button
             buttonStyle="dropdownItem"
             data-test-close-order-button
-            disabled={isRestrictionsLoading || restrictions.protectUpdate}
+            disabled={isUpdateDisabled}
             onClick={clickClose}
           >
             <Icon size="small" icon="archive">
@@ -89,7 +90,7 @@ export function getPOActionMenu({
           <Button
             buttonStyle="dropdownItem"
             data-test-open-order-button
-            disabled={isRestrictionsLoading || restrictions.protectUpdate}
+            disabled={isUpdateDisabled}
             onClick={clickOpen}
           >
             <Icon size="small" icon="cart">
@@ -102,7 +103,7 @@ export function getPOActionMenu({
             <Button
               buttonStyle="dropdownItem"
               data-test-unopen-order-button
-              disabled={isRestrictionsLoading || restrictions.protectUpdate}
+              disabled={isUpdateDisabled}
               onClick={clickUnopen}
             >
               <FormattedMessage id="ui-orders.paneBlock.unopenBtn" />
@@ -148,7 +149,7 @@ export function getPOActionMenu({
         <Button
           buttonStyle="dropdownItem"
           data-test-reopen-order-button
-          disabled={isRestrictionsLoading || restrictions.protectUpdate}
+          disabled={isUpdateDisabled}
           onClick={() => {
             onToggle();
             clickReopen();
