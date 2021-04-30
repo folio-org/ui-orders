@@ -7,6 +7,8 @@ import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 
 import PO from './PO';
 
+jest.mock('@folio/stripes-acq-components/lib/AcqUnits/hooks/useAcqRestrictions', () => ({}));
+
 const ORDER = {
   id: '73a9b376-844f-41b5-8b3f-71f2fae63f1f',
   workflowStatus: ORDER_STATUSES.open,
