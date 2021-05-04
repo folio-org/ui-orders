@@ -96,6 +96,7 @@ const POLineView = ({
     [ACCORDION_ID.relatedInvoices]: true,
     [ACCORDION_ID.notes]: true,
     [ACCORDION_ID.poLine]: true,
+    [ACCORDION_ID.linkedInstances]: false,
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [isPrintModalOpened, togglePrintModal] = useModalToggle();
@@ -395,7 +396,10 @@ const POLineView = ({
           lineId={line.id}
         />
 
-        <LineLinkedInstances line={line} />
+        <LineLinkedInstances
+          line={line}
+          toggleSection={onToggleSection}
+        />
       </AccordionSet>
       {showConfirmDelete && (
         <ConfirmationModal
