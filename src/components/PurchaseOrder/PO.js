@@ -14,6 +14,7 @@ import {
   LIMIT_MAX,
   Tags,
   TagsBadge,
+  useAcqRestrictions,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -523,6 +524,10 @@ const PO = ({
     return hydrateOrderToPrint({ order: orderToPrint });
   }, [orderToPrint]);
 
+  const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
+    order?.id, order?.acqUnitIds,
+  );
+
   if (isLoading || order?.id !== match.params.id) {
     return (
       <LoadingPane
@@ -555,7 +560,9 @@ const PO = ({
         clickUnopen: toggleUnopenOrderModal,
         clickUpdateEncumbrances: updateEncumbrances,
         handlePrint: togglePrintModal,
+        isRestrictionsLoading,
         order,
+        restrictions,
       })}
       data-test-order-details
       defaultWidth="fill"

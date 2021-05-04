@@ -14,7 +14,11 @@ import {
   MultiColumnList,
   NoValue,
 } from '@folio/stripes/components';
-import { PersistedPaneset } from '@folio/stripes/smart-components';
+import {
+  ColumnManagerMenu,
+  PersistedPaneset,
+  useColumnManager,
+} from '@folio/stripes/smart-components';
 import {
   FiltersPane,
   FolioFormattedDate,
@@ -39,7 +43,6 @@ import LineExportSettingsModalContainer from './LineExportSettingModalContainer'
 const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
-const visibleColumns = ['poLineNumber', UPDATED_DATE, 'title', 'productIds', VENDOR_REF_NUMBER, 'funCodes', 'orderWorkflow'];
 const sortableColumns = ['poLineNumber', UPDATED_DATE, 'title'];
 const resultsFormatter = {
   [UPDATED_DATE]: line => <FolioFormattedDate value={get(line, 'metadata.updatedDate')} />,
@@ -99,6 +102,7 @@ function OrderLinesList({
     },
     [history, location.search],
   );
+  const { visibleColumns, toggleColumn } = useColumnManager('order-lines-column-manager', columnMapping);
 
   const resultsStatusMessage = (
     <NoResultsMessage
@@ -111,13 +115,21 @@ function OrderLinesList({
 
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
-      <OrderLinesListActionMenu
-        orderLinesCount={orderLinesCount}
-        onToggle={onToggle}
-        toggleExportModal={toggleExportModal}
-      />
+      <>
+        <OrderLinesListActionMenu
+          orderLinesCount={orderLinesCount}
+          onToggle={onToggle}
+          toggleExportModal={toggleExportModal}
+        />
+        <ColumnManagerMenu
+          prefix="order-lines"
+          columnMapping={columnMapping}
+          visibleColumns={visibleColumns}
+          toggleColumn={toggleColumn}
+        />
+      </>
     ),
-    [orderLinesCount, toggleExportModal],
+    [orderLinesCount, toggleExportModal, visibleColumns, toggleColumn],
   );
 
   return (

@@ -4,6 +4,7 @@
 
 * Filter order lines by Expense class. Refs UIOR-678.
 * Resizable Panes - Persistence. Refs UIOR-683.
+* Apply Results list column chooser. Refs UIOR-691.
 * Filter order by subscription = yes/no. Refs UIOR-710.
 * Add linked instances accordion to the POL. Refs UIOR-689.
 
