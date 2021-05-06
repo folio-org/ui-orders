@@ -1,28 +1,47 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import {
   Accordion,
   Loading,
   MultiColumnList,
+  NoValue,
 } from '@folio/stripes/components';
 
 import { ACCORDION_ID } from '../const';
 
 import { useLinkedInstances } from './useLinkedInstances';
 
-const visibleColumns = ['title'];
+const visibleColumns = ['title', 'contributors', 'publishers', 'relations'];
+const columnMapping = {
+  title: <FormattedMessage id="ui-orders.instance.title" />,
+  contributors: <FormattedMessage id="ui-orders.instance.contributors" />,
+  publishers: <FormattedMessage id="ui-orders.instance.publishers" />,
+  relations: <FormattedMessage id="ui-orders.instance.relations" />,
+};
+const columnWidths = {
+  title: '50%',
+};
+const resultFormatter = {
+  title: (instance) => (
+    <Link to={`/inventory/view/${instance.id}`}>
+      {instance.title}
+    </Link>
+  ),
+  contributors: ({ contributors }) => contributors || <NoValue />,
+  publishers: ({ publishers }) => publishers || <NoValue />,
+  relations: ({ relations }) => relations || <NoValue />,
+};
 
 export const LineLinkedInstances = ({ line, toggleSection }) => {
   const intl = useIntl();
   const { isLoading, linkedInstances } = useLinkedInstances(line);
 
   useEffect(() => {
-    if (linkedInstances?.length) {
-      toggleSection({ id: ACCORDION_ID.linkedInstances });
-    }
-  }, [toggleSection, linkedInstances]);
+    toggleSection({ id: ACCORDION_ID.linkedInstances, isOpened: Boolean(isLoading || linkedInstances?.length) });
+  }, [toggleSection, isLoading, linkedInstances]);
 
   return (
     <Accordion
@@ -37,6 +56,9 @@ export const LineLinkedInstances = ({ line, toggleSection }) => {
               id="lineLinkedInstances"
               contentData={linkedInstances}
               visibleColumns={visibleColumns}
+              columnMapping={columnMapping}
+              columnWidths={columnWidths}
+              formatter={resultFormatter}
               interactive={false}
             />
           )

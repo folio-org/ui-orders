@@ -7,6 +7,41 @@ import {
   LINES_API,
 } from '@folio/stripes-acq-components';
 
+import {
+  formatContributors,
+  formatPublishers,
+  formatRelations,
+} from './formatters';
+
+export const hydrateLinkedInstance = (instance, relationTypes) => {
+  return {
+    id: instance.id,
+    title: instance.title,
+    contributors: formatContributors(instance?.contributors),
+    publishers: formatPublishers(instance?.publication),
+    relations: formatRelations(instance?.parentInstances, instance?.childInstances, relationTypes),
+  };
+};
+
+export const useInstanceRelationTypes = () => {
+  const ky = useOkapiKy();
+
+  const { refetch } = useQuery(
+    ['ui-orders', 'linked-lines'],
+    () => {
+      const searchParams = {
+        limit: LIMIT_MAX,
+        query: 'cql.allRecords=1',
+      };
+
+      return ky.get('instance-relationship-types', { searchParams }).json();
+    },
+    { enabled: false },
+  );
+
+  return { fetchInstanceRelationTypes: refetch };
+};
+
 export const useLinkedLines = line => {
   const ky = useOkapiKy();
 
@@ -30,6 +65,7 @@ export const useLinkedLines = line => {
 };
 
 export const useLinkedInstances = line => {
+  const { fetchInstanceRelationTypes } = useInstanceRelationTypes();
   const { isLoading: isLinkedLinesLoading, linkedLines = [] } = useLinkedLines(line);
   const ky = useOkapiKy();
 
@@ -42,13 +78,16 @@ export const useLinkedInstances = line => {
   }
 
   const { isLoading, data } = useQuery(
-    ['ui-orders', 'linked-instances', line.id],
+    ['ui-orders', 'linked-instances', line.id, linkedInstanceIds],
     () => {
       return batchRequest(
         async ({ params: searchParams }) => {
-          const response = await ky.get('inventory/instances', { searchParams }).json();
+          const { data: relationTypesData } = await fetchInstanceRelationTypes();
+          const { instances = [] } = await ky.get('inventory/instances', { searchParams }).json();
 
-          return response.instances;
+          return instances.map(
+            instance => hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
+          );
         },
         linkedInstanceIds,
       );

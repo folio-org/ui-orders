@@ -225,6 +225,7 @@
   "instance.contributors": "Contributors",
   "instance.publishers": "Publishers",
   "instance.title": "Title",
+  "instance.relations": "Relation",
   "itemDetails.addContributor": "Please add contributor",
   "itemDetails.addContributorBtn": "Add contributor",
   "itemDetails.addMaterialTypes": "Please add material types",

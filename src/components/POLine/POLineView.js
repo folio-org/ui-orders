@@ -102,13 +102,13 @@ const POLineView = ({
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [isPrintModalOpened, togglePrintModal] = useModalToggle();
 
-  const onToggleSection = useCallback(({ id }) => {
+  const onToggleSection = useCallback(({ id, isOpened }) => {
     setSections((prevSections) => {
       const isSectionOpened = prevSections[id];
 
       return {
         ...prevSections,
-        [id]: !isSectionOpened,
+        [id]: isOpened ?? !isSectionOpened,
       };
     });
   }, []);
