@@ -117,9 +117,9 @@ jobs:
       - name: Fetch branches for SonarCloud
         run: git fetch --no-tags ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY} +refs/heads/master:refs/remotes/origin/master
         
-      - name: Run SonarCloud scan
+      - name: Run SonarCloud scan master branch
         uses: sonarsource/sonarcloud-github-action@master
-      - if: github.REF == 'master'
+        if: github.REF == 'master'
         with:
           args: >
             -Dsonar.projectKey=org.folio:${{ github.event.repository.name }}
@@ -131,7 +131,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - if: github.REF != 'master'
+        
+      - name: Run SonarCloud scan
+        uses: sonarsource/sonarcloud-github-action@master
         with:
           args: >
             -Dsonar.organization=folio-org 
