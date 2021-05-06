@@ -60,7 +60,7 @@ jobs:
 
       
       - name: Set FOLIO NPM snapshot version and publish to NPM snapshot repository
-      - uses: actions/setup-node@v2
+        uses: actions/setup-node@v2
         if: github.REF == 'master'
         with:
           node-version: ${{ env.NODEJS_VERSION }}
