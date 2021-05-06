@@ -79,10 +79,11 @@ export const useLinkedInstances = line => {
 
   const { isLoading, data } = useQuery(
     ['ui-orders', 'linked-instances', line.id, linkedInstanceIds],
-    () => {
+    async () => {
+      const { data: relationTypesData } = await fetchInstanceRelationTypes();
+
       return batchRequest(
         async ({ params: searchParams }) => {
-          const { data: relationTypesData } = await fetchInstanceRelationTypes();
           const { instances = [] } = await ky.get('inventory/instances', { searchParams }).json();
 
           return instances.map(
