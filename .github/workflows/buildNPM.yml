@@ -153,16 +153,16 @@ jobs:
           folioName: folio_orders
       - run: echo "Step completed"
       
-      - name: Publish Module descriptor
-      - if: github.REF == 'master'
-        uses: fjogeleit/http-request-action@master
-        with:
-          url: 'http://ec2-3-88-110-24.compute-1.amazonaws.com'
-          method: 'POST'
-          file: '{ "file": "${{ env.MODULE_DESCRIPTOR_DIR }}/$folioName.json" }'
-          username: ${{ secrets.FOLIO_REGISTRY_USERNAME }}
-          password: ${{ secrets.FOLIO_REGISTRY_PASSWORD }}
-        env:
-          folioName: folio_orders
-      - run: echo "Step comlpleted"
+      # - name: Publish Module descriptor
+      # - if: github.REF == 'master'
+      #   uses: fjogeleit/http-request-action@master
+      #   with:
+      #     url: 'http://ec2-3-88-110-24.compute-1.amazonaws.com'
+      #     method: 'POST'
+      #     file: '{ "file": "${{ env.MODULE_DESCRIPTOR_DIR }}/$folioName.json" }'
+      #     username: ${{ secrets.FOLIO_REGISTRY_USERNAME }}
+      #     password: ${{ secrets.FOLIO_REGISTRY_PASSWORD }}
+      #   env:
+      #     folioName: folio_orders
+      # - run: echo "Step comlpleted"
 
