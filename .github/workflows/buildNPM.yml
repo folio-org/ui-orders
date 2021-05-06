@@ -151,7 +151,7 @@ jobs:
         run: stripes mod descriptor --full --strict | jq '.[]' > ${{ env.MODULE_DESCRIPTOR_DIR }}/$folioName.json
         env:
           folioName: folio_orders
-      - run: step completed
+      - run: echo "Step completed"
       
       - name: Publish Module descriptor
       - if: github.REF == 'master'
