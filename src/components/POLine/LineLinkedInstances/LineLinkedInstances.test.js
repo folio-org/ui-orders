@@ -2,8 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import '@folio/stripes-acq-components/test/jest/__mock__';
-
 import { ACCORDION_ID } from '../const';
 import { LineLinkedInstances } from './LineLinkedInstances';
 import { useLinkedInstances } from './useLinkedInstances';
@@ -17,12 +15,11 @@ jest.mock('@folio/stripes/components', () => ({
 }), { virtual: true });
 
 const renderLineLinkedInstances = ({ line = {}, toggleSection = jest.fn() }) => (render(
-  <MemoryRouter>
-    <LineLinkedInstances
-      line={line}
-      toggleSection={toggleSection}
-    />
-  </MemoryRouter>,
+  <LineLinkedInstances
+    line={line}
+    toggleSection={toggleSection}
+  />,
+  { wrapper: MemoryRouter },
 ));
 
 describe('LineLinkedInstances', () => {

@@ -24,6 +24,7 @@ import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 import LineDetailsPage from '../interactors/line-details-page';
 import OrderDetailsPage from '../interactors/order-details-page';
+import { TIMEOUT } from '../interactors/const';
 import { CalloutInteractor } from '../interactors';
 
 const TITLE = 'TEST_VALUE';
@@ -40,6 +41,8 @@ const LINE_ESTIMATED_PRICE = calculateEstimatedPrice({ cost });
 
 describe('Line edit test', function () {
   setupApplication();
+
+  this.timeout(TIMEOUT);
 
   let order = null;
   let line = null;
