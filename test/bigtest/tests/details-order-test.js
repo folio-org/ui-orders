@@ -10,6 +10,7 @@ import {
   WORKFLOW_STATUS,
 } from '../../../src/common/constants';
 import setupApplication from '../helpers/setup-application';
+import { TIMEOUT } from '../interactors/const';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import LineEditPage from '../interactors/line-edit-page';
@@ -22,6 +23,8 @@ const ADDRESS = 'TEST ADDRESS';
 
 describe('Order Details Page', function () {
   setupApplication();
+
+  this.timeout(TIMEOUT);
 
   const lineEditPage = new LineEditPage();
   const orderDetailsPage = new OrderDetailsPage();
