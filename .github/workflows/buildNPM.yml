@@ -118,8 +118,8 @@ jobs:
         run: git fetch --no-tags ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY} +refs/heads/master:refs/remotes/origin/master
         
       - name: Run SonarCloud scan
-      - if: github.REF == 'master'
         uses: sonarsource/sonarcloud-github-action@master
+      - if: github.REF == 'master'
         with:
           args: >
             -Dsonar.projectKey=org.folio:${{ github.event.repository.name }}
@@ -132,7 +132,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - if: github.REF != 'master'
-        uses: sonarsource/sonarcloud-github-action@master
         with:
           args: >
             -Dsonar.organization=folio-org 
