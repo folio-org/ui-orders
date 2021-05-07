@@ -4,7 +4,6 @@ import { useOkapiKy } from '@folio/stripes/core';
 import {
   batchRequest,
   LIMIT_MAX,
-  LINES_API,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -42,38 +41,41 @@ export const useInstanceRelationTypes = () => {
   return { fetchInstanceRelationTypes: refetch };
 };
 
-export const useLinkedLines = line => {
+export const useLinkedTitles = line => {
   const ky = useOkapiKy();
 
   const { isLoading, data } = useQuery(
-    ['ui-orders', 'linked-lines', line.id],
+    ['ui-orders', 'linked-titles', line.id],
     () => {
       const searchParams = {
         limit: LIMIT_MAX,
-        query: `packagePoLineId=${line.id} and instanceId=""`,
+        query: `poLineId=${line.id} and instanceId=""`,
       };
 
-      return ky.get(LINES_API, { searchParams }).json();
+      return ky.get('orders/titles', { searchParams }).json();
     },
-    { enabled: Boolean(line.isPackage) },
   );
 
   return {
     isLoading,
-    linkedLines: data?.poLines,
+    linkedTitles: data?.titles,
   };
 };
 
 export const useLinkedInstances = line => {
   const { fetchInstanceRelationTypes } = useInstanceRelationTypes();
-  const { isLoading: isLinkedLinesLoading, linkedLines = [] } = useLinkedLines(line);
+  const { isLoading: isLinkedTitlesLoading, linkedTitles = [] } = useLinkedTitles(line);
   const ky = useOkapiKy();
 
-  const linkedInstanceIds = linkedLines
+  const linkedInstanceIds = linkedTitles
     .map(({ instanceId }) => instanceId)
     .filter(Boolean);
 
-  if (line.instanceId && !line.isPackage) {
+  if (
+    line.instanceId
+    && !line.isPackage
+    && !linkedTitles.some(({ poLineId }) => poLineId === line.id)
+  ) {
     linkedInstanceIds.push(line.instanceId);
   }
 
@@ -97,7 +99,7 @@ export const useLinkedInstances = line => {
   );
 
   return {
-    isLoading: isLoading || isLinkedLinesLoading,
+    isLoading: isLoading || isLinkedTitlesLoading,
     linkedInstances: data,
   };
 };
