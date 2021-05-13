@@ -272,6 +272,7 @@ const POLineView = ({
       onClose={onClose}
       lastMenu={lastMenu}
       paneTitle={paneTitle}
+      paneSub={line?.titleOrPackage}
     >
       <AccordionSet
         accordionStatus={sections}
