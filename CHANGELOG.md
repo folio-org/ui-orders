@@ -9,6 +9,7 @@
 * Add linked instances accordion to the POL. Refs UIOR-689.
 * Populate linked instances accordion with instance details. Refs UIOR-690.
 * Keep Title visible on POL when scrolling down the page. Refs UIOR-661.
+* Apply baseline keyboard shortcuts. Refs UIOR-677.
 
 ## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)

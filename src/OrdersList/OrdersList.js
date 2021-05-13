@@ -7,8 +7,11 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { useStripes } from '@folio/stripes/core';
 import {
   MultiColumnList,
+  checkScope,
+  HasCommand,
 } from '@folio/stripes/components';
 import {
   ColumnManagerMenu,
@@ -68,6 +71,7 @@ function OrdersList({
   refreshList,
   ordersQuery,
 }) {
+  const stripes = useStripes();
   const [
     filters,
     searchQuery,
@@ -126,90 +130,107 @@ function OrdersList({
     [location.search, ordersCount, toggleExportModal, visibleColumns, toggleColumn],
   );
 
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: () => {
+        if (stripes.hasPerm('ui-orders.order.create')) {
+          history.push('/orders/create');
+        }
+      },
+    },
+  ];
+
   return (
-    <PersistedPaneset
-      appId="ui-orders"
-      id="orders"
-      data-test-order-instances
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
     >
-      {isFiltersOpened && (
-        <FiltersPane
-          id="orders-filters-pane"
-          toggleFilters={toggleFilters}
-        >
-          <OrdersNavigation isOrders />
-          <SingleSearchForm
-            applySearch={applySearch}
-            changeSearch={changeSearch}
-            searchQuery={searchQuery}
-            isLoading={isLoading}
-            ariaLabelId="ui-orders.search"
-            searchableIndexes={searchableIndexes}
-            changeSearchIndex={changeIndex}
-            selectedIndex={searchIndex}
-          />
-
-          <ResetButton
-            reset={resetFilters}
-            disabled={!location.search || isLoading}
-          />
-
-          <OrdersListFiltersContainer
-            activeFilters={filters}
-            applyFilters={applyFilters}
-            disabled={isLoading}
-          />
-        </FiltersPane>
-      )}
-
-      <ResultsPane
-        id="orders-results-pane"
-        count={ordersCount}
-        renderActionMenu={renderActionMenu}
-        title={title}
-        toggleFiltersPane={toggleFilters}
-        filters={filters}
-        isFiltersOpened={isFiltersOpened}
+      <PersistedPaneset
+        appId="ui-orders"
+        id="orders"
+        data-test-order-instances
       >
-        <MultiColumnList
-          autosize
-          columnMapping={columnMapping}
-          contentData={orders}
-          formatter={resultsFormatter}
-          hasMargin
-          id="orders-list"
-          isEmptyMessage={resultsStatusMessage}
-          loading={isLoading}
-          onHeaderClick={changeSorting}
-          onNeedMoreData={onNeedMoreData}
-          onRowClick={selectOrder}
-          pageAmount={RESULT_COUNT_INCREMENT}
-          pagingType="click"
-          sortDirection={sortingDirection}
-          sortOrder={sortingField}
-          totalCount={ordersCount}
-          virtualize
-          visibleColumns={visibleColumns}
-        />
-      </ResultsPane>
+        {isFiltersOpened && (
+          <FiltersPane
+            id="orders-filters-pane"
+            toggleFilters={toggleFilters}
+          >
+            <OrdersNavigation isOrders />
+            <SingleSearchForm
+              applySearch={applySearch}
+              changeSearch={changeSearch}
+              searchQuery={searchQuery}
+              isLoading={isLoading}
+              ariaLabelId="ui-orders.search"
+              searchableIndexes={searchableIndexes}
+              changeSearchIndex={changeIndex}
+              selectedIndex={searchIndex}
+            />
 
-      {isExportModalOpened && (
-        <OrderExportSettingsModalContainer
-          onCancel={toggleExportModal}
-          ordersQuery={ordersQuery}
-        />
-      )}
+            <ResetButton
+              reset={resetFilters}
+              disabled={!location.search || isLoading}
+            />
 
-      <Route
-        path="/orders/view/:id"
-        render={props => (
-          <Panes
-            {...props}
-            refreshList={refreshList}
+            <OrdersListFiltersContainer
+              activeFilters={filters}
+              applyFilters={applyFilters}
+              disabled={isLoading}
+            />
+          </FiltersPane>
+        )}
+
+        <ResultsPane
+          id="orders-results-pane"
+          count={ordersCount}
+          renderActionMenu={renderActionMenu}
+          title={title}
+          toggleFiltersPane={toggleFilters}
+          filters={filters}
+          isFiltersOpened={isFiltersOpened}
+        >
+          <MultiColumnList
+            autosize
+            columnMapping={columnMapping}
+            contentData={orders}
+            formatter={resultsFormatter}
+            hasMargin
+            id="orders-list"
+            isEmptyMessage={resultsStatusMessage}
+            loading={isLoading}
+            onHeaderClick={changeSorting}
+            onNeedMoreData={onNeedMoreData}
+            onRowClick={selectOrder}
+            pageAmount={RESULT_COUNT_INCREMENT}
+            pagingType="click"
+            sortDirection={sortingDirection}
+            sortOrder={sortingField}
+            totalCount={ordersCount}
+            virtualize
+            visibleColumns={visibleColumns}
+          />
+        </ResultsPane>
+
+        {isExportModalOpened && (
+          <OrderExportSettingsModalContainer
+            onCancel={toggleExportModal}
+            ordersQuery={ordersQuery}
           />
         )}
-      />
-    </PersistedPaneset>
+
+        <Route
+          path="/orders/view/:id"
+          render={props => (
+            <Panes
+              {...props}
+              refreshList={refreshList}
+            />
+          )}
+        />
+      </PersistedPaneset>
+    </HasCommand>
   );
 }
 

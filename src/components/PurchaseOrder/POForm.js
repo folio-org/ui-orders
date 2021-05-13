@@ -2,19 +2,25 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
 import {
   Accordion,
   AccordionSet,
+  AccordionStatus,
   Button,
+  checkScope,
   Col,
+  collapseAllSections,
   ExpandAllButton,
+  expandAllSections,
+  HasCommand,
   Icon,
   IconButton,
   Pane,
-  PaneMenu,
   PaneFooter,
+  PaneMenu,
   Paneset,
   Row,
 } from '@folio/stripes/components';
@@ -40,6 +46,7 @@ class POForm extends Component {
     form: PropTypes.object.isRequired,
     generatedNumber: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -50,13 +57,7 @@ class POForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      sections: {
-        purchaseOrder: true,
-        POSummary: true,
-        ongoing: true,
-      },
-    };
+    this.accordionStatusRef = React.createRef();
   }
 
   callAPI = (fieldName, formValues) => {
@@ -141,23 +142,6 @@ class POForm extends Component {
     );
   }
 
-  onToggleSection = ({ id }) => {
-    this.setState(({ sections }) => {
-      const isSectionOpened = sections[id];
-
-      return {
-        sections: {
-          ...sections,
-          [id]: !isSectionOpened,
-        },
-      };
-    });
-  }
-
-  handleExpandAll = (sections) => {
-    this.setState({ sections });
-  }
-
   onChangeTemplate = (value) => {
     const { form: { batch, change, getRegisteredFields }, parentResources } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
@@ -197,11 +181,12 @@ class POForm extends Component {
       form: { change },
       values: formValues,
       generatedNumber,
+      handleSubmit,
+      history,
       initialValues,
       onCancel,
       parentResources,
     } = this.props;
-    const { sections } = this.state;
     const firstMenu = this.getAddFirstMenu();
     const orderNumber = getFullOrderNumber(initialValues);
     const paneTitle = initialValues.id
@@ -218,6 +203,30 @@ class POForm extends Component {
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const poLinesLength = get(initialValues, 'compositePoLines', []).length;
+
+    const shortcuts = [
+      {
+        name: 'cancel',
+        shortcut: 'esc',
+        handler: onCancel,
+      },
+      {
+        name: 'save',
+        handler: handleSubmit,
+      },
+      {
+        name: 'expandAllSections',
+        handler: (e) => expandAllSections(e, this.accordionStatusRef),
+      },
+      {
+        name: 'collapseAllSections',
+        handler: (e) => collapseAllSections(e, this.accordionStatusRef),
+      },
+      {
+        name: 'search',
+        handler: () => history.push('/orders'),
+      },
+    ];
 
     if (!initialValues) {
       return (
@@ -236,87 +245,95 @@ class POForm extends Component {
 
     return (
       <div style={{ height: '100vh' }}>
-        <Paneset>
-          <Pane
-            defaultWidth="100%"
-            firstMenu={firstMenu}
-            id="pane-poForm"
-            footer={paneFooter}
-            onClose={onCancel}
-            paneTitle={paneTitle}
-          >
-            <form
-              id="form-po"
-              data-test-form-page
+        <HasCommand
+          commands={shortcuts}
+          isWithinScope={checkScope}
+          scope={document.body}
+        >
+          <Paneset>
+            <Pane
+              defaultWidth="100%"
+              firstMenu={firstMenu}
+              id="pane-poForm"
+              footer={paneFooter}
+              onClose={onCancel}
+              paneTitle={paneTitle}
             >
-              <Row>
-                <Col xs={12}>
-                  <Row center="xs">
-                    <Col xs={12} md={8}>
-                      <Row end="xs">
-                        <Col xs={12}>
-                          <ExpandAllButton accordionStatus={sections} onToggle={this.handleExpandAll} />
+              <form
+                id="form-po"
+                data-test-form-page
+              >
+                <Row>
+                  <Col xs={12}>
+                    <AccordionStatus ref={this.accordionStatusRef}>
+                      <Row center="xs">
+                        <Col xs={12} md={8}>
+                          <Row end="xs">
+                            <Col xs={12}>
+                              <ExpandAllButton />
+                            </Col>
+                          </Row>
+                        </Col>
+
+                        {(!initialValues.id || !poLinesLength) && (
+                          <Col xs={12} md={8}>
+                            <Row>
+                              <Col xs={4}>
+                                <FieldSelection
+                                  dataOptions={orderTemplates}
+                                  onChange={this.onChangeTemplate}
+                                  labelId="ui-orders.settings.orderTemplates.editor.template.name"
+                                  name="template"
+                                  id="order-template"
+                                />
+                              </Col>
+                            </Row>
+                          </Col>
+                        )}
+
+                        <Col xs={12} md={8} style={{ textAlign: 'left' }}>
+                          <AccordionSet>
+                            <Accordion
+                              id="purchaseOrder"
+                              label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
+                            >
+                              <PODetailsForm
+                                addresses={addresses}
+                                change={change}
+                                formValues={formValues}
+                                generatedNumber={generatedNumber}
+                                order={initialValues}
+                                orderNumberSetting={orderNumberSetting}
+                                prefixesSetting={prefixesSetting}
+                                suffixesSetting={suffixesSetting}
+                                validateNumber={this.validateNumber}
+                              />
+                            </Accordion>
+                            <OngoingInfoForm />
+                            <Accordion
+                              id="POSummary"
+                              label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
+                            >
+                              <SummaryForm initialValues={initialValues} />
+                            </Accordion>
+                          </AccordionSet>
                         </Col>
                       </Row>
-                    </Col>
-
-                    {(!initialValues.id || !poLinesLength) && (
-                      <Col xs={12} md={8}>
-                        <Row>
-                          <Col xs={4}>
-                            <FieldSelection
-                              dataOptions={orderTemplates}
-                              onChange={this.onChangeTemplate}
-                              labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                              name="template"
-                              id="order-template"
-                            />
-                          </Col>
-                        </Row>
-                      </Col>
-                    )}
-
-                    <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                      <AccordionSet accordionStatus={sections} onToggle={this.onToggleSection}>
-                        <Accordion
-                          id="purchaseOrder"
-                          label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
-                        >
-                          <PODetailsForm
-                            addresses={addresses}
-                            change={change}
-                            formValues={formValues}
-                            generatedNumber={generatedNumber}
-                            order={initialValues}
-                            orderNumberSetting={orderNumberSetting}
-                            prefixesSetting={prefixesSetting}
-                            suffixesSetting={suffixesSetting}
-                            validateNumber={this.validateNumber}
-                          />
-                        </Accordion>
-                        <OngoingInfoForm />
-                        <Accordion
-                          id="POSummary"
-                          label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
-                        >
-                          <SummaryForm initialValues={initialValues} />
-                        </Accordion>
-                      </AccordionSet>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </form>
-          </Pane>
-        </Paneset>
+                    </AccordionStatus>
+                  </Col>
+                </Row>
+              </form>
+            </Pane>
+          </Paneset>
+        </HasCommand>
       </div>
     );
   }
 }
 
-export default stripesForm({
+export default withRouter(stripesForm({
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
   subscription: { values: true },
-})(POForm);
+})(POForm));

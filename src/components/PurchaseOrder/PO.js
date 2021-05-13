@@ -23,8 +23,12 @@ import {
   AccordionSet,
   AccordionStatus,
   Button,
+  checkScope,
+  collapseAllSections,
   ConfirmationModal,
   ExpandAllButton,
+  expandAllSections,
+  HasCommand,
   LoadingPane,
   Pane,
   PaneMenu,
@@ -81,6 +85,7 @@ const PO = ({
   mutator,
   resources,
   refreshList,
+  stripes,
 }) => {
   const sendCallout = useShowCallout();
   const orderId = match.params.id;
@@ -177,6 +182,7 @@ const PO = ({
   const workflowStatus = get(order, 'workflowStatus');
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
   const tags = get(order, 'tags.tagList', []);
+  const accordionStatusRef = useRef();
 
   const lastMenu = (
     <PaneMenu>
@@ -528,6 +534,43 @@ const PO = ({
     order?.id, order?.acqUnitIds,
   );
 
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: () => {
+        if (stripes.hasPerm('ui-orders.order.create')) {
+          history.push('/orders/create');
+        }
+      },
+    },
+    {
+      name: 'edit',
+      handler: () => {
+        if (
+          stripes.hasPerm('ui-orders.order.edit') &&
+          !isRestrictionsLoading &&
+          !restrictions.protectUpdate
+        ) onEdit();
+      },
+    },
+    {
+      name: 'duplicateRecord',
+      handler: () => {
+        if (stripes.hasPerm('ui-orders.order.create')) {
+          toggleCloneConfirmation();
+        }
+      },
+    },
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+  ];
+
   if (isLoading || order?.id !== match.params.id) {
     return (
       <LoadingPane
@@ -545,160 +588,166 @@ const PO = ({
   const approvalsSetting = get(resources, 'approvalsSetting.records', {});
 
   const POPane = (
-    <Pane
-      id="order-details"
-      actionMenu={getPOActionMenu({
-        approvalsSetting,
-        clickApprove: approveOrder,
-        clickClone: toggleCloneConfirmation,
-        clickClose: toggleCloseOrderModal,
-        clickDelete: toggleDeleteOrderConfirm,
-        clickEdit: onEdit,
-        clickOpen: toggleOpenOrderModal,
-        clickReceive: goToReceiving,
-        clickReopen: reopenOrder,
-        clickUnopen: toggleUnopenOrderModal,
-        clickUpdateEncumbrances: updateEncumbrances,
-        handlePrint: togglePrintModal,
-        isRestrictionsLoading,
-        order,
-        restrictions,
-      })}
-      data-test-order-details
-      defaultWidth="fill"
-      paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
-      lastMenu={lastMenu}
-      dismissible
-      onClose={gotToOrdersList}
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
     >
-      <AccordionStatus>
-        <Row end="xs">
-          {isCloseOrderModalOpened && (
-            <CloseOrderModal
-              cancel={toggleCloseOrderModal}
-              closeOrder={closeOrder}
-              closingReasons={reasonsForClosure}
-              orderNumber={orderNumber}
-            />
-          )}
-          {isOpenOrderModalOpened && (
-            <OpenOrderConfirmationModal
-              orderNumber={orderNumber}
-              submit={openOrder}
-              cancel={toggleOpenOrderModal}
-            />
-          )}
+      <Pane
+        id="order-details"
+        actionMenu={getPOActionMenu({
+          approvalsSetting,
+          clickApprove: approveOrder,
+          clickClone: toggleCloneConfirmation,
+          clickClose: toggleCloseOrderModal,
+          clickDelete: toggleDeleteOrderConfirm,
+          clickEdit: onEdit,
+          clickOpen: toggleOpenOrderModal,
+          clickReceive: goToReceiving,
+          clickReopen: reopenOrder,
+          clickUnopen: toggleUnopenOrderModal,
+          clickUpdateEncumbrances: updateEncumbrances,
+          handlePrint: togglePrintModal,
+          isRestrictionsLoading,
+          order,
+          restrictions,
+        })}
+        data-test-order-details
+        defaultWidth="fill"
+        paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
+        lastMenu={lastMenu}
+        dismissible
+        onClose={gotToOrdersList}
+      >
+        <AccordionStatus ref={accordionStatusRef}>
+          <Row end="xs">
+            {isCloseOrderModalOpened && (
+              <CloseOrderModal
+                cancel={toggleCloseOrderModal}
+                closeOrder={closeOrder}
+                closingReasons={reasonsForClosure}
+                orderNumber={orderNumber}
+              />
+            )}
+            {isOpenOrderModalOpened && (
+              <OpenOrderConfirmationModal
+                orderNumber={orderNumber}
+                submit={openOrder}
+                cancel={toggleOpenOrderModal}
+              />
+            )}
 
-          <ExpandAllButton />
-        </Row>
-        <AccordionSet>
-          <Accordion
-            id="purchaseOrder"
-            label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
-          >
-            <PODetailsView
-              addresses={addresses}
-              order={order}
-            />
-          </Accordion>
-          {isOngoing(orderType) && (
+            <ExpandAllButton />
+          </Row>
+          <AccordionSet>
             <Accordion
-              id="ongoing"
-              label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
+              id="purchaseOrder"
+              label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
             >
-              <OngoingOrderInfoView order={order} />
+              <PODetailsView
+                addresses={addresses}
+                order={order}
+              />
             </Accordion>
-          )}
-          <Accordion
-            id="POSummary"
-            label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
-          >
-            <SummaryView
-              order={order}
+            {isOngoing(orderType) && (
+              <Accordion
+                id="ongoing"
+                label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
+              >
+                <OngoingOrderInfoView order={order} />
+              </Accordion>
+            )}
+            <Accordion
+              id="POSummary"
+              label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
+            >
+              <SummaryView
+                order={order}
+              />
+            </Accordion>
+            <Accordion
+              displayWhenOpen={addPOLineButton}
+              id="POListing"
+              label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
+            >
+              <LineListing
+                baseUrl={match.url}
+                funds={funds}
+                poLines={poLines}
+              />
+            </Accordion>
+            <POInvoicesContainer
+              label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
+              orderInvoicesIds={orderInvoicesIds}
             />
-          </Accordion>
-          <Accordion
-            displayWhenOpen={addPOLineButton}
-            id="POListing"
-            label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
-          >
-            <LineListing
-              baseUrl={match.url}
-              funds={funds}
-              poLines={poLines}
-            />
-          </Accordion>
-          <POInvoicesContainer
-            label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
-            orderInvoicesIds={orderInvoicesIds}
+          </AccordionSet>
+        </AccordionStatus>
+        {isLinesLimitExceededModalOpened && (
+          <LinesLimit
+            cancel={toggleLinesLimitExceededModal}
+            createOrder={createNewOrder}
           />
-        </AccordionSet>
-      </AccordionStatus>
-      {isLinesLimitExceededModalOpened && (
-        <LinesLimit
-          cancel={toggleLinesLimitExceededModal}
-          createOrder={createNewOrder}
+        )}
+        {isErrorsModalOpened && (
+          <UpdateOrderErrorModal
+            orderNumber={orderNumber}
+            errors={updateOrderErrors}
+            cancel={orderErrorModalClose}
+          />
+        )}
+        {showConfirmDelete && (
+          <ConfirmationModal
+            id="delete-order-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
+            heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber }} />}
+            message={<FormattedMessage id="ui-orders.order.delete.message" />}
+            onCancel={toggleDeleteOrderConfirm}
+            onConfirm={deletePO}
+            open
+          />
+        )}
+        {isCloneConfirmation && (
+          <ConfirmationModal
+            id="order-clone-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.order.clone.confirmLabel" />}
+            heading={<FormattedMessage id="ui-orders.order.clone.heading" />}
+            message={<FormattedMessage id="ui-orders.order.clone.message" />}
+            onCancel={toggleCloneConfirmation}
+            onConfirm={onCloneOrder}
+            open
+          />
+        )}
+        {isUnopenOrderModalOpened && (
+          <ConfirmationModal
+            id="order-unopen-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.unopenOrderModal.confirmLabel" />}
+            heading={<FormattedMessage id="ui-orders.unopenOrderModal.title" values={{ orderNumber }} />}
+            message={<FormattedMessage id="ui-orders.unopenOrderModal.message" />}
+            onCancel={toggleUnopenOrderModal}
+            onConfirm={unopenOrder}
+            open
+          />
+        )}
+        {isDeletePiecesOpened && (
+          <ModalDeletePieces
+            onCancel={toggleDeletePieces}
+            onSubmit={openOrder}
+            poLines={poLines}
+          />
+        )}
+        {isPrintModalOpened && (
+          <PrintSettingsModalContainer
+            onCancel={togglePrintModal}
+            printOrder={printOrderModal}
+            orderToPrint={order}
+          />
+        )}
+        <PrintContent
+          ref={componentRef}
+          dataSource={hydratedOrderToPrint}
         />
-      )}
-      {isErrorsModalOpened && (
-        <UpdateOrderErrorModal
-          orderNumber={orderNumber}
-          errors={updateOrderErrors}
-          cancel={orderErrorModalClose}
-        />
-      )}
-      {showConfirmDelete && (
-        <ConfirmationModal
-          id="delete-order-confirmation"
-          confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
-          heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber }} />}
-          message={<FormattedMessage id="ui-orders.order.delete.message" />}
-          onCancel={toggleDeleteOrderConfirm}
-          onConfirm={deletePO}
-          open
-        />
-      )}
-      {isCloneConfirmation && (
-        <ConfirmationModal
-          id="order-clone-confirmation"
-          confirmLabel={<FormattedMessage id="ui-orders.order.clone.confirmLabel" />}
-          heading={<FormattedMessage id="ui-orders.order.clone.heading" />}
-          message={<FormattedMessage id="ui-orders.order.clone.message" />}
-          onCancel={toggleCloneConfirmation}
-          onConfirm={onCloneOrder}
-          open
-        />
-      )}
-      {isUnopenOrderModalOpened && (
-        <ConfirmationModal
-          id="order-unopen-confirmation"
-          confirmLabel={<FormattedMessage id="ui-orders.unopenOrderModal.confirmLabel" />}
-          heading={<FormattedMessage id="ui-orders.unopenOrderModal.title" values={{ orderNumber }} />}
-          message={<FormattedMessage id="ui-orders.unopenOrderModal.message" />}
-          onCancel={toggleUnopenOrderModal}
-          onConfirm={unopenOrder}
-          open
-        />
-      )}
-      {isDeletePiecesOpened && (
-        <ModalDeletePieces
-          onCancel={toggleDeletePieces}
-          onSubmit={openOrder}
-          poLines={poLines}
-        />
-      )}
-      {isPrintModalOpened && (
-        <PrintSettingsModalContainer
-          onCancel={togglePrintModal}
-          printOrder={printOrderModal}
-          orderToPrint={order}
-        />
-      )}
-      <PrintContent
-        ref={componentRef}
-        dataSource={hydratedOrderToPrint}
-      />
-    </Pane>
+      </Pane>
+    </HasCommand>
   );
 
   return (
@@ -753,6 +802,7 @@ PO.propTypes = {
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   refreshList: PropTypes.func.isRequired,
+  stripes: PropTypes.object.isRequired,
 };
 
 export default stripesConnect(PO);
