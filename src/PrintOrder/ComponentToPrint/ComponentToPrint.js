@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -8,7 +7,6 @@ import {
   Grid,
   KeyValue,
   Label,
-  NoValue,
   Row,
 } from '@folio/stripes/components';
 import {
@@ -18,48 +16,7 @@ import {
   ORDER_STATUS_LABEL,
 } from '@folio/stripes-acq-components';
 
-import {
-  DISCOUNT_TYPE,
-} from '../../components/POLine/const';
-import { LINE_FIELDS_MAP, LINE_FIELDS_LABELS } from './constants';
-import css from './ComponentToPrint.css';
-
-function PrintValue({ path, source, exportedLine }) {
-  const value = get(exportedLine, path, null) || get(source, path, null);
-  const currency = get(source, LINE_FIELDS_MAP.currency);
-
-  switch (path) {
-    case LINE_FIELDS_MAP.listUnitPrice:
-    case LINE_FIELDS_MAP.listUnitPriceElectronic:
-    case LINE_FIELDS_MAP.additionalCost:
-    case LINE_FIELDS_MAP.poLineEstimatedPrice:
-      return (
-        <AmountWithCurrencyField
-          currency={currency}
-          amount={value}
-        />
-      );
-    case LINE_FIELDS_MAP.discount:
-      if (!value) return <NoValue />;
-
-      return get(source, 'cost.discountType') === DISCOUNT_TYPE.percentage
-        ? `${value}%`
-        : (
-          <AmountWithCurrencyField
-            currency={currency}
-            amount={value}
-          />
-        );
-    default:
-      if (value === true) {
-        return <FormattedMessage id="ui-orders.filter.true" />;
-      } else if (value === false) {
-        return <FormattedMessage id="ui-orders.filter.false" />;
-      }
-
-      return value ?? <NoValue />;
-  }
-}
+import { PrintOrderLines } from './PrintOrderLines';
 
 const ComponentToPrint = ({ dataSource = {} }) => {
   return (
@@ -116,53 +73,12 @@ const ComponentToPrint = ({ dataSource = {} }) => {
             />
           </Col>
         </Row>
-
       </Grid>
 
-      {dataSource.compositePoLines?.map((line, i) => {
-        return (
-          <div key={line.id}>
-            <Row>
-              <Col xs={12}>
-                <KeyValue
-                  label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP.poLineNumber]}
-                >
-                  {line.poLineNumber}
-                </KeyValue>
-              </Col>
-            </Row>
-            <Row className={css.poLineBlock}>
-              {Object.keys(LINE_FIELDS_MAP).map((col) => {
-                if (col === LINE_FIELDS_MAP.poLineNumber) return null;
-
-                return (
-                  <Col xs={3} key={col}>
-                    <KeyValue
-                      label={LINE_FIELDS_LABELS[LINE_FIELDS_MAP[col]]}
-                    >
-                      <PrintValue path={LINE_FIELDS_MAP[col]} source={line} exportedLine={dataSource.exportData[i]} />
-                    </KeyValue>
-                  </Col>
-                );
-              })}
-            </Row>
-          </div>
-        );
-      })}
+      <PrintOrderLines lines={dataSource.compositePoLines} />
 
       <Row>
-        <Col xs={6}>
-          {LINE_FIELDS_LABELS['vendorDetail.instructions']}: {
-            dataSource.compositePoLines?.map((line) => {
-              return (
-                <div key={line.id}>
-                  {line.vendorDetail?.instructions}
-                </div>
-              );
-            })
-          }
-        </Col>
-        <Col xs={6}>
+        <Col xs={12}>
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.print.totalItems" />}
             value={dataSource.totalItems}

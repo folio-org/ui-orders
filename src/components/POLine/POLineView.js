@@ -1,10 +1,9 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get, mapValues } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { useReactToPrint } from 'react-to-print';
 
 import {
   IfPermission,
@@ -40,10 +39,8 @@ import {
   useModalToggle,
 } from '@folio/stripes-acq-components';
 
-import { PrintSettingsModalContainer } from '../../common/ExportSettingsModal';
 import {
-  hydrateOrderToPrint,
-  PrintContent,
+  PrintOrder,
 } from '../../PrintOrder';
 import {
   isCheckInAvailableForLine,
@@ -276,18 +273,6 @@ const POLineView = ({
   const metadata = get(line, 'metadata');
   const isClosedOrder = isWorkflowStatusClosed(order);
   const paneTitle = <FormattedMessage id="ui-orders.line.paneTitle.details" values={{ poLineNumber }} />;
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-  const [orderToPrint, setOrderToPrint] = useState();
-  const printOrderModal = (exportData) => {
-    setOrderToPrint(exportData);
-    handlePrint();
-  };
-  const hydratedOrderToPrint = useMemo(() => {
-    return hydrateOrderToPrint({ order: orderToPrint });
-  }, [orderToPrint]);
 
   return (
     <HasCommand
@@ -452,17 +437,14 @@ const POLineView = ({
             open
           />
         )}
-        {isPrintModalOpened && (
-          <PrintSettingsModalContainer
-            onCancel={togglePrintModal}
-            printOrder={printOrderModal}
-            orderToPrint={order}
-          />
-        )}
-        <PrintContent
-          ref={componentRef}
-          dataSource={hydratedOrderToPrint}
-        />
+        {
+          isPrintModalOpened && (
+            <PrintOrder
+              order={order}
+              onCancel={togglePrintModal}
+            />
+          )
+        }
       </Pane>
     </HasCommand>
   );

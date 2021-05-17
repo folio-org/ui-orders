@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
-import { useReactToPrint } from 'react-to-print';
 
 import {
   IfPermission,
@@ -35,7 +34,6 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import { PrintSettingsModalContainer } from '../../common/ExportSettingsModal';
 import {
   getAddresses,
 } from '../../common/utils';
@@ -47,8 +45,7 @@ import {
   updateEncumbrancesResource,
 } from '../../common/resources';
 import {
-  hydrateOrderToPrint,
-  PrintContent,
+  PrintOrder,
 } from '../../PrintOrder';
 import {
   ADDRESSES,
@@ -516,20 +513,6 @@ const PO = ({
     [fetchOrder, handleErrorResponse, orderErrorModalShow, sendCallout],
   );
 
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-  const [orderToPrint, setOrderToPrint] = useState();
-  const printOrderModal = (exportData) => {
-    setOrderToPrint(exportData);
-    handlePrint();
-  };
-
-  const hydratedOrderToPrint = useMemo(() => {
-    return hydrateOrderToPrint({ order: orderToPrint });
-  }, [orderToPrint]);
-
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     order?.id, order?.acqUnitIds,
   );
@@ -736,16 +719,11 @@ const PO = ({
           />
         )}
         {isPrintModalOpened && (
-          <PrintSettingsModalContainer
+          <PrintOrder
             onCancel={togglePrintModal}
-            printOrder={printOrderModal}
-            orderToPrint={order}
+            order={order}
           />
         )}
-        <PrintContent
-          ref={componentRef}
-          dataSource={hydratedOrderToPrint}
-        />
       </Pane>
     </HasCommand>
   );
