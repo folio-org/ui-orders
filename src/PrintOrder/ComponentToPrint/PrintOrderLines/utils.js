@@ -9,7 +9,7 @@ import {
   KeyValueInline,
 } from '@folio/stripes-acq-components';
 
-export const summurizeLinesQuantity = (lines = [], field) => {
+export const summurizeLinesQuantity = (field, lines = []) => {
   return lines.reduce((acc, line) => {
     const quantity = line?.cost?.[field] || 0;
 
@@ -18,8 +18,8 @@ export const summurizeLinesQuantity = (lines = [], field) => {
 };
 
 export const getColumns = (lines = []) => {
-  const totalQuantityPhysical = summurizeLinesQuantity(lines, 'quantityPhysical');
-  const totalQuantityElectronic = summurizeLinesQuantity(lines, 'quantityElectronic');
+  const totalQuantityPhysical = summurizeLinesQuantity('quantityPhysical', lines);
+  const totalQuantityElectronic = summurizeLinesQuantity('quantityElectronic', lines);
 
   return [
     {
