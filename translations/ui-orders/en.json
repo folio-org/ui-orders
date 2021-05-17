@@ -640,6 +640,8 @@
   "settings.setPOLInesLimit.validation": "Please enter a whole number greater than 0 and less than 1000 to continue",
   "settings.setPOLInesLimit": "Set purchase order lines limit",
 
+  "shortcut.duplicateRecord": "Duplicate a record",
+
   "showTags": "Show tags",
 
   "updatedDateAndTime": "Updated date and time",
