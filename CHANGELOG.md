@@ -11,6 +11,7 @@
 * Keep Title visible on POL when scrolling down the page. Refs UIOR-661.
 * Apply baseline keyboard shortcuts. Refs UIOR-677.
 * Update Print order from HTML template. Refs UIOR-721.
+* Possible to save POL with no location even when location is required. Refs UIOR-720.
 
 ## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)

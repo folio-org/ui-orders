@@ -74,7 +74,11 @@ function POLineForm({
   enableSaveBtn,
 }) {
   const history = useHistory();
-  const templateValue = getOrderTemplateValue(parentResources, order?.template);
+
+  const locations = parentResources?.locations?.records;
+  const templateValue = getOrderTemplateValue(parentResources, order?.template, {
+    locations,
+  });
   const lineId = get(initialValues, 'id');
 
   useEffect(() => {
@@ -239,7 +243,6 @@ function POLineForm({
   const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
   const orderTemplates = getOrderTemplatesForSelect(parentResources);
-  const locations = parentResources?.locations?.records;
   const locationIds = locations?.map(({ id }) => id);
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
   const estimatedPrice = calculateEstimatedPrice(formValues);
