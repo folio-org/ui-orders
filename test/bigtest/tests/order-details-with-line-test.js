@@ -17,7 +17,19 @@ import OrderDetailsPage from '../interactors/order-details-page';
 import LineDetailsPage from '../interactors/line-details-page';
 
 describe('Order details with Line', function () {
-  setupApplication();
+  const InvoiceApp = () => (<div>Invoice</div>);
+
+  setupApplication({
+    modules: [
+      {
+        type: 'app',
+        name: '@folio/invoice',
+        displayName: 'Invoice',
+        route: '/invoice',
+        module: InvoiceApp,
+      },
+    ],
+  });
 
   const lineDetailsPage = new LineDetailsPage();
   const orderDetailsPage = new OrderDetailsPage();

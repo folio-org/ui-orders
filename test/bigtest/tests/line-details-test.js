@@ -16,7 +16,35 @@ import LineDetailsPage from '../interactors/line-details-page';
 import OrderDetailsPage from '../interactors/order-details-page';
 
 describe('Line details test', function () {
-  setupApplication();
+  const ReceivingApp = () => (<div>Receiving</div>);
+  const AgreementsApp = () => (<div>Agreements</div>);
+  const InvoiceApp = () => (<div>Invoice</div>);
+
+  setupApplication({
+    modules: [
+      {
+        type: 'app',
+        name: '@folio/receiving',
+        displayName: 'Receiving',
+        route: '/receiving',
+        module: ReceivingApp,
+      },
+      {
+        type: 'app',
+        name: '@folio/agreements',
+        displayName: 'Agreements',
+        route: '/erm/agreements',
+        module: AgreementsApp,
+      },
+      {
+        type: 'app',
+        name: '@folio/invoice',
+        displayName: 'Invoice',
+        route: '/invoice',
+        module: InvoiceApp,
+      },
+    ],
+  });
 
   let order = null;
   let line = null;
