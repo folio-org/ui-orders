@@ -76,6 +76,7 @@ export const createExportReport = (
   const addressMap = getRecordMap(addresses);
 
   return poLines.map(lineRecord => ({
+    sourceRecord: lineRecord,
     poNumber: ordersMap[lineRecord.purchaseOrderId].poNumber,
     vendor: vendorMap[ordersMap[lineRecord.purchaseOrderId].vendor].code,
     vendorRecord: vendorMap[ordersMap[lineRecord.purchaseOrderId].vendor],
@@ -138,7 +139,7 @@ export const createExportReport = (
     quantityElectronic: lineRecord.cost?.quantityElectronic,
     discount: `"${lineRecord.cost?.discount}""${lineRecord.cost?.discountType}"`,
     poLineEstimatedPrice: lineRecord.cost.poLineEstimatedPrice,
-    currency: lineRecord.cost.currency,
+    currency: lineRecord.cost?.currency,
     fundDistribution: getFundDistributionData(lineRecord, expenseClassMap),
     location: getLocationData(lineRecord, locationMap),
     materialSupplier: vendorMap[lineRecord.physical?.materialSupplier]?.code,

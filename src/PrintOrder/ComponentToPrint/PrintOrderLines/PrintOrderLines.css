@@ -5,6 +5,10 @@
 
 .poLineRow {
   background: rgba(0, 0, 0, 0.08);
+
+  &:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.03);
+  }
 }
 
 .poLineColumn {

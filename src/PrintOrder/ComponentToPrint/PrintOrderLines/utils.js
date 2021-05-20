@@ -11,7 +11,7 @@ import {
 
 export const summurizeLinesQuantity = (field, lines = []) => {
   return lines.reduce((acc, line) => {
-    const quantity = line?.cost?.[field] || 0;
+    const quantity = line?.[field] || 0;
 
     return acc + quantity;
   }, 0);
@@ -42,11 +42,11 @@ export const getColumns = (lines = []) => {
         <>
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-            value={line.publicationDate}
+            value={line.sourceRecord?.publicationDate}
           />
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
-            value={line.publisher}
+            value={line.sourceRecord?.publisher}
           />
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
@@ -54,7 +54,7 @@ export const getColumns = (lines = []) => {
           />
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.lineListing.fundCode" />}
-            value={line.fundDistribution?.map(({ code }) => code).join(', ')}
+            value={line.sourceRecord.fundDistribution?.map(({ code }) => code).join(', ')}
           />
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.poLine.rush" />}
@@ -67,21 +67,21 @@ export const getColumns = (lines = []) => {
       title: <FormattedMessage id="ui-orders.vendor.instructions" />,
       size: 'auto',
       align: 'left',
-      render: line => line.vendorDetail?.instructions || <NoValue />,
+      render: line => line.instructions || <NoValue />,
     },
     {
       title: <FormattedMessage id="ui-orders.cost.quantityPhysical" />,
       size: 1,
       align: 'right',
       hidden: !totalQuantityPhysical,
-      render: line => line.cost?.quantityPhysical,
+      render: line => line.quantityPhysical || <NoValue />,
     },
     {
       title: <FormattedMessage id="ui-orders.cost.quantityElectronic" />,
       size: 1,
       align: 'right',
       hidden: !totalQuantityElectronic,
-      render: line => line.cost?.quantityElectronic,
+      render: line => line.quantityElectronic || <NoValue />,
     },
     {
       title: <FormattedMessage id="ui-orders.cost.estimatedPrice" />,
@@ -90,8 +90,8 @@ export const getColumns = (lines = []) => {
       render: line => {
         return (
           <AmountWithCurrencyField
-            currency={line.cost?.currency}
-            amount={line.cost?.poLineEstimatedPrice}
+            currency={line.currency}
+            amount={line.poLineEstimatedPrice}
           />
         );
       },

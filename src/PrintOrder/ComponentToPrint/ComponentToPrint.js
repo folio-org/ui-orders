@@ -75,7 +75,7 @@ const ComponentToPrint = ({ dataSource = {} }) => {
         </Row>
       </Grid>
 
-      <PrintOrderLines lines={dataSource.compositePoLines} />
+      <PrintOrderLines lines={dataSource.lines} />
 
       <Row>
         <Col xs={12}>
