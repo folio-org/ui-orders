@@ -20,6 +20,7 @@ import {
   HasCommand,
   Icon,
   IconButton,
+  Loading,
   MenuSection,
   MessageBanner,
   Pane,
@@ -295,8 +296,13 @@ const POLineView = ({
           accordionStatus={sections}
           onToggle={onToggleSection}
         >
-          <Row end="xs">
+          <Row
+            end="xs"
+            bottom="xs"
+          >
             <Col xs={10}>
+              {isPrintModalOpened && <Loading size="large" />}
+
               {isClosedOrder && (
                 <MessageBanner type="warning">
                   <FormattedMessage
@@ -437,15 +443,16 @@ const POLineView = ({
             open
           />
         )}
-        {
-          isPrintModalOpened && (
-            <PrintOrder
-              order={order}
-              onCancel={togglePrintModal}
-            />
-          )
-        }
       </Pane>
+
+      {
+        isPrintModalOpened && (
+          <PrintOrder
+            order={order}
+            onCancel={togglePrintModal}
+          />
+        )
+      }
     </HasCommand>
   );
 };

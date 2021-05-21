@@ -22,12 +22,14 @@ import {
   AccordionSet,
   AccordionStatus,
   Button,
+  Col,
   checkScope,
   collapseAllSections,
   ConfirmationModal,
   ExpandAllButton,
   expandAllSections,
   HasCommand,
+  Loading,
   LoadingPane,
   Pane,
   PaneMenu,
@@ -603,24 +605,34 @@ const PO = ({
         onClose={gotToOrdersList}
       >
         <AccordionStatus ref={accordionStatusRef}>
-          <Row end="xs">
-            {isCloseOrderModalOpened && (
-              <CloseOrderModal
-                cancel={toggleCloseOrderModal}
-                closeOrder={closeOrder}
-                closingReasons={reasonsForClosure}
-                orderNumber={orderNumber}
-              />
-            )}
-            {isOpenOrderModalOpened && (
-              <OpenOrderConfirmationModal
-                orderNumber={orderNumber}
-                submit={openOrder}
-                cancel={toggleOpenOrderModal}
-              />
-            )}
+          <Row
+            end="xs"
+            bottom="xs"
+          >
+            <Col xs={10}>
+              {isPrintModalOpened && <Loading size="large" />}
 
-            <ExpandAllButton />
+              {isCloseOrderModalOpened && (
+                <CloseOrderModal
+                  cancel={toggleCloseOrderModal}
+                  closeOrder={closeOrder}
+                  closingReasons={reasonsForClosure}
+                  orderNumber={orderNumber}
+                />
+              )}
+
+              {isOpenOrderModalOpened && (
+                <OpenOrderConfirmationModal
+                  orderNumber={orderNumber}
+                  submit={openOrder}
+                  cancel={toggleOpenOrderModal}
+                />
+              )}
+            </Col>
+
+            <Col xs={2}>
+              <ExpandAllButton />
+            </Col>
           </Row>
           <AccordionSet>
             <Accordion
@@ -718,12 +730,6 @@ const PO = ({
             poLines={poLines}
           />
         )}
-        {isPrintModalOpened && (
-          <PrintOrder
-            onCancel={togglePrintModal}
-            order={order}
-          />
-        )}
       </Pane>
     </HasCommand>
   );
@@ -736,6 +742,13 @@ const PO = ({
           putMutator={updateOrderCB}
           recordObj={order}
           onClose={toggleTagsPane}
+        />
+      )}
+
+      {isPrintModalOpened && (
+        <PrintOrder
+          onCancel={togglePrintModal}
+          order={order}
         />
       )}
     </>
