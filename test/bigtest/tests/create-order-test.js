@@ -2,6 +2,7 @@ import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
+import { TIMEOUT } from '../interactors/const';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import { ORDER_TYPE } from '../../../src/common/constants';
@@ -10,6 +11,8 @@ describe('Create order', function () {
   setupApplication();
   const form = new OrderEditPage();
   const orderDetailsPage = new OrderDetailsPage();
+
+  this.timeout(TIMEOUT);
 
   beforeEach(async function () {
     this.server.create('suffix', {
