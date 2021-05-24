@@ -25,6 +25,7 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/final-form';
 import {
   FundDistributionFieldsFinal,
+  handleKeyCommand,
   useAccordionToggle,
 } from '@folio/stripes-acq-components';
 
@@ -211,11 +212,11 @@ function POLineForm({
     {
       name: 'cancel',
       shortcut: 'esc',
-      handler: onCancel,
+      handler: handleKeyCommand(onCancel),
     },
     {
       name: 'save',
-      handler: submit,
+      handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
     },
     {
       name: 'expandAllSections',
@@ -227,7 +228,7 @@ function POLineForm({
     },
     {
       name: 'search',
-      handler: () => history.push('/orders/lines'),
+      handler: handleKeyCommand(() => history.push('/orders/lines')),
     },
   ];
 

@@ -21,6 +21,7 @@ import {
 import {
   FiltersPane,
   FolioFormattedDate,
+  handleKeyCommand,
   NoResultsMessage,
   ResetButton,
   ResultsPane,
@@ -133,11 +134,11 @@ function OrdersList({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-orders.order.create')) {
           history.push('/orders/create');
         }
-      },
+      }),
     },
   ];
 

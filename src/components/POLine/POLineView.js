@@ -34,6 +34,7 @@ import {
 
 import {
   FundDistributionView,
+  handleKeyCommand,
   ORDER_FORMATS,
   TagsBadge,
   useAcqRestrictions,
@@ -143,13 +144,13 @@ const POLineView = ({
   const shortcuts = [
     {
       name: 'edit',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (
           stripes.hasPerm('ui-orders.order-lines.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) onEditPOLine();
-      },
+      }),
     },
     {
       name: 'expandAllSections',

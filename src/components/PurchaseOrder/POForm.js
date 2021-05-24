@@ -24,7 +24,10 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import { FieldSelectionFinal as FieldSelection } from '@folio/stripes-acq-components';
+import {
+  FieldSelectionFinal as FieldSelection,
+  handleKeyCommand,
+} from '@folio/stripes-acq-components';
 
 import {
   getAddresses,
@@ -182,6 +185,8 @@ class POForm extends Component {
       values: formValues,
       generatedNumber,
       handleSubmit,
+      pristine,
+      submitting,
       history,
       initialValues,
       onCancel,
@@ -208,11 +213,11 @@ class POForm extends Component {
       {
         name: 'cancel',
         shortcut: 'esc',
-        handler: onCancel,
+        handler: handleKeyCommand(onCancel),
       },
       {
         name: 'save',
-        handler: handleSubmit,
+        handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
       },
       {
         name: 'expandAllSections',
@@ -224,7 +229,7 @@ class POForm extends Component {
       },
       {
         name: 'search',
-        handler: () => history.push('/orders'),
+        handler: handleKeyCommand(() => history.push('/orders')),
       },
     ];
 

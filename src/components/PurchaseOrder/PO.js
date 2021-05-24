@@ -11,6 +11,7 @@ import {
 import {
   baseManifest,
   LIMIT_MAX,
+  handleKeyCommand,
   Tags,
   TagsBadge,
   useAcqRestrictions,
@@ -522,29 +523,29 @@ const PO = ({
   const shortcuts = [
     {
       name: 'new',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-orders.order.create')) {
           history.push('/orders/create');
         }
-      },
+      }),
     },
     {
       name: 'edit',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (
           stripes.hasPerm('ui-orders.order.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) onEdit();
-      },
+      }),
     },
     {
       name: 'duplicateRecord',
-      handler: () => {
+      handler: handleKeyCommand(() => {
         if (stripes.hasPerm('ui-orders.order.create')) {
           toggleCloneConfirmation();
         }
-      },
+      }),
     },
     {
       name: 'expandAllSections',
