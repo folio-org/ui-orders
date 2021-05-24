@@ -150,7 +150,10 @@ class ItemForm extends Component {
     setTimeout(() => {
       if (shouldSetInstanceId(this.props.formValues, inventoryData)) {
         change('instanceId', inventoryData.instanceId);
-      } else change('instanceId', null);
+      } else {
+        change('instanceId', null);
+        change('locations', []);
+      }
     });
   };
 

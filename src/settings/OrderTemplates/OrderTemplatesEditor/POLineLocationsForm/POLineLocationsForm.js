@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useFormState } from 'react-final-form';
 
 import {
   Row,
@@ -9,6 +10,9 @@ import {
 import { FieldsLocation } from '../../../../common/POLFields';
 
 const POLineLocationsForm = ({ locations, locationIds, changeLocation }) => {
+  const { values } = useFormState();
+  const pOLineFormValues = { instanceId: values.instanceId };
+
   return (
     <Row start="xs">
       <Col xs={12}>
@@ -17,6 +21,7 @@ const POLineLocationsForm = ({ locations, locationIds, changeLocation }) => {
           locationIds={locationIds}
           locations={locations}
           withValidation={false}
+          pOLineFormValues={pOLineFormValues}
         />
       </Col>
     </Row>
