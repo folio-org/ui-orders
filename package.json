@@ -255,7 +255,8 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "orders.item.put"
+          "orders.item.put",
+          "orders.item.reopen"
         ]
       },
       {
