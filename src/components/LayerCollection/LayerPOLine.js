@@ -170,29 +170,34 @@ function LayerPOLine({
     [memoizedMutator.lineOrder, order, sendCallout],
   );
 
-  const submitPOLine = useCallback(({ saveAndOpen, ...line }) => {
+  const submitPOLine = useCallback(async ({ saveAndOpen, ...line }) => {
     setSavingValues(line);
     setIsLoading(true);
     const newLine = cloneDeep(line);
+    let savedLine;
 
-    return memoizedMutator.poLines
-      .POST(newLine)
-      .then(({ id: poLineId }) => Promise.all([poLineId, openOrder(saveAndOpen)]))
-      .then(([poLineId]) => {
-        sendCallout({
-          message: <FormattedMessage id="ui-orders.line.create.success" />,
-          type: 'success',
-        });
+    try {
+      savedLine = await memoizedMutator.poLines.POST(newLine);
 
-        history.push({
-          pathname: `/orders/view/${id}/po-line/view/${poLineId}`,
-          search,
-        });
-      })
-      .catch((e) => {
-        setIsLoading(false);
-        handleErrorResponse(e, line);
+      await openOrder(saveAndOpen);
+
+      sendCallout({
+        message: <FormattedMessage id="ui-orders.line.create.success" />,
+        type: 'success',
       });
+
+      history.push({
+        pathname: `/orders/view/${id}/po-line/view/${savedLine.id}`,
+        search,
+      });
+    } catch (e) {
+      if (saveAndOpen && savedLine) {
+        await memoizedMutator.poLines.DELETE(savedLine);
+      }
+
+      setIsLoading(false);
+      handleErrorResponse(e, line);
+    }
   }, [handleErrorResponse, history, id, search, memoizedMutator.poLines, openOrder, sendCallout]);
 
   const createNewOrder = useCallback(
