@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useFormState } from 'react-final-form';
-import { get } from 'lodash';
+import { get, keyBy } from 'lodash';
 
 import { LocationLookup } from '@folio/stripes/smart-components';
 import {
@@ -13,6 +13,7 @@ import {
 } from '@folio/stripes/components';
 import {
   FieldSelectionFinal,
+  LIMIT_MAX,
   validateRequired,
 } from '@folio/stripes-acq-components';
 
@@ -29,15 +30,12 @@ const FieldHolding = ({
   onChange,
   required,
 }) => {
-  const { isHoldingsLoading, holdings } = useHoldings(instanceId);
+  const searchParams = { query: `instanceId==${instanceId}`, limit: LIMIT_MAX };
+  const { isLoading, holdings } = useHoldings({ searchParams });
   const [selectedLocation, setSelectedLocation] = useState();
   const { values } = useFormState();
 
-  const locationsMap = useMemo(() => (locationsForDict.reduce((acc, loc) => {
-    acc[loc.id] = loc;
-
-    return acc;
-  }, {})), [locationsForDict]);
+  const locationsMap = useMemo(() => keyBy(locationsForDict, 'id'), [locationsForDict]);
 
   useEffect(() => {
     if (!get(values, name)) {
@@ -46,15 +44,11 @@ const FieldHolding = ({
 
       setSelectedLocation(location);
     }
-  }, [locationFieldName, locationsMap, name, values]);
-
-  const getCallNumberLabel = (callNumber = '', callNumberPrefix = '', callNumberSuffix = '') => {
-    return `${callNumberPrefix} ${callNumber} ${callNumberSuffix}`.trim();
-  };
+  }, []);
 
   const holdingOptions = useMemo(() => (
     holdings?.map(({ id, permanentLocationId, callNumber, callNumberPrefix, callNumberSuffix }) => {
-      const callNumberLabel = getCallNumberLabel(callNumber, callNumberPrefix, callNumberSuffix);
+      const callNumberLabel = `${callNumberPrefix || ''} ${callNumber || ''} ${callNumberSuffix || ''}`.trim();
 
       return ({
         value: id,
@@ -94,27 +88,32 @@ const FieldHolding = ({
     />
   );
 
-  if (isHoldingsLoading) return <Loading />;
+  if (isLoading) return <Loading />;
+
+  const locationForNewHolding = () => {
+    if (!selectedLocation) return null;
+
+    return isDisabled
+      ? (
+        <KeyValue
+          label={labelId ? <FormattedMessage id={locationLabelId} /> : ''}
+          value={`${selectedLocation.name}(${selectedLocation.code})`}
+        />
+      )
+      : (
+        <TextField
+          label={labelId ? <FormattedMessage id={locationLabelId} /> : ''}
+          required={required}
+          disabled
+          value={`${selectedLocation.name}(${selectedLocation.code})`}
+          endControl={clearButton}
+        />
+      );
+  };
 
   return (
     selectedLocation
-      ? (isDisabled
-        ? (
-          <KeyValue
-            label={labelId ? <FormattedMessage id={locationLabelId} /> : ''}
-            value={`${selectedLocation.name}(${selectedLocation.code})`}
-          />
-        )
-        : (
-          <TextField
-            label={labelId ? <FormattedMessage id={locationLabelId} /> : ''}
-            required={required}
-            disabled
-            value={`${selectedLocation.name}(${selectedLocation.code})`}
-            endControl={isDisabled ? null : clearButton}
-          />
-        )
-      )
+      ? locationForNewHolding()
       : (
         <div>
           <FieldSelectionFinal
