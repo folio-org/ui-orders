@@ -40,6 +40,7 @@ const FieldsLocation = ({
 
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
   const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresource?.createInventory);
+  const validate = withValidation ? validateLocation : NO_VALIDATE;
 
   return (
     <FieldArray
@@ -62,7 +63,7 @@ const FieldsLocation = ({
                   locationFieldName={`${field}.locationId`}
                   onChange={changeLocation}
                   required={withValidation}
-                  validate={withValidation ? validateLocation : NO_VALIDATE}
+                  validate={validate}
                   instanceId={instanceId}
                   locationLabelId="ui-orders.location.nameCode"
                 />
@@ -76,7 +77,7 @@ const FieldsLocation = ({
                   onChange={changeLocation}
                   prepopulatedLocationsIds={locationIds}
                   required={withValidation}
-                  validate={withValidation ? validateLocation : NO_VALIDATE}
+                  validate={validate}
                 />
               )
             }
