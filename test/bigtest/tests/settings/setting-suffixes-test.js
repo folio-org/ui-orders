@@ -17,13 +17,15 @@ describe('Setting of Closing Reasons', function () {
   const errorModal = new ModalInteractor();
 
   beforeEach(async function () {
+    this.server.create('suffix', { name: 'test suffix' });
+
     this.visit('/settings/orders/suffixes');
     await suffixesSetting.whenLoaded();
   });
 
   it('should be rendered', () => {
     expect(suffixesSetting.isPresent).to.be.true;
-    expect(suffixesSetting.suffixes.isPresent).to.be.false;
+    expect(suffixesSetting.suffixes.list().length).to.equal(1);
   });
 
   describe('Add new suffix', function () {
@@ -44,7 +46,7 @@ describe('Setting of Closing Reasons', function () {
       });
 
       it('renders fields for new suffix', () => {
-        expect(suffixesSetting.suffixes.isPresent).to.be.false;
+        expect(suffixesSetting.suffixes.list().length).to.equal(1);
       });
     });
 
@@ -56,7 +58,7 @@ describe('Setting of Closing Reasons', function () {
       });
 
       it('renders saved suffix', () => {
-        expect(suffixesSetting.suffixes.list().length).to.equal(1);
+        expect(suffixesSetting.suffixes.list().length).to.equal(2);
       });
 
       describe('Edit suffix', function () {
@@ -68,7 +70,7 @@ describe('Setting of Closing Reasons', function () {
         });
 
         it('renders edited suffix', () => {
-          expect(suffixesSetting.suffixes.list().length).to.equal(1);
+          expect(suffixesSetting.suffixes.list().length).to.equal(2);
         });
       });
 
@@ -80,7 +82,7 @@ describe('Setting of Closing Reasons', function () {
         });
 
         it('does not render empty list', () => {
-          expect(suffixesSetting.suffixes.isPresent).to.be.false;
+          expect(suffixesSetting.suffixes.list().length).to.equal(1);
         });
       });
 

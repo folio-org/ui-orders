@@ -17,13 +17,15 @@ describe('Setting of Closing Reasons', function () {
   const errorModal = new ModalIteractor();
 
   beforeEach(async function () {
+    this.server.create('prefix', { name: 'test prefix' });
+
     this.visit('/settings/orders/prefixes');
     await prefixesSetting.whenLoaded();
   });
 
   it('should be rendered', () => {
     expect(prefixesSetting.isPresent).to.be.true;
-    expect(prefixesSetting.prefixes.isPresent).to.be.false;
+    expect(prefixesSetting.prefixes.list().length).to.equal(1);
   });
 
   describe('Add new prefix', function () {
@@ -45,7 +47,7 @@ describe('Setting of Closing Reasons', function () {
       });
 
       it('renders fields for new prefix', () => {
-        expect(prefixesSetting.prefixes.isPresent).to.be.false;
+        expect(prefixesSetting.prefixes.list().length).to.equal(1);
       });
     });
 
@@ -57,7 +59,7 @@ describe('Setting of Closing Reasons', function () {
       });
 
       it('renders saved prefix', () => {
-        expect(prefixesSetting.prefixes.list().length).to.equal(1);
+        expect(prefixesSetting.prefixes.list().length).to.equal(2);
       });
 
       describe('Edit prefix', function () {
@@ -69,7 +71,7 @@ describe('Setting of Closing Reasons', function () {
         });
 
         it('renders edited prefix', () => {
-          expect(prefixesSetting.prefixes.list().length).to.equal(1);
+          expect(prefixesSetting.prefixes.list().length).to.equal(2);
         });
       });
 
@@ -81,7 +83,7 @@ describe('Setting of Closing Reasons', function () {
         });
 
         it('does not render empty list', () => {
-          expect(prefixesSetting.prefixes.isPresent).to.be.false;
+          expect(prefixesSetting.prefixes.list().length).to.equal(1);
         });
       });
 

@@ -13,13 +13,15 @@ describe('Setting of Closing Reasons', function () {
   const deleteConfirmation = new ConfirmationInteractor('#delete-controlled-vocab-entry-confirmation');
 
   beforeEach(async function () {
+    this.server.create('closingReason', { name: 'test close reason' });
+
     this.visit('/settings/orders/closing-reasons');
     await closingReasonsSetting.whenLoaded();
   });
 
   it('should be rendered', () => {
     expect(closingReasonsSetting.isPresent).to.be.true;
-    expect(closingReasonsSetting.closingReasons.isPresent).to.be.false;
+    expect(closingReasonsSetting.closingReasons.list().length).to.equal(1);
   });
 
   describe('Add new reason', function () {
@@ -38,7 +40,7 @@ describe('Setting of Closing Reasons', function () {
       });
 
       it('renders fields for new reason', () => {
-        expect(closingReasonsSetting.closingReasons.isPresent).to.be.false;
+        expect(closingReasonsSetting.closingReasons.list().length).to.equal(1);
       });
     });
 
@@ -49,7 +51,7 @@ describe('Setting of Closing Reasons', function () {
       });
 
       it('renders saved reason', () => {
-        expect(closingReasonsSetting.closingReasons.list().length).to.equal(1);
+        expect(closingReasonsSetting.closingReasons.list().length).to.equal(2);
       });
 
       describe('Edit reason', function () {
@@ -60,7 +62,7 @@ describe('Setting of Closing Reasons', function () {
         });
 
         it('renders edited reason', () => {
-          expect(closingReasonsSetting.closingReasons.list().length).to.equal(1);
+          expect(closingReasonsSetting.closingReasons.list().length).to.equal(2);
         });
       });
 
@@ -71,7 +73,7 @@ describe('Setting of Closing Reasons', function () {
         });
 
         it('does not render empty list', () => {
-          expect(closingReasonsSetting.closingReasons.isPresent).to.be.false;
+          expect(closingReasonsSetting.closingReasons.list().length).to.equal(1);
         });
       });
     });
