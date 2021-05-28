@@ -14,8 +14,8 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { useHoldings } from './useHoldings';
-import { getCallNumber } from './getCallNumber';
-import FieldLocationForNewHolding from './FieldLocationForNewHolding';
+import { getHoldingOptions } from './utils';
+import FieldHoldingLocation from './FieldHoldingLocation';
 
 const FieldHolding = ({
   instanceId,
@@ -46,17 +46,7 @@ const FieldHolding = ({
     }
   }, []);
 
-  const holdingOptions = useMemo(() => (
-    holdings?.map(({ id, permanentLocationId, callNumber, callNumberPrefix, callNumberSuffix }) => {
-      const callNumberLabel = getCallNumber(callNumber, callNumberPrefix, callNumberSuffix);
-      const separator = callNumberLabel ? ' > ' : '';
-
-      return ({
-        value: id,
-        label: `${locationsMap[permanentLocationId].name}${separator}${callNumberLabel}`,
-      });
-    })
-  ), [holdings, locationsMap]);
+  const holdingOptions = useMemo(() => getHoldingOptions(holdings, locationsMap), [holdings, locationsMap]);
 
   const onChangeHolding = useCallback(
     (holdingId) => {
@@ -86,7 +76,7 @@ const FieldHolding = ({
   return (
     selectedLocation
       ? (
-        <FieldLocationForNewHolding
+        <FieldHoldingLocation
           isNonInteractive={isDisabled}
           label={locationLabel}
           location={selectedLocation}

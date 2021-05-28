@@ -87,6 +87,7 @@
           "finance.funds.collection.get",
           "finance.transactions.collection.get",
           "inventory-storage.contributor-name-types.collection.get",
+          "inventory-storage.holdings.collection.get",
           "inventory-storage.identifier-types.collection.get",
           "inventory-storage.instance-statuses.collection.get",
           "inventory-storage.instance-relationship-types.collection.get",
@@ -202,7 +203,6 @@
           "module.orders.enabled",
           "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
-          "inventory-storage.holdings.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.po-lines.item.post"
@@ -217,7 +217,6 @@
           "module.orders.enabled",
           "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
-          "inventory-storage.holdings.collection.get",
           "orders-storage.pieces.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
@@ -302,7 +301,6 @@
         "visible": true,
         "subPermissions": [
           "ui-orders.settings.order-templates.view",
-          "inventory-storage.holdings.collection.get",
           "orders.order-templates.item.put",
           "orders.configuration.prefixes.collection.get",
           "orders.configuration.suffixes.collection.get"

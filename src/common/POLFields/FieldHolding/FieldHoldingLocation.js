@@ -7,7 +7,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-const FieldLocationForNewHolding = ({
+const FieldHoldingLocation = ({
   isNonInteractive,
   location,
   label,
@@ -41,7 +41,7 @@ const FieldLocationForNewHolding = ({
     );
 };
 
-FieldLocationForNewHolding.propTypes = {
+FieldHoldingLocation.propTypes = {
   isNonInteractive: PropTypes.bool,
   label: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
@@ -49,9 +49,9 @@ FieldLocationForNewHolding.propTypes = {
   onClearLocation: PropTypes.func.isRequired,
 };
 
-FieldLocationForNewHolding.defaultProps = {
+FieldHoldingLocation.defaultProps = {
   isNonInteractive: false,
   required: false,
 };
 
-export default FieldLocationForNewHolding;
+export default FieldHoldingLocation;
