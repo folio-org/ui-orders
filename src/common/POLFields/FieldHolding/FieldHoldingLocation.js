@@ -31,6 +31,7 @@ const FieldHoldingLocation = ({
     )
     : (
       <TextField
+        data-testid="holding-location"
         label={label}
         required={required}
         disabled
