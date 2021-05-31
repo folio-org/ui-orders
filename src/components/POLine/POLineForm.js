@@ -203,8 +203,12 @@ function POLineForm({
     : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
   const paneFooter = getPaneFooter();
 
-  const changeLocation = (location, fieldName) => {
-    change(fieldName, location.id);
+  const changeLocation = (location, locationFieldName, holdingFieldName, holdingId) => {
+    change(locationFieldName, location?.id || location);
+
+    if (holdingFieldName) {
+      change(holdingFieldName, holdingId);
+    }
   };
 
   const shortcuts = [

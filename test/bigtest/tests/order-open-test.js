@@ -18,6 +18,7 @@ import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OpenOrderConfirmationModal from '../interactors/PurchaseOrder/open-order-confirmation-modal';
 import OpenOrderErrorModal from '../interactors/PurchaseOrder/open-order-error-modal';
+import { TIMEOUT } from '../interactors/const';
 
 const VENDOR_IS_INACTIVE_RESPONSE = {
   'errors': [{
@@ -36,6 +37,8 @@ describe('Open order action', function () {
   const openOrderConfirmationModal = new OpenOrderConfirmationModal();
   const openOrderErrorModal = new OpenOrderErrorModal();
 
+  this.timeout(TIMEOUT);
+
   beforeEach(async function () {
     const line = this.server.create('line', {
       orderFormat: ORDER_FORMATS.physicalResource,
@@ -51,6 +54,7 @@ describe('Open order action', function () {
     });
 
     this.visit(`/orders/view/${pendingOrder.id}`);
+
     await orderDetailsPage.whenLoaded();
   });
 

@@ -14,6 +14,7 @@ import {
   TextField,
 } from '@folio/stripes-acq-components';
 
+import FieldHolding from '../FieldHolding';
 import {
   isLocationEresourceQuantityRequired,
   isLocationPhysicalQuantityRequired,
@@ -32,13 +33,14 @@ const FieldsLocation = ({
   isPostPendingOrder,
   locationIds,
   locations,
-  pOLineFormValues: { orderFormat, physical, eresource } = {},
+  pOLineFormValues: { orderFormat, physical, eresource, instanceId } = {},
   withValidation,
 }) => {
   if (!locations) return null;
 
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
   const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresource?.createInventory);
+  const validate = withValidation ? validateLocation : NO_VALIDATE;
 
   return (
     <FieldArray
@@ -51,16 +53,34 @@ const FieldsLocation = ({
       renderField={(field) => (
         <Row>
           <Col xs={6}>
-            <FieldLocationFinal
-              isDisabled={isPostPendingOrder}
-              labelId="ui-orders.location.nameCode"
-              locationsForDict={locations}
-              name={`${field}.locationId`}
-              onChange={changeLocation}
-              prepopulatedLocationsIds={locationIds}
-              required={withValidation}
-              validate={withValidation ? validateLocation : NO_VALIDATE}
-            />
+            {instanceId
+              ? (
+                <FieldHolding
+                  isDisabled={isPostPendingOrder}
+                  labelId="ui-orders.location.selectHoldings"
+                  locationsForDict={locations}
+                  name={`${field}.holdingId`}
+                  locationFieldName={`${field}.locationId`}
+                  onChange={changeLocation}
+                  required={withValidation}
+                  validate={validate}
+                  instanceId={instanceId}
+                  locationLabelId="ui-orders.location.nameCode"
+                />
+              )
+              : (
+                <FieldLocationFinal
+                  isDisabled={isPostPendingOrder}
+                  labelId="ui-orders.location.nameCode"
+                  locationsForDict={locations}
+                  name={`${field}.locationId`}
+                  onChange={changeLocation}
+                  prepopulatedLocationsIds={locationIds}
+                  required={withValidation}
+                  validate={validate}
+                />
+              )
+            }
           </Col>
           <Col xs={3}>
             <Field
