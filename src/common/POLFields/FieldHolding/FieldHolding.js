@@ -14,7 +14,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { useHoldings } from './useHoldings';
-import { getHoldingOptions } from './utils';
+import { getHoldingOptions } from './getHoldingOptions';
 import FieldHoldingLocation from './FieldHoldingLocation';
 
 const FieldHolding = ({

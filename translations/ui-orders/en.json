@@ -288,6 +288,7 @@
   "location.button.addLocation": "Add location",
   "location.createHolding": "Create new holdings for location",
   "location.nameCode": "Name (code)",
+  "location.holding": "Holding",
   "location.quantityElectronic.notMatch": "PO line electronic quantity and locations electronic quantity do not match",
   "location.quantityElectronic.notMatchOrEmpty": "Locations electronic quantity should be empty or match with PO line electronic quantity",
   "location.required": "At least one location must be entered",
