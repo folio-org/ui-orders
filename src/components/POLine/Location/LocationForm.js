@@ -4,29 +4,31 @@ import PropTypes from 'prop-types';
 import {
   ifDisabledToChangePaymentInfo,
   isWorkflowStatusIsPending,
+  isWorkflowStatusOpen,
 } from '../../PurchaseOrder/util';
 import { FieldsLocation } from '../../../common/POLFields';
 
 const LocationForm = ({
   changeLocation,
   formValues,
-  isPackage,
   locationIds,
   locations,
   order,
 }) => {
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+  const isQuantityDisabled = !(formValues.checkinItems || formValues.isPackage) && isWorkflowStatusOpen(order);
 
   return (
     <FieldsLocation
       changeLocation={changeLocation}
       isDisabledToChangePaymentInfo={isDisabledToChangePaymentInfo}
       isPostPendingOrder={isPostPendingOrder}
+      isQuantityDisabled={isQuantityDisabled}
       locationIds={locationIds}
       locations={locations}
       pOLineFormValues={formValues}
-      withValidation={!isPackage}
+      withValidation={!formValues.isPackage}
     />
   );
 };
@@ -34,7 +36,6 @@ const LocationForm = ({
 LocationForm.propTypes = {
   changeLocation: PropTypes.func.isRequired,
   formValues: PropTypes.object.isRequired,
-  isPackage: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object.isRequired,
@@ -42,7 +43,6 @@ LocationForm.propTypes = {
 
 LocationForm.defaultProps = {
   locations: [],
-  isPackage: false,
 };
 
 export default LocationForm;

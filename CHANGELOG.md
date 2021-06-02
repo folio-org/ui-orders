@@ -13,7 +13,8 @@
 * Update Print order from HTML template. Refs UIOR-721.
 * Possible to save POL with no location even when location is required. Refs UIOR-720.
 * Implement Keyboard shortcuts modal. Refs UIOR-729.
-* Allow user to select holding rather than location at point of order. Refs UIOR-724
+* Allow user to select holding rather than location at point of order. Refs UIOR-724.
+* Restrict editing order location and quantity on POL. Refs UIOR-726.
 
 ## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)
