@@ -97,6 +97,7 @@
   "cost.info": "List unit price(s) x quantities ordered + additional cost - discount",
   "cost.listPrice": "Physical unit price",
   "cost.quantity": "Quantity",
+  "cost.quantityPopover": "This order has receiving records. These quantities can only be edited by working with the records in the receiving app",
   "cost.quantityElectronic": "Quantity electronic",
   "cost.quantityPhysical": "Quantity physical",
   "cost.unitPriceOfElectronic": "Electronic unit price",

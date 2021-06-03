@@ -254,7 +254,6 @@ function POLineForm({
   const fundDistribution = get(formValues, 'fundDistribution');
   const metadata = get(initialValues, 'metadata');
   const currency = get(formValues, 'cost.currency');
-  const isPackage = get(formValues, 'isPackage');
 
   return (
     <HasCommand
@@ -378,7 +377,6 @@ function POLineForm({
                       <LocationForm
                         changeLocation={changeLocation}
                         formValues={formValues}
-                        isPackage={isPackage}
                         locationIds={locationIds}
                         locations={locations}
                         order={order}
