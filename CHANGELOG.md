@@ -14,6 +14,7 @@
 * Possible to save POL with no location even when location is required. Refs UIOR-720.
 * Implement Keyboard shortcuts modal. Refs UIOR-729.
 * Multiple PO lines created when 'Save & Open' used on POL with fund distribution and no budget. Refs UIOR-723.
+* Order export to CSV does not perform when attempting export of 50+ records. Refs UIOR-739.
 
 ## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)
