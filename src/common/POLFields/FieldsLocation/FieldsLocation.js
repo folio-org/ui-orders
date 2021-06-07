@@ -45,10 +45,7 @@ const FieldsLocation = ({
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
   const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresource?.createInventory);
   const validate = withValidation ? validateLocation : NO_VALIDATE;
-  const receivingLink = {
-    pathname: '/receiving',
-    search: `qindex=purchaseOrder.poNumber&query=${poNumber}`,
-  };
+  const receivingLink = `/receiving?qindex=purchaseOrder.poNumber&query=${poNumber}`;
 
   return (
     <>
