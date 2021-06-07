@@ -28,6 +28,7 @@ const LocationForm = ({
       locationIds={locationIds}
       locations={locations}
       pOLineFormValues={formValues}
+      poNumber={order.poNumber}
       withValidation={!formValues.isPackage}
     />
   );

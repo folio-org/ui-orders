@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import {
   Col,
@@ -36,6 +37,7 @@ const FieldsLocation = ({
   locationIds,
   locations,
   pOLineFormValues: { orderFormat, physical, eresource, instanceId } = {},
+  poNumber,
   withValidation,
 }) => {
   if (!locations) return null;
@@ -43,12 +45,22 @@ const FieldsLocation = ({
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
   const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresource?.createInventory);
   const validate = withValidation ? validateLocation : NO_VALIDATE;
+  const receivingLink = {
+    pathname: '/receiving',
+    search: `qindex=purchaseOrder.poNumber&query=${poNumber}`,
+  };
 
   return (
     <>
       {isQuantityDisabled && (
         <MessageBanner type="warning">
-          <FormattedMessage id="ui-orders.cost.quantityPopover" />
+          <FormattedMessage
+            id="ui-orders.cost.quantityPopover"
+          />
+          {' '}
+          <Link to={receivingLink}>
+            <FormattedMessage id="ui-orders.location.editInReceiving" />
+          </Link>
         </MessageBanner>
       )}
       <FieldArray
@@ -131,6 +143,7 @@ FieldsLocation.propTypes = {
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
   pOLineFormValues: PropTypes.object,
+  poNumber: PropTypes.string,
   withValidation: PropTypes.bool,
 };
 
