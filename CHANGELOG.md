@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [2.4.0](https://github.com/folio-org/ui-orders/tree/v2.4.0) (2021-06-18)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.1...v2.4.0)
+
 * Filter order lines by Expense class. Refs UIOR-678.
 * Resizable Panes - Persistence. Refs UIOR-683.
 * Apply Results list column chooser. Refs UIOR-691.
@@ -15,6 +18,13 @@
 * Implement Keyboard shortcuts modal. Refs UIOR-729.
 * Multiple PO lines created when 'Save & Open' used on POL with fund distribution and no budget. Refs UIOR-723.
 * Order export to CSV does not perform when attempting export of 50+ records. Refs UIOR-739.
+* Update "Renewal Review period" filter label to match PO field label. Refs UIOR-715.
+* Update filter label to match PO field label. Refs UIOR-714.
+* Support new error codes of Order validation on UI. Refs UIOR-711.
+* Compile Translation Files into AST Format. Refs UIOR-697.
+* orders - Acquisition units no longer restrict edit create or delete actions from action menu. Refs UIOR-686.
+* Print order from HTML template. Refs UIOR-674.
+* Add Print action and icon to order actions menu. Refs UIOR-672.
 
 ## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)
