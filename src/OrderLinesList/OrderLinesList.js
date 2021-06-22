@@ -43,14 +43,14 @@ import LineExportSettingsModalContainer from './LineExportSettingModalContainer'
 const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
-const sortableColumns = ['poLineNumber', UPDATED_DATE, 'title'];
+const sortableColumns = ['poLineNumber', UPDATED_DATE, 'titleOrPackage'];
 const resultsFormatter = {
   [UPDATED_DATE]: line => <FolioFormattedDate value={get(line, 'metadata.updatedDate')} />,
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   [VENDOR_REF_NUMBER]: line => (
     line.vendorDetail?.referenceNumbers?.map(({ refNumber }) => refNumber)?.join(', ') || <NoValue />
   ),
-  title: line => get(line, 'titleOrPackage', ''),
+  titleOrPackage: line => get(line, 'titleOrPackage', ''),
   funCodes: line => line.fundDistribution?.map(({ code }) => code).filter(Boolean).join(', '),
   orderWorkflow: line => ORDER_STATUS_LABEL[line.orderWorkflow],
 };
@@ -58,7 +58,7 @@ const resultsFormatter = {
 export const columnMapping = {
   poLineNumber: <FormattedMessage id="ui-orders.orderLineList.poLineNumber" />,
   [UPDATED_DATE]: <FormattedMessage id="ui-orders.orderLineList.updatedDate" />,
-  title: <FormattedMessage id="ui-orders.orderLineList.titleOrPackage" />,
+  titleOrPackage: <FormattedMessage id="ui-orders.orderLineList.titleOrPackage" />,
   productIds: <FormattedMessage id="ui-orders.orderLineList.productIds" />,
   [VENDOR_REF_NUMBER]: <FormattedMessage id="ui-orders.orderLineList.vendorRefNumber" />,
   funCodes: <FormattedMessage id="ui-orders.orderLineList.funCodes" />,
