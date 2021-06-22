@@ -7,10 +7,13 @@ import { expect } from 'chai';
 
 import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import setupApplication from '../helpers/setup-application';
+import { TIMEOUT } from '../interactors/const';
 import OrderDetailsPage from '../interactors/order-details-page';
 
 describe('Add Line button should be disabled for Closed orders', function () {
   setupApplication();
+
+  this.timeout(TIMEOUT);
 
   const orderDetailsPage = new OrderDetailsPage();
   let closedOrder = null;

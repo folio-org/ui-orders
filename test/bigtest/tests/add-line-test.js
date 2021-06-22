@@ -19,9 +19,12 @@ import {
   LINES_LIMIT_DEFAULT,
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';
+import { TIMEOUT } from '../interactors/const';
 
 describe('clicking on add Line to open LinesLimit Modal', function () {
   setupApplication();
+
+  this.timeout(TIMEOUT);
 
   const linesLimitModal = new LinesLimitModal();
   const orderDetailsPage = new OrderDetailsPage();
