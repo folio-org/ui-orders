@@ -50,7 +50,6 @@ const resultsFormatter = {
   [VENDOR_REF_NUMBER]: line => (
     line.vendorDetail?.referenceNumbers?.map(({ refNumber }) => refNumber)?.join(', ') || <NoValue />
   ),
-  titleOrPackage: line => get(line, 'titleOrPackage', ''),
   funCodes: line => line.fundDistribution?.map(({ code }) => code).filter(Boolean).join(', '),
   orderWorkflow: line => ORDER_STATUS_LABEL[line.orderWorkflow],
 };
