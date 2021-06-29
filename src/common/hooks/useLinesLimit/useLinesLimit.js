@@ -14,13 +14,14 @@ import {
 
 export const useLinesLimit = (enabled = true) => {
   const ky = useOkapiKy();
+  const [namespace] = useNamespace({ key: 'order-lines-limit' });
 
   const searchParams = {
     query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
   };
 
   const { isLoading, data = {} } = useQuery(
-    [useNamespace, 'order-lines-limit'],
+    [namespace],
     () => ky.get(CONFIG_API, { searchParams }).json(),
     { enabled },
   );

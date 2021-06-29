@@ -265,6 +265,7 @@ function LayerPOLine({
     const line = cloneDeep(data);
 
     delete line.metadata;
+    delete line.isCreateAnotherChecked;
 
     return memoizedMutator.poLines.PUT(line)
       .then(() => openOrder(saveAndOpen))
