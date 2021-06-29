@@ -32,6 +32,7 @@ import {
   ERROR_CODES,
   WORKFLOW_STATUS,
 } from '../../common/constants';
+import { useLinesLimit } from '../../common/hooks';
 import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
 import {
   DISCOUNT_TYPE,
@@ -78,6 +79,8 @@ function LayerPOLine({
   const [poLines, setPoLines] = useState();
   const poLine = poLines?.find((u) => u.id === lineId);
   const [vendor, setVendor] = useState();
+  const { isLoading: isLinesLimitLoading, linesLimit } = useLinesLimit(!(lineId || poLine));
+  const [isCreateNext, setCreateNext] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -114,7 +117,7 @@ function LayerPOLine({
       }
 
       if (response.errors && response.errors.length) {
-        if (response.errors.find(el => el.code === 'lines_limit')) {
+        if (response.errors.find(el => el.code === ERROR_CODES.polLimitExceeded)) {
           openLineLimitExceededModal(line);
         } else if (response.errors.find(el => el.code === ERROR_CODES.piecesNeedToBeDeleted)) {
           toggleDeletePieces();
@@ -170,7 +173,7 @@ function LayerPOLine({
     [memoizedMutator.lineOrder, order, sendCallout],
   );
 
-  const submitPOLine = useCallback(async ({ saveAndOpen, ...line }) => {
+  const submitPOLine = useCallback(async ({ saveAndOpen, isCreateAnotherChecked, ...line }) => {
     setSavingValues(line);
     setIsLoading(true);
     const newLine = cloneDeep(line);
@@ -186,10 +189,16 @@ function LayerPOLine({
         type: 'success',
       });
 
-      history.push({
-        pathname: `/orders/view/${id}/po-line/view/${savedLine.id}`,
-        search,
-      });
+      if (!isCreateAnotherChecked) {
+        history.push({
+          pathname: `/orders/view/${id}/po-line/view/${savedLine.id}`,
+          search,
+        });
+      }
+
+      setSavingValues();
+      setCreateNext(true);
+      setIsLoading(false);
     } catch (e) {
       if (saveAndOpen && savedLine) {
         await memoizedMutator.poLines.DELETE(savedLine);
@@ -381,7 +390,8 @@ function LayerPOLine({
     get(resources, 'locations.hasLoaded') &&
     get(resources, `${DICT_IDENTIFIER_TYPES}.hasLoaded`) &&
     get(resources, 'materialTypes.hasLoaded') &&
-    get(order, 'id') === id
+    get(order, 'id') === id &&
+    !isLinesLimitLoading
   );
 
   if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
@@ -402,6 +412,8 @@ function LayerPOLine({
         stripes={stripes}
         isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
         enableSaveBtn={Boolean(savingValues)}
+        linesLimit={linesLimit}
+        isCreateNext={isCreateNext}
       />
       {isLinesLimitExceededModalOpened && (
         <LinesLimit

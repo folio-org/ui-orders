@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get, mapValues } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -9,6 +9,7 @@ import {
   Accordion,
   AccordionSet,
   Button,
+  Checkbox,
   checkScope,
   Col,
   ExpandAllButton,
@@ -55,6 +56,7 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
+import styles from './POLineForm.css';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId'];
 
@@ -73,14 +75,18 @@ function POLineForm({
   isSaveAndOpenButtonVisible,
   values: formValues,
   enableSaveBtn,
+  linesLimit,
+  isCreateNext,
 }) {
   const history = useHistory();
 
+  const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(isCreateNext);
   const locations = parentResources?.locations?.records;
   const templateValue = getOrderTemplateValue(parentResources, order?.template, {
     locations,
   });
   const lineId = get(initialValues, 'id');
+  const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
 
   useEffect(() => {
     setTimeout(() => {
@@ -131,8 +137,9 @@ function POLineForm({
 
   const submit = useCallback(() => {
     change('saveAndOpen', false);
+    change('isCreateAnotherChecked', isCreateAnotherChecked);
     handleSubmit();
-  }, [change, handleSubmit]);
+  }, [change, handleSubmit, isCreateAnotherChecked]);
 
   const getPaneFooter = () => {
     const start = (
@@ -153,6 +160,15 @@ function POLineForm({
 
     const end = (
       <>
+        {!lineId && (linesLimit > 1) && (
+          <Checkbox
+            label={<FormattedMessage id="ui-orders.buttons.line.createAnother" />}
+            checked={isCreateAnotherChecked}
+            onChange={e => setCreateAnotherChecked(e.target.checked)}
+            className={styles.createAnotherCheckbox}
+            inline
+          />
+        )}
         <Button
           data-test-button-save
           id="clickable-updatePoLine"
@@ -161,14 +177,14 @@ function POLineForm({
           disabled={!enableSaveBtn && (pristine || submitting)}
           onClick={submit}
         >
-          <FormattedMessage id="ui-orders.buttons.line.save" />
+          <FormattedMessage id={`ui-orders.buttons.line.${saveBtnLabelId}`} />
         </Button>
         {isSaveAndOpenButtonVisible && (
           <Button
             data-test-button-save-and-open
             type="submit"
             buttonStyle="primary mega"
-            disabled={submitting}
+            disabled={submitting || isCreateAnotherChecked}
             onClick={submitAndOpen}
           >
             <FormattedMessage id="ui-orders.buttons.line.saveAndOpen" />
@@ -445,6 +461,8 @@ POLineForm.propTypes = {
   isSaveAndOpenButtonVisible: PropTypes.bool,
   values: PropTypes.object.isRequired,
   enableSaveBtn: PropTypes.bool,
+  linesLimit: PropTypes.number.isRequired,
+  isCreateNext: PropTypes.bool.isRequired,
 };
 
 export default stripesForm({
