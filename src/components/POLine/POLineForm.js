@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get, mapValues } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -76,11 +76,11 @@ function POLineForm({
   values: formValues,
   enableSaveBtn,
   linesLimit,
-  isCreateNext,
+  isCreateAnotherChecked,
+  toggleCreateAnother,
 }) {
   const history = useHistory();
 
-  const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(isCreateNext);
   const locations = parentResources?.locations?.records;
   const templateValue = getOrderTemplateValue(parentResources, order?.template, {
     locations,
@@ -137,9 +137,8 @@ function POLineForm({
 
   const submit = useCallback(() => {
     change('saveAndOpen', false);
-    change('isCreateAnotherChecked', isCreateAnotherChecked);
     handleSubmit();
-  }, [change, handleSubmit, isCreateAnotherChecked]);
+  }, [change, handleSubmit]);
 
   const getPaneFooter = () => {
     const start = (
@@ -164,7 +163,7 @@ function POLineForm({
           <Checkbox
             label={<FormattedMessage id="ui-orders.buttons.line.createAnother" />}
             checked={isCreateAnotherChecked}
-            onChange={e => setCreateAnotherChecked(e.target.checked)}
+            onChange={e => toggleCreateAnother(e.target.checked)}
             className={styles.createAnotherCheckbox}
             inline
           />
@@ -462,7 +461,8 @@ POLineForm.propTypes = {
   values: PropTypes.object.isRequired,
   enableSaveBtn: PropTypes.bool,
   linesLimit: PropTypes.number.isRequired,
-  isCreateNext: PropTypes.bool.isRequired,
+  isCreateAnotherChecked: PropTypes.bool.isRequired,
+  toggleCreateAnother: PropTypes.func.isRequired,
 };
 
 export default stripesForm({

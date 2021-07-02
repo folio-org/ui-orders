@@ -59,7 +59,7 @@ import ModalDeletePieces from '../ModalDeletePieces';
 
 function LayerPOLine({
   history,
-  location: { search },
+  location: { search, state: locationState },
   match: { params: { id, lineId } },
   mutator,
   resources,
@@ -80,7 +80,7 @@ function LayerPOLine({
   const poLine = poLines?.find((u) => u.id === lineId);
   const [vendor, setVendor] = useState();
   const { isLoading: isLinesLimitLoading, linesLimit } = useLinesLimit(!(lineId || poLine));
-  const [isCreateNext, setCreateNext] = useState(false);
+  const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(locationState?.isCreateAnotherChecked);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -173,7 +173,7 @@ function LayerPOLine({
     [memoizedMutator.lineOrder, order, sendCallout],
   );
 
-  const submitPOLine = useCallback(async ({ saveAndOpen, isCreateAnotherChecked, ...line }) => {
+  const submitPOLine = useCallback(async ({ saveAndOpen, ...line }) => {
     setSavingValues(line);
     setIsLoading(true);
     const newLine = cloneDeep(line);
@@ -189,15 +189,17 @@ function LayerPOLine({
         type: 'success',
       });
 
-      if (!isCreateAnotherChecked) {
-        history.push({
-          pathname: `/orders/view/${id}/po-line/view/${savedLine.id}`,
-          search,
-        });
-      }
+      const pathname = isCreateAnotherChecked
+        ? `/orders/view/${id}/po-line/create`
+        : `/orders/view/${id}/po-line/view/${savedLine.id}`;
+      const state = isCreateAnotherChecked ? { isCreateAnotherChecked: true } : {};
 
+      history.push({
+        pathname,
+        search,
+        state,
+      });
       setSavingValues();
-      setCreateNext(true);
       setIsLoading(false);
     } catch (e) {
       if (saveAndOpen && savedLine) {
@@ -207,7 +209,8 @@ function LayerPOLine({
       setIsLoading(false);
       handleErrorResponse(e, line);
     }
-  }, [handleErrorResponse, history, id, search, memoizedMutator.poLines, openOrder, sendCallout]);
+  },
+  [handleErrorResponse, history, id, search, memoizedMutator.poLines, openOrder, sendCallout, isCreateAnotherChecked]);
 
   const createNewOrder = useCallback(
     async () => {
@@ -265,7 +268,6 @@ function LayerPOLine({
     const line = cloneDeep(data);
 
     delete line.metadata;
-    delete line.isCreateAnotherChecked;
 
     return memoizedMutator.poLines.PUT(line)
       .then(() => openOrder(saveAndOpen))
@@ -414,7 +416,8 @@ function LayerPOLine({
         isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
         enableSaveBtn={Boolean(savingValues)}
         linesLimit={linesLimit}
-        isCreateNext={isCreateNext}
+        isCreateAnotherChecked={isCreateAnotherChecked}
+        toggleCreateAnother={setCreateAnotherChecked}
       />
       {isLinesLimitExceededModalOpened && (
         <LinesLimit
