@@ -7,6 +7,6 @@ import {
 
 export const isEresource = (format) => ERESOURCES.includes(format);
 
-export const isFresource = (format) => PHRESOURCES.includes(format);
+export const isPhresource = (format) => PHRESOURCES.includes(format);
 
 export const isOtherResource = (format) => format === ORDER_FORMATS.other;

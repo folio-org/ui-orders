@@ -12,6 +12,7 @@ import {
   FieldLocationFinal,
   RepeatableFieldWithValidation,
   TextField,
+  ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -32,13 +33,19 @@ const FieldsLocation = ({
   isPostPendingOrder,
   locationIds,
   locations,
-  pOLineFormValues: { orderFormat, physical, eresource } = {},
+  pOLineFormValues: { orderFormat, physical, eresource, isPackage } = {},
   withValidation,
 }) => {
   if (!locations) return null;
 
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
   const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresource?.createInventory);
+  const isPhysicalQuantityVisible = isPackage
+    ? orderFormat !== ORDER_FORMATS.electronicResource
+    : true;
+  const isElectronicQuantityVisible = isPackage
+    ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
+    : true;
 
   return (
     <FieldArray
@@ -62,30 +69,34 @@ const FieldsLocation = ({
               validate={withValidation ? validateLocation : NO_VALIDATE}
             />
           </Col>
-          <Col xs={3}>
-            <Field
-              component={TextField}
-              label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
-              name={`${field}.quantityPhysical`}
-              parse={parseQuantity}
-              required={withValidation && isPhysicalQuantityRequired}
-              type="number"
-              validate={withValidation ? validateQuantityPhysical : NO_VALIDATE}
-              isNonInteractive={isDisabledToChangePaymentInfo}
-            />
-          </Col>
-          <Col xs={3}>
-            <Field
-              component={TextField}
-              label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
-              name={`${field}.quantityElectronic`}
-              parse={parseQuantity}
-              required={withValidation && isElectronicQuantityRequired}
-              type="number"
-              validate={withValidation ? validateQuantityElectronic : NO_VALIDATE}
-              isNonInteractive={isDisabledToChangePaymentInfo}
-            />
-          </Col>
+          {isPhysicalQuantityVisible && (
+            <Col xs={3}>
+              <Field
+                component={TextField}
+                label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
+                name={`${field}.quantityPhysical`}
+                parse={parseQuantity}
+                required={withValidation && isPhysicalQuantityRequired}
+                type="number"
+                validate={withValidation ? validateQuantityPhysical : NO_VALIDATE}
+                isNonInteractive={isDisabledToChangePaymentInfo}
+              />
+            </Col>
+          )}
+          {isElectronicQuantityVisible && (
+            <Col xs={3}>
+              <Field
+                component={TextField}
+                label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
+                name={`${field}.quantityElectronic`}
+                parse={parseQuantity}
+                required={withValidation && isElectronicQuantityRequired}
+                type="number"
+                validate={withValidation ? validateQuantityElectronic : NO_VALIDATE}
+                isNonInteractive={isDisabledToChangePaymentInfo}
+              />
+            </Col>
+          )}
         </Row>
       )}
     />

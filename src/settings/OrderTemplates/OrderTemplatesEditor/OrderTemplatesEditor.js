@@ -26,7 +26,7 @@ import {
 
 import {
   isEresource,
-  isFresource,
+  isPhresource,
   isOtherResource,
 } from '../../../common/POLFields';
 import { WORKFLOW_STATUS } from '../../../common/constants';
@@ -331,11 +331,12 @@ class OrderTemplatesEditor extends Component {
                       changeLocation={this.changeLocation}
                       locationIds={locationIds}
                       locations={locations}
+                      formValues={formValues}
                     />
                   </Accordion>
 
                   {
-                    isFresource(orderFormat) && (
+                    isPhresource(orderFormat) && (
                       <Accordion
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}
                         id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}

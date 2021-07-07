@@ -33,11 +33,10 @@ function CostView({ cost, isPackage, orderFormat }) {
         amount={discount}
       />
     );
-  const isElectornicValuesVisible = isPackage
+  const isElectronicValuesVisible = isPackage
     ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
     : true;
   const isPhysicalValuesVisible = isPackage ? orderFormat !== ORDER_FORMATS.electronicResource : true;
-  const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
   const isExchangeRateVisible = stripes.currency !== currency;
 
   return (
@@ -48,7 +47,7 @@ function CostView({ cost, isPackage, orderFormat }) {
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id="ui-orders.cost.listPrice" />}>
+          <KeyValue label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'listPriceOfPhysical'}`} />}>
             <AmountWithCurrencyField
               currency={currency}
               amount={cost.listUnitPrice}
@@ -63,7 +62,7 @@ function CostView({ cost, isPackage, orderFormat }) {
           lg={3}
         >
           <KeyValue
-            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
+            label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityPhysical'}`} />}
             value={cost.quantityPhysical}
           />
         </Col>
@@ -91,14 +90,14 @@ function CostView({ cost, isPackage, orderFormat }) {
           />
         </Col>
       )}
-      {isElectornicValuesVisible && (
+      {isElectronicValuesVisible && (
         <Col
           data-col-cost-qty-unit-price-electronic
           xs={6}
           lg={3}
         >
           <KeyValue
-            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
+            label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
           >
             <AmountWithCurrencyField
               currency={currency}
@@ -107,14 +106,14 @@ function CostView({ cost, isPackage, orderFormat }) {
           </KeyValue>
         </Col>
       )}
-      {isElectornicValuesVisible && (
+      {isElectronicValuesVisible && (
         <Col
           data-col-cost-qty-electronic
           xs={6}
           lg={3}
         >
           <KeyValue
-            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityElectronic'}`} />}
+            label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
             value={cost.quantityElectronic}
           />
         </Col>

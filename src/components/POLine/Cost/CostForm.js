@@ -74,48 +74,48 @@ const CostForm = ({
   const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
   const currency = get(formValues, 'cost.currency');
   const isPackage = get(formValues, 'isPackage');
-  const isElectornicFieldsVisible = isPackage
+  const isElectronicFieldsVisible = isPackage
     ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
     : true;
   const isPhysicalFieldsVisible = isPackage ? orderFormat !== ORDER_FORMATS.electronicResource : true;
-  const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
 
   return (
     <>
       <Row>
         {isPhysicalFieldsVisible && (
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.cost.listPrice" />}
-              name="cost.listUnitPrice"
-              parse={parseNumberFieldValue}
-              type="number"
-              isNonInteractive={isDisabledToChangePaymentInfo}
-              {...validatePhresourcesPrices}
-            />
-          </Col>
-        )}
-        {isPhysicalFieldsVisible && (
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
-              name="cost.quantityPhysical"
-              type="number"
-              parse={parseNumber}
-              isNonInteractive={isDisabledToChangePaymentInfo}
-              {...validatePhresourcesQuantities}
-            />
-          </Col>
+          <>
+            <Col
+              xs={6}
+              md={3}
+            >
+              <Field
+                component={TextField}
+                fullWidth
+                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'listPriceOfPhysical'}`} />}
+                name="cost.listUnitPrice"
+                parse={parseNumberFieldValue}
+                type="number"
+                isNonInteractive={isDisabledToChangePaymentInfo}
+                {...validatePhresourcesPrices}
+              />
+            </Col>
+
+            <Col
+              xs={6}
+              md={3}
+            >
+              <Field
+                component={TextField}
+                fullWidth
+                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityPhysical'}`} />}
+                name="cost.quantityPhysical"
+                type="number"
+                parse={parseNumber}
+                isNonInteractive={isDisabledToChangePaymentInfo}
+                {...validatePhresourcesQuantities}
+              />
+            </Col>
+          </>
         )}
         <Col
           xs={6}
@@ -144,39 +144,40 @@ const CostForm = ({
         exchangeRate={initialValues?.cost?.exchangeRate}
       />
       <Row>
-        {isElectornicFieldsVisible && (
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
-              name="cost.listUnitPriceElectronic"
-              parse={parseNumberFieldValue}
-              type="number"
-              isNonInteractive={isDisabledToChangePaymentInfo}
-              {...validateEresourcesPrices}
-            />
-          </Col>
-        )}
-        {isElectornicFieldsVisible && (
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityElectronic'}`} />}
-              name="cost.quantityElectronic"
-              type="number"
-              parse={parseNumber}
-              isNonInteractive={isDisabledToChangePaymentInfo}
-              {...validateEresourcesQuantities}
-            />
-          </Col>
+        {isElectronicFieldsVisible && (
+          <>
+            <Col
+              xs={6}
+              md={3}
+            >
+              <Field
+                component={TextField}
+                fullWidth
+                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
+                name="cost.listUnitPriceElectronic"
+                parse={parseNumberFieldValue}
+                type="number"
+                isNonInteractive={isDisabledToChangePaymentInfo}
+                {...validateEresourcesPrices}
+              />
+            </Col>
+
+            <Col
+              xs={6}
+              md={3}
+            >
+              <Field
+                component={TextField}
+                fullWidth
+                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
+                name="cost.quantityElectronic"
+                type="number"
+                parse={parseNumber}
+                isNonInteractive={isDisabledToChangePaymentInfo}
+                {...validateEresourcesQuantities}
+              />
+            </Col>
+          </>
         )}
         <Col
           xs={3}

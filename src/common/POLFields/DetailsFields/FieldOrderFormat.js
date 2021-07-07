@@ -34,6 +34,13 @@ function FieldOrderFormat({
     change('cost.listUnitPriceElectronic', null);
     change('cost.listUnitPrice', null);
 
+    if (formValues.isPackage) {
+      formValues?.locations?.map((l, i) => {
+        change(`locations[${i}].quantityPhysical`, null);
+        change(`locations[${i}].quantityElectronic`, null);
+      });
+    }
+
     if (ERESOURCES.includes(value)) {
       const activationDue = get(formValues, 'eresource.activationDue');
 

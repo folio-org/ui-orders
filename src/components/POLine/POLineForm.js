@@ -32,7 +32,7 @@ import {
 
 import {
   isEresource,
-  isFresource,
+  isPhresource,
   isOtherResource,
 } from '../../common/POLFields';
 import LocationForm from './Location/LocationForm';
@@ -253,7 +253,7 @@ function POLineForm({
 
   const orderFormat = get(formValues, 'orderFormat');
   const showEresources = isEresource(orderFormat);
-  const showPhresources = isFresource(orderFormat);
+  const showPhresources = isPhresource(orderFormat);
   const showOther = isOtherResource(orderFormat);
   const materialTypes = getMaterialTypesForSelect(parentResources);
   const identifierTypes = getIdentifierTypesForSelect(parentResources);

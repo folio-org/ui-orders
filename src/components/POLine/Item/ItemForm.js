@@ -159,10 +159,18 @@ class ItemForm extends Component {
   };
 
   setIsPackage = () => {
-    const isPackageValue = !this.props.formValues?.isPackage;
+    const { change, formValues } = this.props;
+    const isPackageValue = !formValues?.isPackage;
 
     this.onChangeField(isPackageValue, 'isPackage');
     this.onChangeField(isPackageValue, 'checkinItems');
+
+    if (isPackageValue) {
+      formValues?.locations?.map((l, i) => {
+        change(`locations[${i}].quantityPhysical`, null);
+        change(`locations[${i}].quantityElectronic`, null);
+      });
+    }
   };
 
   setPublisher = ({ target: { value } }) => {
