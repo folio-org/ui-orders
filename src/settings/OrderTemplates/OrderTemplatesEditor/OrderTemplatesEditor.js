@@ -159,7 +159,7 @@ class OrderTemplatesEditor extends Component {
       handleSubmit,
       close,
       values: formValues,
-      form: { change },
+      form: { change, batch },
       title,
       vendors,
       stripes,
@@ -274,6 +274,7 @@ class OrderTemplatesEditor extends Component {
                       order={ORDER}
                       formValues={formValues}
                       change={change}
+                      batch={batch}
                       required={false}
                       stripes={stripes}
                     />
@@ -284,7 +285,6 @@ class OrderTemplatesEditor extends Component {
                     id={ORDER_TEMPLATES_ACCORDION.POL_DETAILS}
                   >
                     <POLineDetailsForm
-                      change={change}
                       formValues={formValues}
                       createInventorySetting={createInventorySetting}
                     />

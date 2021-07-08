@@ -66,7 +66,6 @@ function POLineDetailsForm({
           md={3}
         >
           <FieldOrderFormat
-            change={change}
             formValues={formValues}
             vendor={vendor}
             createInventorySetting={createInventorySetting}

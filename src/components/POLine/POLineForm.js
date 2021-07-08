@@ -61,7 +61,7 @@ import styles from './POLineForm.css';
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId'];
 
 function POLineForm({
-  form: { change },
+  form: { change, batch },
   form,
   initialValues,
   onCancel,
@@ -333,6 +333,7 @@ function POLineForm({
                         order={order}
                         contributorNameTypes={contributorNameTypes}
                         change={change}
+                        batch={batch}
                         identifierTypes={identifierTypes}
                         initialValues={initialValues}
                         stripes={stripes}
