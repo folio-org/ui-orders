@@ -41,9 +41,8 @@ const FieldsLocation = ({
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
   const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresource?.createInventory);
   const isPhysicalQuantityVisible = !isPackage || (orderFormat !== ORDER_FORMATS.electronicResource);
-  const isElectronicQuantityVisible = isPackage
-    ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
-    : true;
+  const isElectronicQuantityVisible = !isPackage ||
+    (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix);
 
   return (
     <FieldArray
