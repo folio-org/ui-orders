@@ -9,21 +9,26 @@ import {
   sum,
 } from 'lodash';
 
-import { MultiColumnList } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
   FolioFormattedDate,
+  FrontendSortingMCL,
+  DESC_DIRECTION,
 } from '@folio/stripes-acq-components';
 
-const visibleColumns = ['invoice', 'invoiceDate', 'vendorName', 'status', 'quantity', 'expendedAmount', 'pieces'];
+const COLUMN_INVOICE_DATE = 'invoiceDate';
+const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'status', 'quantity', 'expendedAmount', 'pieces'];
 const columnMapping = {
   invoice: <FormattedMessage id="ui-orders.relatedInvoices.invoice" />,
-  invoiceDate: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
+  [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
   vendorName: <FormattedMessage id="ui-orders.relatedInvoices.vendorName" />,
   status: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
   quantity: <FormattedMessage id="ui-orders.relatedInvoices.quantity" />,
   expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
   pieces: <FormattedMessage id="ui-orders.relatedInvoices.pieces" />,
+};
+const sorters = {
+  [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
 };
 
 const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
@@ -41,7 +46,7 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
         {get(invoice, 'folioInvoiceNo', '')}
       </Link>
     ),
-    invoiceDate: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
+    [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
     vendorName: invoice => get(find(vendors, ['id', get(invoice, 'vendorId', '')]), 'name', ''),
     status: invoice => get(invoice, 'status', ''),
     quantity: (invoice) => sum(invoiceLines.filter(invoiceLine => invoiceLine.invoiceId === invoice.id).map(inv => get(inv, 'quantity', 0))),
@@ -55,13 +60,16 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
   };
 
   return (
-    <MultiColumnList
+    <FrontendSortingMCL
+      columnMapping={columnMapping}
       contentData={lineInvoices}
       formatter={resultFormatter}
-      visibleColumns={visibleColumns}
-      columnMapping={columnMapping}
-      interactive={false}
       id="lineInvoices"
+      interactive={false}
+      sortDirection={DESC_DIRECTION}
+      sortedColumn={COLUMN_INVOICE_DATE}
+      sorters={sorters}
+      visibleColumns={visibleColumns}
     />
   );
 };
@@ -71,9 +79,6 @@ POLineInvoices.propTypes = {
   invoiceLines: PropTypes.arrayOf(PropTypes.object),
   vendors: PropTypes.arrayOf(PropTypes.object),
   pieces: PropTypes.arrayOf(PropTypes.object),
-};
-
-POLineInvoices.defaultProps = {
 };
 
 export default POLineInvoices;

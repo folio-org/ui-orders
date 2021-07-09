@@ -8,19 +8,24 @@ import {
   get,
 } from 'lodash';
 
-import { MultiColumnList } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
   FolioFormattedDate,
+  FrontendSortingMCL,
+  DESC_DIRECTION,
 } from '@folio/stripes-acq-components';
 
-const visibleColumns = ['invoice', 'invoiceDate', 'vendorName', 'status', 'expendedAmount'];
+const COLUMN_INVOICE_DATE = 'invoiceDate';
+const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'status', 'expendedAmount'];
 const columnMapping = {
   invoice: <FormattedMessage id="ui-orders.relatedInvoices.invoice" />,
-  invoiceDate: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
+  [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
   vendorName: <FormattedMessage id="ui-orders.relatedInvoices.vendorName" />,
   status: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
   expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
+};
+const sorters = {
+  [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
 };
 
 const POInvoices = ({ orderInvoices, vendors }) => {
@@ -37,7 +42,7 @@ const POInvoices = ({ orderInvoices, vendors }) => {
         {get(invoice, 'folioInvoiceNo', '')}
       </Link>
     ),
-    invoiceDate: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
+    [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
     vendorName: invoice => get(find(vendors, ['id', get(invoice, 'vendorId', '')]), 'name', ''),
     status: invoice => get(invoice, 'status', ''),
     expendedAmount: invoice => (
@@ -49,13 +54,16 @@ const POInvoices = ({ orderInvoices, vendors }) => {
   };
 
   return (
-    <MultiColumnList
+    <FrontendSortingMCL
+      columnMapping={columnMapping}
       contentData={orderInvoices}
       formatter={resultFormatter}
-      visibleColumns={visibleColumns}
-      columnMapping={columnMapping}
       id="orderInvoices"
       interactive={false}
+      sortDirection={DESC_DIRECTION}
+      sortedColumn={COLUMN_INVOICE_DATE}
+      sorters={sorters}
+      visibleColumns={visibleColumns}
     />
   );
 };
@@ -63,9 +71,6 @@ const POInvoices = ({ orderInvoices, vendors }) => {
 POInvoices.propTypes = {
   orderInvoices: PropTypes.arrayOf(PropTypes.object),
   vendors: PropTypes.arrayOf(PropTypes.object),
-};
-
-POInvoices.defaultProps = {
 };
 
 export default POInvoices;
