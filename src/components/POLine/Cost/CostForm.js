@@ -78,6 +78,7 @@ const CostForm = ({
     ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
     : true;
   const isPhysicalFieldsVisible = isPackage ? orderFormat !== ORDER_FORMATS.electronicResource : true;
+  const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
 
   return (
     <>
@@ -91,7 +92,7 @@ const CostForm = ({
               <Field
                 component={TextField}
                 fullWidth
-                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'listPriceOfPhysical'}`} />}
+                label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
                 name="cost.listUnitPrice"
                 parse={parseNumberFieldValue}
                 type="number"
@@ -107,7 +108,7 @@ const CostForm = ({
               <Field
                 component={TextField}
                 fullWidth
-                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityPhysical'}`} />}
+                label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
                 name="cost.quantityPhysical"
                 type="number"
                 parse={parseNumber}

@@ -38,6 +38,7 @@ function CostView({ cost, isPackage, orderFormat }) {
     : true;
   const isPhysicalValuesVisible = isPackage ? orderFormat !== ORDER_FORMATS.electronicResource : true;
   const isExchangeRateVisible = stripes.currency !== currency;
+  const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
 
   return (
     <Row start="xs">
@@ -47,7 +48,7 @@ function CostView({ cost, isPackage, orderFormat }) {
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'listPriceOfPhysical'}`} />}>
+          <KeyValue label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}>
             <AmountWithCurrencyField
               currency={currency}
               amount={cost.listUnitPrice}
@@ -62,7 +63,7 @@ function CostView({ cost, isPackage, orderFormat }) {
           lg={3}
         >
           <KeyValue
-            label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityPhysical'}`} />}
+            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
             value={cost.quantityPhysical}
           />
         </Col>
