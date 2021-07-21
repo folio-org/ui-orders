@@ -1,5 +1,7 @@
 export const EXPORT_ORDER_FIELDS = {
+  poNumberPrefix: 'PO number prefix',
   poNumber: 'PO number',
+  poNumberSuffix: 'PO number suffix',
   vendor: 'Vendor',
   orderType: 'Order type',
   acquisitionsUnits: 'Acquisitions units',
@@ -21,6 +23,7 @@ export const EXPORT_ORDER_FIELDS = {
   reviewPeriod: 'Review period',
   renewalDate: 'Renewal date',
   reviewDate: 'Review date',
+  poTags: 'PO tags',
 };
 
 export const EXPORT_LINE_FIELDS = {
@@ -52,8 +55,8 @@ export const EXPORT_LINE_FIELDS = {
   rush: 'Rush',
   collection: 'Collection',
   poLineDescription: 'Line description',
-  refNumber: 'Vendor referrence number, referrence type',
-  instructions: 'Instrucitons to vendor',
+  refNumber: 'Vendor reference number, reference type',
+  instructions: 'Instructions to vendor',
   vendorAccount: 'Account number',
   listUnitPrice: 'Physical unit price',
   quantityPhysical: 'Quantity physical',
@@ -79,6 +82,7 @@ export const EXPORT_LINE_FIELDS = {
   expectedActivation: 'Expected activation',
   userLimit: 'User limit',
   resourceUrl: 'URL',
+  poLineTags: 'POLine tags',
 };
 
 export const EXPORT_ORDER_FIELDS_OPTIONS = Object.keys(EXPORT_ORDER_FIELDS).map(field => ({
