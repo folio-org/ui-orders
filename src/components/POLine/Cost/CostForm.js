@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
@@ -21,7 +21,10 @@ import {
   validateRequiredPositiveNumber,
 } from '@folio/stripes-acq-components';
 
-import { ifDisabledToChangePaymentInfo } from '../../PurchaseOrder/util';
+import {
+  ifDisabledToChangePaymentInfo,
+  isWorkflowStatusOpen,
+} from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
 import {
   ERESOURCES,
@@ -54,6 +57,7 @@ const CostForm = ({
   initialValues,
 }) => {
   const orderFormat = formValues.orderFormat;
+  const checkinItems = formValues.checkinItems;
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
 
   let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
@@ -79,6 +83,25 @@ const CostForm = ({
     : true;
   const isPhysicalFieldsVisible = isPackage ? orderFormat !== ORDER_FORMATS.electronicResource : true;
   const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
+  const isQuantityDisabled = !(checkinItems || isPackage) && isWorkflowStatusOpen(order);
+
+  if (isQuantityDisabled) {
+    validatePhresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
+    validateEresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
+  }
+
+  const getQuantityLabel = useCallback((labelId) => (
+    <div>
+      <span>
+        <FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : labelId}`} />
+      </span>
+      {isQuantityDisabled && (
+        <InfoPopover
+          content={<FormattedMessage id="ui-orders.cost.quantityPopover" />}
+        />
+      )}
+    </div>
+  ), [isPackageLabel, isQuantityDisabled]);
 
   return (
     <>
@@ -108,7 +131,7 @@ const CostForm = ({
               <Field
                 component={TextField}
                 fullWidth
-                label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
+                label={getQuantityLabel('quantityPhysical')}
                 name="cost.quantityPhysical"
                 type="number"
                 parse={parseNumber}
@@ -170,7 +193,7 @@ const CostForm = ({
               <Field
                 component={TextField}
                 fullWidth
-                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
+                label={getQuantityLabel('quantityElectronic')}
                 name="cost.quantityElectronic"
                 type="number"
                 parse={parseNumber}

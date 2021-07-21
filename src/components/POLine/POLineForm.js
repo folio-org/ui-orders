@@ -219,8 +219,12 @@ function POLineForm({
     : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
   const paneFooter = getPaneFooter();
 
-  const changeLocation = (location, fieldName) => {
-    change(fieldName, location.id);
+  const changeLocation = (location, locationFieldName, holdingFieldName, holdingId) => {
+    change(locationFieldName, location?.id || location);
+
+    if (holdingFieldName) {
+      change(holdingFieldName, holdingId);
+    }
   };
 
   const shortcuts = [
@@ -266,7 +270,6 @@ function POLineForm({
   const fundDistribution = get(formValues, 'fundDistribution');
   const metadata = get(initialValues, 'metadata');
   const currency = get(formValues, 'cost.currency');
-  const isPackage = get(formValues, 'isPackage');
 
   return (
     <HasCommand
@@ -391,7 +394,6 @@ function POLineForm({
                       <LocationForm
                         changeLocation={changeLocation}
                         formValues={formValues}
-                        isPackage={isPackage}
                         locationIds={locationIds}
                         locations={locations}
                         order={order}

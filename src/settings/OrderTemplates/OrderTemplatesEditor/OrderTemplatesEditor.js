@@ -116,10 +116,14 @@ class OrderTemplatesEditor extends Component {
     this.setState({ sections });
   };
 
-  changeLocation = (location, fieldName) => {
+  changeLocation = (location, locationFieldName, holdingFieldName, holdingId) => {
     const { form: { change } } = this.props;
 
-    change(fieldName, location.id);
+    change(locationFieldName, location?.id || location);
+
+    if (holdingFieldName) {
+      change(holdingFieldName, holdingId);
+    }
   };
 
   getLastMenu() {
