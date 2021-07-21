@@ -27,7 +27,7 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
   const materialTypeId = get(eresource, 'materialType');
   const materialType = materialTypes.find((type => materialTypeId === type.id));
 
-  const resourceUrl = (
+  const resourceUrl = eresource?.resourceUrl && (
     <TextLink
       href={eresource.resourceUrl}
       rel="noopener noreferrer"
