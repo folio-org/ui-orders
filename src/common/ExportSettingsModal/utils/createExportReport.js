@@ -104,6 +104,8 @@ export const createExportReport = (
     return ({
       sourceRecord: lineRecord,
       poNumber: order.poNumber,
+      poNumberPrefix: order.poNumberPrefix,
+      poNumberSuffix: order.poNumberSuffix,
       vendor: vendorMap[order.vendor]?.code ?? invalidReference,
       vendorRecord: vendorMap[order.vendor],
       orderType: order.orderType,
@@ -183,6 +185,8 @@ export const createExportReport = (
       expectedActivation: formatDate(lineRecord.eresource?.expectedActivation, intl),
       userLimit: lineRecord.eresource?.userLimit,
       resourceUrl: lineRecord.eresource?.resourceUrl,
+      poTags: order.tags?.tagList?.join('|'),
+      poLineTags: lineRecord.tags?.tagList?.join('|'),
     });
   });
 };
