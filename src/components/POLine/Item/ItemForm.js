@@ -22,9 +22,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
-  validateYear,
-} from '../../Utils/Validate';
-import {
   PRODUCT_ID_TYPE,
   QUALIFIER_SEPARATOR,
 } from '../../../common/constants';
@@ -36,7 +33,6 @@ import {
   getInventoryData,
 } from './util';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
-import { ALLOWED_YEAR_LENGTH } from '../const';
 import PackagePoLineField from './PackagePoLineField';
 import { TitleField } from './TitleField';
 // import { SubscriptionIntervalField } from './SubscriptionIntervalField';
@@ -79,12 +75,16 @@ class ItemForm extends Component {
     change('instanceId', id);
     change('titleOrPackage', title || '');
     inventoryData.title = title || '';
-    const { publisher, dateOfPublication } = publication?.[0] || {};
+
+    const { publisher } = publication?.[0] || {};
 
     change('publisher', publisher || '');
     inventoryData.publisher = publisher || '';
 
-    const publicationDate = dateOfPublication?.length === ALLOWED_YEAR_LENGTH ? dateOfPublication : null;
+    const publicationDate = (publication || [])
+      .map(({ dateOfPublication }) => dateOfPublication)
+      .filter(Boolean)
+      .join(', ');
 
     change('publicationDate', publicationDate);
     inventoryData.publicationDate = publicationDate;
@@ -338,7 +338,6 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
               name="publicationDate"
               onChange={this.setPublicationDate}
-              validate={validateYear}
               isNonInteractive={isPostPendingOrder}
               validateFields={[]}
             />

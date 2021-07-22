@@ -51,8 +51,6 @@ export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [
   { labelId: 'ui-orders.settings.createInventory.recordType.none', value: INVENTORY_RECORDS_TYPE.none },
 ];
 
-export const ALLOWED_YEAR_LENGTH = 4;
-
 export const POL_TEMPLATE_FIELDS_MAP = {
   'tags.tagList': 'polTags.tagList',
 };

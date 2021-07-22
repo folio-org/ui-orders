@@ -697,8 +697,6 @@
   "poLine": "PO line",
   "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}",
 
-  "validation.year": "Field should be 4-digit year",
-
   "permission.order.view": "Orders: View orders",
   "permission.order.create": "Orders: Create orders",
   "permission.order.edit": "Orders: Edit orders",
