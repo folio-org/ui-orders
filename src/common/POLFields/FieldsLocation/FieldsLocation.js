@@ -11,13 +11,12 @@ import {
   Row,
 } from '@folio/stripes/components';
 import {
-  FieldLocationFinal,
+  FieldInventory,
   RepeatableFieldWithValidation,
   TextField,
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
-import FieldHolding from '../FieldHolding';
 import {
   isLocationEresourceQuantityRequired,
   isLocationPhysicalQuantityRequired,
@@ -74,34 +73,19 @@ const FieldsLocation = ({
         renderField={(field) => (
           <Row>
             <Col xs={6}>
-              {instanceId
-                ? (
-                  <FieldHolding
-                    isDisabled={isPostPendingOrder}
-                    labelId="ui-orders.location.selectHoldings"
-                    locationsForDict={locations}
-                    name={`${field}.holdingId`}
-                    locationFieldName={`${field}.locationId`}
-                    onChange={changeLocation}
-                    required={withValidation}
-                    validate={validate}
-                    instanceId={instanceId}
-                    locationLabelId="ui-orders.location.nameCode"
-                  />
-                )
-                : (
-                  <FieldLocationFinal
-                    isDisabled={isPostPendingOrder}
-                    labelId="ui-orders.location.nameCode"
-                    locationsForDict={locations}
-                    name={`${field}.locationId`}
-                    onChange={changeLocation}
-                    prepopulatedLocationsIds={locationIds}
-                    required={withValidation}
-                    validate={validate}
-                  />
-                )
-              }
+              <FieldInventory
+                instanceId={instanceId}
+                locationIds={locationIds}
+                locations={locations}
+
+                holdingName={`${field}.holdingId`}
+                locationName={`${field}.locationId`}
+
+                onChange={changeLocation}
+                disabled={isPostPendingOrder}
+                required={withValidation}
+                validate={validate}
+              />
             </Col>
             {isPhysicalQuantityVisible && (
               <Col xs={3}>

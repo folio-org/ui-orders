@@ -9,8 +9,8 @@ import {
   Loading,
   Row,
 } from '@folio/stripes/components';
+import { getHoldingLocationName } from '@folio/stripes-acq-components';
 
-import { getHoldingLocationName } from '../../../common/utils';
 import { useLineHoldings } from './useLineHoldings';
 
 const Location = ({ location, locationsMap, holdings }) => {
