@@ -220,7 +220,9 @@ function POLineForm({
   const paneFooter = getPaneFooter();
 
   const changeLocation = (location, locationFieldName, holdingFieldName, holdingId) => {
-    change(locationFieldName, location?.id || location);
+    const locationId = holdingId ? undefined : location?.id || location;
+
+    change(locationFieldName, locationId);
 
     if (holdingFieldName) {
       change(holdingFieldName, holdingId);

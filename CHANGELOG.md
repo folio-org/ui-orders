@@ -9,6 +9,7 @@
 * Restrict editing order location and quantity on POL. Refs UIOR-726.
 * Allow user to sort "Related invoices" table by Invoice date. Refs UIOR-752.
 * Support erm 5.0 interface in orders. Refs UIOR-765.
+* HoldingsID not handled properly when duplicating order. Refs UIOR-770.
 
 ## [2.4.1](https://github.com/folio-org/ui-orders/tree/v2.4.1) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.0...v2.4.1)

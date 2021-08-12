@@ -118,8 +118,9 @@ class OrderTemplatesEditor extends Component {
 
   changeLocation = (location, locationFieldName, holdingFieldName, holdingId) => {
     const { form: { change } } = this.props;
+    const locationId = holdingId ? undefined : location?.id || location;
 
-    change(locationFieldName, location?.id || location);
+    change(locationFieldName, locationId);
 
     if (holdingFieldName) {
       change(holdingFieldName, holdingId);
