@@ -536,6 +536,7 @@
   "relatedInvoices.pieces": "Piece(s)",
   "relatedInvoices.quantity": "Quantity",
   "relatedInvoices.status": "Status",
+  "relatedInvoices.vendorInvoiceNo": "Vendor invoice number",
   "relatedInvoices.vendorName": "Vendor name",
   "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
   "search": "Search",
