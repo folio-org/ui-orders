@@ -8,9 +8,12 @@ import { expect } from 'chai';
 import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
+import { TIMEOUT } from '../interactors/const';
 
 describe('Disabled Open order action', function () {
   setupApplication();
+
+  this.timeout(TIMEOUT);
 
   const orderDetailsPage = new OrderDetailsPage();
 
