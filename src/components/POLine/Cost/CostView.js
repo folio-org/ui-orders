@@ -18,6 +18,9 @@ import {
 import {
   DISCOUNT_TYPE,
 } from '../const';
+import {
+  RolloverAdjustmentAmount,
+} from './RolloverAdjustmentAmount';
 
 function CostView({ cost, isPackage, orderFormat }) {
   const stripes = useStripes();
@@ -165,6 +168,21 @@ function CostView({ cost, isPackage, orderFormat }) {
           />
         </KeyValue>
       </Col>
+
+      {
+        Boolean(cost.fyroAdjustmentAmount) && (
+          <Col
+            data-col-cost-estimated-price
+            xs={6}
+            lg={3}
+          >
+            <RolloverAdjustmentAmount
+              currency={currency}
+              amount={cost.fyroAdjustmentAmount}
+            />
+          </Col>
+        )
+      }
     </Row>
   );
 }

@@ -31,6 +31,9 @@ import {
   PHRESOURCES,
 } from '../const';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
+import {
+  RolloverAdjustmentAmount,
+} from './RolloverAdjustmentAmount';
 
 const FIELD_ATTRS_FOR_REQUIRED_PRICE = {
   required: true,
@@ -55,10 +58,12 @@ const CostForm = ({
   order,
   required,
   initialValues,
+  change,
 }) => {
   const orderFormat = formValues.orderFormat;
   const checkinItems = formValues.checkinItems;
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
+  const rolloverAdjustmentAmount = formValues.cost?.fyroAdjustmentAmount;
 
   let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
   let validateEresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
@@ -103,6 +108,14 @@ const CostForm = ({
     </div>
   ), [isPackageLabel, isQuantityDisabled]);
 
+  const onCostChange = e => {
+    if (rolloverAdjustmentAmount) {
+      change('cost.fyroAdjustmentAmount', 0);
+    }
+
+    change(e.target.name, e.target.value);
+  };
+
   return (
     <>
       <Row>
@@ -114,6 +127,7 @@ const CostForm = ({
             >
               <Field
                 component={TextField}
+                onChange={onCostChange}
                 fullWidth
                 label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
                 name="cost.listUnitPrice"
@@ -147,6 +161,7 @@ const CostForm = ({
         >
           <Field
             component={TextField}
+            onChange={onCostChange}
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
             name="cost.additionalCost"
@@ -156,7 +171,22 @@ const CostForm = ({
             isNonInteractive={isDisabledToChangePaymentInfo}
           />
         </Col>
+
+        {
+          Boolean(initialValues?.cost?.fyroAdjustmentAmount) && (
+            <Col
+              xs={6}
+              md={3}
+            >
+              <RolloverAdjustmentAmount
+                currency={currency}
+                amount={rolloverAdjustmentAmount}
+              />
+            </Col>
+          )
+        }
       </Row>
+
       <CurrencyExchangeRateFields
         currencyFieldName="cost.currency"
         isCurrencyRequired={required}
@@ -167,6 +197,7 @@ const CostForm = ({
         isUseExangeRateDisabled={isDisabledToChangePaymentInfo}
         exchangeRate={initialValues?.cost?.exchangeRate}
       />
+
       <Row>
         {isElectronicFieldsVisible && (
           <>
@@ -176,6 +207,7 @@ const CostForm = ({
             >
               <Field
                 component={TextField}
+                onChange={onCostChange}
                 fullWidth
                 label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
                 name="cost.listUnitPriceElectronic"
@@ -263,6 +295,7 @@ CostForm.propTypes = {
   order: PropTypes.object.isRequired,
   required: PropTypes.bool,
   initialValues: PropTypes.object.isRequired,
+  change: PropTypes.func,
 };
 
 CostForm.defaultProps = {

@@ -372,6 +372,7 @@ function POLineForm({
                         formValues={formValues}
                         order={order}
                         initialValues={initialValues}
+                        change={change}
                       />
                     </Accordion>
                     <Accordion
