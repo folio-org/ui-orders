@@ -9,6 +9,7 @@ import { exportManifest, getExportData } from '../common/ExportSettingsModal/uti
 
 import PrintContent from './PrintContent';
 import { hydrateOrderToPrint } from './hydrateOrderToPrint';
+import { getPrintPageStyles } from './utils';
 
 export const PrintOrderComponent = ({ mutator, order, onCancel }) => {
   const intl = useIntl();
@@ -17,6 +18,7 @@ export const PrintOrderComponent = ({ mutator, order, onCancel }) => {
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
+    pageStyle: getPrintPageStyles(),
     content: () => componentRef.current,
     onAfterPrint: onCancel,
   });
