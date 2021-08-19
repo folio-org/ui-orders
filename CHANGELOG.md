@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* global CSS styles force landscape printing in other modules. Refs UIOR-775.
+
 ## [2.4.1](https://github.com/folio-org/ui-orders/tree/v2.4.1) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.0...v2.4.1)
 
