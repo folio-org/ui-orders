@@ -12,11 +12,6 @@ jest.mock('@folio/stripes-acq-components', () => ({
 
 jest.mock('../common/ExportSettingsModal/ExportSettingsModalContainer', () => jest.fn().mockReturnValue('ExportSettingsModalContainer'));
 
-// jest.mock('../common/utils', () => ({
-//   ...jest.requireActual('../common/utils'),
-//   // fetchExportDataByIds: jest.fn(),
-// }));
-
 const defaultProps = {
   ordersQuery: '(workflowStatus==("Closed" or "Open" or "Pending")) sortby metadata.updatedDate/sort.descending',
   onCancel: jest.fn(),
