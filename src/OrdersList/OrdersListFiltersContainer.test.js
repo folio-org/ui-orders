@@ -19,7 +19,7 @@ const renderOrdersListFiltersContainer = (props = {}) => render(
   />,
 );
 
-describe('FundsListFiltersContainer', () => {
+describe('OrdersListFiltersContainer', () => {
   it('should display order list filters', () => {
     const { getByText } = renderOrdersListFiltersContainer();
 

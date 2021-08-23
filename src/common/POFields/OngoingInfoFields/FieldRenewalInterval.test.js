@@ -21,4 +21,10 @@ describe('FieldRenewalInterval', () => {
 
     expect(screen.getByText('ui-orders.renewals.renewalInterval')).toBeInTheDocument();
   });
+
+  it('should render renewal interval field tooltip if field is disabled', async () => {
+    renderFieldRenewalInterval({ disabled: true });
+
+    expect(screen.getByText('ui-orders.renewals.manualRenewal.tooltip')).toBeInTheDocument();
+  });
 });

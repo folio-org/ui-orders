@@ -2,10 +2,12 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { useModalToggle } from '@folio/stripes-acq-components';
 import { MemoryRouter } from 'react-router-dom';
+import { HasCommand } from '@folio/stripes/components';
 
 import OrdersList, { resultsFormatter } from './OrdersList';
 
 import { order } from '../../test/jest/fixtures';
+import { history } from '../../test/jest/routerMocks';
 
 const mockLocalStorageFilters = {
   filters: {},
@@ -44,6 +46,7 @@ const defaultProps = {
   ordersCount: 30,
   resetData: jest.fn(),
   refreshList: jest.fn(),
+  history,
 };
 
 const renderOrdersList = (props = {}) => render(
@@ -55,6 +58,11 @@ const renderOrdersList = (props = {}) => render(
 );
 
 describe('OrdersList', () => {
+  beforeEach(() => {
+    HasCommand.mockClear();
+    useModalToggle.mockClear();
+  });
+
   it('should display search control', () => {
     renderOrdersList();
 

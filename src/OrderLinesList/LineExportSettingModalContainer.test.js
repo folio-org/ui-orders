@@ -1,24 +1,24 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
-import { fetchAllRecords } from '@folio/stripes-acq-components';
 
-import OrderExportSettingsModalContainer from './OrderExportSettingsModalContainer';
+import LineExportSettingModalContainer from './LineExportSettingModalContainer';
 import ExportSettingsModalContainer from '../common/ExportSettingsModal/ExportSettingsModalContainer';
+import { fetchExportDataByIds } from '../common/utils';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
-  fetchAllRecords: jest.fn().mockResolvedValue([{ id: '0610be6d-0ddd-494b-b867-19f63d8b5d6d' }]),
+  fetchAllRecords: jest.fn().mockResolvedValue([{ purchaseOrderId: '0610be6d-0ddd-494b-b867-19f63d8b5d6d' }]),
 }));
 
 jest.mock('../common/ExportSettingsModal/ExportSettingsModalContainer', () => jest.fn().mockReturnValue('ExportSettingsModalContainer'));
 
-// jest.mock('../common/utils', () => ({
-//   ...jest.requireActual('../common/utils'),
-//   // fetchExportDataByIds: jest.fn(),
-// }));
+jest.mock('../common/utils', () => ({
+  ...jest.requireActual('../common/utils'),
+  fetchExportDataByIds: jest.fn(),
+}));
 
 const defaultProps = {
-  ordersQuery: '(workflowStatus==("Closed" or "Open" or "Pending")) sortby metadata.updatedDate/sort.descending',
+  linesQuery: '',
   onCancel: jest.fn(),
   mutator: {
     exportLines: {
@@ -30,30 +30,30 @@ const defaultProps = {
   },
 };
 
-const renderOrderExportSettingsModalContainer = (props = {}) => render(
-  <OrderExportSettingsModalContainer
+const renderLineExportSettingModalContainer = (props = {}) => render(
+  <LineExportSettingModalContainer
     {...defaultProps}
     {...props}
   />,
 );
 
-describe('OrderExportSettingsModalContainer', () => {
+describe('LineExportSettingModalContainer', () => {
   it('should render Export Settings Modal Container', () => {
-    renderOrderExportSettingsModalContainer();
+    renderLineExportSettingModalContainer();
 
     expect(screen.getByText('ExportSettingsModalContainer')).toBeInTheDocument();
   });
 
   it('should call fetchAllRecords function if exporting', async () => {
-    renderOrderExportSettingsModalContainer();
+    renderLineExportSettingModalContainer();
 
     await act(() => ExportSettingsModalContainer.mock.calls[0][0].fetchOrdersAndLines());
 
-    expect(fetchAllRecords).toHaveBeenCalled();
+    expect(fetchExportDataByIds).toHaveBeenCalled();
   });
 
   it('should call onCancel function if canceling', () => {
-    renderOrderExportSettingsModalContainer();
+    renderLineExportSettingModalContainer();
 
     ExportSettingsModalContainer.mock.calls[0][0].onCancel();
 

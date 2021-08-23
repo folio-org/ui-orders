@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import user from '@testing-library/user-event';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
 import FieldRenewalSubscription from './FieldRenewalSubscription';
@@ -17,11 +18,26 @@ const renderFieldRenewalSubscription = (props = {}) => render(
 
 describe('FieldRenewalSubscription', () => {
   it('should render subscription field with label and checkbox', async () => {
-    const { getByText, findByRole } = renderFieldRenewalSubscription();
+    await waitFor(() => renderFieldRenewalSubscription());
 
-    const checkbox = await findByRole('checkbox');
+    const checkbox = await screen.findByRole('checkbox');
 
     expect(checkbox).toBeInTheDocument();
-    expect(getByText('ui-orders.renewals.subscription')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.renewals.subscription')).toBeInTheDocument();
+  });
+
+  it('should render subscription field tooltip if it disabled', async () => {
+    await waitFor(() => renderFieldRenewalSubscription({ disabled: true }));
+
+    expect(screen.getByText('ui-orders.renewals.subscription.tooltip')).toBeInTheDocument();
+  });
+
+  it('should update clicked checkbox', async () => {
+    await waitFor(() => renderFieldRenewalSubscription());
+
+    const checkbox = await screen.findByRole('checkbox');
+
+    user.click(checkbox);
+    expect(checkbox).toBeChecked();
   });
 });

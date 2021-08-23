@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
 import FieldIsManualRenewal from './FieldIsManualRenewal';
@@ -23,5 +23,11 @@ describe('FieldIsManualRenewal', () => {
 
     expect(checkbox).toBeInTheDocument();
     expect(getByText('ui-orders.renewals.manualRenewal')).toBeInTheDocument();
+  });
+
+  it('should render manual renewal field tooltip if field is disabled', () => {
+    renderFieldIsManualRenewal({ disabled: true });
+
+    expect(screen.getByText('ui-orders.renewals.manualRenewal.tooltip')).toBeInTheDocument();
   });
 });

@@ -10,3 +10,4 @@ export { identifierType } from './identifierType';
 export { expenseClass } from './expenseClass';
 export { address } from './address';
 export { exportReport } from './exportReport';
+export { hydratedOrder } from './hydratedOrder';
