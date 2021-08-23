@@ -71,20 +71,24 @@ const renderLayerPO = (props = {}) => render(
 
 describe('LayerPO', () => {
   it('should render PO form', async () => {
-    await waitFor(() => renderLayerPO());
+    renderLayerPO();
 
-    expect(screen.getByText('POForm')).toBeInTheDocument();
+    const form = await screen.findByText('POForm');
+
+    expect(form).toBeInTheDocument();
   });
 
   it('should call onCancel when close icon was clicked', async () => {
-    await waitFor(() => renderLayerPO());
+    renderLayerPO();
+
     await waitFor(() => POForm.mock.calls[0][0].onCancel());
 
     expect(history.push).toHaveBeenCalled();
   });
 
   it('should call onSubmit when form was submitted', async () => {
-    await waitFor(() => renderLayerPO());
+    renderLayerPO();
+
     await waitFor(() => POForm.mock.calls[0][0].onSubmit({
       orderType: 'ongoing',
     }));
@@ -93,11 +97,10 @@ describe('LayerPO', () => {
   });
 
   it('should throw an error if the order update was failed ', async () => {
-    defaultProps.mutator.order.POST.mockRejectedValue({
-      errors: [{ code: '' }],
-    });
+    defaultProps.mutator.order.POST.mockRejectedValue({});
 
-    await waitFor(() => renderLayerPO());
+    renderLayerPO();
+
     await waitFor(() => expect(POForm.mock.calls[0][0].onSubmit({
       orderType: 'ongoing',
     })).rejects.toBeTruthy());

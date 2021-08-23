@@ -18,7 +18,7 @@ const renderFieldRenewalSubscription = (props = {}) => render(
 
 describe('FieldRenewalSubscription', () => {
   it('should render subscription field with label and checkbox', async () => {
-    await waitFor(() => renderFieldRenewalSubscription());
+    renderFieldRenewalSubscription();
 
     const checkbox = await screen.findByRole('checkbox');
 
@@ -33,7 +33,7 @@ describe('FieldRenewalSubscription', () => {
   });
 
   it('should update clicked checkbox', async () => {
-    await waitFor(() => renderFieldRenewalSubscription());
+    renderFieldRenewalSubscription();
 
     const checkbox = await screen.findByRole('checkbox');
 

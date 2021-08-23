@@ -73,9 +73,9 @@ describe('OrderLineDetails actions', () => {
   });
 
   it('should navigate to order details view', async () => {
-    await waitFor(() => renderOrderLineDetails());
+    renderOrderLineDetails();
 
-    POLineView.mock.calls[0][0].goToOrderDetails();
+    await waitFor(() => POLineView.mock.calls[0][0].goToOrderDetails());
 
     expect(history.push).toHaveBeenCalledWith({
       pathname: `/orders/view/${order.id}`,
@@ -84,7 +84,8 @@ describe('OrderLineDetails actions', () => {
   });
 
   it('should delete order line', async () => {
-    await waitFor(() => renderOrderLineDetails());
+    renderOrderLineDetails();
+
     await waitFor(() => POLineView.mock.calls[0][0].deleteLine());
 
     expect(mutator.orderLine.DELETE).toHaveBeenCalled();
@@ -93,21 +94,24 @@ describe('OrderLineDetails actions', () => {
   it('should call \'delete\' function even if it is rejected', async () => {
     mutator.orderLine.DELETE.mockRejectedValue();
 
-    await waitFor(() => renderOrderLineDetails());
+    renderOrderLineDetails();
+
     await waitFor(() => POLineView.mock.calls[0][0].deleteLine());
 
     expect(mutator.orderLine.DELETE).toHaveBeenCalled();
   });
 
   it('should toggle Tags pane', async () => {
-    await waitFor(() => renderOrderLineDetails());
+    renderOrderLineDetails();
+
     await waitFor(() => POLineView.mock.calls[0][0].tagsToggle());
 
     expect(screen.getByText(/Tags/i)).toBeInTheDocument();
   });
 
   it('should close corresponding pane', async () => {
-    await waitFor(() => renderOrderLineDetails());
+    renderOrderLineDetails();
+
     await waitFor(() => POLineView.mock.calls[0][0].onClose());
 
     expect(history.push).toHaveBeenCalledWith({
@@ -117,7 +121,8 @@ describe('OrderLineDetails actions', () => {
   });
 
   it('should update line tag list', async () => {
-    await waitFor(() => renderOrderLineDetails());
+    renderOrderLineDetails();
+
     await waitFor(() => POLineView.mock.calls[0][0].tagsToggle());
     await waitFor(() => Tags.mock.calls[0][0].putMutator());
 

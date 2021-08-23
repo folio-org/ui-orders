@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import OrderLinesFilters from '@folio/plugin-find-po-line/FindPOLine/OrderLinesFilters';
 
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
@@ -27,8 +27,8 @@ describe('OrderLinesFiltersContainer', () => {
     expect(screen.getByText('OrderLinesFilters')).toBeDefined();
   });
 
-  it('should call \'applyFilters\' function when filtes changed', async () => {
-    await waitFor(() => renderOrderLinesFiltersContainer());
+  it('should call \'applyFilters\' function when filtes changed', () => {
+    renderOrderLinesFiltersContainer();
 
     OrderLinesFilters.mock.calls[0][0].onChange({ name: 'name', values: [] });
 

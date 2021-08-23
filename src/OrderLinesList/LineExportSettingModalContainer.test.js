@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { waitFor, render, screen } from '@testing-library/react';
 
 import LineExportSettingModalContainer from './LineExportSettingModalContainer';
 import ExportSettingsModalContainer from '../common/ExportSettingsModal/ExportSettingsModalContainer';
@@ -47,7 +47,7 @@ describe('LineExportSettingModalContainer', () => {
   it('should call fetchAllRecords function if exporting', async () => {
     renderLineExportSettingModalContainer();
 
-    await act(() => ExportSettingsModalContainer.mock.calls[0][0].fetchOrdersAndLines());
+    await waitFor(() => ExportSettingsModalContainer.mock.calls[0][0].fetchOrdersAndLines());
 
     expect(fetchExportDataByIds).toHaveBeenCalled();
   });

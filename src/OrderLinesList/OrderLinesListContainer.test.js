@@ -81,7 +81,8 @@ describe('OrderLinesListContainer', () => {
   });
 
   it('should call API and load order lines', async () => {
-    await waitFor(() => renderOrderLinesListContainer());
+    renderOrderLinesListContainer();
+
     await waitFor(() => useList.mock.calls[0][1](OFFSET, hasFilters));
 
     expect(defaultProps.mutator.orderLinesListRecords.GET).toHaveBeenCalled();
@@ -91,7 +92,8 @@ describe('OrderLinesListContainer', () => {
     it('should call API and load order lines', async () => {
       queryString.parse.mockReturnValue({ qindex: params.qindex, query: '' });
 
-      await waitFor(() => renderOrderLinesListContainer());
+      renderOrderLinesListContainer();
+
       await waitFor(() => useList.mock.calls[0][1](OFFSET, hasFilters));
 
       expect(defaultProps.mutator.orderLinesListRecords.GET).not.toHaveBeenCalled();
@@ -100,7 +102,8 @@ describe('OrderLinesListContainer', () => {
     it('ISBN type id was not found', async () => {
       defaultProps.mutator.identifierTypeISBN.GET.mockResolvedValue([]);
 
-      await waitFor(() => renderOrderLinesListContainer());
+      renderOrderLinesListContainer();
+
       await waitFor(() => useList.mock.calls[0][1](OFFSET, hasFilters));
 
       expect(defaultProps.mutator.orderLinesListRecords.GET).not.toHaveBeenCalled();
@@ -113,7 +116,8 @@ describe('loadOrderLinesCB', () => {
     const orderLinesResponse = { poLines: [orderLine] };
     const setOrderLines = jest.fn();
 
-    await waitFor(() => renderOrderLinesListContainer());
+    renderOrderLinesListContainer();
+
     await waitFor(() => useList.mock.calls[0][2](setOrderLines, orderLinesResponse));
 
     expect(setOrderLines).toHaveBeenCalled();

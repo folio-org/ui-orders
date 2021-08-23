@@ -1,6 +1,6 @@
 import React from 'react';
 import user from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
 import FieldOrderFormat from './FieldOrderFormat';
@@ -37,7 +37,7 @@ describe('FieldOrderFormat', () => {
   });
 
   it('should change field value when an option was selected', async () => {
-    await waitFor(() => renderFieldOrderFormat());
+    renderFieldOrderFormat();
 
     const options = screen.getAllByRole('option');
     const select = await screen.findByRole('combobox');

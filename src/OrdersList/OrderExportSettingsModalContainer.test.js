@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { fetchAllRecords } from '@folio/stripes-acq-components';
 
 import OrderExportSettingsModalContainer from './OrderExportSettingsModalContainer';
@@ -42,7 +42,7 @@ describe('OrderExportSettingsModalContainer', () => {
   it('should call fetchAllRecords function if exporting', async () => {
     renderOrderExportSettingsModalContainer();
 
-    await act(() => ExportSettingsModalContainer.mock.calls[0][0].fetchOrdersAndLines());
+    await waitFor(() => ExportSettingsModalContainer.mock.calls[0][0].fetchOrdersAndLines());
 
     expect(fetchAllRecords).toHaveBeenCalled();
   });
