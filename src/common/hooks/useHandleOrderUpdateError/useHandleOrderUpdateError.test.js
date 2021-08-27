@@ -36,25 +36,17 @@ describe('useHandleOrderUpdateError', () => {
   });
 
   it('should handle error response with \'inactiveExpenseClass\' error code', async () => {
-    const { result } = renderHook(() => useHandleOrderUpdateError(mutator));
+    const { result, waitFor } = renderHook(() => useHandleOrderUpdateError(mutator));
 
-    try {
-      await result.current[0](getMockResponse());
-    } catch {
-      expect(showUpdateOrderError).not.toHaveBeenCalled();
-    }
+    await waitFor(() => result.current[0](getMockResponse()));
 
     expect(mutator.GET).toHaveBeenCalled();
   });
 
   it('should handle response with another error code', async () => {
-    const { result } = renderHook(() => useHandleOrderUpdateError(mutator));
+    const { result, waitFor } = renderHook(() => useHandleOrderUpdateError(mutator));
 
-    try {
-      await result.current[0](getMockResponse(''));
-    } catch {
-      expect(mutator.GET).not.toHaveBeenCalled();
-    }
+    await waitFor(() => result.current[0](getMockResponse('')));
 
     expect(showUpdateOrderError).toHaveBeenCalled();
   });

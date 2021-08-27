@@ -26,7 +26,7 @@ describe('FieldRenewalSubscription', () => {
     expect(screen.getByText('ui-orders.renewals.subscription')).toBeInTheDocument();
   });
 
-  it('should render subscription field tooltip if it disabled', async () => {
+  it('should render subscription field tooltip if it disabled', () => {
     renderFieldRenewalSubscription({ disabled: true });
 
     expect(screen.getByText('ui-orders.renewals.subscription.tooltip')).toBeInTheDocument();
