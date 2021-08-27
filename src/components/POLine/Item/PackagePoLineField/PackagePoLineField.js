@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Field } from 'react-final-form';
 
 import { Button, TextField } from '@folio/stripes/components';
 import { Pluggable, stripesConnect } from '@folio/stripes/core';
@@ -28,6 +29,8 @@ function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
 
   return (
     <>
+      {/* non-rendering Field component for updating value with form.change() and affecting FormState */}
+      <Field name="packagePoLineId">{() => null}</Field>
       <TextField
         data-test-package-line-title
         fullWidth

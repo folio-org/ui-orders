@@ -14,6 +14,7 @@
 * Use mod-orders for piece queries. Refs UIOR-774.
 * Fiscal year rollover amount not shown on POL after rollover. Refs UIOR-768.
 * global CSS styles force landscape printing in other modules. Refs UIOR-775.
+* Lookup Package POL not considered an edit on edit form. Refs UIOR-779.
 
 ## [2.4.1](https://github.com/folio-org/ui-orders/tree/v2.4.1) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.0...v2.4.1)
