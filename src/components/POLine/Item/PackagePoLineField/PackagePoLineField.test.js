@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { Form } from 'react-final-form';
 
 import { TextField } from '@folio/stripes/components';
 
@@ -23,9 +24,14 @@ const defaultProps = {
 };
 
 const renderPackagePoLineField = (props = {}) => render(
-  <PackagePoLineField
-    {...defaultProps}
-    {...props}
+  <Form
+    onSubmit={() => jest.fn()}
+    render={() => (
+      <PackagePoLineField
+        {...defaultProps}
+        {...props}
+      />
+    )}
   />,
 );
 
