@@ -181,6 +181,7 @@ function POLineForm({
         {isSaveAndOpenButtonVisible && (
           <Button
             data-test-button-save-and-open
+            data-testid="button-save-and-open"
             type="submit"
             buttonStyle="primary mega"
             disabled={submitting || isCreateAnotherChecked}

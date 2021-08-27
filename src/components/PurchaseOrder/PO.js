@@ -488,6 +488,7 @@ const PO = ({
     <IfPermission perm="orders.po-lines.item.post">
       <Button
         data-test-add-line-button
+        data-testid="add-line-button"
         disabled={!isAbleToAddLines}
         onClick={onAddPOLine}
       >

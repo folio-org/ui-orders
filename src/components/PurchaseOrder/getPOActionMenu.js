@@ -50,6 +50,7 @@ export function getPOActionMenu({
         <Button
           buttonStyle="dropdownItem"
           data-test-button-edit-order
+          data-testid="button-edit-order"
           disabled={isUpdateDisabled}
           onClick={() => {
             onToggle();
@@ -67,6 +68,7 @@ export function getPOActionMenu({
             <Button
               buttonStyle="dropdownItem"
               data-test-approve-order-button
+              data-testid="approve-order-button"
               disabled={isUpdateDisabled}
               onClick={clickApprove}
             >
@@ -78,6 +80,7 @@ export function getPOActionMenu({
           <Button
             buttonStyle="dropdownItem"
             data-test-close-order-button
+            data-testid="close-order-button"
             disabled={isUpdateDisabled}
             onClick={clickClose}
           >
@@ -90,6 +93,7 @@ export function getPOActionMenu({
           <Button
             buttonStyle="dropdownItem"
             data-test-open-order-button
+            data-testid="open-order-button"
             disabled={isUpdateDisabled}
             onClick={clickOpen}
           >
@@ -116,6 +120,7 @@ export function getPOActionMenu({
           <Button
             buttonStyle="dropdownItem"
             data-test-receiving-button
+            data-testid="order-receiving-button"
             onClick={clickReceive}
           >
             <Icon size="small" icon="receive">
@@ -138,6 +143,7 @@ export function getPOActionMenu({
         <Button
           buttonStyle="dropdownItem"
           data-test-clone-order-button
+          data-testid="clone-order-button"
           onClick={clickClone}
         >
           <Icon size="small" icon="duplicate">
@@ -149,6 +155,7 @@ export function getPOActionMenu({
         <Button
           buttonStyle="dropdownItem"
           data-test-reopen-order-button
+          data-testid="reopen-order-button"
           disabled={isUpdateDisabled}
           onClick={() => {
             onToggle();
@@ -162,6 +169,7 @@ export function getPOActionMenu({
         <Button
           buttonStyle="dropdownItem"
           data-test-button-delete-order
+          data-testid="button-delete-order"
           disabled={isRestrictionsLoading || restrictions.protectDelete}
           onClick={clickDelete}
         >
@@ -172,6 +180,7 @@ export function getPOActionMenu({
       </IfPermission>
       <Button
         buttonStyle="dropdownItem"
+        data-testid="button-print-order"
         onClick={() => {
           onToggle();
           handlePrint();
