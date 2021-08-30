@@ -8,6 +8,7 @@ import {
   get,
 } from 'lodash';
 
+import { NoValue } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
   FolioFormattedDate,
@@ -16,11 +17,12 @@ import {
 } from '@folio/stripes-acq-components';
 
 const COLUMN_INVOICE_DATE = 'invoiceDate';
-const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'status', 'expendedAmount'];
+const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'vendorInvoiceNo', 'status', 'expendedAmount'];
 const columnMapping = {
   invoice: <FormattedMessage id="ui-orders.relatedInvoices.invoice" />,
   [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
   vendorName: <FormattedMessage id="ui-orders.relatedInvoices.vendorName" />,
+  vendorInvoiceNo: <FormattedMessage id="ui-orders.relatedInvoices.vendorInvoiceNo" />,
   status: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
   expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
 };
@@ -44,6 +46,7 @@ const POInvoices = ({ orderInvoices, vendors }) => {
     ),
     [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
     vendorName: invoice => get(find(vendors, ['id', get(invoice, 'vendorId', '')]), 'name', ''),
+    vendorInvoiceNo: ({ vendorInvoiceNo }) => vendorInvoiceNo || <NoValue />,
     status: invoice => get(invoice, 'status', ''),
     expendedAmount: invoice => (
       <AmountWithCurrencyField

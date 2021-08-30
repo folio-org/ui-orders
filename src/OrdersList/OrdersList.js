@@ -46,7 +46,8 @@ import OrderExportSettingsModalContainer from './OrderExportSettingsModalContain
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orders" />;
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', UPDATED_DATE];
-const resultsFormatter = {
+
+export const resultsFormatter = {
   [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} />,
   workflowStatus: order => ORDER_STATUS_LABEL[order.workflowStatus],
 };

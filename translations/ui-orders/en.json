@@ -105,6 +105,8 @@
   "cost.quantityPhysical": "Quantity physical",
   "cost.unitPriceOfElectronic": "Electronic unit price",
   "cost.validation.cantBeNegative": "Can not be negative",
+  "cost.rolloverAdjustment": "Rollover adjustment",
+  "cost.rolloverAdjustment.info": "This value was added during rollover to balance the order cost with your desired encumbrance for the new year. If you edit the cost this value will be eliminated, and the encumbered value will be updated based on the new Estimated Price.",
   "createdDateAndTime": "Created date and time",
   "createdSource": "Created source",
 
@@ -536,6 +538,7 @@
   "relatedInvoices.pieces": "Piece(s)",
   "relatedInvoices.quantity": "Quantity",
   "relatedInvoices.status": "Status",
+  "relatedInvoices.vendorInvoiceNo": "Vendor invoice number",
   "relatedInvoices.vendorName": "Vendor name",
   "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
   "search": "Search",

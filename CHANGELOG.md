@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* UI tests replacement with RTL/Jest. Refs FAT-36
 * Sorting of data in the "Title or package name" column is not performed in the POL list in the "Orders" app. Refs UIOR-742.
 * Add a setting for Save and Add next PO line. Refs UIOR-694.
 * Checking and unchecking isPackage can hide invalid data that prevents saving POL. Refs UIOR-737.
@@ -9,6 +10,11 @@
 * Restrict editing order location and quantity on POL. Refs UIOR-726.
 * Allow user to sort "Related invoices" table by Invoice date. Refs UIOR-752.
 * Support erm 5.0 interface in orders. Refs UIOR-765.
+* Add vendor invoice number to 'Related invoices' section of PO/POL. Refs UIOR-771.
+* Use mod-orders for piece queries. Refs UIOR-774.
+* Fiscal year rollover amount not shown on POL after rollover. Refs UIOR-768.
+* global CSS styles force landscape printing in other modules. Refs UIOR-775.
+* Lookup Package POL not considered an edit on edit form. Refs UIOR-779.
 * HoldingsID not handled properly when duplicating order. Refs UIOR-770.
 
 ## [2.4.1](https://github.com/folio-org/ui-orders/tree/v2.4.1) (2021-07-28)

@@ -311,6 +311,7 @@ class OrderTemplatesEditor extends Component {
                       order={ORDER}
                       required={false}
                       initialValues={initialValues}
+                      change={change}
                     />
                   </Accordion>
 

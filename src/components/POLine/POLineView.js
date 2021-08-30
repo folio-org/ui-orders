@@ -190,6 +190,7 @@ const POLineView = ({
         {goToOrderDetails && (
           <Button
             data-test-line-details-actions-view-po
+            data-testid="line-details-actions-view-po"
             buttonStyle="dropdownItem"
             onClick={() => {
               onToggle();
@@ -218,6 +219,7 @@ const POLineView = ({
           <Button
             buttonStyle="dropdownItem"
             data-test-button-delete-line
+            data-testid="button-delete-line"
             disabled={isRestrictionsLoading || restrictions.protectDelete}
             onClick={() => {
               onToggle();

@@ -9,6 +9,7 @@ import {
   sum,
 } from 'lodash';
 
+import { NoValue } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
   FolioFormattedDate,
@@ -17,11 +18,12 @@ import {
 } from '@folio/stripes-acq-components';
 
 const COLUMN_INVOICE_DATE = 'invoiceDate';
-const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'status', 'quantity', 'expendedAmount', 'pieces'];
+const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'vendorInvoiceNo', 'status', 'quantity', 'expendedAmount', 'pieces'];
 const columnMapping = {
   invoice: <FormattedMessage id="ui-orders.relatedInvoices.invoice" />,
   [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
   vendorName: <FormattedMessage id="ui-orders.relatedInvoices.vendorName" />,
+  vendorInvoiceNo: <FormattedMessage id="ui-orders.relatedInvoices.vendorInvoiceNo" />,
   status: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
   quantity: <FormattedMessage id="ui-orders.relatedInvoices.quantity" />,
   expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
@@ -36,7 +38,7 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
     return null;
   }
 
-  const captionsList = pieces.map(item => item.caption).join(', ');
+  const enumerationList = pieces.map(({ enumeration }) => enumeration).filter(Boolean).join(', ') || <NoValue />;
   const resultFormatter = {
     invoice: invoice => (
       <Link
@@ -48,6 +50,7 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
     ),
     [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
     vendorName: invoice => get(find(vendors, ['id', get(invoice, 'vendorId', '')]), 'name', ''),
+    vendorInvoiceNo: ({ vendorInvoiceNo }) => vendorInvoiceNo || <NoValue />,
     status: invoice => get(invoice, 'status', ''),
     quantity: (invoice) => sum(invoiceLines.filter(invoiceLine => invoiceLine.invoiceId === invoice.id).map(inv => get(inv, 'quantity', 0))),
     expendedAmount: invoice => (
@@ -56,7 +59,7 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
         amount={get(invoice, 'total', 0)}
       />
     ),
-    pieces: () => captionsList,
+    pieces: () => enumerationList,
   };
 
   return (

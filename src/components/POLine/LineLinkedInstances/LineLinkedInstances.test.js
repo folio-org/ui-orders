@@ -11,7 +11,7 @@ jest.mock('./useLinkedInstances', () => ({
 }));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
-  Loading: () => <div>Loading</div>,
+  Loading: jest.fn().mockReturnValue('Loading'),
 }), { virtual: true });
 
 const renderLineLinkedInstances = ({ line = {}, toggleSection = jest.fn() }) => (render(
@@ -27,12 +27,14 @@ describe('LineLinkedInstances', () => {
     useLinkedInstances.mockClear();
   });
 
-  it('displays spinner when loading data', () => {
+  it('displays spinner when loading data', async () => {
     useLinkedInstances.mockReturnValue({ isLoading: true });
 
     renderLineLinkedInstances({});
 
-    expect(screen.getByText('Loading')).toBeDefined();
+    const loading = await screen.findByText(/Loading/i);
+
+    expect(loading).toBeInTheDocument();
   });
 
   it('displays table with records with fetched instances', () => {

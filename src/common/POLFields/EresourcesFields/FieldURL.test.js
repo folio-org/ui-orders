@@ -1,0 +1,24 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { Form } from 'react-final-form';
+
+import FieldURL from './FieldURL';
+
+const renderFieldURL = (props = {}) => render(
+  <Form
+    onSubmit={() => jest.fn()}
+    render={() => (
+      <FieldURL
+        {...props}
+      />
+    )}
+  />,
+);
+
+describe('FieldURL', () => {
+  it('should render \'URL\' field', () => {
+    renderFieldURL();
+
+    expect(screen.getByText('ui-orders.eresource.url')).toBeInTheDocument();
+  });
+});

@@ -44,7 +44,8 @@ const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
 const sortableColumns = ['poLineNumber', UPDATED_DATE, 'titleOrPackage'];
-const resultsFormatter = {
+
+export const resultsFormatter = {
   [UPDATED_DATE]: line => <FolioFormattedDate value={get(line, 'metadata.updatedDate')} />,
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   [VENDOR_REF_NUMBER]: line => (
