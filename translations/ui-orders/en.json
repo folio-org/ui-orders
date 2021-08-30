@@ -371,6 +371,7 @@
   "orderDetails.shipTo": "Ship to",
   "orderDetails.vendor": "Vendor",
   "orderDetails.approvalDate": "Approval date",
+  "orderDetails.dateOrdered": "Date ordered",
   "orderSummary.adjustments": "Adjustments",
   "orderSummary.approved": "Approved",
   "orderSummary.closingNote": "Notes on closure",

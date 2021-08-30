@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Display "Date Ordered" field on the PO details view pane. Refs UIOR-776.
 * UI tests replacement with RTL/Jest. Refs FAT-36
 * Sorting of data in the "Title or package name" column is not performed in the POL list in the "Orders" app. Refs UIOR-742.
 * Add a setting for Save and Add next PO line. Refs UIOR-694.

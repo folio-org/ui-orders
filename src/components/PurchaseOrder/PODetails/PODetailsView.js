@@ -159,6 +159,14 @@ class PODetailsView extends Component {
               <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />
             </KeyValue>
           </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.dateOrdered" />}>
+              <FolioFormattedTime dateString={get(order, 'dateOrdered')} />
+            </KeyValue>
+          </Col>
           <Col xs={12}>
             {get(order, 'notes', []).map((note, index) => (
               <KeyValue
