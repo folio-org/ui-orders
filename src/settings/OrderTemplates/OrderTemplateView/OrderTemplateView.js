@@ -137,6 +137,7 @@ class OrderTemplateView extends Component {
         <IfPermission perm="ui-orders.settings.order-templates.delete">
           <Button
             data-test-view-order-template-action-delete
+            data-testid="view-order-template-action-delete"
             buttonStyle="dropdownItem"
             onClick={() => {
               onToggle();

@@ -27,16 +27,6 @@ describe('LineLinkedInstances', () => {
     useLinkedInstances.mockClear();
   });
 
-  it('displays spinner when loading data', async () => {
-    useLinkedInstances.mockReturnValue({ isLoading: true });
-
-    renderLineLinkedInstances({});
-
-    const loading = await screen.findByText(/Loading/i);
-
-    expect(loading).toBeInTheDocument();
-  });
-
   it('displays table with records with fetched instances', () => {
     const linkedInstance = { title: 'ABA', id: 'instanceUid', contributors: 'Mark' };
 
