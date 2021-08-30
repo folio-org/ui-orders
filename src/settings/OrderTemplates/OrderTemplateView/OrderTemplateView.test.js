@@ -64,7 +64,7 @@ describe('OrderTemplateView', () => {
     const deleteBtn = await screen.findByTestId('view-order-template-action-delete');
 
     user.click(deleteBtn);
-    user.click(screen.getByText('ui-orders.settings.orderTemplates.confirmDelete.confirmLabel'))
+    user.click(screen.getByText('ui-orders.settings.orderTemplates.confirmDelete.confirmLabel'));
 
     expect(defaultProps.onDelete).toHaveBeenCalled();
   });
