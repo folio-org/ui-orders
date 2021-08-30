@@ -18,6 +18,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import UserValue from './UserValue';
+import { isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsView.css';
 
@@ -159,14 +160,16 @@ class PODetailsView extends Component {
               <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />
             </KeyValue>
           </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.dateOrdered" />}>
-              <FolioFormattedTime dateString={get(order, 'dateOrdered')} />
-            </KeyValue>
-          </Col>
+          {isWorkflowStatusOpen(order) && (
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.dateOrdered" />}>
+                <FolioFormattedTime dateString={order?.dateOrdered} />
+              </KeyValue>
+            </Col>
+          )}
           <Col xs={12}>
             {get(order, 'notes', []).map((note, index) => (
               <KeyValue
