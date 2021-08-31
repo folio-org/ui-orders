@@ -18,6 +18,7 @@
 * UI tests replacement with RTL/Jest. Refs FAT-36.
 * Display "Date Ordered" field on the PO details view pane. Refs UIOR-776.
 * Searching by product ID in Orders app returning inconsistent results. Refs UIOR-772.
+* Add translations for permission names. Refs UIOR-551.
 
 ## [2.4.1](https://github.com/folio-org/ui-orders/tree/v2.4.1) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.0...v2.4.1)
