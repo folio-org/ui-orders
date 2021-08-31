@@ -2,8 +2,6 @@
 
 ## (IN PROGRESS)
 
-* Display "Date Ordered" field on the PO details view pane. Refs UIOR-776.
-* UI tests replacement with RTL/Jest. Refs FAT-36
 * Sorting of data in the "Title or package name" column is not performed in the POL list in the "Orders" app. Refs UIOR-742.
 * Add a setting for Save and Add next PO line. Refs UIOR-694.
 * Checking and unchecking isPackage can hide invalid data that prevents saving POL. Refs UIOR-737.
@@ -17,6 +15,9 @@
 * global CSS styles force landscape printing in other modules. Refs UIOR-775.
 * Lookup Package POL not considered an edit on edit form. Refs UIOR-779.
 * HoldingsID not handled properly when duplicating order. Refs UIOR-770.
+* UI tests replacement with RTL/Jest. Refs FAT-36.
+* Display "Date Ordered" field on the PO details view pane. Refs UIOR-776.
+* Searching by product ID in Orders app returning inconsistent results. Refs UIOR-772.
 
 ## [2.4.1](https://github.com/folio-org/ui-orders/tree/v2.4.1) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.0...v2.4.1)

@@ -17,7 +17,7 @@ import {
 
 function defaultSearchFn(query, qindex) {
   if (qindex) {
-    return `(${qindex}==*${query}*)`;
+    return `(${qindex}=="*${query}*")`;
   }
 
   return getKeywordQuery(query);
