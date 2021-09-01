@@ -525,7 +525,7 @@
     "errors.costUnitPriceInvalid": "费用的清单单价无效",
     "errors.encumbranceCreationFailure": "一个或多个预支记录未能创建",
     "errors.fundsNotFound": "经费记录未找到",
-    "errors.idMismatch": "路径中的ID与请求正文之间不匹配",
+    "errors.idMismatch": "路径中的ID与请求体之间不匹配",
     "errors.itemCreationFailed": "单件记录无法创建",
     "errors.itemNotFound": "单件记录未找到",
     "errors.itemNotRetrieved": "单件记录未检索到",
