@@ -149,7 +149,6 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "module.orders.enabled",
           "orders.configuration.prefixes.collection.get",
           "orders.configuration.suffixes.collection.get",
           "orders.configuration.reasons-for-closure.collection.get",
