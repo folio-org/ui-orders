@@ -76,7 +76,7 @@ describe('Edit PO Line - Save updated PO Line', function () {
     await lineDetailsPage.whenLoaded();
   });
 
-  it.only('displays updated PO Line Details pane', () => {
+  it('displays updated PO Line Details pane', () => {
     expect(lineDetailsPage.$root).to.exist;
   });
 });
