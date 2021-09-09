@@ -713,6 +713,7 @@
   "permission.acq.unit.assignment.manage": "Orders: Manage acquisition units",
   "permission.order.reopen": "Orders: Reopen purchase orders",
   "permission.order.unopen": "Orders: Unopen purchase orders",
+  "permission.order.updateEncumbrances": "Orders: Update encumbrances",
   "permission.order.exportCSV": "Orders: Export search results",
   "permission.settings.all": "Settings (Orders): Can view and edit all settings",
   "permission.settings.order-templates.create": "Settings (Orders): Can view, edit, create new Order Templates",

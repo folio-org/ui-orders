@@ -12,12 +12,17 @@
 * Add vendor invoice number to 'Related invoices' section of PO/POL. Refs UIOR-771.
 * Use mod-orders for piece queries. Refs UIOR-774.
 * Fiscal year rollover amount not shown on POL after rollover. Refs UIOR-768.
-* global CSS styles force landscape printing in other modules. Refs UIOR-775.
 * Lookup Package POL not considered an edit on edit form. Refs UIOR-779.
 * HoldingsID not handled properly when duplicating order. Refs UIOR-770.
 * UI tests replacement with RTL/Jest. Refs FAT-36.
 * Display "Date Ordered" field on the PO details view pane. Refs UIOR-776.
 * Searching by product ID in Orders app returning inconsistent results. Refs UIOR-772.
+* Add translations for permission names. Refs UIOR-551.
+
+## [2.4.2](https://github.com/folio-org/ui-orders/tree/v2.4.2) (2021-09-08)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.1...v2.4.2)
+
+* global CSS styles force landscape printing in other modules. Refs UIOR-775.
 
 ## [2.4.1](https://github.com/folio-org/ui-orders/tree/v2.4.1) (2021-07-28)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.0...v2.4.1)

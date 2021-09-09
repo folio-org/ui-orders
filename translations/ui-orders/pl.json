@@ -614,7 +614,6 @@
     "errors.incorrectFundDistributionTotal": "Łączna kwota dystrybucji funduszu musi wynosić 100% lub cenę całkowitą",
     "errors.piecesNeedToBeCreated": "Części muszą być utworzone",
     "cost.discountType": "Rodzaj",
-    "validation.year": "Pole powinno zawierać 4-cyfrowy rok",
     "permission.order.view": "Zamówienia: Wyświetlanie zamówień",
     "permission.order.create": "Zamówienia: Tworzenie zamówienia",
     "permission.order.edit": "Zamówienia: Edycja zamówienia",
@@ -689,5 +688,16 @@
     "print.modalLabel": "Print settings",
     "print.orderFieldsLabel": "PO fields to print",
     "print.lineFieldsLabel": "POL fields to print",
-    "shortcut.duplicateRecord": "Duplicate a record"
+    "shortcut.duplicateRecord": "Duplicate a record",
+    "cost.listPriceOfPhysical": "Physical unit price",
+    "cost.quantityPopover": "This order has receiving records. These quantities can only be edited by working with the records in the receiving app.",
+    "cost.rolloverAdjustment": "Rollover adjustment",
+    "cost.rolloverAdjustment.info": "This value was added during rollover to balance the order cost with your desired encumbrance for the new year. If you edit the cost this value will be eliminated, and the encumbered value will be updated based on the new Estimated Price.",
+    "location.createHolding": "Create new holdings for location",
+    "location.holding": "Holding",
+    "location.selectHoldings": "Select holdings",
+    "location.editInReceiving": "Edit in receiving",
+    "orderDetails.dateOrdered": "Date ordered",
+    "relatedInvoices.vendorInvoiceNo": "Vendor invoice number",
+    "permission.order.updateEncumbrances": "Orders: Update encumbrances"
 }
