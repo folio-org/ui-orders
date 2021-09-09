@@ -67,13 +67,16 @@ describe('Edit PO Line - Save updated PO Line', function () {
     await lineEditPage.physicalCreateInventory.focus();
     await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.none);
     await lineEditPage.physicalCreateInventory.blur();
+
     await lineEditPage.updateLineButton.blur();
-    await lineEditPage.updateLineButton.focus();
+    await lineEditPage.updateLineButton.focus().timeout(1000);
+
     await lineEditPage.updateLineButton.click();
+
     await lineDetailsPage.whenLoaded();
   });
 
-  it('displays updated PO Line Details pane', () => {
+  it.only('displays updated PO Line Details pane', () => {
     expect(lineDetailsPage.$root).to.exist;
   });
 });

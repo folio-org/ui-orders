@@ -10,6 +10,8 @@ const ORDER_LINES_COUNT = 11;
 describe('Order lines', function () {
   setupApplication();
 
+  this.timeout(10000);
+
   const orderLines = new OrderLinesInteractor();
 
   beforeEach(async function () {
