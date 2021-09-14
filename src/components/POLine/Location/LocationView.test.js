@@ -3,12 +3,15 @@ import { render, screen } from '@testing-library/react';
 
 import LocationView from './LocationView';
 
-jest.mock('./useLineHoldings', () => ({
-  useLineHoldings: jest.fn().mockReturnValue({
-    isLoading: false,
-    holdings: [{ id: 'holdingId' }],
-  }),
-}));
+jest.mock('@folio/stripes-acq-components', () => {
+  return {
+    ...jest.requireActual('@folio/stripes-acq-components'),
+    useLineHoldings: jest.fn().mockReturnValue({
+      isLoading: false,
+      holdings: [{ id: 'holdingId' }],
+    }),
+  };
+});
 
 const defaultProps = {
   locations: [{

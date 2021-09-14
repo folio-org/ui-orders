@@ -9,9 +9,10 @@ import {
   Loading,
   Row,
 } from '@folio/stripes/components';
-import { getHoldingLocationName } from '@folio/stripes-acq-components';
-
-import { useLineHoldings } from './useLineHoldings';
+import {
+  getHoldingLocationName,
+  useLineHoldings,
+} from '@folio/stripes-acq-components';
 
 const Location = ({ location, locationsMap, holdings }) => {
   const filteredLocation = locationsMap[location.locationId] || {};

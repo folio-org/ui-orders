@@ -19,6 +19,7 @@
 * Searching by product ID in Orders app returning inconsistent results. Refs UIOR-772.
 * Add translations for permission names. Refs UIOR-551.
 * increment stripes to v7. Refs UIOR-769.
+* `useLineHoldings` hook usage from stripes-acq-components. Refs UIOR-795.
 
 ## [2.4.2](https://github.com/folio-org/ui-orders/tree/v2.4.2) (2021-09-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.1...v2.4.2)
