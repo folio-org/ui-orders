@@ -50,6 +50,9 @@ const FieldsLocation = ({
   const validate = withValidation ? validateLocation : NO_VALIDATE;
   const receivingLink = `/receiving?qindex=purchaseOrder.poNumber&query=${poNumber}`;
 
+  const isInstanceIdRequired = instanceId ? (isPhysicalQuantityRequired || isElectronicQuantityRequired) : false;
+  const instanceIdProp = isInstanceIdRequired ? { instanceId } : {};
+
   return (
     <>
       {isQuantityDisabled && (
@@ -74,7 +77,6 @@ const FieldsLocation = ({
           <Row>
             <Col xs={6}>
               <FieldInventory
-                instanceId={instanceId}
                 locationIds={locationIds}
                 locations={locations}
 
@@ -85,6 +87,7 @@ const FieldsLocation = ({
                 disabled={isPostPendingOrder}
                 required={withValidation}
                 validate={validate}
+                {...instanceIdProp}
               />
             </Col>
             {isPhysicalQuantityVisible && (
