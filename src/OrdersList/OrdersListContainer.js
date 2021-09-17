@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -28,10 +27,10 @@ import {
 const resetData = () => { };
 
 const OrdersListContainer = ({ mutator }) => {
-  const fetchReferences = useCallback(orders => {
-    const fetchVendorsPromise = fetchOrderVendors(mutator.orderVendors, orders, {});
-    const fetchAcqUnitsPromise = fetchOrderAcqUnits(mutator.orderAcqUnits, orders, {});
-    const fetchUsersPromise = fetchOrderUsers(mutator.orderUsers, orders, {});
+  const fetchReferences = useCallback(purchaseOrders => {
+    const fetchVendorsPromise = fetchOrderVendors(mutator.orderVendors, purchaseOrders, {});
+    const fetchAcqUnitsPromise = fetchOrderAcqUnits(mutator.orderAcqUnits, purchaseOrders, {});
+    const fetchUsersPromise = fetchOrderUsers(mutator.orderUsers, purchaseOrders, {});
 
     return Promise.all([fetchVendorsPromise, fetchAcqUnitsPromise, fetchUsersPromise])
       .then(([vendorsResponse, acqUnitsResponse, usersResponse]) => {

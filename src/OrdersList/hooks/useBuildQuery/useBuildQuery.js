@@ -11,12 +11,10 @@ import { customFilterMap } from '../../OrdersListFilterConfig';
 export function useBuildQuery() {
   const localeDateFormat = useLocaleDateFormat();
 
-  const buildQuery = useCallback(makeQueryBuilder(
+  return useCallback(makeQueryBuilder(
     'cql.allRecords=1',
     makeSearchQuery(localeDateFormat),
     'sortby metadata.updatedDate/sort.descending',
     customFilterMap,
   ), [localeDateFormat]);
-
-  return buildQuery;
 }

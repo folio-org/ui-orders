@@ -5,7 +5,7 @@ import { useLocaleDateFormat } from '@folio/stripes-acq-components';
 export function useSearchableIndexes() {
   const localeDateFormat = useLocaleDateFormat();
 
-  const searchableIndexes = useMemo(() => [
+  return useMemo(() => [
     {
       labelId: 'ui-orders.search.keyword',
       value: '',
@@ -25,6 +25,4 @@ export function useSearchableIndexes() {
       value: 'poNumber',
     },
   ], [localeDateFormat]);
-
-  return searchableIndexes;
 }
