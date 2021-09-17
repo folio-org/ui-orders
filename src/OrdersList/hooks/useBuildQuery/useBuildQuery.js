@@ -5,10 +5,10 @@ import {
   useLocaleDateFormat,
 } from '@folio/stripes-acq-components';
 
-import { makeSearchQuery } from './OrdersListSearchConfig';
-import { customFilterMap } from './OrdersListFilterConfig';
+import { makeSearchQuery } from '../../OrdersListSearchConfig';
+import { customFilterMap } from '../../OrdersListFilterConfig';
 
-function useBuildQuery() {
+export function useBuildQuery() {
   const localeDateFormat = useLocaleDateFormat();
 
   const buildQuery = useCallback(makeQueryBuilder(
@@ -20,5 +20,3 @@ function useBuildQuery() {
 
   return buildQuery;
 }
-
-export default useBuildQuery;

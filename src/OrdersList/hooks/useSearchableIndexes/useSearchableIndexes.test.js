@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 
-import useSearchableIndexes from './useSearchableIndexes';
+import { useSearchableIndexes } from './useSearchableIndexes';
 
 const SEARCHABLE_INDEXES = [
   {

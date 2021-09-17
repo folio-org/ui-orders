@@ -4,7 +4,7 @@ import faker from 'faker';
 import { NOTE_TYPES } from '../../../../src/common/constants';
 
 export default Factory.extend({
-  id: faker.random.uuid,
+  id: faker.datatype.uuid,
   title: faker.commerce.productName,
   type: () => NOTE_TYPES.poLine,
   domain: () => 'orders',
@@ -15,9 +15,9 @@ export default Factory.extend({
   },
   metadata: {
     createdDate: () => faker.date.past(2),
-    createdByUserId: faker.random.uuid,
+    createdByUserId: faker.datatype.uuid,
     createdByUsername: faker.name.firstName,
-    updatedByUserId: faker.random.uuid,
+    updatedByUserId: faker.datatype.uuid,
     updatedDate: () => faker.date.past(1),
   },
   links: () => [],

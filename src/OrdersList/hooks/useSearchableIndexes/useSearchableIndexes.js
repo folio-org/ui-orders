@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useLocaleDateFormat } from '@folio/stripes-acq-components';
 
-function useSearchableIndexes() {
+export function useSearchableIndexes() {
   const localeDateFormat = useLocaleDateFormat();
 
   const searchableIndexes = useMemo(() => [
@@ -28,5 +28,3 @@ function useSearchableIndexes() {
 
   return searchableIndexes;
 }
-
-export default useSearchableIndexes;

@@ -26,22 +26,22 @@ import {
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  PrevNextPagination,
   useFiltersToogle,
   useLocalStorageFilters,
   useLocationSorting,
   ORDER_STATUS_LABEL,
   useModalToggle,
+  useItemToView,
 } from '@folio/stripes-acq-components';
 
-import {
-  RESULT_COUNT_INCREMENT,
-} from '../common/constants';
 import OrdersNavigation from '../common/OrdersNavigation';
-import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 import Panes from '../components/Panes';
-import useSearchableIndexes from './useSearchableIndexes';
+
+import { useSearchableIndexes } from './hooks';
 import OrdersListActionMenu from './OrdersListActionMenu';
 import OrderExportSettingsModalContainer from './OrderExportSettingsModalContainer';
+import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 
 const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orders" />;
@@ -72,6 +72,7 @@ function OrdersList({
   resetData,
   refreshList,
   ordersQuery,
+  pagination,
 }) {
   const stripes = useStripes();
   const [
@@ -93,6 +94,8 @@ function OrdersList({
   const [isExportModalOpened, toggleExportModal] = useModalToggle();
   const searchableIndexes = useSearchableIndexes();
   const { visibleColumns, toggleColumn } = useColumnManager('orders-column-manager', columnMapping);
+
+  const { itemToView, setItemToView, deleteItemToView } = useItemToView('orders-list');
 
   const selectOrder = useCallback(
     (e, { id }) => {
@@ -186,6 +189,7 @@ function OrdersList({
 
         <ResultsPane
           id="orders-results-pane"
+          autosize
           count={ordersCount}
           renderActionMenu={renderActionMenu}
           title={title}
@@ -193,26 +197,40 @@ function OrdersList({
           filters={filters}
           isFiltersOpened={isFiltersOpened}
         >
-          <MultiColumnList
-            autosize
-            columnMapping={columnMapping}
-            contentData={orders}
-            formatter={resultsFormatter}
-            hasMargin
-            id="orders-list"
-            isEmptyMessage={resultsStatusMessage}
-            loading={isLoading}
-            onHeaderClick={changeSorting}
-            onNeedMoreData={onNeedMoreData}
-            onRowClick={selectOrder}
-            pageAmount={RESULT_COUNT_INCREMENT}
-            pagingType="click"
-            sortDirection={sortingDirection}
-            sortOrder={sortingField}
-            totalCount={ordersCount}
-            virtualize
-            visibleColumns={visibleColumns}
-          />
+          {({ height, width }) => (
+            <>
+              <MultiColumnList
+                columnMapping={columnMapping}
+                contentData={orders}
+                formatter={resultsFormatter}
+                hasMargin
+                id="orders-list"
+                isEmptyMessage={resultsStatusMessage}
+                loading={isLoading}
+                onHeaderClick={changeSorting}
+                onRowClick={selectOrder}
+                sortDirection={sortingDirection}
+                sortOrder={sortingField}
+                totalCount={orders.length}
+                visibleColumns={visibleColumns}
+                onMarkPosition={setItemToView}
+                onMarkReset={deleteItemToView}
+                itemToView={itemToView}
+                height={height - PrevNextPagination.HEIGHT}
+                width={width}
+                pagingType="none"
+              />
+
+              {orders.length > 0 && (
+                <PrevNextPagination
+                  {...pagination}
+                  totalCount={ordersCount}
+                  disabled={isLoading}
+                  onChange={onNeedMoreData}
+                />
+              )}
+            </>
+          )}
         </ResultsPane>
 
         {isExportModalOpened && (
@@ -246,6 +264,7 @@ OrdersList.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
   refreshList: PropTypes.func.isRequired,
   ordersQuery: PropTypes.string,
+  pagination: PropTypes.object,
 };
 
 OrdersList.defaultProps = {
