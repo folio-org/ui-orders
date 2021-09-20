@@ -55,7 +55,7 @@ describe('useOrders', () => {
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => !result.current.isLoading);
 
     expect(result.current).toEqual({
       orders: [],
