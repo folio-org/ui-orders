@@ -37,7 +37,7 @@ export const useOrders = ({ pagination, fetchReferences }) => {
       }
 
       const { purchaseOrders, totalRecords } = await ky.get('orders/composite-orders', { searchParams }).json();
-      const { usersMap, vendorsMap, acqUnitsMap } = await fetchReferences(purchaseOrders);
+      const { usersMap = {}, vendorsMap = {}, acqUnitsMap = {} } = await fetchReferences(purchaseOrders);
       const orders = purchaseOrders.map(order => ({
         ...order,
         vendorCode: vendorsMap[order.vendor]?.code,
