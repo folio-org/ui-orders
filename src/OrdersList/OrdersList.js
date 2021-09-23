@@ -203,7 +203,6 @@ function OrdersList({
                 columnMapping={columnMapping}
                 contentData={orders}
                 formatter={resultsFormatter}
-                hasMargin
                 id="orders-list"
                 isEmptyMessage={resultsStatusMessage}
                 loading={isLoading}

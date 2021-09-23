@@ -24,6 +24,7 @@ import {
   FolioFormattedDate,
   NoResultsMessage,
   ORDER_STATUS_LABEL,
+  PrevNextPagination,
   ResetButton,
   ResultsPane,
   SingleSearchForm,
@@ -31,6 +32,7 @@ import {
   useLocalStorageFilters,
   useLocationSorting,
   useModalToggle,
+  useItemToView,
 } from '@folio/stripes-acq-components';
 
 import OrdersNavigation from '../common/OrdersNavigation';
@@ -75,6 +77,7 @@ function OrderLinesList({
   orderLinesCount,
   refreshList,
   linesQuery,
+  pagination,
 }) {
   const [
     filters,
@@ -103,6 +106,7 @@ function OrderLinesList({
     [history, location.search],
   );
   const { visibleColumns, toggleColumn } = useColumnManager('order-lines-column-manager', columnMapping);
+  const { itemToView, setItemToView, deleteItemToView } = useItemToView('order-lines-list');
 
   const resultsStatusMessage = (
     <NoResultsMessage
@@ -170,6 +174,7 @@ function OrderLinesList({
 
       <ResultsPane
         id="order-lines-results-pane"
+        autosize
         count={orderLinesCount}
         renderActionMenu={renderActionMenu}
         filters={filters}
@@ -177,25 +182,41 @@ function OrderLinesList({
         title={title}
         toggleFiltersPane={toggleFilters}
       >
-        <MultiColumnList
-          autosize
-          columnMapping={columnMapping}
-          contentData={orderLines}
-          formatter={resultsFormatter}
-          hasMargin
-          id="order-line-list"
-          isEmptyMessage={resultsStatusMessage}
-          loading={isLoading}
-          onHeaderClick={changeSorting}
-          onNeedMoreData={onNeedMoreData}
-          onRowClick={selectOrderLine}
-          pagingType="click"
-          sortDirection={sortingDirection}
-          sortOrder={sortingField}
-          totalCount={orderLinesCount}
-          virtualize
-          visibleColumns={visibleColumns}
-        />
+        {({ height, width }) => (
+          <>
+            <MultiColumnList
+              columnMapping={columnMapping}
+              contentData={orderLines}
+              formatter={resultsFormatter}
+              hasMargin
+              id="order-line-list"
+              isEmptyMessage={resultsStatusMessage}
+              loading={isLoading}
+              onHeaderClick={changeSorting}
+              onNeedMoreData={onNeedMoreData}
+              onRowClick={selectOrderLine}
+              pagingType="none"
+              sortDirection={sortingDirection}
+              sortOrder={sortingField}
+              totalCount={orderLines.length}
+              visibleColumns={visibleColumns}
+              height={height - PrevNextPagination.HEIGHT}
+              width={width}
+              onMarkPosition={setItemToView}
+              onMarkReset={deleteItemToView}
+              itemToView={itemToView}
+            />
+
+            {orderLines.length > 0 && (
+              <PrevNextPagination
+                {...pagination}
+                totalCount={orderLinesCount}
+                disabled={isLoading}
+                onChange={onNeedMoreData}
+              />
+            )}
+          </>
+        )}
       </ResultsPane>
 
       {isExportModalOpened && (
@@ -229,6 +250,7 @@ OrderLinesList.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
   refreshList: PropTypes.func.isRequired,
   linesQuery: PropTypes.string,
+  pagination: PropTypes.object,
 };
 
 OrderLinesList.defaultProps = {

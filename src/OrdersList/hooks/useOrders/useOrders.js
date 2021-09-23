@@ -9,6 +9,7 @@ import {
 import { getFullName } from '@folio/stripes/util';
 import {
   getFiltersCount,
+  ORDERS_API,
 } from '@folio/stripes-acq-components';
 
 import { useBuildQuery } from '../useBuildQuery';
@@ -36,7 +37,7 @@ export const useOrders = ({ pagination, fetchReferences }) => {
         return { orders: [], ordersCount: 0 };
       }
 
-      const { purchaseOrders, totalRecords } = await ky.get('orders/composite-orders', { searchParams }).json();
+      const { purchaseOrders, totalRecords } = await ky.get(ORDERS_API, { searchParams }).json();
       const { usersMap = {}, vendorsMap = {}, acqUnitsMap = {} } = await fetchReferences(purchaseOrders);
       const orders = purchaseOrders.map(order => ({
         ...order,

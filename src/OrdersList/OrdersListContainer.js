@@ -5,9 +5,9 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   organizationsManifest,
   usePagination,
+  RESULT_COUNT_INCREMENT,
 } from '@folio/stripes-acq-components';
 
-import { RESULT_COUNT_INCREMENT } from '../common/constants';
 import {
   ACQUISITIONS_UNITS,
   ORDERS,

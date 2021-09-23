@@ -26,6 +26,7 @@ jest.mock('@folio/stripes-acq-components', () => {
     ...jest.requireActual('@folio/stripes-acq-components'),
     useLocalStorageFilters: jest.fn(() => Object.values(mockLocalStorageFilters)),
     useFiltersToogle: jest.fn().mockReturnValue({ isFiltersOpened: true, toggleFilters: jest.fn() }),
+    useItemToView: jest.fn().mockReturnValue({}),
     ResetButton: () => <span>ResetButton</span>,
     SingleSearchForm: () => <span>SingleSearchForm</span>,
   };
