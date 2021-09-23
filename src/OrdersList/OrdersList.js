@@ -204,6 +204,7 @@ function OrdersList({
                 contentData={orders}
                 formatter={resultsFormatter}
                 id="orders-list"
+                hasMargin
                 isEmptyMessage={resultsStatusMessage}
                 loading={isLoading}
                 onHeaderClick={changeSorting}
