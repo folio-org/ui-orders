@@ -10,6 +10,7 @@ jest.mock('@folio/stripes-smart-components/lib/ControlledVocab', () => jest.fn()
 const defaultProps = {
   stripes: {
     connect: (component) => component,
+    hasPerm: () => true,
   },
 };
 
@@ -27,7 +28,7 @@ describe('ClosingReasons', () => {
     expect(screen.getByText('ControlledVocab')).toBeInTheDocument();
   });
 
-  it('should check suppressoor', () => {
+  it('should check suppressor', () => {
     renderClosingReasons();
 
     expect(ControlledVocab.mock.calls[0][0].actionSuppressor.edit({ source: 'User' })).toBeFalsy();

@@ -63,7 +63,7 @@ class ClosingReasons extends Component {
         baseUrl={REASONS_FOR_CLOSURE_API}
         columnMapping={columnMapping}
         data-test-closing-reasons-setting
-        editable
+        editable={stripes.hasPerm('orders.configuration.reasons-for-closure.all')}
         formatter={formatter}
         hiddenFields={hiddenFields}
         id="closingReasons"

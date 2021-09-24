@@ -23,6 +23,7 @@
 * Order Tab - Implement MCL Next/Previous pagination. Refs UIOR-782.
 * Location (holding) field adjustments for None or Instance Create inventory setting. Refs UIOR-781.
 * Order lines Tab - Implement MCL Next/Previous pagination. Refs UIOR-783.
+* "New" button active for user without permission to edit reason for closure in settings. Refs UIOR-797.
 
 ## [2.4.2](https://github.com/folio-org/ui-orders/tree/v2.4.2) (2021-09-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.1...v2.4.2)
