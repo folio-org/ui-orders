@@ -75,7 +75,6 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
       <AcqUnitFilter
         id={FILTERS.ACQUISITIONS_UNIT}
         activeFilters={activeFilters[FILTERS.ACQUISITIONS_UNIT]}
-        labelId="ui-orders.order.acquisitionsUnit"
         name={FILTERS.ACQUISITIONS_UNIT}
         onChange={onChange}
         disabled={disabled}
