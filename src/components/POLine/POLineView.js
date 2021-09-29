@@ -124,13 +124,12 @@ const POLineView = ({
 
   const onEditPOLine = useCallback((e) => {
     if (e) e.preventDefault();
-    const search = lineId ? location.search : `qindex=${ORDER_FILTERS.PO_NUMBER}&query=${order.poNumber}`;
-
     history.push({
       pathname: `/orders/view/${order.id}/po-line/edit/${line.id}`,
-      search,
+      search: location.search,
+      state: { backPathname: location.pathname },
     });
-  }, [history, line.id, lineId, location.search, order.id, order.poNumber]);
+  }, [history, order.id, line.id, location.pathname, location.search]);
 
   const onConfirmDelete = useCallback(() => {
     toggleConfirmDelete();

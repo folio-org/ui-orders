@@ -255,10 +255,10 @@ function LayerPOLine({
       : `/orders/view/${id}`;
 
     history.push({
-      pathname,
+      pathname: locationState?.backPathname || pathname,
       search,
     });
-  }, [history, id, lineId, search]);
+  }, [history, id, lineId, search, locationState]);
 
   const updatePOLine = useCallback(hydratedLine => {
     setSavingValues(hydratedLine);
