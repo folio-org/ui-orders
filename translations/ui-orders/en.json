@@ -331,7 +331,7 @@
   "order.vendorCode": "Vendor code",
   "order.orderType": "Order type",
   "order.lastUpdated": "Last updated",
-  "order.acquisitionsUnit": "Acquisitions unit",
+  "order.acquisitionsUnit": "Acquisition unit",
   "order.clone.confirmLabel": "Duplicate",
   "order.clone.heading": "Duplicate order?",
   "order.clone.message": "Are you sure you want to clone this purchase order and all of its purchase order lines?",

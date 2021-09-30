@@ -25,6 +25,7 @@
 * Order lines Tab - Implement MCL Next/Previous pagination. Refs UIOR-783.
 * "New" button active for user without permission to edit reason for closure in settings. Refs UIOR-797.
 * Do not take user to Orders tab after edit of POL in POL tab. Refs UIOR-799.
+* Filter label contains extra 's'. Refs UIOR-802.
 
 ## [2.4.2](https://github.com/folio-org/ui-orders/tree/v2.4.2) (2021-09-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.1...v2.4.2)
