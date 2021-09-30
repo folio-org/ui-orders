@@ -3,8 +3,20 @@ import user from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import {
+  HasCommand,
+  expandAllSections,
+  collapseAllSections,
+} from '@folio/stripes/components';
+
+import { history } from '../../../../test/jest/routerMocks';
 import OrderTemplateView from './OrderTemplateView';
 
+jest.mock('@folio/stripes-components/lib/Commander', () => ({
+  HasCommand: jest.fn(({ children }) => <div>{children}</div>),
+  expandAllSections: jest.fn(),
+  collapseAllSections: jest.fn(),
+}));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   Layer: jest.fn(({ children }) => <>{children}</>),
@@ -19,6 +31,8 @@ jest.mock('../../../components/POLine/POLineDetails/POLineDetails', () => jest.f
 jest.mock('../../../components/PurchaseOrder/PODetails/PODetailsView', () => jest.fn().mockReturnValue('PODetailsView'));
 jest.mock('../../../components/PurchaseOrder/Summary/SummaryView', () => jest.fn().mockReturnValue('SummaryView'));
 
+const mockPush = jest.fn();
+
 const defaultProps = {
   close: jest.fn(),
   onDelete: jest.fn(),
@@ -30,6 +44,8 @@ const defaultProps = {
   addresses: [],
   locations: [],
   materialTypes: [],
+  history: { ...history, push: mockPush },
+  stripes: { hasPerm: jest.fn().mockReturnValue(true) },
 };
 
 const renderOrderTemplateView = (props = {}) => render(
@@ -67,5 +83,48 @@ describe('OrderTemplateView', () => {
     user.click(screen.getByText('ui-orders.settings.orderTemplates.confirmDelete.confirmLabel'));
 
     expect(defaultProps.onDelete).toHaveBeenCalled();
+  });
+
+  describe('OrderTemplateView shortcuts', () => {
+    beforeEach(() => {
+      HasCommand.mockClear();
+      expandAllSections.mockClear();
+      collapseAllSections.mockClear();
+      defaultProps.close.mockClear();
+    });
+
+    it('should call expandAllSections when expandAllSections shortcut is called', () => {
+      renderOrderTemplateView();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
+
+      expect(expandAllSections).toHaveBeenCalled();
+    });
+
+    it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
+      renderOrderTemplateView();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
+
+      expect(collapseAllSections).toHaveBeenCalled();
+    });
+
+    it('should call close when cancel shortcut is called', () => {
+      renderOrderTemplateView();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'cancel').handler();
+
+      expect(defaultProps.close).toHaveBeenCalled();
+    });
+
+    it('should navigate to edit form when edit shortcut is called', () => {
+      mockPush.mockClear();
+
+      renderOrderTemplateView();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'edit').handler();
+
+      expect(mockPush).toHaveBeenCalledWith(`${defaultProps.rootPath}/${defaultProps.orderTemplate.id}/edit`);
+    });
   });
 });

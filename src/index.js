@@ -72,7 +72,11 @@ const Orders = ({ match, location, showSettings }) => {
 
   const { path } = match;
   const content = showSettings
-    ? <OrdersSettings {...{ match, location }} />
+    ? (
+      <CommandList commands={defaultKeyboardShortcuts}>
+        <OrdersSettings {...{ match, location }} />
+      </CommandList>
+    )
     : (
       <>
         <CommandList commands={defaultKeyboardShortcuts}>

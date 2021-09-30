@@ -26,6 +26,8 @@ function OrderTemplateViewContainer({
   resources,
   rootPath,
   showSuccessDeleteMessage,
+  stripes,
+  history,
 }) {
   const sendCallout = useShowCallout();
   const onDeleteOrderTemplate = useCallback(
@@ -61,6 +63,8 @@ function OrderTemplateViewContainer({
       onDelete={onDeleteOrderTemplate}
       rootPath={rootPath}
       orderTemplate={orderTemplate}
+      stripes={stripes}
+      history={history}
     />
   );
 }
@@ -76,9 +80,11 @@ OrderTemplateViewContainer.propTypes = {
   close: PropTypes.func.isRequired,
   mutator: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   rootPath: PropTypes.string.isRequired,
   showSuccessDeleteMessage: PropTypes.func.isRequired,
   resources: PropTypes.object,
+  stripes: PropTypes.object.isRequired,
 };
 
 export default withRouter(stripesConnect(OrderTemplateViewContainer));

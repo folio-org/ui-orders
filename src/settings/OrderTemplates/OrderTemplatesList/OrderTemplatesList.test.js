@@ -1,8 +1,18 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, useHistory } from 'react-router';
+
+import { HasCommand } from '@folio/stripes/components';
 
 import OrderTemplatesList from './OrderTemplatesList';
+
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
+  useHistory: jest.fn(),
+}));
+jest.mock('@folio/stripes-components/lib/Commander', () => ({
+  HasCommand: jest.fn(({ children }) => <div>{children}</div>),
+}));
 
 const defaultProps = {
   label: <>Label</>,
@@ -26,5 +36,25 @@ describe('OrderTemplatesList', () => {
     renderOrderTemplatesList();
 
     expect(screen.getByText(defaultProps.orderTemplatesList[0].templateName)).toBeInTheDocument();
+  });
+
+  describe('Shortcuts', () => {
+    beforeEach(() => {
+      HasCommand.mockClear();
+    });
+
+    it('should navigate to new form when new shortcut is called', () => {
+      const pushMock = jest.fn();
+
+      useHistory.mockClear().mockReturnValue({
+        push: pushMock,
+      });
+
+      renderOrderTemplatesList();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'new').handler();
+
+      expect(pushMock).toHaveBeenCalledWith(`${defaultProps.rootPath}/create`);
+    });
   });
 });

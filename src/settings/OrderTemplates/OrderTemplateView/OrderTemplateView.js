@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { get } from 'lodash';
@@ -8,10 +9,15 @@ import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
+  AccordionStatus,
   Button,
+  checkScope,
   Col,
+  collapseAllSections,
   ConfirmationModal,
   ExpandAllButton,
+  expandAllSections,
+  HasCommand,
   Icon,
   Layer,
   Pane,
@@ -21,6 +27,7 @@ import {
 import {
   FundDistributionView,
   ORDER_FORMATS,
+  handleKeyCommand,
 } from '@folio/stripes-acq-components';
 
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
@@ -55,6 +62,8 @@ class OrderTemplateView extends Component {
     addresses: PropTypes.arrayOf(PropTypes.object),
     locations: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object),
+    stripes: PropTypes.object.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
   };
 
   static defaultProps = {
@@ -68,43 +77,10 @@ class OrderTemplateView extends Component {
     super(props, context);
 
     this.state = {
-      sections: {
-        [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
-        [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
-        [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
-        [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
-        [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
-        [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
-      },
       showConfirmDelete: false,
     };
+    this.accordionStatusRef = React.createRef();
   }
-
-  onToggleSection = ({ id }) => {
-    this.setState(({ sections }) => {
-      const isSectionOpened = sections[id];
-
-      return {
-        sections: {
-          ...sections,
-          [id]: !isSectionOpened,
-        },
-      };
-    });
-  };
-
-  handleExpandAll = (sections) => {
-    this.setState({ sections });
-  };
 
   onDeleteOrderTemplate = () => {
     const { onDelete } = this.props;
@@ -160,8 +136,11 @@ class OrderTemplateView extends Component {
       addresses,
       locations,
       materialTypes,
+      stripes,
+      rootPath,
+      history,
     } = this.props;
-    const { sections, showConfirmDelete } = this.state;
+    const { showConfirmDelete } = this.state;
     const title = get(orderTemplate, 'templateName', '');
     const orderFormat = get(orderTemplate, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
@@ -171,194 +150,233 @@ class OrderTemplateView extends Component {
 
     const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(orderTemplate, 'fundDistribution');
+    const sections = {
+      [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
+      [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
+    };
+    const shortcuts = [
+      {
+        name: 'cancel',
+        shortcut: 'esc',
+        handler: handleKeyCommand(close),
+      },
+      {
+        name: 'edit',
+        handler: handleKeyCommand(() => {
+          if (stripes.hasPerm('ui-orders.settings.order-templates.edit')) history.push(`${rootPath}/${orderTemplate.id}/edit`);
+        }),
+      },
+      {
+        name: 'expandAllSections',
+        handler: (e) => expandAllSections(e, this.accordionStatusRef),
+      },
+      {
+        name: 'collapseAllSections',
+        handler: (e) => collapseAllSections(e, this.accordionStatusRef),
+      },
+    ];
 
     return (
       <Layer
         contentLabel="Order template details"
         isOpen
       >
-        <Pane
-          actionMenu={this.getActionMenu}
-          id="order-settings-order-template-view"
-          defaultWidth="fill"
-          paneTitle={title}
-          dismissible
-          onClose={close}
+        <HasCommand
+          commands={shortcuts}
+          isWithinScope={checkScope}
+          scope={document.body}
         >
-
-          <Row center="xs">
-            <Col xs={12} md={8}>
-              <Row end="xs">
-                <Col xs={12}>
-                  <ExpandAllButton
-                    accordionStatus={sections}
-                    onToggle={this.handleExpandAll}
-                  />
+          <Pane
+            actionMenu={this.getActionMenu}
+            id="order-settings-order-template-view"
+            defaultWidth="fill"
+            paneTitle={title}
+            dismissible
+            onClose={close}
+          >
+            <AccordionStatus ref={this.accordionStatusRef}>
+              <Row center="xs">
+                <Col xs={12} md={8}>
+                  <Row end="xs">
+                    <Col xs={12}>
+                      <ExpandAllButton />
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
-            </Col>
-          </Row>
 
-          <Row center="xs">
-            <Col xs={12} md={8}>
-              <AccordionSet
-                accordionStatus={sections}
-                onToggle={this.onToggleSection}
-              >
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]}
-                  id={ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO}
-                >
-                  <TemplateInformationView
-                    orderTemplate={orderTemplate}
-                  />
-                </Accordion>
+              <Row center="xs">
+                <Col xs={12} md={8}>
+                  <AccordionSet initialStatus={sections}>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]}
+                      id={ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO}
+                    >
+                      <TemplateInformationView
+                        orderTemplate={orderTemplate}
+                      />
+                    </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_INFO]}
-                  id={ORDER_TEMPLATES_ACCORDION.PO_INFO}
-                >
-                  <PODetailsView
-                    addresses={addresses}
-                    order={orderTemplate}
-                  />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_INFO]}
+                      id={ORDER_TEMPLATES_ACCORDION.PO_INFO}
+                    >
+                      <PODetailsView
+                        addresses={addresses}
+                        order={orderTemplate}
+                      />
+                    </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_TAGS]}
-                  id={ORDER_TEMPLATES_ACCORDION.PO_TAGS}
-                >
-                  <OrderTemplateTagsView tags={get(orderTemplate, 'poTags.tagList')} />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_TAGS]}
+                      id={ORDER_TEMPLATES_ACCORDION.PO_TAGS}
+                    >
+                      <OrderTemplateTagsView tags={get(orderTemplate, 'poTags.tagList')} />
+                    </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]}
-                  id={ORDER_TEMPLATES_ACCORDION.PO_SUMMARY}
-                >
-                  <SummaryView order={orderTemplate} />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]}
+                      id={ORDER_TEMPLATES_ACCORDION.PO_SUMMARY}
+                    >
+                      <SummaryView order={orderTemplate} />
+                    </Accordion>
 
-                {isOngoing(orderType) && (
-                  <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_ONGOING]}
-                    id={ORDER_TEMPLATES_ACCORDION.PO_ONGOING}
-                  >
-                    <OngoingOrderInfoView order={orderTemplate} />
-                  </Accordion>
-                )}
+                    {isOngoing(orderType) && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_ONGOING]}
+                        id={ORDER_TEMPLATES_ACCORDION.PO_ONGOING}
+                      >
+                        <OngoingOrderInfoView order={orderTemplate} />
+                      </Accordion>
+                    )}
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS}
-                >
-                  <ItemView poLineDetails={orderTemplate} />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS}
+                    >
+                      <ItemView poLineDetails={orderTemplate} />
+                    </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DETAILS]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_DETAILS}
-                >
-                  <POLineDetails line={orderTemplate} />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DETAILS]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_DETAILS}
+                    >
+                      <POLineDetails line={orderTemplate} />
+                    </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
-                >
-                  <VendorView
-                    vendorDetail={orderTemplate.vendorDetail}
-                    vendorId={orderTemplate.vendor}
-                  />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
+                    >
+                      <VendorView
+                        vendorDetail={orderTemplate.vendorDetail}
+                        vendorId={orderTemplate.vendor}
+                      />
+                    </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS}
-                >
-                  <CostView
-                    cost={orderTemplate.cost}
-                    isPackage={orderTemplate.isPackage}
-                    orderFormat={orderFormat}
-                  />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS}
+                    >
+                      <CostView
+                        cost={orderTemplate.cost}
+                        isPackage={orderTemplate.isPackage}
+                        orderFormat={orderFormat}
+                      />
+                    </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
-                >
-                  <FundDistributionView
-                    fundDistributions={fundDistributions}
-                    totalAmount={estimatedPrice}
-                  />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
+                    >
+                      <FundDistributionView
+                        fundDistributions={fundDistributions}
+                        totalAmount={estimatedPrice}
+                      />
+                    </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
-                >
-                  <LocationView
-                    lineLocations={orderTemplate.locations}
-                    locations={locations}
-                  />
-                </Accordion>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
+                    >
+                      <LocationView
+                        lineLocations={orderTemplate.locations}
+                        locations={locations}
+                      />
+                    </Accordion>
 
-                {showPhresources && (
-                  <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}
-                  >
-                    <PhysicalView
-                      materialTypes={materialTypes}
-                      physical={orderTemplate.physical}
-                    />
-                  </Accordion>
-                )}
+                    {showPhresources && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}
+                      >
+                        <PhysicalView
+                          materialTypes={materialTypes}
+                          physical={orderTemplate.physical}
+                        />
+                      </Accordion>
+                    )}
 
-                {showEresources && (
-                  <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
-                  >
-                    <EresourcesView
-                      line={orderTemplate}
-                      materialTypes={materialTypes}
-                    />
-                  </Accordion>
-                )}
+                    {showEresources && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
+                      >
+                        <EresourcesView
+                          line={orderTemplate}
+                          materialTypes={materialTypes}
+                        />
+                      </Accordion>
+                    )}
 
-                {showOther && (
-                  <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES}
-                  >
-                    <OtherView
-                      materialTypes={materialTypes}
-                      physical={orderTemplate.physical}
-                    />
-                  </Accordion>
-                )}
+                    {showOther && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES}
+                      >
+                        <OtherView
+                          materialTypes={materialTypes}
+                          physical={orderTemplate.physical}
+                        />
+                      </Accordion>
+                    )}
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_TAGS]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_TAGS}
-                >
-                  <OrderTemplateTagsView tags={get(orderTemplate, 'polTags.tagList')} />
-                </Accordion>
-              </AccordionSet>
-            </Col>
-          </Row>
-          {showConfirmDelete && (
-            <ConfirmationModal
-              id="delete-order-template-modal"
-              confirmLabel={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.confirmLabel" />}
-              heading={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.heading" />}
-              message={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.message" />}
-              onCancel={this.hideConfirmDelete}
-              onConfirm={this.onDeleteOrderTemplate}
-              open
-            />
-          )}
-        </Pane>
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_TAGS]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_TAGS}
+                    >
+                      <OrderTemplateTagsView tags={get(orderTemplate, 'polTags.tagList')} />
+                    </Accordion>
+                  </AccordionSet>
+                </Col>
+              </Row>
+            </AccordionStatus>
+            {showConfirmDelete && (
+              <ConfirmationModal
+                id="delete-order-template-modal"
+                confirmLabel={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.confirmLabel" />}
+                heading={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.heading" />}
+                message={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.message" />}
+                onCancel={this.hideConfirmDelete}
+                onConfirm={this.onDeleteOrderTemplate}
+                open
+              />
+            )}
+          </Pane>
+        </HasCommand>
       </Layer>
     );
   }

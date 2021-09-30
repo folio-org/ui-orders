@@ -1,42 +1,54 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useHistory } from 'react-router';
 
-import { IfPermission } from '@folio/stripes/core';
+import {
+  IfPermission,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   Button,
   NavList,
   NavListItem,
   Pane,
+  HasCommand,
+  checkScope,
 } from '@folio/stripes/components';
+import { handleKeyCommand } from '@folio/stripes-acq-components';
 
-class OrderTemplatesList extends Component {
-  static propTypes = {
-    label: PropTypes.object.isRequired,
-    orderTemplatesList: PropTypes.arrayOf(PropTypes.object),
-    rootPath: PropTypes.string.isRequired,
-  };
+const OrderTemplatesList = ({ label, rootPath, orderTemplatesList = [] }) => {
+  const stripes = useStripes();
+  const history = useHistory();
+  const lastMenu = useMemo(() => (
+    <IfPermission perm="ui-orders.settings.order-templates.create">
+      <Button
+        to={`${rootPath}/create`}
+        buttonStyle="primary paneHeaderNewButton"
+        marginBottom0
+      >
+        <FormattedMessage id="ui-orders.settings.newBtn" />
+      </Button>
+    </IfPermission>
+  ), [rootPath]);
 
-  static defaultProps = {
-    orderTemplatesList: [],
-  };
+  const shortcuts = [
+    {
+      name: 'new',
+      handler: handleKeyCommand(() => {
+        if (stripes.hasPerm('ui-orders.settings.order-templates.create')) {
+          history.push(`${rootPath}/create`);
+        }
+      }),
+    },
+  ];
 
-  render() {
-    const { label, rootPath, orderTemplatesList } = this.props;
-
-    const lastMenu = (
-      <IfPermission perm="ui-orders.settings.order-templates.create">
-        <Button
-          to={`${rootPath}/create`}
-          buttonStyle="primary paneHeaderNewButton"
-          marginBottom0
-        >
-          <FormattedMessage id="ui-orders.settings.newBtn" />
-        </Button>
-      </IfPermission>
-    );
-
-    return (
+  return (
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
       <Pane
         id="order-settings-order-templates-list"
         lastMenu={lastMenu}
@@ -54,8 +66,14 @@ class OrderTemplatesList extends Component {
           ))}
         </NavList>
       </Pane>
-    );
-  }
-}
+    </HasCommand>
+  );
+};
+
+OrderTemplatesList.propTypes = {
+  label: PropTypes.object.isRequired,
+  orderTemplatesList: PropTypes.arrayOf(PropTypes.object),
+  rootPath: PropTypes.string.isRequired,
+};
 
 export default OrderTemplatesList;

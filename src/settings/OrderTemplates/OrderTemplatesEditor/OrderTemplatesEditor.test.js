@@ -3,8 +3,19 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
+import {
+  HasCommand,
+  expandAllSections,
+  collapseAllSections,
+} from '@folio/stripes/components';
+
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
+jest.mock('@folio/stripes-components/lib/Commander', () => ({
+  HasCommand: jest.fn(({ children }) => <div>{children}</div>),
+  expandAllSections: jest.fn(),
+  collapseAllSections: jest.fn(),
+}));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   Layer: jest.fn(({ children }) => <>{children}</>),
@@ -88,6 +99,39 @@ describe('OrderTemplatesEditor', () => {
       expect(screen.getByText('ui-orders.settings.orderTemplates.accordion.polFundDistribution')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.settings.orderTemplates.accordion.polLocation')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.settings.orderTemplates.accordion.polTags')).toBeInTheDocument();
+    });
+  });
+
+  describe('OrderTemplatesEditor shortcuts', () => {
+    beforeEach(() => {
+      HasCommand.mockClear();
+      expandAllSections.mockClear();
+      collapseAllSections.mockClear();
+      defaultProps.close.mockClear();
+    });
+
+    it('should call expandAllSections when expandAllSections shortcut is called', () => {
+      renderOrderTemplatesEditor();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
+
+      expect(expandAllSections).toHaveBeenCalled();
+    });
+
+    it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
+      renderOrderTemplatesEditor();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
+
+      expect(collapseAllSections).toHaveBeenCalled();
+    });
+
+    it('should call close when cancel shortcut is called', () => {
+      renderOrderTemplatesEditor();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'cancel').handler();
+
+      expect(defaultProps.close).toHaveBeenCalled();
     });
   });
 });
