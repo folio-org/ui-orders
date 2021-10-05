@@ -64,11 +64,18 @@ const Orders = ({ match, location, showSettings }) => {
     },
   ];
 
-  const orderCommands = [{
-    name: 'duplicateRecord',
-    label: <FormattedMessage id="ui-orders.shortcut.duplicateRecord" />,
-    shortcut: 'alt+c',
-  }];
+  const orderCommands = [
+    {
+      name: 'duplicateRecord',
+      label: <FormattedMessage id="ui-orders.shortcut.duplicateRecord" />,
+      shortcut: 'alt+c',
+    },
+    {
+      name: 'addPOL',
+      label: <FormattedMessage id="ui-orders.shortcut.addPOL" />,
+      shortcut: 'alt+a',
+    },
+  ];
 
   const { path } = match;
   const content = showSettings

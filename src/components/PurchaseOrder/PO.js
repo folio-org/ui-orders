@@ -556,6 +556,15 @@ const PO = ({
       name: 'collapseAllSections',
       handler: (e) => collapseAllSections(e, accordionStatusRef),
     },
+    {
+      name: 'addPOL',
+      shortcut: 'alt+a',
+      handler: handleKeyCommand(() => {
+        if (stripes.hasPerm('orders.po-lines.item.post') && isAbleToAddLines) {
+          onAddPOLine();
+        }
+      }),
+    },
   ];
 
   if (isLoading || order?.id !== match.params.id) {
