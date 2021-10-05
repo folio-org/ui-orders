@@ -366,4 +366,21 @@ describe('PO shortcuts', () => {
 
     expect(screen.getByText('ui-orders.order.clone.message')).toBeInTheDocument();
   });
+
+  it('should translate to POL creation form', async () => {
+    defaultProps.mutator.orderDetails.GET.mockResolvedValue({
+      ...ORDER,
+      workflowStatus: ORDER_STATUSES.pending,
+      compositePoLines: [],
+    });
+
+    renderComponent();
+
+    await waitFor(() => HasCommand.mock.calls[0][0].commands.find(c => c.name === 'addPOL').handler());
+
+    expect(history.push).toHaveBeenCalledWith({
+      pathname: `/orders/view/${ORDER.id}/po-line/create`,
+      search: '',
+    });
+  });
 });
