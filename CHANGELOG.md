@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.2...v3.0.0)
+
 * Sorting of data in the "Title or package name" column is not performed in the POL list in the "Orders" app. Refs UIOR-742.
 * Add a setting for Save and Add next PO line. Refs UIOR-694.
 * Checking and unchecking isPackage can hide invalid data that prevents saving POL. Refs UIOR-737.
@@ -28,6 +31,9 @@
 * Filter label contains extra 's'. Refs UIOR-802.
 * Settings (Order templates) | Apply baseline keyboard shortcuts. Refs UIOR-801.
 * Create keyboard shortcut for "Add POL" action. Refs UIOR-812.
+* Order lines tab - Resume Scroll position after edit. Refs UIOR-786.
+* Order tab - Resume Scroll position after edit. Refs UIOR-785.
+* Error message when trying to view order templates with order format set to "electronic" or "p/e mix" in POL details. Refs UIOR-758.
 
 ## [2.4.2](https://github.com/folio-org/ui-orders/tree/v2.4.2) (2021-09-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.1...v2.4.2)
