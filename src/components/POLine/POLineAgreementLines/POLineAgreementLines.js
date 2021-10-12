@@ -29,7 +29,7 @@ const resultFormatter = {
   name: (agrLine) => (!agrLine.owner?.id ? <NoValue /> : (
     <Link
       data-test-link-to-agreement
-      to={`/erm/agreements/${agrLine.owner.id}`}
+      to={`/erm/agreements/${agrLine.owner.id}/line/${agrLine.id}`}
     >
       {agrLine.owner.name}
     </Link>
