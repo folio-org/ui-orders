@@ -31,6 +31,7 @@ class InstanceMatching extends Component {
         label={label}
         moduleName={MODULE_ORDERS}
         onBeforeSave={this.beforeSave}
+        formType="final-form"
       >
         <InstanceMatchingForm />
       </this.configManager>
