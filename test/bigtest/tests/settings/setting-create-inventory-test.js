@@ -29,6 +29,6 @@ describe('Setting for Create Inventory', function () {
   });
 
   it('displays Title', () => {
-    expect(setting.title).to.equal('Inventory interactions');
+    expect(setting.title).to.equal('Inventory interactions defaults');
   });
 });

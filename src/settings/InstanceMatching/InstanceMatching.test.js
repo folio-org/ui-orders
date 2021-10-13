@@ -10,7 +10,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
   ConfigManager: jest.fn(({ children }) => <>{children}</>),
 }));
 jest.mock('./InstanceMatchingForm', () => ({
-  InstanceMatchingForm: jest.fn().mockReturnValue('InstanceMatchingForm')
+  InstanceMatchingForm: jest.fn().mockReturnValue('InstanceMatchingForm'),
 }));
 
 const defaultProps = {
