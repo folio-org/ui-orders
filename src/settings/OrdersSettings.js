@@ -15,6 +15,7 @@ import Prefixes from './Prefixes';
 import InstanceStatus from './InstanceStatus';
 import InstanceType from './InstanceType';
 import LoanType from './LoanType';
+import InstanceMatching from './InstanceMatching';
 
 const sections = [
   {
@@ -30,30 +31,6 @@ const sections = [
         component: ClosingReasons,
         label: <FormattedMessage id="ui-orders.settings.closingOrderReasons" />,
         route: 'closing-reasons',
-        perm: 'ui-orders.settings.view',
-      },
-      {
-        component: CreateInventory,
-        label: <FormattedMessage id="ui-orders.settings.inventoryInteractions" />,
-        route: 'create-inventory',
-        perm: 'ui-orders.settings.view',
-      },
-      {
-        component: InstanceStatus,
-        label: <FormattedMessage id="ui-orders.settings.instanceStatus" />,
-        route: 'instance-status',
-        perm: 'ui-orders.settings.view',
-      },
-      {
-        component: InstanceType,
-        label: <FormattedMessage id="ui-orders.settings.instanceType" />,
-        route: 'instance-type',
-        perm: 'ui-orders.settings.view',
-      },
-      {
-        component: LoanType,
-        label: <FormattedMessage id="ui-orders.settings.loanType" />,
-        route: 'loan-type',
         perm: 'ui-orders.settings.view',
       },
       {
@@ -95,6 +72,41 @@ const sections = [
         component: Suffixes,
         label: <FormattedMessage id="ui-orders.settings.poNumber.suffixes" />,
         route: 'suffixes',
+        perm: 'ui-orders.settings.view',
+      },
+    ],
+  },
+  {
+    label: <FormattedMessage id="ui-orders.settings.inventoryInteraction.label" />,
+    pages: [
+      {
+        component: InstanceMatching,
+        label: <FormattedMessage id="ui-orders.settings.instanceMatching" />,
+        route: 'instance-matching',
+        perm: 'ui-orders.settings.all',
+      },
+      {
+        component: CreateInventory,
+        label: <FormattedMessage id="ui-orders.settings.inventoryInteractions" />,
+        route: 'create-inventory',
+        perm: 'ui-orders.settings.view',
+      },
+      {
+        component: InstanceStatus,
+        label: <FormattedMessage id="ui-orders.settings.instanceStatus" />,
+        route: 'instance-status',
+        perm: 'ui-orders.settings.view',
+      },
+      {
+        component: InstanceType,
+        label: <FormattedMessage id="ui-orders.settings.instanceType" />,
+        route: 'instance-type',
+        perm: 'ui-orders.settings.view',
+      },
+      {
+        component: LoanType,
+        label: <FormattedMessage id="ui-orders.settings.loanType" />,
+        route: 'loan-type',
         perm: 'ui-orders.settings.view',
       },
     ],

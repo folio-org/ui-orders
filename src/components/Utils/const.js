@@ -6,4 +6,5 @@ export const CONFIG_ORDER_NUMBER = 'orderNumber';
 export const CONFIG_ADDRESSES = 'tenant.addresses';
 export const CONFIG_APPROVALS = 'approvals';
 export const CONFIG_OPEN_ORDER = 'openOrder';
+export const CONFIG_INSTANCE_MATCHING = 'disableInstanceMatching';
 export const LINES_LIMIT_DEFAULT = 1;
