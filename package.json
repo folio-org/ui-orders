@@ -125,7 +125,7 @@
           "orders.configuration.suffixes.collection.get",
           "orders.configuration.reasons-for-closure.collection.get",
           "orders.item.get",
-          "orders.receiving-history.collection.get",
+          "orders.pieces.collection.get",
           "ui-orders.third-party-services"
         ]
       },
@@ -188,7 +188,7 @@
           "orders.configuration.suffixes.collection.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
-          "orders.receiving-history.collection.get",
+          "orders.pieces.collection.get",
           "ui-orders.third-party-services"
         ]
       },

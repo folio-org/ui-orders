@@ -6,11 +6,12 @@ import { Accordion } from '@folio/stripes/components';
 import {
   batchFetch,
   organizationsManifest,
+
+  ORDER_PIECES_API,
 } from '@folio/stripes-acq-components';
 
 import {
   INVOICE_LINES, INVOICES,
-  RECEIVING_HISTORY,
 } from '../../Utils/resources';
 
 import POLineInvoices from './POLineInvoices';
@@ -82,11 +83,14 @@ POLineInvoicesContainer.defaultProps = {
 
 POLineInvoicesContainer.manifest = Object.freeze({
   pieces: {
-    ...RECEIVING_HISTORY,
+    type: 'okapi',
+    path: ORDER_PIECES_API,
     fetch: false,
     accumulate: true,
+    throwErrors: false,
+    records: 'pieces',
     params: {
-      query: 'checkin==true and poLineId==!{lineId}',
+      query: 'titles.poLineId==!{lineId}',
     },
   },
   invoiceLines: {

@@ -23,7 +23,6 @@ import {
   ORDER_INVOICE_RELNS_API,
   ORDER_TEMPLATE_DETAIL_API,
   ORDER_TEMPLATES_API,
-  RECEIVING_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
 } from './api';
@@ -42,15 +41,6 @@ const BASE_RESOURCE = {
   perRequest: LIMIT_MAX,
   throwErrors: false,
   type: 'okapi',
-};
-
-export const RECEIVING_HISTORY = {
-  fetch: false,
-  accumulate: true,
-  type: 'okapi',
-  path: RECEIVING_API,
-  records: 'receivingHistory',
-  throwErrors: false,
 };
 
 export const LOCATIONS = {
