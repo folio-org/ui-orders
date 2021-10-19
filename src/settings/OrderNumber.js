@@ -6,7 +6,8 @@ import { ConfigManager } from '@folio/stripes/smart-components';
 import { MODULE_ORDERS } from '../components/Utils/const';
 import getOrderNumberSetting from '../common/utils/getOrderNumberSetting';
 import OrderNumberForm from './OrderNumberForm';
-import css from './OrderNumber.css';
+
+import css from './ConfigManagerForm.css';
 
 class OrderNumber extends Component {
   static propTypes = {

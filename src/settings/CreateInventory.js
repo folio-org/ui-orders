@@ -8,8 +8,9 @@ import {
   CONFIG_CREATE_INVENTORY,
 } from '../components/Utils/const';
 import getCreateInventorySetting from '../common/utils/getCreateInventorySetting';
+
+import css from './ConfigManagerForm.css';
 import CreateInventoryForm from './CreateInventoryForm';
-import css from './CreateInventory.css';
 
 class CreateInventory extends Component {
   static propTypes = {

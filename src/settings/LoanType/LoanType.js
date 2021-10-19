@@ -9,8 +9,9 @@ import {
   MODULE_ORDERS,
 } from '@folio/stripes-acq-components';
 
+import css from '../ConfigManagerForm.css';
+
 import LoanTypeForm from './LoanTypeForm';
-import css from '../CreateInventory.css';
 
 class LoanType extends Component {
   constructor(props, context) {

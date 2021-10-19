@@ -5,6 +5,7 @@
 * Update agreement hyperlink on POL. Refs UIOR-796.
 * Pieces are not displayed in POL Related invoices table. Refs UIOR-815.
 * Disable/enable instance matching for FOLIO tenant. Refs UIOR-763.
+* Settings (Orders) | Apply baseline keyboard shortcuts. Refs UIOR-803.
 
 ## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.2...v3.0.0)

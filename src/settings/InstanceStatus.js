@@ -7,8 +7,9 @@ import { ConfigManager } from '@folio/stripes/smart-components';
 import { CONFIG_INSTANCE_STATUS } from '../common/constants';
 import { INSTANCE_STATUSES } from '../common/resources';
 import { MODULE_ORDERS } from '../components/Utils/const';
+
+import css from './ConfigManagerForm.css';
 import InstanceStatusForm from './InstanceStatusForm';
-import css from './CreateInventory.css';
 
 class InstanceStatus extends Component {
   constructor(props, context) {

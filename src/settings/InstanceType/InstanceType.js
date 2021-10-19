@@ -4,11 +4,12 @@ import { get } from 'lodash';
 
 import { ConfigManager } from '@folio/stripes/smart-components';
 
+import css from '../ConfigManagerForm.css';
 import { CONFIG_INSTANCE_TYPE } from '../../common/constants';
 import { INSTANCE_TYPES } from '../../common/resources';
 import { MODULE_ORDERS } from '../../components/Utils/const';
+
 import InstanceTypeForm from './InstanceTypeForm';
-import css from '../CreateInventory.css';
 
 class InstanceType extends Component {
   constructor(props, context) {
