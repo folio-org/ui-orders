@@ -359,7 +359,7 @@
     "piece.delete.message": "حذفف القطعة؟",
     "settings.closingOrderReasons": "أسباب إغلاق أمر الشراء",
     "settings.general.label": "عام",
-    "settings.inventoryInteractions": "معاملات المخزون",
+    "settings.inventoryInteractions": "الإعدادات الافتراضية لمعاملات المخزون",
     "settings.newBtn": "جديد",
     "settings.orderTemplates": "قوالب الطلبيات",
     "settings.polinesLimit": "حد سطور أوامر الشراء",
@@ -700,9 +700,9 @@
     "orderDetails.dateOrdered": "تاريخ الطلب",
     "relatedInvoices.vendorInvoiceNo": "رقم فاتورة المورّد",
     "permission.order.updateEncumbrances": "الطلبيات: تحديث التكاليف",
-    "settings.inventoryInteraction.label": "Inventory interaction",
-    "settings.instanceMatching": "Instance matching",
-    "settings.instanceMatching.description": "When active instance matching will cause purchase order lines that are set to create instance, but are not manualy linked to an instance record. To first search instances to find a match for one or more of the product IDs provided on the POL. If a product Id is found that instance will be linked to the POL and the system will NOT create a new instance for that POL. If no matches are found the system will create a new instance record and link the POL to that instance.",
-    "settings.instanceMatching.toggle": "Disable instance matching",
-    "shortcut.addPOL": "Add POL"
+    "settings.inventoryInteraction.label": "تفاعل المخزون",
+    "settings.instanceMatching": "مطابقة الوعاء",
+    "settings.instanceMatching.description": "عندما تتسبب مطابقة الوعاء النشط في تعيين سطور أمر الشراء لإنشاء وعاء ولكن لا يتم ربطها يدوياً بتسجيلة وعاء. للبحث أولاً عن أوعية للبحث عن تطابق واحد أو أكثر من معرفات المنتج المتوفرة في سطر أمر الشراء. إذا تم العثور على معرف منتج سيتم ربط الوعاء بسطر أمر الشراء و لن يقوم النظام بإنشاء وعاء جديد لسطر أمر الشراء. إذا لم يتم العثور على تطابقات سيقوم النظام بإنشاء تسجيلة وعاء جديدة وربط سطر أمر الشراء بهذا الوعاء.",
+    "settings.instanceMatching.toggle": "تعطيل مطابقة الوعاء",
+    "shortcut.addPOL": "إضافة سطر أمر شراء"
 }
