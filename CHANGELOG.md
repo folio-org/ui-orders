@@ -8,6 +8,7 @@
 * Settings (Orders) | Apply baseline keyboard shortcuts. Refs UIOR-803.
 * Use a compatible version of `ui-plugin-find-po-line`. Refs UIOR-818.
 * User can't edit opened POL when last piece is removed. Refs UIOR-824.
+* Remove pieces column from "Related invoice" accordion.Refs UIOR-817.
 
 ## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.2...v3.0.0)

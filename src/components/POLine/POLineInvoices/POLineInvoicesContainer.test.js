@@ -9,9 +9,6 @@ jest.mock('./POLineInvoices', () => jest.fn().mockReturnValue('POLineInvoices'))
 const defaultProps = {
   lineId: '',
   label: <>label</>,
-  pieces: {
-    GET: jest.fn().mockResolvedValue([]),
-  },
   invoices: {
     GET: jest.fn().mockResolvedValue([{
       vendorId: 'vendorId',

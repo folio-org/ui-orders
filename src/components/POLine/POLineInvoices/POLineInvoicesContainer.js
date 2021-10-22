@@ -6,8 +6,6 @@ import { Accordion } from '@folio/stripes/components';
 import {
   batchFetch,
   organizationsManifest,
-
-  ORDER_PIECES_API,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -20,13 +18,11 @@ import { ACCORDION_ID } from '../const';
 const POLineInvoicesContainer = ({ lineId, label, mutator }) => {
   const [lineInvoices, setLineInvoices] = useState();
   const [invoiceLines, setInvoiceLines] = useState();
-  const [pieces, setPieces] = useState();
   const [vendors, setVendors] = useState();
 
   useEffect(() => {
     setLineInvoices();
     setInvoiceLines();
-    setPieces();
     setVendors();
 
     mutator.invoiceLines.GET().then(response => {
@@ -46,8 +42,6 @@ const POLineInvoicesContainer = ({ lineId, label, mutator }) => {
             .then(setVendors);
         });
     });
-
-    mutator.pieces.GET().then(setPieces);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lineId]);
 
@@ -59,7 +53,6 @@ const POLineInvoicesContainer = ({ lineId, label, mutator }) => {
       <POLineInvoices
         lineInvoices={lineInvoices}
         invoiceLines={invoiceLines}
-        pieces={pieces}
         vendors={vendors}
       />
     </Accordion>
@@ -71,7 +64,6 @@ POLineInvoicesContainer.propTypes = {
   lineId: PropTypes.string.isRequired,
   label: PropTypes.object.isRequired,
   mutator: PropTypes.shape({
-    pieces: PropTypes.object.isRequired,
     invoices: PropTypes.object.isRequired,
     invoiceLines: PropTypes.object.isRequired,
     invoiceLinesVendors: PropTypes.object.isRequired,
@@ -82,17 +74,6 @@ POLineInvoicesContainer.defaultProps = {
 };
 
 POLineInvoicesContainer.manifest = Object.freeze({
-  pieces: {
-    type: 'okapi',
-    path: ORDER_PIECES_API,
-    fetch: false,
-    accumulate: true,
-    throwErrors: false,
-    records: 'pieces',
-    params: {
-      query: 'titles.poLineId==!{lineId}',
-    },
-  },
   invoiceLines: {
     ...INVOICE_LINES,
     fetch: false,

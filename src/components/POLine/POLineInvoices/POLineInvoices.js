@@ -18,7 +18,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 const COLUMN_INVOICE_DATE = 'invoiceDate';
-const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'vendorInvoiceNo', 'status', 'quantity', 'expendedAmount', 'pieces'];
+const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'vendorInvoiceNo', 'status', 'quantity', 'expendedAmount'];
 const columnMapping = {
   invoice: <FormattedMessage id="ui-orders.relatedInvoices.invoice" />,
   [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
@@ -27,18 +27,16 @@ const columnMapping = {
   status: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
   quantity: <FormattedMessage id="ui-orders.relatedInvoices.quantity" />,
   expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
-  pieces: <FormattedMessage id="ui-orders.relatedInvoices.pieces" />,
 };
 const sorters = {
   [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
 };
 
-const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
-  if (!(lineInvoices && invoiceLines && vendors && pieces)) {
+const POLineInvoices = ({ lineInvoices, invoiceLines, vendors }) => {
+  if (!(lineInvoices && invoiceLines && vendors)) {
     return null;
   }
 
-  const enumerationList = pieces.map(({ enumeration }) => enumeration).filter(Boolean).join(', ') || <NoValue />;
   const resultFormatter = {
     invoice: invoice => (
       <Link
@@ -59,7 +57,6 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
         amount={get(invoice, 'total', 0)}
       />
     ),
-    pieces: () => enumerationList,
   };
 
   return (
@@ -81,7 +78,6 @@ POLineInvoices.propTypes = {
   lineInvoices: PropTypes.arrayOf(PropTypes.object),
   invoiceLines: PropTypes.arrayOf(PropTypes.object),
   vendors: PropTypes.arrayOf(PropTypes.object),
-  pieces: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default POLineInvoices;
