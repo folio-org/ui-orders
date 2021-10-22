@@ -53,6 +53,14 @@ const FieldsLocation = ({
   const isInstanceIdRequired = instanceId ? (isPhysicalQuantityRequired || isElectronicQuantityRequired) : false;
   const instanceIdProp = isInstanceIdRequired ? { instanceId } : {};
 
+  const validateLocations = (locationValues, formValues) => {
+    if (withValidation) {
+      return isPostPendingOrder ? NO_VALIDATE : isLocationsRequired(locationValues, formValues);
+    }
+
+    return NO_VALIDATE;
+  };
+
   return (
     <>
       {isQuantityDisabled && (
@@ -70,7 +78,7 @@ const FieldsLocation = ({
         addLabel={isDisabledToChangePaymentInfo ? null : <FormattedMessage id="ui-orders.location.button.addLocation" />}
         component={RepeatableFieldWithValidation}
         name="locations"
-        validate={withValidation ? isLocationsRequired : NO_VALIDATE}
+        validate={validateLocations}
         canAdd={!(isDisabledToChangePaymentInfo || isQuantityDisabled)}
         canRemove={!(isDisabledToChangePaymentInfo || isQuantityDisabled)}
         renderField={(field) => (
