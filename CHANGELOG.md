@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 * Pieces are not displayed in POL Related invoices table. Refs UIOR-815.
+* User can't edit opened POL when last piece is removed. Refs UIOR-824.
 * Use a compatible version of `ui-plugin-find-po-line`. Refs UIOR-818.
 
 ## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
