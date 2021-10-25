@@ -76,7 +76,7 @@ function POLineForm({
   values: formValues,
   enableSaveBtn,
   linesLimit,
-  isCreateAnotherChecked,
+  isCreateAnotherChecked = false,
   toggleCreateAnother,
 }) {
   const history = useHistory();
@@ -468,7 +468,7 @@ POLineForm.propTypes = {
   values: PropTypes.object.isRequired,
   enableSaveBtn: PropTypes.bool,
   linesLimit: PropTypes.number.isRequired,
-  isCreateAnotherChecked: PropTypes.bool.isRequired,
+  isCreateAnotherChecked: PropTypes.bool,
   toggleCreateAnother: PropTypes.func.isRequired,
 };
 

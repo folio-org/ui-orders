@@ -359,7 +359,7 @@
     "piece.delete.message": "Excluir peça?",
     "settings.closingOrderReasons": "Razões de fechamento da ordem de compra",
     "settings.general.label": "Geral",
-    "settings.inventoryInteractions": "Interações de inventário",
+    "settings.inventoryInteractions": "Padrões de interação de inventário",
     "settings.newBtn": "Novo",
     "settings.orderTemplates": "Modelos de pedidos",
     "settings.polinesLimit": "Limite de linhas do pedido",
@@ -700,9 +700,9 @@
     "orderDetails.dateOrdered": "Data do pedido",
     "relatedInvoices.vendorInvoiceNo": "Número da fatura do fornecedor",
     "permission.order.updateEncumbrances": "Pedidos: Atualizar alocação",
-    "settings.inventoryInteraction.label": "Inventory interaction",
-    "settings.instanceMatching": "Instance matching",
-    "settings.instanceMatching.description": "When active instance matching will cause purchase order lines that are set to create instance, but are not manualy linked to an instance record. To first search instances to find a match for one or more of the product IDs provided on the POL. If a product Id is found that instance will be linked to the POL and the system will NOT create a new instance for that POL. If no matches are found the system will create a new instance record and link the POL to that instance.",
-    "settings.instanceMatching.toggle": "Disable instance matching",
-    "shortcut.addPOL": "Add POL"
+    "settings.inventoryInteraction.label": "Interações de inventário",
+    "settings.instanceMatching": "Correspondência de instância",
+    "settings.instanceMatching.description": "Quando a correspondência ativa de instância fará com que as linhas de pedidos de compra sejam definidas para criar uma instância, mas não são vinculadas manualmente a um registro de instância. Para primeiro procurar instâncias para encontrar uma correspondência para uma ou mais das identificações de produtos fornecidas na Linha de Ordem de Compra. Se for encontrada uma identificação de produto, essa instância será vinculada à Linha de Ordem de Compra e o sistema NÃO criará uma nova instância para essa Linha de Ordem de Compra. Se não for encontrada nenhuma correspondência, o sistema criará um novo registro de instância e ligará a Linha de Ordem de Compra a essa instância.",
+    "settings.instanceMatching.toggle": "Desativar correspondência de instância",
+    "shortcut.addPOL": "Adicionar Linha de Ordem de Compra"
 }
