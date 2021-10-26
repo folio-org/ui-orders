@@ -36,10 +36,12 @@ function CostView({ cost, isPackage, orderFormat }) {
         amount={discount}
       />
     );
-  const isElectronicValuesVisible = isPackage
-    ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
-    : true;
-  const isPhysicalValuesVisible = isPackage ? orderFormat !== ORDER_FORMATS.electronicResource : true;
+  const isIncludePhysical = orderFormat !== ORDER_FORMATS.electronicResource;
+  const isIncludeElectronic = (
+    orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix
+  );
+  const isElectronicValuesVisible = isPackage ? isIncludeElectronic : true;
+  const isPhysicalValuesVisible = isPackage ? isIncludePhysical : true;
   const isExchangeRateVisible = stripes.currency !== currency;
   const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
 
@@ -67,7 +69,7 @@ function CostView({ cost, isPackage, orderFormat }) {
         >
           <KeyValue
             label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
-            value={cost.quantityPhysical}
+            value={isIncludePhysical ? (cost.quantityPhysical ?? 0) : null}
           />
         </Col>
       )}
@@ -118,7 +120,7 @@ function CostView({ cost, isPackage, orderFormat }) {
         >
           <KeyValue
             label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
-            value={cost.quantityElectronic}
+            value={isIncludeElectronic ? (cost.quantityElectronic ?? 0) : null}
           />
         </Col>
       )}

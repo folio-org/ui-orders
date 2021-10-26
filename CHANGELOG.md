@@ -12,6 +12,7 @@
 * Update "Unopen order" confirmation modal message when pieces are deleted. Refs UIOR-827.
 * Product ID search returning random results. Refs UIOR-830.
 * Filter and identify POL by Acq unit. Refs UIOR-477.
+* Display `0` value when order quantity is 0. Refs UIOR-828.
 
 ## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.2...v3.0.0)
