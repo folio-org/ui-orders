@@ -38,10 +38,14 @@ export const useOrderLines = ({ pagination, fetchReferences }) => {
       };
 
       const { poLines, totalRecords } = await ky.get(LINES_API, { searchParams }).json();
-      const { ordersMap = {} } = await fetchReferences(poLines);
+      const { ordersMap = {}, acqUnitsMap = {} } = await fetchReferences(poLines);
       const orderLines = poLines.map(orderLine => ({
         ...orderLine,
         orderWorkflow: ordersMap[orderLine.purchaseOrderId]?.workflowStatus,
+        acqUnit: ordersMap[orderLine.purchaseOrderId]?.acqUnitIds
+          ?.map(unitId => acqUnitsMap[unitId]?.name)
+          .filter(Boolean)
+          .join(', '),
       }));
 
       return {

@@ -65,6 +65,7 @@ export const columnMapping = {
   [VENDOR_REF_NUMBER]: <FormattedMessage id="ui-orders.orderLineList.vendorRefNumber" />,
   funCodes: <FormattedMessage id="ui-orders.orderLineList.funCodes" />,
   orderWorkflow: <FormattedMessage id="ui-orders.orderLineList.orderWorkflow" />,
+  acqUnit: <FormattedMessage id="ui-orders.order.acquisitionsUnit" />,
 };
 
 function OrderLinesList({

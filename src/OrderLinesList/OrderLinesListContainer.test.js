@@ -18,6 +18,9 @@ const defaultProps = {
     lineOrders: {
       GET: jest.fn().mockResolvedValue([order]),
     },
+    orderAcqUnits: {
+      GET: jest.fn().mockResolvedValue(order.acqUnitIds),
+    },
   },
 };
 
@@ -61,6 +64,12 @@ describe('OrderLinesListContainer', () => {
       params: {
         limit: 1000,
         query: `id==${orderLine.purchaseOrderId}`,
+      },
+    });
+    expect(defaultProps.mutator.orderAcqUnits.GET).toHaveBeenCalledWith({
+      params: {
+        limit: 1000,
+        query: `id==${order.acqUnitIds[0]}`,
       },
     });
   });

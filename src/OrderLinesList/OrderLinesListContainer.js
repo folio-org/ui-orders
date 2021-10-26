@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
@@ -9,6 +9,7 @@ import {
 
 import {
   ORDERS,
+  ACQUISITIONS_UNITS,
 } from '../components/Utils/resources';
 
 import {
@@ -17,23 +18,33 @@ import {
 import {
   fetchLinesOrders,
 } from './utils';
+import {
+  fetchOrderAcqUnits,
+} from '../OrdersList/utils';
 import OrderLinesList from './OrderLinesList';
 
 const resetData = () => { };
 
 const OrderLinesListContainer = ({ mutator }) => {
-  const fetchReferences = (poLines) => {
-    return fetchLinesOrders(mutator.lineOrders, poLines, {})
-      .then((ordersResponse) => {
-        const ordersMap = ordersResponse.reduce((acc, d) => {
-          acc[d.id] = d;
+  const fetchReferences = useCallback(async (poLines) => {
+    const lineOrders = await fetchLinesOrders(mutator.lineOrders, poLines, {});
+    const acqUnits = await fetchOrderAcqUnits(mutator.orderAcqUnits, lineOrders, {});
 
-          return acc;
-        }, {});
+    const ordersMap = lineOrders.reduce((acc, d) => {
+      acc[d.id] = d;
 
-        return { ordersMap };
-      });
-  };
+      return acc;
+    }, {});
+
+    const acqUnitsMap = acqUnits.reduce((acc, unit) => {
+      acc[unit.id] = unit;
+
+      return acc;
+    }, {});
+
+    return { ordersMap, acqUnitsMap };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { pagination, changePage, refreshPage } = usePagination({ limit: RESULT_COUNT_INCREMENT, offset: 0 });
   const { orderLines, orderLinesCount, isLoading, query } = useOrderLines({ pagination, fetchReferences });
@@ -55,6 +66,11 @@ const OrderLinesListContainer = ({ mutator }) => {
 OrderLinesListContainer.manifest = Object.freeze({
   lineOrders: {
     ...ORDERS,
+    fetch: false,
+    accumulate: true,
+  },
+  orderAcqUnits: {
+    ...ACQUISITIONS_UNITS,
     fetch: false,
     accumulate: true,
   },
