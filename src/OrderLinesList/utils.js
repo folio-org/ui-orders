@@ -16,6 +16,10 @@ import {
 } from './OrdersLinesSearchConfig';
 
 function defaultSearchFn(query, qindex) {
+  if (qindex === 'details.productIds') {
+    return `(details.productIds={productId: "*${query}*"})`;
+  }
+
   if (qindex) {
     return `(${qindex}=="*${query}*")`;
   }
