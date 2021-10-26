@@ -12,9 +12,6 @@ const defaultProps = {
     invoiceId: 'invoiceId',
   }],
   vendors: [],
-  pieces: [{
-    enumeration: 'enumeration',
-  }],
 };
 
 const renderPOLineInvoices = (props = {}) => render(
@@ -36,6 +33,5 @@ describe('POLineInvoices', () => {
     expect(screen.getByText('ui-orders.relatedInvoices.status')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.quantity')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.expendedAmount')).toBeInTheDocument();
-    expect(screen.getByText('ui-orders.relatedInvoices.pieces')).toBeInTheDocument();
   });
 });

@@ -536,7 +536,6 @@
   "relatedInvoices.expendedAmount": "Expended amount",
   "relatedInvoices.invoice": "Invoice #",
   "relatedInvoices.invoiceDate": "Invoice date",
-  "relatedInvoices.pieces": "Piece(s)",
   "relatedInvoices.quantity": "Quantity",
   "relatedInvoices.status": "Status",
   "relatedInvoices.vendorInvoiceNo": "Vendor invoice number",
