@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  acqUnitsManifest,
   usePagination,
   RESULT_COUNT_INCREMENT,
 } from '@folio/stripes-acq-components';
 
 import {
   ORDERS,
-  ACQUISITIONS_UNITS,
 } from '../components/Utils/resources';
 
 import {
@@ -70,7 +70,7 @@ OrderLinesListContainer.manifest = Object.freeze({
     accumulate: true,
   },
   orderAcqUnits: {
-    ...ACQUISITIONS_UNITS,
+    ...acqUnitsManifest,
     fetch: false,
     accumulate: true,
   },
