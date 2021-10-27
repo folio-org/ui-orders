@@ -23,6 +23,7 @@
       "configuration.suffixes": "1.0",
       "configuration": "2.0",
       "contributor-name-types": "1.2",
+      "contributor-types": "2.0",
       "erm": "4.0 5.0",
       "finance.exchange-rate": "1.0",
       "finance.expense-classes": "1.0 2.0",
@@ -30,6 +31,7 @@
       "finance.transactions": "4.0",
       "holdings-storage": "4.4 5.0",
       "identifier-types": "1.2",
+      "instance-formats": "2.0",
       "instance-relationship-types": "1.0",
       "instance-statuses": "1.0",
       "instance-types": "2.0",
@@ -39,6 +41,8 @@
       "location-units": "2.0",
       "locations": "3.0",
       "material-types": "2.2",
+      "modes-of-issuance": "1.0",
+      "nature-of-content-terms": "1.0",
       "order-lines": "2.0",
       "order-templates": "1.0",
       "orders": "11.0",
@@ -46,6 +50,7 @@
       "pieces": "2.0",
       "po-number": "1.0",
       "receiving": "1.0",
+      "search": "0.6",
       "tags": "1.0",
       "users": "15.0"
     },
@@ -86,10 +91,12 @@
           "finance.funds.collection.get",
           "finance.transactions.collection.get",
           "inventory-storage.contributor-name-types.collection.get",
+          "inventory-storage.contributor-types.collection.get",
           "inventory-storage.holdings.collection.get",
           "inventory-storage.identifier-types.collection.get",
-          "inventory-storage.instance-statuses.collection.get",
+          "inventory-storage.instance-formats.collection.get",
           "inventory-storage.instance-relationship-types.collection.get",
+          "inventory-storage.instance-statuses.collection.get",
           "inventory-storage.instance-types.collection.get",
           "inventory-storage.loan-types.collection.get",
           "inventory-storage.location-units.campuses.collection.get",
@@ -98,6 +105,9 @@
           "inventory-storage.locations.collection.get",
           "inventory-storage.locations.item.get",
           "inventory-storage.material-types.collection.get",
+          "inventory-storage.modes-of-issuance.collection.get",
+          "inventory-storage.nature-of-content-terms.collection.get",
+          "inventory.instances.item.get",
           "inventory.items.collection.get",
           "invoice.invoice-lines.collection.get",
           "invoice.invoices.collection.get",
@@ -107,6 +117,8 @@
           "notes.collection.get.by.status",
           "organizations.organizations.collection.get",
           "organizations.organizations.item.get",
+          "search.instances.collection.get",
+          "search.instances.facets.collection.get",
           "tags.collection.get",
           "tags.item.post",
           "users.collection.get"
@@ -198,12 +210,10 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "module.orders.enabled",
-          "finance.exchange-rate.item.get",
-          "finance.funds.expense-classes.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
-          "orders.po-lines.item.post"
+          "orders.po-lines.item.post",
+          "ui-orders.order-lines.view"
         ]
       },
       {
@@ -212,14 +222,11 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "module.orders.enabled",
-          "finance.exchange-rate.item.get",
-          "finance.funds.expense-classes.collection.get",
-          "orders.pieces.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.pieces.item.delete",
-          "orders.po-lines.item.put"
+          "orders.po-lines.item.put",
+          "ui-orders.order-lines.view"
         ]
       },
       {
@@ -288,6 +295,7 @@
           "configuration.entries.collection.get",
           "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
+          "inventory.instances.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "ui-orders.third-party-services"
