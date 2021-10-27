@@ -19,6 +19,10 @@ import {
   DISCOUNT_TYPE,
 } from '../const';
 import {
+  isEresource,
+  isPhresource,
+} from '../../../common/POLFields';
+import {
   RolloverAdjustmentAmount,
 } from './RolloverAdjustmentAmount';
 
@@ -36,10 +40,8 @@ function CostView({ cost, isPackage, orderFormat }) {
         amount={discount}
       />
     );
-  const isIncludePhysical = orderFormat !== ORDER_FORMATS.electronicResource;
-  const isIncludeElectronic = (
-    orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix
-  );
+  const isIncludePhysical = isPhresource(orderFormat);
+  const isIncludeElectronic = isEresource(orderFormat);
   const isElectronicValuesVisible = isPackage ? isIncludeElectronic : true;
   const isPhysicalValuesVisible = isPackage ? isIncludePhysical : true;
   const isExchangeRateVisible = stripes.currency !== currency;
