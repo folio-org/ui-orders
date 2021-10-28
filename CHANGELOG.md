@@ -13,6 +13,7 @@
 * Product ID search returning random results. Refs UIOR-830.
 * Filter and identify POL by Acq unit. Refs UIOR-477.
 * Permission- "Order: Create order lines" missing instance plugin perms. Refs UIOR-819.
+* Add constraint for POL: physical POL should contain only Physical element and electronic only E-resource. Refs UIOR-825.
 
 ## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.2...v3.0.0)
