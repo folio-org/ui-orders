@@ -26,6 +26,7 @@ import {
   validateQuantityElectronic,
   validateQuantityPhysical,
 } from './validate';
+import { getFieldQuantity } from '../../utils';
 
 const NO_VALIDATE = undefined;
 
@@ -36,12 +37,13 @@ const FieldsLocation = ({
   isQuantityDisabled,
   locationIds,
   locations,
-  pOLineFormValues: { orderFormat, physical, eresource, instanceId, isPackage } = {},
+  pOLineFormValues = {},
   poNumber,
   withValidation,
 }) => {
   if (!locations) return null;
 
+  const { orderFormat, physical, eresource, instanceId, isPackage } = pOLineFormValues;
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
   const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresource?.createInventory);
   const isPhysicalQuantityVisible = !isPackage || (orderFormat !== ORDER_FORMATS.electronicResource);
@@ -104,6 +106,7 @@ const FieldsLocation = ({
                   component={TextField}
                   disabled={isQuantityDisabled}
                   label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
+                  initialValue={getFieldQuantity(pOLineFormValues, `${field}.quantityPhysical`)}
                   name={`${field}.quantityPhysical`}
                   parse={parseQuantity}
                   required={withValidation && isPhysicalQuantityRequired}
@@ -119,6 +122,7 @@ const FieldsLocation = ({
                   component={TextField}
                   disabled={isQuantityDisabled}
                   label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
+                  initialValue={getFieldQuantity(pOLineFormValues, `${field}.quantityElectronic`)}
                   name={`${field}.quantityElectronic`}
                   parse={parseQuantity}
                   required={withValidation && isElectronicQuantityRequired}

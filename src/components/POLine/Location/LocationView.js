@@ -14,7 +14,9 @@ import {
   useLineHoldings,
 } from '@folio/stripes-acq-components';
 
-const Location = ({ location, locationsMap, holdings }) => {
+import { getFieldQuantity } from '../../../common/utils';
+
+const Location = ({ location, locationsMap, holdings, orderFormat }) => {
   const filteredLocation = locationsMap[location.locationId] || {};
   const holding = find(holdings, ['id', location.holdingId]);
   const { name, code } = filteredLocation;
@@ -41,7 +43,7 @@ const Location = ({ location, locationsMap, holdings }) => {
       >
         <KeyValue
           label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
-          value={location.quantityPhysical}
+          value={getFieldQuantity({ location, orderFormat }, 'location.quantityPhysical')}
         />
       </Col>
       <Col
@@ -50,14 +52,14 @@ const Location = ({ location, locationsMap, holdings }) => {
       >
         <KeyValue
           label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
-          value={location.quantityElectronic}
+          value={getFieldQuantity({ location, orderFormat }, 'location.quantityElectronic')}
         />
       </Col>
     </Row>
   );
 };
 
-const LocationView = ({ locations = [], lineLocations = [] }) => {
+const LocationView = ({ locations = [], lineLocations = [], orderFormat }) => {
   const lineHoldingIds = lineLocations.map(({ holdingId }) => holdingId).filter(Boolean);
   const { isLoading, holdings } = useLineHoldings(lineHoldingIds);
   const locationsMap = useMemo(() => keyBy(locations, 'id'), [locations]);
@@ -70,6 +72,7 @@ const LocationView = ({ locations = [], lineLocations = [] }) => {
       location={location}
       locationsMap={locationsMap}
       holdings={holdings}
+      orderFormat={orderFormat}
     />
   ));
 };
@@ -78,11 +81,13 @@ Location.propTypes = {
   location: PropTypes.object,
   locationsMap: PropTypes.object,
   holdings: PropTypes.arrayOf(PropTypes.object),
+  orderFormat: PropTypes.string.isRequired,
 };
 
 LocationView.propTypes = {
   lineLocations: PropTypes.arrayOf(PropTypes.object),
   locations: PropTypes.arrayOf(PropTypes.object),
+  orderFormat: PropTypes.string.isRequired,
 };
 
 export default LocationView;

@@ -21,7 +21,9 @@ import {
 import {
   isEresource,
   isPhresource,
+  isOtherResource,
 } from '../../../common/POLFields';
+import { getFieldQuantity } from '../../../common/utils';
 import {
   RolloverAdjustmentAmount,
 } from './RolloverAdjustmentAmount';
@@ -40,10 +42,8 @@ function CostView({ cost, isPackage, orderFormat }) {
         amount={discount}
       />
     );
-  const isIncludePhysical = isPhresource(orderFormat);
-  const isIncludeElectronic = isEresource(orderFormat);
-  const isElectronicValuesVisible = isPackage ? isIncludeElectronic : true;
-  const isPhysicalValuesVisible = isPackage ? isIncludePhysical : true;
+  const isElectronicValuesVisible = isPackage ? isEresource(orderFormat) : true;
+  const isPhysicalValuesVisible = isPackage ? (isPhresource(orderFormat) || isOtherResource(orderFormat)) : true;
   const isExchangeRateVisible = stripes.currency !== currency;
   const isPackageLabel = isPackage && orderFormat !== ORDER_FORMATS.PEMix;
 
@@ -71,7 +71,7 @@ function CostView({ cost, isPackage, orderFormat }) {
         >
           <KeyValue
             label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
-            value={isIncludePhysical ? (cost.quantityPhysical ?? 0) : null}
+            value={getFieldQuantity({ cost, orderFormat }, 'cost.quantityPhysical')}
           />
         </Col>
       )}
@@ -122,7 +122,7 @@ function CostView({ cost, isPackage, orderFormat }) {
         >
           <KeyValue
             label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
-            value={isIncludeElectronic ? (cost.quantityElectronic ?? 0) : null}
+            value={getFieldQuantity({ cost, orderFormat }, 'cost.quantityElectronic')}
           />
         </Col>
       )}

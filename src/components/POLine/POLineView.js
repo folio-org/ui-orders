@@ -371,6 +371,7 @@ const POLineView = ({
             <LocationView
               lineLocations={line.locations}
               locations={locations}
+              orderFormat={orderFormat}
             />
           </Accordion>
           {showPhresources && (

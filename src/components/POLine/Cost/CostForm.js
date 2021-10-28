@@ -26,6 +26,7 @@ import {
   isWorkflowStatusOpen,
 } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
+import { getFieldQuantity } from '../../../common/utils';
 import {
   ERESOURCES,
   PHRESOURCES,
@@ -146,6 +147,7 @@ const CostForm = ({
                 component={TextField}
                 fullWidth
                 label={getQuantityLabel('quantityPhysical')}
+                initialValue={getFieldQuantity(initialValues, 'cost.quantityPhysical')}
                 name="cost.quantityPhysical"
                 type="number"
                 parse={parseNumber}
@@ -226,6 +228,7 @@ const CostForm = ({
                 component={TextField}
                 fullWidth
                 label={getQuantityLabel('quantityElectronic')}
+                initialValue={getFieldQuantity(initialValues, 'cost.quantityElectronic')}
                 name="cost.quantityElectronic"
                 type="number"
                 parse={parseNumber}
