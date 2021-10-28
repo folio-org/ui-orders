@@ -17,7 +17,7 @@ import {
 
 function defaultSearchFn(query, qindex) {
   if (qindex === 'details.productIds') {
-    return `(details.productIds={productId: "*${query}*"})`;
+    return `details.productIds=="*\\"productId\\": \\"*${query}* \\"*"`;
   }
 
   if (qindex) {
