@@ -9,7 +9,6 @@ import { get } from 'lodash';
 import {
   Checkbox,
   Col,
-  InfoPopover,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
@@ -176,16 +175,9 @@ const POLineDetails = ({ line }) => {
           xs={6}
           lg={3}
         >
-          <Checkbox
-            checked={get(line, 'checkinItems')}
-            disabled
-            label={(
-              <>
-                <FormattedMessage id="ui-orders.poLine.receiveItems" />
-                <InfoPopover content={<FormattedMessage id="ui-orders.poLine.receiveItems.info" />} />
-              </>
-            )}
-            vertical
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.poLine.receivingWorkflow" />}
+            value={<FormattedMessage id={`ui-orders.poLine.receivingWorkflow.${line.checkinItems ? 'independent' : 'synchronized'}`} />}
           />
         </Col>
         <Col xs={12}>

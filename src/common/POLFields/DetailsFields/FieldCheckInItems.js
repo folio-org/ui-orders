@@ -1,30 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'react-final-form';
 
-import {
-  Checkbox,
-  InfoPopover,
-} from '@folio/stripes/components';
+import { InfoPopover } from '@folio/stripes/components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
+
+const options = [
+  { labelId: 'ui-orders.poLine.receivingWorkflow.synchronized', value: false },
+  { labelId: 'ui-orders.poLine.receivingWorkflow.independent', value: true },
+];
 
 const FieldCheckInItems = ({ disabled }) => {
   const label = (
     <>
-      <FormattedMessage id="ui-orders.poLine.receiveItems" />
-      <InfoPopover content={<FormattedMessage id="ui-orders.poLine.receiveItems.info" />} />
+      <FormattedMessage id="ui-orders.poLine.receivingWorkflow" />
+      <InfoPopover content={<FormattedMessage id="ui-orders.poLine.receivingWorkflow.info" />} />
     </>
   );
 
   return (
-    <Field
-      component={Checkbox}
-      fullWidth
+    <FieldSelectFinal
+      dataOptions={options}
       label={label}
       name="checkinItems"
-      type="checkbox"
       disabled={disabled}
-      vertical
     />
   );
 };

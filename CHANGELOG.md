@@ -10,6 +10,7 @@
 * Product ID search returning random results. Refs UIOR-830.
 * Filter and identify POL by Acq unit. Refs UIOR-477.
 * Add constraint for POL: physical POL should contain only Physical element and electronic only E-resource. Refs UIOR-825.
+* Update manually add pieces for receiving field. Refs UIOR-836.
 
 ## [3.0.1](https://github.com/folio-org/ui-orders/tree/v3.0.1) (2021-11-02)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.0...v3.0.1)

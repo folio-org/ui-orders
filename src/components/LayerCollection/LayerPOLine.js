@@ -328,6 +328,7 @@ function LayerPOLine({
       },
       locations: [],
       isPackage: false,
+      checkinItems: false,
     };
 
     if (vendor?.id) {
