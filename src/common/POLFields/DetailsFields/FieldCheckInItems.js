@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useForm } from 'react-final-form';
 
 import { InfoPopover } from '@folio/stripes/components';
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
@@ -11,6 +12,7 @@ const options = [
 ];
 
 const FieldCheckInItems = ({ disabled }) => {
+  const { change } = useForm();
   const label = (
     <>
       <FormattedMessage id="ui-orders.poLine.receivingWorkflow" />
@@ -18,12 +20,19 @@ const FieldCheckInItems = ({ disabled }) => {
     </>
   );
 
+  const onChange = ({ target: { value } }) => {
+    const parsedValue = value ? value === 'true' : null;
+
+    change('checkinItems', parsedValue);
+  };
+
   return (
     <FieldSelectFinal
       dataOptions={options}
       label={label}
       name="checkinItems"
       disabled={disabled}
+      onChange={onChange}
     />
   );
 };
