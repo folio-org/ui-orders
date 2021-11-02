@@ -11,7 +11,7 @@ const options = [
   { labelId: 'ui-orders.poLine.receivingWorkflow.independent', value: true },
 ];
 
-const FieldCheckInItems = ({ disabled }) => {
+const FieldCheckInItems = ({ disabled, required }) => {
   const { change } = useForm();
   const label = (
     <>
@@ -33,16 +33,19 @@ const FieldCheckInItems = ({ disabled }) => {
       name="checkinItems"
       disabled={disabled}
       onChange={onChange}
+      required={required}
     />
   );
 };
 
 FieldCheckInItems.propTypes = {
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 FieldCheckInItems.defaultProps = {
   disabled: false,
+  required: false,
 };
 
 export default FieldCheckInItems;
