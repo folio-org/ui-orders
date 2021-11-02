@@ -1,40 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'react-final-form';
+import { useForm } from 'react-final-form';
+import { isBoolean } from 'lodash';
 
-import {
-  Checkbox,
-  InfoPopover,
-} from '@folio/stripes/components';
+import { InfoPopover } from '@folio/stripes/components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
-const FieldCheckInItems = ({ disabled }) => {
+const options = [
+  { labelId: 'ui-orders.poLine.receivingWorkflow.synchronized', value: false },
+  { labelId: 'ui-orders.poLine.receivingWorkflow.independent', value: true },
+];
+
+const FieldCheckInItems = ({ disabled, required }) => {
+  const { change } = useForm();
   const label = (
     <>
-      <FormattedMessage id="ui-orders.poLine.receiveItems" />
-      <InfoPopover content={<FormattedMessage id="ui-orders.poLine.receiveItems.info" />} />
+      <FormattedMessage id="ui-orders.poLine.receivingWorkflow" />
+      <InfoPopover content={<FormattedMessage id="ui-orders.poLine.receivingWorkflow.info" />} />
     </>
   );
 
+  const onChange = ({ target: { value } }) => {
+    const parsedValue = value ? value === 'true' : null;
+
+    change('checkinItems', parsedValue);
+  };
+
+  const validate = (value) => (
+    isBoolean(value) ? undefined : <FormattedMessage id="stripes-acq-components.validation.required" />
+  );
+
   return (
-    <Field
-      component={Checkbox}
-      fullWidth
+    <FieldSelectFinal
+      dataOptions={options}
       label={label}
       name="checkinItems"
-      type="checkbox"
       disabled={disabled}
-      vertical
+      onChange={onChange}
+      required={required}
+      validate={validate}
     />
   );
 };
 
 FieldCheckInItems.propTypes = {
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 FieldCheckInItems.defaultProps = {
   disabled: false,
+  required: false,
 };
 
 export default FieldCheckInItems;

@@ -149,7 +149,7 @@ function POLineDetailsForm({
           xs={6}
           md={3}
         >
-          <FieldCheckInItems disabled={isPostPendingOrder || isPackage} />
+          <FieldCheckInItems disabled={isPostPendingOrder || isPackage} required />
         </Col>
       </Row>
       <Row>

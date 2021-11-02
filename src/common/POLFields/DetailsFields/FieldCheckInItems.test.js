@@ -19,6 +19,6 @@ describe('FieldCheckInItems', () => {
   it('should render \'check-in items\' field', () => {
     renderFieldCheckInItems();
 
-    expect(screen.getByText('ui-orders.poLine.receiveItems')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.poLine.receivingWorkflow')).toBeInTheDocument();
   });
 });

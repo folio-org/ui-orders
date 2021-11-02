@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Update manually add pieces for receiving field. Refs UIOR-836.
+
 ## [3.0.1](https://github.com/folio-org/ui-orders/tree/v3.0.1) (2021-11-02)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.0...v3.0.1)
 
