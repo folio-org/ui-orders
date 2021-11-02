@@ -3,17 +3,21 @@
 ## (IN PROGRESS)
 
 * Update agreement hyperlink on POL. Refs UIOR-796.
-* Pieces are not displayed in POL Related invoices table. Refs UIOR-815.
 * Disable/enable instance matching for FOLIO tenant. Refs UIOR-763.
 * Settings (Orders) | Apply baseline keyboard shortcuts. Refs UIOR-803.
-* Use a compatible version of `ui-plugin-find-po-line`. Refs UIOR-818.
-* User can't edit opened POL when last piece is removed. Refs UIOR-824.
 * Remove pieces column from "Related invoice" accordion.Refs UIOR-817.
 * Update "Unopen order" confirmation modal message when pieces are deleted. Refs UIOR-827.
 * Product ID search returning random results. Refs UIOR-830.
 * Filter and identify POL by Acq unit. Refs UIOR-477.
-* Permission- "Order: Create order lines" missing instance plugin perms. Refs UIOR-819.
 * Add constraint for POL: physical POL should contain only Physical element and electronic only E-resource. Refs UIOR-825.
+
+## [3.0.1](https://github.com/folio-org/ui-orders/tree/v3.0.1) (2021-11-02)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.0...v3.0.1)
+
+* Pieces are not displayed in POL Related invoices table. Refs UIOR-815.
+* User can't edit opened POL when last piece is removed. Refs UIOR-824.
+* Use a compatible version of `ui-plugin-find-po-line`. Refs UIOR-818.
+* Permission - "Order: Create order lines" missing instance plugin perms. Refs UIOR-819.
 
 ## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.2...v3.0.0)
