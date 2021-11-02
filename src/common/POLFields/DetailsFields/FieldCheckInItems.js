@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useForm } from 'react-final-form';
+import { isBoolean } from 'lodash';
 
 import { InfoPopover } from '@folio/stripes/components';
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
@@ -26,6 +27,10 @@ const FieldCheckInItems = ({ disabled, required }) => {
     change('checkinItems', parsedValue);
   };
 
+  const validate = (value) => (
+    isBoolean(value) ? undefined : <FormattedMessage id="stripes-acq-components.validation.required" />
+  );
+
   return (
     <FieldSelectFinal
       dataOptions={options}
@@ -34,6 +39,7 @@ const FieldCheckInItems = ({ disabled, required }) => {
       disabled={disabled}
       onChange={onChange}
       required={required}
+      validate={validate}
     />
   );
 };
