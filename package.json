@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -50,7 +50,7 @@
       "pieces": "2.0",
       "po-number": "1.0",
       "receiving": "1.0",
-      "search": "0.6",
+      "search": "0.5",
       "tags": "1.0",
       "users": "15.0"
     },
