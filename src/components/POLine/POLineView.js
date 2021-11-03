@@ -71,7 +71,6 @@ import {
   ERESOURCES,
   PHRESOURCES,
 } from './const';
-import { FILTERS as ORDER_FILTERS } from '../../OrdersList/constants';
 
 const POLineView = ({
   deleteLine,
@@ -81,7 +80,6 @@ const POLineView = ({
   line,
   location,
   locations,
-  match: { params: { lineId } },
   materialTypes,
   onClose,
   order,
@@ -329,6 +327,15 @@ const POLineView = ({
 
             <ItemView poLineDetails={line} />
           </Accordion>
+
+          {line.isPackage && (
+            <LineLinkedInstances
+              line={line}
+              toggleSection={onToggleSection}
+              labelId="ui-orders.line.accordion.packageTitles"
+            />
+          )}
+
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.poLine" />}
             id={ACCORDION_ID.poLine}
@@ -429,10 +436,13 @@ const POLineView = ({
             lineId={line.id}
           />
 
-          <LineLinkedInstances
-            line={line}
-            toggleSection={onToggleSection}
-          />
+          {!line.isPackage && (
+            <LineLinkedInstances
+              line={line}
+              toggleSection={onToggleSection}
+              labelId="ui-orders.line.accordion.linkedInstance"
+            />
+          )}
         </AccordionSet>
         {showConfirmDelete && (
           <ConfirmationModal
@@ -466,7 +476,6 @@ POLineView.propTypes = {
   locations: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object,
   line: PropTypes.object,
-  match: ReactRouterPropTypes.match.isRequired,
   materialTypes: PropTypes.arrayOf(PropTypes.object),
   onClose: PropTypes.func,
   editable: PropTypes.bool,

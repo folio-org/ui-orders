@@ -52,6 +52,7 @@
       "receiving": "1.0",
       "search": "0.6",
       "tags": "1.0",
+      "titles": "1.2",
       "users": "15.0"
     },
     "queryResource": "query",
@@ -226,6 +227,7 @@
           "orders.order-templates.item.get",
           "orders.pieces.item.delete",
           "orders.po-lines.item.put",
+          "orders.titles.item.post",
           "ui-orders.order-lines.view"
         ]
       },

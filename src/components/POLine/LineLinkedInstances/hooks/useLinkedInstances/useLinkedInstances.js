@@ -44,7 +44,7 @@ export const useInstanceRelationTypes = () => {
 export const useLinkedTitles = line => {
   const ky = useOkapiKy();
 
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, refetch } = useQuery(
     ['ui-orders', 'linked-titles', line.id],
     () => {
       const searchParams = {
@@ -59,12 +59,13 @@ export const useLinkedTitles = line => {
   return {
     isLoading,
     linkedTitles: data?.titles,
+    refetchLinkedTitles: refetch,
   };
 };
 
 export const useLinkedInstances = line => {
   const { fetchInstanceRelationTypes } = useInstanceRelationTypes();
-  const { isLoading: isLinkedTitlesLoading, linkedTitles = [] } = useLinkedTitles(line);
+  const { isLoading: isLinkedTitlesLoading, linkedTitles = [], refetchLinkedTitles } = useLinkedTitles(line);
   const ky = useOkapiKy();
 
   const linkedInstanceIds = linkedTitles
@@ -101,5 +102,6 @@ export const useLinkedInstances = line => {
   return {
     isLoading: isLoading || isLinkedTitlesLoading,
     linkedInstances: data,
+    refetch: refetchLinkedTitles,
   };
 };

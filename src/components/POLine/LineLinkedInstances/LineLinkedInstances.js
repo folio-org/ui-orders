@@ -1,18 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
+import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   Loading,
   MultiColumnList,
   NoValue,
 } from '@folio/stripes/components';
+import {
+  ERROR_CODE_GENERIC,
+  getErrorCodeFromResponse,
+  useShowCallout,
+} from '@folio/stripes-acq-components';
 
 import { ACCORDION_ID } from '../const';
 
-import { useLinkedInstances } from './useLinkedInstances';
+import InstancePlugin from '../Item/InstancePlugin';
+import {
+  useLinkedInstances,
+  useTitleMutation,
+} from './hooks';
+import { getTitle } from './utils';
 
 const visibleColumns = ['title', 'contributors', 'publishers', 'relations'];
 const columnMapping = {
@@ -35,18 +46,64 @@ const resultFormatter = {
   relations: ({ relations }) => relations || <NoValue />,
 };
 
-export const LineLinkedInstances = ({ line, toggleSection }) => {
+export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
   const intl = useIntl();
-  const { isLoading, linkedInstances } = useLinkedInstances(line);
+  const showCallout = useShowCallout();
+  const { isLoading, linkedInstances, refetch } = useLinkedInstances(line);
+  const { mutateTitle } = useTitleMutation();
 
   useEffect(() => {
     toggleSection({ id: ACCORDION_ID.linkedInstances, isOpened: Boolean(isLoading || linkedInstances?.length) });
   }, [toggleSection, isLoading, linkedInstances]);
 
+  const onAddInstance = useCallback((instance) => {
+    const title = getTitle(instance, line.id);
+
+    return mutateTitle(title)
+      .then(() => {
+        showCallout({
+          messageId: 'ui-orders.title.actions.save.success',
+          values: { title: title.title, poLineNumber: line.poLineNumber },
+        });
+        refetch();
+      }, (async ({ response }) => {
+        const errorCode = await getErrorCodeFromResponse(response);
+        const values = {
+          title: <b>{title.title}</b>,
+          poLineNumber: <b>{line.poLineNumber}</b>,
+        };
+        const message = (
+          <FormattedMessage
+            id={`ui-orders.title.actions.save.error.${errorCode}`}
+            defaultMessage={intl.formatMessage({ id: `ui-orders.title.actions.save.error.${ERROR_CODE_GENERIC}` }, values)}
+            values={values}
+          />
+        );
+
+        showCallout({
+          message,
+          type: 'error',
+        });
+      }));
+  }, [intl, line.id, line.poLineNumber, mutateTitle, refetch, showCallout]);
+
+  const addTitleButton = (
+    <IfPermission perm="orders.titles.item.post">
+      <InstancePlugin
+        addInstance={onAddInstance}
+        searchButtonStyle="default"
+        searchLabelId="ui-orders.title.actions.add"
+        disabled={isLoading}
+      />
+    </IfPermission>
+
+  );
+
   return (
     <Accordion
-      label={intl.formatMessage({ id: 'ui-orders.line.accordion.linkedInstances' })}
+      label={intl.formatMessage({ id: labelId })}
       id={ACCORDION_ID.linkedInstances}
+      displayWhenOpen={line.isPackage ? addTitleButton : null}
     >
       {
         isLoading
@@ -70,4 +127,5 @@ export const LineLinkedInstances = ({ line, toggleSection }) => {
 LineLinkedInstances.propTypes = {
   line: PropTypes.object.isRequired,
   toggleSection: PropTypes.func.isRequired,
+  labelId: PropTypes.string.isRequired,
 };

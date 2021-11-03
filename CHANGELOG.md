@@ -8,6 +8,8 @@
 * Remove pieces column from "Related invoice" accordion.Refs UIOR-817.
 * Filter and identify POL by Acq unit. Refs UIOR-477.
 * Add constraint for POL: physical POL should contain only Physical element and electronic only E-resource. Refs UIOR-825.
+* Add "Package titles" accordion to package POL view. Refs UIOR-831.
+* Allow user to add Package titles from POL view. Refs UIOR-832.
 
 ## [3.0.2](https://github.com/folio-org/ui-orders/tree/v3.0.2) (2021-11-05)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.1...v3.0.2)

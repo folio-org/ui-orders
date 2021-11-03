@@ -4,15 +4,21 @@ import { FormattedMessage } from 'react-intl';
 
 import { Pluggable } from '@folio/stripes/core';
 
-const InstancePlugin = ({ addInstance }) => {
+const InstancePlugin = ({
+  addInstance,
+  searchLabelId = 'ui-orders.itemDetails.titleLookUp',
+  searchButtonStyle = 'link',
+  disabled = false,
+}) => {
   return (
     <Pluggable
       aria-haspopup="true"
       dataKey="instances"
-      searchButtonStyle="link"
-      searchLabel={<FormattedMessage id="ui-orders.itemDetails.titleLookUp" />}
+      searchButtonStyle={searchButtonStyle}
+      searchLabel={<FormattedMessage id={searchLabelId} />}
       selectInstance={addInstance}
       type="find-instance"
+      disabled={disabled}
     >
       <span>
         <FormattedMessage id="ui-orders.itemDetails.titleLookUpNoPlugin" />
@@ -23,6 +29,9 @@ const InstancePlugin = ({ addInstance }) => {
 
 InstancePlugin.propTypes = {
   addInstance: PropTypes.func.isRequired,
+  searchLabelId: PropTypes.string,
+  searchButtonStyle: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default InstancePlugin;

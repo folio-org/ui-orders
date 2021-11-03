@@ -4,15 +4,17 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { ACCORDION_ID } from '../const';
 import { LineLinkedInstances } from './LineLinkedInstances';
-import { useLinkedInstances } from './useLinkedInstances';
+import { useLinkedInstances } from './hooks';
 
-jest.mock('./useLinkedInstances', () => ({
+jest.mock('./hooks', () => ({
   useLinkedInstances: jest.fn(),
+  useTitleMutation: jest.fn().mockReturnValue({}),
 }));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   Loading: jest.fn().mockReturnValue('Loading'),
 }), { virtual: true });
+jest.mock('../Item/InstancePlugin', () => jest.fn().mockReturnValue('InstancePlugin'));
 
 const renderLineLinkedInstances = ({ line = {}, toggleSection = jest.fn() }) => (render(
   <LineLinkedInstances
