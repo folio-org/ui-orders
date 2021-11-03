@@ -4,6 +4,7 @@
 
 * Update manually add pieces for receiving field. Refs UIOR-836.
 * Product ID search returning random results. Refs UIOR-830.
+* Update "Unopen order" confirmation modal message when pieces are deleted. Refs UIOR-827.
 
 ## [3.0.1](https://github.com/folio-org/ui-orders/tree/v3.0.1) (2021-11-02)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.0...v3.0.1)
