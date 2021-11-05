@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.0.2](https://github.com/folio-org/ui-orders/tree/v3.0.2) (2021-11-05)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.1...v3.0.2)
+
 * Update manually add pieces for receiving field. Refs UIOR-836.
 * Product ID search returning random results. Refs UIOR-830.
 * Update "Unopen order" confirmation modal message when pieces are deleted. Refs UIOR-827.
