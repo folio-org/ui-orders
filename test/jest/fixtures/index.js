@@ -11,3 +11,4 @@ export { expenseClass } from './expenseClass';
 export { address } from './address';
 export { exportReport } from './exportReport';
 export { hydratedOrder } from './hydratedOrder';
+export { instance } from './instance';
