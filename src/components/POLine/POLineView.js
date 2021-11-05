@@ -71,7 +71,6 @@ import {
   ERESOURCES,
   PHRESOURCES,
 } from './const';
-import { FILTERS as ORDER_FILTERS } from '../../OrdersList/constants';
 
 const POLineView = ({
   deleteLine,
@@ -81,7 +80,6 @@ const POLineView = ({
   line,
   location,
   locations,
-  match: { params: { lineId } },
   materialTypes,
   onClose,
   order,
@@ -466,7 +464,6 @@ POLineView.propTypes = {
   locations: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object,
   line: PropTypes.object,
-  match: ReactRouterPropTypes.match.isRequired,
   materialTypes: PropTypes.arrayOf(PropTypes.object),
   onClose: PropTypes.func,
   editable: PropTypes.bool,

@@ -25,14 +25,14 @@ const columnWidths = {
   title: '50%',
 };
 const resultFormatter = {
-  title: (instance) => (
+  title: instance => (
     <Link to={`/inventory/view/${instance.id}`}>
       {instance.title}
     </Link>
   ),
-  contributors: ({ contributors }) => contributors || <NoValue />,
-  publishers: ({ publishers }) => publishers || <NoValue />,
-  relations: ({ relations }) => relations || <NoValue />,
+  contributors: instance => instance.contributors || <NoValue />,
+  publishers: instance => instance.publishers || <NoValue />,
+  relations: instance => instance.relations || <NoValue />,
 };
 
 export const LineLinkedInstances = ({ line, toggleSection }) => {

@@ -26,7 +26,7 @@ const columnMapping = {
 };
 const alignRowProps = { alignLastColToEnd: true };
 const resultFormatter = {
-  name: (agrLine) => (!agrLine.owner?.id ? <NoValue /> : (
+  name: agrLine => (!agrLine.owner?.id ? <NoValue /> : (
     <Link
       data-test-link-to-agreement
       to={`/erm/agreements/${agrLine.owner.id}/line/${agrLine.id}`}
@@ -34,18 +34,18 @@ const resultFormatter = {
       {agrLine.owner.name}
     </Link>
   )),
-  startDate: ({ startDate }) => startDate || '',
-  endDate: ({ endDate }) => endDate || '',
+  startDate: agrLine => agrLine.startDate || '',
+  endDate: agrLine => agrLine.endDate || '',
   // eslint-disable-next-line react/prop-types
-  status: ({ owner }) => (
-    owner?.agreementStatus?.value
+  status: agrLine => (
+    agrLine.owner?.agreementStatus?.value
       ? (
         <FormattedMessage
-          id={`ui-orders.relatedAgreementLines.status.${owner?.agreementStatus?.value}`}
-          defaultMessage={owner?.agreementStatus?.label}
+          id={`ui-orders.relatedAgreementLines.status.${agrLine.owner?.agreementStatus?.value}`}
+          defaultMessage={agrLine.owner?.agreementStatus?.label}
         />
       )
-      : owner?.agreementStatus?.label || <NoValue />
+      : agrLine.owner?.agreementStatus?.label || <NoValue />
   ),
   arrow: () => <Icon icon="caret-right" />,
 };

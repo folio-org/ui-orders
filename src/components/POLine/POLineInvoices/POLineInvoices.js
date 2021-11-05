@@ -48,9 +48,9 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors }) => {
     ),
     [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
     vendorName: invoice => get(find(vendors, ['id', get(invoice, 'vendorId', '')]), 'name', ''),
-    vendorInvoiceNo: ({ vendorInvoiceNo }) => vendorInvoiceNo || <NoValue />,
+    vendorInvoiceNo: invoice => invoice.vendorInvoiceNo || <NoValue />,
     status: invoice => get(invoice, 'status', ''),
-    quantity: (invoice) => sum(invoiceLines.filter(invoiceLine => invoiceLine.invoiceId === invoice.id).map(inv => get(inv, 'quantity', 0))),
+    quantity: invoice => sum(invoiceLines.filter(invoiceLine => invoiceLine.invoiceId === invoice.id).map(inv => get(inv, 'quantity', 0))),
     expendedAmount: invoice => (
       <AmountWithCurrencyField
         currency={invoice.currency}
