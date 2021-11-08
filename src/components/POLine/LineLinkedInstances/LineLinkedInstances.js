@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router';
 
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -48,6 +49,9 @@ const resultFormatter = {
 
 export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
   const intl = useIntl();
+  const location = useLocation();
+  const history = useHistory();
+
   const showCallout = useShowCallout();
   const { isLoading, linkedInstances, refetch } = useLinkedInstances(line);
   const { mutateTitle } = useTitleMutation();
@@ -88,6 +92,16 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
       });
   };
 
+  const onTitleSelect = (e, { receivingTitle }) => {
+    if (e.target.href) return;
+
+    history.push({
+      pathname: `/receiving/${receivingTitle.id}/edit`,
+      search: location.search,
+      state: { backPathname: location.pathname },
+    });
+  };
+
   const addTitleButton = (
     <IfPermission perm="orders.titles.item.post">
       <InstancePlugin
@@ -97,7 +111,6 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
         disabled={isLoading}
       />
     </IfPermission>
-
   );
 
   return (
@@ -117,7 +130,8 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
               columnMapping={columnMapping}
               columnWidths={columnWidths}
               formatter={resultFormatter}
-              interactive={false}
+              interactive={line.isPackage}
+              onRowClick={onTitleSelect}
             />
           )
       }

@@ -68,9 +68,12 @@ export const useLinkedInstances = line => {
   const { isLoading: isLinkedTitlesLoading, linkedTitles = [], refetchLinkedTitles } = useLinkedTitles(line);
   const ky = useOkapiKy();
 
-  const linkedInstanceIds = linkedTitles
-    .map(({ instanceId }) => instanceId)
-    .filter(Boolean);
+  const instanceTitlesMap = linkedTitles.reduce((acc, title) => {
+    acc[title.instanceId] = title;
+
+    return acc;
+  }, {});
+  const linkedInstanceIds = Object.keys(instanceTitlesMap).filter(Boolean);
 
   if (
     line.instanceId
@@ -89,9 +92,10 @@ export const useLinkedInstances = line => {
         async ({ params: searchParams }) => {
           const { instances = [] } = await ky.get('inventory/instances', { searchParams }).json();
 
-          return instances.map(
-            instance => hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
-          );
+          return instances.map(instance => ({
+            ...hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
+            receivingTitle: instanceTitlesMap[instance.id],
+          }));
         },
         linkedInstanceIds,
       );
