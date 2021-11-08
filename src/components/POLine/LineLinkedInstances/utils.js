@@ -1,6 +1,6 @@
 const ALLOWED_YEAR_LENGTH = 4;
 
-export const getTitle = (instance, lineId) => {
+export const createTitleBody = (instance, lineId) => {
   const contributors = instance?.contributors?.map(({ name, contributorNameTypeId }) => ({
     contributor: name,
     contributorNameTypeId,

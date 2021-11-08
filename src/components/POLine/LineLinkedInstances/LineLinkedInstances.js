@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -23,7 +23,7 @@ import {
   useLinkedInstances,
   useTitleMutation,
 } from './hooks';
-import { getTitle } from './utils';
+import { createTitleBody } from './utils';
 
 const visibleColumns = ['title', 'contributors', 'publishers', 'relations'];
 const columnMapping = {
@@ -56,8 +56,8 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
     toggleSection({ id: ACCORDION_ID.linkedInstances, isOpened: Boolean(isLoading || linkedInstances?.length) });
   }, [toggleSection, isLoading, linkedInstances]);
 
-  const onAddInstance = useCallback((instance) => {
-    const title = getTitle(instance, line.id);
+  const onAddInstance = (instance) => {
+    const title = createTitleBody(instance, line.id);
 
     return mutateTitle(title)
       .then(() => {
@@ -66,7 +66,8 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
           values: { title: title.title, poLineNumber: line.poLineNumber },
         });
         refetch();
-      }, (async ({ response }) => {
+      })
+      .catch(async ({ response }) => {
         const errorCode = await getErrorCodeFromResponse(response);
         const values = {
           title: <b>{title.title}</b>,
@@ -84,8 +85,8 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
           message,
           type: 'error',
         });
-      }));
-  }, [intl, line.id, line.poLineNumber, mutateTitle, refetch, showCallout]);
+      });
+  };
 
   const addTitleButton = (
     <IfPermission perm="orders.titles.item.post">

@@ -1,8 +1,8 @@
 import { instance, orderLine } from '../../../../test/jest/fixtures';
-import { getTitle } from './utils';
+import { createTitleBody } from './utils';
 
-it('\'getTitle\' should return title created from instance and poLine', () => {
-  const title = getTitle(instance, orderLine.id);
+it('\'createTitleBody\' should return title body created from instance and poLine', () => {
+  const title = createTitleBody(instance, orderLine.id);
 
   expect(title.poLineId).toEqual(orderLine.id);
   expect(title.title).toEqual(instance.title);
