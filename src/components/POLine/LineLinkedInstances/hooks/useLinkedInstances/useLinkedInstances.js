@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { find } from 'lodash';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import {
@@ -49,7 +50,7 @@ export const useLinkedTitles = line => {
     () => {
       const searchParams = {
         limit: LIMIT_MAX,
-        query: `poLineId=${line.id} and instanceId=""`,
+        query: `poLineId=${line.id} and instanceId="" sortby title`,
       };
 
       return ky.get('orders/titles', { searchParams }).json();
@@ -84,7 +85,7 @@ export const useLinkedInstances = line => {
   }
 
   const { isLoading, data } = useQuery(
-    ['ui-orders', 'linked-instances', line.id, linkedInstanceIds],
+    ['ui-orders', 'linked-instances', line.id, linkedInstanceIds, linkedTitles],
     async () => {
       const { data: relationTypesData } = await fetchInstanceRelationTypes();
 
@@ -92,10 +93,14 @@ export const useLinkedInstances = line => {
         async ({ params: searchParams }) => {
           const { instances = [] } = await ky.get('inventory/instances', { searchParams }).json();
 
-          return instances.map(instance => ({
+          const linkedInstances = instances.map(instance => ({
             ...hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
             receivingTitle: instanceTitlesMap[instance.id],
           }));
+
+          return line.isPackage
+            ? linkedTitles.map(({ instanceId }) => find(linkedInstances, ['id', instanceId]))
+            : linkedInstances;
         },
         linkedInstanceIds,
       );
