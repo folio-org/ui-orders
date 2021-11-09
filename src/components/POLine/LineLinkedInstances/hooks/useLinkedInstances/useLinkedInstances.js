@@ -1,5 +1,4 @@
 import { useQuery } from 'react-query';
-import { find } from 'lodash';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import {
@@ -69,12 +68,7 @@ export const useLinkedInstances = line => {
   const { isLoading: isLinkedTitlesLoading, linkedTitles = [], refetchLinkedTitles } = useLinkedTitles(line);
   const ky = useOkapiKy();
 
-  const instanceTitlesMap = linkedTitles.reduce((acc, title) => {
-    acc[title.instanceId] = title;
-
-    return acc;
-  }, {});
-  const linkedInstanceIds = Object.keys(instanceTitlesMap).filter(Boolean);
+  const linkedInstanceIds = linkedTitles.map(({ instanceId }) => instanceId).filter(Boolean);
 
   if (
     line.instanceId
@@ -92,15 +86,19 @@ export const useLinkedInstances = line => {
       return batchRequest(
         async ({ params: searchParams }) => {
           const { instances = [] } = await ky.get('inventory/instances', { searchParams }).json();
+          const hydrateLinkedInstancesMap = instances.reduce((acc, instance) => {
+            acc[instance.id] = {
+              ...instance,
+              ...hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
+            };
 
-          const linkedInstances = instances.map(instance => ({
-            ...hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
-            receivingTitle: instanceTitlesMap[instance.id],
+            return acc;
+          }, {});
+
+          return linkedTitles.map((title) => ({
+            ...hydrateLinkedInstancesMap[title.instanceId],
+            receivingTitle: title,
           }));
-
-          return line.isPackage
-            ? linkedTitles.map(({ instanceId }) => find(linkedInstances, ['id', instanceId]))
-            : linkedInstances;
         },
         linkedInstanceIds,
       );
