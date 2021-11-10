@@ -1,7 +1,7 @@
 {
     "meta.title": "주문(Orders)",
     "search": "검색",
-    "resultCount": "{개수, 숫자} {카운트, 복수, 하나의 {레코드 발견} 다른 {레코드 발견}}",
+    "resultCount": "{count, number} {count, plural, one {레코드 발견} other {레코드 발견}}",
     "acquisition_method.approvalPlan": "Approval plan",
     "acquisition_method.dda": "Demand driven acquisitions (DDA)",
     "acquisition_method.depository": "Depository",
@@ -472,7 +472,7 @@
     "itemDetails.connectedTitle": "연결됨",
     "itemDetails.internalNote": "내부용 메모",
     "poLine": "PO 라인",
-    "poLine.pluralized": "{카운트} {카운트, 복수, 하나의 {PO 선} 다른 {PO 선}}",
+    "poLine.pluralized": "{count} {count, plural, one {PO 선} other {PO 선}}",
     "errors.orderLineGenericError": "구매 주문 라인을 저장할 수 없습니다.",
     "closeOrderModal.closingReasons.canceled": "취소",
     "itemDetails.notConnectedTitle": "연결되지 않음",
