@@ -9,7 +9,7 @@ export const getAcqMethodsConfig = ({ id, name }) => ({
   id,
   module: MODULE_ORDERS,
   configName: CONFIG_ACQ_METHODS,
-  code: `${CONFIG_ACQ_METHODS.toUpperCase()}_${name.trim().toUpperCase().replaceAll(' ', '_')}`,
+  code: `${CONFIG_ACQ_METHODS.toUpperCase()}_${name.trim().toUpperCase().replace(/[ ]/g, '_')}`,
 });
 
 export const parseAcqMethodRow = entry => {
