@@ -56,7 +56,7 @@ const sections = [
         component: AcquisitionMethods,
         label: <FormattedMessage id="ui-orders.settings.acquisitionMethods" />,
         route: 'acquisition-methods',
-        perm: 'ui-orders.settings.all',
+        perm: 'ui-orders.settings.view',
       },
     ],
   },

@@ -12,13 +12,16 @@ export const DeleteAcqMethodModal = ({
 }) => {
   const footer = (
     <ModalFooter>
-      <Button
-        buttonStyle="primary"
-        onClick={onConfirm}
-        disabled={!canBeDeleted}
-      >
-        <FormattedMessage id="stripes-core.button.delete" />
-      </Button>
+      {
+        canBeDeleted && (
+          <Button
+            buttonStyle="primary"
+            onClick={onConfirm}
+          >
+            <FormattedMessage id="stripes-core.button.delete" />
+          </Button>
+        )
+      }
       <Button
         onClick={onCancel}
       >
