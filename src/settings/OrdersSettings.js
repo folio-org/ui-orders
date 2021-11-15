@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Settings } from '@folio/stripes/smart-components';
 
+import AcquisitionMethods from './AcquisitionMethods';
 import POLinesLimit from './POLinesLimit';
 import ClosingReasons from './ClosingReasons';
 import OrderNumber from './OrderNumber';
@@ -50,6 +51,12 @@ const sections = [
         label: <FormattedMessage id="ui-orders.settings.openOrder" />,
         route: 'open-order',
         perm: 'ui-orders.settings.view',
+      },
+      {
+        component: AcquisitionMethods,
+        label: <FormattedMessage id="ui-orders.settings.acquisitionMethods" />,
+        route: 'acquisition-methods',
+        perm: 'ui-orders.settings.all',
       },
     ],
   },
