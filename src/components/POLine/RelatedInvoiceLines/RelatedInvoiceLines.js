@@ -82,7 +82,6 @@ export const RelatedInvoiceLines = ({ lineId, label }) => {
 };
 
 RelatedInvoiceLines.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
   lineId: PropTypes.string.isRequired,
   label: PropTypes.object,
 };

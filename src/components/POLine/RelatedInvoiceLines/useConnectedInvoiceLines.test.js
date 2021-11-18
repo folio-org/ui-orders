@@ -60,7 +60,7 @@ describe('useConnectedInvoiceLines', () => {
       });
   });
 
-  it('should fetch package POL linked instances', async () => {
+  it('should fetch connected to po line invoice lines', async () => {
     const { result, waitFor } = renderHook(() => useConnectedInvoiceLines('orderLineId'), { wrapper });
 
     await waitFor(() => {

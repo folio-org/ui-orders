@@ -51,7 +51,7 @@ export default interactor(class LineDetailsPage {
   isLoaded = isPresent('#ItemDetails');
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();
   notesAccordion = new NotesAccordion();
-  lineInvoicesIsPresent = isPresent('#lineInvoices');
+  lineInvoicesIsPresent = isPresent('#invoiceLines');
   closingReasonMessage = isPresent('[data-test-message-banner]');
   relatedAgreementLinesAccordion = new RelatedAgreementLinesAccordion();
   agreementLinesArePresent = isPresent('#po-line-agreement-lines');
