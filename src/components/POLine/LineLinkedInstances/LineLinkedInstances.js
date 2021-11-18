@@ -57,8 +57,11 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
   const { mutateTitle } = useTitleMutation();
 
   useEffect(() => {
-    toggleSection({ id: ACCORDION_ID.linkedInstances, isOpened: Boolean(isLoading || linkedInstances?.length) });
-  }, [toggleSection, isLoading, linkedInstances]);
+    toggleSection({
+      id: ACCORDION_ID.linkedInstances,
+      isOpened: Boolean(isLoading || line.isPackage || linkedInstances?.length),
+    });
+  }, [toggleSection, isLoading, linkedInstances, line.isPackage]);
 
   const onAddInstance = (instance) => {
     const title = createTitleBody(instance, line.id);
