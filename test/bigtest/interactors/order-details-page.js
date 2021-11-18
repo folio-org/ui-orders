@@ -41,7 +41,7 @@ import { TIMEOUT } from './const';
 }
 
 @interactor class RelatedInvoicesAccordion {
-  static defaultScope = '#invoiceLines';
+  static defaultScope = '#orderInvoices';
 
   invoices = collection('[class*=mclRow---]', {
     link: clickable('[data-test-link-to-invoice]'),
