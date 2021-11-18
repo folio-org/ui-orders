@@ -11,6 +11,7 @@
 * Add "Package titles" accordion to package POL view. Refs UIOR-831.
 * Allow user to add Package titles from POL view. Refs UIOR-832.
 * Allow user to select instance for Title AND edit title from POL view. Refs UIOR-833.
+* Display invoice line amount and comment on POL in related invoice table. Refs UIOR-851.
 
 ## [3.0.2](https://github.com/folio-org/ui-orders/tree/v3.0.2) (2021-11-05)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.1...v3.0.2)

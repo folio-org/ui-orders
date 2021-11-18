@@ -64,8 +64,8 @@ import ItemView from './Item/ItemView';
 import { LineLinkedInstances } from './LineLinkedInstances';
 import PhysicalView from './Physical/PhysicalView';
 import { OtherView } from './Other';
-import POLineInvoicesContainer from './POLineInvoices';
 import { POLineAgreementLinesContainer } from './POLineAgreementLines';
+import { RelatedInvoiceLines } from './RelatedInvoiceLines';
 import {
   ACCORDION_ID,
   ERESOURCES,
@@ -97,7 +97,7 @@ const POLineView = ({
     [ACCORDION_ID.location]: true,
     [ACCORDION_ID.other]: true,
     [ACCORDION_ID.physical]: true,
-    [ACCORDION_ID.relatedInvoices]: true,
+    [ACCORDION_ID.relatedInvoiceLines]: true,
     [ACCORDION_ID.notes]: true,
     [ACCORDION_ID.poLine]: true,
     [ACCORDION_ID.linkedInstances]: false,
@@ -427,10 +427,12 @@ const POLineView = ({
               pathToNoteDetails={NOTES_ROUTE}
             />
           </IfPermission>
-          <POLineInvoicesContainer
-            label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoices" />}
-            lineId={get(line, 'id')}
+
+          <RelatedInvoiceLines
+            label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoiceLines" />}
+            lineId={line?.id}
           />
+
           <POLineAgreementLinesContainer
             label={<FormattedMessage id="ui-orders.line.accordion.linkedAgreementLines" />}
             lineId={line.id}

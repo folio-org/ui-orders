@@ -31,7 +31,9 @@ jest.mock('./Cost/CostView', () => jest.fn().mockReturnValue('CostView'));
 jest.mock('./Location/LocationView', () => jest.fn().mockReturnValue('LocationView'));
 jest.mock('./Physical/PhysicalView', () => jest.fn().mockReturnValue('PhysicalView'));
 jest.mock('./Eresources/EresourcesView', () => jest.fn().mockReturnValue('EresourcesView'));
-jest.mock('./POLineInvoices', () => jest.fn().mockReturnValue('POLineInvoicesContainer'));
+jest.mock('./RelatedInvoiceLines', () => ({
+  RelatedInvoiceLines: jest.fn().mockReturnValue('RelatedInvoiceLines'),
+}));
 jest.mock('./Vendor/VendorView', () => jest.fn().mockReturnValue('VendorView'));
 jest.mock('./Other', () => ({
   OtherView: jest.fn().mockReturnValue('OtherView'),
@@ -77,7 +79,7 @@ describe('POLineView', () => {
     expect(screen.getByText(/LocationView/i)).toBeInTheDocument();
     expect(screen.getByText(/PhysicalView/i)).toBeInTheDocument();
     expect(screen.getByText(/EresourcesView/i)).toBeInTheDocument();
-    expect(screen.getByText(/POLineInvoicesContainer/i)).toBeInTheDocument();
+    expect(screen.getByText(/RelatedInvoiceLines/i)).toBeInTheDocument();
     expect(screen.getByText(/VendorView/i)).toBeInTheDocument();
     expect(screen.getByText(/POLineAgreementLinesContainer/i)).toBeInTheDocument();
     expect(screen.getByText(/LineLinkedInstances/i)).toBeInTheDocument();
