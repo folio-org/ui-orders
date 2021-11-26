@@ -21,6 +21,7 @@ import {
   validateRequiredPositiveNumber,
 } from '@folio/stripes-acq-components';
 
+import { VisibilityControl } from '../../../common/VisibilityControl';
 import {
   ifDisabledToChangePaymentInfo,
   isWorkflowStatusOpen,
@@ -125,33 +126,37 @@ const CostForm = ({
               xs={6}
               md={3}
             >
-              <Field
-                component={TextField}
-                onChange={onCostChange}
-                fullWidth
-                label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
-                name="cost.listUnitPrice"
-                parse={parseNumberFieldValue}
-                type="number"
-                isNonInteractive={isDisabledToChangePaymentInfo}
-                {...validatePhresourcesPrices}
-              />
+              <VisibilityControl name="hiddenFields.cost.listUnitPrice">
+                <Field
+                  component={TextField}
+                  onChange={onCostChange}
+                  fullWidth
+                  label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
+                  name="cost.listUnitPrice"
+                  parse={parseNumberFieldValue}
+                  type="number"
+                  isNonInteractive={isDisabledToChangePaymentInfo}
+                  {...validatePhresourcesPrices}
+                />
+              </VisibilityControl>
             </Col>
 
             <Col
               xs={6}
               md={3}
             >
-              <Field
-                component={TextField}
-                fullWidth
-                label={getQuantityLabel('quantityPhysical')}
-                name="cost.quantityPhysical"
-                type="number"
-                parse={parseNumber}
-                isNonInteractive={isDisabledToChangePaymentInfo}
-                {...validatePhresourcesQuantities}
-              />
+              <VisibilityControl name="hiddenFields.cost.quantityPhysical">
+                <Field
+                  component={TextField}
+                  fullWidth
+                  label={getQuantityLabel('quantityPhysical')}
+                  name="cost.quantityPhysical"
+                  type="number"
+                  parse={parseNumber}
+                  isNonInteractive={isDisabledToChangePaymentInfo}
+                  {...validatePhresourcesQuantities}
+                />
+              </VisibilityControl>
             </Col>
           </>
         )}
@@ -159,17 +164,19 @@ const CostForm = ({
           xs={6}
           md={3}
         >
-          <Field
-            component={TextField}
-            onChange={onCostChange}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
-            name="cost.additionalCost"
-            parse={parseNumberFieldValue}
-            type="number"
-            validate={validateNotNegative}
-            isNonInteractive={isDisabledToChangePaymentInfo}
-          />
+          <VisibilityControl name="hiddenFields.cost.additionalCost">
+            <Field
+              component={TextField}
+              onChange={onCostChange}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
+              name="cost.additionalCost"
+              parse={parseNumberFieldValue}
+              type="number"
+              validate={validateNotNegative}
+              isNonInteractive={isDisabledToChangePaymentInfo}
+            />
+          </VisibilityControl>
         </Col>
 
         {
@@ -205,33 +212,37 @@ const CostForm = ({
               xs={6}
               md={3}
             >
-              <Field
-                component={TextField}
-                onChange={onCostChange}
-                fullWidth
-                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
-                name="cost.listUnitPriceElectronic"
-                parse={parseNumberFieldValue}
-                type="number"
-                isNonInteractive={isDisabledToChangePaymentInfo}
-                {...validateEresourcesPrices}
-              />
+              <VisibilityControl name="hiddenFields.cost.listUnitPriceElectronic">
+                <Field
+                  component={TextField}
+                  onChange={onCostChange}
+                  fullWidth
+                  label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
+                  name="cost.listUnitPriceElectronic"
+                  parse={parseNumberFieldValue}
+                  type="number"
+                  isNonInteractive={isDisabledToChangePaymentInfo}
+                  {...validateEresourcesPrices}
+                />
+              </VisibilityControl>
             </Col>
 
             <Col
               xs={6}
               md={3}
             >
-              <Field
-                component={TextField}
-                fullWidth
-                label={getQuantityLabel('quantityElectronic')}
-                name="cost.quantityElectronic"
-                type="number"
-                parse={parseNumber}
-                isNonInteractive={isDisabledToChangePaymentInfo}
-                {...validateEresourcesQuantities}
-              />
+              <VisibilityControl name="hiddenFields.cost.quantityElectronic">
+                <Field
+                  component={TextField}
+                  fullWidth
+                  label={getQuantityLabel('quantityElectronic')}
+                  name="cost.quantityElectronic"
+                  type="number"
+                  parse={parseNumber}
+                  isNonInteractive={isDisabledToChangePaymentInfo}
+                  {...validateEresourcesQuantities}
+                />
+              </VisibilityControl>
             </Col>
           </>
         )}
@@ -239,27 +250,31 @@ const CostForm = ({
           xs={3}
           md={1}
         >
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.cost.discount" />}
-            name="cost.discount"
-            type="number"
-            validate={validateNotNegative}
-            isNonInteractive={isDisabledToChangePaymentInfo}
-          />
+          <VisibilityControl name="hiddenFields.cost.discount">
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.cost.discount" />}
+              name="cost.discount"
+              type="number"
+              validate={validateNotNegative}
+              isNonInteractive={isDisabledToChangePaymentInfo}
+            />
+          </VisibilityControl>
         </Col>
         <Col
           xs={3}
           md={2}
         >
-          <Field
-            component={TypeToggle}
-            currency={currency}
-            disabled={isDisabledToChangePaymentInfo}
-            label={<FormattedMessage id="ui-orders.cost.discountType" />}
-            name="cost.discountType"
-          />
+          <VisibilityControl name="hiddenFields.cost.discountType">
+            <Field
+              component={TypeToggle}
+              currency={currency}
+              disabled={isDisabledToChangePaymentInfo}
+              label={<FormattedMessage id="ui-orders.cost.discountType" />}
+              name="cost.discountType"
+            />
+          </VisibilityControl>
         </Col>
         <Col
           data-test-polineestimatedprice

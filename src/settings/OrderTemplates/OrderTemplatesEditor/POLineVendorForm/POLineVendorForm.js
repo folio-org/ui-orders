@@ -11,6 +11,7 @@ import {
   FieldVendorInstructions,
   FieldVendorAccountNumber,
 } from '../../../../common/POLFields';
+import { VisibilityControl } from '../../../../common/VisibilityControl';
 
 const POLineVendorForm = ({ accounts }) => {
   return (
@@ -29,14 +30,18 @@ const POLineVendorForm = ({ accounts }) => {
         xs={3}
         data-col-order-template-vendor-account
       >
-        <FieldVendorAccountNumber accounts={accounts} />
+        <VisibilityControl name="hiddenFields.vendorDetail.vendorAccount">
+          <FieldVendorAccountNumber accounts={accounts} />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-vendor-instruction
       >
-        <FieldVendorInstructions />
+        <VisibilityControl name="hiddenFields.vendorDetail.instructions">
+          <FieldVendorInstructions />
+        </VisibilityControl>
       </Col>
     </Row>
   );

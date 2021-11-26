@@ -18,6 +18,7 @@ import {
   FieldOngoingInfoNotes,
   isOngoing,
 } from '../../../common/POFields';
+import { VisibilityControl } from '../../../common/VisibilityControl';
 import { isWorkflowStatusIsPending } from '../util';
 
 const OngoingInfoForm = () => {
@@ -39,10 +40,12 @@ const OngoingInfoForm = () => {
           xs={6}
           md={3}
         >
-          <FieldRenewalSubscription
-            disabled={disabled}
-            isNonInteractive={isNonInteractive}
-          />
+          <VisibilityControl name="hiddenFields.ongoing.isSubscription">
+            <FieldRenewalSubscription
+              disabled={disabled}
+              isNonInteractive={isNonInteractive}
+            />
+          </VisibilityControl>
         </Col>
         {!disabled && (
           <>
@@ -50,54 +53,66 @@ const OngoingInfoForm = () => {
               xs={6}
               md={3}
             >
-              <FieldRenewalInterval
-                disabled={!isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
+              <VisibilityControl name="hiddenFields.ongoing.interval">
+                <FieldRenewalInterval
+                  disabled={!isSubscription}
+                  isNonInteractive={isNonInteractive}
+                />
+              </VisibilityControl>
             </Col>
             <Col
               xs={6}
               md={3}
             >
-              <FieldRenewalDate
-                disabled={!isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
+              <VisibilityControl name="hiddenFields.ongoing.renewalDate">
+                <FieldRenewalDate
+                  disabled={!isSubscription}
+                  isNonInteractive={isNonInteractive}
+                />
+              </VisibilityControl>
             </Col>
             <Col
               xs={6}
               md={3}
             >
-              <FieldRenewalPeriod
-                disabled={!isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
+              <VisibilityControl name="hiddenFields.ongoing.reviewPeriod">
+                <FieldRenewalPeriod
+                  disabled={!isSubscription}
+                  isNonInteractive={isNonInteractive}
+                />
+              </VisibilityControl>
             </Col>
             <Col
               xs={6}
               md={3}
             >
-              <FieldIsManualRenewal
-                disabled={!isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
+              <VisibilityControl name="hiddenFields.ongoing.manualRenewal">
+                <FieldIsManualRenewal
+                  disabled={!isSubscription}
+                  isNonInteractive={isNonInteractive}
+                />
+              </VisibilityControl>
             </Col>
             <Col
               xs={6}
               md={3}
             >
-              <FieldReviewDate
-                disabled={isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
+              <VisibilityControl name="hiddenFields.ongoing.reviewDate">
+                <FieldReviewDate
+                  disabled={isSubscription}
+                  isNonInteractive={isNonInteractive}
+                />
+              </VisibilityControl>
             </Col>
             <Col
               xs={6}
               md={3}
             >
-              <FieldOngoingInfoNotes
-                isNonInteractive={isNonInteractive}
-              />
+              <VisibilityControl name="hiddenFields.ongoing.notes">
+                <FieldOngoingInfoNotes
+                  isNonInteractive={isNonInteractive}
+                />
+              </VisibilityControl>
             </Col>
           </>
         )}

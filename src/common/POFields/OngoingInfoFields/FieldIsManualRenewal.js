@@ -19,6 +19,7 @@ const FieldIsManualRenewal = ({ disabled, isNonInteractive }) => {
       disabled={!disabled && isNonInteractive}
       vertical
       validateFields={[]}
+      fullWidth
     />
   );
 };

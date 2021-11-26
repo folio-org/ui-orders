@@ -9,6 +9,7 @@ const FieldIsApproved = ({ disabled }) => {
   return (
     <Field
       component={Checkbox}
+      fullWidth
       label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
       name="approved"
       type="checkbox"

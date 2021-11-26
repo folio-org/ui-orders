@@ -12,6 +12,7 @@ import {
   FieldReceiptDue,
   FieldExpectedReceiptDate,
 } from '../../../../common/POLFields';
+import { VisibilityControl } from '../../../../common/VisibilityControl';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 
 const POLineOtherResourcesForm = ({ materialTypes, change, formValues }) => {
@@ -22,41 +23,51 @@ const POLineOtherResourcesForm = ({ materialTypes, change, formValues }) => {
           xs={3}
           data-col-order-template-other-resources-material-supplier
         >
-          <FieldMaterialSupplier
-            materialSupplierId={formValues?.physical?.materialSupplier}
-            change={change}
-          />
+          <VisibilityControl name="hiddenFields.physical.materialSupplier">
+            <FieldMaterialSupplier
+              materialSupplierId={formValues?.physical?.materialSupplier}
+              change={change}
+            />
+          </VisibilityControl>
         </Col>
 
         <Col
           xs={3}
           data-col-order-template-other-resources-receipt-due
         >
-          <FieldReceiptDue />
+          <VisibilityControl name="hiddenFields.physical.receiptDue">
+            <FieldReceiptDue />
+          </VisibilityControl>
         </Col>
 
         <Col
           xs={3}
           data-col-order-template-other-resources-expected-receipt-date
         >
-          <FieldExpectedReceiptDate />
+          <VisibilityControl name="hiddenFields.physical.expectedReceiptDate">
+            <FieldExpectedReceiptDate />
+          </VisibilityControl>
         </Col>
 
         <Col xs={3}>
-          <InventoryRecordTypeSelectField
-            label="ui-orders.physical.createInventory"
-            name="physical.createInventory"
-          />
+          <VisibilityControl name="hiddenFields.physical.createInventory">
+            <InventoryRecordTypeSelectField
+              label="ui-orders.physical.createInventory"
+              name="physical.createInventory"
+            />
+          </VisibilityControl>
         </Col>
 
         <Col
           xs={3}
           data-col-order-template-other-resources-material-type
         >
-          <FieldMaterialType
-            materialTypes={materialTypes}
-            name="physical.materialType"
-          />
+          <VisibilityControl name="hiddenFields.physical.materialType">
+            <FieldMaterialType
+              materialTypes={materialTypes}
+              name="physical.materialType"
+            />
+          </VisibilityControl>
         </Col>
       </Row>
     </>

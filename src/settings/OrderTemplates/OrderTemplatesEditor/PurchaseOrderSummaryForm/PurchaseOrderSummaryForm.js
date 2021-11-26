@@ -8,12 +8,15 @@ import {
 import {
   FieldIsApproved,
 } from '../../../../common/POFields';
+import { VisibilityControl } from '../../../../common/VisibilityControl';
 
 const PurchaseOrderSummaryForm = () => {
   return (
-    <Row start="xs">
-      <Col xs={12}>
-        <FieldIsApproved />
+    <Row>
+      <Col xs={3}>
+        <VisibilityControl name="hiddenFields.approved">
+          <FieldIsApproved />
+        </VisibilityControl>
       </Col>
     </Row>
   );

@@ -636,6 +636,8 @@
   "settings.orderTemplates.editor.template.name": "Template name",
   "settings.orderTemplates.editor.template.code": "Code",
   "settings.orderTemplates.editor.template.description": "Description",
+  "settings.orderTemplates.editor.template.hideAll": "Fields to hide",
+  "settings.orderTemplates.editor.template.hideAll.info": "Mark all eligible fields as hidden on Order and Order Line when using this template",
   "settings.orderTemplates.editor.template.tags": "Tags",
 
   "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",

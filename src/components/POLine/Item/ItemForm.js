@@ -25,6 +25,7 @@ import {
   PRODUCT_ID_TYPE,
   QUALIFIER_SEPARATOR,
 } from '../../../common/constants';
+import { VisibilityControl } from '../../../common/VisibilityControl';
 import ContributorForm from './ContributorForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import InstancePlugin from './InstancePlugin';
@@ -255,15 +256,17 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <Field
-              component={Checkbox}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.package" />}
-              name="isPackage"
-              onChange={this.setIsPackage}
-              type="checkbox"
-              disabled={isPostPendingOrder}
-            />
+            <VisibilityControl name="hiddenFields.isPackage">
+              <Field
+                component={Checkbox}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.poLine.package" />}
+                name="isPackage"
+                onChange={this.setIsPackage}
+                type="checkbox"
+                disabled={isPostPendingOrder}
+              />
+            </VisibilityControl>
           </Col>
         </Row>
         <Row>
@@ -295,36 +298,42 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <FieldDatepickerFinal
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-              name="details.subscriptionFrom"
-              validateFields={[]}
-            />
+            <VisibilityControl name="hiddenFields.details.subscriptionFrom">
+              <FieldDatepickerFinal
+                label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
+                name="details.subscriptionFrom"
+                validateFields={[]}
+              />
+            </VisibilityControl>
           </Col>
           <Col
             xs={6}
             md={3}
           >
-            <FieldDatepickerFinal
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-              name="details.subscriptionTo"
-              isNonInteractive={isPostPendingOrder}
-              validateFields={[]}
-            />
+            <VisibilityControl name="hiddenFields.details.subscriptionTo">
+              <FieldDatepickerFinal
+                label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
+                name="details.subscriptionTo"
+                isNonInteractive={isPostPendingOrder}
+                validateFields={[]}
+              />
+            </VisibilityControl>
           </Col>
           <Col
             xs={6}
             md={3}
           >
-            <Field
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-              name="details.subscriptionInterval"
-              component={TextField}
-              type="number"
-              fullWidth
-              isNonInteractive={isPostPendingOrder}
-              validateFields={[]}
-            />
+            <VisibilityControl name="hiddenFields.details.subscriptionInterval">
+              <Field
+                label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
+                name="details.subscriptionInterval"
+                component={TextField}
+                type="number"
+                fullWidth
+                isNonInteractive={isPostPendingOrder}
+                validateFields={[]}
+              />
+            </VisibilityControl>
           </Col>
         </Row>
         <Row>
@@ -374,11 +383,13 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <PackagePoLineField
-              disabled={isPackage}
-              onSelectLine={this.onAddLinkPackage}
-              poLineId={formValues?.packagePoLineId}
-            />
+            <VisibilityControl name="hiddenFields.packagePoLineId">
+              <PackagePoLineField
+                disabled={isPackage}
+                onSelectLine={this.onAddLinkPackage}
+                poLineId={formValues?.packagePoLineId}
+              />
+            </VisibilityControl>
           </Col>
         </Row>
         <Row>
@@ -406,13 +417,15 @@ class ItemForm extends Component {
             xs={6}
             md={3}
           >
-            <Field
-              component={TextArea}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
-              name="description"
-              validateFields={[]}
-            />
+            <VisibilityControl name="hiddenFields.packagePoLineId">
+              <Field
+                component={TextArea}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
+                name="description"
+                validateFields={[]}
+              />
+            </VisibilityControl>
           </Col>
         </Row>
       </>
