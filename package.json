@@ -17,6 +17,7 @@
     "route": "/orders",
     "home": "/orders/lines",
     "okapiInterfaces": {
+      "acquisition-methods": "1.0",
       "acquisitions-units": "1.1",
       "configuration.prefixes": "1.0",
       "configuration.reasons-for-closure": "1.0",
@@ -202,7 +203,8 @@
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
           "orders.pieces.collection.get",
-          "ui-orders.third-party-services"
+          "ui-orders.third-party-services",
+          "orders.acquisition-methods.collection.get"
         ]
       },
       {
@@ -300,7 +302,8 @@
           "inventory.instances.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
-          "ui-orders.third-party-services"
+          "ui-orders.third-party-services",
+          "orders.acquisition-methods.collection.get"
         ]
       },
       {
@@ -349,7 +352,8 @@
           "orders.configuration.prefixes.collection.get",
           "orders.configuration.reasons-for-closure.collection.get",
           "orders.configuration.suffixes.collection.get",
-          "ui-orders.third-party-services"
+          "ui-orders.third-party-services",
+          "orders.acquisition-methods.collection.get"
         ]
       },
       {
@@ -363,7 +367,8 @@
           "configuration.all",
           "orders.configuration.prefixes.all",
           "orders.configuration.reasons-for-closure.all",
-          "orders.configuration.suffixes.all"
+          "orders.configuration.suffixes.all",
+          "orders.acquisition-methods.all"
         ]
       },
       {

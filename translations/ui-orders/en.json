@@ -669,6 +669,11 @@
   "settings.setPOLInesLimit.validation": "Please enter a whole number greater than 0 and less than 1000 to continue",
   "settings.setPOLInesLimit": "Set purchase order lines limit",
 
+  "settings.acquisitionMethods": "Acquisition methods",
+  "settings.acquisitionMethods.singular": "Acquisition method",
+  "settings.acquisitionMethods.name": "Name",
+  "settings.acquisitionMethods.validation.name": "Acquisition method's name is invalid",
+
   "shortcut.duplicateRecord": "Duplicate a record",
   "shortcut.addPOL": "Add POL",
 

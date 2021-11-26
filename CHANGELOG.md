@@ -16,6 +16,7 @@
 * Allow user to indicate in order template that specific fields should be hidden on order form. Refs UIOR-848.
 * Order template is not saved without receiving workflow. Refs UIOR-862.
 * Hide all fields in PO or POL that are set to hide in order template. Refs UIOR-850.
+* Create area Settings->Orders->Acquisition methods. Refs UIOR-846.
 
 ## [3.0.2](https://github.com/folio-org/ui-orders/tree/v3.0.2) (2021-11-05)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.1...v3.0.2)
