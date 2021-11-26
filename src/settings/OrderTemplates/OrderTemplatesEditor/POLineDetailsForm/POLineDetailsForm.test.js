@@ -7,6 +7,7 @@ import POLineDetailsForm from './POLineDetailsForm';
 const defaultProps = {
   formValues: {},
   createInventorySetting: {},
+  acquisitionMethods: [],
 };
 
 const renderPOLineDetailsForm = (props = {}) => render(

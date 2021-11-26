@@ -16,6 +16,7 @@ import {
   LoadingView,
 } from '@folio/stripes/components';
 import {
+  acquisitionMethodsResource,
   baseManifest,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
@@ -449,6 +450,7 @@ function LayerPOLine({
 }
 
 LayerPOLine.manifest = Object.freeze({
+  acquisitionMethods: acquisitionMethodsResource,
   lineOrder: {
     ...ORDERS,
     accumulate: false,

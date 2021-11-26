@@ -78,6 +78,7 @@ export const createExportReport = (
   identifierTypes = [],
   expenseClasses = [],
   addresses = [],
+  acquisitionMethods = [],
 ) => {
   const invalidReference = intl.formatMessage({ id: 'ui-orders.export.invalidReference' });
   const poLinesMap = getRecordMap(poLines);
@@ -91,6 +92,7 @@ export const createExportReport = (
   const identifierTypeMap = getRecordMap(identifierTypes);
   const expenseClassMap = getRecordMap(expenseClasses);
   const addressMap = getRecordMap(addresses);
+  const acquisitionMethodsMap = getRecordMap(acquisitionMethods);
 
   return poLines.map(lineRecord => {
     const order = ordersMap[lineRecord.purchaseOrderId] || {};
@@ -143,7 +145,7 @@ export const createExportReport = (
       contributor: getContributorData(lineRecord, contributorNameTypeMap, invalidReference),
       productIdentifier: getProductIdData(lineRecord, identifierTypeMap, invalidReference),
       description: lineRecord.description,
-      acquisitionMethod: lineRecord.acquisitionMethod,
+      acquisitionMethod: acquisitionMethodsMap[lineRecord.acquisitionMethod]?.value,
       orderFormat: lineRecord.orderFormat,
       createdDateLine: formatDate(lineRecord.metadata?.createdDate, intl),
       receiptDate: formatDate(lineRecord.receiptDate, intl),

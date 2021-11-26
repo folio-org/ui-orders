@@ -70,6 +70,7 @@ class OrderTemplatesEditor extends Component {
     locationIds: PropTypes.arrayOf(PropTypes.string),
     locations: PropTypes.arrayOf(PropTypes.object),
     createInventorySetting: PropTypes.object,
+    acquisitionMethods: PropTypes.arrayOf(PropTypes.object),
     prefixesSetting: PropTypes.arrayOf(PropTypes.object),
     suffixesSetting: PropTypes.arrayOf(PropTypes.object),
     addresses: PropTypes.arrayOf(PropTypes.object),
@@ -121,6 +122,7 @@ class OrderTemplatesEditor extends Component {
 
   render() {
     const {
+      acquisitionMethods,
       initialValues,
       identifierTypes,
       contributorNameTypes,
@@ -299,6 +301,7 @@ class OrderTemplatesEditor extends Component {
                       >
                         <POLineDetailsForm
                           formValues={formValues}
+                          acquisitionMethods={acquisitionMethods}
                           createInventorySetting={createInventorySetting}
                         />
                       </Accordion>

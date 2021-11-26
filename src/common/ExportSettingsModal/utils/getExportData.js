@@ -55,6 +55,8 @@ export const getExportData = async (mutator, lines, orders, intl) => {
   };
   const addressRecords = await fetchExportDataByIds(mutator.exportAddresses, addressIds, buildAddressQuery);
   const addresses = getAddresses(addressRecords);
+  const acquisitionMethodsIds = uniq(lines.map(({ acquisitionMethod }) => acquisitionMethod)).filter(Boolean);
+  const acquisitionMethods = await fetchExportDataByIds(mutator.acquisitionMethods, acquisitionMethodsIds);
 
   return (createExportReport(
     intl,
@@ -69,5 +71,6 @@ export const getExportData = async (mutator, lines, orders, intl) => {
     identifierTypes,
     expenseClasses,
     addresses,
+    acquisitionMethods,
   ));
 };

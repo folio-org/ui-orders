@@ -3,18 +3,12 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  ACQUISITION_METHOD,
-  FieldSelectFinal,
+  FieldSelectionFinal,
 } from '@folio/stripes-acq-components';
 
-const ACQUISITION_METHOD_OPTIONS = Object.keys(ACQUISITION_METHOD).map((key) => ({
-  labelId: `ui-orders.acquisition_method.${key}`,
-  value: ACQUISITION_METHOD[key],
-}));
-
-const FieldAcquisitionMethod = ({ disabled, required }) => (
-  <FieldSelectFinal
-    dataOptions={ACQUISITION_METHOD_OPTIONS}
+const FieldAcquisitionMethod = ({ acquisitionMethods, disabled, required }) => (
+  <FieldSelectionFinal
+    dataOptions={acquisitionMethods}
     label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
     name="acquisitionMethod"
     required={required}
@@ -23,6 +17,7 @@ const FieldAcquisitionMethod = ({ disabled, required }) => (
 );
 
 FieldAcquisitionMethod.propTypes = {
+  acquisitionMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
 };

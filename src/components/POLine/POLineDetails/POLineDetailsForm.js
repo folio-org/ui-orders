@@ -34,6 +34,7 @@ import {
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
+import { getAcqMethodsOptions } from '../../../common/utils';
 
 function POLineDetailsForm({
   change,
@@ -45,6 +46,7 @@ function POLineDetailsForm({
   hiddenFields = {},
 }) {
   const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
+  const acquisitionMethods = getAcqMethodsOptions(get(parentResources, ['acquisitionMethods', 'records'], []));
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isPackage = get(formValues, 'isPackage');
 
@@ -63,7 +65,10 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldAcquisitionMethod disabled={isPostPendingOrder} />
+            <FieldAcquisitionMethod
+              acquisitionMethods={acquisitionMethods}
+              disabled={isPostPendingOrder}
+            />
           </Col>
         </IfFieldVisible>
 

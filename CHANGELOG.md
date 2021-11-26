@@ -19,6 +19,7 @@
 * Create area Settings->Orders->Acquisition methods. Refs UIOR-846.
 * POL Title selection overwriting Order template location. Refs UIOR-863.
 * Allow user to show all hidden fields from PO or POL. Refs UIOR-849.
+* Select Acquisition method from controlled vocabulary list. Refs UIOR-852.
 
 ## [3.0.2](https://github.com/folio-org/ui-orders/tree/v3.0.2) (2021-11-05)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.1...v3.0.2)

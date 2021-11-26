@@ -17,7 +17,7 @@ const renderFieldAcquisitionMethod = (props = {}) => render(
 
 describe('FieldAcquisitionMethod', () => {
   it('should render \'acquisition method\' field', () => {
-    renderFieldAcquisitionMethod();
+    renderFieldAcquisitionMethod({ acquisitionMethods: [] });
 
     expect(screen.getByText('ui-orders.poLine.acquisitionMethod')).toBeInTheDocument();
   });
