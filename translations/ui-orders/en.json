@@ -672,7 +672,6 @@
   "settings.acquisitionMethods": "Acquisition methods",
   "settings.acquisitionMethods.singular": "Acquisition method",
   "settings.acquisitionMethods.name": "Name",
-  "settings.acquisitionMethods.validation.name": "Acquisition method's name is invalid",
 
   "shortcut.duplicateRecord": "Duplicate a record",
   "shortcut.addPOL": "Add POL",
