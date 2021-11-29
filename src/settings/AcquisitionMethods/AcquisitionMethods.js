@@ -4,16 +4,38 @@ import {
   injectIntl,
 } from 'react-intl';
 import PropTypes from 'prop-types';
+import { invert } from 'lodash';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
-import { ACQUISITION_METHODS_API } from '@folio/stripes-acq-components';
+import {
+  ACQUISITION_METHOD,
+  ACQUISITION_METHODS_API,
+} from '@folio/stripes-acq-components';
+
+const acqMethodsMap = invert(ACQUISITION_METHOD);
 
 const columnMapping = {
   value: <FormattedMessage id="ui-orders.settings.acquisitionMethods.name" />,
 };
 const visibleFields = ['value'];
 const hiddenFields = ['numberOfObjects', 'lastUpdated'];
+
+const formatter = {
+  // eslint-disable-next-line react/prop-types
+  value: ({ value }) => {
+    const acqMethodTranslationKey = acqMethodsMap[value];
+
+    return acqMethodTranslationKey
+      ? (
+        <FormattedMessage
+          id={`ui-orders.acquisition_method.${acqMethodTranslationKey}`}
+          defaultMessage={value}
+        />
+      )
+      : value;
+  },
+};
 
 class AcquisitionMethods extends Component {
   constructor(props) {
@@ -36,6 +58,7 @@ class AcquisitionMethods extends Component {
         labelSingular={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods.singular' })}
         columnMapping={columnMapping}
         objectLabel={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods.singular' })}
+        formatter={formatter}
         hiddenFields={hiddenFields}
         visibleFields={visibleFields}
         stripes={stripes}
