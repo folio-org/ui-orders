@@ -39,7 +39,7 @@ const FieldCheckInItems = ({ disabled, required }) => {
       disabled={disabled}
       onChange={onChange}
       required={required}
-      validate={validate}
+      validate={required ? validate : undefined}
     />
   );
 };
