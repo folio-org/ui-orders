@@ -106,7 +106,7 @@ const PurchaseOrderInformationForm = ({
       >
         <VisibilityControl
           control
-          name="acqUnitIds"
+          name="hiddenFields.acqUnitIds"
         >
           <AcqUnitsField
             id="po-acq-units"
