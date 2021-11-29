@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get, mapValues } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -80,6 +80,7 @@ function POLineForm({
   toggleCreateAnother,
 }) {
   const history = useHistory();
+  const [hiddenFields, setHiddenFields] = useState({});
 
   const locations = parentResources?.locations?.records;
   const templateValue = getOrderTemplateValue(parentResources, order?.template, {
@@ -110,6 +111,8 @@ function POLineForm({
         });
       }
     });
+
+    setHiddenFields(templateValue?.hiddenFields || {});
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [change, lineId, templateValue.id]);
 
@@ -343,6 +346,7 @@ function POLineForm({
                         identifierTypes={identifierTypes}
                         initialValues={initialValues}
                         stripes={stripes}
+                        hiddenFields={hiddenFields}
                       />
                     </Accordion>
                     <Accordion
@@ -356,6 +360,7 @@ function POLineForm({
                         order={order}
                         parentResources={parentResources}
                         vendor={vendor}
+                        hiddenFields={hiddenFields}
                       />
                     </Accordion>
                     <Accordion
@@ -365,6 +370,7 @@ function POLineForm({
                       <VendorForm
                         accounts={accounts}
                         order={order}
+                        hiddenFields={hiddenFields}
                       />
                     </Accordion>
                     <Accordion
@@ -376,6 +382,7 @@ function POLineForm({
                         order={order}
                         initialValues={initialValues}
                         change={change}
+                        hiddenFields={hiddenFields}
                       />
                     </Accordion>
                     <Accordion
@@ -413,6 +420,7 @@ function POLineForm({
                           order={order}
                           formValues={formValues}
                           change={change}
+                          hiddenFields={hiddenFields}
                         />
                       </Accordion>
                     )}
@@ -426,6 +434,7 @@ function POLineForm({
                           order={order}
                           formValues={formValues}
                           change={change}
+                          hiddenFields={hiddenFields}
                         />
                       </Accordion>
                     )}
@@ -439,6 +448,7 @@ function POLineForm({
                           order={order}
                           formValues={formValues}
                           change={change}
+                          hiddenFields={hiddenFields}
                         />
                       </Accordion>
                     )}

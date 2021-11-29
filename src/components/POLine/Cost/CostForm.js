@@ -21,6 +21,7 @@ import {
   validateRequiredPositiveNumber,
 } from '@folio/stripes-acq-components';
 
+import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { VisibilityControl } from '../../../common/VisibilityControl';
 import {
   ifDisabledToChangePaymentInfo,
@@ -57,9 +58,10 @@ const validateNotNegative = (value) => {
 const CostForm = ({
   formValues,
   order,
-  required,
   initialValues,
   change,
+  required = true,
+  hiddenFields = {},
 }) => {
   const orderFormat = formValues.orderFormat;
   const checkinItems = formValues.checkinItems;
@@ -160,24 +162,27 @@ const CostForm = ({
             </Col>
           </>
         )}
-        <Col
-          xs={6}
-          md={3}
-        >
-          <VisibilityControl name="hiddenFields.cost.additionalCost">
-            <Field
-              component={TextField}
-              onChange={onCostChange}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
-              name="cost.additionalCost"
-              parse={parseNumberFieldValue}
-              type="number"
-              validate={validateNotNegative}
-              isNonInteractive={isDisabledToChangePaymentInfo}
-            />
-          </VisibilityControl>
-        </Col>
+
+        <IfFieldVisible visible={!hiddenFields.cost?.additionalCost} name="cost.additionalCost">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <VisibilityControl name="hiddenFields.cost.additionalCost">
+              <Field
+                component={TextField}
+                onChange={onCostChange}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
+                name="cost.additionalCost"
+                parse={parseNumberFieldValue}
+                type="number"
+                validate={validateNotNegative}
+                isNonInteractive={isDisabledToChangePaymentInfo}
+              />
+            </VisibilityControl>
+          </Col>
+        </IfFieldVisible>
 
         {
           Boolean(initialValues?.cost?.fyroAdjustmentAmount) && (
@@ -246,36 +251,43 @@ const CostForm = ({
             </Col>
           </>
         )}
-        <Col
-          xs={3}
-          md={1}
-        >
-          <VisibilityControl name="hiddenFields.cost.discount">
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.cost.discount" />}
-              name="cost.discount"
-              type="number"
-              validate={validateNotNegative}
-              isNonInteractive={isDisabledToChangePaymentInfo}
-            />
-          </VisibilityControl>
-        </Col>
-        <Col
-          xs={3}
-          md={2}
-        >
-          <VisibilityControl name="hiddenFields.cost.discountType">
-            <Field
-              component={TypeToggle}
-              currency={currency}
-              disabled={isDisabledToChangePaymentInfo}
-              label={<FormattedMessage id="ui-orders.cost.discountType" />}
-              name="cost.discountType"
-            />
-          </VisibilityControl>
-        </Col>
+
+        <IfFieldVisible visible={!hiddenFields.cost?.discount} name="cost.discount">
+          <Col
+            xs={3}
+            md={1}
+          >
+            <VisibilityControl name="hiddenFields.cost.discount">
+              <Field
+                component={TextField}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.cost.discount" />}
+                name="cost.discount"
+                type="number"
+                validate={validateNotNegative}
+                isNonInteractive={isDisabledToChangePaymentInfo}
+              />
+            </VisibilityControl>
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.cost?.discountType} name="cost.discountType">
+          <Col
+            xs={3}
+            md={2}
+          >
+            <VisibilityControl name="hiddenFields.cost.discountType">
+              <Field
+                component={TypeToggle}
+                currency={currency}
+                disabled={isDisabledToChangePaymentInfo}
+                label={<FormattedMessage id="ui-orders.cost.discountType" />}
+                name="cost.discountType"
+              />
+            </VisibilityControl>
+          </Col>
+        </IfFieldVisible>
+
         <Col
           data-test-polineestimatedprice
           xs={6}
@@ -311,10 +323,7 @@ CostForm.propTypes = {
   required: PropTypes.bool,
   initialValues: PropTypes.object.isRequired,
   change: PropTypes.func,
-};
-
-CostForm.defaultProps = {
-  required: true,
+  hiddenFields: PropTypes.object,
 };
 
 export default CostForm;

@@ -61,6 +61,27 @@ class POForm extends Component {
   constructor(props) {
     super(props);
     this.accordionStatusRef = React.createRef();
+
+    this.state = {
+      hiddenFields: {},
+    };
+  }
+
+  componentDidMount() {
+    const { parentResources, initialValues } = this.props;
+    let hiddenFields = {};
+
+    if (initialValues.template) {
+      const orderTemplate = parentResources?.orderTemplates?.records?.find(
+        ({ id }) => id === initialValues.template);
+
+      hiddenFields = orderTemplate?.hiddenFields || {};
+    }
+
+    this.setState(prev => ({
+      ...prev,
+      hiddenFields,
+    }));
   }
 
   callAPI = (fieldName, formValues) => {
@@ -148,6 +169,11 @@ class POForm extends Component {
   onChangeTemplate = (value) => {
     const { form: { batch, change, getRegisteredFields }, parentResources } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
+
+    this.setState(prev => ({
+      ...prev,
+      hiddenFields: templateValue?.hiddenFields || {},
+    }));
 
     batch(() => {
       change('template', value);
@@ -312,14 +338,18 @@ class POForm extends Component {
                                 prefixesSetting={prefixesSetting}
                                 suffixesSetting={suffixesSetting}
                                 validateNumber={this.validateNumber}
+                                hiddenFields={this.state.hiddenFields}
                               />
                             </Accordion>
-                            <OngoingInfoForm />
+                            <OngoingInfoForm hiddenFields={this.state.hiddenFields} />
                             <Accordion
                               id="POSummary"
                               label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
                             >
-                              <SummaryForm initialValues={initialValues} />
+                              <SummaryForm
+                                initialValues={initialValues}
+                                hiddenFields={this.state.hiddenFields}
+                              />
                             </Accordion>
                           </AccordionSet>
                         </Col>

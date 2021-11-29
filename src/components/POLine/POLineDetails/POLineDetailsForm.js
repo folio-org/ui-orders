@@ -31,6 +31,7 @@ import {
   FieldCancellationRestrictionNote,
   FieldPOLineDescription,
 } from '../../../common/POLFields';
+import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
 
@@ -41,6 +42,7 @@ function POLineDetailsForm({
   order,
   parentResources,
   vendor,
+  hiddenFields = {},
 }) {
   const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
@@ -55,23 +57,30 @@ function POLineDetailsForm({
         >
           <FieldPOLineNumber poLineNumber={poLine.poLineNumber} />
         </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldAcquisitionMethod disabled={isPostPendingOrder} />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldOrderFormat
-            formValues={formValues}
-            vendor={vendor}
-            createInventorySetting={createInventorySetting}
-            disabled={isPostPendingOrder}
-          />
-        </Col>
+
+        <IfFieldVisible visible={!hiddenFields.acquisitionMethod} name="acquisitionMethod">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldAcquisitionMethod disabled={isPostPendingOrder} />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.orderFormat} name="orderFormat">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldOrderFormat
+              formValues={formValues}
+              vendor={vendor}
+              createInventorySetting={createInventorySetting}
+              disabled={isPostPendingOrder}
+            />
+          </Col>
+        </IfFieldVisible>
+
         <Col
           xs={6}
           md={3}
@@ -80,24 +89,34 @@ function POLineDetailsForm({
             <FolioFormattedTime dateString={get(poLine, 'metadata.createdDate')} />
           </KeyValue>
         </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldReceiptDate />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldReceiptStatus workflowStatus={order.workflowStatus} />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldPaymentStatus workflowStatus={order.workflowStatus} />
-        </Col>
+
+        <IfFieldVisible visible={!hiddenFields.receiptDate} name="receiptDate">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldReceiptDate />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.receiptStatus} name="receiptStatus">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldReceiptStatus workflowStatus={order.workflowStatus} />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.paymentStatus} name="paymentStatus">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldPaymentStatus workflowStatus={order.workflowStatus} />
+          </Col>
+        </IfFieldVisible>
+
         <Col
           xs={6}
           md={3}
@@ -107,64 +126,90 @@ function POLineDetailsForm({
             value={sourceLabels[poLine.source]}
           />
         </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldDonor disabled={isPostPendingOrder} />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldSelector disabled={isPostPendingOrder} />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldRequester disabled={isPostPendingOrder} />
-        </Col>
+
+        <IfFieldVisible visible={!hiddenFields.donor} name="donor">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldDonor disabled={isPostPendingOrder} />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.selector} name="selector">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldSelector disabled={isPostPendingOrder} />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.requester} name="requester">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldRequester disabled={isPostPendingOrder} />
+          </Col>
+        </IfFieldVisible>
       </Row>
       <Row>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldCancellationRestriction />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldRush disabled={isPostPendingOrder} />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldCollection disabled={isPostPendingOrder} />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldCheckInItems disabled={isPostPendingOrder || isPackage} required />
-        </Col>
+        <IfFieldVisible visible={!hiddenFields.cancellationRestriction} name="cancellationRestriction">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldCancellationRestriction />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.rush} name="rush">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldRush disabled={isPostPendingOrder} />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.collection} name="collection">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldCollection disabled={isPostPendingOrder} />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.checkinItems} name="checkinItems">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldCheckInItems disabled={isPostPendingOrder || isPackage} required />
+          </Col>
+        </IfFieldVisible>
       </Row>
       <Row>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldCancellationRestrictionNote />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldPOLineDescription />
-        </Col>
+        <IfFieldVisible visible={!hiddenFields.cancellationRestrictionNote} name="cancellationRestrictionNote">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldCancellationRestrictionNote />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.poLineDescription} name="poLineDescription">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldPOLineDescription />
+          </Col>
+        </IfFieldVisible>
+
         <Col
           xs={6}
           md={3}
@@ -191,6 +236,7 @@ POLineDetailsForm.propTypes = {
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
   }).isRequired,
+  hiddenFields: PropTypes.object,
 };
 
 export default POLineDetailsForm;
