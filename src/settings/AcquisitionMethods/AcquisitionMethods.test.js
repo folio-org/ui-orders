@@ -1,7 +1,9 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { render, screen } from '@testing-library/react';
 
 import { ControlledVocab } from '@folio/stripes/smart-components';
+import { ACQUISITION_METHOD } from '@folio/stripes-acq-components';
 
 import AcquisitionMethods from './AcquisitionMethods';
 
@@ -29,5 +31,16 @@ describe('AcquisitionMethods', () => {
     renderAcquisitionMethods();
 
     expect(screen.getByText('ControlledVocab')).toBeInTheDocument();
+  });
+
+  it('formatter should return formatted message with acq method value', () => {
+    renderAcquisitionMethods();
+
+    expect(ControlledVocab.mock.calls[0][0].formatter.value({ value: ACQUISITION_METHOD.purchase })).toEqual(
+      <FormattedMessage
+        id="ui-orders.acquisition_method.purchase"
+        defaultMessage={ACQUISITION_METHOD.purchase}
+      />,
+    );
   });
 });
