@@ -13,6 +13,8 @@ import {
   ACQUISITION_METHODS_API,
 } from '@folio/stripes-acq-components';
 
+const ACQ_METHODS_SYSTEM_SOURCE = 'System';
+
 const acqMethodsMap = invert(ACQUISITION_METHOD);
 
 const columnMapping = {
@@ -37,6 +39,10 @@ const formatter = {
   },
 };
 
+const suppressEdit = ({ source }) => source === ACQ_METHODS_SYSTEM_SOURCE;
+const suppressDelete = ({ source }) => source === ACQ_METHODS_SYSTEM_SOURCE;
+const actionSuppressor = { edit: suppressEdit, delete: suppressDelete };
+
 class AcquisitionMethods extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +54,7 @@ class AcquisitionMethods extends Component {
 
     return (
       <this.connectedControlledVocab
+        actionSuppressor={actionSuppressor}
         id="acquisition-methods"
         baseUrl={ACQUISITION_METHODS_API}
         records="acquisition_methods"
