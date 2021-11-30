@@ -44,7 +44,7 @@ describe('Create PO Line simple test', function () {
       expect(lineEditPage.saveButton.isDisabled).to.be.false;
     });
 
-    describe('Fill values and click save', () => {
+    describe.skip('Fill values and click save', () => {
       beforeEach(async function () {
         await lineEditPage.acquisitionMethod('Approval plan');
         await lineEditPage.selectOrderFormat('Physical resource');
