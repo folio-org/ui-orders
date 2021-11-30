@@ -8,6 +8,7 @@ import {
 
 const FieldAcquisitionMethod = ({ acquisitionMethods, disabled, required }) => (
   <FieldSelectionFinal
+    id="acquisition-method"
     dataOptions={acquisitionMethods}
     label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
     name="acquisitionMethod"

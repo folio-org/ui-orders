@@ -31,6 +31,7 @@ import {
   RECEIVING_API,
 } from '../../../src/components/Utils/api';
 import {
+  configAcqMethods,
   configClosingReasons,
   configPrefixes,
   configSuffixes,
@@ -38,6 +39,7 @@ import {
 } from './configs';
 
 export default function config() {
+  configAcqMethods(this);
   configFunds(this);
   configMemberships(this);
   configUnits(this);
