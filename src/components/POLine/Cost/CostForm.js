@@ -37,6 +37,8 @@ import {
   RolloverAdjustmentAmount,
 } from './RolloverAdjustmentAmount';
 
+import styles from './CostForm.css';
+
 const FIELD_ATTRS_FOR_REQUIRED_PRICE = {
   required: true,
   validate: validateRequiredNotNegative,
@@ -255,7 +257,7 @@ const CostForm = ({
         <IfFieldVisible visible={!hiddenFields.cost?.discount} name="cost.discount">
           <Col
             xs={3}
-            md={1}
+            md={2}
           >
             <VisibilityControl name="hiddenFields.cost.discount">
               <Field
@@ -277,13 +279,15 @@ const CostForm = ({
             md={2}
           >
             <VisibilityControl name="hiddenFields.cost.discountType">
-              <Field
-                component={TypeToggle}
-                currency={currency}
-                disabled={isDisabledToChangePaymentInfo}
-                label={<FormattedMessage id="ui-orders.cost.discountType" />}
-                name="cost.discountType"
-              />
+              <div className={styles.costDiscountTypeWrapper}>
+                <Field
+                  component={TypeToggle}
+                  currency={currency}
+                  disabled={isDisabledToChangePaymentInfo}
+                  label={<FormattedMessage id="ui-orders.cost.discountType" />}
+                  name="cost.discountType"
+                />
+              </div>
             </VisibilityControl>
           </Col>
         </IfFieldVisible>
@@ -291,7 +295,7 @@ const CostForm = ({
         <Col
           data-test-polineestimatedprice
           xs={6}
-          md={3}
+          md={2}
         >
           <KeyValue
             label={
