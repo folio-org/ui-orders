@@ -25,7 +25,7 @@ import {
 } from '../../../../common/POLFields';
 import { VisibilityControl } from '../../../../common/VisibilityControl';
 
-const POLineDetailsForm = ({ acquisitionMethods, formValues, createInventorySetting }) => {
+const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
   return (
     <>
       <Row>
@@ -40,10 +40,7 @@ const POLineDetailsForm = ({ acquisitionMethods, formValues, createInventorySett
           xs={3}
           data-col-order-template-pol-acq-method
         >
-          <FieldAcquisitionMethod
-            acquisitionMethods={acquisitionMethods}
-            required={false}
-          />
+          <FieldAcquisitionMethod required={false} />
         </Col>
 
         <Col
@@ -178,7 +175,6 @@ const POLineDetailsForm = ({ acquisitionMethods, formValues, createInventorySett
 };
 
 POLineDetailsForm.propTypes = {
-  acquisitionMethods: PropTypes.arrayOf(PropTypes.object),
   formValues: PropTypes.object.isRequired,
   createInventorySetting: PropTypes.object,
 };

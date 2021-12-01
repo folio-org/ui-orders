@@ -63,9 +63,7 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldAcquisitionMethod
-              disabled={isPostPendingOrder}
-            />
+            <FieldAcquisitionMethod disabled={isPostPendingOrder} />
           </Col>
         </IfFieldVisible>
 
