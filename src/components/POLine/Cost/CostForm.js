@@ -126,42 +126,46 @@ const CostForm = ({
       <Row>
         {isPhysicalFieldsVisible && (
           <>
-            <Col
-              xs={6}
-              md={3}
-            >
-              <VisibilityControl name="hiddenFields.cost.listUnitPrice">
-                <Field
-                  component={TextField}
-                  onChange={onCostChange}
-                  fullWidth
-                  label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
-                  name="cost.listUnitPrice"
-                  parse={parseNumberFieldValue}
-                  type="number"
-                  isNonInteractive={isDisabledToChangePaymentInfo}
-                  {...validatePhresourcesPrices}
-                />
-              </VisibilityControl>
-            </Col>
+            <IfFieldVisible visible={!hiddenFields.cost?.listUnitPrice} name="cost.listUnitPrice">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.cost.listUnitPrice">
+                  <Field
+                    component={TextField}
+                    onChange={onCostChange}
+                    fullWidth
+                    label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
+                    name="cost.listUnitPrice"
+                    parse={parseNumberFieldValue}
+                    type="number"
+                    isNonInteractive={isDisabledToChangePaymentInfo}
+                    {...validatePhresourcesPrices}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
 
-            <Col
-              xs={6}
-              md={3}
-            >
-              <VisibilityControl name="hiddenFields.cost.quantityPhysical">
-                <Field
-                  component={TextField}
-                  fullWidth
-                  label={getQuantityLabel('quantityPhysical')}
-                  name="cost.quantityPhysical"
-                  type="number"
-                  parse={parseNumber}
-                  isNonInteractive={isDisabledToChangePaymentInfo}
-                  {...validatePhresourcesQuantities}
-                />
-              </VisibilityControl>
-            </Col>
+            <IfFieldVisible visible={!hiddenFields.cost?.quantityPhysical} name="cost.quantityPhysical">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.cost.quantityPhysical">
+                  <Field
+                    component={TextField}
+                    fullWidth
+                    label={getQuantityLabel('quantityPhysical')}
+                    name="cost.quantityPhysical"
+                    type="number"
+                    parse={parseNumber}
+                    isNonInteractive={isDisabledToChangePaymentInfo}
+                    {...validatePhresourcesQuantities}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
           </>
         )}
 
@@ -215,42 +219,46 @@ const CostForm = ({
       <Row>
         {isElectronicFieldsVisible && (
           <>
-            <Col
-              xs={6}
-              md={3}
-            >
-              <VisibilityControl name="hiddenFields.cost.listUnitPriceElectronic">
-                <Field
-                  component={TextField}
-                  onChange={onCostChange}
-                  fullWidth
-                  label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
-                  name="cost.listUnitPriceElectronic"
-                  parse={parseNumberFieldValue}
-                  type="number"
-                  isNonInteractive={isDisabledToChangePaymentInfo}
-                  {...validateEresourcesPrices}
-                />
-              </VisibilityControl>
-            </Col>
+            <IfFieldVisible visible={!hiddenFields.cost?.listUnitPriceElectronic} name="cost.listUnitPriceElectronic">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.cost.listUnitPriceElectronic">
+                  <Field
+                    component={TextField}
+                    onChange={onCostChange}
+                    fullWidth
+                    label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
+                    name="cost.listUnitPriceElectronic"
+                    parse={parseNumberFieldValue}
+                    type="number"
+                    isNonInteractive={isDisabledToChangePaymentInfo}
+                    {...validateEresourcesPrices}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
 
-            <Col
-              xs={6}
-              md={3}
-            >
-              <VisibilityControl name="hiddenFields.cost.quantityElectronic">
-                <Field
-                  component={TextField}
-                  fullWidth
-                  label={getQuantityLabel('quantityElectronic')}
-                  name="cost.quantityElectronic"
-                  type="number"
-                  parse={parseNumber}
-                  isNonInteractive={isDisabledToChangePaymentInfo}
-                  {...validateEresourcesQuantities}
-                />
-              </VisibilityControl>
-            </Col>
+            <IfFieldVisible visible={!hiddenFields.cost?.quantityElectronic} name="cost.quantityElectronic">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.cost.quantityElectronic">
+                  <Field
+                    component={TextField}
+                    fullWidth
+                    label={getQuantityLabel('quantityElectronic')}
+                    name="cost.quantityElectronic"
+                    type="number"
+                    parse={parseNumber}
+                    isNonInteractive={isDisabledToChangePaymentInfo}
+                    {...validateEresourcesQuantities}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
           </>
         )}
 
