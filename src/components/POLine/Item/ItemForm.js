@@ -72,7 +72,7 @@ class ItemForm extends Component {
   };
 
   onAddInstance = (instance) => {
-    const { change, identifierTypes } = this.props;
+    const { change, identifierTypes, formValues } = this.props;
     const { contributors, editions, publication, title, identifiers, id } = instance;
     const inventoryData = { instanceId: id };
 
@@ -135,6 +135,10 @@ class ItemForm extends Component {
       inventoryData.productIds = [];
     }
 
+    if (formValues.instanceId && formValues.instanceId !== id) {
+      change('locations', []);
+    }
+
     this.setState(({
       instanceId: inventoryData.instanceId,
       title: get(inventoryData, 'title', ''),
@@ -157,7 +161,6 @@ class ItemForm extends Component {
         change('instanceId', inventoryData.instanceId);
       } else {
         change('instanceId', null);
-        change('locations', []);
       }
     });
   };
