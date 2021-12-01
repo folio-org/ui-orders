@@ -6,19 +6,26 @@ import {
   FieldSelectionFinal,
 } from '@folio/stripes-acq-components';
 
-const FieldAcquisitionMethod = ({ acquisitionMethods, disabled, required }) => (
-  <FieldSelectionFinal
-    id="acquisition-method"
-    dataOptions={acquisitionMethods}
-    label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-    name="acquisitionMethod"
-    required={required}
-    isNonInteractive={disabled}
-  />
-);
+import { useAcqMethods } from '../../hooks/useAcqMethods';
+import { getAcqMethodsOptions } from '../../utils/getAcqMethodsOptions';
+
+const FieldAcquisitionMethod = ({ disabled, required }) => {
+  const { acqMethods } = useAcqMethods();
+  const acquisitionMethods = getAcqMethodsOptions(acqMethods);
+
+  return (
+    <FieldSelectionFinal
+      id="acquisition-method"
+      dataOptions={acquisitionMethods}
+      label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
+      name="acquisitionMethod"
+      required={required}
+      isNonInteractive={disabled}
+    />
+  );
+};
 
 FieldAcquisitionMethod.propTypes = {
-  acquisitionMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
 };

@@ -1,8 +1,18 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
 import FieldAcquisitionMethod from './FieldAcquisitionMethod';
+
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
 
 const renderFieldAcquisitionMethod = (props = {}) => render(
   <Form
@@ -13,6 +23,7 @@ const renderFieldAcquisitionMethod = (props = {}) => render(
       />
     )}
   />,
+  { wrapper },
 );
 
 describe('FieldAcquisitionMethod', () => {

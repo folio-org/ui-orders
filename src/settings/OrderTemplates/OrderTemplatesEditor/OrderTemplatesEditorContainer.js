@@ -11,7 +11,6 @@ import {
   DICT_IDENTIFIER_TYPES,
   prefixesResource,
   suffixesResource,
-  acquisitionMethodsResource,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -34,7 +33,6 @@ import {
   getCreateInventorySetting,
   getAddresses,
   getAddressOptions,
-  getAcqMethodsOptions,
 } from '../../../common/utils';
 import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
 
@@ -73,7 +71,6 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
     .map(({ name }) => ({ label: name, value: name }));
   const suffixesSetting = get(resources, 'suffixesSetting.records', [])
     .map(({ name }) => ({ label: name, value: name }));
-  const acquisitionMethods = getAcqMethodsOptions(get(resources, 'acquisitionMethods.records', []));
   const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
   const materialTypes = getMaterialTypesForSelect(resources);
   const orderTemplate = id
@@ -94,7 +91,6 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
       identifierTypes={identifierTypes}
       locationIds={locationIds}
       locations={locations}
-      acquisitionMethods={acquisitionMethods}
       createInventorySetting={createInventorySetting}
       prefixesSetting={prefixesSetting}
       suffixesSetting={suffixesSetting}
@@ -114,7 +110,6 @@ OrderTemplatesEditorContainer.manifest = Object.freeze({
   createInventory: CREATE_INVENTORY,
   prefixesSetting: prefixesResource,
   suffixesSetting: suffixesResource,
-  acquisitionMethods: acquisitionMethodsResource,
   addresses: ADDRESSES,
   vendors: VENDORS,
   materialTypes: MATERIAL_TYPES,

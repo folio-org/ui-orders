@@ -1,4 +1,5 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
@@ -94,18 +95,28 @@ const defaultProps = {
   stripes: {},
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    <MemoryRouter>
+      {children}
+    </MemoryRouter>
+  </QueryClientProvider>
+);
+
 const renderPOLineForm = (props = {}) => render(
-  <MemoryRouter>
-    <Form
-      onSubmit={jest.fn}
-      render={() => (
-        <POLineForm
-          {...defaultProps}
-          {...props}
-        />
-      )}
-    />
-  </MemoryRouter>,
+  <Form
+    onSubmit={jest.fn}
+    render={() => (
+      <POLineForm
+        {...defaultProps}
+        {...props}
+      />
+    )}
+  />,
+  { wrapper },
 );
 
 describe('POLineForm', () => {
