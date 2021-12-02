@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { get, mapValues } from 'lodash';
+import { get, mapValues, pick } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
@@ -59,7 +59,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import styles from './POLineForm.css';
 
-const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId'];
+const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 
 function POLineForm({
   form: { change, batch },
@@ -89,6 +89,21 @@ function POLineForm({
   });
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
+  const initialInventoryData = (
+    !lineId && templateValue.id
+      ? {
+        ...pick(templateValue, [
+          'instanceId',
+          'titleOrPackage',
+          'publisher',
+          'publicationDate',
+          'edition',
+          'contributors',
+          'details.productIds',
+        ]),
+      }
+      : {}
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -369,7 +384,7 @@ function POLineForm({
                         change={change}
                         batch={batch}
                         identifierTypes={identifierTypes}
-                        initialValues={initialValues}
+                        initialValues={{ ...initialValues, ...initialInventoryData }}
                         stripes={stripes}
                         hiddenFields={hiddenFields}
                       />
