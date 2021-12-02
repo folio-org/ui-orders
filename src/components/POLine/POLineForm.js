@@ -15,6 +15,7 @@ import {
   ExpandAllButton,
   HasCommand,
   IconButton,
+  InfoPopover,
   LoadingPane,
   Pane,
   PaneFooter,
@@ -131,6 +132,14 @@ function POLineForm({
         </FormattedMessage>
       </PaneMenu>
     );
+  };
+
+  const toggleForceVisibility = () => {
+    setHiddenFields(prevHiddenFields => (
+      prevHiddenFields
+        ? undefined
+        : (templateValue?.hiddenFields || {})
+    ));
   };
 
   const submitAndOpen = useCallback(() => {
@@ -307,24 +316,40 @@ function POLineForm({
                   </Row>
                 </Col>
 
-                {!initialValues.id && (
-                  <Col xs={12} md={8}>
-                    <Row>
-                      <Col xs={4}>
-                        <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
-                          {([translatedLabel]) => (
-                            <Selection
-                              dataOptions={orderTemplates}
-                              label={translatedLabel}
-                              value={order.template}
-                              disabled
-                            />
-                          )}
-                        </FormattedMessage>
-                      </Col>
-                    </Row>
-                  </Col>
-                )}
+                <Col xs={12} md={8}>
+                  <Row>
+                    <Col xs={4}>
+                      <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
+                        {([translatedLabel]) => (
+                          <Selection
+                            dataOptions={orderTemplates}
+                            label={translatedLabel}
+                            value={order.template}
+                            disabled
+                          />
+                        )}
+                      </FormattedMessage>
+                    </Col>
+
+                    {
+                      Boolean(order.template) && (
+                        <Col xs={4}>
+                          <Checkbox
+                            label={
+                              <>
+                                <FormattedMessage id="ui-orders.order.showHidden" />
+                                <InfoPopover content={<FormattedMessage id="ui-orders.order.showHidden.info" />} />
+                              </>
+                            }
+                            value={!hiddenFields}
+                            onChange={toggleForceVisibility}
+                            vertical
+                          />
+                        </Col>
+                      )
+                    }
+                  </Row>
+                </Col>
 
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet

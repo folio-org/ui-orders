@@ -11,6 +11,7 @@ import {
   AccordionStatus,
   Button,
   checkScope,
+  Checkbox,
   Col,
   collapseAllSections,
   ExpandAllButton,
@@ -18,6 +19,7 @@ import {
   HasCommand,
   Icon,
   IconButton,
+  InfoPopover,
   Pane,
   PaneFooter,
   PaneMenu,
@@ -70,9 +72,10 @@ class POForm extends Component {
   componentDidMount() {
     const { parentResources, initialValues } = this.props;
     let hiddenFields = {};
+    let orderTemplate;
 
     if (initialValues.template) {
-      const orderTemplate = parentResources?.orderTemplates?.records?.find(
+      orderTemplate = parentResources?.orderTemplates?.records?.find(
         ({ id }) => id === initialValues.template);
 
       hiddenFields = orderTemplate?.hiddenFields || {};
@@ -80,6 +83,7 @@ class POForm extends Component {
 
     this.setState(prev => ({
       ...prev,
+      template: orderTemplate,
       hiddenFields,
     }));
   }
@@ -172,7 +176,8 @@ class POForm extends Component {
 
     this.setState(prev => ({
       ...prev,
-      hiddenFields: templateValue?.hiddenFields || {},
+      template: templateValue,
+      hiddenFields: prev.hiddenFields ? (templateValue?.hiddenFields || {}) : undefined,
     }));
 
     batch(() => {
@@ -203,6 +208,14 @@ class POForm extends Component {
           .forEach(field => get(templateValue, field) && change(field, get(templateValue, field)));
       });
     }
+  };
+
+  toggleForceVisibility = () => {
+    this.setState(({ hiddenFields, template, ...rest }) => ({
+      ...rest,
+      template,
+      hiddenFields: hiddenFields ? undefined : template?.hiddenFields || {},
+    }));
   };
 
   render() {
@@ -306,21 +319,38 @@ class POForm extends Component {
                           </Row>
                         </Col>
 
-                        {(!initialValues.id || !poLinesLength) && (
-                          <Col xs={12} md={8}>
-                            <Row>
-                              <Col xs={4}>
-                                <FieldSelection
-                                  dataOptions={orderTemplates}
-                                  onChange={this.onChangeTemplate}
-                                  labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                                  name="template"
-                                  id="order-template"
-                                />
-                              </Col>
-                            </Row>
-                          </Col>
-                        )}
+                        <Col xs={12} md={8}>
+                          <Row>
+                            <Col xs={4}>
+                              <FieldSelection
+                                dataOptions={orderTemplates}
+                                onChange={this.onChangeTemplate}
+                                labelId="ui-orders.settings.orderTemplates.editor.template.name"
+                                name="template"
+                                id="order-template"
+                                disabled={poLinesLength}
+                              />
+                            </Col>
+
+                            {
+                              Boolean(this.state.template) && (
+                                <Col xs={4}>
+                                  <Checkbox
+                                    label={
+                                      <>
+                                        <FormattedMessage id="ui-orders.order.showHidden" />
+                                        <InfoPopover content={<FormattedMessage id="ui-orders.order.showHidden.info" />} />
+                                      </>
+                                    }
+                                    value={!this.state.hiddenFields}
+                                    onChange={this.toggleForceVisibility}
+                                    vertical
+                                  />
+                                </Col>
+                              )
+                            }
+                          </Row>
+                        </Col>
 
                         <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                           <AccordionSet>
