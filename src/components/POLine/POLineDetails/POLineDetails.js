@@ -18,8 +18,11 @@ import {
   sourceLabels,
 } from '@folio/stripes-acq-components';
 
+import { useAcqMethods } from '../../../common/hooks';
+
 const POLineDetails = ({ line }) => {
   const receiptDate = get(line, 'receiptDate');
+  const { acqMethods } = useAcqMethods(line.acquisitionMethod);
 
   return (
     <>
@@ -41,7 +44,7 @@ const POLineDetails = ({ line }) => {
         >
           <KeyValue
             label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-            value={get(line, 'acquisitionMethod')}
+            value={acqMethods[0]?.value} //
           />
         </Col>
         <Col

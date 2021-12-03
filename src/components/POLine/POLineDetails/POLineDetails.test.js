@@ -1,12 +1,23 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 
 import POLineDetails from './POLineDetails';
+
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
 
 const renderPOLineDetails = (props = {}) => render(
   <POLineDetails
     {...props}
   />,
+  { wrapper },
 );
 
 describe('POLineDetails', () => {

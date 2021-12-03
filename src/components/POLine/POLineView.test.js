@@ -1,4 +1,5 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
@@ -63,12 +64,23 @@ const defaultProps = {
   match,
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    <MemoryRouter>
+      {children}
+    </MemoryRouter>
+  </QueryClientProvider>
+);
+
 const renderPOLineView = (props = {}) => render(
   <POLineView
     {...defaultProps}
     {...props}
   />,
-  { wrapper: MemoryRouter },
+  { wrapper },
 );
 
 describe('POLineView', () => {

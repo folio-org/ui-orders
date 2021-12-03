@@ -7,7 +7,7 @@ import {
   LIMIT_MAX,
 } from '@folio/stripes-acq-components';
 
-export const useAcqMethods = () => {
+export const useAcqMethods = (methodId) => {
   const ky = useOkapiKy();
 
   const searchParams = {
@@ -16,12 +16,15 @@ export const useAcqMethods = () => {
   };
 
   const { isLoading, data } = useQuery(
-    ['ui-orders', 'acq-methods'],
-    () => ky.get(ACQUISITION_METHODS_API, { searchParams }).json(),
+    ['ui-orders', 'acq-methods', methodId],
+    () => ky.get(
+      methodId ? `${ACQUISITION_METHODS_API}/${methodId}` : ACQUISITION_METHODS_API,
+      { searchParams },
+    ).json(),
   );
 
   return ({
-    acqMethods: data?.['acquisition_methods'] ?? [],
+    acqMethods: (methodId ? [data] : data?.acquisition_methods) ?? [],
     isLoading,
   });
 };

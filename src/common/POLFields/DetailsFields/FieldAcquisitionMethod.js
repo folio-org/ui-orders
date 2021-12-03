@@ -7,11 +7,11 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { useAcqMethods } from '../../hooks/useAcqMethods';
-import { getAcqMethodsOptions } from '../../utils/getAcqMethodsOptions';
+import { useAcqMethodsOptions } from '../../hooks/useAcqMethodsOptions';
 
 const FieldAcquisitionMethod = ({ disabled, required }) => {
   const { acqMethods } = useAcqMethods();
-  const acquisitionMethods = getAcqMethodsOptions(acqMethods);
+  const acquisitionMethods = useAcqMethodsOptions(acqMethods);
 
   return (
     <FieldSelectionFinal
