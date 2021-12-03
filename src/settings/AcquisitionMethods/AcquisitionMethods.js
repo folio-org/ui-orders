@@ -4,18 +4,16 @@ import {
   injectIntl,
 } from 'react-intl';
 import PropTypes from 'prop-types';
-import { invert } from 'lodash';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import {
-  ACQUISITION_METHOD,
   ACQUISITION_METHODS_API,
 } from '@folio/stripes-acq-components';
 
-const ACQ_METHODS_SYSTEM_SOURCE = 'System';
+import { getTranslatedAcqMethod } from '../../components/Utils/getTranslatedAcqMethod';
 
-const acqMethodsMap = invert(ACQUISITION_METHOD);
+const ACQ_METHODS_SYSTEM_SOURCE = 'System';
 
 const columnMapping = {
   value: <FormattedMessage id="ui-orders.settings.acquisitionMethods.name" />,
@@ -25,18 +23,7 @@ const hiddenFields = ['numberOfObjects', 'lastUpdated'];
 
 const formatter = {
   // eslint-disable-next-line react/prop-types
-  value: ({ value }) => {
-    const acqMethodTranslationKey = acqMethodsMap[value];
-
-    return acqMethodTranslationKey
-      ? (
-        <FormattedMessage
-          id={`ui-orders.acquisition_method.${acqMethodTranslationKey}`}
-          defaultMessage={value}
-        />
-      )
-      : value;
-  },
+  value: ({ value }) => getTranslatedAcqMethod(value),
 };
 
 const suppressEdit = ({ source }) => source === ACQ_METHODS_SYSTEM_SOURCE;

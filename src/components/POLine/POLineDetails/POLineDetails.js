@@ -20,12 +20,17 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { useAcqMethods } from '../../../common/hooks';
+import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
 
 const POLineDetails = ({ line }) => {
   const receiptDate = get(line, 'receiptDate');
   const { acqMethods, isLoading } = useAcqMethods(line.acquisitionMethod);
+
+  const translatedAcqMethod = (!isLoading && acqMethods[0])
+    ? getTranslatedAcqMethod(acqMethods[0].value)
+    : invalidAcqMethod;
 
   return (
     <>
@@ -47,7 +52,7 @@ const POLineDetails = ({ line }) => {
         >
           <KeyValue
             label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-            value={isLoading ? <Loading /> : (acqMethods[0]?.value ?? invalidAcqMethod)}
+            value={isLoading ? <Loading /> : translatedAcqMethod}
           />
         </Col>
         <Col
