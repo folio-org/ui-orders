@@ -20,7 +20,7 @@ export const useAcqMethods = (methodId) => {
     () => ky.get(
       methodId ? `${ACQUISITION_METHODS_API}/${methodId}` : ACQUISITION_METHODS_API,
       { searchParams },
-    ).json(),
+    ).json().catch(() => null),
   );
 
   return ({

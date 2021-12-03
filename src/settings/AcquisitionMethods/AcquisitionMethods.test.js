@@ -38,7 +38,7 @@ describe('AcquisitionMethods', () => {
 
     expect(ControlledVocab.mock.calls[0][0].formatter.value({ value: ACQUISITION_METHOD.purchase })).toEqual(
       <FormattedMessage
-        id="ui-orders.acquisition_method.purchase"
+        id="stripes-acq-components.acquisition_method.purchase"
         defaultMessage={ACQUISITION_METHOD.purchase}
       />,
     );
