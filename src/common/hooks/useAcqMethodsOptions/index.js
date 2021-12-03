@@ -1,1 +1,0 @@
-export { useAcqMethodsOptions } from './useAcqMethodsOptions';

@@ -10,6 +10,7 @@ import {
   Checkbox,
   Col,
   KeyValue,
+  Loading,
   Row,
 } from '@folio/stripes/components';
 import {
@@ -20,9 +21,11 @@ import {
 
 import { useAcqMethods } from '../../../common/hooks';
 
+const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
+
 const POLineDetails = ({ line }) => {
   const receiptDate = get(line, 'receiptDate');
-  const { acqMethods } = useAcqMethods(line.acquisitionMethod);
+  const { acqMethods, isLoading } = useAcqMethods(line.acquisitionMethod);
 
   return (
     <>
@@ -44,7 +47,7 @@ const POLineDetails = ({ line }) => {
         >
           <KeyValue
             label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-            value={acqMethods[0]?.value} //
+            value={isLoading ? <Loading /> : (acqMethods[0]?.value ?? invalidAcqMethod)}
           />
         </Col>
         <Col

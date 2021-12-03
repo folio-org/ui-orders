@@ -4,10 +4,10 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   FieldSelectionFinal,
+  useAcqMethodsOptions,
 } from '@folio/stripes-acq-components';
 
 import { useAcqMethods } from '../../hooks/useAcqMethods';
-import { useAcqMethodsOptions } from '../../hooks/useAcqMethodsOptions';
 
 const FieldAcquisitionMethod = ({ disabled, required }) => {
   const { acqMethods } = useAcqMethods();
