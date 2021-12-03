@@ -147,8 +147,9 @@ class ItemForm extends Component {
   };
 
   onChangeField = (value, fieldName) => {
-    const { change } = this.props;
+    const { change, formValues } = this.props;
     const inventoryData = this.state;
+    const locations = formValues?.locations;
 
     if (fieldName) change(fieldName, value);
 
@@ -157,6 +158,7 @@ class ItemForm extends Component {
         change('instanceId', inventoryData.instanceId);
       } else {
         change('instanceId', null);
+        locations.forEach((_, i) => change(`locations[${i}].holdingId`, null));
       }
     });
   };
