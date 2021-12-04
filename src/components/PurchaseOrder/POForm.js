@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
+import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -334,19 +335,21 @@ class POForm extends Component {
 
                             {
                               Boolean(this.state.template) && (
-                                <Col xs={4}>
-                                  <Checkbox
-                                    label={
-                                      <>
-                                        <FormattedMessage id="ui-orders.order.showHidden" />
-                                        <InfoPopover content={<FormattedMessage id="ui-orders.order.showHidden.info" />} />
-                                      </>
-                                    }
-                                    value={!this.state.hiddenFields}
-                                    onChange={this.toggleForceVisibility}
-                                    vertical
-                                  />
-                                </Col>
+                                <IfPermission perm="ui-orders.order.showHidden">
+                                  <Col xs={4}>
+                                    <Checkbox
+                                      label={
+                                        <>
+                                          <FormattedMessage id="ui-orders.order.showHidden" />
+                                          <InfoPopover content={<FormattedMessage id="ui-orders.order.showHidden.info" />} />
+                                        </>
+                                      }
+                                      value={!this.state.hiddenFields}
+                                      onChange={this.toggleForceVisibility}
+                                      vertical
+                                    />
+                                  </Col>
+                                </IfPermission>
                               )
                             }
                           </Row>

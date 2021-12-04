@@ -377,6 +377,13 @@
         "description": "",
         "visible": true,
         "subPermissions": []
+      },
+      {
+        "permissionName": "ui-orders.order.showHidden",
+        "displayName": "Orders: Show all hidden fields",
+        "description": "",
+        "visible": true,
+        "subPermissions": []
       }
     ]
   },

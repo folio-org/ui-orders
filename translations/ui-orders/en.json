@@ -642,7 +642,7 @@
   "settings.orderTemplates.editor.template.name": "Template name",
   "settings.orderTemplates.editor.template.code": "Code",
   "settings.orderTemplates.editor.template.description": "Description",
-  "settings.orderTemplates.editor.template.hideAll": "Fields to hide",
+  "settings.orderTemplates.editor.template.hideAll": "Hide all eligible fields",
   "settings.orderTemplates.editor.template.hideAll.info": "Mark all eligible fields as hidden on Order and Order Line when using this template",
   "settings.orderTemplates.editor.template.tags": "Tags",
 
@@ -748,6 +748,7 @@
   "permission.order.unopen": "Orders: Unopen purchase orders",
   "permission.order.updateEncumbrances": "Orders: Update encumbrances",
   "permission.order.exportCSV": "Orders: Export search results",
+  "permission.order.showHidden": "Orders: Show all hidden fields",
   "permission.settings.all": "Settings (Orders): Can view and edit all settings",
   "permission.settings.order-templates.create": "Settings (Orders): Can view, edit, create new Order Templates",
   "permission.settings.order-templates.delete": "Settings (Orders): Can view, edit, delete Order Templates",

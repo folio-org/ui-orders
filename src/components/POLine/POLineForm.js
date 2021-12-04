@@ -4,7 +4,7 @@ import { get, mapValues, pick } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
-import { stripesShape } from '@folio/stripes/core';
+import { stripesShape, IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -348,19 +348,21 @@ function POLineForm({
 
                     {
                       Boolean(order.template) && (
-                        <Col xs={4}>
-                          <Checkbox
-                            label={
-                              <>
-                                <FormattedMessage id="ui-orders.order.showHidden" />
-                                <InfoPopover content={<FormattedMessage id="ui-orders.order.showHidden.info" />} />
-                              </>
-                            }
-                            value={!hiddenFields}
-                            onChange={toggleForceVisibility}
-                            vertical
-                          />
-                        </Col>
+                        <IfPermission perm="ui-orders.order.showHidden">
+                          <Col xs={4}>
+                            <Checkbox
+                              label={
+                                <>
+                                  <FormattedMessage id="ui-orders.order.showHidden" />
+                                  <InfoPopover content={<FormattedMessage id="ui-orders.order.showHidden.info" />} />
+                                </>
+                              }
+                              value={!hiddenFields}
+                              onChange={toggleForceVisibility}
+                              vertical
+                            />
+                          </Col>
+                        </IfPermission>
                       )
                     }
                   </Row>
