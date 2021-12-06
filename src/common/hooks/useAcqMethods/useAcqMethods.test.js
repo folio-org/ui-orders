@@ -22,7 +22,7 @@ describe('useAcqMethods', () => {
       .mockClear()
       .mockReturnValue({
         get: () => ({
-          json: () => Promise.resolve({ acquisition_methods: [MOCK_ACQ_METHOD] }),
+          json: () => Promise.resolve({ acquisitionMethods: [MOCK_ACQ_METHOD] }),
         }),
       });
   });

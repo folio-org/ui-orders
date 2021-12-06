@@ -44,7 +44,7 @@ class AcquisitionMethods extends Component {
         actionSuppressor={actionSuppressor}
         id="acquisition-methods"
         baseUrl={ACQUISITION_METHODS_API}
-        records="acquisition_methods"
+        records="acquisitionMethods"
         sortby="value"
         nameKey="value"
         editable={stripes.hasPerm('ui-orders.settings.all')}
