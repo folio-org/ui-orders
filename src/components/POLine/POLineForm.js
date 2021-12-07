@@ -165,7 +165,7 @@ function POLineForm({
         <IfPermission perm="ui-orders.order.showHidden">
           <Button
             id="clickable-show-hidden"
-            data-testid="show-hide-btn"
+            data-testid="toggle-fields-visibility"
             buttonStyle="dropdownItem"
             onClick={() => {
               toggleForceVisibility();

@@ -208,13 +208,13 @@ describe('POLineForm actions', () => {
   it('should show hidden fields when \'Show hidden fields\' btn was clicked', async () => {
     renderPOLineForm();
 
-    const showHideBtn = await screen.findByTestId('show-hide-btn');
+    const toggleFieldsVisibility = await screen.findByTestId('toggle-fields-visibility');
 
     expect(screen.queryByRole('checkbox', {
       name: 'ui-orders.poLine.package',
     })).not.toBeInTheDocument();
 
-    user.click(showHideBtn);
+    user.click(toggleFieldsVisibility);
 
     const field = screen.getByRole('checkbox', { name: 'ui-orders.poLine.package' });
 

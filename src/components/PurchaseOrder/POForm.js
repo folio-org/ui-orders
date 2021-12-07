@@ -137,7 +137,7 @@ class POForm extends Component {
           <Button
             id="clickable-show-hidden"
             buttonStyle="dropdownItem"
-            data-testid="show-hide-btn"
+            data-testid="toggle-fields-visibility"
             onClick={() => {
               this.toggleForceVisibility();
               onToggle();

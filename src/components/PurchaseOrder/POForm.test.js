@@ -91,13 +91,13 @@ describe('POForm', () => {
 
     user.click(options[1]);
 
-    const showHideBtn = await screen.findByTestId('show-hide-btn');
+    const toggleFieldsVisibility = await screen.findByTestId('toggle-fields-visibility');
 
     expect(screen.queryByRole('checkbox', {
       name: 'ui-orders.orderSummary.approved',
     })).not.toBeInTheDocument();
 
-    user.click(showHideBtn);
+    user.click(toggleFieldsVisibility);
 
     const field = await screen.findByRole('checkbox', {
       name: 'ui-orders.orderSummary.approved',
