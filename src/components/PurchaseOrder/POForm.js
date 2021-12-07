@@ -12,7 +12,6 @@ import {
   AccordionStatus,
   Button,
   checkScope,
-  Checkbox,
   Col,
   collapseAllSections,
   ExpandAllButton,
@@ -20,7 +19,7 @@ import {
   HasCommand,
   Icon,
   IconButton,
-  InfoPopover,
+  MenuSection,
   Pane,
   PaneFooter,
   PaneMenu,
@@ -77,7 +76,8 @@ class POForm extends Component {
 
     if (initialValues.template) {
       orderTemplate = parentResources?.orderTemplates?.records?.find(
-        ({ id }) => id === initialValues.template);
+        ({ id }) => id === initialValues.template,
+      );
 
       hiddenFields = orderTemplate?.hiddenFields || {};
     }
@@ -129,6 +129,28 @@ class POForm extends Component {
       </PaneMenu>
     );
   }
+
+  getActionMenu = ({ onToggle }) => (
+    Boolean(this.state.template?.hiddenFields) && (
+      <MenuSection id="po-form-actions">
+        <IfPermission perm="ui-orders.order.showHidden">
+          <Button
+            id="clickable-show-hidden"
+            buttonStyle="dropdownItem"
+            data-testid="show-hide-btn"
+            onClick={() => {
+              this.toggleForceVisibility();
+              onToggle();
+            }}
+          >
+            <Icon size="small" icon={`eye-${this.state.hiddenFields ? 'open' : 'closed'}`}>
+              <FormattedMessage id={`ui-orders.order.${this.state.hiddenFields ? 'showHidden' : 'hideFields'}`} />
+            </Icon>
+          </Button>
+        </IfPermission>
+      </MenuSection>
+    )
+  );
 
   getPaneFooter(id, label) {
     const { pristine, submitting, handleSubmit, onCancel } = this.props;
@@ -233,6 +255,7 @@ class POForm extends Component {
       parentResources,
     } = this.props;
     const firstMenu = this.getAddFirstMenu();
+    const actionMenu = args => this.getActionMenu(args);
     const orderNumber = getFullOrderNumber(initialValues);
     const paneTitle = initialValues.id
       ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
@@ -299,6 +322,7 @@ class POForm extends Component {
             <Pane
               defaultWidth="100%"
               firstMenu={firstMenu}
+              actionMenu={actionMenu}
               id="pane-poForm"
               footer={paneFooter}
               onClose={onCancel}
@@ -332,26 +356,6 @@ class POForm extends Component {
                                 disabled={poLinesLength}
                               />
                             </Col>
-
-                            {
-                              Boolean(this.state.template) && (
-                                <IfPermission perm="ui-orders.order.showHidden">
-                                  <Col xs={4}>
-                                    <Checkbox
-                                      label={
-                                        <>
-                                          <FormattedMessage id="ui-orders.order.showHidden" />
-                                          <InfoPopover content={<FormattedMessage id="ui-orders.order.showHidden.info" />} />
-                                        </>
-                                      }
-                                      value={!this.state.hiddenFields}
-                                      onChange={this.toggleForceVisibility}
-                                      vertical
-                                    />
-                                  </Col>
-                                </IfPermission>
-                              )
-                            }
                           </Row>
                         </Col>
 

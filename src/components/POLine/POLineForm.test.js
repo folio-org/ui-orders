@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
+import user from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
 
 import { HasCommand } from '@folio/stripes/components';
@@ -83,6 +84,7 @@ const defaultProps = {
         locations: [{
           locationId: 'locationId',
         }],
+        hiddenFields: { isPackage: true },
       }],
     },
   },
@@ -199,5 +201,23 @@ describe('POLineForm shortcuts', () => {
     HasCommand.mock.calls[0][0].commands.find(c => c.name === 'search').handler();
 
     expect(pushMock).toHaveBeenCalled();
+  });
+});
+
+describe('POLineForm actions', () => {
+  it('should show hidden fields when \'Show hidden fields\' btn was clicked', async () => {
+    renderPOLineForm();
+
+    const showHideBtn = await screen.findByTestId('show-hide-btn');
+
+    expect(screen.queryByRole('checkbox', {
+      name: 'ui-orders.poLine.package',
+    })).not.toBeInTheDocument();
+
+    user.click(showHideBtn);
+
+    const field = screen.getByRole('checkbox', { name: 'ui-orders.poLine.package' });
+
+    expect(field).toBeInTheDocument();
   });
 });

@@ -14,9 +14,10 @@ import {
   Col,
   ExpandAllButton,
   HasCommand,
+  Icon,
   IconButton,
-  InfoPopover,
   LoadingPane,
+  MenuSection,
   Pane,
   PaneFooter,
   PaneMenu,
@@ -156,6 +157,29 @@ function POLineForm({
         : (templateValue?.hiddenFields || {})
     ));
   };
+
+  // eslint-disable-next-line react/prop-types
+  const getActionMenu = ({ onToggle }) => (
+    Boolean(templateValue?.hiddenFields) && (
+      <MenuSection id="po-line-form-actions">
+        <IfPermission perm="ui-orders.order.showHidden">
+          <Button
+            id="clickable-show-hidden"
+            data-testid="show-hide-btn"
+            buttonStyle="dropdownItem"
+            onClick={() => {
+              toggleForceVisibility();
+              onToggle();
+            }}
+          >
+            <Icon size="small" icon={`eye-${hiddenFields ? 'open' : 'closed'}`}>
+              <FormattedMessage id={`ui-orders.order.${hiddenFields ? 'showHidden' : 'hideFields'}`} />
+            </Icon>
+          </Button>
+        </IfPermission>
+      </MenuSection>
+    )
+  );
 
   const submitAndOpen = useCallback(() => {
     change('saveAndOpen', true);
@@ -315,6 +339,7 @@ function POLineForm({
         footer={paneFooter}
         onClose={onCancel}
         firstMenu={firstMenu}
+        actionMenu={getActionMenu}
       >
         <form id="form-po-line" style={{ height: '100vh' }}>
           <Row>
@@ -345,26 +370,6 @@ function POLineForm({
                         )}
                       </FormattedMessage>
                     </Col>
-
-                    {
-                      Boolean(order.template) && (
-                        <IfPermission perm="ui-orders.order.showHidden">
-                          <Col xs={4}>
-                            <Checkbox
-                              label={
-                                <>
-                                  <FormattedMessage id="ui-orders.order.showHidden" />
-                                  <InfoPopover content={<FormattedMessage id="ui-orders.order.showHidden.info" />} />
-                                </>
-                              }
-                              value={!hiddenFields}
-                              onChange={toggleForceVisibility}
-                              vertical
-                            />
-                          </Col>
-                        </IfPermission>
-                      )
-                    }
                   </Row>
                 </Col>
 
