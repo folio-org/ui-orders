@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)
+
 * POL Title selection overwriting Order template location. Refs UIOR-863.
 * Order template not populating Holdings correctly.Refs UIOR-854.
 
