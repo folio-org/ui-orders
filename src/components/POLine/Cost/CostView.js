@@ -15,14 +15,11 @@ import {
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
-import {
-  DISCOUNT_TYPE,
-} from '../const';
-import {
-  RolloverAdjustmentAmount,
-} from './RolloverAdjustmentAmount';
+import { IfVisible } from '../../../common/IfVisible';
+import { DISCOUNT_TYPE } from '../const';
+import { RolloverAdjustmentAmount } from './RolloverAdjustmentAmount';
 
-function CostView({ cost, isPackage, orderFormat }) {
+function CostView({ cost, isPackage, orderFormat, hiddenFields }) {
   const stripes = useStripes();
   const discountType = cost.discountType;
   const discount = cost.discount || 0;
@@ -46,30 +43,34 @@ function CostView({ cost, isPackage, orderFormat }) {
   return (
     <Row start="xs">
       {isPhysicalValuesVisible && (
-        <Col
-          data-col-cost-list-unit-price
-          xs={6}
-          lg={3}
-        >
-          <KeyValue label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}>
-            <AmountWithCurrencyField
-              currency={currency}
-              amount={cost.listUnitPrice}
-            />
-          </KeyValue>
-        </Col>
+        <IfVisible visible={!hiddenFields.cost?.listUnitPrice}>
+          <Col
+            data-col-cost-list-unit-price
+            xs={6}
+            lg={3}
+          >
+            <KeyValue label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}>
+              <AmountWithCurrencyField
+                currency={currency}
+                amount={cost.listUnitPrice}
+              />
+            </KeyValue>
+          </Col>
+        </IfVisible>
       )}
       {isPhysicalValuesVisible && (
-        <Col
-          data-col-cost-qty-physical
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
-            value={cost.quantityPhysical}
-          />
-        </Col>
+        <IfVisible visible={!hiddenFields.cost?.quantityPhysical}>
+          <Col
+            data-col-cost-qty-physical
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
+              value={cost.quantityPhysical}
+            />
+          </Col>
+        </IfVisible>
       )}
       <Col
         data-col-cost-currency
@@ -95,55 +96,66 @@ function CostView({ cost, isPackage, orderFormat }) {
         </Col>
       )}
       {isElectronicValuesVisible && (
+        <IfVisible visible={!hiddenFields.cost?.listUnitPriceElectronic}>
+          <Col
+            data-col-cost-qty-unit-price-electronic
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
+            >
+              <AmountWithCurrencyField
+                currency={currency}
+                amount={cost.listUnitPriceElectronic}
+              />
+            </KeyValue>
+          </Col>
+        </IfVisible>
+      )}
+      {isElectronicValuesVisible && (
+        <IfVisible visible={!hiddenFields.cost?.quantityElectronic}>
+          <Col
+            data-col-cost-qty-electronic
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
+              value={cost.quantityElectronic}
+            />
+          </Col>
+        </IfVisible>
+      )}
+
+      <IfVisible visible={!hiddenFields.cost?.additionalCost}>
         <Col
-          data-col-cost-qty-unit-price-electronic
+          data-col-cost-addition-cost
           xs={6}
           lg={3}
         >
-          <KeyValue
-            label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
-          >
+          <KeyValue label={<FormattedMessage id="ui-orders.cost.additionalCost" />}>
             <AmountWithCurrencyField
               currency={currency}
-              amount={cost.listUnitPriceElectronic}
+              amount={cost.additionalCost}
             />
           </KeyValue>
         </Col>
-      )}
-      {isElectronicValuesVisible && (
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.cost?.discount}>
         <Col
-          data-col-cost-qty-electronic
+          data-col-cost-discount
           xs={6}
           lg={3}
         >
           <KeyValue
-            label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
-            value={cost.quantityElectronic}
+            label={<FormattedMessage id="ui-orders.cost.discount" />}
+            value={displayDiscount}
           />
         </Col>
-      )}
-      <Col
-        data-col-cost-addition-cost
-        xs={6}
-        lg={3}
-      >
-        <KeyValue label={<FormattedMessage id="ui-orders.cost.additionalCost" />}>
-          <AmountWithCurrencyField
-            currency={currency}
-            amount={cost.additionalCost}
-          />
-        </KeyValue>
-      </Col>
-      <Col
-        data-col-cost-discount
-        xs={6}
-        lg={3}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.cost.discount" />}
-          value={displayDiscount}
-        />
-      </Col>
+      </IfVisible>
+
       <Col
         data-col-cost-estimated-price
         xs={6}
@@ -191,11 +203,13 @@ CostView.propTypes = {
   cost: PropTypes.object,
   isPackage: PropTypes.bool,
   orderFormat: PropTypes.string,
+  hiddenFields: PropTypes.object,
 };
 
 CostView.defaultProps = {
   cost: {},
   isPackage: false,
+  hiddenFields: {},
 };
 
 export default CostView;

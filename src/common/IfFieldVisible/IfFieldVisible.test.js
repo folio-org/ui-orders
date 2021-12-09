@@ -19,13 +19,13 @@ const renderComponent = (props = {}) => render(
 
 describe('IfFieldVisible', () => {
   it('should render child component', () => {
-    renderComponent({ children: <span>{visibleText}</span> });
+    renderComponent({ children: <span>{visibleText}</span>, name: 'fieldName' });
 
     expect(screen.queryByText(visibleText)).toBeVisible();
   });
 
   it('should hide child component', () => {
-    renderComponent({ children: <span>{visibleText}</span>, visible: false });
+    renderComponent({ children: <span>{visibleText}</span>, visible: false, name: 'fieldName' });
 
     expect(screen.queryByText(visibleText)).not.toBeVisible();
   });

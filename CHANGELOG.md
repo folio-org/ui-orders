@@ -22,6 +22,8 @@
 * Rename collection field name for Acquisition method. Refs UIOR-872.
 * Move "show all hidden fields" for PO or POL to Actions menu. Refs UIOR-871.
 * Do not show ongoing order accordion for One-time orders. Refs UIOR-869.
+* Allow user to show all hidden fields from PO or POL view. Refs UIOR-855.
+* When Order template includes hidden fields they are also hidden from the view pane. Refs UIOR-856.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)

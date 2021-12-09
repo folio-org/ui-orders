@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get, mapValues } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -85,6 +85,7 @@ const POLineView = ({
   order,
   poURL,
   tagsToggle,
+  orderTemplate,
 }) => {
   const stripes = useStripes();
   const [sections, setSections] = useState({
@@ -104,6 +105,19 @@ const POLineView = ({
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [isPrintModalOpened, togglePrintModal] = useModalToggle();
+  const [hiddenFields, setHiddenFields] = useState({});
+
+  useEffect(() => {
+    setHiddenFields(orderTemplate.hiddenFields);
+  }, [orderTemplate.hiddenFields]);
+
+  const toggleForceVisibility = () => {
+    setHiddenFields(prevHiddenFields => (
+      prevHiddenFields
+        ? undefined
+        : (orderTemplate.hiddenFields || {})
+    ));
+  };
 
   const onToggleSection = useCallback(({ id, isOpened }) => {
     setSections((prevSections) => {
@@ -239,6 +253,23 @@ const POLineView = ({
             <FormattedMessage id="ui-orders.button.print" />
           </Icon>
         </Button>
+        {Boolean(orderTemplate.hiddenFields) && (
+          <IfPermission perm="ui-orders.order.showHidden">
+            <Button
+              id="clickable-show-hidden"
+              data-testid="toggle-key-values-visibility"
+              buttonStyle="dropdownItem"
+              onClick={() => {
+                toggleForceVisibility();
+                onToggle();
+              }}
+            >
+              <Icon size="small" icon={`eye-${hiddenFields ? 'open' : 'closed'}`}>
+                <FormattedMessage id={`ui-orders.order.${hiddenFields ? 'showHidden' : 'hideFields'}`} />
+              </Icon>
+            </Button>
+          </IfPermission>
+        )}
       </MenuSection>
     );
   };
@@ -325,7 +356,10 @@ const POLineView = ({
           >
             {metadata && <ViewMetaData metadata={metadata} />}
 
-            <ItemView poLineDetails={line} />
+            <ItemView
+              poLineDetails={line}
+              hiddenFields={hiddenFields}
+            />
           </Accordion>
 
           {line.isPackage && (
@@ -340,7 +374,10 @@ const POLineView = ({
             label={<FormattedMessage id="ui-orders.line.accordion.poLine" />}
             id={ACCORDION_ID.poLine}
           >
-            <POLineDetails line={line} />
+            <POLineDetails
+              line={line}
+              hiddenFields={hiddenFields}
+            />
           </Accordion>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
@@ -349,6 +386,7 @@ const POLineView = ({
             <VendorView
               vendorDetail={line.vendorDetail}
               vendorId={order?.vendor}
+              hiddenFields={hiddenFields}
             />
           </Accordion>
           <Accordion
@@ -359,6 +397,7 @@ const POLineView = ({
               cost={line.cost}
               isPackage={line.isPackage}
               orderFormat={orderFormat}
+              hiddenFields={hiddenFields}
             />
           </Accordion>
           <Accordion
@@ -388,6 +427,7 @@ const POLineView = ({
               <PhysicalView
                 materialTypes={materialTypes}
                 physical={get(line, 'physical', {})}
+                hiddenFields={hiddenFields}
               />
             </Accordion>
           )}
@@ -400,6 +440,7 @@ const POLineView = ({
                 line={line}
                 materialTypes={materialTypes}
                 order={order}
+                hiddenFields={hiddenFields}
               />
             </Accordion>
           )}
@@ -411,6 +452,7 @@ const POLineView = ({
               <OtherView
                 materialTypes={materialTypes}
                 physical={get(line, 'physical', {})}
+                hiddenFields={hiddenFields}
               />
             </Accordion>
           )}
@@ -484,12 +526,14 @@ POLineView.propTypes = {
   goToOrderDetails: PropTypes.func,
   deleteLine: PropTypes.func,
   tagsToggle: PropTypes.func.isRequired,
+  orderTemplate: PropTypes.object,
 };
 
 POLineView.defaultProps = {
   locations: [],
   materialTypes: [],
   editable: true,
+  orderTemplate: {},
 };
 
 export default withRouter(POLineView);

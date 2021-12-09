@@ -14,12 +14,13 @@ import {
   ProductIdDetails,
 } from '@folio/stripes-acq-components';
 
+import { IfVisible } from '../../../common/IfVisible';
 import { EditionView } from './EditionField';
 import { TitleView } from './TitleField';
 import { SubscriptionIntervalView } from './SubscriptionIntervalField';
 import LinkToPoLine from '../../LinkToPoLine';
 
-const ItemView = ({ poLineDetails }) => {
+const ItemView = ({ poLineDetails, hiddenFields }) => {
   const contributors = get(poLineDetails, 'contributors', []);
 
   return (
@@ -28,39 +29,52 @@ const ItemView = ({ poLineDetails }) => {
         <Col xs={12}>
           <TitleView poLineDetails={poLineDetails} />
         </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-            value={poLineDetails.details?.receivingNote}
-          />
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-            value={<FolioFormattedDate value={get(poLineDetails, ['details', 'subscriptionFrom'])} />}
-          />
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-            value={<FolioFormattedDate value={get(poLineDetails, ['details', 'subscriptionTo'])} />}
-          />
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <SubscriptionIntervalView value={poLineDetails?.details?.subscriptionInterval} />
-        </Col>
+
+        <IfVisible visible={!hiddenFields.details?.receivingNote}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
+              value={poLineDetails.details?.receivingNote}
+            />
+          </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.details?.subscriptionFrom}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
+              value={<FolioFormattedDate value={get(poLineDetails, ['details', 'subscriptionFrom'])} />}
+            />
+          </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.details?.subscriptionTo}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
+              value={<FolioFormattedDate value={get(poLineDetails, ['details', 'subscriptionTo'])} />}
+            />
+          </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.details?.subscriptionInterval}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <SubscriptionIntervalView value={poLineDetails?.details?.subscriptionInterval} />
+          </Col>
+        </IfVisible>
+
         <Col
           xs={6}
           lg={3}
@@ -85,15 +99,19 @@ const ItemView = ({ poLineDetails }) => {
         >
           <EditionView value={poLineDetails?.edition} />
         </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.linkPackage" />}
-            value={<LinkToPoLine poLineId={poLineDetails?.packagePoLineId} />}
-          />
-        </Col>
+
+        <IfVisible visible={!hiddenFields.linkPackage}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.linkPackage" />}
+              value={<LinkToPoLine poLineId={poLineDetails?.packagePoLineId} />}
+            />
+          </Col>
+        </IfVisible>
+
         <Col xs={12}>
           <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}>
             <ContributorDetails contributors={contributors} />
@@ -108,12 +126,14 @@ const ItemView = ({ poLineDetails }) => {
         </Col>
       </Row>
       <Row start="xs">
-        <Col xs={12}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
-            value={toString(get(poLineDetails, 'description'))}
-          />
-        </Col>
+        <IfVisible visible={!hiddenFields.details?.description}>
+          <Col xs={12}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
+              value={toString(get(poLineDetails, 'description'))}
+            />
+          </Col>
+        </IfVisible>
       </Row>
     </>
   );
@@ -121,10 +141,12 @@ const ItemView = ({ poLineDetails }) => {
 
 ItemView.propTypes = {
   poLineDetails: PropTypes.object,
+  hiddenFields: PropTypes.object,
 };
 
 ItemView.defaultProps = {
   poLineDetails: {},
+  hiddenFields: {},
 };
 
 export default ItemView;

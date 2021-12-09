@@ -28,7 +28,7 @@ const SummaryForm = ({ initialValues: order, hiddenFields = {} }) => (
       </KeyValue>
     </Col>
 
-    <IfFieldVisible visible={!hiddenFields.ongoing?.isSubscription} name="ongoing.isSubscription">
+    <IfFieldVisible visible={!hiddenFields.ongoing?.isSubscription} name="approved">
       <Col xs={6} md={3}>
         <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />
       </Col>

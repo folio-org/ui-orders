@@ -48,6 +48,7 @@ import {
   reasonsForClosureResource,
   updateEncumbrancesResource,
 } from '../../common/resources';
+import { useOrderTemplate } from '../../common/hooks';
 import {
   PrintOrder,
 } from '../../PrintOrder';
@@ -97,6 +98,9 @@ const PO = ({
   const [isLoading, setIsLoading] = useState(true);
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const [updateOrderErrors, setUpdateOrderErrors] = useState();
+  const [hiddenFields, setHiddenFields] = useState({});
+  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
+
   const orderErrorModalShow = useCallback((errors) => {
     toggleErrorsModal();
     setUpdateOrderErrors(errors);
@@ -166,6 +170,10 @@ const PO = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [match.params.id],
   );
+
+  useEffect(() => {
+    setHiddenFields(orderTemplate.hiddenFields);
+  }, [orderTemplate]);
 
   const [isCloneConfirmation, toggleCloneConfirmation] = useModalToggle();
   const [isTagsPaneOpened, toggleTagsPane] = useModalToggle();
@@ -530,6 +538,14 @@ const PO = ({
     order?.id, order?.acqUnitIds,
   );
 
+  const toggleForceVisibility = () => {
+    setHiddenFields(prevHiddenFields => (
+      prevHiddenFields
+        ? undefined
+        : (orderTemplate?.hiddenFields || {})
+    ));
+  };
+
   const shortcuts = [
     {
       name: 'new',
@@ -576,7 +592,7 @@ const PO = ({
     },
   ];
 
-  if (isLoading || order?.id !== match.params.id) {
+  if (isLoading || order?.id !== match.params.id || isOrderTemplateLoading) {
     return (
       <LoadingPane
         id="order-details"
@@ -616,6 +632,9 @@ const PO = ({
           isRestrictionsLoading,
           order,
           restrictions,
+          toggleForceVisibility,
+          hiddenFields,
+          orderTemplate,
         })}
         data-test-order-details
         defaultWidth="fill"
@@ -662,6 +681,7 @@ const PO = ({
               <PODetailsView
                 addresses={addresses}
                 order={order}
+                hiddenFields={hiddenFields}
               />
             </Accordion>
             {isOngoing(orderType) && (
@@ -669,7 +689,10 @@ const PO = ({
                 id="ongoing"
                 label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
               >
-                <OngoingOrderInfoView order={order} />
+                <OngoingOrderInfoView
+                  order={order}
+                  hiddenFields={hiddenFields}
+                />
               </Accordion>
             )}
             <Accordion
@@ -678,6 +701,7 @@ const PO = ({
             >
               <SummaryView
                 order={order}
+                hiddenFields={hiddenFields}
               />
             </Accordion>
             <Accordion

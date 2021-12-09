@@ -11,9 +11,10 @@ import {
 } from '@folio/stripes/components';
 import { VendorReferenceNumbersDetails } from '@folio/stripes-acq-components';
 
+import { IfVisible } from '../../../common/IfVisible';
 import { useVendor } from '../../../common/hooks';
 
-const VendorView = ({ vendorDetail, vendorId }) => {
+const VendorView = ({ vendorDetail, vendorId, hiddenFields }) => {
   const { vendor } = useVendor(vendorId);
 
   const accountNumber = vendorDetail?.vendorAccount;
@@ -34,26 +35,32 @@ const VendorView = ({ vendorDetail, vendorId }) => {
           <VendorReferenceNumbersDetails referenceNumbers={vendorDetail.referenceNumbers} />
         </KeyValue>
       </Col>
-      <Col
-        data-col-vendor-view-instructions
-        xs={6}
-        lg={3}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.vendor.instructions" />}
-          value={get(vendorDetail, 'instructions')}
-        />
-      </Col>
-      <Col
-        data-col-vendor-view-account-number
-        xs={6}
-        lg={3}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
-          value={vendorAccount}
-        />
-      </Col>
+
+      <IfVisible visible={!hiddenFields.vendorDetail?.instructions}>
+        <Col
+          data-col-vendor-view-instructions
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.vendor.instructions" />}
+            value={get(vendorDetail, 'instructions')}
+          />
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.vendorDetail?.vendorAccount}>
+        <Col
+          data-col-vendor-view-account-number
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
+            value={vendorAccount}
+          />
+        </Col>
+      </IfVisible>
     </Row>
   );
 };
@@ -61,10 +68,12 @@ const VendorView = ({ vendorDetail, vendorId }) => {
 VendorView.propTypes = {
   vendorDetail: PropTypes.object,
   vendorId: PropTypes.string,
+  hiddenFields: PropTypes.object,
 };
 
 VendorView.defaultProps = {
   vendorDetail: {},
+  hiddenFields: {},
 };
 
 export default VendorView;

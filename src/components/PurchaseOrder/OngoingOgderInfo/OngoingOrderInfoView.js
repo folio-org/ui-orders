@@ -17,8 +17,9 @@ import {
   RenewalPeriod,
   ReviewDate,
 } from '../../../common/POFields/OngoingInfoFields';
+import { IfVisible } from '../../../common/IfVisible';
 
-const OngoingOrderInfoView = ({ order: { ongoing = {} } }) => {
+const OngoingOrderInfoView = ({ order: { ongoing = {} }, hiddenFields = {} }) => {
   const {
     interval,
     renewalDate,
@@ -31,69 +32,89 @@ const OngoingOrderInfoView = ({ order: { ongoing = {} } }) => {
 
   return (
     <Row start="xs">
-      <Col
-        xs={6}
-        lg={3}
-      >
-        <Checkbox
-          checked={isSubscription}
-          disabled
-          label={<FormattedMessage id="ui-orders.renewals.subscription" />}
-          vertical
-        />
-      </Col>
-      {isSubscription ? (
-        <>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <RenewalInterval value={interval} />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <RenewalDate value={renewalDate} />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <RenewalPeriod value={reviewPeriod} />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <Checkbox
-              checked={manualRenewal}
-              disabled
-              label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
-              vertical
-            />
-          </Col>
-        </>
-      ) : (
+      <IfVisible visible={!hiddenFields.ongoing?.isSubscription}>
         <Col
           xs={6}
           lg={3}
         >
-          <ReviewDate value={reviewDate} />
+          <Checkbox
+            checked={isSubscription}
+            disabled
+            label={<FormattedMessage id="ui-orders.renewals.subscription" />}
+            vertical
+          />
         </Col>
+      </IfVisible>
+
+      {isSubscription ? (
+        <>
+          <IfVisible visible={!hiddenFields.ongoing?.interval}>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <RenewalInterval value={interval} />
+            </Col>
+          </IfVisible>
+
+          <IfVisible visible={!hiddenFields.ongoing?.renewalDate}>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <RenewalDate value={renewalDate} />
+            </Col>
+          </IfVisible>
+
+          <IfVisible visible={!hiddenFields.ongoing?.reviewPeriod}>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <RenewalPeriod value={reviewPeriod} />
+            </Col>
+          </IfVisible>
+
+          <IfVisible visible={!hiddenFields.ongoing?.manualRenewal}>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <Checkbox
+                checked={manualRenewal}
+                disabled
+                label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
+                vertical
+              />
+            </Col>
+          </IfVisible>
+        </>
+      ) : (
+        <IfVisible visible={!hiddenFields.ongoing?.reviewDate}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <ReviewDate value={reviewDate} />
+          </Col>
+        </IfVisible>
       )}
-      <Col
-        xs={6}
-        lg={3}
-      >
-        <OngoingInfoNotes value={notes} />
-      </Col>
+
+      <IfVisible visible={!hiddenFields.ongoing?.notes}>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <OngoingInfoNotes value={notes} />
+        </Col>
+      </IfVisible>
     </Row>
   );
 };
 
 OngoingOrderInfoView.propTypes = {
   order: PropTypes.object.isRequired,
+  hiddenFields: PropTypes.object,
 };
 
 export default OngoingOrderInfoView;

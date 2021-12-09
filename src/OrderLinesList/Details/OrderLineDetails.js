@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
@@ -22,6 +22,7 @@ import {
 } from '../../components/Utils/resources';
 import { POLineView } from '../../components/POLine';
 import { FILTERS as ORDER_FILTERS } from '../../OrdersList';
+import { useOrderTemplate } from '../../common/hooks';
 
 const OrderLineDetails = ({
   history,
@@ -36,6 +37,7 @@ const OrderLineDetails = ({
   const [line, setLine] = useState({});
   const [order, setOrder] = useState({});
   const showToast = useShowCallout();
+  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
 
   const fetchLineDetails = useCallback(
     () => {
@@ -127,7 +129,7 @@ const OrderLineDetails = ({
     [location.search],
   );
 
-  if (isLoading || line?.id !== lineId) {
+  if (isLoading || line?.id !== lineId || isOrderTemplateLoading) {
     return (
       <LoadingPane
         id="order-lines-details"
@@ -139,7 +141,7 @@ const OrderLineDetails = ({
   }
 
   return (
-    <Fragment>
+    <>
       <POLineView
         line={line}
         order={order}
@@ -150,6 +152,7 @@ const OrderLineDetails = ({
         deleteLine={deleteLine}
         tagsToggle={toggleTagsPane}
         onClose={onClose}
+        orderTemplate={orderTemplate}
       />
       {isTagsPaneOpened && (
         <Tags
@@ -158,7 +161,7 @@ const OrderLineDetails = ({
           onClose={toggleTagsPane}
         />
       )}
-    </Fragment>
+    </>
   );
 };
 
