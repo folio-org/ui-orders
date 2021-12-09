@@ -93,7 +93,7 @@ const PO = ({
   const orderId = match.params.id;
   const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
 
-  const [order, setOrder] = useState();
+  const [order, setOrder] = useState({});
   const [orderInvoicesIds, setOrderInvoicesIds] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();

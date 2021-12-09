@@ -256,8 +256,8 @@ const POLineView = ({
         {Boolean(orderTemplate.hiddenFields) && (
           <IfPermission perm="ui-orders.order.showHidden">
             <Button
-              id="clickable-show-hidden"
-              data-testid="toggle-key-values-visibility"
+              id="line-clickable-show-hidden"
+              data-testid="line-toggle-key-values-visibility"
               buttonStyle="dropdownItem"
               onClick={() => {
                 toggleForceVisibility();

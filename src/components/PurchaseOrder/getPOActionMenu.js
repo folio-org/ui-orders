@@ -196,8 +196,8 @@ export function getPOActionMenu({
       {Boolean(orderTemplate.hiddenFields) && (
         <IfPermission perm="ui-orders.order.showHidden">
           <Button
-            id="clickable-show-hidden"
-            data-testid="toggle-key-values-visibility"
+            id="order-clickable-show-hidden"
+            data-testid="order-toggle-key-values-visibility"
             buttonStyle="dropdownItem"
             onClick={() => {
               toggleForceVisibility();
