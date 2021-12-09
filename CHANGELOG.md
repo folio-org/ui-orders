@@ -17,12 +17,16 @@
 * Order template is not saved without receiving workflow. Refs UIOR-862.
 * Hide all fields in PO or POL that are set to hide in order template. Refs UIOR-850.
 * Create area Settings->Orders->Acquisition methods. Refs UIOR-846.
-* POL Title selection overwriting Order template location. Refs UIOR-863.
 * Allow user to show all hidden fields from PO or POL. Refs UIOR-849.
 * Select Acquisition method from controlled vocabulary list. Refs UIOR-852.
-* Order template not populating Holdings correctly.Refs UIOR-854.
 * Rename collection field name for Acquisition method. Refs UIOR-872.
 * Move "show all hidden fields" for PO or POL to Actions menu. Refs UIOR-871.
+
+## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)
+
+* POL Title selection overwriting Order template location. Refs UIOR-863.
+* Order template not populating Holdings correctly.Refs UIOR-854.
 
 ## [3.0.2](https://github.com/folio-org/ui-orders/tree/v3.0.2) (2021-11-05)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.1...v3.0.2)
