@@ -21,6 +21,7 @@
 * Select Acquisition method from controlled vocabulary list. Refs UIOR-852.
 * Rename collection field name for Acquisition method. Refs UIOR-872.
 * Move "show all hidden fields" for PO or POL to Actions menu. Refs UIOR-871.
+* Do not show ongoing order accordion for One-time orders. Refs UIOR-869.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)

@@ -10,6 +10,7 @@ import {
   collapseAllSections,
 } from '@folio/stripes/components';
 
+import { ORDER_TYPE } from '../../common/constants';
 import POForm from './POForm';
 import { history } from '../../../test/jest/routerMocks';
 
@@ -73,11 +74,22 @@ describe('POForm', () => {
 
     expect(screen.getByText('ui-orders.settings.orderTemplates.editor.template.name')).toBeInTheDocument();
     expect(screen.getByText(/PODetailsForm/i)).toBeInTheDocument();
-    expect(screen.getByText(/OngoingInfoForm/i)).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.totalUnits')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.totalEstimatedPrice')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.approved')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.workflowStatus')).toBeInTheDocument();
+  });
+
+  it('should not render Ongoing accordion for non-ongoing order', () => {
+    renderPOForm();
+
+    expect(screen.queryByText(/OngoingInfoForm/i)).toBeNull();
+  });
+
+  it('should render Ongoing accordion for ongoing order', () => {
+    renderPOForm({ initialValues: { orderType: ORDER_TYPE.ongoing } });
+
+    expect(screen.getByText(/OngoingInfoForm/i)).toBeInTheDocument();
   });
 
   it('should change template when another selected and show hidden fields when \'Show hidden fields\' btn was clicked', async () => {

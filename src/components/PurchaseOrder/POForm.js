@@ -378,7 +378,9 @@ class POForm extends Component {
                                 hiddenFields={this.state.hiddenFields}
                               />
                             </Accordion>
-                            <OngoingInfoForm hiddenFields={this.state.hiddenFields} />
+                            {isOngoing(formValues.orderType) && (
+                              <OngoingInfoForm hiddenFields={this.state.hiddenFields} />
+                            )}
                             <Accordion
                               id="POSummary"
                               label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}

@@ -24,7 +24,7 @@ describe('OrderEditPage', function () {
 
   it('displays Edit Order form', function () {
     expect(orderEditPage.$root).to.exist;
-    expect(orderEditPage.isOngoingInfoOpen).to.be.true;
+    expect(orderEditPage.isOngoingInfoOpen).to.be.false;
     expect(orderEditPage.addNoteButton.isButton).to.be.true;
     expect(orderEditPage.notes().length).to.be.equal(1);
   });
