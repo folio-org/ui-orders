@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -28,15 +28,22 @@ import {
   checkScope,
   collapseAllSections,
   ConfirmationModal,
+  Dropdown,
+  DropdownMenu,
   ExpandAllButton,
   expandAllSections,
   HasCommand,
+  Icon,
   Loading,
   LoadingPane,
   Pane,
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
+import {
+  ColumnManagerMenu,
+  useColumnManager,
+} from '@folio/stripes/smart-components';
 
 import {
   getAddresses,
@@ -68,6 +75,7 @@ import {
   updateOrderResource,
 } from '../Utils/orderResource';
 import { LINES_LIMIT_DEFAULT } from '../Utils/const';
+import { LINE_LISTING_COLUMN_MAPPING } from './constants';
 import CloseOrderModal from './CloseOrder';
 import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 import LineListing from './LineListing';
@@ -479,6 +487,8 @@ const PO = ({
     [location.search, match.params.id, history],
   );
 
+  const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
+
   const onAddPOLine = useCallback(
     () => {
       const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
@@ -495,24 +505,42 @@ const PO = ({
     [resources, match.params.id, history, location.search, poLinesCount, toggleLinesLimitExceededModal],
   );
 
+  const lineListingActionMenu = useMemo(() => (
+    <Dropdown
+      data-testid="line-listing-action-dropdown"
+      label={<FormattedMessage id="stripes-components.paneMenuActionsToggleLabel" />}
+      buttonProps={{ buttonStyle: 'primary' }}
+    >
+      <DropdownMenu>
+        <IfPermission perm="orders.po-lines.item.post">
+          <Button
+            data-test-add-line-button
+            data-testid="add-line-button"
+            buttonStyle="dropdownItem"
+            disabled={!isAbleToAddLines}
+            onClick={onAddPOLine}
+          >
+            <Icon size="small" icon="plus-sign">
+              <FormattedMessage id="ui-orders.button.addLine" />
+            </Icon>
+          </Button>
+        </IfPermission>
+        <ColumnManagerMenu
+          prefix="line-listing"
+          columnMapping={LINE_LISTING_COLUMN_MAPPING}
+          visibleColumns={visibleColumns}
+          toggleColumn={toggleColumn}
+          excludeColumns={['arrow']}
+        />
+      </DropdownMenu>
+    </Dropdown>
+  ), [isAbleToAddLines, onAddPOLine, toggleColumn, visibleColumns]);
+
   const updateOrderCB = useCallback(async (orderWithTags) => {
     await mutator.orderDetails.PUT(orderWithTags);
     await fetchOrder();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchOrder]);
-
-  const addPOLineButton = (
-    <IfPermission perm="orders.po-lines.item.post">
-      <Button
-        data-test-add-line-button
-        data-testid="add-line-button"
-        disabled={!isAbleToAddLines}
-        onClick={onAddPOLine}
-      >
-        <FormattedMessage id="ui-orders.button.addLine" />
-      </Button>
-    </IfPermission>
-  );
 
   const updateEncumbrances = useCallback(
     () => {
@@ -705,7 +733,7 @@ const PO = ({
               />
             </Accordion>
             <Accordion
-              displayWhenOpen={addPOLineButton}
+              displayWhenOpen={lineListingActionMenu}
               id="POListing"
               label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
             >
@@ -713,6 +741,7 @@ const PO = ({
                 baseUrl={match.url}
                 funds={funds}
                 poLines={poLines}
+                visibleColumns={visibleColumns}
               />
             </Accordion>
             <POInvoicesContainer

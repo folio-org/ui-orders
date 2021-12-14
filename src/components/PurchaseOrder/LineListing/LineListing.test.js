@@ -12,6 +12,7 @@ const defaultProps = {
     code: 'code',
   }],
   baseUrl: '',
+  visibleColumns: ['poLineNumber', 'title', 'productId', 'vendorRefNumber', 'fundCode', 'arrow'],
 };
 
 const renderLineListing = (props = {}) => render(

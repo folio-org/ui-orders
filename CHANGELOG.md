@@ -24,6 +24,7 @@
 * Do not show ongoing order accordion for One-time orders. Refs UIOR-869.
 * Allow user to show all hidden fields from PO or POL view. Refs UIOR-855.
 * When Order template includes hidden fields they are also hidden from the view pane. Refs UIOR-856.
+* Order - Allow user to choose what columns display for Order lines. Refs UIOR-878.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)
