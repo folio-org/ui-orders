@@ -104,7 +104,8 @@ const POLineView = ({
     [ACCORDION_ID.linkedInstances]: false,
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
-  const [isPrintModalOpened, togglePrintModal] = useModalToggle();
+  const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
+  const [isPrintLineModalOpened, togglePrintLineModal] = useModalToggle();
   const [hiddenFields, setHiddenFields] = useState({});
 
   useEffect(() => {
@@ -242,15 +243,28 @@ const POLineView = ({
             </Icon>
           </Button>
         </IfPermission>
+
         <Button
           buttonStyle="dropdownItem"
           onClick={() => {
             onToggle();
-            togglePrintModal();
+            togglePrintLineModal();
           }}
         >
           <Icon size="small" icon="print">
-            <FormattedMessage id="ui-orders.button.print" />
+            <FormattedMessage id="ui-orders.button.printLine" />
+          </Icon>
+        </Button>
+
+        <Button
+          buttonStyle="dropdownItem"
+          onClick={() => {
+            onToggle();
+            togglePrintOrderModal();
+          }}
+        >
+          <Icon size="small" icon="print">
+            <FormattedMessage id="ui-orders.button.printOrder" />
           </Icon>
         </Button>
         {Boolean(orderTemplate.hiddenFields) && (
@@ -332,7 +346,7 @@ const POLineView = ({
             bottom="xs"
           >
             <Col xs={10}>
-              {isPrintModalOpened && <Loading size="large" />}
+              {(isPrintOrderModalOpened || isPrintLineModalOpened) && <Loading size="large" />}
 
               {isClosedOrder && (
                 <MessageBanner type="warning">
@@ -502,10 +516,20 @@ const POLineView = ({
       </Pane>
 
       {
-        isPrintModalOpened && (
+        isPrintOrderModalOpened && (
           <PrintOrder
             order={order}
-            onCancel={togglePrintModal}
+            onCancel={togglePrintOrderModal}
+          />
+        )
+      }
+
+      {
+        isPrintLineModalOpened && (
+          <PrintOrder
+            order={order}
+            orderLine={line}
+            onCancel={togglePrintLineModal}
           />
         )
       }

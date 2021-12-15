@@ -190,7 +190,7 @@ export function getPOActionMenu({
         }}
       >
         <Icon size="small" icon="print">
-          <FormattedMessage id="ui-orders.button.print" />
+          <FormattedMessage id="ui-orders.button.printOrder" />
         </Icon>
       </Button>
       {Boolean(orderTemplate.hiddenFields) && (
