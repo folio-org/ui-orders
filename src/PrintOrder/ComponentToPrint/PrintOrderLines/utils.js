@@ -50,7 +50,7 @@ export const getColumns = (lines = []) => {
           />
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}
-            value={line.sourceRecord.contributors?.map(({ contributor }) => contributor).join(', ')}
+            value={line.sourceRecord.contributors?.map(({ contributor }) => `"${contributor}"`).join(', ')}
           />
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
