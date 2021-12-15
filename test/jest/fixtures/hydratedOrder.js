@@ -16,6 +16,9 @@ export const hydratedOrder = {
   lines: [{
     billToRecord: exportReport[0].billToRecord,
     shipToRecord: exportReport[0].shipToRecord,
+    quantityPhysical: exportReport[0].quantityPhysical,
+    quantityElectronic: exportReport[0].quantityElectronic,
+    poLineEstimatedPrice: exportReport[0].poLineEstimatedPrice,
     vendorRecord,
   }],
   shipToAddress: 'address',
