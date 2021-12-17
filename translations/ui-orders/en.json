@@ -19,6 +19,7 @@
   "buttons.line.save": "Save",
   "buttons.line.saveAndOpen": "Save & open order",
   "buttons.line.createAnother": "Create another",
+  "buttons.line.submit": "Submit",
   "checkIn.addPiece.error": "Piece was not saved",
   "checkIn.addPiece.success": "Piece was saved successfully",
   "checkIn.addPieceModal.editTitle": "Edit piece",
@@ -103,6 +104,10 @@
   "cost.rolloverAdjustment.info": "This value was added during rollover to balance the order cost with your desired encumbrance for the new year. If you edit the cost this value will be eliminated, and the encumbered value will be updated based on the new Estimated Price.",
   "createdDateAndTime": "Created date and time",
   "createdSource": "Created source",
+
+  "duplicateLines.confirmation.heading": "Save order line",
+  "duplicateLines.confirmation.message": "This appears to be a duplicate order line",
+  "duplicateLines.confirmation.title": "Possible duplicate order line",
 
   "eresource.accessProvider": "Access provider",
   "eresource.activationDue": "Activation due",

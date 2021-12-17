@@ -25,3 +25,7 @@ export const CLOSING_REASONS_SOURCE = {
 };
 
 export const RESULT_COUNT_INCREMENT = 30;
+
+export const VALIDATION_ERRORS = {
+  duplicateLines: 'duplicateLines',
+};
