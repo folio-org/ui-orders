@@ -12,9 +12,18 @@ import {
 } from '@folio/stripes/components';
 import { acqRowFormatter } from '@folio/stripes-acq-components';
 
+import { LINE_LISTING_COLUMN_MAPPING } from '../constants';
+
 const alignRowProps = { alignLastColToEnd: true };
 
-function LineListing({ baseUrl, funds, poLines, history, location }) {
+function LineListing({
+  baseUrl,
+  funds,
+  poLines,
+  history,
+  location,
+  visibleColumns,
+}) {
   const onSelectRow = useCallback(
     (e, meta) => {
       history.push({
@@ -50,15 +59,8 @@ function LineListing({ baseUrl, funds, poLines, history, location }) {
         rowProps={alignRowProps}
         sortedColumn="poLineNumber"
         sortDirection="ascending"
-        visibleColumns={['poLineNumber', 'title', 'productId', 'vendorRefNumber', 'fundCode', 'arrow']}
-        columnMapping={{
-          arrow: null,
-          poLineNumber: <FormattedMessage id="ui-orders.poLine.number" />,
-          title: <FormattedMessage id="ui-orders.lineListing.titleOrPackage" />,
-          productId: <FormattedMessage id="ui-orders.lineListing.productId" />,
-          vendorRefNumber: <FormattedMessage id="ui-orders.lineListing.refNumber" />,
-          fundCode: <FormattedMessage id="ui-orders.lineListing.fundCode" />,
-        }}
+        visibleColumns={visibleColumns}
+        columnMapping={LINE_LISTING_COLUMN_MAPPING}
       />
       <Layout className="textCentered">
         <Icon icon="end-mark">
@@ -75,6 +77,7 @@ LineListing.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   poLines: PropTypes.arrayOf(PropTypes.object),
+  visibleColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
 LineListing.defaultProps = {

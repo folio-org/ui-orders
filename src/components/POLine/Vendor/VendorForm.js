@@ -11,11 +11,13 @@ import {
   FieldVendorInstructions,
   FieldVendorAccountNumber,
 } from '../../../common/POLFields';
+import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 
 const VendorForm = ({
-  accounts,
   order,
+  accounts = [],
+  hiddenFields = {},
 }) => {
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const accountsDataOptions = accounts.map(({ name, accountNo }) => ({
@@ -29,21 +31,26 @@ const VendorForm = ({
         fieldName="vendorDetail.referenceNumbers"
       />
       <Row>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldVendorAccountNumber
-            accounts={accountsDataOptions}
-            disabled={isPostPendingOrder}
-          />
-        </Col>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldVendorInstructions disabled={isPostPendingOrder} />
-        </Col>
+        <IfFieldVisible visible={!hiddenFields.vendorDetail?.vendorAccount} name="vendorDetail.vendorAccount">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldVendorAccountNumber
+              accounts={accountsDataOptions}
+              disabled={isPostPendingOrder}
+            />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.vendorDetail?.instructions} name="vendorDetail.instructions">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldVendorInstructions disabled={isPostPendingOrder} />
+          </Col>
+        </IfFieldVisible>
       </Row>
     </>
   );
@@ -52,10 +59,7 @@ const VendorForm = ({
 VendorForm.propTypes = {
   accounts: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object.isRequired,
-};
-
-VendorForm.defaultProps = {
-  accounts: [],
+  hiddenFields: PropTypes.object,
 };
 
 export default VendorForm;

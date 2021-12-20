@@ -3,9 +3,49 @@
 ## (IN PROGRESS)
 
 * Update agreement hyperlink on POL. Refs UIOR-796.
-* Pieces are not displayed in POL Related invoices table. Refs UIOR-815.
 * Disable/enable instance matching for FOLIO tenant. Refs UIOR-763.
 * Settings (Orders) | Apply baseline keyboard shortcuts. Refs UIOR-803.
+* Remove pieces column from "Related invoice" accordion.Refs UIOR-817.
+* Filter and identify POL by Acq unit. Refs UIOR-477.
+* Add constraint for POL: physical POL should contain only Physical element and electronic only E-resource. Refs UIOR-825.
+* Add "Package titles" accordion to package POL view. Refs UIOR-831.
+* Allow user to add Package titles from POL view. Refs UIOR-832.
+* Allow user to select instance for Title AND edit title from POL view. Refs UIOR-833.
+* Display invoice line amount and comment on POL in related invoice table. Refs UIOR-851.
+* Intercept user with confirmation when user unopens Order. Refs UIOR-808.
+* Allow user to indicate in order template that specific fields should be hidden on order form. Refs UIOR-848.
+* Order template is not saved without receiving workflow. Refs UIOR-862.
+* Hide all fields in PO or POL that are set to hide in order template. Refs UIOR-850.
+* Create area Settings->Orders->Acquisition methods. Refs UIOR-846.
+* Allow user to show all hidden fields from PO or POL. Refs UIOR-849.
+* Select Acquisition method from controlled vocabulary list. Refs UIOR-852.
+* Rename collection field name for Acquisition method. Refs UIOR-872.
+* Move "show all hidden fields" for PO or POL to Actions menu. Refs UIOR-871.
+* Do not show ongoing order accordion for One-time orders. Refs UIOR-869.
+* Allow user to show all hidden fields from PO or POL view. Refs UIOR-855.
+* When Order template includes hidden fields they are also hidden from the view pane. Refs UIOR-856.
+* Order - Allow user to choose what columns display for Order lines. Refs UIOR-878.
+
+## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)
+
+* POL Title selection overwriting Order template location. Refs UIOR-863.
+* Order template not populating Holdings correctly.Refs UIOR-854.
+
+## [3.0.2](https://github.com/folio-org/ui-orders/tree/v3.0.2) (2021-11-05)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.1...v3.0.2)
+
+* Update manually add pieces for receiving field. Refs UIOR-836.
+* Product ID search returning random results. Refs UIOR-830.
+* Update "Unopen order" confirmation modal message when pieces are deleted. Refs UIOR-827.
+
+## [3.0.1](https://github.com/folio-org/ui-orders/tree/v3.0.1) (2021-11-02)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.0...v3.0.1)
+
+* Pieces are not displayed in POL Related invoices table. Refs UIOR-815.
+* User can't edit opened POL when last piece is removed. Refs UIOR-824.
+* Use a compatible version of `ui-plugin-find-po-line`. Refs UIOR-818.
+* Permission - "Order: Create order lines" missing instance plugin perms. Refs UIOR-819.
 
 ## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.2...v3.0.0)

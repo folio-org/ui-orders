@@ -25,6 +25,7 @@ describe('Create PO Line simple test', function () {
     order = this.server.create('order', {
       vendor: vendor.id,
     });
+    this.server.createList('acquisitionMethod', 5);
 
     this.visit(`/orders/view/${order.id}/po-line/create`);
     await lineEditPage.whenLoaded();
@@ -46,7 +47,8 @@ describe('Create PO Line simple test', function () {
 
     describe('Fill values and click save', () => {
       beforeEach(async function () {
-        await lineEditPage.acquisitionMethod('Approval plan');
+        await lineEditPage.acquisitionMethodButton.click();
+        await lineEditPage.acquisitionMethodOptions.list(1).click();
         await lineEditPage.selectOrderFormat('Physical resource');
         await lineEditPage.listUnitPrice.focus();
         await lineEditPage.listUnitPrice.fill(3.333);

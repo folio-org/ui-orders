@@ -17,13 +17,14 @@ const linkedInstance = {
   id: 'instanceId',
   title: 'ABA instance',
 };
-const linkedTitles = [{ instanceId: 'instanceId1' }];
+const linkedTitles = [{ instanceId: linkedInstance.id }];
 const formattedLinkedInstance = {
   id: linkedInstance.id,
   title: linkedInstance.title,
   contributors: 'formattedContributors',
   publishers: 'formattedPublishers',
   relations: 'formattedRelations',
+  receivingTitle: linkedTitles[0],
 };
 const queryClient = new QueryClient();
 

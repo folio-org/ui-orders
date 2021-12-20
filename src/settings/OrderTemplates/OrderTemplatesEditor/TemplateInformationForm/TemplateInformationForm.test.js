@@ -22,5 +22,6 @@ describe('TemplateInformationForm', () => {
     expect(screen.getByText('ui-orders.settings.orderTemplates.editor.template.name')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.settings.orderTemplates.editor.template.code')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.settings.orderTemplates.editor.template.description')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.settings.orderTemplates.editor.template.hideAll')).toBeInTheDocument();
   });
 });

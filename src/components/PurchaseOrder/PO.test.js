@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import user from '@testing-library/user-event';
 import { act, render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 import {
@@ -71,6 +72,17 @@ const defaultProps = {
   history,
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      {children}
+    </BrowserRouter>
+  </QueryClientProvider>
+);
+
 const renderComponent = (configProps = {}) => {
   window.history.pushState({}, 'Test page', '/orders/view/73a9b376-844f-41b5-8b3f-71f2fae63f1f');
 
@@ -87,7 +99,7 @@ const renderComponent = (configProps = {}) => {
         )}
       />
     </IntlProvider>,
-    { wrapper: BrowserRouter },
+    { wrapper },
   );
 };
 

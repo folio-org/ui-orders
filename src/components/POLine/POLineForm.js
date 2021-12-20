@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { get, mapValues } from 'lodash';
+import { get, mapValues, pick } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
-import { stripesShape } from '@folio/stripes/core';
+import { stripesShape, IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -14,8 +14,10 @@ import {
   Col,
   ExpandAllButton,
   HasCommand,
+  Icon,
   IconButton,
   LoadingPane,
+  MenuSection,
   Pane,
   PaneFooter,
   PaneMenu,
@@ -58,7 +60,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import styles from './POLineForm.css';
 
-const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId'];
+const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 
 function POLineForm({
   form: { change, batch },
@@ -76,10 +78,11 @@ function POLineForm({
   values: formValues,
   enableSaveBtn,
   linesLimit,
-  isCreateAnotherChecked,
+  isCreateAnotherChecked = false,
   toggleCreateAnother,
 }) {
   const history = useHistory();
+  const [hiddenFields, setHiddenFields] = useState({});
 
   const locations = parentResources?.locations?.records;
   const templateValue = getOrderTemplateValue(parentResources, order?.template, {
@@ -87,6 +90,21 @@ function POLineForm({
   });
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
+  const initialInventoryData = (
+    !lineId && templateValue.id
+      ? {
+        ...pick(templateValue, [
+          'instanceId',
+          'titleOrPackage',
+          'publisher',
+          'publicationDate',
+          'edition',
+          'contributors',
+          'details.productIds',
+        ]),
+      }
+      : {}
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -110,6 +128,8 @@ function POLineForm({
         });
       }
     });
+
+    setHiddenFields(templateValue?.hiddenFields || {});
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [change, lineId, templateValue.id]);
 
@@ -129,6 +149,37 @@ function POLineForm({
       </PaneMenu>
     );
   };
+
+  const toggleForceVisibility = () => {
+    setHiddenFields(prevHiddenFields => (
+      prevHiddenFields
+        ? undefined
+        : (templateValue?.hiddenFields || {})
+    ));
+  };
+
+  // eslint-disable-next-line react/prop-types
+  const getActionMenu = ({ onToggle }) => (
+    Boolean(templateValue?.hiddenFields) && (
+      <MenuSection id="po-line-form-actions">
+        <IfPermission perm="ui-orders.order.showHidden">
+          <Button
+            id="clickable-show-hidden"
+            data-testid="toggle-fields-visibility"
+            buttonStyle="dropdownItem"
+            onClick={() => {
+              toggleForceVisibility();
+              onToggle();
+            }}
+          >
+            <Icon size="small" icon={`eye-${hiddenFields ? 'open' : 'closed'}`}>
+              <FormattedMessage id={`ui-orders.order.${hiddenFields ? 'showHidden' : 'hideFields'}`} />
+            </Icon>
+          </Button>
+        </IfPermission>
+      </MenuSection>
+    )
+  );
 
   const submitAndOpen = useCallback(() => {
     change('saveAndOpen', true);
@@ -288,6 +339,7 @@ function POLineForm({
         footer={paneFooter}
         onClose={onCancel}
         firstMenu={firstMenu}
+        actionMenu={getActionMenu}
       >
         <form id="form-po-line" style={{ height: '100vh' }}>
           <Row>
@@ -304,24 +356,22 @@ function POLineForm({
                   </Row>
                 </Col>
 
-                {!initialValues.id && (
-                  <Col xs={12} md={8}>
-                    <Row>
-                      <Col xs={4}>
-                        <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
-                          {([translatedLabel]) => (
-                            <Selection
-                              dataOptions={orderTemplates}
-                              label={translatedLabel}
-                              value={order.template}
-                              disabled
-                            />
-                          )}
-                        </FormattedMessage>
-                      </Col>
-                    </Row>
-                  </Col>
-                )}
+                <Col xs={12} md={8}>
+                  <Row>
+                    <Col xs={4}>
+                      <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
+                        {([translatedLabel]) => (
+                          <Selection
+                            dataOptions={orderTemplates}
+                            label={translatedLabel}
+                            value={order.template}
+                            disabled
+                          />
+                        )}
+                      </FormattedMessage>
+                    </Col>
+                  </Row>
+                </Col>
 
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet
@@ -341,8 +391,9 @@ function POLineForm({
                         change={change}
                         batch={batch}
                         identifierTypes={identifierTypes}
-                        initialValues={initialValues}
+                        initialValues={{ ...initialValues, ...initialInventoryData }}
                         stripes={stripes}
+                        hiddenFields={hiddenFields}
                       />
                     </Accordion>
                     <Accordion
@@ -356,6 +407,7 @@ function POLineForm({
                         order={order}
                         parentResources={parentResources}
                         vendor={vendor}
+                        hiddenFields={hiddenFields}
                       />
                     </Accordion>
                     <Accordion
@@ -365,6 +417,7 @@ function POLineForm({
                       <VendorForm
                         accounts={accounts}
                         order={order}
+                        hiddenFields={hiddenFields}
                       />
                     </Accordion>
                     <Accordion
@@ -376,6 +429,7 @@ function POLineForm({
                         order={order}
                         initialValues={initialValues}
                         change={change}
+                        hiddenFields={hiddenFields}
                       />
                     </Accordion>
                     <Accordion
@@ -413,6 +467,7 @@ function POLineForm({
                           order={order}
                           formValues={formValues}
                           change={change}
+                          hiddenFields={hiddenFields}
                         />
                       </Accordion>
                     )}
@@ -426,6 +481,7 @@ function POLineForm({
                           order={order}
                           formValues={formValues}
                           change={change}
+                          hiddenFields={hiddenFields}
                         />
                       </Accordion>
                     )}
@@ -439,6 +495,7 @@ function POLineForm({
                           order={order}
                           formValues={formValues}
                           change={change}
+                          hiddenFields={hiddenFields}
                         />
                       </Accordion>
                     )}
@@ -468,7 +525,7 @@ POLineForm.propTypes = {
   values: PropTypes.object.isRequired,
   enableSaveBtn: PropTypes.bool,
   linesLimit: PropTypes.number.isRequired,
-  isCreateAnotherChecked: PropTypes.bool.isRequired,
+  isCreateAnotherChecked: PropTypes.bool,
   toggleCreateAnother: PropTypes.func.isRequired,
 };
 

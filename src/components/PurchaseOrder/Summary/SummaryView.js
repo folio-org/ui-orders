@@ -12,12 +12,13 @@ import {
   ORDER_STATUSES,
 } from '@folio/stripes-acq-components';
 
+import { IfVisible } from '../../../common/IfVisible';
 import TotalEncumberedValue from './TotalEncumberedValue';
 import TotalExpendedValue from './TotalExpendedValue';
 import WorkflowStatus from './WorkflowStatus';
 import TotalUnits from './TotalUnits';
 
-const SummaryView = ({ order }) => (
+const SummaryView = ({ order, hiddenFields }) => (
   <>
     <Row start="xs">
       <Col
@@ -26,17 +27,21 @@ const SummaryView = ({ order }) => (
       >
         <TotalUnits value={order.totalItems} />
       </Col>
-      <Col
-        xs={6}
-        lg={3}
-      >
-        <Checkbox
-          checked={order.approved}
-          disabled
-          label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
-          vertical
-        />
-      </Col>
+
+      <IfVisible visible={!hiddenFields.approved}>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <Checkbox
+            checked={order.approved}
+            disabled
+            label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
+            vertical
+          />
+        </Col>
+      </IfVisible>
+
       <Col
         data-test-workflow-status
         xs={6}
@@ -103,10 +108,12 @@ const SummaryView = ({ order }) => (
 
 SummaryView.propTypes = {
   order: PropTypes.object,
+  hiddenFields: PropTypes.object,
 };
 
 SummaryView.defaultProps = {
   order: {},
+  hiddenFields: {},
 };
 
 SummaryView.displayName = 'SummaryView';

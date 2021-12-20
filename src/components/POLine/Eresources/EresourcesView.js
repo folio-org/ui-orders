@@ -18,7 +18,9 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
-const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
+import { IfVisible } from '../../../common/IfVisible';
+
+const EresourcesView = ({ line: { eresource }, order, materialTypes, hiddenFields }) => {
   const expectedActivation = get(eresource, 'expectedActivation');
   const activationDue = get(eresource, 'activationDue');
   const created = get(order, 'metadata.createdDate', '');
@@ -39,62 +41,88 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes }) => {
 
   return (
     <Row start="xs">
-      <Col xs={3}>
-        <OrganizationValue
-          id={accessProviderId}
-          label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
-        />
-      </Col>
-      <Col xs={3}>
-        <Checkbox
-          checked={get(eresource, 'activated')}
-          disabled
-          label={<FormattedMessage id="ui-orders.eresource.activationStatus" />}
-          vertical
-        />
-      </Col>
-      <Col xs={3}>
-        <KeyValue label={<FormattedMessage id="ui-orders.eresource.activationDue" />}>
-          <FolioFormattedDate value={activationDueDate} />
-        </KeyValue>
-      </Col>
-      <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.eresource.createInventory" />}
-          value={get(eresource, 'createInventory')}
-        />
-      </Col>
-      <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.poLine.materialType" />}
-          value={get(materialType, 'name', '')}
-        />
-      </Col>
-      <Col xs={3}>
-        <Checkbox
-          checked={get(eresource, 'trial')}
-          disabled
-          label={<FormattedMessage id="ui-orders.eresource.trial" />}
-          vertical
-        />
-      </Col>
-      <Col xs={3}>
-        <KeyValue label={<FormattedMessage id="ui-orders.eresource.expectedActivation" />}>
-          <FolioFormattedDate value={expectedActivation} />
-        </KeyValue>
-      </Col>
-      <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.eresource.userLimit" />}
-          value={get(eresource, 'userLimit')}
-        />
-      </Col>
-      <Col xs={3}>
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.eresource.url" />}
-          value={resourceUrl}
-        />
-      </Col>
+      <IfVisible visible={!hiddenFields.eresource?.accessProvider}>
+        <Col xs={3}>
+          <OrganizationValue
+            id={accessProviderId}
+            label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
+          />
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.eresource?.activated}>
+        <Col xs={3}>
+          <Checkbox
+            checked={get(eresource, 'activated')}
+            disabled
+            label={<FormattedMessage id="ui-orders.eresource.activationStatus" />}
+            vertical
+          />
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.eresource?.activationDue}>
+        <Col xs={3}>
+          <KeyValue label={<FormattedMessage id="ui-orders.eresource.activationDue" />}>
+            <FolioFormattedDate value={activationDueDate} />
+          </KeyValue>
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.eresource?.createInventory}>
+        <Col xs={3}>
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.eresource.createInventory" />}
+            value={get(eresource, 'createInventory')}
+          />
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.eresource?.materialType}>
+        <Col xs={3}>
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.poLine.materialType" />}
+            value={get(materialType, 'name', '')}
+          />
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.eresource?.trial}>
+        <Col xs={3}>
+          <Checkbox
+            checked={get(eresource, 'trial')}
+            disabled
+            label={<FormattedMessage id="ui-orders.eresource.trial" />}
+            vertical
+          />
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.eresource?.expectedActivation}>
+        <Col xs={3}>
+          <KeyValue label={<FormattedMessage id="ui-orders.eresource.expectedActivation" />}>
+            <FolioFormattedDate value={expectedActivation} />
+          </KeyValue>
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.eresource?.userLimit}>
+        <Col xs={3}>
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.eresource.userLimit" />}
+            value={get(eresource, 'userLimit')}
+          />
+        </Col>
+      </IfVisible>
+
+      <IfVisible visible={!hiddenFields.eresource?.url}>
+        <Col xs={3}>
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.eresource.url" />}
+            value={resourceUrl}
+          />
+        </Col>
+      </IfVisible>
     </Row>
   );
 };
@@ -105,6 +133,7 @@ EresourcesView.propTypes = {
   }),
   materialTypes: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object,
+  hiddenFields: PropTypes.object,
 };
 
 EresourcesView.defaultProps = {
@@ -113,6 +142,7 @@ EresourcesView.defaultProps = {
     eresource: {},
   },
   order: {},
+  hiddenFields: {},
 };
 
 export default EresourcesView;

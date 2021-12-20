@@ -17,8 +17,9 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
-import UserValue from './UserValue';
+import { IfVisible } from '../../../common/IfVisible';
 import { isWorkflowStatusOpen } from '../util';
+import UserValue from './UserValue';
 
 import css from './PODetailsView.css';
 
@@ -26,14 +27,16 @@ class PODetailsView extends Component {
   static propTypes = {
     order: PropTypes.object.isRequired,
     addresses: PropTypes.arrayOf(PropTypes.object),
+    hiddenFields: PropTypes.object,
   };
 
   static defaultProps = {
     addresses: [],
+    hiddenFields: {},
   }
 
   render() {
-    const { order, addresses } = this.props;
+    const { order, addresses, hiddenFields } = this.props;
     const addressBillTo = get(addresses.find(el => el.id === get(order, 'billTo', '')), 'address', '');
     const addressShipTo = get(addresses.find(el => el.id === get(order, 'shipTo', '')), 'address', '');
 
@@ -74,12 +77,16 @@ class PODetailsView extends Component {
               value={get(order, 'orderType')}
             />
           </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <AcqUnitsView units={order.acqUnitIds} />
-          </Col>
+
+          <IfVisible visible={!hiddenFields.acqUnitIds}>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <AcqUnitsView units={order.acqUnitIds} />
+            </Col>
+          </IfVisible>
+
           <Col
             xs={6}
             lg={3}
@@ -88,60 +95,76 @@ class PODetailsView extends Component {
               <FolioFormattedTime dateString={order?.approvalDate} />
             </KeyValue>
           </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
+
+          <IfVisible visible={!hiddenFields.assignedTo}>
+            <Col
+              xs={6}
+              lg={3}
             >
-              <UserValue userId={order.assignedTo} />
-            </KeyValue>
-          </Col>
-          <Col
-            className={css.addressWrapper}
-            data-test-order-details-bill-to
-            xs={6}
-            lg={3}
-          >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-              value={addressBillTo}
-            />
-          </Col>
-          <Col
-            className={css.addressWrapper}
-            data-test-order-details-ship-to
-            xs={6}
-            lg={3}
-          >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-              value={addressShipTo}
-            />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <Checkbox
-              checked={get(order, 'manualPo')}
-              disabled
-              label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
-              vertical
-            />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <Checkbox
-              checked={get(order, 'reEncumber')}
-              disabled
-              label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}
-              vertical
-            />
-          </Col>
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
+              >
+                <UserValue userId={order.assignedTo} />
+              </KeyValue>
+            </Col>
+          </IfVisible>
+
+          <IfVisible visible={!hiddenFields.billTo}>
+            <Col
+              className={css.addressWrapper}
+              data-test-order-details-bill-to
+              xs={6}
+              lg={3}
+            >
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
+                value={addressBillTo}
+              />
+            </Col>
+          </IfVisible>
+
+          <IfVisible visible={!hiddenFields.shipTo}>
+            <Col
+              className={css.addressWrapper}
+              data-test-order-details-ship-to
+              xs={6}
+              lg={3}
+            >
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
+                value={addressShipTo}
+              />
+            </Col>
+          </IfVisible>
+
+          <IfVisible visible={!hiddenFields.manualPo}>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <Checkbox
+                checked={get(order, 'manualPo')}
+                disabled
+                label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
+                vertical
+              />
+            </Col>
+          </IfVisible>
+
+          <IfVisible visible={!hiddenFields.reEncumber}>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <Checkbox
+                checked={get(order, 'reEncumber')}
+                disabled
+                label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}
+                vertical
+              />
+            </Col>
+          </IfVisible>
+
           <Col
             xs={6}
             lg={3}

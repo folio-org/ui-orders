@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   cloneDeep,
   get,
+  omit,
 } from 'lodash';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
@@ -22,6 +23,7 @@ import {
   LIMIT_MAX,
   locationsManifest,
   materialTypesManifest,
+  ORDER_FORMATS,
   sourceValues,
   useModalToggle,
   useShowCallout,
@@ -173,10 +175,19 @@ function LayerPOLine({
     [memoizedMutator.lineOrder, order, sendCallout],
   );
 
+  const formatPOLineBeforeSaving = (line) => {
+    switch (line.orderFormat) {
+      case ORDER_FORMATS.electronicResource: return omit(line, 'physical');
+      case ORDER_FORMATS.physicalResource:
+      case ORDER_FORMATS.other: return omit(line, 'eresource');
+      default: return line;
+    }
+  };
+
   const submitPOLine = useCallback(async ({ saveAndOpen, ...line }) => {
     setSavingValues(line);
     setIsLoading(true);
-    const newLine = cloneDeep(line);
+    const newLine = formatPOLineBeforeSaving(cloneDeep(line));
     let savedLine;
 
     try {
@@ -265,7 +276,7 @@ function LayerPOLine({
     const { saveAndOpen, ...data } = hydratedLine;
 
     setIsLoading(true);
-    const line = cloneDeep(data);
+    const line = formatPOLineBeforeSaving(cloneDeep(data));
 
     delete line.metadata;
 
@@ -317,6 +328,7 @@ function LayerPOLine({
       },
       locations: [],
       isPackage: false,
+      checkinItems: false,
     };
 
     if (vendor?.id) {

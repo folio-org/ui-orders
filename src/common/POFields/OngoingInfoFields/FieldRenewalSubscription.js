@@ -44,6 +44,7 @@ const FieldRenewalSubscription = ({ disabled, isNonInteractive }) => {
       type="checkbox"
       validateFields={[]}
       vertical
+      fullWidth
     />
   );
 };

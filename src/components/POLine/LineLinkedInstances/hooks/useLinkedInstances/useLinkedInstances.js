@@ -44,12 +44,12 @@ export const useInstanceRelationTypes = () => {
 export const useLinkedTitles = line => {
   const ky = useOkapiKy();
 
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, refetch } = useQuery(
     ['ui-orders', 'linked-titles', line.id],
     () => {
       const searchParams = {
         limit: LIMIT_MAX,
-        query: `poLineId=${line.id} and instanceId=""`,
+        query: `poLineId=${line.id} and instanceId="" sortby title`,
       };
 
       return ky.get('orders/titles', { searchParams }).json();
@@ -59,17 +59,16 @@ export const useLinkedTitles = line => {
   return {
     isLoading,
     linkedTitles: data?.titles,
+    refetchLinkedTitles: refetch,
   };
 };
 
 export const useLinkedInstances = line => {
   const { fetchInstanceRelationTypes } = useInstanceRelationTypes();
-  const { isLoading: isLinkedTitlesLoading, linkedTitles = [] } = useLinkedTitles(line);
+  const { isLoading: isLinkedTitlesLoading, linkedTitles = [], refetchLinkedTitles } = useLinkedTitles(line);
   const ky = useOkapiKy();
 
-  const linkedInstanceIds = linkedTitles
-    .map(({ instanceId }) => instanceId)
-    .filter(Boolean);
+  const linkedInstanceIds = linkedTitles.map(({ instanceId }) => instanceId).filter(Boolean);
 
   if (
     line.instanceId
@@ -80,17 +79,26 @@ export const useLinkedInstances = line => {
   }
 
   const { isLoading, data } = useQuery(
-    ['ui-orders', 'linked-instances', line.id, linkedInstanceIds],
+    ['ui-orders', 'linked-instances', line.id, linkedInstanceIds, linkedTitles],
     async () => {
       const { data: relationTypesData } = await fetchInstanceRelationTypes();
 
       return batchRequest(
         async ({ params: searchParams }) => {
           const { instances = [] } = await ky.get('inventory/instances', { searchParams }).json();
+          const hydrateLinkedInstancesMap = instances.reduce((acc, instance) => {
+            acc[instance.id] = {
+              ...instance,
+              ...hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
+            };
 
-          return instances.map(
-            instance => hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
-          );
+            return acc;
+          }, {});
+
+          return linkedTitles.map((title) => ({
+            ...hydrateLinkedInstancesMap[title.instanceId],
+            receivingTitle: title,
+          }));
         },
         linkedInstanceIds,
       );
@@ -101,5 +109,6 @@ export const useLinkedInstances = line => {
   return {
     isLoading: isLoading || isLinkedTitlesLoading,
     linkedInstances: data,
+    refetch: refetchLinkedTitles,
   };
 };

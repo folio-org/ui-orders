@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 import { Tags } from '@folio/stripes-acq-components';
 
 import POLine from './POLine';
@@ -58,12 +60,23 @@ const defaultProps = {
   resources: {},
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    <MemoryRouter>
+      {children}
+    </MemoryRouter>
+  </QueryClientProvider>
+);
+
 const renderPOLine = (props = {}) => render(
   <POLine
     {...defaultProps}
     {...props}
   />,
-  { wrapper: MemoryRouter },
+  { wrapper },
 );
 
 describe('POLine', () => {

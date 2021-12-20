@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
+import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -18,6 +19,7 @@ import {
   HasCommand,
   Icon,
   IconButton,
+  MenuSection,
   Pane,
   PaneFooter,
   PaneMenu,
@@ -61,6 +63,30 @@ class POForm extends Component {
   constructor(props) {
     super(props);
     this.accordionStatusRef = React.createRef();
+
+    this.state = {
+      hiddenFields: {},
+    };
+  }
+
+  componentDidMount() {
+    const { parentResources, initialValues } = this.props;
+    let hiddenFields = {};
+    let orderTemplate;
+
+    if (initialValues.template) {
+      orderTemplate = parentResources?.orderTemplates?.records?.find(
+        ({ id }) => id === initialValues.template,
+      );
+
+      hiddenFields = orderTemplate?.hiddenFields || {};
+    }
+
+    this.setState(prev => ({
+      ...prev,
+      template: orderTemplate,
+      hiddenFields,
+    }));
   }
 
   callAPI = (fieldName, formValues) => {
@@ -103,6 +129,28 @@ class POForm extends Component {
       </PaneMenu>
     );
   }
+
+  getActionMenu = ({ onToggle }) => (
+    Boolean(this.state.template?.hiddenFields) && (
+      <MenuSection id="po-form-actions">
+        <IfPermission perm="ui-orders.order.showHidden">
+          <Button
+            id="clickable-show-hidden"
+            buttonStyle="dropdownItem"
+            data-testid="toggle-fields-visibility"
+            onClick={() => {
+              this.toggleForceVisibility();
+              onToggle();
+            }}
+          >
+            <Icon size="small" icon={`eye-${this.state.hiddenFields ? 'open' : 'closed'}`}>
+              <FormattedMessage id={`ui-orders.order.${this.state.hiddenFields ? 'showHidden' : 'hideFields'}`} />
+            </Icon>
+          </Button>
+        </IfPermission>
+      </MenuSection>
+    )
+  );
 
   getPaneFooter(id, label) {
     const { pristine, submitting, handleSubmit, onCancel } = this.props;
@@ -149,6 +197,12 @@ class POForm extends Component {
     const { form: { batch, change, getRegisteredFields }, parentResources } = this.props;
     const templateValue = getOrderTemplateValue(parentResources, value);
 
+    this.setState(prev => ({
+      ...prev,
+      template: templateValue,
+      hiddenFields: prev.hiddenFields ? (templateValue?.hiddenFields || {}) : undefined,
+    }));
+
     batch(() => {
       change('template', value);
       change('vendor', null);
@@ -179,6 +233,14 @@ class POForm extends Component {
     }
   };
 
+  toggleForceVisibility = () => {
+    this.setState(({ hiddenFields, template, ...rest }) => ({
+      ...rest,
+      template,
+      hiddenFields: hiddenFields ? undefined : template?.hiddenFields || {},
+    }));
+  };
+
   render() {
     const {
       form: { change },
@@ -193,6 +255,7 @@ class POForm extends Component {
       parentResources,
     } = this.props;
     const firstMenu = this.getAddFirstMenu();
+    const actionMenu = args => this.getActionMenu(args);
     const orderNumber = getFullOrderNumber(initialValues);
     const paneTitle = initialValues.id
       ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
@@ -259,6 +322,7 @@ class POForm extends Component {
             <Pane
               defaultWidth="100%"
               firstMenu={firstMenu}
+              actionMenu={actionMenu}
               id="pane-poForm"
               footer={paneFooter}
               onClose={onCancel}
@@ -280,21 +344,20 @@ class POForm extends Component {
                           </Row>
                         </Col>
 
-                        {(!initialValues.id || !poLinesLength) && (
-                          <Col xs={12} md={8}>
-                            <Row>
-                              <Col xs={4}>
-                                <FieldSelection
-                                  dataOptions={orderTemplates}
-                                  onChange={this.onChangeTemplate}
-                                  labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                                  name="template"
-                                  id="order-template"
-                                />
-                              </Col>
-                            </Row>
-                          </Col>
-                        )}
+                        <Col xs={12} md={8}>
+                          <Row>
+                            <Col xs={4}>
+                              <FieldSelection
+                                dataOptions={orderTemplates}
+                                onChange={this.onChangeTemplate}
+                                labelId="ui-orders.settings.orderTemplates.editor.template.name"
+                                name="template"
+                                id="order-template"
+                                disabled={poLinesLength}
+                              />
+                            </Col>
+                          </Row>
+                        </Col>
 
                         <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                           <AccordionSet>
@@ -312,14 +375,20 @@ class POForm extends Component {
                                 prefixesSetting={prefixesSetting}
                                 suffixesSetting={suffixesSetting}
                                 validateNumber={this.validateNumber}
+                                hiddenFields={this.state.hiddenFields}
                               />
                             </Accordion>
-                            <OngoingInfoForm />
+                            {isOngoing(formValues.orderType) && (
+                              <OngoingInfoForm hiddenFields={this.state.hiddenFields} />
+                            )}
                             <Accordion
                               id="POSummary"
                               label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
                             >
-                              <SummaryForm initialValues={initialValues} />
+                              <SummaryForm
+                                initialValues={initialValues}
+                                hiddenFields={this.state.hiddenFields}
+                              />
                             </Accordion>
                           </AccordionSet>
                         </Col>

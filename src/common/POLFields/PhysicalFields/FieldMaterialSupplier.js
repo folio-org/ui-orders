@@ -3,16 +3,24 @@ import PropTypes from 'prop-types';
 
 import { FieldOrganization } from '@folio/stripes-acq-components';
 
+const styles = {
+  wrapper: {
+    width: '100%',
+  },
+};
+
 const FieldMaterialSupplier = ({ change, disabled, materialSupplierId }) => {
   return (
-    <FieldOrganization
-      change={change}
-      labelId="ui-orders.physical.materialSupplier"
-      name="physical.materialSupplier"
-      isNonInteractive={disabled}
-      id={materialSupplierId}
-      required={false}
-    />
+    <div style={styles.wrapper}>
+      <FieldOrganization
+        change={change}
+        labelId="ui-orders.physical.materialSupplier"
+        name="physical.materialSupplier"
+        isNonInteractive={disabled}
+        id={materialSupplierId}
+        required={false}
+      />
+    </div>
   );
 };
 

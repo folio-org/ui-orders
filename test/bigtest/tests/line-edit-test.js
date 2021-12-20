@@ -84,6 +84,7 @@ describe('Line edit test', function () {
         createInventory: INVENTORY_RECORDS_TYPE.all,
         materialType: materialTypes[0].id,
       },
+      checkinItems: false,
     });
 
     order = this.server.create('order', {

@@ -18,6 +18,7 @@ import {
   FieldExpectedActivation,
   FieldURL,
 } from '../../../../common/POLFields';
+import { VisibilityControl } from '../../../../common/VisibilityControl';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 import parseNumber from '../../../../components/Utils/parseNumber';
 
@@ -28,80 +29,98 @@ const POLineEresourcesForm = ({ materialTypes, formValues, change }) => {
         xs={3}
         data-col-order-template-eresources-access-provider
       >
-        <FieldAccessProvider
-          accessProviderId={formValues?.eresource?.accessProvider}
-          change={change}
-          required={false}
-        />
+        <VisibilityControl name="hiddenFields.eresource.accessProvider">
+          <FieldAccessProvider
+            accessProviderId={formValues?.eresource?.accessProvider}
+            change={change}
+            required={false}
+          />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-eresources-material-type
       >
-        <FieldMaterialType
-          materialTypes={materialTypes}
-          name="eresource.materialType"
-        />
+        <VisibilityControl name="hiddenFields.eresource.materialType">
+          <FieldMaterialType
+            materialTypes={materialTypes}
+            name="eresource.materialType"
+          />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-eresources-activation-due
       >
-        <Field
-          component={TextField}
-          fullWidth
-          parse={parseNumber}
-          label={<FormattedMessage id="ui-orders.eresource.activationDue" />}
-          name="eresource.activationDue"
-          type="number"
-          min={0}
-        />
+        <VisibilityControl name="hiddenFields.eresource.activationDue">
+          <Field
+            component={TextField}
+            fullWidth
+            parse={parseNumber}
+            label={<FormattedMessage id="ui-orders.eresource.activationDue" />}
+            name="eresource.activationDue"
+            type="number"
+            min={0}
+          />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-eresources-extected-activation
       >
-        <FieldExpectedActivation />
+        <VisibilityControl name="hiddenFields.eresource.expectedActivation">
+          <FieldExpectedActivation />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-eresources-create-inventory
       >
-        <InventoryRecordTypeSelectField
-          label="ui-orders.eresource.createInventory"
-          name="eresource.createInventory"
-        />
+        <VisibilityControl name="hiddenFields.eresource.createInventory">
+          <InventoryRecordTypeSelectField
+            label="ui-orders.eresource.createInventory"
+            name="eresource.createInventory"
+          />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-eresources-user-limit
       >
-        <FieldUserLimit />
+        <VisibilityControl name="hiddenFields.eresource.userLimit">
+          <FieldUserLimit />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-eresources-activated
       >
-        <FieldActivated />
+        <VisibilityControl name="hiddenFields.eresource.activated">
+          <FieldActivated />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-eresources-trial
       >
-        <FieldTrial />
+        <VisibilityControl name="hiddenFields.eresource.trial">
+          <FieldTrial />
+        </VisibilityControl>
       </Col>
       <Col
         xs={3}
         data-col-order-template-url
       >
-        <FieldURL />
+        <VisibilityControl name="hiddenFields.eresource.url">
+          <FieldURL />
+        </VisibilityControl>
       </Col>
     </Row>
   );

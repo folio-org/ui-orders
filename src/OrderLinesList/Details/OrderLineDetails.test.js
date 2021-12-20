@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router';
 import { Tags } from '@folio/stripes-acq-components';
 
@@ -49,12 +50,23 @@ const defaultProps = {
   mutator,
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    <MemoryRouter>
+      {children}
+    </MemoryRouter>
+  </QueryClientProvider>
+);
+
 const renderOrderLineDetails = (props = {}) => render(
   <OrderLineDetails
     {...defaultProps}
     {...props}
   />,
-  { wrapper: MemoryRouter },
+  { wrapper },
 );
 
 describe('OrderLineDetails', () => {

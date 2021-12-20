@@ -74,40 +74,40 @@ describe('ItemForm', () => {
     expect(defaultProps.batch).toHaveBeenCalled();
   });
 
-  it('should handle \'TitleField\' change', async () => {
+  it('should handle \'TitleField\' change', () => {
     renderItemForm();
 
-    const field = await screen.findByLabelText('ui-orders.itemDetails.title');
+    const field = screen.getByLabelText('ui-orders.itemDetails.title');
 
     user.type(field, 'new title');
 
     expect(field.value).toBe('new title');
   });
 
-  it('should handle \'publisher field\' change', async () => {
+  it('should handle \'publisher field\' change', () => {
     renderItemForm();
 
-    const field = await screen.findByLabelText('ui-orders.itemDetails.publisher');
+    const field = screen.getByLabelText('ui-orders.itemDetails.publisher');
 
     user.type(field, 'new publisher');
 
     expect(field.value).toBe('new publisher');
   });
 
-  it('should handle \'publicationDate field\' change', async () => {
+  it('should handle \'publicationDate field\' change', () => {
     renderItemForm();
 
-    const field = await screen.findByLabelText('ui-orders.itemDetails.publicationDate');
+    const field = screen.getByLabelText('ui-orders.itemDetails.publicationDate');
 
     user.type(field, '01/01/2021');
 
     expect(field.value).toBe('01/01/2021');
   });
 
-  it('should handle \'edition field\' change', async () => {
+  it('should handle \'edition field\' change', () => {
     renderItemForm();
 
-    const field = await screen.findByLabelText('ui-orders.itemDetails.edition');
+    const field = screen.getByLabelText('ui-orders.itemDetails.edition');
 
     user.type(field, 'some edition');
 

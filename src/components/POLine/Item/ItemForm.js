@@ -25,6 +25,8 @@ import {
   PRODUCT_ID_TYPE,
   QUALIFIER_SEPARATOR,
 } from '../../../common/constants';
+import { IfFieldVisible } from '../../../common/IfFieldVisible';
+import { VisibilityControl } from '../../../common/VisibilityControl';
 import ContributorForm from './ContributorForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import InstancePlugin from './InstancePlugin';
@@ -48,10 +50,12 @@ class ItemForm extends Component {
     order: PropTypes.object.isRequired,
     formValues: PropTypes.object.isRequired,
     required: PropTypes.bool,
+    hiddenFields: PropTypes.object,
   };
 
   static defaultProps = {
     initialValues: {},
+    hiddenFields: {},
     required: true,
   };
 
@@ -68,7 +72,7 @@ class ItemForm extends Component {
   };
 
   onAddInstance = (instance) => {
-    const { change, identifierTypes } = this.props;
+    const { change, identifierTypes, formValues } = this.props;
     const { contributors, editions, publication, title, identifiers, id } = instance;
     const inventoryData = { instanceId: id };
 
@@ -131,6 +135,10 @@ class ItemForm extends Component {
       inventoryData.productIds = [];
     }
 
+    if (formValues.instanceId && formValues.instanceId !== id) {
+      change('locations', []);
+    }
+
     this.setState(({
       instanceId: inventoryData.instanceId,
       title: get(inventoryData, 'title', ''),
@@ -143,8 +151,9 @@ class ItemForm extends Component {
   };
 
   onChangeField = (value, fieldName) => {
-    const { change } = this.props;
+    const { change, formValues } = this.props;
     const inventoryData = this.state;
+    const locations = formValues?.locations;
 
     if (fieldName) change(fieldName, value);
 
@@ -153,7 +162,7 @@ class ItemForm extends Component {
         change('instanceId', inventoryData.instanceId);
       } else {
         change('instanceId', null);
-        change('locations', []);
+        locations.forEach((_, i) => change(`locations[${i}].holdingId`, null));
       }
     });
   };
@@ -244,6 +253,7 @@ class ItemForm extends Component {
       formValues,
       identifierTypes,
       required,
+      hiddenFields,
     } = this.props;
     const isPackage = Boolean(formValues?.isPackage);
     const isSelectInstanceVisible = !(isPackage || isPostPendingOrder);
@@ -251,20 +261,24 @@ class ItemForm extends Component {
     return (
       <>
         <Row>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={Checkbox}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.poLine.package" />}
-              name="isPackage"
-              onChange={this.setIsPackage}
-              type="checkbox"
-              disabled={isPostPendingOrder}
-            />
-          </Col>
+          <IfFieldVisible visible={!hiddenFields.isPackage} name="isPackage">
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.isPackage">
+                <Field
+                  component={Checkbox}
+                  fullWidth
+                  label={<FormattedMessage id="ui-orders.poLine.package" />}
+                  name="isPackage"
+                  onChange={this.setIsPackage}
+                  type="checkbox"
+                  disabled={isPostPendingOrder}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
           <Col xs={12}>
@@ -291,41 +305,56 @@ class ItemForm extends Component {
               validateFields={[]}
             />
           </Col>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <FieldDatepickerFinal
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-              name="details.subscriptionFrom"
-              validateFields={[]}
-            />
-          </Col>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <FieldDatepickerFinal
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-              name="details.subscriptionTo"
-              isNonInteractive={isPostPendingOrder}
-              validateFields={[]}
-            />
-          </Col>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-              name="details.subscriptionInterval"
-              component={TextField}
-              type="number"
-              fullWidth
-              isNonInteractive={isPostPendingOrder}
-              validateFields={[]}
-            />
-          </Col>
+
+          <IfFieldVisible visible={!hiddenFields.details?.subscriptionFrom} name="details.subscriptionFrom">
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.details.subscriptionFrom">
+                <FieldDatepickerFinal
+                  label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
+                  name="details.subscriptionFrom"
+                  validateFields={[]}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
+
+          <IfFieldVisible visible={!hiddenFields.details?.subscriptionTo} name="details.subscriptionTo">
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.details.subscriptionTo">
+                <FieldDatepickerFinal
+                  label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
+                  name="details.subscriptionTo"
+                  isNonInteractive={isPostPendingOrder}
+                  validateFields={[]}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
+
+          <IfFieldVisible visible={!hiddenFields.details?.subscriptionInterval} name="details.subscriptionInterval">
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.details.subscriptionInterval">
+                <Field
+                  label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
+                  name="details.subscriptionInterval"
+                  component={TextField}
+                  type="number"
+                  fullWidth
+                  isNonInteractive={isPostPendingOrder}
+                  validateFields={[]}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
           <Col
@@ -370,16 +399,21 @@ class ItemForm extends Component {
               validateFields={[]}
             />
           </Col>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <PackagePoLineField
-              disabled={isPackage}
-              onSelectLine={this.onAddLinkPackage}
-              poLineId={formValues?.packagePoLineId}
-            />
-          </Col>
+
+          <IfFieldVisible visible={!hiddenFields.packagePoLineId} name="packagePoLineId">
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.packagePoLineId">
+                <PackagePoLineField
+                  disabled={isPackage}
+                  onSelectLine={this.onAddLinkPackage}
+                  poLineId={formValues?.packagePoLineId}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
           <Col xs={12}>
@@ -402,18 +436,22 @@ class ItemForm extends Component {
           </Col>
         </Row>
         <Row>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextArea}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
-              name="description"
-              validateFields={[]}
-            />
-          </Col>
+          <IfFieldVisible visible={!hiddenFields.description} name="description">
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.description">
+                <Field
+                  component={TextArea}
+                  fullWidth
+                  label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
+                  name="description"
+                  validateFields={[]}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
         </Row>
       </>
     );

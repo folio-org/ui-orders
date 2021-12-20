@@ -38,14 +38,14 @@ import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
 
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
-const INITIAL_VALUES = { isPackage: false };
+const INITIAL_VALUES = { isPackage: false, hideAll: false };
 
 function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
   const showToast = useShowCallout();
   const saveOrderTemplate = useCallback((values) => {
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplate.POST;
 
-    mutatorMethod(values)
+    mutatorMethod({ ...values, hideAll: undefined })
       .then(() => {
         showToast({ messageId: 'ui-orders.settings.orderTemplates.save.success' });
         close();
@@ -74,7 +74,10 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
   const materialTypes = getMaterialTypesForSelect(resources);
   const orderTemplate = id
-    ? get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES)
+    ? {
+      ...get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES),
+      hideAll: false,
+    }
     : INITIAL_VALUES;
   const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 

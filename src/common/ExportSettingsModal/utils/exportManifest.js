@@ -7,11 +7,17 @@ import {
   materialTypesManifest,
   organizationsManifest,
   usersManifest,
+  acquisitionMethodsResource,
 } from '@folio/stripes-acq-components';
 
 import { ADDRESSES } from '../../../components/Utils/resources';
 
 export const exportManifest = Object.freeze({
+  acquisitionMethods: {
+    ...acquisitionMethodsResource,
+    fetch: false,
+    accumulate: true,
+  },
   exportVendors: {
     ...organizationsManifest,
     fetch: false,

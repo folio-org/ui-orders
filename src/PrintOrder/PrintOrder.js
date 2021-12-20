@@ -11,7 +11,7 @@ import PrintContent from './PrintContent';
 import { hydrateOrderToPrint } from './hydrateOrderToPrint';
 import { getPrintPageStyles } from './utils';
 
-export const PrintOrderComponent = ({ mutator, order, onCancel }) => {
+export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => {
   const intl = useIntl();
 
   const [printableOrder, setPrintableOrder] = useState();
@@ -26,11 +26,12 @@ export const PrintOrderComponent = ({ mutator, order, onCancel }) => {
   useEffect(() => {
     (async () => {
       const { compositePoLines } = order;
+      const linesToPrint = orderLine ? [orderLine] : compositePoLines;
 
       setPrintableOrder(hydrateOrderToPrint({
         order: {
           ...order,
-          lines: await getExportData(mutator, compositePoLines, [order], intl),
+          lines: await getExportData(mutator, linesToPrint, [order], intl),
         },
       }));
 
@@ -53,6 +54,7 @@ PrintOrderComponent.propTypes = {
   mutator: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
   order: PropTypes.object,
+  orderLine: PropTypes.object,
 };
 
 export const PrintOrder = stripesConnect(PrintOrderComponent);

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useFormState } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
@@ -18,9 +19,11 @@ import {
   FieldOngoingInfoNotes,
   isOngoing,
 } from '../../../common/POFields';
+import { IfFieldVisible } from '../../../common/IfFieldVisible';
+import { VisibilityControl } from '../../../common/VisibilityControl';
 import { isWorkflowStatusIsPending } from '../util';
 
-const OngoingInfoForm = () => {
+const OngoingInfoForm = ({ hiddenFields = {} }) => {
   const { values } = useFormState();
   const ongoingFormValues = values.ongoing;
   const disabled = !isOngoing(values.orderType);
@@ -35,75 +38,112 @@ const OngoingInfoForm = () => {
       label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
     >
       <Row>
-        <Col
-          xs={6}
-          md={3}
-        >
-          <FieldRenewalSubscription
-            disabled={disabled}
-            isNonInteractive={isNonInteractive}
-          />
-        </Col>
+        <IfFieldVisible visible={!hiddenFields.ongoing?.isSubscription} name="ongoing.isSubscription">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <VisibilityControl name="hiddenFields.ongoing.isSubscription">
+              <FieldRenewalSubscription
+                disabled={disabled}
+                isNonInteractive={isNonInteractive}
+              />
+            </VisibilityControl>
+          </Col>
+        </IfFieldVisible>
         {!disabled && (
           <>
-            <Col
-              xs={6}
-              md={3}
-            >
-              <FieldRenewalInterval
-                disabled={!isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-            >
-              <FieldRenewalDate
-                disabled={!isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-            >
-              <FieldRenewalPeriod
-                disabled={!isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-            >
-              <FieldIsManualRenewal
-                disabled={!isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-            >
-              <FieldReviewDate
-                disabled={isSubscription}
-                isNonInteractive={isNonInteractive}
-              />
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-            >
-              <FieldOngoingInfoNotes
-                isNonInteractive={isNonInteractive}
-              />
-            </Col>
+            <IfFieldVisible visible={!hiddenFields.ongoing?.interval} name="ongoing.interval">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.ongoing.interval">
+                  <FieldRenewalInterval
+                    disabled={!isSubscription}
+                    isNonInteractive={isNonInteractive}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
+
+            <IfFieldVisible visible={!hiddenFields.ongoing?.renewalDate} name="ongoing.renewalDate">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.ongoing.renewalDate">
+                  <FieldRenewalDate
+                    disabled={!isSubscription}
+                    isNonInteractive={isNonInteractive}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
+
+            <IfFieldVisible visible={!hiddenFields.ongoing?.reviewPeriod} name="ongoing.reviewPeriod">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.ongoing.reviewPeriod">
+                  <FieldRenewalPeriod
+                    disabled={!isSubscription}
+                    isNonInteractive={isNonInteractive}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
+
+            <IfFieldVisible visible={!hiddenFields.ongoing?.manualRenewal} name="ongoing.manualRenewal">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.ongoing.manualRenewal">
+                  <FieldIsManualRenewal
+                    disabled={!isSubscription}
+                    isNonInteractive={isNonInteractive}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
+
+            <IfFieldVisible visible={!hiddenFields.ongoing?.reviewDate} name="ongoing.reviewDate">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.ongoing.reviewDate">
+                  <FieldReviewDate
+                    disabled={isSubscription}
+                    isNonInteractive={isNonInteractive}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
+
+            <IfFieldVisible visible={!hiddenFields.ongoing?.notes} name="ongoing.notes">
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.ongoing.notes">
+                  <FieldOngoingInfoNotes
+                    isNonInteractive={isNonInteractive}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
           </>
         )}
       </Row>
     </Accordion>
   );
+};
+
+OngoingInfoForm.propTypes = {
+  hiddenFields: PropTypes.object,
 };
 
 export default OngoingInfoForm;

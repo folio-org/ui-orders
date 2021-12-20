@@ -1,4 +1,5 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
@@ -24,6 +25,15 @@ const defaultProps = {
   change: jest.fn(),
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
+
 const renderPOLineDetailsForm = (props = {}) => render(
   <Form
     onSubmit={() => jest.fn()}
@@ -34,6 +44,7 @@ const renderPOLineDetailsForm = (props = {}) => render(
       />
     )}
   />,
+  { wrapper },
 );
 
 describe('POLineDetailsForm', () => {
@@ -54,7 +65,7 @@ describe('POLineDetailsForm', () => {
     expect(screen.getByText('ui-orders.poLine.cancellationRestriction')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.rush')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.сollection')).toBeInTheDocument();
-    expect(screen.getByText('ui-orders.poLine.receiveItems')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.poLine.receivingWorkflow')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.cancellationRestrictionNote')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.poLineDescription')).toBeInTheDocument();
   });

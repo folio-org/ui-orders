@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 
 import { FieldOrganization } from '@folio/stripes-acq-components';
 
+const styles = {
+  wrapper: {
+    width: '100%',
+  },
+};
+
 const FieldAccessProvider = ({ accessProviderId, ...rest }) => {
   return (
-    <FieldOrganization
-      labelId="ui-orders.eresource.accessProvider"
-      name="eresource.accessProvider"
-      id={accessProviderId}
-      {...rest}
-    />
+    <div style={styles.wrapper}>
+      <FieldOrganization
+        labelId="ui-orders.eresource.accessProvider"
+        name="eresource.accessProvider"
+        id={accessProviderId}
+        {...rest}
+      />
+    </div>
   );
 };
 

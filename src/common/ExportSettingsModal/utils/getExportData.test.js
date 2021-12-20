@@ -13,6 +13,10 @@ jest.mock('./createExportReport', () => ({
 }));
 
 const mockMutator = {
+  acquisitionMethods: {
+    GET: jest.fn(),
+    reset: jest.fn(),
+  },
   exportVendors: {
     GET: jest.fn(),
     reset: jest.fn(),

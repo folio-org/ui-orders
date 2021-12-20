@@ -10,8 +10,8 @@ import {
   collapseAllSections,
 } from '@folio/stripes/components';
 
+import { ORDER_TYPE } from '../../common/constants';
 import POForm from './POForm';
-import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import { history } from '../../../test/jest/routerMocks';
 
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
@@ -19,10 +19,8 @@ jest.mock('@folio/stripes-components/lib/Commander', () => ({
   expandAllSections: jest.fn(),
   collapseAllSections: jest.fn(),
 }));
-jest.mock('../Utils/getOrderTemplateValue', () => jest.fn().mockReturnValue({}));
 jest.mock('./PODetails/PODetailsForm', () => jest.fn().mockReturnValue('PODetailsForm'));
 jest.mock('./OngoingOgderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
-jest.mock('./Summary/SummaryForm', () => jest.fn().mockReturnValue('SummaryForm'));
 
 const defaultProps = {
   values: {},
@@ -44,6 +42,7 @@ const defaultProps = {
         locations: [{
           locationId: 'locationId',
         }],
+        hiddenFields: { ongoing: { isSubscription: true } },
       }],
     },
   },
@@ -75,11 +74,25 @@ describe('POForm', () => {
 
     expect(screen.getByText('ui-orders.settings.orderTemplates.editor.template.name')).toBeInTheDocument();
     expect(screen.getByText(/PODetailsForm/i)).toBeInTheDocument();
-    expect(screen.getByText(/OngoingInfoForm/i)).toBeInTheDocument();
-    expect(screen.getByText(/SummaryForm/i)).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.orderSummary.totalUnits')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.orderSummary.totalEstimatedPrice')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.orderSummary.approved')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.orderSummary.workflowStatus')).toBeInTheDocument();
   });
 
-  it('should change template when another selected', async () => {
+  it('should not render Ongoing accordion for non-ongoing order', () => {
+    renderPOForm();
+
+    expect(screen.queryByText(/OngoingInfoForm/i)).toBeNull();
+  });
+
+  it('should render Ongoing accordion for ongoing order', () => {
+    renderPOForm({ initialValues: { orderType: ORDER_TYPE.ongoing } });
+
+    expect(screen.getByText(/OngoingInfoForm/i)).toBeInTheDocument();
+  });
+
+  it('should change template when another selected and show hidden fields when \'Show hidden fields\' btn was clicked', async () => {
     renderPOForm();
 
     const select = await screen.findByLabelText('ui-orders.settings.orderTemplates.editor.template.name');
@@ -89,7 +102,20 @@ describe('POForm', () => {
     const options = await screen.findAllByRole('option');
 
     user.click(options[1]);
-    expect(getOrderTemplateValue).toHaveBeenCalled();
+
+    const toggleFieldsVisibility = await screen.findByTestId('toggle-fields-visibility');
+
+    expect(screen.queryByRole('checkbox', {
+      name: 'ui-orders.orderSummary.approved',
+    })).not.toBeInTheDocument();
+
+    user.click(toggleFieldsVisibility);
+
+    const field = await screen.findByRole('checkbox', {
+      name: 'ui-orders.orderSummary.approved',
+    });
+
+    expect(field).toBeInTheDocument();
   });
 });
 

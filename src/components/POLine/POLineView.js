@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get, mapValues } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -64,14 +64,13 @@ import ItemView from './Item/ItemView';
 import { LineLinkedInstances } from './LineLinkedInstances';
 import PhysicalView from './Physical/PhysicalView';
 import { OtherView } from './Other';
-import POLineInvoicesContainer from './POLineInvoices';
 import { POLineAgreementLinesContainer } from './POLineAgreementLines';
+import { RelatedInvoiceLines } from './RelatedInvoiceLines';
 import {
   ACCORDION_ID,
   ERESOURCES,
   PHRESOURCES,
 } from './const';
-import { FILTERS as ORDER_FILTERS } from '../../OrdersList/constants';
 
 const POLineView = ({
   deleteLine,
@@ -81,12 +80,12 @@ const POLineView = ({
   line,
   location,
   locations,
-  match: { params: { lineId } },
   materialTypes,
   onClose,
   order,
   poURL,
   tagsToggle,
+  orderTemplate,
 }) => {
   const stripes = useStripes();
   const [sections, setSections] = useState({
@@ -99,13 +98,27 @@ const POLineView = ({
     [ACCORDION_ID.location]: true,
     [ACCORDION_ID.other]: true,
     [ACCORDION_ID.physical]: true,
-    [ACCORDION_ID.relatedInvoices]: true,
+    [ACCORDION_ID.relatedInvoiceLines]: true,
     [ACCORDION_ID.notes]: true,
     [ACCORDION_ID.poLine]: true,
     [ACCORDION_ID.linkedInstances]: false,
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
-  const [isPrintModalOpened, togglePrintModal] = useModalToggle();
+  const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
+  const [isPrintLineModalOpened, togglePrintLineModal] = useModalToggle();
+  const [hiddenFields, setHiddenFields] = useState({});
+
+  useEffect(() => {
+    setHiddenFields(orderTemplate.hiddenFields);
+  }, [orderTemplate.hiddenFields]);
+
+  const toggleForceVisibility = () => {
+    setHiddenFields(prevHiddenFields => (
+      prevHiddenFields
+        ? undefined
+        : (orderTemplate.hiddenFields || {})
+    ));
+  };
 
   const onToggleSection = useCallback(({ id, isOpened }) => {
     setSections((prevSections) => {
@@ -230,17 +243,47 @@ const POLineView = ({
             </Icon>
           </Button>
         </IfPermission>
+
         <Button
           buttonStyle="dropdownItem"
           onClick={() => {
             onToggle();
-            togglePrintModal();
+            togglePrintLineModal();
           }}
         >
           <Icon size="small" icon="print">
-            <FormattedMessage id="ui-orders.button.print" />
+            <FormattedMessage id="ui-orders.button.printLine" />
           </Icon>
         </Button>
+
+        <Button
+          buttonStyle="dropdownItem"
+          onClick={() => {
+            onToggle();
+            togglePrintOrderModal();
+          }}
+        >
+          <Icon size="small" icon="print">
+            <FormattedMessage id="ui-orders.button.printOrder" />
+          </Icon>
+        </Button>
+        {Boolean(orderTemplate.hiddenFields) && (
+          <IfPermission perm="ui-orders.order.showHidden">
+            <Button
+              id="line-clickable-show-hidden"
+              data-testid="line-toggle-key-values-visibility"
+              buttonStyle="dropdownItem"
+              onClick={() => {
+                toggleForceVisibility();
+                onToggle();
+              }}
+            >
+              <Icon size="small" icon={`eye-${hiddenFields ? 'open' : 'closed'}`}>
+                <FormattedMessage id={`ui-orders.order.${hiddenFields ? 'showHidden' : 'hideFields'}`} />
+              </Icon>
+            </Button>
+          </IfPermission>
+        )}
       </MenuSection>
     );
   };
@@ -303,7 +346,7 @@ const POLineView = ({
             bottom="xs"
           >
             <Col xs={10}>
-              {isPrintModalOpened && <Loading size="large" />}
+              {(isPrintOrderModalOpened || isPrintLineModalOpened) && <Loading size="large" />}
 
               {isClosedOrder && (
                 <MessageBanner type="warning">
@@ -327,13 +370,28 @@ const POLineView = ({
           >
             {metadata && <ViewMetaData metadata={metadata} />}
 
-            <ItemView poLineDetails={line} />
+            <ItemView
+              poLineDetails={line}
+              hiddenFields={hiddenFields}
+            />
           </Accordion>
+
+          {line.isPackage && (
+            <LineLinkedInstances
+              line={line}
+              toggleSection={onToggleSection}
+              labelId="ui-orders.line.accordion.packageTitles"
+            />
+          )}
+
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.poLine" />}
             id={ACCORDION_ID.poLine}
           >
-            <POLineDetails line={line} />
+            <POLineDetails
+              line={line}
+              hiddenFields={hiddenFields}
+            />
           </Accordion>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
@@ -342,6 +400,7 @@ const POLineView = ({
             <VendorView
               vendorDetail={line.vendorDetail}
               vendorId={order?.vendor}
+              hiddenFields={hiddenFields}
             />
           </Accordion>
           <Accordion
@@ -352,6 +411,7 @@ const POLineView = ({
               cost={line.cost}
               isPackage={line.isPackage}
               orderFormat={orderFormat}
+              hiddenFields={hiddenFields}
             />
           </Accordion>
           <Accordion
@@ -381,6 +441,7 @@ const POLineView = ({
               <PhysicalView
                 materialTypes={materialTypes}
                 physical={get(line, 'physical', {})}
+                hiddenFields={hiddenFields}
               />
             </Accordion>
           )}
@@ -393,6 +454,7 @@ const POLineView = ({
                 line={line}
                 materialTypes={materialTypes}
                 order={order}
+                hiddenFields={hiddenFields}
               />
             </Accordion>
           )}
@@ -404,6 +466,7 @@ const POLineView = ({
               <OtherView
                 materialTypes={materialTypes}
                 physical={get(line, 'physical', {})}
+                hiddenFields={hiddenFields}
               />
             </Accordion>
           )}
@@ -420,19 +483,24 @@ const POLineView = ({
               pathToNoteDetails={NOTES_ROUTE}
             />
           </IfPermission>
-          <POLineInvoicesContainer
-            label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoices" />}
-            lineId={get(line, 'id')}
+
+          <RelatedInvoiceLines
+            label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoiceLines" />}
+            lineId={line?.id}
           />
+
           <POLineAgreementLinesContainer
             label={<FormattedMessage id="ui-orders.line.accordion.linkedAgreementLines" />}
             lineId={line.id}
           />
 
-          <LineLinkedInstances
-            line={line}
-            toggleSection={onToggleSection}
-          />
+          {!line.isPackage && (
+            <LineLinkedInstances
+              line={line}
+              toggleSection={onToggleSection}
+              labelId="ui-orders.line.accordion.linkedInstance"
+            />
+          )}
         </AccordionSet>
         {showConfirmDelete && (
           <ConfirmationModal
@@ -448,10 +516,20 @@ const POLineView = ({
       </Pane>
 
       {
-        isPrintModalOpened && (
+        isPrintOrderModalOpened && (
           <PrintOrder
             order={order}
-            onCancel={togglePrintModal}
+            onCancel={togglePrintOrderModal}
+          />
+        )
+      }
+
+      {
+        isPrintLineModalOpened && (
+          <PrintOrder
+            order={order}
+            orderLine={line}
+            onCancel={togglePrintLineModal}
           />
         )
       }
@@ -466,19 +544,20 @@ POLineView.propTypes = {
   locations: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object,
   line: PropTypes.object,
-  match: ReactRouterPropTypes.match.isRequired,
   materialTypes: PropTypes.arrayOf(PropTypes.object),
   onClose: PropTypes.func,
   editable: PropTypes.bool,
   goToOrderDetails: PropTypes.func,
   deleteLine: PropTypes.func,
   tagsToggle: PropTypes.func.isRequired,
+  orderTemplate: PropTypes.object,
 };
 
 POLineView.defaultProps = {
   locations: [],
   materialTypes: [],
   editable: true,
+  orderTemplate: {},
 };
 
 export default withRouter(POLineView);

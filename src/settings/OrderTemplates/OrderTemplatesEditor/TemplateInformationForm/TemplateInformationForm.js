@@ -10,6 +10,8 @@ import {
 } from '@folio/stripes/components';
 import { validateRequired } from '@folio/stripes-acq-components';
 
+import { FieldHideAll } from './FieldHideAll';
+
 const TemplateInformationForm = () => {
   return (
     <Row>
@@ -45,6 +47,10 @@ const TemplateInformationForm = () => {
           name="templateDescription"
           validateFields={[]}
         />
+      </Col>
+
+      <Col xs={3}>
+        <FieldHideAll />
       </Col>
     </Row>
   );

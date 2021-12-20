@@ -1,4 +1,5 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
@@ -31,7 +32,9 @@ jest.mock('./Cost/CostView', () => jest.fn().mockReturnValue('CostView'));
 jest.mock('./Location/LocationView', () => jest.fn().mockReturnValue('LocationView'));
 jest.mock('./Physical/PhysicalView', () => jest.fn().mockReturnValue('PhysicalView'));
 jest.mock('./Eresources/EresourcesView', () => jest.fn().mockReturnValue('EresourcesView'));
-jest.mock('./POLineInvoices', () => jest.fn().mockReturnValue('POLineInvoicesContainer'));
+jest.mock('./RelatedInvoiceLines', () => ({
+  RelatedInvoiceLines: jest.fn().mockReturnValue('RelatedInvoiceLines'),
+}));
 jest.mock('./Vendor/VendorView', () => jest.fn().mockReturnValue('VendorView'));
 jest.mock('./Other', () => ({
   OtherView: jest.fn().mockReturnValue('OtherView'),
@@ -61,12 +64,23 @@ const defaultProps = {
   match,
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    <MemoryRouter>
+      {children}
+    </MemoryRouter>
+  </QueryClientProvider>
+);
+
 const renderPOLineView = (props = {}) => render(
   <POLineView
     {...defaultProps}
     {...props}
   />,
-  { wrapper: MemoryRouter },
+  { wrapper },
 );
 
 describe('POLineView', () => {
@@ -77,7 +91,7 @@ describe('POLineView', () => {
     expect(screen.getByText(/LocationView/i)).toBeInTheDocument();
     expect(screen.getByText(/PhysicalView/i)).toBeInTheDocument();
     expect(screen.getByText(/EresourcesView/i)).toBeInTheDocument();
-    expect(screen.getByText(/POLineInvoicesContainer/i)).toBeInTheDocument();
+    expect(screen.getByText(/RelatedInvoiceLines/i)).toBeInTheDocument();
     expect(screen.getByText(/VendorView/i)).toBeInTheDocument();
     expect(screen.getByText(/POLineAgreementLinesContainer/i)).toBeInTheDocument();
     expect(screen.getByText(/LineLinkedInstances/i)).toBeInTheDocument();

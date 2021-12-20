@@ -235,7 +235,8 @@ export default interactor(class LineEditPage {
   removeProductIdsButton = new Button('#productIds [data-test-repeatable-field-remove-item-button]');
   isLoaded = isPresent('#itemDetails');
   hasTemplateField = isPresent('[name="template"]');
-  acquisitionMethod = selectable('[name="acquisitionMethod"]');
+  acquisitionMethodOptions = new OptionListInteractor('#sl-acquisition-method');
+  acquisitionMethodButton = new Interactor('[name="acquisitionMethod"]');
   closeBtn = new Button('[data-test-pane-header-dismiss-button]');
 
   whenSaveIsEnabled() {

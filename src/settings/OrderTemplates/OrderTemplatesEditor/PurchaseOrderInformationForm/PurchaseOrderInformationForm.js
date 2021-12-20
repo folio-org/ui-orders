@@ -20,6 +20,7 @@ import {
   FieldAssignedTo,
 } from '../../../../common/POFields';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
+import { VisibilityControl } from '../../../../common/VisibilityControl';
 
 const PurchaseOrderInformationForm = ({
   acqUnitIds,
@@ -35,14 +36,18 @@ const PurchaseOrderInformationForm = ({
         xs={3}
         data-col-order-template-prefix
       >
-        <FieldPrefix prefixes={prefixesSetting} />
+        <VisibilityControl name="hiddenFields.poNumberPrefix">
+          <FieldPrefix prefixes={prefixesSetting} />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-suffix
       >
-        <FieldSuffix suffixes={suffixesSetting} />
+        <VisibilityControl name="hiddenFields.poNumberSuffix">
+          <FieldSuffix suffixes={suffixesSetting} />
+        </VisibilityControl>
       </Col>
 
       <Col
@@ -62,24 +67,30 @@ const PurchaseOrderInformationForm = ({
         xs={3}
         data-col-order-template-assign-to
       >
-        <FieldAssignedTo
-          change={change}
-          userId={formValues?.assignedTo}
-        />
+        <VisibilityControl name="hiddenFields.assignedTo">
+          <FieldAssignedTo
+            change={change}
+            userId={formValues?.assignedTo}
+          />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-bill-to
       >
-        <FieldBillTo addresses={addresses} />
+        <VisibilityControl name="hiddenFields.billTo">
+          <FieldBillTo addresses={addresses} />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-ship-to
       >
-        <FieldShipTo addresses={addresses} />
+        <VisibilityControl name="hiddenFields.shipTo">
+          <FieldShipTo addresses={addresses} />
+        </VisibilityControl>
       </Col>
 
       <Col
@@ -93,26 +104,35 @@ const PurchaseOrderInformationForm = ({
         xs={3}
         data-col-order-template-order-units
       >
-        <AcqUnitsField
-          id="po-acq-units"
-          isFinal
-          name="acqUnitIds"
-          preselectedUnits={acqUnitIds}
-        />
+        <VisibilityControl
+          control
+          name="hiddenFields.acqUnitIds"
+        >
+          <AcqUnitsField
+            id="po-acq-units"
+            isFinal
+            name="acqUnitIds"
+            preselectedUnits={acqUnitIds}
+          />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-manual
       >
-        <FieldIsManualPO />
+        <VisibilityControl name="hiddenFields.manualPo">
+          <FieldIsManualPO />
+        </VisibilityControl>
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-reencumber
       >
-        <FieldIsReEncumber />
+        <VisibilityControl name="hiddenFields.reEncumber">
+          <FieldIsReEncumber />
+        </VisibilityControl>
       </Col>
     </Row>
   );

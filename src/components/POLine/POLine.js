@@ -16,6 +16,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { useOrder } from '../../common/hooks/useOrder';
+import { useOrderTemplate } from '../../common/hooks';
 import {
   CONTRIBUTOR_NAME_TYPES,
   FUND,
@@ -38,6 +39,7 @@ function POLine({
   const { isLoading: isLoadingOrder, order } = useOrder(orderId);
   const [line, setLine] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
 
   const fetchOrderLine = useCallback(
     () => mutator.poLine.GET({ params: { query: `id==${lineId}` } })
@@ -126,7 +128,7 @@ function POLine({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchOrderLine]);
 
-  if (isLoading || isLoadingOrder || line?.id !== lineId) {
+  if (isLoading || isLoadingOrder || line?.id !== lineId || isOrderTemplateLoading) {
     return (
       <LoadingPane
         id="order-lines-details"
@@ -153,6 +155,7 @@ function POLine({
         funds={funds}
         deleteLine={deleteLine}
         tagsToggle={toggleTagsPane}
+        orderTemplate={orderTemplate}
       />
       {isTagsPaneOpened && (
         <Tags

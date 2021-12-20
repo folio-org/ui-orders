@@ -29,6 +29,7 @@ import {
   FieldsNotes,
   FieldAssignedTo,
 } from '../../../common/POFields';
+import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import FieldOrderType from './FieldOrderType';
 import {
   isWorkflowStatusClosed,
@@ -51,6 +52,7 @@ class PODetailsForm extends Component {
     addresses: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.object,
     validateNumber: PropTypes.func.isRequired,
+    hiddenFields: PropTypes.object,
   }
 
   fillBackGeneratedNumber = ({ target: { value } }) => {
@@ -71,6 +73,7 @@ class PODetailsForm extends Component {
       order,
       change,
       validateNumber,
+      hiddenFields = {},
     } = this.props;
 
     const isEditMode = Boolean(order.id);
@@ -83,12 +86,15 @@ class PODetailsForm extends Component {
     return (
       <>
         <Row>
-          <Col xs={4}>
-            <FieldPrefix
-              isNonInteractive={isPostPendingOrder}
-              prefixes={prefixesSetting}
-            />
-          </Col>
+          <IfFieldVisible visible={!hiddenFields.poNumberPrefix} name="poNumberPrefix">
+            <Col xs={4}>
+              <FieldPrefix
+                isNonInteractive={isPostPendingOrder}
+                prefixes={prefixesSetting}
+              />
+            </Col>
+          </IfFieldVisible>
+
           <Col xs={4}>
             {(!canUserEditOrderNumber || isPostPendingOrder) ? (
               <KeyValue
@@ -109,12 +115,15 @@ class PODetailsForm extends Component {
               />
             )}
           </Col>
-          <Col xs={4}>
-            <FieldSuffix
-              isNonInteractive={isPostPendingOrder}
-              suffixes={suffixesSetting}
-            />
-          </Col>
+
+          <IfFieldVisible visible={!hiddenFields.poNumberSuffix} name="poNumberSuffix">
+            <Col xs={4}>
+              <FieldSuffix
+                isNonInteractive={isPostPendingOrder}
+                suffixes={suffixesSetting}
+              />
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
           <Col
@@ -135,79 +144,94 @@ class PODetailsForm extends Component {
           >
             <FieldOrderType isNonInteractive={isPostPendingOrder} />
           </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <AcqUnitsField
-              id="order-acq-units"
-              name="acqUnitIds"
-              perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
-              isEdit={isEditMode}
-              preselectedUnits={order.acqUnitIds}
-              isFinal
-            />
-          </Col>
-          <Col
-            xs={12}
-            lg={3}
-          >
-            <FieldAssignedTo
-              change={change}
-              userId={formValues?.assignedTo}
-            />
-          </Col>
+          <IfFieldVisible visible={!hiddenFields.acqUnitIds} name="acqUnitIds">
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <AcqUnitsField
+                id="order-acq-units"
+                name="acqUnitIds"
+                perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+                isEdit={isEditMode}
+                preselectedUnits={order.acqUnitIds}
+                isFinal
+              />
+            </Col>
+          </IfFieldVisible>
+
+          <IfFieldVisible visible={!hiddenFields.assignedTo} name="assignedTo">
+            <Col
+              xs={12}
+              lg={3}
+            >
+              <FieldAssignedTo
+                change={change}
+                userId={formValues?.assignedTo}
+              />
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <FieldBillTo
-              addresses={addressesOptions}
-              isNonInteractive={isClosedOrder}
-            />
-          </Col>
-          <Col
-            className={css.addressWrapper}
-            xs={6}
-            lg={3}
-          >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.address" />}
-              value={addressBillTo}
-            />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <FieldShipTo addresses={addressesOptions} />
-          </Col>
-          <Col
-            className={css.addressWrapper}
-            xs={6}
-            lg={3}
-          >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.address" />}
-              value={addressShipTo}
-            />
-          </Col>
+          <IfFieldVisible visible={!hiddenFields.billTo} name="billTo">
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <FieldBillTo
+                addresses={addressesOptions}
+                isNonInteractive={isClosedOrder}
+              />
+            </Col>
+            <Col
+              className={css.addressWrapper}
+              xs={6}
+              lg={3}
+            >
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.orderDetails.address" />}
+                value={addressBillTo}
+              />
+            </Col>
+          </IfFieldVisible>
+
+          <IfFieldVisible visible={!hiddenFields.shipTo} name="shipTo">
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <FieldShipTo addresses={addressesOptions} />
+            </Col>
+            <Col
+              className={css.addressWrapper}
+              xs={6}
+              lg={3}
+            >
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.orderDetails.address" />}
+                value={addressShipTo}
+              />
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <FieldIsManualPO disabled={isPostPendingOrder} />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <FieldIsReEncumber disabled={isPostPendingOrder} />
-          </Col>
+          <IfFieldVisible visible={!hiddenFields.manualPo} name="manualPo">
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <FieldIsManualPO disabled={isPostPendingOrder} />
+            </Col>
+          </IfFieldVisible>
+
+          <IfFieldVisible visible={!hiddenFields.reEncumber} name="reEncumber">
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <FieldIsReEncumber disabled={isPostPendingOrder} />
+            </Col>
+          </IfFieldVisible>
           <Col
             xs={6}
             lg={3}

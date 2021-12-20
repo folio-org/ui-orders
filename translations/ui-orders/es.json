@@ -424,7 +424,6 @@
     "relatedInvoices.expendedAmount": "Cantidad gastada",
     "relatedInvoices.invoice": "Factura #",
     "relatedInvoices.invoiceDate": "Fecha de la factura",
-    "relatedInvoices.pieces": "Pieza(s)",
     "relatedInvoices.quantity": "Cantidad",
     "relatedInvoices.status": "Estado",
     "relatedInvoices.vendorName": "Nombre del proveedor",

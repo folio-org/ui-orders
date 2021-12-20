@@ -34,6 +34,9 @@ export function getPOActionMenu({
   isRestrictionsLoading,
   order,
   restrictions,
+  toggleForceVisibility,
+  hiddenFields,
+  orderTemplate,
 }) {
   const { isApprovalRequired } = getConfigSetting(approvalsSetting);
   const isApproved = get(order, 'approved');
@@ -187,9 +190,26 @@ export function getPOActionMenu({
         }}
       >
         <Icon size="small" icon="print">
-          <FormattedMessage id="ui-orders.button.print" />
+          <FormattedMessage id="ui-orders.button.printOrder" />
         </Icon>
       </Button>
+      {Boolean(orderTemplate.hiddenFields) && (
+        <IfPermission perm="ui-orders.order.showHidden">
+          <Button
+            id="order-clickable-show-hidden"
+            data-testid="order-toggle-key-values-visibility"
+            buttonStyle="dropdownItem"
+            onClick={() => {
+              toggleForceVisibility();
+              onToggle();
+            }}
+          >
+            <Icon size="small" icon={`eye-${hiddenFields ? 'open' : 'closed'}`}>
+              <FormattedMessage id={`ui-orders.order.${hiddenFields ? 'showHidden' : 'hideFields'}`} />
+            </Icon>
+          </Button>
+        </IfPermission>
+      )}
     </MenuSection>
   );
 }

@@ -10,6 +10,8 @@ import {
   LINES_API,
 } from '@folio/stripes-acq-components';
 
+import styles from './PackagePoLineField.css';
+
 function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
   const { id, titleOrPackage } = resources?.linkedPoLine?.records?.[0] ?? {};
   const title = poLineId && poLineId === id && titleOrPackage;
@@ -28,7 +30,7 @@ function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
   ), []);
 
   return (
-    <>
+    <div className={styles.packagePoLineField}>
       {/* non-rendering Field component for updating value with form.change() and affecting FormState */}
       <Field name="packagePoLineId">{() => null}</Field>
       <TextField
@@ -54,7 +56,7 @@ function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
           <FormattedMessage id="ui-orders.find-po-line-plugin-unavailable" />
         </Pluggable>
       )}
-    </>
+    </div>
   );
 }
 
