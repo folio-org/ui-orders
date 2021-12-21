@@ -6,3 +6,4 @@ export * from './getAddressOptions';
 export { default as getCreateInventorySetting } from './getCreateInventorySetting';
 export * from './getUserNameById';
 export * from './fetchExportDataByIds';
+export * from './validateDuplicateLines';

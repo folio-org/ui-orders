@@ -28,7 +28,6 @@ import {
   useModalToggle,
   useShowCallout,
   VENDORS_API,
-  batchFetch,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -37,7 +36,7 @@ import {
   VALIDATION_ERRORS,
 } from '../../common/constants';
 import { useLinesLimit } from '../../common/hooks';
-import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
+import { getCreateInventorySetting, validateDuplicateLines } from '../../common/utils';
 import DuplicateLinesModal from '../../common/DuplicateLinesModal';
 import {
   DISCOUNT_TYPE,
@@ -190,58 +189,19 @@ function LayerPOLine({
     }
   };
 
-  const validateDuplicateLines = useCallback(
-    (line) => {
-      setValidateDuplicateLines(false);
-
-      const productIds = line.details?.productIds?.map(({ productId }) => productId) || [];
-      const baseQuery = `id<>"${line.id}" and titleOrPackage=="*${line.titleOrPackage}*"`;
-
-      return batchFetch(memoizedMutator.poLines, productIds, (itemsChunk) => {
-        const query = itemsChunk
-          .map(productId => `details.productIds=="*${productId}*"`)
-          .join(' and ');
-
-        return query
-          ? `${baseQuery} and (${query})`
-          : baseQuery;
-      }).then((existingLines) => {
-        if (existingLines.length) {
-          setSavingValues(line);
-
-          const orderIds = [...new Set(existingLines.map(({ purchaseOrderId }) => purchaseOrderId))];
-
-          return Promise.all([batchFetch(mutator.orders, orderIds, (itemsChunk) => (
-            itemsChunk.map(purchaseOrderId => `id=="${purchaseOrderId}"`).join(' or ')
-          )), existingLines]);
-        }
-
-        return Promise.resolve([]);
-      }).then(([orders, existingLines]) => {
-        if (orders?.length && existingLines?.length) {
-          const orderMap = orders.reduce((acc, o) => ({ ...acc, [o.id]: o }), {});
-
-          setDuplicateLines(existingLines.map(l => ({ ...l, order: orderMap[l.purchaseOrderId] })));
-
-          // eslint-disable-next-line prefer-promise-reject-errors
-          return Promise.reject({ validationError: VALIDATION_ERRORS.duplicateLines });
-        }
-
-        return Promise.resolve();
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [memoizedMutator],
-  );
-
   const submitPOLine = useCallback(async ({ saveAndOpen, ...line }) => {
     setIsLoading(true);
     let savedLine;
 
+    setSavingValues(line);
     try {
-      if (isValidateDuplicateLines) await validateDuplicateLines(line);
+      setIsLoading(true);
 
-      setSavingValues(line);
+      if (isValidateDuplicateLines) {
+        setValidateDuplicateLines(false);
+
+        await validateDuplicateLines(line, mutator);
+      }
 
       const newLine = formatPOLineBeforeSaving(cloneDeep(line));
 
@@ -268,6 +228,8 @@ function LayerPOLine({
       });
     } catch (e) {
       if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
+        setDuplicateLines(e.duplicateLines);
+
         return toggleNotUnique();
       }
       if (saveAndOpen && savedLine) {
@@ -279,6 +241,8 @@ function LayerPOLine({
       setIsLoading(false);
     }
   },
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   [
     handleErrorResponse,
     history,
@@ -290,7 +254,6 @@ function LayerPOLine({
     search,
     sendCallout,
     toggleNotUnique,
-    validateDuplicateLines,
   ]);
 
   const createNewOrder = useCallback(
@@ -345,20 +308,23 @@ function LayerPOLine({
     const { saveAndOpen, ...data } = hydratedLine;
 
     setIsLoading(true);
+    setSavingValues(hydratedLine);
 
     if (isValidateDuplicateLines) {
       try {
-        await validateDuplicateLines(hydratedLine);
+        setValidateDuplicateLines(false);
+
+        await validateDuplicateLines(hydratedLine, mutator);
       } catch (e) {
         if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
+          setDuplicateLines(e.duplicateLines);
+
           setIsLoading(false);
 
           return toggleNotUnique();
         }
       }
     }
-
-    setSavingValues(hydratedLine);
 
     const line = formatPOLineBeforeSaving(cloneDeep(data));
 
@@ -382,7 +348,9 @@ function LayerPOLine({
         setIsLoading(false);
         handleErrorResponse(e, line);
       });
-  }, [
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [
     handleErrorResponse,
     isValidateDuplicateLines,
     memoizedMutator.poLines,
@@ -390,7 +358,6 @@ function LayerPOLine({
     openOrder,
     sendCallout,
     toggleNotUnique,
-    validateDuplicateLines,
   ]);
 
   const saveAfterDelete = useCallback(() => {
