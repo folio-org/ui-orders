@@ -10,7 +10,10 @@ import {
   MultiColumnList,
   NoValue,
 } from '@folio/stripes/components';
-import { acqRowFormatter } from '@folio/stripes-acq-components';
+import {
+  acqRowFormatter,
+  AmountWithCurrencyField,
+} from '@folio/stripes-acq-components';
 
 import { LINE_LISTING_COLUMN_MAPPING } from '../constants';
 
@@ -42,6 +45,12 @@ function LineListing({
   const resultsFormatter = {
     title: ({ titleOrPackage }) => titleOrPackage || '',
     productId: item => map(get(item, 'details.productIds', []), 'productId').join(', '),
+    estimatedPrice: item => (
+      <AmountWithCurrencyField
+        currency={item.cost?.currency}
+        amount={item.cost?.poLineEstimatedPrice}
+      />
+    ),
     vendorRefNumber: item => (
       item.vendorDetail?.referenceNumbers?.map(({ refNumber }) => refNumber)?.join(', ') || <NoValue />
     ),
