@@ -36,17 +36,18 @@ const resultFormatter = {
   )),
   startDate: ({ startDate }) => startDate || '',
   endDate: ({ endDate }) => endDate || '',
-  // eslint-disable-next-line react/prop-types
-  status: ({ owner }) => (
-    owner?.agreementStatus?.value
+  status: agreement => {
+    const { owner } = agreement;
+
+    return owner?.agreementStatus?.value
       ? (
         <FormattedMessage
           id={`ui-orders.relatedAgreementLines.status.${owner?.agreementStatus?.value}`}
           defaultMessage={owner?.agreementStatus?.label}
         />
       )
-      : owner?.agreementStatus?.label || <NoValue />
-  ),
+      : owner?.agreementStatus?.label || <NoValue />;
+  },
   arrow: () => <Icon icon="caret-right" />,
 };
 
