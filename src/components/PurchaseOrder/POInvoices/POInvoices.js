@@ -46,7 +46,7 @@ const POInvoices = ({ orderInvoices, vendors }) => {
     ),
     [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
     vendorName: invoice => get(find(vendors, ['id', get(invoice, 'vendorId', '')]), 'name', ''),
-    vendorInvoiceNo: ({ vendorInvoiceNo }) => vendorInvoiceNo || <NoValue />,
+    vendorInvoiceNo: invoice => invoice.vendorInvoiceNo || <NoValue />,
     status: invoice => get(invoice, 'status', ''),
     expendedAmount: invoice => (
       <AmountWithCurrencyField
