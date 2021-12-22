@@ -9,8 +9,8 @@ export const LINE_LISTING_COLUMN_MAPPING = {
   poLineNumber: <FormattedMessage id="ui-orders.poLine.number" />,
   title: <FormattedMessage id="ui-orders.lineListing.titleOrPackage" />,
   productId: <FormattedMessage id="ui-orders.lineListing.productId" />,
-  estimatedPrice: <FormattedMessage id="ui-orders.cost.estimatedPrice" />,
   vendorRefNumber: <FormattedMessage id="ui-orders.lineListing.refNumber" />,
   fundCode: <FormattedMessage id="ui-orders.lineListing.fundCode" />,
+  estimatedPrice: <FormattedMessage id="ui-orders.cost.estimatedPrice" />,
   arrow: null,
 };
