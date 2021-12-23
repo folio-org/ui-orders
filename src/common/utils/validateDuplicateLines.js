@@ -13,26 +13,28 @@ export const validateDuplicateLines = (line, mutator) => {
     return query
       ? `${baseQuery} and (${query})`
       : baseQuery;
-  }).then((existingLines) => {
-    if (existingLines.length) {
-      const orderIds = [...new Set(existingLines.map(({ purchaseOrderId }) => purchaseOrderId))];
+  })
+    .then((existingLines) => {
+      if (existingLines.length) {
+        const orderIds = [...new Set(existingLines.map(({ purchaseOrderId }) => purchaseOrderId))];
 
-      return Promise.all([batchFetch(mutator.orders, orderIds, (itemsChunk) => (
-        itemsChunk.map(purchaseOrderId => `id=="${purchaseOrderId}"`).join(' or ')
-      )), existingLines]);
-    }
+        return Promise.all([batchFetch(mutator.orders, orderIds, (itemsChunk) => (
+          itemsChunk.map(purchaseOrderId => `id=="${purchaseOrderId}"`).join(' or ')
+        )), existingLines]);
+      }
 
-    return Promise.resolve([]);
-  }).then(([orders, existingLines]) => {
-    if (orders?.length && existingLines?.length) {
-      const orderMap = orders.reduce((acc, o) => ({ ...acc, [o.id]: o }), {});
+      return Promise.resolve([]);
+    })
+    .then(([orders, existingLines]) => {
+      if (orders?.length && existingLines?.length) {
+        const orderMap = orders.reduce((acc, o) => ({ ...acc, [o.id]: o }), {});
 
-      const duplicateLines = existingLines.map(l => ({ ...l, order: orderMap[l.purchaseOrderId] }));
+        const duplicateLines = existingLines.map(l => ({ ...l, order: orderMap[l.purchaseOrderId] }));
 
-      // eslint-disable-next-line prefer-promise-reject-errors
-      return Promise.reject({ validationError: VALIDATION_ERRORS.duplicateLines, duplicateLines });
-    }
+        // eslint-disable-next-line prefer-promise-reject-errors
+        return Promise.reject({ validationError: VALIDATION_ERRORS.duplicateLines, duplicateLines });
+      }
 
-    return Promise.resolve();
-  });
+      return Promise.resolve();
+    });
 };
