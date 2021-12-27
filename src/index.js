@@ -97,6 +97,16 @@ const Orders = ({ match, location, showSettings }) => {
                 <NavList>
                   <NavListSection>
                     <NavListItem
+                      id="orders-app-search-item"
+                      to={ORDER_LINES_ROUTE}
+                      onClick={() => {
+                        handleToggle();
+                        focusSearchField();
+                      }}
+                    >
+                      <FormattedMessage id="ui-orders.appMenu.ordersAppSearch" />
+                    </NavListItem>
+                    <NavListItem
                       id="keyboard-shortcuts-item"
                       onClick={() => {
                         handleToggle();

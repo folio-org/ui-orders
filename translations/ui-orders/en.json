@@ -1,4 +1,6 @@
 {
+  "appMenu.ordersAppSearch": "Orders app Search",
+
   "deletePiece.btn.cancel": "Cancel",
   "deletePiece.btn.deletePiece": "Delete",
   "deletePiece.title": "Piece(s) to be deleted",
