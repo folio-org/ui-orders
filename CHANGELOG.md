@@ -28,6 +28,7 @@
 * Add estimated price to POL grid view on order record. Refs UIOR-868.
 * Check for potential duplicate order lines. Refs UIOR-864.
 * Add a return to Orders default search to app context menu dropdown. Refs UIOR-880.
+* Add two additional "Resource identifier" types to the product id type selection for POL. Refs UIOR-843.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)
