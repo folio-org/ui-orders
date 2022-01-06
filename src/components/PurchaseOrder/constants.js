@@ -11,5 +11,6 @@ export const LINE_LISTING_COLUMN_MAPPING = {
   productId: <FormattedMessage id="ui-orders.lineListing.productId" />,
   vendorRefNumber: <FormattedMessage id="ui-orders.lineListing.refNumber" />,
   fundCode: <FormattedMessage id="ui-orders.lineListing.fundCode" />,
+  estimatedPrice: <FormattedMessage id="ui-orders.cost.estimatedPrice" />,
   arrow: null,
 };

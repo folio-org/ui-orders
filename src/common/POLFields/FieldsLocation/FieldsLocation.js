@@ -87,10 +87,8 @@ const FieldsLocation = ({
               <FieldInventory
                 locationIds={locationIds}
                 locations={locations}
-
                 holdingName={`${field}.holdingId`}
                 locationName={`${field}.locationId`}
-
                 onChange={changeLocation}
                 disabled={isPostPendingOrder}
                 required={withValidation}

@@ -582,7 +582,7 @@
     "orderSummary.totalEncumbered": "预支总额",
     "unopenOrderModal.title": "取消-订单- {orderNumber}",
     "unopenOrderModal.confirmLabel": "提交",
-    "unopenOrderModal.message": "确定要取消订单吗？",
+    "unopenOrderModal.message": "本订单行有相关收货中记录。任何未收到的件都将被删除，与这些件相关的任何“订购中”单件记录也将从典藏中删除。确定要取消打开订单吗？",
     "order.unopen.success": "<b>采购订单- {orderNumber} </b>已成功<b>取消</b>",
     "paneBlock.unopenBtn": "取消",
     "permission.order.unopen": "订单：取消采购订单",

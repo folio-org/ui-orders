@@ -33,9 +33,11 @@ import {
 import {
   ERROR_CODES,
   WORKFLOW_STATUS,
+  VALIDATION_ERRORS,
 } from '../../common/constants';
 import { useLinesLimit } from '../../common/hooks';
-import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
+import { getCreateInventorySetting, validateDuplicateLines } from '../../common/utils';
+import DuplicateLinesModal from '../../common/DuplicateLinesModal';
 import {
   DISCOUNT_TYPE,
 } from '../POLine/const';
@@ -69,9 +71,12 @@ function LayerPOLine({
 }) {
   const [isLinesLimitExceededModalOpened, setLinesLimitExceededModalOpened] = useState(false);
   const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
+  const [isNotUniqueOpen, toggleNotUnique] = useModalToggle();
   const [savingValues, setSavingValues] = useState();
   const sendCallout = useShowCallout();
   const [isLoading, setIsLoading] = useState(false);
+  const [isValidateDuplicateLines, setValidateDuplicateLines] = useState(true);
+  const [duplicateLines, setDuplicateLines] = useState();
   const order = get(resources, 'lineOrder.records.0');
   const createInventory = get(resources, ['createInventory', 'records']);
   const createInventorySetting = useMemo(
@@ -185,12 +190,21 @@ function LayerPOLine({
   };
 
   const submitPOLine = useCallback(async ({ saveAndOpen, ...line }) => {
-    setSavingValues(line);
     setIsLoading(true);
-    const newLine = formatPOLineBeforeSaving(cloneDeep(line));
     let savedLine;
 
+    setSavingValues(line);
     try {
+      setIsLoading(true);
+
+      if (isValidateDuplicateLines) {
+        setValidateDuplicateLines(false);
+
+        await validateDuplicateLines(line, mutator);
+      }
+
+      const newLine = formatPOLineBeforeSaving(cloneDeep(line));
+
       savedLine = await memoizedMutator.poLines.POST(newLine);
 
       await openOrder(saveAndOpen);
@@ -205,23 +219,42 @@ function LayerPOLine({
         : `/orders/view/${id}/po-line/view/${savedLine.id}`;
       const state = isCreateAnotherChecked ? { isCreateAnotherChecked: true } : {};
 
-      history.push({
+      setSavingValues();
+
+      return history.push({
         pathname,
         search,
         state,
       });
-      setSavingValues();
-      setIsLoading(false);
     } catch (e) {
+      if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
+        setDuplicateLines(e.duplicateLines);
+
+        return toggleNotUnique();
+      }
       if (saveAndOpen && savedLine) {
         await memoizedMutator.poLines.DELETE(savedLine);
       }
 
+      return handleErrorResponse(e, line);
+    } finally {
       setIsLoading(false);
-      handleErrorResponse(e, line);
     }
   },
-  [handleErrorResponse, history, id, search, memoizedMutator.poLines, openOrder, sendCallout, isCreateAnotherChecked]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [
+    handleErrorResponse,
+    history,
+    id,
+    isCreateAnotherChecked,
+    isValidateDuplicateLines,
+    memoizedMutator.poLines,
+    openOrder,
+    search,
+    sendCallout,
+    toggleNotUnique,
+  ]);
 
   const createNewOrder = useCallback(
     async () => {
@@ -271,11 +304,28 @@ function LayerPOLine({
     });
   }, [history, id, lineId, search, locationState]);
 
-  const updatePOLine = useCallback(hydratedLine => {
-    setSavingValues(hydratedLine);
+  const updatePOLine = useCallback(async (hydratedLine) => {
     const { saveAndOpen, ...data } = hydratedLine;
 
     setIsLoading(true);
+    setSavingValues(hydratedLine);
+
+    if (isValidateDuplicateLines) {
+      try {
+        setValidateDuplicateLines(false);
+
+        await validateDuplicateLines(hydratedLine, mutator);
+      } catch (e) {
+        if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
+          setDuplicateLines(e.duplicateLines);
+
+          setIsLoading(false);
+
+          return toggleNotUnique();
+        }
+      }
+    }
+
     const line = formatPOLineBeforeSaving(cloneDeep(data));
 
     delete line.metadata;
@@ -298,7 +348,17 @@ function LayerPOLine({
         setIsLoading(false);
         handleErrorResponse(e, line);
       });
-  }, [handleErrorResponse, memoizedMutator.poLines, onCancel, openOrder, sendCallout]);
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [
+    handleErrorResponse,
+    isValidateDuplicateLines,
+    memoizedMutator.poLines,
+    onCancel,
+    openOrder,
+    sendCallout,
+    toggleNotUnique,
+  ]);
 
   const saveAfterDelete = useCallback(() => {
     updatePOLine(savingValues);
@@ -444,6 +504,19 @@ function LayerPOLine({
           poLines={poLines}
         />
       )}
+
+      {
+        isNotUniqueOpen && (
+          <DuplicateLinesModal
+            duplicateLines={duplicateLines}
+            onSubmit={() => onSubmit(savingValues)}
+            onCancel={() => {
+              toggleNotUnique();
+              setValidateDuplicateLines(true);
+            }}
+          />
+        )
+      }
     </>
   );
 }
@@ -484,6 +557,7 @@ LayerPOLine.manifest = Object.freeze({
   validateISBN: VALIDATE_ISBN,
   [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
   orderNumber: ORDER_NUMBER,
+  orders: ORDERS,
 });
 
 LayerPOLine.propTypes = {

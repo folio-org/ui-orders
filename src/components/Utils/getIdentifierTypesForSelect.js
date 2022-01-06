@@ -12,10 +12,12 @@ const ALLOWED_RES_ID_TYPE_NAMES = [
   'DOI',
   'GPO item number',
   PRODUCT_ID_TYPE.isbn,
+  'ISMN',
   'ISSN',
   'Publisher or distributor number',
   'Report number',
   'Standard technical report number',
+  'UPC',
   'URN',
 ];
 
