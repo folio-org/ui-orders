@@ -291,7 +291,7 @@
       },
       {
         "permissionName": "ui-orders.settings.order-templates.view",
-        "displayName": "Can view Order Templates",
+        "displayName": "Settings (Orders): Can view Order Templates",
         "description": "",
         "visible": true,
         "subPermissions": [
@@ -308,7 +308,7 @@
       },
       {
         "permissionName": "ui-orders.settings.order-templates.edit",
-        "displayName": "Can view, edit Order Templates",
+        "displayName": "Settings (Orders): Can view, edit Order Templates",
         "description": "",
         "visible": true,
         "subPermissions": [
@@ -320,7 +320,7 @@
       },
       {
         "permissionName": "ui-orders.settings.order-templates.create",
-        "displayName": "Can view, edit, create new Order Templates",
+        "displayName": "Settings (Orders): Can view, edit, create new Order Templates",
         "description": "",
         "visible": true,
         "subPermissions": [
@@ -330,7 +330,7 @@
       },
       {
         "permissionName": "ui-orders.settings.order-templates.delete",
-        "displayName": "Can view, edit, delete Order Templates",
+        "displayName": "Settings (Orders): Can view, edit, delete Order Templates",
         "description": "",
         "visible": true,
         "subPermissions": [
