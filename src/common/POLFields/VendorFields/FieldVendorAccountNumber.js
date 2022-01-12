@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@folio/stripes-acq-components';
 
-const FieldVendorAccountNumber = ({ accounts, disabled }) => {
+const FieldVendorAccountNumber = ({ accounts, disabled, ...rest }) => {
   return (
     accounts.length
       ? (
@@ -19,6 +19,7 @@ const FieldVendorAccountNumber = ({ accounts, disabled }) => {
           label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
           name="vendorDetail.vendorAccount"
           isNonInteractive={disabled}
+          {...rest}
         />
       )
       : (

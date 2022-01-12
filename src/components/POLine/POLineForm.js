@@ -80,6 +80,7 @@ function POLineForm({
   linesLimit,
   isCreateAnotherChecked = false,
   toggleCreateAnother,
+  integrationConfigs = [],
 }) {
   const history = useHistory();
   const [hiddenFields, setHiddenFields] = useState({});
@@ -408,6 +409,7 @@ function POLineForm({
                         parentResources={parentResources}
                         vendor={vendor}
                         hiddenFields={hiddenFields}
+                        integrationConfigs={integrationConfigs}
                       />
                     </Accordion>
                     <Accordion
@@ -418,6 +420,7 @@ function POLineForm({
                         accounts={accounts}
                         order={order}
                         hiddenFields={hiddenFields}
+                        integrationConfigs={integrationConfigs}
                       />
                     </Accordion>
                     <Accordion
@@ -527,6 +530,7 @@ POLineForm.propTypes = {
   linesLimit: PropTypes.number.isRequired,
   isCreateAnotherChecked: PropTypes.bool,
   toggleCreateAnother: PropTypes.func.isRequired,
+  integrationConfigs: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default stripesForm({

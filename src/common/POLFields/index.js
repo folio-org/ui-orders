@@ -17,6 +17,7 @@ export { default as FieldCollection } from './DetailsFields/FieldCollection';
 export { default as FieldCheckInItems } from './DetailsFields/FieldCheckInItems';
 export { default as FieldCancellationRestrictionNote } from './DetailsFields/FieldCancellationRestrictionNote';
 export { default as FieldPOLineDescription } from './DetailsFields/FieldPOLineDescription';
+export { default as FieldAutomaticExport } from './DetailsFields/FieldAutomaticExport';
 
 // vendor
 export { default as FieldVendorInstructions } from './VendorFields/FieldVendorInstructions';

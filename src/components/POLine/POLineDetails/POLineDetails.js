@@ -59,6 +59,21 @@ const POLineDetails = ({ line, hiddenFields }) => {
           </Col>
         </IfVisible>
 
+        <IfVisible visible={!hiddenFields.automaticExport}>
+          <Col
+            data-col-line-details-auto-export
+            xs={6}
+            lg={3}
+          >
+            <Checkbox
+              checked={line.automaticExport}
+              disabled
+              label={<FormattedMessage id="ui-orders.poLine.automaticExport" />}
+              vertical
+            />
+          </Col>
+        </IfVisible>
+
         <IfVisible visible={!hiddenFields.orderFormat}>
           <Col
             data-col-line-details-order-format

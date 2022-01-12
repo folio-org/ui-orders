@@ -9,7 +9,7 @@ import {
 
 import { useAcqMethods } from '../../hooks/useAcqMethods';
 
-const FieldAcquisitionMethod = ({ disabled, required }) => {
+const FieldAcquisitionMethod = ({ disabled, required, ...rest }) => {
   const { acqMethods } = useAcqMethods();
   const acquisitionMethods = useAcqMethodsOptions(acqMethods);
 
@@ -21,6 +21,7 @@ const FieldAcquisitionMethod = ({ disabled, required }) => {
       name="acquisitionMethod"
       required={required}
       isNonInteractive={disabled}
+      {...rest}
     />
   );
 };

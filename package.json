@@ -213,6 +213,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "data-export.config.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.po-lines.item.post",
@@ -225,6 +226,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "data-export.config.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.pieces.item.delete",

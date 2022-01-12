@@ -15,6 +15,10 @@ import {
   vendor,
 } from '../../../test/jest/fixtures';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useIntegrationConfigs: jest.fn().mockReturnValue({ integrationConfigs: [], isLoading: false }),
+}));
 jest.mock('../POLine/POLineForm', () => jest.fn().mockReturnValue('POLineForm'));
 jest.mock('../ModalDeletePieces', () => jest.fn().mockReturnValue('ModalDeletePieces'));
 

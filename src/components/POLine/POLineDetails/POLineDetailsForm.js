@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
@@ -17,6 +17,7 @@ import {
 import {
   FieldPOLineNumber,
   FieldAcquisitionMethod,
+  FieldAutomaticExport,
   FieldOrderFormat,
   FieldReceiptDate,
   FieldDonor,
@@ -32,8 +33,9 @@ import {
   FieldPOLineDescription,
 } from '../../../common/POLFields';
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
-import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
+import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
+import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
 
 function POLineDetailsForm({
   change,
@@ -43,10 +45,20 @@ function POLineDetailsForm({
   parentResources,
   vendor,
   hiddenFields = {},
+  integrationConfigs = [],
 }) {
   const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isPackage = get(formValues, 'isPackage');
+
+  const onAcqMethodChange = useCallback(
+    (value) => {
+      change('acquisitionMethod', value);
+      const vendorAccount = formValues?.vendorDetail?.vendorAccount;
+
+      toggleAutomaticExport({ vendorAccount, acquisitionMethod: value, integrationConfigs, change });
+    }, [change, formValues, integrationConfigs],
+  );
 
   return (
     <>
@@ -63,7 +75,19 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldAcquisitionMethod disabled={isPostPendingOrder} />
+            <FieldAcquisitionMethod
+              disabled={isPostPendingOrder}
+              onChange={onAcqMethodChange}
+            />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.automaticExport} name="automaticExport">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldAutomaticExport disabled={isPostPendingOrder} />
           </Col>
         </IfFieldVisible>
 
@@ -237,6 +261,7 @@ POLineDetailsForm.propTypes = {
     }).isRequired,
   }).isRequired,
   hiddenFields: PropTypes.object,
+  integrationConfigs: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default POLineDetailsForm;

@@ -425,6 +425,7 @@
   "poLine.actions.viewPO": "View PO",
   "poLine.acquisitionMethod": "Acquisition method",
   "poLine.administrativeData": "POL admin data",
+  "poLine.automaticExport": "Automatic export",
   "poLine.cancellationRestriction": "Cancellation restriction",
   "poLine.cancellationRestrictionNote": "Cancellation description",
   "poLine.receivingWorkflow": "Receiving workflow",

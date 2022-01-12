@@ -9,6 +9,7 @@ import {
 import {
   FieldPOLineNumber,
   FieldAcquisitionMethod,
+  FieldAutomaticExport,
   FieldOrderFormat,
   FieldReceiptDate,
   FieldDonor,
@@ -41,6 +42,15 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-acq-method
         >
           <FieldAcquisitionMethod required={false} />
+        </Col>
+
+        <Col
+          xs={3}
+          data-col-order-template-pol-auto-export
+        >
+          <VisibilityControl name="hiddenFields.automaticExport">
+            <FieldAutomaticExport />
+          </VisibilityControl>
         </Col>
 
         <Col

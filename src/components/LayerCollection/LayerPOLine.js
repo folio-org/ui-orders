@@ -25,6 +25,7 @@ import {
   materialTypesManifest,
   ORDER_FORMATS,
   sourceValues,
+  useIntegrationConfigs,
   useModalToggle,
   useShowCallout,
   VENDORS_API,
@@ -88,6 +89,7 @@ function LayerPOLine({
   const [vendor, setVendor] = useState();
   const { isLoading: isLinesLimitLoading, linesLimit } = useLinesLimit(!(lineId || poLine));
   const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(locationState?.isCreateAnotherChecked);
+  const { isFetching: isConfigsFetching, integrationConfigs } = useIntegrationConfigs({ organizationId: vendor?.id });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -466,7 +468,8 @@ function LayerPOLine({
     get(resources, `${DICT_IDENTIFIER_TYPES}.hasLoaded`) &&
     get(resources, 'materialTypes.hasLoaded') &&
     get(order, 'id') === id &&
-    !isLinesLimitLoading
+    !isLinesLimitLoading &&
+    !isConfigsFetching
   );
 
   if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
@@ -490,6 +493,7 @@ function LayerPOLine({
         linesLimit={linesLimit}
         isCreateAnotherChecked={isCreateAnotherChecked}
         toggleCreateAnother={setCreateAnotherChecked}
+        integrationConfigs={integrationConfigs}
       />
       {isLinesLimitExceededModalOpened && (
         <LinesLimit
