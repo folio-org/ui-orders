@@ -28,7 +28,7 @@ const FieldAutomaticExport = ({ isManualOrder = false, ...props }) => {
 };
 
 FieldAutomaticExport.propTypes = {
-  isManualOrder: PropTypes.bool.isRequired,
+  isManualOrder: PropTypes.bool,
 };
 
 export default FieldAutomaticExport;
