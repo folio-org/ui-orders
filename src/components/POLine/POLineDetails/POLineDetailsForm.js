@@ -34,7 +34,7 @@ import {
 } from '../../../common/POLFields';
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
-import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
+import { isOrderManual, isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
 
 function POLineDetailsForm({
@@ -48,6 +48,7 @@ function POLineDetailsForm({
   integrationConfigs = [],
 }) {
   const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
+  const isManualOrder = isOrderManual(order);
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isPackage = get(formValues, 'isPackage');
 
@@ -87,7 +88,10 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldAutomaticExport disabled={isPostPendingOrder} />
+            <FieldAutomaticExport
+              disabled={isPostPendingOrder || isManualOrder}
+              isManualOrder={isManualOrder}
+            />
           </Col>
         </IfFieldVisible>
 

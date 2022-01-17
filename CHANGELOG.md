@@ -32,6 +32,7 @@
 * Permission name discrepancies between `displayName` in `package.json` and translated values in `en_US.json`. Refs UIOR-734.
 * Allow user to set Acq method EDIFACT export triggers for POL. Refs UIOR-371.
 * Translations for orders lines filter by export date. Refs UIOR-883.
+* Do not export order lines where Manual is true for the PO. Refs UIOR-890.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)

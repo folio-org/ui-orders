@@ -69,3 +69,5 @@ export const isReopenAvailableForOrder = (order = {}) => {
 export const ifDisabledToChangePaymentInfo = (order = {}) => {
   return !(isWorkflowStatusIsPending(order) || isWorkflowStatusOpen(order));
 };
+
+export const isOrderManual = (order = {}) => order?.manualPo === true;
