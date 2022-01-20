@@ -19,6 +19,10 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useIntegrationConfigs: jest.fn().mockReturnValue({ integrationConfigs: [], isLoading: false }),
 }));
+jest.mock('../../common/hooks', () => ({
+  useOpenOrderSettings: jest.fn().mockReturnValue({ isFetching: false, openOrderSettings: {} }),
+  useLinesLimit: jest.fn().mockReturnValue({ isLoading: false, linesLimit: 1 }),
+}));
 jest.mock('../POLine/POLineForm', () => jest.fn().mockReturnValue('POLineForm'));
 jest.mock('../ModalDeletePieces', () => jest.fn().mockReturnValue('ModalDeletePieces'));
 
@@ -30,9 +34,6 @@ const defaultProps = {
       GET: jest.fn().mockResolvedValue(order),
       POST: jest.fn().mockResolvedValue(order),
       PUT: jest.fn().mockResolvedValue(order),
-    },
-    openOrderSetting: {
-      GET: jest.fn().mockResolvedValue(),
     },
     approvalsSetting: {
       GET: jest.fn().mockResolvedValue(),
@@ -77,9 +78,6 @@ const defaultProps = {
     lineOrder: {
       hasLoaded: true,
       records: [order],
-    },
-    openOrderSetting: {
-      hasLoaded: true,
     },
     approvalsSetting: {
       hasLoaded: true,

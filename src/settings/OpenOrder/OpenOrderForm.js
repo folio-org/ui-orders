@@ -18,6 +18,15 @@ const OpenOrderForm = () => (
         type="checkbox"
       />
     </Col>
+
+    <Col xs={12}>
+      <Field
+        component={Checkbox}
+        label={<FormattedMessage id="ui-orders.settings.openOrder.isDuplicateCheckDisabled" />}
+        name="isDuplicateCheckDisabled"
+        type="checkbox"
+      />
+    </Col>
   </Row>
 );
 

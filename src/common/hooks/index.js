@@ -3,3 +3,4 @@ export * from './useLinesLimit';
 export * from './useVendor';
 export * from './useAcqMethods';
 export * from './useOrderTemplate';
+export * from './useOpenOrderSettings';

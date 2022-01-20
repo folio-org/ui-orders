@@ -617,6 +617,7 @@
   "settings.newBtn": "New",
 
   "settings.openOrder": "Opening purchase orders",
+  "settings.openOrder.isDuplicateCheckDisabled": "Disable duplicate check that occurs when opening orders and saving purchase order lines",
   "settings.openOrder.isOpenOrderEnabled": "Allow save and open purchase order when creating or editing a purchase order line",
 
   "settings.orderTemplates": "Order templates",

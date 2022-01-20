@@ -36,7 +36,10 @@ import {
   WORKFLOW_STATUS,
   VALIDATION_ERRORS,
 } from '../../common/constants';
-import { useLinesLimit } from '../../common/hooks';
+import {
+  useLinesLimit,
+  useOpenOrderSettings,
+} from '../../common/hooks';
 import { getCreateInventorySetting, validateDuplicateLines } from '../../common/utils';
 import DuplicateLinesModal from '../../common/DuplicateLinesModal';
 import {
@@ -51,7 +54,6 @@ import {
   CONTRIBUTOR_NAME_TYPES,
   CREATE_INVENTORY,
   IDENTIFIER_TYPES,
-  OPEN_ORDER_SETTING,
   ORDER_LINES,
   ORDER_NUMBER,
   ORDER_TEMPLATES,
@@ -76,7 +78,9 @@ function LayerPOLine({
   const [savingValues, setSavingValues] = useState();
   const sendCallout = useShowCallout();
   const [isLoading, setIsLoading] = useState(false);
-  const [isValidateDuplicateLines, setValidateDuplicateLines] = useState(true);
+  const { isFetching: isOpenOrderSettingsFetching, openOrderSettings } = useOpenOrderSettings();
+  const { isOpenOrderEnabled, isDuplicateCheckDisabled } = openOrderSettings;
+  const [isValidateDuplicateLines, setValidateDuplicateLines] = useState();
   const [duplicateLines, setDuplicateLines] = useState();
   const order = get(resources, 'lineOrder.records.0');
   const createInventory = get(resources, ['createInventory', 'records']);
@@ -104,6 +108,10 @@ function LayerPOLine({
     })
       .then(setPoLines);
   }, [id, memoizedMutator.poLines]);
+
+  useEffect(() => {
+    setValidateDuplicateLines(!isDuplicateCheckDisabled);
+  }, [isDuplicateCheckDisabled]);
 
   const openLineLimitExceededModal = useCallback(line => {
     setLinesLimitExceededModalOpened(true);
@@ -444,9 +452,6 @@ function LayerPOLine({
     [memoizedMutator.orderVendor, vendorId],
   );
 
-  const { isOpenOrderEnabled } = getConfigSetting(
-    get(resources, 'openOrderSetting.records', {}),
-  );
   const { isApprovalRequired } = getConfigSetting(
     get(resources, 'approvalsSetting.records', {}),
   );
@@ -459,7 +464,6 @@ function LayerPOLine({
     get(resources, 'createInventory.hasLoaded') &&
     get(resources, 'lineOrder.hasLoaded') &&
     (!lineId || poLine) &&
-    get(resources, 'openOrderSetting.hasLoaded') &&
     get(resources, 'approvalsSetting.hasLoaded') &&
     get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
     vendor &&
@@ -469,7 +473,8 @@ function LayerPOLine({
     get(resources, 'materialTypes.hasLoaded') &&
     get(order, 'id') === id &&
     !isLinesLimitLoading &&
-    !isConfigsFetching
+    !isConfigsFetching &&
+    !isOpenOrderSettingsFetching
   );
 
   if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
@@ -534,7 +539,6 @@ LayerPOLine.manifest = Object.freeze({
       query: 'id==:{id}',
     },
   },
-  openOrderSetting: OPEN_ORDER_SETTING,
   approvalsSetting: APPROVALS_SETTING,
   [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
   poLines: ORDER_LINES,
