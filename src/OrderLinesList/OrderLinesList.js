@@ -34,11 +34,11 @@ import {
   useModalToggle,
   useItemToView,
 } from '@folio/stripes-acq-components';
+import { searchableIndexes } from '@folio/plugin-find-po-line';
 
 import OrdersNavigation from '../common/OrdersNavigation';
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
 import Details from './Details';
-import { searchableIndexes } from './OrdersLinesSearchConfig';
 import OrderLinesListActionMenu from './OrderLinesListActionMenu';
 import LineExportSettingsModalContainer from './LineExportSettingModalContainer';
 

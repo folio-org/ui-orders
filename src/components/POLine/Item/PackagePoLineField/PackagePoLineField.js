@@ -47,8 +47,7 @@ function PackagePoLineField({ disabled, poLineId, resources, onSelectLine }) {
           addLines={onSelectLine}
           aria-haspopup="true"
           dataKey="find-po-line"
-          filters="isPackage.true"
-          initialFilterState={{ isPackage: ['true'] }}
+          initialFilters={{ isPackage: ['true'] }}
           isSingleSelect
           type="find-po-line"
           renderTrigger={pluginButton}

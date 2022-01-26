@@ -11,7 +11,7 @@ import {
   LINES_API,
 } from '@folio/stripes-acq-components';
 
-import { useLinesQuery } from '../useLinesQuery';
+import { getLinesQuery } from '@folio/plugin-find-po-line';
 
 export const useOrderLines = ({ pagination, fetchReferences }) => {
   const ky = useOkapiKy();
@@ -19,7 +19,7 @@ export const useOrderLines = ({ pagination, fetchReferences }) => {
 
   const { search } = useLocation();
   const queryParams = queryString.parse(search);
-  const buildQuery = useLinesQuery(queryParams);
+  const buildQuery = getLinesQuery(queryParams);
   const filtersCount = getFiltersCount(queryParams);
 
   const { isFetching, data = {} } = useQuery(

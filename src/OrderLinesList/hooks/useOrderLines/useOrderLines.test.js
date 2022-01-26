@@ -3,10 +3,10 @@ import { useLocation } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { useOkapiKy } from '@folio/stripes/core';
+import { getLinesQuery } from '@folio/plugin-find-po-line';
 
 import { orderLine } from '../../../../test/jest/fixtures';
 
-import { useLinesQuery } from '../useLinesQuery';
 import { useOrderLines } from './useOrderLines';
 
 jest.mock('react-router', () => ({
@@ -18,7 +18,9 @@ jest.mock('@folio/stripes/core', () => ({
   useNamespace: () => ['namespace'],
   useOkapiKy: jest.fn(),
 }));
-jest.mock('../useLinesQuery', () => ({ useLinesQuery: jest.fn() }));
+jest.mock('@folio/plugin-find-po-line/FindPOLine/utils', () => ({
+  getLinesQuery: jest.fn(),
+}));
 
 const orderLines = [orderLine];
 const queryMock = '(cql.allRecords=1) sortby metadata.updatedDate/sort.descending';
@@ -33,7 +35,7 @@ const wrapper = ({ children }) => (
 
 describe('useOrderLines', () => {
   beforeEach(() => {
-    useLinesQuery.mockReturnValue(() => Promise.resolve(queryMock));
+    getLinesQuery.mockReturnValue(() => Promise.resolve(queryMock));
 
     useOkapiKy
       .mockClear()
