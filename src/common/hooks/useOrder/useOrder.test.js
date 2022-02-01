@@ -4,7 +4,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useOrder } from './useOrder';
-import { order } from '../../../test/jest/fixtures';
+import { order } from '../../../../test/jest/fixtures';
 
 const queryClient = new QueryClient();
 

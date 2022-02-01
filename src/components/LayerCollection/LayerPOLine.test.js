@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router';
 import user from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
 
+import { useOrder } from '../../common/hooks';
 import LayerPOLine from './LayerPOLine';
 import POLineForm from '../POLine/POLineForm';
 import ModalDeletePieces from '../ModalDeletePieces';
@@ -22,9 +23,14 @@ jest.mock('@folio/stripes-acq-components', () => ({
 jest.mock('../../common/hooks', () => ({
   useOpenOrderSettings: jest.fn().mockReturnValue({ isFetching: false, openOrderSettings: {} }),
   useLinesLimit: jest.fn().mockReturnValue({ isLoading: false, linesLimit: 1 }),
+  useOrder: jest.fn(),
 }));
 jest.mock('../POLine/POLineForm', () => jest.fn().mockReturnValue('POLineForm'));
 jest.mock('../ModalDeletePieces', () => jest.fn().mockReturnValue('ModalDeletePieces'));
+jest.mock('../../common/utils', () => ({
+  ...jest.requireActual('../../common/utils'),
+  validateDuplicateLines: jest.fn().mockReturnValue(Promise.resolve()),
+}));
 
 const queryClient = new QueryClient();
 
@@ -131,6 +137,7 @@ describe('LayerPOLine', () => {
     POLineForm.mockClear();
     history.push.mockClear();
     defaultProps.mutator.poLines.PUT.mockClear();
+    useOrder.mockClear().mockReturnValue({ isLoading: false, order });
   });
 
   it('should render POLineForm', async () => {
@@ -235,6 +242,30 @@ describe('LayerPOLine', () => {
       await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({}));
       await waitFor(() => ModalDeletePieces.mock.calls[0][0].onSubmit());
       await waitFor(() => expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled());
+    });
+  });
+
+  describe('Different account numbers', () => {
+    it('should render \'Different account numbers\' modal if error occurs', async () => {
+      useOrder.mockClear().mockReturnValue({
+        isLoading: false,
+        order: {
+          ...order,
+          compositePoLines: [
+            { automaticExport: true, vendorDetail: { vendorAccount: '12345' } },
+            { automaticExport: true, vendorDetail: { vendorAccount: '54321' } },
+          ],
+        },
+      });
+      defaultProps.mutator.poLines.PUT.mockReturnValue(Promise.resolve());
+
+      renderLayerPOLine();
+
+      await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ saveAndOpen: true }));
+
+      const modal = await screen.findByText(/ui-orders.differentAccounts.title/i);
+
+      expect(modal).toBeInTheDocument();
     });
   });
 

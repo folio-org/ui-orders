@@ -15,7 +15,11 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   Tags: jest.fn().mockReturnValue('Tags'),
 }));
-jest.mock('../../common/hooks/useOrder', () => ({
+jest.mock('../../common/hooks', () => ({
+  useOrderTemplate: jest.fn().mockResolvedValue({
+    isLoading: false,
+    orderTemplate: {},
+  }),
   useOrder: jest.fn().mockResolvedValue({
     isLoading: false,
     order: {},

@@ -13,6 +13,7 @@ import {
   stripesShape,
 } from '@folio/stripes/core';
 import {
+  ErrorModal,
   LoadingView,
 } from '@folio/stripes/components';
 import {
@@ -39,8 +40,13 @@ import {
 import {
   useLinesLimit,
   useOpenOrderSettings,
+  useOrder,
 } from '../../common/hooks';
-import { getCreateInventorySetting, validateDuplicateLines } from '../../common/utils';
+import {
+  getCreateInventorySetting,
+  getExportAccountNumbers,
+  validateDuplicateLines,
+} from '../../common/utils';
 import DuplicateLinesModal from '../../common/DuplicateLinesModal';
 import {
   DISCOUNT_TYPE,
@@ -75,6 +81,8 @@ function LayerPOLine({
   const [isLinesLimitExceededModalOpened, setLinesLimitExceededModalOpened] = useState(false);
   const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const [isNotUniqueOpen, toggleNotUnique] = useModalToggle();
+  const [isDifferentAccountModalOpened, toggleDifferentAccountModal] = useModalToggle();
+  const [accountNumbers, setAccountNumbers] = useState([]);
   const [savingValues, setSavingValues] = useState();
   const sendCallout = useShowCallout();
   const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +90,7 @@ function LayerPOLine({
   const { isOpenOrderEnabled, isDuplicateCheckDisabled } = openOrderSettings;
   const [isValidateDuplicateLines, setValidateDuplicateLines] = useState();
   const [duplicateLines, setDuplicateLines] = useState();
-  const order = get(resources, 'lineOrder.records.0');
+  const { isLoading: isOrderLoading, order } = useOrder(id);
   const createInventory = get(resources, ['createInventory', 'records']);
   const createInventorySetting = useMemo(
     () => getCreateInventorySetting(createInventory),
@@ -157,9 +165,18 @@ function LayerPOLine({
   );
 
   const openOrder = useCallback(
-    (saveAndOpen) => {
-      return saveAndOpen
-        ? updateOrderResource(order, memoizedMutator.lineOrder, {
+    (saveAndOpen, newLine = {}) => {
+      if (saveAndOpen) {
+        const exportAccountNumbers = getExportAccountNumbers([...order.compositePoLines, newLine]);
+
+        if (exportAccountNumbers.length > 1) {
+          setAccountNumbers(exportAccountNumbers);
+
+          // eslint-disable-next-line prefer-promise-reject-errors
+          return Promise.reject({ validationError: VALIDATION_ERRORS.differentAccount });
+        }
+
+        return updateOrderResource(order, memoizedMutator.lineOrder, {
           workflowStatus: WORKFLOW_STATUS.open,
         })
           .then(() => {
@@ -184,8 +201,8 @@ function LayerPOLine({
               type: 'error',
             });
             throw errorResponse;
-          })
-        : Promise.resolve();
+          });
+      } else return Promise.resolve();
     },
     [memoizedMutator.lineOrder, order, sendCallout],
   );
@@ -217,7 +234,7 @@ function LayerPOLine({
 
       savedLine = await memoizedMutator.poLines.POST(newLine);
 
-      await openOrder(saveAndOpen);
+      await openOrder(saveAndOpen, savedLine);
 
       sendCallout({
         message: <FormattedMessage id="ui-orders.line.create.success" />,
@@ -246,6 +263,10 @@ function LayerPOLine({
         await memoizedMutator.poLines.DELETE(savedLine);
       }
 
+      if (e?.validationError === VALIDATION_ERRORS.differentAccount) {
+        return toggleDifferentAccountModal();
+      }
+
       return handleErrorResponse(e, line);
     } finally {
       setIsLoading(false);
@@ -264,6 +285,7 @@ function LayerPOLine({
     search,
     sendCallout,
     toggleNotUnique,
+    toggleDifferentAccountModal,
   ]);
 
   const createNewOrder = useCallback(
@@ -356,7 +378,12 @@ function LayerPOLine({
       })
       .catch((e) => {
         setIsLoading(false);
-        handleErrorResponse(e, line);
+
+        if (e?.validationError === VALIDATION_ERRORS.differentAccount) {
+          return toggleDifferentAccountModal();
+        }
+
+        return handleErrorResponse(e, line);
       });
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -368,6 +395,7 @@ function LayerPOLine({
     openOrder,
     sendCallout,
     toggleNotUnique,
+    toggleDifferentAccountModal,
   ]);
 
   const saveAfterDelete = useCallback(() => {
@@ -455,14 +483,14 @@ function LayerPOLine({
   const { isApprovalRequired } = getConfigSetting(
     get(resources, 'approvalsSetting.records', {}),
   );
-  const isOrderApproved = isApprovalRequired ? get(order, 'approved') : true;
+  const isOrderApproved = isApprovalRequired ? order?.approved : true;
   const isSaveAndOpenButtonVisible =
     isOpenOrderEnabled &&
     isOrderApproved &&
-    get(order, 'workflowStatus') === WORKFLOW_STATUS.pending;
+    order?.workflowStatus === WORKFLOW_STATUS.pending;
   const isntLoaded = !(
     get(resources, 'createInventory.hasLoaded') &&
-    get(resources, 'lineOrder.hasLoaded') &&
+    !isOrderLoading &&
     (!lineId || poLine) &&
     get(resources, 'approvalsSetting.hasLoaded') &&
     get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
@@ -518,7 +546,11 @@ function LayerPOLine({
         isNotUniqueOpen && (
           <DuplicateLinesModal
             duplicateLines={duplicateLines}
-            onSubmit={() => onSubmit(savingValues)}
+            onSubmit={() => {
+              toggleNotUnique();
+              setValidateDuplicateLines(false);
+              onSubmit(savingValues);
+            }}
             onCancel={() => {
               toggleNotUnique();
               setValidateDuplicateLines(true);
@@ -526,6 +558,16 @@ function LayerPOLine({
           />
         )
       }
+
+      {isDifferentAccountModalOpened && (
+        <ErrorModal
+          id="order-open-different-account"
+          label={<FormattedMessage id="ui-orders.differentAccounts.title" />}
+          content={<FormattedMessage id="ui-orders.differentAccounts.message" values={{ accountNumber: accountNumbers.length }} />}
+          onClose={() => (lineId ? onCancel() : toggleDifferentAccountModal())}
+          open
+        />
+      )}
     </>
   );
 }
@@ -534,10 +576,7 @@ LayerPOLine.manifest = Object.freeze({
   lineOrder: {
     ...ORDERS,
     accumulate: false,
-    fetch: true,
-    params: {
-      query: 'id==:{id}',
-    },
+    fetch: false,
   },
   approvalsSetting: APPROVALS_SETTING,
   [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,

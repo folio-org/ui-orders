@@ -15,8 +15,10 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { useOrder } from '../../common/hooks/useOrder';
-import { useOrderTemplate } from '../../common/hooks';
+import {
+  useOrder,
+  useOrderTemplate,
+} from '../../common/hooks';
 import {
   CONTRIBUTOR_NAME_TYPES,
   FUND,

@@ -28,4 +28,5 @@ export const RESULT_COUNT_INCREMENT = 30;
 
 export const VALIDATION_ERRORS = {
   duplicateLines: 'duplicateLines',
+  differentAccount: 'differentAccount',
 };

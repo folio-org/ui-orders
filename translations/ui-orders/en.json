@@ -78,6 +78,8 @@
   "closeOrderModal.reason": "Reason",
   "closeOrderModal.submit": "Submit",
   "closeOrderModal.title": "Close - purchase order - {orderNumber}",
+  "differentAccounts.title": "Different account numbers",
+  "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening.",
   "openOrderModal.title": "Open - purchase order - {orderNumber}",
   "openOrderModal.submit": "Submit",
   "openOrderModal.cancel": "Close",

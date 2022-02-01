@@ -39,6 +39,7 @@ import {
   Pane,
   PaneMenu,
   Row,
+  ErrorModal,
 } from '@folio/stripes/components';
 import {
   ColumnManagerMenu,
@@ -47,6 +48,7 @@ import {
 
 import {
   getAddresses,
+  getExportAccountNumbers,
 } from '../../common/utils';
 import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
 import { isOngoing } from '../../common/POFields';
@@ -192,6 +194,8 @@ const PO = ({
   const [isUnopenOrderModalOpened, toggleUnopenOrderModal] = useModalToggle();
   const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const [isPrintModalOpened, togglePrintModal] = useModalToggle();
+  const [isDifferentAccountModalOpened, toggleDifferentAccountModal] = useModalToggle();
+  const [accountNumbers, setAccountNumbers] = useState([]);
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
   const poLines = order?.compositePoLines;
@@ -341,8 +345,18 @@ const PO = ({
       };
 
       if (isOpenOrderModalOpened) toggleOpenOrderModal();
+
+      const exportAccountNumbers = getExportAccountNumbers(order.compositePoLines);
+
+      if (exportAccountNumbers.length > 1) {
+        setAccountNumbers(exportAccountNumbers);
+
+        return toggleDifferentAccountModal();
+      }
+
       setIsLoading(true);
-      updateOrderResource(order, mutator.orderDetails, openOrderProps)
+
+      return updateOrderResource(order, mutator.orderDetails, openOrderProps)
         .then(
           () => {
             sendCallout({
@@ -363,6 +377,8 @@ const PO = ({
       isOpenOrderModalOpened,
       toggleOpenOrderModal,
       order,
+      accountNumbers,
+      toggleDifferentAccountModal,
       sendCallout,
       refreshList,
       fetchOrder,
@@ -801,6 +817,15 @@ const PO = ({
             onCancel={toggleDeletePieces}
             onSubmit={openOrder}
             poLines={poLines}
+          />
+        )}
+        {isDifferentAccountModalOpened && (
+          <ErrorModal
+            id="order-open-different-account"
+            label={<FormattedMessage id="ui-orders.differentAccounts.title" />}
+            content={<FormattedMessage id="ui-orders.differentAccounts.message" values={{ accountNumber: accountNumbers.length }} />}
+            onClose={toggleDifferentAccountModal}
+            open
           />
         )}
       </Pane>
