@@ -35,6 +35,7 @@
 * Do not export order lines where Manual is true for the PO. Refs UIOR-890.
 * Disable Check for potential duplicate order lines in Settings. Refs UIOR-888.
 * Apply changes in Orders App from Plugin Find POL. Refs UIOR-900.
+* Update unopened order "Delete piece" warning message. Refs UIOR-905.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)
