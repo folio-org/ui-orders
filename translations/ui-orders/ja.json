@@ -695,7 +695,7 @@
     "button.printLine": "Print order line",
     "buttons.line.submit": "Submit",
     "unopenOrderModal.message.withoutPieces": "Are you sure you want to unopen the order?",
-    "unopenOrderModal.message.withPieces": "This order line has related receiving records. Any unreceived pieces will be deleted, any \"On order\" Item records related to those pieces will also be deleted from inventory. Are you sure you want to unopen the order?",
+    "unopenOrderModal.message.withPieces": "This order has at least one order line with receiving workflow \"Synchronized order and receipt quantity\". Such POLs with related receiving records will have any unreceived pieces deleted, and any \"On order\" Item records related to those pieces will also be deleted from inventory. Holdings linked to those items that have no other related items will also be deleted from inventory. Are you sure you want to unopen the order?",
     "duplicateLines.confirmation.heading": "Save order line",
     "duplicateLines.confirmation.message": "This appears to be a duplicate order line",
     "duplicateLines.confirmation.title": "Possible duplicate order line",
