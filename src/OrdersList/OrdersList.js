@@ -48,7 +48,7 @@ const title = <FormattedMessage id="ui-orders.navigation.orders" />;
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', UPDATED_DATE];
 
 export const resultsFormatter = {
-  [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} />,
+  [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} utc={false} />,
   workflowStatus: order => ORDER_STATUS_LABEL[order.workflowStatus],
 };
 

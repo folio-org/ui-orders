@@ -38,7 +38,7 @@ const resultsFormatter = {
       {line.poLineNumber}
     </Link>
   ),
-  updatedDate: line => <FolioFormattedDate value={line.metadata?.updatedDate} />,
+  updatedDate: line => <FolioFormattedDate value={line.metadata?.updatedDate} utc={false} />,
   productIds: line => line.details?.productIds?.map(({ productId }) => productId)?.join(', ') || <NoValue />,
   vendorRefNumber: line => line.vendorDetail?.referenceNumbers?.map(({ refNumber }) => refNumber)?.join(', ') || <NoValue />,
   fundCode: line => line.fundDistribution?.map(({ code }) => code)?.filter(Boolean)?.join(', ') || <NoValue />,
