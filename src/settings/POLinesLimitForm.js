@@ -14,7 +14,7 @@ import {
   checkScope,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
-import { handleKeyCommand } from '@folio/stripes-acq-components';
+import { handleKeyCommand, usePaneFocus } from '@folio/stripes-acq-components';
 
 import { LINES_LIMIT_DEFAULT } from '../components/Utils/const';
 
@@ -25,6 +25,8 @@ const validateLimit = value => {
 };
 
 const POLinesLimitForm = props => {
+  const { paneTitleRef } = usePaneFocus();
+
   const {
     handleSubmit,
     pristine,
@@ -72,6 +74,7 @@ const POLinesLimitForm = props => {
           fluidContentWidth
           footer={footer}
           paneTitle={paneTitle}
+          paneTitleRef={paneTitleRef}
         >
           <Row>
             <Col xs={6}>

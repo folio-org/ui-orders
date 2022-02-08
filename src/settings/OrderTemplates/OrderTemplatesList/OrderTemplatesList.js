@@ -15,9 +15,10 @@ import {
   HasCommand,
   checkScope,
 } from '@folio/stripes/components';
-import { handleKeyCommand } from '@folio/stripes-acq-components';
+import { handleKeyCommand, usePaneFocus } from '@folio/stripes-acq-components';
 
 const OrderTemplatesList = ({ label, rootPath, orderTemplatesList = [] }) => {
+  const { paneTitleRef } = usePaneFocus();
   const stripes = useStripes();
   const history = useHistory();
   const lastMenu = useMemo(() => (
@@ -53,6 +54,7 @@ const OrderTemplatesList = ({ label, rootPath, orderTemplatesList = [] }) => {
         id="order-settings-order-templates-list"
         lastMenu={lastMenu}
         paneTitle={label}
+        paneTitleRef={paneTitleRef}
         defaultWidth="fill"
       >
         <NavList>
