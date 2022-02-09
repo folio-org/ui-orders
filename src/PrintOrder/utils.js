@@ -1,3 +1,5 @@
+import { pick } from 'lodash';
+
 export const getPrintPageStyles = () => `
   @page {
     size: A4 landscape;
@@ -13,3 +15,18 @@ export const getPrintPageStyles = () => `
     }
   }
 `;
+
+export const buildAddressString = (address = {}) => (
+  Object.values(
+    pick(address, [
+      'addressLine1',
+      'addressLine2',
+      'city',
+      'stateRegion',
+      'zipCode',
+      'country',
+    ]),
+  )
+    .filter(Boolean)
+    .join(', ')
+);

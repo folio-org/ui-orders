@@ -16,6 +16,7 @@ import {
   ORDER_STATUS_LABEL,
 } from '@folio/stripes-acq-components';
 
+import { buildAddressString } from '../utils';
 import { PrintOrderLines } from './PrintOrderLines';
 
 const ComponentToPrint = ({ dataSource = {} }) => {
@@ -43,7 +44,7 @@ const ComponentToPrint = ({ dataSource = {} }) => {
             />
             <KeyValueInline
               label={<FormattedMessage id="ui-orders.print.vendorPrimaryAddress" />}
-              value={dataSource.vendorPrimaryAddress?.addressLine1}
+              value={buildAddressString(dataSource.vendorPrimaryAddress)}
             />
             <KeyValueInline
               label={<FormattedMessage id="ui-orders.print.vendorPhone" />}

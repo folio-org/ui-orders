@@ -89,7 +89,7 @@ export const getColumns = (lines = []) => {
     },
     {
       title: <FormattedMessage id="ui-orders.cost.estimatedPrice" />,
-      size: 1,
+      size: 'auto',
       align: 'right',
       render: line => {
         return (
