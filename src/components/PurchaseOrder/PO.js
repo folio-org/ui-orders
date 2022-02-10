@@ -348,7 +348,7 @@ const PO = ({
 
       const exportAccountNumbers = getExportAccountNumbers(order.compositePoLines);
 
-      if (exportAccountNumbers.length > 1) {
+      if (!order.manualPo && exportAccountNumbers.length > 1) {
         setAccountNumbers(exportAccountNumbers);
 
         return toggleDifferentAccountModal();

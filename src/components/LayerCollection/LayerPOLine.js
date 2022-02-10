@@ -169,7 +169,7 @@ function LayerPOLine({
       if (saveAndOpen) {
         const exportAccountNumbers = getExportAccountNumbers([...order.compositePoLines, newLine]);
 
-        if (exportAccountNumbers.length > 1) {
+        if (!order.manualPo && exportAccountNumbers.length > 1) {
           setAccountNumbers(exportAccountNumbers);
 
           // eslint-disable-next-line prefer-promise-reject-errors
