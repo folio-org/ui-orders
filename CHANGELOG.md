@@ -40,6 +40,7 @@
 * Adding tenant's timezone in UI. Refs UIOR-910.
 * Settings > Orders > change focus. Refs UIOR-897.
 * Only printing part of the primary address for orders. Refs UIOR-909.
+* Search by product id ISBN is not working while adding invoice line based on POL. Refs UIOR-913.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)

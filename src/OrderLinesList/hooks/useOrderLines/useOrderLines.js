@@ -19,7 +19,7 @@ export const useOrderLines = ({ pagination, fetchReferences }) => {
 
   const { search } = useLocation();
   const queryParams = queryString.parse(search);
-  const buildQuery = getLinesQuery(queryParams);
+  const buildQuery = getLinesQuery(queryParams, ky);
   const filtersCount = getFiltersCount(queryParams);
 
   const { isFetching, data = {} } = useQuery(
