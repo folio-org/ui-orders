@@ -731,5 +731,7 @@
     "title.actions.save.success": "本标题<b> {title} </b>已成功添加于<b> 订单行{poLineNumber}</b>",
     "title.actions.save.error.genericError": "尚未为采购订单行{poLineNumber}添加标题{title}",
     "title.actions.save.error.titleExist": "采购订单行{poLineNumber}的标题{title} {poLineNumber}已存在",
-    "permission.order.showHidden": "订单：显示所有隐藏字段"
+    "permission.order.showHidden": "订单：显示所有隐藏字段",
+    "differentAccounts.title": "Different account numbers",
+    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening."
 }

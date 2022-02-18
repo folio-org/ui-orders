@@ -731,5 +731,7 @@
     "title.actions.save.success": "تمت إضافة العنوان <b>{title}</b> بنجاح إلى <b>سطر أمر الشراء {poLineNumber}</b>",
     "title.actions.save.error.genericError": "لم تتم إضافة العنوان {title} إلى سطر أمر الشراء {poLineNumber}",
     "title.actions.save.error.titleExist": "العنوان {title} لسطر أمراء الشراء {poLineNumber} موجود بالفعل",
-    "permission.order.showHidden": "الطلبيات: إظهار كل الحقول المخفية"
+    "permission.order.showHidden": "الطلبيات: إظهار كل الحقول المخفية",
+    "differentAccounts.title": "Different account numbers",
+    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening."
 }
