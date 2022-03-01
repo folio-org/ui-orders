@@ -29,6 +29,11 @@ const CloseOrderModal = ({
   const [note, setNote] = useState('');
   const closeReasonOptions = useCloseReasonOptions(formatMessage, closingReasons);
 
+  const modalLabel = formatMessage(
+    { id: 'ui-orders.closeOrderModal.title' },
+    { orderNumber },
+  );
+
   const onChangeReason = useCallback(
     ({ target: { value } }) => (
       setReason(value)
@@ -69,8 +74,9 @@ const CloseOrderModal = ({
 
   return (
     <Modal
+      aria-label={modalLabel}
       data-test-close-order-modal
-      label={<FormattedMessage id="ui-orders.closeOrderModal.title" values={{ orderNumber }} />}
+      label={modalLabel}
       footer={footer}
       open
     >

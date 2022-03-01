@@ -1,10 +1,17 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import { Button, Modal } from '@folio/stripes/components';
 
 const OpenOrderConfirmationModal = ({ orderNumber, submit, cancel }) => {
+  const intl = useIntl();
+
+  const modalLabel = intl.formatMessage(
+    { id: 'ui-orders.openOrderModal.title' },
+    { orderNumber },
+  );
+
   const footer = (
     <div>
       <Button
@@ -28,7 +35,8 @@ const OpenOrderConfirmationModal = ({ orderNumber, submit, cancel }) => {
 
   return (
     <Modal
-      label={<FormattedMessage id="ui-orders.openOrderModal.title" values={{ orderNumber }} />}
+      aria-label={modalLabel}
+      label={modalLabel}
       open
       data-test-open-order-confirmation-modal
       footer={footer}

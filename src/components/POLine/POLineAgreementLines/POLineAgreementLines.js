@@ -72,6 +72,7 @@ const POLineAgreementLines = ({ agreementLines, label, onNeedMoreData, totalCoun
         totalCount={totalCount}
         virtualize
         visibleColumns={visibleColumns}
+        columnIdPrefix="agreement-lines"
       />
     </Accordion>
   );

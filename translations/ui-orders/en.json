@@ -353,6 +353,7 @@
   "order.saveError.title": "Purchase order not saved",
   "order.updateEncumbrances.success": "Order encumbrances were updated",
   "order.updateEncumbrances.error": "Order encumbrances were not updated",
+  "order.hideField": "Hide field",
   "order.hideFields": "Hide fields",
   "order.showHidden": "Show hidden fields",
   "order.showHidden.info": "Show all fields that were hidden when using template",

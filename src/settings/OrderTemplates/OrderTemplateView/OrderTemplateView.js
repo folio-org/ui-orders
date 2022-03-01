@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { get } from 'lodash';
 
@@ -64,6 +64,7 @@ class OrderTemplateView extends Component {
     materialTypes: PropTypes.arrayOf(PropTypes.object),
     stripes: PropTypes.object.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -139,6 +140,7 @@ class OrderTemplateView extends Component {
       stripes,
       rootPath,
       history,
+      intl,
     } = this.props;
     const { showConfirmDelete } = this.state;
     const title = get(orderTemplate, 'templateName', '');
@@ -188,6 +190,8 @@ class OrderTemplateView extends Component {
         handler: (e) => collapseAllSections(e, this.accordionStatusRef),
       },
     ];
+
+    const deleteTemplateModalLabel = intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.confirmDelete.heading' });
 
     return (
       <Layer
@@ -366,9 +370,10 @@ class OrderTemplateView extends Component {
             </AccordionStatus>
             {showConfirmDelete && (
               <ConfirmationModal
+                aria-label={deleteTemplateModalLabel}
                 id="delete-order-template-modal"
                 confirmLabel={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.confirmLabel" />}
-                heading={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.heading" />}
+                heading={deleteTemplateModalLabel}
                 message={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.message" />}
                 onCancel={this.hideConfirmDelete}
                 onConfirm={this.onDeleteOrderTemplate}
@@ -382,4 +387,4 @@ class OrderTemplateView extends Component {
   }
 }
 
-export default OrderTemplateView;
+export default injectIntl(OrderTemplateView);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
@@ -11,6 +11,10 @@ import {
 import DuplicateLinesList from './DuplicateLinesList';
 
 const DuplicateLinesModal = ({ duplicateLines, onSubmit, onCancel }) => {
+  const intl = useIntl();
+
+  const modalLabel = intl.formatMessage({ id: 'ui-orders.duplicateLines.confirmation.heading' });
+
   const footer = (
     <ModalFooter>
       <Button
@@ -32,9 +36,10 @@ const DuplicateLinesModal = ({ duplicateLines, onSubmit, onCancel }) => {
 
   return (
     <Modal
+      aria-label={modalLabel}
       footer={footer}
       id="line-is-not-unique-confirmation"
-      label={<FormattedMessage id="ui-orders.duplicateLines.confirmation.heading" />}
+      label={modalLabel}
       open
     >
       <FormattedMessage id="ui-orders.duplicateLines.confirmation.message" />

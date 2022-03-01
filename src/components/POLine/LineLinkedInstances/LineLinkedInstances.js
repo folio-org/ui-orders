@@ -135,6 +135,7 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
               formatter={resultFormatter}
               interactive={line.isPackage}
               onRowClick={onTitleSelect}
+              columnIdPrefix="linked-instances"
             />
           )
       }

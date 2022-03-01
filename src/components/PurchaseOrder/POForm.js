@@ -353,7 +353,7 @@ class POForm extends Component {
                                 labelId="ui-orders.settings.orderTemplates.editor.template.name"
                                 name="template"
                                 id="order-template"
-                                disabled={poLinesLength}
+                                disabled={Boolean(poLinesLength)}
                               />
                             </Col>
                           </Row>

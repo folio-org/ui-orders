@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { get, mapValues } from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
@@ -87,6 +87,7 @@ const POLineView = ({
   tagsToggle,
   orderTemplate,
 }) => {
+  const intl = useIntl();
   const stripes = useStripes();
   const [sections, setSections] = useState({
     CostDetails: true,
@@ -319,6 +320,10 @@ const POLineView = ({
   const metadata = get(line, 'metadata');
   const isClosedOrder = isWorkflowStatusClosed(order);
   const paneTitle = <FormattedMessage id="ui-orders.line.paneTitle.details" values={{ poLineNumber }} />;
+  const deletePOLModalLabel = intl.formatMessage(
+    { id: 'ui-orders.order.delete.heading' },
+    { orderNumber: poLineNumber },
+  );
 
   return (
     <HasCommand
@@ -504,9 +509,10 @@ const POLineView = ({
         </AccordionSet>
         {showConfirmDelete && (
           <ConfirmationModal
+            aria-label={deletePOLModalLabel}
             id="delete-line-confirmation"
             confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
-            heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber: poLineNumber }} />}
+            heading={deletePOLModalLabel}
             message={<FormattedMessage id="ui-orders.line.delete.message" />}
             onCancel={toggleConfirmDelete}
             onConfirm={onConfirmDelete}

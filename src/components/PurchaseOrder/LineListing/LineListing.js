@@ -70,6 +70,7 @@ function LineListing({
         sortDirection="ascending"
         visibleColumns={visibleColumns}
         columnMapping={LINE_LISTING_COLUMN_MAPPING}
+        columnIdPrefix="po-lines"
       />
       <Layout className="textCentered">
         <Icon icon="end-mark">

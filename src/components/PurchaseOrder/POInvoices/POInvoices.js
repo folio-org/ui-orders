@@ -67,6 +67,7 @@ const POInvoices = ({ orderInvoices, vendors }) => {
       sortedColumn={COLUMN_INVOICE_DATE}
       sorters={sorters}
       visibleColumns={visibleColumns}
+      columnIdPrefix="invoices"
     />
   );
 };

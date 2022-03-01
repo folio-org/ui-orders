@@ -74,6 +74,7 @@ export const RelatedInvoiceLines = ({ lineId, label }) => {
             sortedColumn={COLUMN_INVOICE_DATE}
             sorters={sorters}
             visibleColumns={visibleColumns}
+            columnIdPrefix="invoice-lines"
           />
         )
       }

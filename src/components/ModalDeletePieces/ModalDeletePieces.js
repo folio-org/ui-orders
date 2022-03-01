@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
@@ -73,6 +73,7 @@ DeletePiecesFooter.propTypes = {
 };
 
 const ModalDeletePieces = ({ isLoading, onCancel, onDeletePieces, pieces }) => {
+  const intl = useIntl();
   const [selectedIds, setSelectedIds] = useState(new Set());
   const isAllChecked = selectedIds.size === pieces?.length;
   const checkAll = useCallback(() => {
@@ -116,8 +117,11 @@ const ModalDeletePieces = ({ isLoading, onCancel, onDeletePieces, pieces }) => {
     ),
   }), [checkPiece, selectedIds]);
 
+  const modalLabel = intl.formatMessage({ id: 'ui-orders.deletePiece.title' });
+
   return (
     <Modal
+      aria-label={modalLabel}
       footer={(
         <DeletePiecesFooter
           onCancel={onCancel}
@@ -126,7 +130,7 @@ const ModalDeletePieces = ({ isLoading, onCancel, onDeletePieces, pieces }) => {
         />
       )}
       id="data-test-delete-pieces-modal"
-      label={<FormattedMessage id="ui-orders.deletePiece.title" />}
+      label={modalLabel}
       open
     >
       <Row>

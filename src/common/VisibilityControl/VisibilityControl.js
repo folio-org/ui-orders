@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, useForm } from 'react-final-form';
+import { useIntl } from 'react-intl';
 
 import {
   Icon,
@@ -12,6 +13,7 @@ export const VisibilityControl = ({
   children,
   name,
 }) => {
+  const intl = useIntl();
   const { change, getState } = useForm();
 
   const onChange = e => {
@@ -38,11 +40,11 @@ export const VisibilityControl = ({
             >
               <input
                 {...input}
+                aria-label={intl.formatMessage({ id: 'ui-orders.order.hideField' })}
                 id={name}
                 onChange={onChange}
                 className={styles.visibilityControlCheckbox}
               />
-
               <Icon
                 size="medium"
                 icon={input.checked ? 'eye-closed' : 'eye-open'}

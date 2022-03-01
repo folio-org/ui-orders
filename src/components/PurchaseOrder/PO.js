@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
@@ -99,6 +99,7 @@ const PO = ({
   refreshList,
   stripes,
 }) => {
+  const intl = useIntl();
   const sendCallout = useShowCallout();
   const orderId = match.params.id;
   const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
@@ -652,6 +653,17 @@ const PO = ({
   const funds = get(resources, 'fund.records', []);
   const approvalsSetting = get(resources, 'approvalsSetting.records', {});
 
+  const deleteOrderModalLabel = intl.formatMessage(
+    { id: 'ui-orders.order.delete.heading' },
+    { orderNumber },
+  );
+  const unopenOrderModalLabel = intl.formatMessage(
+    { id: 'ui-orders.unopenOrderModal.title' },
+    { orderNumber },
+  );
+  const cloneOrderModalLabel = intl.formatMessage({ id: 'ui-orders.order.clone.heading' });
+  const differentAccountModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
+
   const POPane = (
     <HasCommand
       commands={shortcuts}
@@ -781,9 +793,10 @@ const PO = ({
         )}
         {showConfirmDelete && (
           <ConfirmationModal
+            ariaLabel={deleteOrderModalLabel}
             id="delete-order-confirmation"
             confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
-            heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber }} />}
+            heading={deleteOrderModalLabel}
             message={<FormattedMessage id="ui-orders.order.delete.message" />}
             onCancel={toggleDeleteOrderConfirm}
             onConfirm={deletePO}
@@ -792,9 +805,10 @@ const PO = ({
         )}
         {isCloneConfirmation && (
           <ConfirmationModal
+            aria-label={cloneOrderModalLabel}
             id="order-clone-confirmation"
             confirmLabel={<FormattedMessage id="ui-orders.order.clone.confirmLabel" />}
-            heading={<FormattedMessage id="ui-orders.order.clone.heading" />}
+            heading={cloneOrderModalLabel}
             message={<FormattedMessage id="ui-orders.order.clone.message" />}
             onCancel={toggleCloneConfirmation}
             onConfirm={onCloneOrder}
@@ -803,9 +817,10 @@ const PO = ({
         )}
         {isUnopenOrderModalOpened && (
           <ConfirmationModal
+            aria-label={unopenOrderModalLabel}
             id="order-unopen-confirmation"
             confirmLabel={<FormattedMessage id="ui-orders.unopenOrderModal.confirmLabel" />}
-            heading={<FormattedMessage id="ui-orders.unopenOrderModal.title" values={{ orderNumber }} />}
+            heading={unopenOrderModalLabel}
             message={<FormattedMessage id={`ui-orders.unopenOrderModal.message.${hasRemovablePieces ? 'withPieces' : 'withoutPieces'}`} />}
             onCancel={toggleUnopenOrderModal}
             onConfirm={unopenOrder}
@@ -821,8 +836,9 @@ const PO = ({
         )}
         {isDifferentAccountModalOpened && (
           <ErrorModal
+            aria-label={differentAccountModalLabel}
             id="order-open-different-account"
-            label={<FormattedMessage id="ui-orders.differentAccounts.title" />}
+            label={differentAccountModalLabel}
             content={<FormattedMessage id="ui-orders.differentAccounts.message" values={{ accountNumber: accountNumbers.length }} />}
             onClose={toggleDifferentAccountModal}
             open

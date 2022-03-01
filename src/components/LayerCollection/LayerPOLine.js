@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   cloneDeep,
   get,
@@ -78,6 +78,7 @@ function LayerPOLine({
   resources,
   stripes,
 }) {
+  const intl = useIntl();
   const [isLinesLimitExceededModalOpened, setLinesLimitExceededModalOpened] = useState(false);
   const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const [isNotUniqueOpen, toggleNotUnique] = useModalToggle();
@@ -510,6 +511,8 @@ function LayerPOLine({
   const initialValues = lineId ? poLine : getCreatePOLIneInitialValues;
   const onSubmit = lineId ? updatePOLine : submitPOLine;
 
+  const differentAccountsModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
+
   return (
     <>
       <POLineForm
@@ -561,8 +564,9 @@ function LayerPOLine({
 
       {isDifferentAccountModalOpened && (
         <ErrorModal
+          aria-label={differentAccountsModalLabel}
           id="order-open-different-account"
-          label={<FormattedMessage id="ui-orders.differentAccounts.title" />}
+          label={differentAccountsModalLabel}
           content={<FormattedMessage id="ui-orders.differentAccounts.message" values={{ accountNumber: accountNumbers.length }} />}
           onClose={() => (lineId ? onCancel() : toggleDifferentAccountModal())}
           open

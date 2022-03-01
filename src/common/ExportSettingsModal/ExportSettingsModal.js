@@ -29,10 +29,12 @@ const MODAL_CONFIG_DEFAULT = {
   lineDataOptions: EXPORT_LINE_FIELDS_OPTIONS,
   lineFieldsLabel: <FormattedMessage id="ui-orders.exportSettings.lineFieldsLabel" />,
   message: <FormattedMessage id="ui-orders.exportSettings.message" />,
-  modalLabel: <FormattedMessage id="ui-orders.exportSettings.label" />,
   orderDataOptions: EXPORT_ORDER_FIELDS_OPTIONS,
   orderFieldsLabel: <FormattedMessage id="ui-orders.exportSettings.orderFieldsLabel" />,
 };
+
+const SELECTED_PO_FIELDS_ID = 'selected-po-fields';
+const SELECTED_POL_FIELDS_ID = 'selected-pol-fields';
 
 const ExportSettingsModal = ({
   onCancel,
@@ -43,7 +45,7 @@ const ExportSettingsModal = ({
     lineDataOptions,
     lineFieldsLabel,
     message,
-    modalLabel,
+    modalLabel: modalLabelProp,
     orderDataOptions,
     orderFieldsLabel,
   },
@@ -53,6 +55,8 @@ const ExportSettingsModal = ({
   const [orderFieldsToExport, setOrderFieldsToExport] = useState([]);
   const [isLineExportAll, setIsLineExportAll] = useState(true);
   const [lineFieldsToExport, setLineFieldsToExport] = useState([]);
+
+  const modalLabel = modalLabelProp || intl.formatMessage({ id: 'ui-orders.exportSettings.label' });
 
   const isExportBtnDisabled = isExporting ||
     (!isOrderExportAll && !orderFieldsToExport.length) ||
@@ -91,6 +95,7 @@ const ExportSettingsModal = ({
 
   return (
     <Modal
+      aria-label={modalLabel}
       open
       label={modalLabel}
       footer={exportModalFooter}
@@ -122,6 +127,7 @@ const ExportSettingsModal = ({
                     checked={isOrderExportAll}
                   />
                   <RadioButton
+                    id={SELECTED_PO_FIELDS_ID}
                     aria-label={intl.formatMessage({ id: 'ui-orders.exportSettings.order.selected' })}
                     name="orderExport"
                     onChange={() => setIsOrderExportAll(false)}
@@ -134,6 +140,7 @@ const ExportSettingsModal = ({
                   <FormattedMessage id="ui-orders.exportSettings.all" />
                 </Label>
                 <MultiSelection
+                  aria-labelledby={SELECTED_PO_FIELDS_ID}
                   dataOptions={orderDataOptions}
                   onChange={setOrderFieldsToExport}
                   value={orderFieldsToExport}
@@ -162,6 +169,7 @@ const ExportSettingsModal = ({
                     checked={isLineExportAll}
                   />
                   <RadioButton
+                    id={SELECTED_POL_FIELDS_ID}
                     aria-label={intl.formatMessage({ id: 'ui-orders.exportSettings.line.selected' })}
                     name="lineExport"
                     onChange={() => setIsLineExportAll(false)}
@@ -174,6 +182,7 @@ const ExportSettingsModal = ({
                   <FormattedMessage id="ui-orders.exportSettings.all" />
                 </Label>
                 <MultiSelection
+                  aria-labelledby={SELECTED_POL_FIELDS_ID}
                   dataOptions={lineDataOptions}
                   onChange={setLineFieldsToExport}
                   value={lineFieldsToExport}

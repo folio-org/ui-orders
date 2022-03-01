@@ -19,6 +19,7 @@ export const ACCORDION_ID = {
   poLine: 'poLine',
   relatedAgreementLines: 'relatedAgreementLines',
   relatedInvoiceLines: 'relatedInvoiceLines',
+  relatedInvoices: 'relatedInvoices',
   vendor: 'vendor',
   linkedInstances: 'linkedInstances',
 };
