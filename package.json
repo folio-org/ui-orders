@@ -120,7 +120,7 @@
           "organizations.organizations.collection.get",
           "organizations.organizations.item.get",
           "search.instances.collection.get",
-          "search.instances.facets.collection.get",
+          "search.facets.collection.get",
           "tags.collection.get",
           "tags.item.post",
           "users.collection.get"
