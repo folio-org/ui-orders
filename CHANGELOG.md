@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.1.0](https://github.com/folio-org/ui-orders/tree/v3.1.0) (2022-03-04)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.3...v3.1.0)
+
 * Update agreement hyperlink on POL. Refs UIOR-796.
 * Disable/enable instance matching for FOLIO tenant. Refs UIOR-763.
 * Settings (Orders) | Apply baseline keyboard shortcuts. Refs UIOR-803.
