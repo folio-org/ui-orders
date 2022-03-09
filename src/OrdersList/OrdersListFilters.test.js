@@ -28,7 +28,7 @@ describe('OrdersListFilters', () => {
     expect(screen.getByText('ui-orders.orderDetails.assignedTo')).toBeDefined();
     expect(screen.getByText('ui-orders.orderDetails.createdBy')).toBeDefined();
     expect(screen.getByText('ui-orders.filter.dateCreated')).toBeDefined();
-    expect(screen.getByText('ui-orders.dateOrdered')).toBeDefined();
+    expect(screen.getByText('ui-orders.dateOpened')).toBeDefined();
     expect(screen.getByText('ui-orders.order.orderType')).toBeDefined();
     expect(screen.getByText('ui-orders.line.accordion.vendor')).toBeDefined();
     expect(screen.getByText('stripes-acq-components.filter.tags')).toBeDefined();

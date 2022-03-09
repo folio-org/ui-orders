@@ -106,7 +106,7 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
       <AcqDateRangeFilter
         id={FILTERS.DATE_ORDERED}
         activeFilters={activeFilters[FILTERS.DATE_ORDERED]}
-        labelId="ui-orders.dateOrdered"
+        labelId="ui-orders.dateOpened"
         name={FILTERS.DATE_ORDERED}
         onChange={onChange}
         disabled={disabled}

@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Updated "Date ordered" label to "Date opened". Refs UIOR-908.
+
 ## [3.1.0](https://github.com/folio-org/ui-orders/tree/v3.1.0) (2022-03-04)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.3...v3.1.0)
 
