@@ -57,7 +57,7 @@ const ComponentToPrint = ({ dataSource = {} }) => {
           </Col>
           <Col xs={6}>
             <KeyValueInline
-              label={<FormattedMessage id="ui-orders.dateOrdered" />}
+              label={<FormattedMessage id="ui-orders.dateOpened" />}
               value={<FolioFormattedTime dateString={dataSource.dateOrdered} />}
             />
             <KeyValueInline

@@ -19,7 +19,7 @@ describe('ComponentToPrint', () => {
     expect(getByText('ui-orders.print.vendorPrimaryAddress')).toBeInTheDocument();
     expect(getByText('ui-orders.print.vendorPhone')).toBeInTheDocument();
     expect(getByText('ui-orders.print.billToAddress')).toBeInTheDocument();
-    expect(getByText('ui-orders.dateOrdered')).toBeInTheDocument();
+    expect(getByText('ui-orders.dateOpened')).toBeInTheDocument();
     expect(getByText('ui-orders.print.poNumber')).toBeInTheDocument();
     expect(getByText('ui-orders.orderSummary.closingReason')).toBeInTheDocument();
     expect(getByText('ui-orders.print.shipToAddress')).toBeInTheDocument();

@@ -188,7 +188,7 @@ class PODetailsView extends Component {
               xs={6}
               lg={3}
             >
-              <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.dateOrdered" />}>
+              <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.dateOpened" />}>
                 <FolioFormattedTime dateString={order?.dateOrdered} />
               </KeyValue>
             </Col>

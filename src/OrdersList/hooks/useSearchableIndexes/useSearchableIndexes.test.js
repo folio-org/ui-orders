@@ -13,7 +13,7 @@ const SEARCHABLE_INDEXES = [
     'value': 'metadata.createdDate',
   },
   {
-    'labelId': 'ui-orders.search.dateOrdered',
+    'labelId': 'ui-orders.search.dateOpened',
     'placeholder': 'MM/DD/YYYY',
     'value': 'dateOrdered',
   },

@@ -16,7 +16,7 @@ export function useSearchableIndexes() {
       placeholder: localeDateFormat,
     },
     {
-      labelId: 'ui-orders.search.dateOrdered',
+      labelId: 'ui-orders.search.dateOpened',
       value: 'dateOrdered',
       placeholder: localeDateFormat,
     },
