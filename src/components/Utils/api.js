@@ -13,3 +13,4 @@ export const INVOICE_LINES_API = 'invoice/invoice-lines';
 export const ISBN_VALIDATOR = 'isbn/validator';
 export const AGREEMENT_LINES_API = 'erm/entitlements';
 export const AGREEMENTS_API = 'erm/sas';
+export const HOLDINGS_API = 'holdings-storage/holdings';

@@ -28,9 +28,14 @@ export const getExportData = async (mutator, lines, orders, intl) => {
     physical?.materialType, eresource?.materialType,
   ])))).filter(Boolean);
   const mTypes = await fetchExportDataByIds(mutator.exportMaterialTypes, mTypeIds);
-  const locationIds = uniq(flatten(lines.map(({ locations }) => (
-    locations?.map(({ locationId }) => locationId
+  const holdingIds = uniq(flatten(lines.map(({ locations }) => (
+    locations?.map(({ holdingId }) => holdingId
   ))))).filter(Boolean);
+  const lineHoldings = await fetchExportDataByIds(mutator.exportHoldings, holdingIds);
+  const holdingLocationIds = lineHoldings.map(({ permanentLocationId }) => permanentLocationId);
+  const locationIds = uniq(flatten([lines.map(({ locations }) => (
+    locations?.map(({ locationId }) => locationId
+  ))), holdingLocationIds])).filter(Boolean);
   const lineLocations = await fetchExportDataByIds(mutator.exportLocations, locationIds);
   const contributorNameTypeIds = uniq(flatten(lines.map(({ contributors }) => (
     contributors?.map(({ contributorNameTypeId }) => contributorNameTypeId
@@ -67,6 +72,7 @@ export const getExportData = async (mutator, lines, orders, intl) => {
     acqUnits,
     mTypes,
     lineLocations,
+    lineHoldings,
     contributorNameTypes,
     identifierTypes,
     expenseClasses,

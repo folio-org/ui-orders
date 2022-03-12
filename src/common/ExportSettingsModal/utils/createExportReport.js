@@ -43,9 +43,13 @@ const getFundDistributionData = (line, expenseClassMap, invalidReferenceLabel) =
   }).join(' | ').replace(/\n\s+/g, '')
 );
 
-const getLocationData = (line, locationMap, invalidReferenceLabel) => (
+const getLocationData = (line, locationMap, holdingMap, invalidReferenceLabel) => (
   line.locations?.map(l => {
-    const locationCode = locationMap[l.locationId]?.code ?? invalidReferenceLabel;
+    const location = l.holdingId
+      ? locationMap[holdingMap[l.holdingId]?.permanentLocationId]
+      : locationMap[l.locationId];
+
+    const locationCode = location?.code ?? invalidReferenceLabel;
 
     return (
       `"${locationCode}""${l?.quantityPhysical || 0}""${l?.quantityElectronic || 0}"`
@@ -74,6 +78,7 @@ export const createExportReport = (
   acqUnits = [],
   materialTypes = [],
   locations = [],
+  holdings = [],
   contributorNameTypes = [],
   identifierTypes = [],
   expenseClasses = [],
@@ -88,6 +93,7 @@ export const createExportReport = (
   const acqUnitMap = getRecordMap(acqUnits);
   const materialTypeMap = getRecordMap(materialTypes);
   const locationMap = getRecordMap(locations);
+  const holdingMap = getRecordMap(holdings);
   const contributorNameTypeMap = getRecordMap(contributorNameTypes);
   const identifierTypeMap = getRecordMap(identifierTypes);
   const expenseClassMap = getRecordMap(expenseClasses);
@@ -171,7 +177,7 @@ export const createExportReport = (
       poLineEstimatedPrice: lineRecord.cost.poLineEstimatedPrice,
       currency: lineRecord.cost?.currency,
       fundDistribution: getFundDistributionData(lineRecord, expenseClassMap, invalidReference),
-      location: getLocationData(lineRecord, locationMap, invalidReference),
+      location: getLocationData(lineRecord, locationMap, holdingMap, invalidReference),
       materialSupplier: materialSupplier && (vendorMap[materialSupplier]?.code ?? invalidReference),
       receiptDue: formatDate(lineRecord.physical?.receiptDue, intl),
       expectedReceiptDate: formatDate(lineRecord.physical?.expectedReceiptDate, intl),
