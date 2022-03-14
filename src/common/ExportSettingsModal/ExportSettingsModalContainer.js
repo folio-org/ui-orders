@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import moment from 'moment';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { exportCsv } from '@folio/stripes/util';
+import { exportToCsv } from '@folio/stripes/components';
 import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -39,7 +39,7 @@ const ExportSettingsModalContainer = ({
 
       const filename = `order-export-${moment().format('YYYY-MM-DD-hh:mm')}`;
 
-      return exportCsv(
+      return exportToCsv(
         [{ ...EXPORT_ORDER_FIELDS, ...EXPORT_LINE_FIELDS }, ...exportData],
         {
           onlyFields: exportFields,
