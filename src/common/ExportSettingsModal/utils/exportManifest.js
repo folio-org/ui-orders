@@ -10,7 +10,10 @@ import {
   acquisitionMethodsResource,
 } from '@folio/stripes-acq-components';
 
-import { ADDRESSES } from '../../../components/Utils/resources';
+import {
+  ADDRESSES,
+  HOLDINGS,
+} from '../../../components/Utils/resources';
 
 export const exportManifest = Object.freeze({
   acquisitionMethods: {
@@ -61,4 +64,5 @@ export const exportManifest = Object.freeze({
     ...materialTypesManifest,
     fetch: false,
   },
+  exportHoldings: HOLDINGS,
 });

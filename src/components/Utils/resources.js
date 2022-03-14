@@ -25,6 +25,7 @@ import {
   ORDER_TEMPLATES_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
+  HOLDINGS_API,
 } from './api';
 import {
   CONFIG_ADDRESSES,
@@ -257,4 +258,12 @@ export const ORDER_NUMBER = {
   POST: {
     path: ORDER_NUMBER_VALIDATE_API,
   },
+};
+
+export const HOLDINGS = {
+  ...baseManifest,
+  accumulate: true,
+  fetch: false,
+  path: HOLDINGS_API,
+  records: 'holdingsRecords',
 };

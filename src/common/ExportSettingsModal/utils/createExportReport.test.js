@@ -30,6 +30,7 @@ test('createExportReport should return export report object', () => {
     [acqUnit],
     [materialType],
     [location],
+    [],
     [contributorNameType],
     [identifierType],
     [expenseClass],
