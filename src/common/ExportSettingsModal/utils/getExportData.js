@@ -33,9 +33,9 @@ export const getExportData = async (mutator, lines, orders, intl) => {
   ))))).filter(Boolean);
   const lineHoldings = await fetchExportDataByIds(mutator.exportHoldings, holdingIds);
   const holdingLocationIds = lineHoldings.map(({ permanentLocationId }) => permanentLocationId);
-  const locationIds = uniq(flatten([lines.map(({ locations }) => (
+  const locationIds = uniq([...flatten(lines.map(({ locations }) => (
     locations?.map(({ locationId }) => locationId
-  ))), holdingLocationIds])).filter(Boolean);
+  )))), ...holdingLocationIds]).filter(Boolean);
   const lineLocations = await fetchExportDataByIds(mutator.exportLocations, locationIds);
   const contributorNameTypeIds = uniq(flatten(lines.map(({ contributors }) => (
     contributors?.map(({ contributorNameTypeId }) => contributorNameTypeId
