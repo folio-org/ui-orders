@@ -710,7 +710,7 @@
     "poLine.automaticExport": "تصدير تلقائي",
     "poLine.receivingWorkflow": "سير عمل الاستلام",
     "poLine.receivingWorkflow.info": "سيؤدي تحديد متزامن إلى الحفاظ على مزامنة كمية الطلبية وعدد القطع المراد استلامها. مما يعني أيضًا أن تحديث أحدهما سيؤدي إلى تحديث الآخر. عند فتح الطلبية، سيقوم النظام بتوليد قطع بناءً على طلبية الكمية.",
-    "poLine.receivingWorkflow.independent": "كمية الطلبيات والاستلام المستقلة",
+    "poLine.receivingWorkflow.independent": "كمية الطلبيات والاستلام المستقل",
     "poLine.receivingWorkflow.synchronized": "كمية الطلبيات والاستلام المتزامنة",
     "poLine.manualPO.info": "هذا أمر شراء يدوي، لذا يتم استبعاد كل سطور أمر الشراء من مهام سير عمل التصدير المؤتمتة",
     "relatedInvoiceLines.amount": "المبلغ",
