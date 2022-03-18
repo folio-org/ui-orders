@@ -313,7 +313,6 @@
     "errors.missingInstanceStatus": "La commande ne peut pas être ouverte car le statut de {value} n'est pas défini",
     "errors.missingInstanceType": "Impossible de confirmer la commande car le type de {value} n'est pas défini",
     "errors.missingLoanType": "La commande ne peut pas être ouverte car un type de prêt n'a pas été configuré dans les paramètres des commandes ou le type configuré {value} n'existe plus",
-    "dateOrdered": "Date de commande",
     "assignedToMe": "M'a été attribué",
     "workflowStatus": "Statut",
     "navigation.orders": "Commandes",
@@ -341,7 +340,6 @@
     "poLine.actions.viewPO": "Voir le bon de commande",
     "line.delete.message": "Supprimer la ligne de commande?",
     "line.delete.success": "La ligne de commande {lineNumber} été supprimée avec succès",
-    "search.dateOrdered": "Date de commande",
     "search.poNumber": "Numéro de commande",
     "checkIn.addPieceModal.editTitle": "Éditer la pièce",
     "checkIn.deletePiece.error": "La pièce n'a pas été supprimée",
@@ -681,7 +679,6 @@
     "location.holding": "Holding",
     "location.selectHoldings": "Select holdings",
     "location.editInReceiving": "Edit in receiving",
-    "orderDetails.dateOrdered": "Date ordered",
     "relatedInvoices.vendorInvoiceNo": "Vendor invoice number",
     "permission.order.updateEncumbrances": "Orders: Update encumbrances",
     "settings.inventoryInteraction.label": "Inventory interaction",
@@ -733,5 +730,9 @@
     "title.actions.save.error.titleExist": "The title {title} for PO line {poLineNumber} already exists",
     "permission.order.showHidden": "Orders: Show all hidden fields",
     "differentAccounts.title": "Numéros de compte différents",
-    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening."
+    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening.",
+    "order.hideField": "Hide field",
+    "orderDetails.dateOpened": "Date opened",
+    "search.dateOpened": "Date opened",
+    "dateOpened": "Date opened"
 }

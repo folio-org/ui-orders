@@ -313,7 +313,6 @@
     "errors.missingInstanceStatus": "由于{value}的状态未定义，因此无法打开订单",
     "errors.missingInstanceType": "由于{value}的类型未定义，因此无法打开订单",
     "errors.missingLoanType": "由于订单设置中未配置借阅类型或配置的类型{value}不再存在，因此无法打开订单",
-    "dateOrdered": "订购日期",
     "assignedToMe": "已分配给我",
     "workflowStatus": "状态",
     "navigation.orders": "订单",
@@ -341,7 +340,6 @@
     "poLine.actions.viewPO": "查看PO",
     "line.delete.message": "删除订单行？",
     "line.delete.success": "订单行{lineNumber}已成功删除",
-    "search.dateOrdered": "订购日期",
     "search.poNumber": "订单号",
     "checkIn.addPieceModal.editTitle": "编辑件",
     "checkIn.deletePiece.error": "未删除件",
@@ -681,7 +679,6 @@
     "location.holding": "馆藏",
     "location.selectHoldings": "选择馆藏",
     "location.editInReceiving": "在接收中编辑",
-    "orderDetails.dateOrdered": "订购日期",
     "relatedInvoices.vendorInvoiceNo": "供应商发票号",
     "permission.order.updateEncumbrances": "订单：更新预支",
     "settings.inventoryInteraction.label": "馆藏清点",
@@ -733,5 +730,9 @@
     "title.actions.save.error.titleExist": "采购订单行{poLineNumber}的标题{title} {poLineNumber}已存在",
     "permission.order.showHidden": "订单：显示所有隐藏字段",
     "differentAccounts.title": "不同的帐号",
-    "differentAccounts.message": "此订单包括<b> {accountNumber} </b>个用于导出的唯一帐号。如果订单行具有不同的帐号，则不能打开具有多个订单行集的订单以导出。打开前请编辑这些订单行的账号信息或将不同账号的订单行移到不同的订单中。"
+    "differentAccounts.message": "此订单包括<b> {accountNumber} </b>个用于导出的唯一帐号。如果订单行具有不同的帐号，则不能打开具有多个订单行集的订单以导出。打开前请编辑这些订单行的账号信息或将不同账号的订单行移到不同的订单中。",
+    "order.hideField": "Hide field",
+    "orderDetails.dateOpened": "Date opened",
+    "search.dateOpened": "Date opened",
+    "dateOpened": "Date opened"
 }

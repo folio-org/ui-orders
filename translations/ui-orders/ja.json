@@ -313,7 +313,6 @@
     "errors.missingInstanceStatus": "Order can not be opened as the status of {value} is undefined",
     "errors.missingInstanceType": "Order can not be opened as the type of {value} is undefined",
     "errors.missingLoanType": "Order can not be opened as a loan type was not configured in orders settings or the configured type {value} no longer exists",
-    "dateOrdered": "発注日",
     "assignedToMe": "自分に割り当て",
     "workflowStatus": "ステータス",
     "navigation.orders": "発注",
@@ -341,7 +340,6 @@
     "poLine.actions.viewPO": "POを表示",
     "line.delete.message": "Delete purchase order line?",
     "line.delete.success": "The purchase order line {lineNumber} was successfully deleted",
-    "search.dateOrdered": "発注日",
     "search.poNumber": "発注番号",
     "checkIn.addPieceModal.editTitle": "Edit piece",
     "checkIn.deletePiece.error": "Piece was not deleted",
@@ -681,7 +679,6 @@
     "location.holding": "Holding",
     "location.selectHoldings": "Select holdings",
     "location.editInReceiving": "Edit in receiving",
-    "orderDetails.dateOrdered": "発注日",
     "relatedInvoices.vendorInvoiceNo": "ベンダーの請求書番号",
     "permission.order.updateEncumbrances": "Orders: Update encumbrances",
     "settings.inventoryInteraction.label": "Inventory interaction",
@@ -733,5 +730,9 @@
     "title.actions.save.error.titleExist": "The title {title} for PO line {poLineNumber} already exists",
     "permission.order.showHidden": "Orders: Show all hidden fields",
     "differentAccounts.title": "Different account numbers",
-    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening."
+    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening.",
+    "order.hideField": "Hide field",
+    "orderDetails.dateOpened": "Date opened",
+    "search.dateOpened": "Date opened",
+    "dateOpened": "Date opened"
 }
