@@ -84,6 +84,12 @@ const showUpdateOrderError = async (
       });
       break;
     }
+    case ERROR_CODES.fundCannotBePaid: {
+      const fundCodes = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'finance.funds')?.value;
+
+      callout.sendCallout({ messageId: `ui-orders.errors.${ERROR_CODES[code]}`, type: 'error', values: { fundCodes } });
+      break;
+    }
     default: {
       callout.sendCallout({
         message: <FormattedMessage id={`ui-orders.errors.${code}`} />,
