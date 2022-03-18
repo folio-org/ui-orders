@@ -138,7 +138,7 @@
   "errors.currentFYearNotFound": "Current fiscal year not found for ledger",
   "errors.electronicLocCostQtyMismatch": "PO line electronic quantity and locations electronic quantity do not match",
   "errors.encumbranceCreationFailure": "One or more encumbrance record(s) failed to be created",
-  "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in the budget",
+  "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in <b>{fundCodes}</b>.",
   "errors.fundsNotFound": "The fund records are not found",
   "errors.idMismatch": "Mismatch between id in path and request body",
   "errors.incorrectFundDistributionTotal": "Fund distribution total must add to 100% or totalPrice",
