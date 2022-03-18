@@ -313,7 +313,6 @@
     "errors.missingInstanceStatus": "O pedido não pode ser aberto porque o status de {value} é indefinido",
     "errors.missingInstanceType": "O pedido não pode ser aberto porque o tipo de {value} é indefinido",
     "errors.missingLoanType": "O pedido não pode ser aberto porque um tipo de empréstimo não foi configurado nas configurações de pedidos ou o tipo configurado {value} não existe mais",
-    "dateOrdered": "Data da compra",
     "assignedToMe": "Atribuído a mim",
     "workflowStatus": "Status",
     "navigation.orders": "Pedidos",
@@ -341,7 +340,6 @@
     "poLine.actions.viewPO": "Ver pedido de compra",
     "line.delete.message": "Excluir a linha do pedido de compra?",
     "line.delete.success": "A linha do pedido de compra {lineNumber} foi excluída com sucesso",
-    "search.dateOrdered": "Data da compra",
     "search.poNumber": "Número do pedido",
     "checkIn.addPieceModal.editTitle": "Editar peça",
     "checkIn.deletePiece.error": "Peça não foi excluída",
@@ -681,7 +679,6 @@
     "location.holding": "Coleção (Holding)",
     "location.selectHoldings": "Selecionar coleção",
     "location.editInReceiving": "Editar no recebimento",
-    "orderDetails.dateOrdered": "Data do pedido",
     "relatedInvoices.vendorInvoiceNo": "Número da fatura do fornecedor",
     "permission.order.updateEncumbrances": "Pedidos: Atualizar alocação",
     "settings.inventoryInteraction.label": "Interações de inventário",
@@ -733,5 +730,9 @@
     "title.actions.save.error.titleExist": "O título {title} para a linha de pedido {poLineNumber} já existe",
     "permission.order.showHidden": "Pedidos: Mostrar todos os campos ocultos",
     "differentAccounts.title": "Números de conta diferentes",
-    "differentAccounts.message": "Este pedido inclui <b>{accountNumber}</b> números de conta únicos para exportação. Você não pode abrir um pedido com mais de uma linha de pedido configurado para exportar se as linhas de pedido tiverem números de conta diferentes. Favor editar as informações do número de conta destas linhas de pedido ou mover linhas de pedido com números de conta diferentes para pedidos diferentes antes de abrir."
+    "differentAccounts.message": "Este pedido inclui <b>{accountNumber}</b> números de conta únicos para exportação. Você não pode abrir um pedido com mais de uma linha de pedido configurado para exportar se as linhas de pedido tiverem números de conta diferentes. Favor editar as informações do número de conta destas linhas de pedido ou mover linhas de pedido com números de conta diferentes para pedidos diferentes antes de abrir.",
+    "order.hideField": "Hide field",
+    "orderDetails.dateOpened": "Date opened",
+    "search.dateOpened": "Date opened",
+    "dateOpened": "Date opened"
 }

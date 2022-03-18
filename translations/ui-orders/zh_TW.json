@@ -313,7 +313,6 @@
     "errors.missingInstanceStatus": "由於 {value} 的狀態尚未定義，無法開啟訂單",
     "errors.missingInstanceType": "由於 {value} 的類型尚未定義，無法開啟訂單",
     "errors.missingLoanType": "由于订单设置中未配置借阅类型或配置的类型{value}不再存在，因此无法打开订单",
-    "dateOrdered": "订购日期",
     "assignedToMe": "已分配给我",
     "workflowStatus": "狀態",
     "navigation.orders": "订单",
@@ -341,7 +340,6 @@
     "poLine.actions.viewPO": "瀏覽 PO",
     "line.delete.message": "删除订单行？",
     "line.delete.success": "订单行{lineNumber}已成功删除",
-    "search.dateOrdered": "订购日期",
     "search.poNumber": "訂單號碼",
     "checkIn.addPieceModal.editTitle": "編輯 piece",
     "checkIn.deletePiece.error": "未删除件",
@@ -681,7 +679,6 @@
     "location.holding": "Holding",
     "location.selectHoldings": "Select holdings",
     "location.editInReceiving": "Edit in receiving",
-    "orderDetails.dateOrdered": "Date ordered",
     "relatedInvoices.vendorInvoiceNo": "Vendor invoice number",
     "permission.order.updateEncumbrances": "Orders: Update encumbrances",
     "settings.inventoryInteraction.label": "Inventory interaction",
@@ -733,5 +730,9 @@
     "title.actions.save.error.titleExist": "The title {title} for PO line {poLineNumber} already exists",
     "permission.order.showHidden": "Orders: Show all hidden fields",
     "differentAccounts.title": "Different account numbers",
-    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening."
+    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening.",
+    "order.hideField": "Hide field",
+    "orderDetails.dateOpened": "Date opened",
+    "search.dateOpened": "Date opened",
+    "dateOpened": "Date opened"
 }

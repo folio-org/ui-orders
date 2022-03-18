@@ -313,7 +313,6 @@
     "errors.missingInstanceStatus": "{value} 의 상태가 정의되지 않아 주문을 열 수 없습니다.",
     "errors.missingInstanceType": "{value} 유형이 정의되지 않아 주문을 열 수 없습니다.",
     "errors.missingLoanType": "대출 유형이 주문 설정에서 구성되지 않았거나 구성된 유형 {value} 가) 더 이상 존재하지 않으므로 주문을 열 수 없습니다.",
-    "dateOrdered": "주문 날짜",
     "assignedToMe": "나에게 할당",
     "workflowStatus": "상태",
     "navigation.orders": "주문(Orders)",
@@ -341,7 +340,6 @@
     "poLine.actions.viewPO": "PO 보기",
     "line.delete.message": "Purchase order 라인을 삭제하시겠습니까?",
     "line.delete.success": "Purchase order 라인 {lineNumber} 이(가) 성공적으로 삭제되었습니다.",
-    "search.dateOrdered": "주문 날짜",
     "search.poNumber": "PO 번호",
     "checkIn.addPieceModal.editTitle": "조각 편집",
     "checkIn.deletePiece.error": "조각이 삭제되지 않았습니다.",
@@ -535,7 +533,7 @@
     "errors.userHasNoApprovalPermission": "사용자에게 주문을 승인할 권한이 없습니다. 작업이 제한됩니다.",
     "errors.zeroLocQty": "물리적 또는 전자적 위치 수량을 지정해야 합니다.",
     "checkIn.receivedDate": "수령 날짜",
-    "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in the budget",
+    "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in <b>{fundCodes}</b>.",
     "receiving.itemStatus.Order closed": "주문 종료",
     "cost.quantity": "수량",
     "itemDetails.packageName": "패키지 이름",
@@ -681,7 +679,6 @@
     "location.holding": "홀딩(Holding)",
     "location.selectHoldings": "홀딩 선택",
     "location.editInReceiving": "수령 시 편집",
-    "orderDetails.dateOrdered": "주문 날짜",
     "relatedInvoices.vendorInvoiceNo": "벤더 인보이스 번호",
     "permission.order.updateEncumbrances": "Orders: Update encumbrances",
     "settings.inventoryInteraction.label": "인벤토리 상호작용",
@@ -733,5 +730,9 @@
     "title.actions.save.error.titleExist": "The title {title} for PO line {poLineNumber} already exists",
     "permission.order.showHidden": "Orders: Show all hidden fields",
     "differentAccounts.title": "Different account numbers",
-    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening."
+    "differentAccounts.message": "This order includes <b>{accountNumber}</b> unique account numbers for export. You can not open an order with more than one POL set to export if the POLs have different account numbers. Please edit the account number information of these POLs or move POLs with different account numbers to different orders before opening.",
+    "order.hideField": "Hide field",
+    "orderDetails.dateOpened": "Date opened",
+    "search.dateOpened": "Date opened",
+    "dateOpened": "Date opened"
 }

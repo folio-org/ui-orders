@@ -313,7 +313,6 @@
     "errors.missingInstanceStatus": "لا يمكن فتح الطلبية حيث أن حالة {value} غير معرّفة",
     "errors.missingInstanceType": "لا يمكن فتح الطلبية حيث أن نوع {value} غير معرّف",
     "errors.missingLoanType": "لا يمكن فتح الطلبية حيث لم تتم تهيئة نوع الإعارة في إعدادات الطلبيات أو أن النوع المهيأ {value} لم يعد موجوداً",
-    "dateOrdered": "تاريخ الطلب",
     "assignedToMe": "معيّن إلىّ",
     "workflowStatus": "الحالة",
     "navigation.orders": "طلبيات",
@@ -341,7 +340,6 @@
     "poLine.actions.viewPO": "عرض أمر الشراء",
     "line.delete.message": "حذف سطر أمر الشراء؟",
     "line.delete.success": "تم حذف سطر أمر الشراء {lineNumber} بنجاح",
-    "search.dateOrdered": "تاريخ الطلب",
     "search.poNumber": "رقم أمر الشراء",
     "checkIn.addPieceModal.editTitle": "تحرير القطعة",
     "checkIn.deletePiece.error": "لم يتم حذف القطعة",
@@ -681,7 +679,6 @@
     "location.holding": "مقتنيات",
     "location.selectHoldings": "حدد المقتنيات",
     "location.editInReceiving": "تحرير في الاستلام",
-    "orderDetails.dateOrdered": "تاريخ الطلب",
     "relatedInvoices.vendorInvoiceNo": "رقم فاتورة المورّد",
     "permission.order.updateEncumbrances": "الطلبيات: تحديث التكاليف",
     "settings.inventoryInteraction.label": "تفاعل المخزون",
@@ -733,5 +730,9 @@
     "title.actions.save.error.titleExist": "العنوان {title} لسطر أمراء الشراء {poLineNumber} موجود بالفعل",
     "permission.order.showHidden": "الطلبيات: إظهار كل الحقول المخفية",
     "differentAccounts.title": "أرقام حسابات مختلفة",
-    "differentAccounts.message": "تشتمل هذه الطلبية <b> {accountNumber} </b> على أرقام حسابات فريدة للتصدير. لا يمكنك فتح طلبية ذات أكثر من سطر أمر شراء معين للتصدير إذا كان لسطور أوامر الشراء أرقام حساب مختلفة. يرجى تعديل معلومات رقم الحساب لتلك السطور أو نقل سطور أوامر الشراء ذات أرقام الحساب المختلفة إلى طلبيات مختلفة قبل الفتح."
+    "differentAccounts.message": "تشتمل هذه الطلبية <b> {accountNumber} </b> على أرقام حسابات فريدة للتصدير. لا يمكنك فتح طلبية ذات أكثر من سطر أمر شراء معين للتصدير إذا كان لسطور أوامر الشراء أرقام حساب مختلفة. يرجى تعديل معلومات رقم الحساب لتلك السطور أو نقل سطور أوامر الشراء ذات أرقام الحساب المختلفة إلى طلبيات مختلفة قبل الفتح.",
+    "order.hideField": "Hide field",
+    "orderDetails.dateOpened": "Date opened",
+    "search.dateOpened": "Date opened",
+    "dateOpened": "Date opened"
 }
