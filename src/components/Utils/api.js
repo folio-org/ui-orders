@@ -10,6 +10,7 @@ export const RECEIVING_API = 'orders/receiving-history';
 export const ORDER_INVOICE_RELNS_API = 'orders-storage/order-invoice-relns';
 export const INVOICES_API = 'invoice/invoices';
 export const INVOICE_LINES_API = 'invoice/invoice-lines';
+export const ISBN_CONVERT_TO_13 = 'isbn/convertTo13';
 export const ISBN_VALIDATOR = 'isbn/validator';
 export const AGREEMENT_LINES_API = 'erm/entitlements';
 export const AGREEMENTS_API = 'erm/sas';

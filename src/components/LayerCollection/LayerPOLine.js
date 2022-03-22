@@ -58,6 +58,7 @@ import {
 import {
   APPROVALS_SETTING,
   CONTRIBUTOR_NAME_TYPES,
+  CONVERT_TO_ISBN13,
   CREATE_INVENTORY,
   IDENTIFIER_TYPES,
   ORDER_LINES,
@@ -228,7 +229,7 @@ function LayerPOLine({
       if (isValidateDuplicateLines) {
         setValidateDuplicateLines(false);
 
-        await validateDuplicateLines(line, mutator);
+        await validateDuplicateLines(line, mutator, resources);
       }
 
       const newLine = formatPOLineBeforeSaving(cloneDeep(line));
@@ -347,7 +348,7 @@ function LayerPOLine({
       try {
         setValidateDuplicateLines(false);
 
-        await validateDuplicateLines(hydratedLine, mutator);
+        await validateDuplicateLines(hydratedLine, mutator, resources);
       } catch (e) {
         if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
           setDuplicateLines(e.duplicateLines);
@@ -606,6 +607,7 @@ LayerPOLine.manifest = Object.freeze({
     fetch: true,
   },
   validateISBN: VALIDATE_ISBN,
+  convertToIsbn13: CONVERT_TO_ISBN13,
   [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
   orderNumber: ORDER_NUMBER,
   orders: ORDERS,
