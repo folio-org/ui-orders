@@ -26,6 +26,7 @@ import {
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
   HOLDINGS_API,
+  ISBN_CONVERT_TO_13,
 } from './api';
 import {
   CONFIG_ADDRESSES,
@@ -220,6 +221,13 @@ export const VALIDATE_ISBN = {
   accumulate: true,
   fetch: false,
   path: ISBN_VALIDATOR,
+};
+
+export const CONVERT_TO_ISBN13 = {
+  ...BASE_RESOURCE,
+  accumulate: true,
+  fetch: false,
+  path: ISBN_CONVERT_TO_13,
 };
 
 export const OPEN_ORDER_SETTING = {

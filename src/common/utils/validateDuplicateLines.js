@@ -1,9 +1,43 @@
 import { batchFetch } from '@folio/stripes-acq-components';
-import { VALIDATION_ERRORS } from '../constants';
 
-export const validateDuplicateLines = (line, mutator) => {
-  const productIds = line.details?.productIds?.map(({ productId }) => productId) || [];
+import {
+  PRODUCT_ID_TYPE,
+  VALIDATION_ERRORS,
+} from '../constants';
+
+export const validateDuplicateLines = async (line, mutator, resources) => {
   const baseQuery = `id<>"${line.id}" and titleOrPackage=="*${line.titleOrPackage}*"`;
+  const productIdentifiers = line.details?.productIds || [];
+  const isbnIdentifierTypeId = (
+    resources
+      ?.identifierTypes
+      ?.records
+      ?.find(({ name }) => name === PRODUCT_ID_TYPE.isbn)
+      ?.id
+  );
+
+  const isbnIdentifiers = productIdentifiers.reduce((acc, { productIdType, productId }) => (
+    productIdType === isbnIdentifierTypeId
+      ? acc.add(productId)
+      : acc
+  ), new Set());
+
+  const normalizedIsbnIdentifiers = await (
+    Promise
+      .all(
+        [...isbnIdentifiers].map((isbn) => mutator.convertToIsbn13.GET({ params: { isbn } })),
+      )
+      .then(converted => converted.map(({ isbn }) => isbn))
+  );
+
+  const otherProductIdentifiers = productIdentifiers
+    .filter(({ productIdType }) => productIdType !== isbnIdentifierTypeId)
+    .map(({ productId }) => productId);
+
+  const productIds = [
+    ...otherProductIdentifiers,
+    ...normalizedIsbnIdentifiers,
+  ];
 
   return batchFetch(mutator.poLines, productIds, (itemsChunk) => {
     const query = itemsChunk
