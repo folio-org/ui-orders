@@ -76,20 +76,24 @@ const ComponentToPrint = ({ dataSource = {} }) => {
         </Row>
       </Grid>
 
-      <PrintOrderLines lines={dataSource.lines} />
+      {Boolean(dataSource.lines?.length) && (
+        <>
+          <PrintOrderLines lines={dataSource.lines} />
 
-      <Row>
-        <Col xs={12}>
-          <KeyValueInline
-            label={<FormattedMessage id="ui-orders.print.totalItems" />}
-            value={dataSource.totalItems}
-          />
-          <KeyValueInline
-            label={<FormattedMessage id="ui-orders.print.total" />}
-            value={<AmountWithCurrencyField amount={dataSource.totalEstimatedPrice} />}
-          />
-        </Col>
-      </Row>
+          <Row>
+            <Col xs={12}>
+              <KeyValueInline
+                label={<FormattedMessage id="ui-orders.print.totalItems" />}
+                value={dataSource.totalItems}
+              />
+              <KeyValueInline
+                label={<FormattedMessage id="ui-orders.print.total" />}
+                value={<AmountWithCurrencyField amount={dataSource.totalEstimatedPrice} />}
+              />
+            </Col>
+          </Row>
+        </>
+      )}
     </>
   );
 };
