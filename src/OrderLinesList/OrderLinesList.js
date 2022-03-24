@@ -182,6 +182,7 @@ function OrderLinesList({
         isFiltersOpened={isFiltersOpened}
         title={title}
         toggleFiltersPane={toggleFilters}
+        isLoading={isLoading}
       >
         {({ height, width }) => (
           <>
