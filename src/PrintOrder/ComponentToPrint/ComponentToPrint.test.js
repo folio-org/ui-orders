@@ -22,7 +22,7 @@ describe('ComponentToPrint', () => {
     expect(getByText('ui-orders.dateOpened')).toBeInTheDocument();
     expect(getByText('ui-orders.print.poNumber')).toBeInTheDocument();
     expect(getByText('ui-orders.orderSummary.closingReason')).toBeInTheDocument();
-    expect(getByText('ui-orders.print.shipToAddress')).toBeInTheDocument();
+    expect(getByText('ui-orders.print.shipTo')).toBeInTheDocument();
     expect(queryByText('ui-orders.print.totalItems')).not.toBeInTheDocument();
     expect(queryByText('ui-orders.print.total')).not.toBeInTheDocument();
   });

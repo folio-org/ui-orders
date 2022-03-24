@@ -465,7 +465,7 @@
   "poLine.package": "Package",
   "print.po": "Purchase order",
   "print.billToAddress": "Bill to address",
-  "print.shipToAddress": "Ship to",
+  "print.shipTo": "Ship to address",
   "print.poNumber": "PO #",
   "print.polNumber": "POL #",
   "print.details": "Details",

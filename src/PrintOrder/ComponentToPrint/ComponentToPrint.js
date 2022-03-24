@@ -69,7 +69,7 @@ const ComponentToPrint = ({ dataSource = {} }) => {
               value={dataSource.closeReason?.reason}
             />
             <KeyValue
-              label={<FormattedMessage id="ui-orders.print.shipToAddress" />}
+              label={<FormattedMessage id="ui-orders.print.shipTo" />}
               value={dataSource.shipToAddress}
             />
           </Col>
