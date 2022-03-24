@@ -11,7 +11,7 @@ const renderComponentToPrint = (props = {}) => render(
 
 describe('ComponentToPrint', () => {
   it('should render fields to print', () => {
-    const { getByText } = renderComponentToPrint();
+    const { getByText, queryByText } = renderComponentToPrint();
 
     expect(getByText('ui-orders.print.po')).toBeInTheDocument();
     expect(getByText('ui-orders.orderSummary.workflowStatus')).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe('ComponentToPrint', () => {
     expect(getByText('ui-orders.print.poNumber')).toBeInTheDocument();
     expect(getByText('ui-orders.orderSummary.closingReason')).toBeInTheDocument();
     expect(getByText('ui-orders.print.shipToAddress')).toBeInTheDocument();
-    expect(getByText('ui-orders.print.totalItems')).toBeInTheDocument();
-    expect(getByText('ui-orders.print.total')).toBeInTheDocument();
+    expect(queryByText('ui-orders.print.totalItems')).not.toBeInTheDocument();
+    expect(queryByText('ui-orders.print.total')).not.toBeInTheDocument();
   });
 });
