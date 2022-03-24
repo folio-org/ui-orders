@@ -5,6 +5,7 @@
 * Updated "Date ordered" label to "Date opened". Refs UIOR-908.
 * Order: Error message does not indicate what Fund does not have money. Refs UIOR-919.
 * Order duplicate verification is not made when saving PO line. Refs UIOR-929.
+* Printing process of Order with no PO Lines can not be completed. Refs UIOR-928.
 
 ## [3.1.1](https://github.com/folio-org/ui-orders/tree/v3.1.1) (2022-03-22)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.0...v3.1.1)

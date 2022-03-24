@@ -5,13 +5,7 @@ import {
   FUND_DISTR_TYPE,
 } from '@folio/stripes-acq-components';
 
-const getRecordMap = (records) => (
-  records.reduce((acc, record) => {
-    acc[record.id] = record;
-
-    return acc;
-  }, {})
-);
+import { getRecordMap } from '../../utils';
 
 const getContributorData = (line, contributorNameTypeMap, invalidReferenceLabel) => (
   line.contributors?.map(({ contributor, contributorNameTypeId }) => (
