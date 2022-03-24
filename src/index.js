@@ -5,7 +5,6 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import { hot } from 'react-hot-loader';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -170,4 +169,4 @@ Orders.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
 };
 
-export default hot(module)(Orders);
+export default Orders;
