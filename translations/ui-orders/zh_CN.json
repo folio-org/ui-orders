@@ -533,7 +533,7 @@
     "errors.userHasNoApprovalPermission": "用户无权批准订单 - 操作受到限制",
     "errors.zeroLocQty": "必须指定实体或电子馆藏地数量",
     "checkIn.receivedDate": "收到日期",
-    "errors.fundCannotBePaid": "因为预算中没有足够资金，无法预支此订单的一项或多项经费分配",
+    "errors.fundCannotBePaid": "此订单上的一个或多个经费分配不能预支，因为<b> {fundCodes} </b>中没有足够的钱。",
     "receiving.itemStatus.Order closed": "订单已关闭",
     "cost.quantity": "数量",
     "itemDetails.packageName": "资源包名称",
@@ -731,8 +731,8 @@
     "permission.order.showHidden": "订单：显示所有隐藏字段",
     "differentAccounts.title": "不同的帐号",
     "differentAccounts.message": "此订单包括<b> {accountNumber} </b>个用于导出的唯一帐号。如果订单行具有不同的帐号，则不能打开具有多个订单行集的订单以导出。打开前请编辑这些订单行的账号信息或将不同账号的订单行移到不同的订单中。",
-    "order.hideField": "Hide field",
-    "orderDetails.dateOpened": "Date opened",
-    "search.dateOpened": "Date opened",
-    "dateOpened": "Date opened"
+    "order.hideField": "隐藏字段",
+    "orderDetails.dateOpened": "开放日期",
+    "search.dateOpened": "开放日期",
+    "dateOpened": "开放日期"
 }
