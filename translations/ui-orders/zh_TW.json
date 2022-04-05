@@ -533,7 +533,7 @@
     "errors.userHasNoApprovalPermission": "用户无权批准订单 - 操作受到限制",
     "errors.zeroLocQty": "必须指定实体或电子馆藏地数量",
     "checkIn.receivedDate": "收到日期",
-    "errors.fundCannotBePaid": "因为预算中没有足够资金，无法预支此订单的一项或多项经费分配",
+    "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in <b>{fundCodes}</b>.",
     "receiving.itemStatus.Order closed": "订单已关闭",
     "cost.quantity": "数量",
     "itemDetails.packageName": "资源包名称",
