@@ -19,7 +19,16 @@ import { ACCORDION_ID } from '../const';
 import { useConnectedInvoiceLines } from './useConnectedInvoiceLines';
 
 const COLUMN_INVOICE_DATE = 'invoiceDate';
-const visibleColumns = ['invoiceLine', COLUMN_INVOICE_DATE, 'vendorName', 'vendorInvoiceNo', 'status', 'quantity', 'amount', 'comment'];
+const visibleColumns = [
+  'vendorInvoiceNo',
+  'invoiceLine',
+  COLUMN_INVOICE_DATE,
+  'vendorName',
+  'status',
+  'quantity',
+  'amount',
+  'comment',
+];
 const columnMapping = {
   invoiceLine: <FormattedMessage id="ui-orders.relatedInvoiceLines.invoiceLine" />,
   [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoiceLines.invoiceDate" />,
@@ -36,7 +45,7 @@ const resultFormatter = {
       data-test-link-to-invoice
       to={`/invoice/view/${invoiceLine.invoice?.id}/line/${invoiceLine.id}/view`}
     >
-      {`${invoiceLine.invoice?.folioInvoiceNo}-${invoiceLine.invoiceLineNumber}`}
+      {`${invoiceLine.invoiceLineNumber}`}
     </Link>
   ),
   [COLUMN_INVOICE_DATE]: invoiceLine => <FolioFormattedDate value={invoiceLine.invoice?.invoiceDate} />,
