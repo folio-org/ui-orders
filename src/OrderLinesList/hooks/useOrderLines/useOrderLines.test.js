@@ -17,6 +17,7 @@ jest.mock('@folio/stripes/core', () => ({
   ...jest.requireActual('@folio/stripes/core'),
   useNamespace: () => ['namespace'],
   useOkapiKy: jest.fn(),
+  useStripes: () => ({ timezone: 'UTC' }),
 }));
 jest.mock('@folio/plugin-find-po-line/FindPOLine/utils', () => ({
   getLinesQuery: jest.fn(),
