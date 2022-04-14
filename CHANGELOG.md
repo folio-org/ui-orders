@@ -5,6 +5,7 @@
 * Updated "Date ordered" label to "Date opened". Refs UIOR-908.
 * Remove react-hot-loader - unmaintained, security (CVE-2021-44906). Refs UIOR-932.
 * Select filter should announce the number of Results in Result List pane header. Refs UIOR-925.
+* Remove "Folio invoice number" from display in invoice line column. Refs UIOR-957.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
