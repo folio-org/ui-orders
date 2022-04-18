@@ -38,7 +38,7 @@ FieldRenewalInterval.propTypes = {
 
 FieldRenewalInterval.defaultProps = {
   disabled: false,
-  required: true,
+  required: false,
 };
 
 export default FieldRenewalInterval;
