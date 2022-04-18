@@ -169,7 +169,6 @@
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.item.put",
-          "orders.item.approve",
           "orders.po-number.item.post",
           "orders.po-number.item.get",
           "ui-orders.order.view"
@@ -280,6 +279,16 @@
         "subPermissions": [
           "orders.item.put",
           "orders.item.unopen"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order.approve",
+        "displayName": "Orders: Approve purchase orders",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.item.approve",
+          "orders.item.put"
         ]
       },
       {
