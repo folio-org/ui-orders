@@ -32,7 +32,7 @@ FieldRenewalDate.propTypes = {
 
 FieldRenewalDate.defaultProps = {
   disabled: false,
-  required: true,
+  required: false,
 };
 
 export default FieldRenewalDate;
