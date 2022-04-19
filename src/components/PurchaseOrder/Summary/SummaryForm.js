@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
+import { IfPermission } from '@folio/stripes/core';
 import {
   Row,
   Col,
@@ -28,11 +29,13 @@ const SummaryForm = ({ initialValues: order, hiddenFields = {} }) => (
       </KeyValue>
     </Col>
 
-    <IfFieldVisible visible={!hiddenFields.ongoing?.isSubscription} name="approved">
-      <Col xs={6} md={3}>
-        <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />
-      </Col>
-    </IfFieldVisible>
+    <IfPermission perm="orders.item.approve">
+      <IfFieldVisible visible={!hiddenFields.ongoing?.isSubscription} name="approved">
+        <Col xs={6} md={3}>
+          <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />
+        </Col>
+      </IfFieldVisible>
+    </IfPermission>
 
     <Col xs={6} md={3}>
       <FieldWorkflowStatus isNonInteractive />

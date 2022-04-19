@@ -8,6 +8,7 @@
 * Remove "Folio invoice number" from display in invoice line column. Refs UIOR-957.
 * Orders filter search results do not match "Date created" period specified. Refs UIOR-934.
 * Renewal date and renewal interval no longer required. Refs UIOR-961.
+* New Permission - "Orders: Approve purchase orders". Refs UIOR-933.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
