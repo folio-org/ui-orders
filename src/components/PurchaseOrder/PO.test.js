@@ -160,6 +160,20 @@ describe('PO actions', () => {
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
 
+    it('should cancel order after confirmation', async () => {
+      renderComponent();
+
+      const cancelBtn = await screen.findByTestId('cancel-order-button');
+
+      user.click(cancelBtn);
+
+      const confirmCloseBtn = await screen.findByText('ui-orders.closeOrderModal.submit');
+
+      user.click(confirmCloseBtn);
+
+      expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
+    });
+
     it('should unopen order after confirmation', async () => {
       renderComponent();
 

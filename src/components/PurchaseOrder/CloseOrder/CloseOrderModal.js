@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import {
   FormattedMessage,
   injectIntl,
@@ -17,6 +17,7 @@ import {
 
 import { closingReasonsShape } from '../../../common/shapes';
 import { useCloseReasonOptions } from '../../../common/hooks';
+import { CANCEL_ORDER_REASON } from '../../../common/constants';
 
 const CloseOrderModal = ({
   cancel,
@@ -24,6 +25,7 @@ const CloseOrderModal = ({
   closingReasons,
   intl: { formatMessage },
   orderNumber,
+  isCancelReason = false,
 }) => {
   const [reason, setReason] = useState('');
   const [note, setNote] = useState('');
@@ -33,6 +35,10 @@ const CloseOrderModal = ({
     { id: 'ui-orders.closeOrderModal.title' },
     { orderNumber },
   );
+
+  useEffect(() => {
+    if (isCancelReason) setReason(CANCEL_ORDER_REASON);
+  }, [isCancelReason]);
 
   const onChangeReason = useCallback(
     ({ target: { value } }) => (
@@ -88,8 +94,9 @@ const CloseOrderModal = ({
             data-test-closing-reasons
             onChange={onChangeReason}
             placeholder=" "
-            defaultValue=""
+            value={reason}
             dataOptions={closeReasonOptions}
+            disabled={isCancelReason}
           />
           <TextArea
             label={<FormattedMessage id="ui-orders.closeOrderModal.notes" />}
@@ -107,6 +114,7 @@ CloseOrderModal.propTypes = {
   closingReasons: closingReasonsShape,
   intl: PropTypes.object.isRequired,
   orderNumber: PropTypes.string,
+  isCancelReason: PropTypes.bool,
 };
 
 export default injectIntl(CloseOrderModal);

@@ -30,3 +30,5 @@ export const VALIDATION_ERRORS = {
   duplicateLines: 'duplicateLines',
   differentAccount: 'differentAccount',
 };
+
+export const CANCEL_ORDER_REASON = 'Cancelled';
