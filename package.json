@@ -292,6 +292,15 @@
         ]
       },
       {
+        "permissionName": "ui-orders.order.cancel",
+        "displayName": "Orders: Cancel purchase orders",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.item.put"
+        ]
+      },
+      {
         "permissionName": "ui-orders.order.updateEncumbrances",
         "displayName": "Orders: Update encumbrances",
         "description": "",

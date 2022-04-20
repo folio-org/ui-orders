@@ -9,9 +9,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { useStripes } from '@folio/stripes/core';
 import {
-  MultiColumnList,
   checkScope,
   HasCommand,
+  Icon,
+  MultiColumnList,
 } from '@folio/stripes/components';
 import {
   ColumnManagerMenu,
@@ -31,10 +32,12 @@ import {
   useLocalStorageFilters,
   useLocationSorting,
   ORDER_STATUS_LABEL,
+  ORDER_STATUSES,
   useModalToggle,
   useItemToView,
 } from '@folio/stripes-acq-components';
 
+import { CANCEL_ORDER_REASON } from '../common/constants';
 import OrdersNavigation from '../common/OrdersNavigation';
 import Panes from '../components/Panes';
 
@@ -48,6 +51,22 @@ const title = <FormattedMessage id="ui-orders.navigation.orders" />;
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', UPDATED_DATE];
 
 export const resultsFormatter = {
+  poNumber: order => {
+    const isCancelled = order.workflowStatus === ORDER_STATUSES.closed &&
+      order.closeReason?.reason === CANCEL_ORDER_REASON;
+
+    return !isCancelled ? order.poNumber : (
+      <>
+        {order.poNumber}
+        &nbsp;
+        <Icon
+          data-testid="cancel-icon"
+          icon="cancel"
+          status="warn"
+        />
+      </>
+    );
+  },
   [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} utc={false} />,
   workflowStatus: order => ORDER_STATUS_LABEL[order.workflowStatus],
 };

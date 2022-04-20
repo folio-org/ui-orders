@@ -205,6 +205,7 @@ const PO = ({
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
   const tags = get(order, 'tags.tagList', []);
   const accordionStatusRef = useRef();
+  const [isCancelReason, setIsCancelReason] = useState(false);
 
   const isReceiptRequired = !(poLines?.every(({ receiptStatus }) => (
     receiptStatus === RECEIPT_STATUS.receiptNotRequired
@@ -296,6 +297,7 @@ const PO = ({
         },
       };
 
+      setIsCancelReason(false);
       toggleCloseOrderModal();
       setIsLoading(true);
       updateOrderResource(order, mutator.orderDetails, closeOrderProps)
@@ -675,6 +677,10 @@ const PO = ({
         actionMenu={getPOActionMenu({
           approvalsSetting,
           clickApprove: approveOrder,
+          clickCancel: () => {
+            setIsCancelReason(true);
+            toggleCloseOrderModal();
+          },
           clickClone: toggleCloneConfirmation,
           clickClose: toggleCloseOrderModal,
           clickDelete: toggleDeleteOrderConfirm,
@@ -709,10 +715,14 @@ const PO = ({
 
               {isCloseOrderModalOpened && (
                 <CloseOrderModal
-                  cancel={toggleCloseOrderModal}
+                  cancel={() => {
+                    setIsCancelReason(false);
+                    toggleCloseOrderModal();
+                  }}
                   closeOrder={closeOrder}
                   closingReasons={reasonsForClosure}
                   orderNumber={orderNumber}
+                  isCancelReason={isCancelReason}
                 />
               )}
 
