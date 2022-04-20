@@ -703,7 +703,7 @@
     "order.hideFields": "Nascondi campi",
     "order.showHidden": "Mostra i campi nascosti",
     "order.showHidden.info": "Mostra tutti i campi che sono stati nascosti quando si usa il modello",
-    "orderDetails.manualPO.info": "When this checkbox is active the order will be excluded from any automated transmission. No matter what other settings are active for the order lines or related organization.",
+    "orderDetails.manualPO.info": "Quando questa casella di controllo è selezionata, l'ordine sarà escluso da qualsiasi trasmissione automatica. Non importa quali altre impostazioni siano attive per le linee dell'ordine o per l'organizzazione correlata.",
     "poLine.automaticExport": "Esportazione automatica",
     "poLine.receivingWorkflow": "Flusso di lavoro di ricevimento",
     "poLine.receivingWorkflow.info": "Selecting synchronized will keep the order quantity and the number of pieces to be received, in sync. This also means updating one will update the other. When the order is opened, the system will generate pieces based on the quantity order.",
