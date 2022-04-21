@@ -115,7 +115,7 @@ export function getPOActionMenu({
               onClick={clickCancel}
             >
               <Icon size="small" icon="cancel">
-                <FormattedMessage id="ui-orders.paneBlock.cancelBtn" />
+                <FormattedMessage id="ui-orders.buttons.line.cancel" />
               </Icon>
             </Button>
           )}

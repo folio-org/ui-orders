@@ -15,6 +15,7 @@ import {
   AmountWithCurrencyField,
 } from '@folio/stripes-acq-components';
 
+import { isOrderLineCancelled } from '../../POLine/utils';
 import { LINE_LISTING_COLUMN_MAPPING } from '../constants';
 
 const alignRowProps = { alignLastColToEnd: true };
@@ -43,6 +44,21 @@ function LineListing({
     return acc;
   }, {});
   const resultsFormatter = {
+    poLineNumber: item => {
+      const isCancelled = isOrderLineCancelled(item);
+
+      return !isCancelled ? item.poLineNumber : (
+        <>
+          {item.poLineNumber}
+          &nbsp;
+          <Icon
+            data-testid="cancel-icon"
+            icon="cancel"
+            status="warn"
+          />
+        </>
+      );
+    },
     title: ({ titleOrPackage }) => titleOrPackage || '',
     productId: item => map(get(item, 'details.productIds', []), 'productId').join(', '),
     estimatedPrice: item => (

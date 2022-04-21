@@ -20,6 +20,7 @@ import {
   LOCATIONS,
   MATERIAL_TYPES,
 } from '../../components/Utils/resources';
+import { getCancelledLine } from '../../components/POLine/utils';
 import { POLineView } from '../../components/POLine';
 import { FILTERS as ORDER_FILTERS } from '../../OrdersList';
 import { useOrderTemplate } from '../../common/hooks';
@@ -105,6 +106,34 @@ const OrderLineDetails = ({
     [lineId, location.search, showToast],
   );
 
+  const cancelLine = useCallback(
+    () => {
+      const lineNumber = line?.poLineNumber;
+      const cancelledLine = getCancelledLine(line);
+
+      setIsLoading(true);
+      mutator.orderLine.PUT(cancelledLine)
+        .then(() => {
+          showToast({
+            messageId: 'ui-orders.line.cancel.success',
+            values: { lineNumber },
+            type: 'success',
+          });
+
+          return fetchLineDetails();
+        })
+        .catch(() => {
+          setIsLoading();
+          showToast({
+            messageId: 'ui-orders.errors.lineWasNotCancelled',
+            type: 'error',
+          });
+        })
+        .finally(setIsLoading);
+    },
+    [fetchLineDetails, line, showToast],
+  );
+
   const updateLineTagList = async (orderLine) => {
     await mutator.orderLine.PUT(orderLine);
     fetchLineDetails();
@@ -150,6 +179,7 @@ const OrderLineDetails = ({
         funds={funds}
         goToOrderDetails={goToOrderDetails}
         deleteLine={deleteLine}
+        cancelLine={cancelLine}
         tagsToggle={toggleTagsPane}
         onClose={onClose}
         orderTemplate={orderTemplate}

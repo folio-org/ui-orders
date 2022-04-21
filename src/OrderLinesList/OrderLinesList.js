@@ -11,6 +11,7 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
+  Icon,
   MultiColumnList,
   NoValue,
 } from '@folio/stripes/components';
@@ -37,6 +38,7 @@ import {
 import { searchableIndexes } from '@folio/plugin-find-po-line';
 
 import OrdersNavigation from '../common/OrdersNavigation';
+import { isOrderLineCancelled } from '../components/POLine/utils';
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
 import Details from './Details';
 import OrderLinesListActionMenu from './OrderLinesListActionMenu';
@@ -48,6 +50,21 @@ const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
 const sortableColumns = ['poLineNumber', UPDATED_DATE, 'titleOrPackage'];
 
 export const resultsFormatter = {
+  poLineNumber: line => {
+    const isCancelled = isOrderLineCancelled(line);
+
+    return !isCancelled ? line.poLineNumber : (
+      <>
+        {line.poLineNumber}
+        &nbsp;
+        <Icon
+          data-testid="cancel-icon"
+          icon="cancel"
+          status="warn"
+        />
+      </>
+    );
+  },
   [UPDATED_DATE]: line => <FolioFormattedDate value={get(line, 'metadata.updatedDate')} utc={false} />,
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   [VENDOR_REF_NUMBER]: line => (
