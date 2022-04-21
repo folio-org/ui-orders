@@ -10,6 +10,7 @@
 * Renewal date and renewal interval no longer required. Refs UIOR-961.
 * New Permission - "Orders: Approve purchase orders". Refs UIOR-933.
 * Add cancel PO action and display indication that PO is canceled. Refs UIOR-889.
+* Replace `babel-eslint` with `@babel/eslint-parser`. Refs UIOR-962.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
