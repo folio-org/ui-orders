@@ -12,6 +12,7 @@
 * Add cancel PO action and display indication that PO is canceled. Refs UIOR-889.
 * Replace `babel-eslint` with `@babel/eslint-parser`. Refs UIOR-962.
 * Add cancel POL action and display indication that POL is canceled. Refs UIOR-740.
+* Update Order Permission. Refs UIOR-963.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)

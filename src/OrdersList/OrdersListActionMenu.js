@@ -14,7 +14,7 @@ const OrdersListActionMenu = ({ search, ordersCount, onToggle, toggleExportModal
 
   return (
     <MenuSection id="orders-list-actions">
-      <IfPermission perm="ui-orders.order.create">
+      <IfPermission perm="ui-orders.orders.create">
         <Button
           id="clickable-neworder"
           buttonStyle="dropdownItem"

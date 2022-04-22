@@ -169,7 +169,7 @@ const POLineView = ({
       name: 'edit',
       handler: handleKeyCommand(() => {
         if (
-          stripes.hasPerm('ui-orders.order-lines.edit') &&
+          stripes.hasPerm('ui-orders.orders.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) onEditPOLine();
