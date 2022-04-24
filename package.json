@@ -301,6 +301,15 @@
         ]
       },
       {
+        "permissionName": "ui-orders.order-lines.cancel",
+        "displayName": "Orders: Cancel order lines",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.po-lines.item.put"
+        ]
+      },
+      {
         "permissionName": "ui-orders.order.updateEncumbrances",
         "displayName": "Orders: Update encumbrances",
         "description": "",

@@ -27,6 +27,7 @@ import {
   ORDERS,
 } from '../Utils/resources';
 import POLineView from './POLineView';
+import { getCancelledLine } from './utils';
 
 function POLine({
   history,
@@ -54,7 +55,7 @@ function POLine({
         return [];
       })
       .then((lines) => {
-        setLine(lines?.[0]);
+        setLine(lines?.[0] || {});
       }),
     [lineId, sendCallout],
   );
@@ -113,6 +114,33 @@ function POLine({
     [history, line, poURL, search, sendCallout],
   );
 
+  const cancelLine = useCallback(
+    () => {
+      const lineNumber = line?.poLineNumber;
+      const cancelledLine = getCancelledLine(line);
+
+      setIsLoading(true);
+      mutator.poLine.PUT(cancelledLine)
+        .then(() => {
+          sendCallout({
+            message: <FormattedMessage id="ui-orders.line.cancel.success" values={{ lineNumber }} />,
+            type: 'success',
+          });
+
+          return fetchOrderLine();
+        })
+        .catch(() => {
+          setIsLoading();
+          sendCallout({
+            message: <FormattedMessage id="ui-orders.errors.lineWasNotCancelled" />,
+            type: 'error',
+          });
+        })
+        .finally(setIsLoading);
+    },
+    [fetchOrderLine, line, sendCallout],
+  );
+
   const backToOrder = useCallback(
     () => {
       history.push({
@@ -156,6 +184,7 @@ function POLine({
         poURL={poURL}
         funds={funds}
         deleteLine={deleteLine}
+        cancelLine={cancelLine}
         tagsToggle={toggleTagsPane}
         orderTemplate={orderTemplate}
       />

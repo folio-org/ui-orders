@@ -71,8 +71,10 @@ import {
   ERESOURCES,
   PHRESOURCES,
 } from './const';
+import { isCancelableLine } from './utils';
 
 const POLineView = ({
+  cancelLine,
   deleteLine,
   editable,
   goToOrderDetails,
@@ -105,9 +107,12 @@ const POLineView = ({
     [ACCORDION_ID.linkedInstances]: false,
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
+  const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();
   const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
   const [isPrintLineModalOpened, togglePrintLineModal] = useModalToggle();
   const [hiddenFields, setHiddenFields] = useState({});
+
+  const isCancelable = isCancelableLine(line, order);
 
   useEffect(() => {
     setHiddenFields(orderTemplate.hiddenFields);
@@ -149,6 +154,11 @@ const POLineView = ({
     toggleConfirmDelete();
     deleteLine();
   }, [deleteLine, toggleConfirmDelete]);
+
+  const onConfirmCancel = useCallback(() => {
+    toggleConfirmCancel();
+    cancelLine();
+  }, [cancelLine, toggleConfirmCancel]);
 
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     order?.id, order?.acqUnitIds,
@@ -228,6 +238,23 @@ const POLineView = ({
             </Button>
           )}
         </IfPermission>
+        {isCancelable && (
+          <IfPermission perm="ui-orders.order-lines.cancel">
+            <Button
+              buttonStyle="dropdownItem"
+              data-testid="cancel-line-button"
+              disabled={isRestrictionsLoading || restrictions.protectUpdate}
+              onClick={() => {
+                onToggle();
+                toggleConfirmCancel();
+              }}
+            >
+              <Icon size="small" icon="cancel">
+                <FormattedMessage id="ui-orders.buttons.line.cancel" />
+              </Icon>
+            </Button>
+          </IfPermission>
+        )}
         <IfPermission perm="orders.po-lines.item.delete">
           <Button
             buttonStyle="dropdownItem"
@@ -318,8 +345,9 @@ const POLineView = ({
   const fundDistributions = get(line, 'fundDistribution');
   const currency = get(line, 'cost.currency');
   const metadata = get(line, 'metadata');
-  const isClosedOrder = isWorkflowStatusClosed(order);
   const paneTitle = <FormattedMessage id="ui-orders.line.paneTitle.details" values={{ poLineNumber }} />;
+  const isClosedOrder = isWorkflowStatusClosed(order);
+  const cancelPOLModalLabel = intl.formatMessage({ id: 'ui-orders.line.cancel.heading' }, { poLineNumber });
   const deletePOLModalLabel = intl.formatMessage(
     { id: 'ui-orders.order.delete.heading' },
     { orderNumber: poLineNumber },
@@ -519,6 +547,18 @@ const POLineView = ({
             open
           />
         )}
+        {showConfirmCancel && (
+          <ConfirmationModal
+            aria-label={cancelPOLModalLabel}
+            id="cancel-line-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.line.cancel.confirmLabel" />}
+            heading={cancelPOLModalLabel}
+            message={<FormattedMessage id="ui-orders.line.cancel.message" />}
+            onCancel={toggleConfirmCancel}
+            onConfirm={onConfirmCancel}
+            open
+          />
+        )}
       </Pane>
 
       {
@@ -555,6 +595,7 @@ POLineView.propTypes = {
   editable: PropTypes.bool,
   goToOrderDetails: PropTypes.func,
   deleteLine: PropTypes.func,
+  cancelLine: PropTypes.func,
   tagsToggle: PropTypes.func.isRequired,
   orderTemplate: PropTypes.object,
 };

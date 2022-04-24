@@ -19,7 +19,7 @@ jest.mock('../../components/POLine/POLineView', () => jest.fn().mockReturnValue(
 const mutator = {
   orderLine: {
     GET: jest.fn().mockResolvedValue(orderLine),
-    PUT: jest.fn(),
+    PUT: jest.fn().mockResolvedValue(orderLine),
     DELETE: jest.fn().mockResolvedValue(),
   },
   order: {
@@ -111,6 +111,14 @@ describe('OrderLineDetails actions', () => {
     await waitFor(() => POLineView.mock.calls[0][0].deleteLine());
 
     expect(mutator.orderLine.DELETE).toHaveBeenCalled();
+  });
+
+  it('should cancel order line', async () => {
+    renderOrderLineDetails();
+
+    await waitFor(() => POLineView.mock.calls[0][0].cancelLine());
+
+    expect(mutator.orderLine.PUT).toHaveBeenCalled();
   });
 
   it('should toggle Tags pane', async () => {
