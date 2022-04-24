@@ -606,7 +606,7 @@ const PO = ({
       name: 'edit',
       handler: handleKeyCommand(() => {
         if (
-          stripes.hasPerm('ui-orders.order.edit') &&
+          stripes.hasPerm('ui-orders.orders.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) onEdit();
