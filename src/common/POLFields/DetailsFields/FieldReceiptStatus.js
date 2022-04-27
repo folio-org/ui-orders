@@ -21,6 +21,9 @@ const RECEIPT_STATUSES_BY_ORDER_STATUS = {
     'fullyReceived',
     'cancelled',
   ],
+  [PO_WORKFLOW_STATUSES.closed]: [
+    'cancelled',
+  ],
   template: [
     'receiptNotRequired',
   ],

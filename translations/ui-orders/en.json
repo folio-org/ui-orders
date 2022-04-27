@@ -22,6 +22,7 @@
   "buttons.line.saveAndOpen": "Save & open order",
   "buttons.line.createAnother": "Create another",
   "buttons.line.submit": "Submit",
+  "canceled": "Canceled",
   "checkIn.addPiece.error": "Piece was not saved",
   "checkIn.addPiece.success": "Piece was saved successfully",
   "checkIn.addPieceModal.editTitle": "Edit piece",

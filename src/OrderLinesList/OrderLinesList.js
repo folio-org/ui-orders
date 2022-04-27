@@ -14,6 +14,7 @@ import {
   Icon,
   MultiColumnList,
   NoValue,
+  Tooltip,
 } from '@folio/stripes/components';
 import {
   ColumnManagerMenu,
@@ -57,11 +58,17 @@ export const resultsFormatter = {
       <>
         {line.poLineNumber}
         &nbsp;
-        <Icon
-          data-testid="cancel-icon"
-          icon="cancel"
-          status="warn"
-        />
+        <Tooltip text={<FormattedMessage id="ui-orders.canceled" />}>
+          {({ ref, ariaIds }) => (
+            <Icon
+              data-testid="cancel-icon"
+              icon="cancel"
+              status="warn"
+              ref={ref}
+              aria-labelledby={ariaIds.text}
+            />
+          )}
+        </Tooltip>
       </>
     );
   },
