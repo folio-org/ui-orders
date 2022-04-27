@@ -63,11 +63,11 @@ const getReferenceNumbers = (line) => (
   )).join(' | ')
 );
 
-const getOrganizationTypeData = (orgTypeIds = [], orgTypeMap) => (
+const getOrganizationTypeData = (orgTypeIds, orgTypeMap) => (
   orgTypeIds
-    .map(orgTypeId => (orgTypeMap[orgTypeId]?.name ? `"${orgTypeMap[orgTypeId]?.name}"` : null))
-    .filter(Boolean)
-    .join(' | ')
+    ?.map(orgTypeId => (orgTypeMap[orgTypeId]?.name ? `"${orgTypeMap[orgTypeId]?.name}"` : null))
+    ?.filter(Boolean)
+    ?.join(' | ')
 );
 
 export const createExportReport = (
