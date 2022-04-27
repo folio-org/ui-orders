@@ -14,12 +14,18 @@ export const isOrderLineCancelled = (line) => (
 export const isCancelableLine = (line, order) => (
   (isWorkflowStatusClosed(order) || isWorkflowStatusOpen(order)) &&
   !(
-    (line.receiptStatus === RECEIPT_STATUS.fullyReceived &&
-      line.paymentStatus === PAYMENT_STATUS.fullyPaid) ||
-    (line.receiptStatus === RECEIPT_STATUS.receiptNotRequired &&
-      line.paymentStatus === PAYMENT_STATUS.paymentNotRequired) ||
-    (line.receiptStatus === RECEIPT_STATUS.cancelled &&
-      line.paymentStatus === PAYMENT_STATUS.cancelled)
+    ((
+      line.receiptStatus === RECEIPT_STATUS.fullyReceived ||
+      line.receiptStatus === RECEIPT_STATUS.receiptNotRequired
+    ) &&
+    (
+      line.paymentStatus === PAYMENT_STATUS.fullyPaid ||
+      line.paymentStatus === PAYMENT_STATUS.paymentNotRequired
+    )) ||
+    (
+      line.receiptStatus === RECEIPT_STATUS.cancelled ||
+      line.paymentStatus === PAYMENT_STATUS.cancelled
+    )
   )
 );
 

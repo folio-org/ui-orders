@@ -21,6 +21,9 @@ const PAYMENT_STATUSES_BY_ORDER_STATUS = {
     'fullyPaid',
     'cancelled',
   ],
+  [PO_WORKFLOW_STATUSES.closed]: [
+    'cancelled',
+  ],
   template: [
     'paymentNotRequired',
   ],

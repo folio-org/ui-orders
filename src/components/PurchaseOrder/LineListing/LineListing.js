@@ -9,6 +9,7 @@ import {
   Layout,
   MultiColumnList,
   NoValue,
+  Tooltip,
 } from '@folio/stripes/components';
 import {
   acqRowFormatter,
@@ -51,11 +52,17 @@ function LineListing({
         <>
           {item.poLineNumber}
           &nbsp;
-          <Icon
-            data-testid="cancel-icon"
-            icon="cancel"
-            status="warn"
-          />
+          <Tooltip text={<FormattedMessage id="ui-orders.canceled" />}>
+            {({ ref, ariaIds }) => (
+              <Icon
+                data-testid="cancel-icon"
+                icon="cancel"
+                status="warn"
+                ref={ref}
+                aria-labelledby={ariaIds.text}
+              />
+            )}
+          </Tooltip>
         </>
       );
     },

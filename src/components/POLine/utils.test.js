@@ -62,10 +62,19 @@ describe('isCancelableLine', () => {
         { workflowStatus: ORDER_STATUSES.open },
       )).toBe(false);
     });
-    it('should return true', () => {
+    it('should return false', () => {
       expect(isCancelableLine(
         {
           receiptStatus: RECEIPT_STATUS.fullyReceived,
+          paymentStatus: PAYMENT_STATUS.paymentNotRequired,
+        },
+        { workflowStatus: ORDER_STATUSES.open },
+      )).toBe(false);
+    });
+    it('should return true', () => {
+      expect(isCancelableLine(
+        {
+          receiptStatus: RECEIPT_STATUS.pending,
           paymentStatus: PAYMENT_STATUS.paymentNotRequired,
         },
         { workflowStatus: ORDER_STATUSES.open },
