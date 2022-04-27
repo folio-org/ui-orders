@@ -3,6 +3,7 @@ export const EXPORT_ORDER_FIELDS = {
   poNumber: 'PO number',
   poNumberSuffix: 'PO number suffix',
   vendor: 'Vendor',
+  organizationType: 'Organization type',
   orderType: 'Order type',
   acquisitionsUnits: 'Acquisitions units',
   approvalDate: 'Approval date',

@@ -13,6 +13,7 @@ import {
 import {
   ADDRESSES,
   HOLDINGS,
+  ORGANIZATION_TYPES,
 } from '../../../components/Utils/resources';
 
 export const exportManifest = Object.freeze({
@@ -65,4 +66,5 @@ export const exportManifest = Object.freeze({
     fetch: false,
   },
   exportHoldings: HOLDINGS,
+  organizationTypes: ORGANIZATION_TYPES,
 });

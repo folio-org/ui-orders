@@ -63,6 +63,13 @@ const getReferenceNumbers = (line) => (
   )).join(' | ')
 );
 
+const getOrganizationTypeData = (orgTypeIds = [], orgTypeMap) => (
+  orgTypeIds
+    .map(orgTypeId => (orgTypeMap[orgTypeId]?.name ? `"${orgTypeMap[orgTypeId]?.name}"` : null))
+    .filter(Boolean)
+    .join(' | ')
+);
+
 export const createExportReport = (
   intl,
   poLines = [],
@@ -78,11 +85,13 @@ export const createExportReport = (
   expenseClasses = [],
   addresses = [],
   acquisitionMethods = [],
+  organizationTypes = [],
 ) => {
   const invalidReference = intl.formatMessage({ id: 'ui-orders.export.invalidReference' });
   const poLinesMap = getRecordMap(poLines);
   const ordersMap = getRecordMap(orders);
   const vendorMap = getRecordMap(vendors);
+  const organizationTypeMap = getRecordMap(organizationTypes);
   const userMap = getRecordMap(users);
   const acqUnitMap = getRecordMap(acqUnits);
   const materialTypeMap = getRecordMap(materialTypes);
@@ -110,6 +119,7 @@ export const createExportReport = (
       poNumberSuffix: order.poNumberSuffix,
       vendor: vendorMap[order.vendor]?.code ?? invalidReference,
       vendorRecord: vendorMap[order.vendor],
+      organizationType: getOrganizationTypeData(vendorMap[order.vendor]?.organizationTypes, organizationTypeMap),
       orderType: order.orderType,
       acquisitionsUnits: order.acqUnitIds.map(id => acqUnitMap[id].name).join(' | '),
       approvalDate: formatDateTime(order.approvalDate, intl),

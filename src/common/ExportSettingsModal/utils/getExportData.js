@@ -18,6 +18,10 @@ export const getExportData = async (mutator, lines, orders, intl) => {
   ]))))).filter(Boolean);
   const vendorIds = uniq(flatten([...orderVendorIds, ...lineVendorIds]));
   const vendors = await fetchExportDataByIds(mutator.exportVendors, vendorIds);
+  const organizationTypeIds = uniq(flatten(vendors.map(
+    ({ organizationTypes }) => organizationTypes,
+  ))).filter(Boolean);
+  const organizationTypes = await fetchExportDataByIds(mutator.organizationTypes, organizationTypeIds);
   const userIds = uniq(flatten((orders.map(({ metadata, assignedTo, approvedBy }) => ([
     metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedBy,
   ]))))).filter(Boolean);
@@ -78,5 +82,6 @@ export const getExportData = async (mutator, lines, orders, intl) => {
     expenseClasses,
     addresses,
     acquisitionMethods,
+    organizationTypes,
   ));
 };

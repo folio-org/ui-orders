@@ -27,6 +27,7 @@ import {
   ORDER_NUMBER_VALIDATE_API,
   HOLDINGS_API,
   ISBN_CONVERT_TO_13,
+  ORGANIZATION_TYPES_API,
 } from './api';
 import {
   CONFIG_ADDRESSES,
@@ -274,4 +275,12 @@ export const HOLDINGS = {
   fetch: false,
   path: HOLDINGS_API,
   records: 'holdingsRecords',
+};
+
+export const ORGANIZATION_TYPES = {
+  ...baseManifest,
+  accumulate: true,
+  fetch: false,
+  path: ORGANIZATION_TYPES_API,
+  records: 'organizationTypes',
 };
