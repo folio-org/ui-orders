@@ -2,7 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
-import { PAYMENT_STATUS } from '@folio/stripes-acq-components';
+import {
+  PAYMENT_STATUS,
+  RECEIPT_STATUS,
+} from '@folio/stripes-acq-components';
 
 import OrderLinesList, { resultsFormatter } from './OrderLinesList';
 import { orderLine } from '../../test/jest/fixtures';
@@ -115,6 +118,7 @@ describe('resultsFormatter', () => {
     render(resultsFormatter.poLineNumber({
       ...orderLine,
       paymentStatus: PAYMENT_STATUS.cancelled,
+      receiptStatus: RECEIPT_STATUS.cancelled,
     }));
 
     expect(screen.getByTestId('cancel-icon')).toBeInTheDocument();
