@@ -115,4 +115,5 @@ export const vendor = {
     'createdDate': '2021-08-16T01:51:51.659+00:00',
     'updatedDate': '2021-08-16T01:51:51.659+00:00',
   },
+  'organizationTypes': ['0db5c815-3c1f-486b-b551-2185ceafb0e3'],
 };

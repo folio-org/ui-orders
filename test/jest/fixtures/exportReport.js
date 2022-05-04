@@ -47,6 +47,7 @@ export const exportReport = [
     'ongoingNotes': undefined,
     'orderFormat': 'P/E Mix',
     'orderType': 'One-Time',
+    'organizationType': '"Test type"',
     'packagePoLineId': undefined,
     'paymentStatus': 'Pending',
     'poLineDescription': '',
@@ -295,6 +296,7 @@ export const exportReport = [
         'updatedDate': '2021-08-16T01:51:51.659+00:00',
       },
       'name': 'Magnolia Press',
+      'organizationTypes': ['0db5c815-3c1f-486b-b551-2185ceafb0e3'],
       'paymentMethod': 'EFT',
       'phoneNumbers': [
         {
