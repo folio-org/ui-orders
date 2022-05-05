@@ -98,7 +98,7 @@ const POForm = ({
     }
   }, []);
 
-  const callAPI = useCallback((fieldName, values) => {
+  const callAPI = useCallback((_fieldName, values) => {
     const { orderNumber: validator } = parentMutator;
     const fullOrderNumber = getFullOrderNumber(values);
     const initialFullOrderNumber = getFullOrderNumber(formValues);
