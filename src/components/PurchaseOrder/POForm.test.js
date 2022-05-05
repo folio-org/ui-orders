@@ -4,11 +4,8 @@ import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import {
-  HasCommand,
-  expandAllSections,
-  collapseAllSections,
-} from '@folio/stripes/components';
+import { HasCommand } from '@folio/stripes/components';
+import { useAccordionToggle } from '@folio/stripes-acq-components';
 
 import { ORDER_TYPE } from '../../common/constants';
 import POForm from './POForm';
@@ -16,8 +13,9 @@ import { history } from '../../../test/jest/routerMocks';
 
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
-  expandAllSections: jest.fn(),
-  collapseAllSections: jest.fn(),
+}));
+jest.mock('@folio/stripes-acq-components/lib/hooks/useAccordionToggle', () => ({
+  useAccordionToggle: jest.fn().mockReturnValue([jest.fn(), {}, jest.fn()]),
 }));
 jest.mock('./PODetails/PODetailsForm', () => jest.fn().mockReturnValue('PODetailsForm'));
 jest.mock('./OngoingOgderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
@@ -120,10 +118,12 @@ describe('POForm', () => {
 });
 
 describe('POForm shortcuts', () => {
+  const toggleAll = jest.fn();
+
   beforeEach(() => {
     HasCommand.mockClear();
-    expandAllSections.mockClear();
-    collapseAllSections.mockClear();
+    toggleAll.mockClear();
+    useAccordionToggle.mockClear().mockReturnValue([toggleAll, {}, jest.fn()]);
   });
 
   it('should call expandAllSections when expandAllSections shortcut is called', () => {
@@ -131,7 +131,7 @@ describe('POForm shortcuts', () => {
 
     HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
 
-    expect(expandAllSections).toHaveBeenCalled();
+    expect(toggleAll).toHaveBeenCalled();
   });
 
   it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
@@ -139,6 +139,6 @@ describe('POForm shortcuts', () => {
 
     HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
 
-    expect(collapseAllSections).toHaveBeenCalled();
+    expect(toggleAll).toHaveBeenCalled();
   });
 });

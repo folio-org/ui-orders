@@ -263,7 +263,7 @@ class PODetailsForm extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-            <FieldsNotes />
+            <FieldsNotes required />
           </Col>
         </Row>
       </>

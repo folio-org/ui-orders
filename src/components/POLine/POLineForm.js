@@ -253,17 +253,19 @@ function POLineForm({
     );
   };
 
-  const [expandAll, stateSections, toggleSection] = useAccordionToggle(INITIAL_SECTIONS);
+  const errors = form.getState()?.errors;
 
-  const errorAccordions = Object.keys(form.getState().errors).map(
-    (fieldName) => ({ [MAP_FIELD_ACCORDION[fieldName]]: true }),
+  const [
+    expandAll,
+    sections,
+    toggleSection,
+  ] = useAccordionToggle(
+    INITIAL_SECTIONS,
+    {
+      errors,
+      fieldsMap: MAP_FIELD_ACCORDION,
+    },
   );
-  const sections = errorAccordions.length
-    ? {
-      ...stateSections,
-      ...(errorAccordions.reduce((accum, section) => ({ ...accum, ...section }), {})),
-    }
-    : stateSections;
 
   const lineNumber = get(initialValues, 'poLineNumber', '');
   const firstMenu = getAddFirstMenu();
@@ -294,11 +296,11 @@ function POLineForm({
     },
     {
       name: 'expandAllSections',
-      handler: () => expandAll(mapValues(stateSections, () => true)),
+      handler: () => expandAll(mapValues(sections, () => true)),
     },
     {
       name: 'collapseAllSections',
-      handler: () => expandAll(mapValues(stateSections, () => false)),
+      handler: () => expandAll(mapValues(sections, () => false)),
     },
     {
       name: 'search',

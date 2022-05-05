@@ -21,6 +21,7 @@ import {
 } from '../../../common/POFields';
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { VisibilityControl } from '../../../common/VisibilityControl';
+import { ACCORDION_ID } from '../constants';
 import { isWorkflowStatusIsPending } from '../util';
 
 const OngoingInfoForm = ({ hiddenFields = {} }) => {
@@ -34,7 +35,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
 
   return (
     <Accordion
-      id="ongoing"
+      id={ACCORDION_ID.ongoing}
       label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
     >
       <Row>

@@ -14,3 +14,21 @@ export const LINE_LISTING_COLUMN_MAPPING = {
   estimatedPrice: <FormattedMessage id="ui-orders.cost.estimatedPrice" />,
   arrow: null,
 };
+
+export const ACCORDION_ID = {
+  purchaseOrder: 'purchaseOrder',
+  ongoing: 'ongoing',
+  poSummary: 'poSummary',
+};
+
+export const INITIAL_SECTIONS = Object.keys(ACCORDION_ID).reduce(
+  (acc, id) => ({ ...acc, [id]: true }), {},
+);
+
+// Mapping between attribute (field) in form and id of accordion
+export const MAP_FIELD_ACCORDION = {
+  poNumber: ACCORDION_ID.purchaseOrder,
+  vendor: ACCORDION_ID.purchaseOrder,
+  orderType: ACCORDION_ID.purchaseOrder,
+  notes: ACCORDION_ID.purchaseOrder,
+};
