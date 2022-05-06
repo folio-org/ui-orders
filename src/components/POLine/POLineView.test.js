@@ -108,4 +108,10 @@ describe('POLineView', () => {
 
     expect(defaultProps.goToOrderDetails).toHaveBeenCalled();
   });
+
+  it('should not render change instance button for pending order', async () => {
+    renderPOLineView();
+
+    expect(screen.queryByText('ui-orders.buttons.line.changeInstance')).toBeNull();
+  });
 });
