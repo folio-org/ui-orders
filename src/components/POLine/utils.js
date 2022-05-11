@@ -1,6 +1,8 @@
 import {
+  fetchAllRecords,
   INVENTORY_RECORDS_TYPE,
   ORDER_FORMATS,
+  ORDER_PIECES_API,
   PAYMENT_STATUS,
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
@@ -72,6 +74,11 @@ export const getCreateInventory = (line) => {
         (eresource === INVENTORY_RECORDS_TYPE.none || eresource === INVENTORY_RECORDS_TYPE.instance) &&
         (physical === INVENTORY_RECORDS_TYPE.none || physical === INVENTORY_RECORDS_TYPE.instance)
       ) return INVENTORY_RECORDS_TYPE.none;
+
+      if (
+        (eresource === INVENTORY_RECORDS_TYPE.instanceAndHolding || eresource === INVENTORY_RECORDS_TYPE.all) ||
+        (physical === INVENTORY_RECORDS_TYPE.instanceAndHolding || physical === INVENTORY_RECORDS_TYPE.all)
+      ) return INVENTORY_RECORDS_TYPE.instanceAndHolding;
 
       return undefined;
     }

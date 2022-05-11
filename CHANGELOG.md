@@ -16,6 +16,8 @@
 * Add organizations "Type" to order csv export. Refs UIOR-893.
 * Edit instance connection of POL - create inventory set to Instance or none. Refs UIOR-936.
 * Saving an order template can fail without a visible message. Refs UIOR-952.
+* Edit instance connection of POL - create inventory set to `Instance, holding` or `Instance, holding, item`. Refs UIOR-594.
+* Edit instance connection of POL - option to delete abandoned holdings. Refs UIOR-942.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
