@@ -7,6 +7,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   IfPermission,
+  Pluggable,
   useStripes,
 } from '@folio/stripes/core';
 import {
@@ -35,10 +36,12 @@ import {
 import {
   FundDistributionView,
   handleKeyCommand,
+  INVENTORY_RECORDS_TYPE,
   ORDER_FORMATS,
   TagsBadge,
   useAcqRestrictions,
   useModalToggle,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -48,6 +51,7 @@ import {
   isCheckInAvailableForLine,
   isReceiveAvailableForLine,
   isWorkflowStatusClosed,
+  isWorkflowStatusOpen,
 } from '../PurchaseOrder/util';
 import {
   NOTE_TYPES,
@@ -71,7 +75,10 @@ import {
   ERESOURCES,
   PHRESOURCES,
 } from './const';
-import { isCancelableLine } from './utils';
+import {
+  getCreateInventory,
+  isCancelableLine,
+} from './utils';
 
 const POLineView = ({
   cancelLine,
@@ -108,9 +115,11 @@ const POLineView = ({
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();
+  const [showConfirmChangeInstance, toggleConfirmChangeInstance] = useModalToggle();
   const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
   const [isPrintLineModalOpened, togglePrintLineModal] = useModalToggle();
   const [hiddenFields, setHiddenFields] = useState({});
+  const showCallout = useShowCallout();
 
   const isCancelable = isCancelableLine(line, order);
 
@@ -164,6 +173,25 @@ const POLineView = ({
     order?.id, order?.acqUnitIds,
   );
 
+  const onSelectInstance = () => {
+    const createInventoryValue = getCreateInventory(line);
+
+    switch (createInventoryValue) {
+      case INVENTORY_RECORDS_TYPE.instance:
+      case INVENTORY_RECORDS_TYPE.none: return toggleConfirmChangeInstance();
+      default: return undefined;
+    }
+  };
+
+  const onConfirmChangeInstance = useCallback(() => {
+    toggleConfirmChangeInstance();
+
+    return showCallout({
+      messageId: 'ui-orders.errors.instanceWasNotChanged',
+      type: 'error',
+    });
+  }, [showCallout, toggleConfirmChangeInstance]);
+
   const shortcuts = [
     {
       name: 'edit',
@@ -189,6 +217,7 @@ const POLineView = ({
   const getActionMenu = ({ onToggle }) => {
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
     const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
+    const isChangeInstanceVisible = isWorkflowStatusClosed(order) || isWorkflowStatusOpen(order);
 
     // TODO: unify actions after Order Lines list is implemented fully
     return (
@@ -208,6 +237,29 @@ const POLineView = ({
                 <FormattedMessage id="ui-orders.button.edit" />
               </Icon>
             </Button>
+
+            {isChangeInstanceVisible && (
+              <Pluggable
+                aria-haspopup="true"
+                dataKey="instances"
+                searchButtonStyle="dropdownItem"
+                renderTrigger={({ onClick, id }) => (
+                  <Button
+                    buttonStyle="dropdownItem"
+                    id={id}
+                    data-testid="line-details-actions-change-instance"
+                    disabled={isRestrictionsLoading || restrictions.protectUpdate}
+                    onClick={onClick}
+                  >
+                    <Icon size="small" icon="edit">
+                      <FormattedMessage id="ui-orders.buttons.line.changeInstance" />
+                    </Icon>
+                  </Button>
+                )}
+                selectInstance={onSelectInstance}
+                type="find-instance"
+              />
+            )}
           </IfPermission>
         )}
         {goToOrderDetails && (
@@ -352,6 +404,7 @@ const POLineView = ({
     { id: 'ui-orders.order.delete.heading' },
     { orderNumber: poLineNumber },
   );
+  const changeInstanceConfirmationModalLabel = intl.formatMessage({ id: 'ui-orders.line.changeInstance.heading' });
 
   return (
     <HasCommand
@@ -556,6 +609,18 @@ const POLineView = ({
             message={<FormattedMessage id="ui-orders.line.cancel.message" />}
             onCancel={toggleConfirmCancel}
             onConfirm={onConfirmCancel}
+            open
+          />
+        )}
+        {showConfirmChangeInstance && (
+          <ConfirmationModal
+            aria-label={changeInstanceConfirmationModalLabel}
+            id="changing-instance-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.line.changeInstance.confirmLabel" />}
+            heading={changeInstanceConfirmationModalLabel}
+            message={<FormattedMessage id="ui-orders.line.changeInstance.message" />}
+            onCancel={toggleConfirmChangeInstance}
+            onConfirm={onConfirmChangeInstance}
             open
           />
         )}

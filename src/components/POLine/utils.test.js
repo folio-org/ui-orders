@@ -1,4 +1,6 @@
 import {
+  INVENTORY_RECORDS_TYPE,
+  ORDER_FORMATS,
   ORDER_STATUSES,
   PAYMENT_STATUS,
   RECEIPT_STATUS,
@@ -6,6 +8,7 @@ import {
 
 import {
   getCancelledLine,
+  getCreateInventory,
   isCancelableLine,
   isOrderLineCancelled,
   setPaymentStatus,
@@ -124,6 +127,28 @@ describe('isCancelableLine', () => {
         receiptStatus: RECEIPT_STATUS.cancelled,
         paymentStatus: PAYMENT_STATUS.cancelled,
       }));
+    });
+  });
+
+  describe('getCreateInventory', () => {
+    it('should return create inventory field value for electronic order line', () => {
+      expect(getCreateInventory({
+        orderFormat: ORDER_FORMATS.electronicResource,
+        eresource: { createInventory: INVENTORY_RECORDS_TYPE.none },
+      })).toEqual(INVENTORY_RECORDS_TYPE.none);
+    });
+    it('should return create inventory field value for electronic order line', () => {
+      expect(getCreateInventory({
+        orderFormat: ORDER_FORMATS.physicalResource,
+        physical: { createInventory: INVENTORY_RECORDS_TYPE.instance },
+      })).toEqual(INVENTORY_RECORDS_TYPE.instance);
+    });
+    it('should return create inventory field value for P/E mix order line', () => {
+      expect(getCreateInventory({
+        orderFormat: ORDER_FORMATS.PEMix,
+        eresource: { createInventory: INVENTORY_RECORDS_TYPE.none },
+        physical: { createInventory: INVENTORY_RECORDS_TYPE.instance },
+      })).toEqual(INVENTORY_RECORDS_TYPE.none);
     });
   });
 });
