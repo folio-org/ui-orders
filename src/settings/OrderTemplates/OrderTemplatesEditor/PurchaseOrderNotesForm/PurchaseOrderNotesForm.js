@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Row,
@@ -9,14 +10,18 @@ import {
   FieldsNotes,
 } from '../../../../common/POFields';
 
-const PurchaseOrderNotesForm = () => {
+const PurchaseOrderNotesForm = ({ required }) => {
   return (
     <Row start="xs">
       <Col xs={12}>
-        <FieldsNotes />
+        <FieldsNotes required={required} />
       </Col>
     </Row>
   );
+};
+
+PurchaseOrderNotesForm.propTypes = {
+  required: PropTypes.bool,
 };
 
 export default PurchaseOrderNotesForm;

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { get, mapValues } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
@@ -9,13 +9,10 @@ import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
-  AccordionStatus,
   Button,
   checkScope,
   Col,
-  collapseAllSections,
   ExpandAllButton,
-  expandAllSections,
   HasCommand,
   Icon,
   IconButton,
@@ -29,6 +26,7 @@ import {
 import {
   FieldSelectionFinal as FieldSelection,
   handleKeyCommand,
+  useAccordionToggle,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -40,80 +38,91 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import { getFullOrderNumber } from '../Utils/orderResource';
 
+import {
+  ACCORDION_ID,
+  INITIAL_SECTIONS,
+  MAP_FIELD_ACCORDION,
+  PO_TEMPLATE_FIELDS_MAP,
+} from './constants';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { OngoingInfoForm } from './OngoingOgderInfo';
-import { PO_TEMPLATE_FIELDS_MAP } from './constants';
 
-class POForm extends Component {
-  static propTypes = {
-    values: PropTypes.object,
-    form: PropTypes.object.isRequired,
-    generatedNumber: PropTypes.string.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-    initialValues: PropTypes.object.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    parentResources: PropTypes.object.isRequired,
-    parentMutator: PropTypes.object.isRequired,
-  }
+const POForm = ({
+  form: {
+    batch,
+    change,
+    getFieldState,
+    getRegisteredFields,
+    getState,
+  },
+  values: formValues,
+  generatedNumber,
+  handleSubmit,
+  pristine,
+  submitting,
+  history,
+  initialValues,
+  onCancel,
+  parentMutator,
+  parentResources,
+}) => {
+  const [template, setTemplate] = useState();
+  const [hiddenFields, setHiddenFields] = useState({});
 
-  constructor(props) {
-    super(props);
-    this.accordionStatusRef = React.createRef();
+  const errors = getState()?.errors;
 
-    this.state = {
-      hiddenFields: {},
-    };
-  }
+  const [
+    expandAll,
+    sections,
+    toggleSection,
+  ] = useAccordionToggle(
+    INITIAL_SECTIONS,
+    {
+      errors,
+      fieldsMap: MAP_FIELD_ACCORDION,
+    },
+  );
 
-  componentDidMount() {
-    const { parentResources, initialValues } = this.props;
-    let hiddenFields = {};
-    let orderTemplate;
-
+  useEffect(() => {
     if (initialValues.template) {
-      orderTemplate = parentResources?.orderTemplates?.records?.find(
+      const orderTemplate = parentResources?.orderTemplates?.records?.find(
         ({ id }) => id === initialValues.template,
       );
 
-      hiddenFields = orderTemplate?.hiddenFields || {};
+      setTemplate(orderTemplate);
+      setHiddenFields((prev) => ({
+        ...prev,
+        ...(orderTemplate?.hiddenFields || {}),
+      }));
     }
+  }, []);
 
-    this.setState(prev => ({
-      ...prev,
-      template: orderTemplate,
-      hiddenFields,
-    }));
-  }
+  const callAPI = useCallback((_fieldName, values) => {
+    const { orderNumber: validator } = parentMutator;
+    const fullOrderNumber = getFullOrderNumber(values);
+    const initialFullOrderNumber = getFullOrderNumber(formValues);
 
-  callAPI = (fieldName, formValues) => {
-    const fullOrderNumber = getFullOrderNumber(formValues);
-    const { parentMutator: { orderNumber: validator }, values } = this.props;
-    const poNumber = formValues.poNumber;
-    const initialFullOrderNumber = getFullOrderNumber(values);
-
-    return poNumber && initialFullOrderNumber !== fullOrderNumber
+    return (values.poNumber && initialFullOrderNumber) !== fullOrderNumber
       ? validator.POST({ poNumber: fullOrderNumber })
         .then(() => { })
         .catch(() => <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" />)
       : Promise.resolve();
-  }
+  }, [formValues, parentMutator]);
 
-  validateNumber = (poNumber, formValues) => {
-    const { form } = this.props;
-    const isDirty = form.getFieldState('poNumber').dirty;
+  const validateNumber = useCallback((poNumber, values) => {
+    const isDirty = getFieldState('poNumber')?.dirty;
 
     return poNumber && isDirty
-      ? this.callAPI('poNumber', formValues)
+      ? callAPI('poNumber', values)
       : Promise.resolve();
-  };
+  }, [callAPI, getFieldState]);
 
-  getAddFirstMenu() {
-    const { onCancel } = this.props;
+  const toggleForceVisibility = useCallback(() => {
+    setHiddenFields(prev => (prev ? undefined : template?.hiddenFields || {}));
+  }, [template]);
 
+  const firstMenu = useMemo(() => {
     return (
       <PaneMenu>
         <FormattedMessage id="ui-orders.buttons.line.close">
@@ -128,10 +137,10 @@ class POForm extends Component {
         </FormattedMessage>
       </PaneMenu>
     );
-  }
+  }, [onCancel]);
 
-  getActionMenu = ({ onToggle }) => (
-    Boolean(this.state.template?.hiddenFields) && (
+  const getActionMenu = useCallback(({ onToggle }) => (
+    Boolean(template?.hiddenFields) && (
       <MenuSection id="po-form-actions">
         <IfPermission perm="ui-orders.order.showHidden">
           <Button
@@ -139,22 +148,20 @@ class POForm extends Component {
             buttonStyle="dropdownItem"
             data-testid="toggle-fields-visibility"
             onClick={() => {
-              this.toggleForceVisibility();
+              toggleForceVisibility();
               onToggle();
             }}
           >
-            <Icon size="small" icon={`eye-${this.state.hiddenFields ? 'open' : 'closed'}`}>
-              <FormattedMessage id={`ui-orders.order.${this.state.hiddenFields ? 'showHidden' : 'hideFields'}`} />
+            <Icon size="small" icon={`eye-${hiddenFields ? 'open' : 'closed'}`}>
+              <FormattedMessage id={`ui-orders.order.${hiddenFields ? 'showHidden' : 'hideFields'}`} />
             </Icon>
           </Button>
         </IfPermission>
       </MenuSection>
     )
-  );
+  ), [hiddenFields, template, toggleForceVisibility]);
 
-  getPaneFooter(id, label) {
-    const { pristine, submitting, handleSubmit, onCancel } = this.props;
-
+  const getPaneFooter = useCallback((id, label) => {
     const start = (
       <FormattedMessage id="ui-orders.buttons.line.cancel">
         {(btnLabel) => (
@@ -191,17 +198,13 @@ class POForm extends Component {
         renderEnd={end}
       />
     );
-  }
+  }, [handleSubmit, onCancel, pristine, submitting]);
 
-  onChangeTemplate = (value) => {
-    const { form: { batch, change, getRegisteredFields }, parentResources } = this.props;
+  const onChangeTemplate = useCallback((value) => {
     const templateValue = getOrderTemplateValue(parentResources, value);
 
-    this.setState(prev => ({
-      ...prev,
-      template: templateValue,
-      hiddenFields: prev.hiddenFields ? (templateValue?.hiddenFields || {}) : undefined,
-    }));
+    setTemplate(templateValue);
+    setHiddenFields(prev => (prev ? (templateValue?.hiddenFields || {}) : undefined));
 
     batch(() => {
       change('template', value);
@@ -231,179 +234,176 @@ class POForm extends Component {
           .forEach(field => get(templateValue, field) && change(field, get(templateValue, field)));
       });
     }
-  };
+  }, [batch, change, getRegisteredFields, parentResources]);
 
-  toggleForceVisibility = () => {
-    this.setState(({ hiddenFields, template, ...rest }) => ({
-      ...rest,
-      template,
-      hiddenFields: hiddenFields ? undefined : template?.hiddenFields || {},
-    }));
-  };
+  const orderNumber = getFullOrderNumber(initialValues);
+  const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', {}));
+  const addresses = getAddresses(get(parentResources, 'addresses.records', []));
+  const orderTemplates = getOrderTemplatesForSelect(parentResources);
+  const poLinesLength = get(initialValues, 'compositePoLines', []).length;
 
-  render() {
-    const {
-      form: { change },
-      values: formValues,
-      generatedNumber,
-      handleSubmit,
-      pristine,
-      submitting,
-      history,
-      initialValues,
-      onCancel,
-      parentResources,
-    } = this.props;
-    const firstMenu = this.getAddFirstMenu();
-    const actionMenu = args => this.getActionMenu(args);
-    const orderNumber = getFullOrderNumber(initialValues);
-    const paneTitle = initialValues.id
-      ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
-      : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
-    const paneFooter = initialValues.id ?
-      this.getPaneFooter('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder') :
-      this.getPaneFooter('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
-    const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', {}));
-    const prefixesSetting = get(parentResources, 'prefixesSetting.records', [])
-      .map(({ name }) => ({ label: name, value: name }));
-    const suffixesSetting = get(parentResources, 'suffixesSetting.records', [])
-      .map(({ name }) => ({ label: name, value: name }));
-    const addresses = getAddresses(get(parentResources, 'addresses.records', []));
-    const orderTemplates = getOrderTemplatesForSelect(parentResources);
-    const poLinesLength = get(initialValues, 'compositePoLines', []).length;
+  const paneTitle = initialValues.id
+    ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
+    : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
 
-    const shortcuts = [
-      {
-        name: 'cancel',
-        shortcut: 'esc',
-        handler: handleKeyCommand(onCancel),
-      },
-      {
-        name: 'save',
-        handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
-      },
-      {
-        name: 'expandAllSections',
-        handler: (e) => expandAllSections(e, this.accordionStatusRef),
-      },
-      {
-        name: 'collapseAllSections',
-        handler: (e) => collapseAllSections(e, this.accordionStatusRef),
-      },
-      {
-        name: 'search',
-        handler: handleKeyCommand(() => history.push('/orders')),
-      },
-    ];
+  const paneFooter = initialValues.id
+    ? getPaneFooter('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder')
+    : getPaneFooter('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
 
-    if (!initialValues) {
-      return (
-        <Pane
-          defaultWidth="fill"
-          firstMenu={firstMenu}
-          id="pane-podetails"
-          footer={paneFooter}
-          onClose={onCancel}
-          paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.detailsLoading" />}
-        >
-          <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
-        </Pane>
-      );
-    }
+  const prefixesSetting = get(parentResources, 'prefixesSetting.records', [])
+    .map(({ name }) => ({ label: name, value: name }));
+  const suffixesSetting = get(parentResources, 'suffixesSetting.records', [])
+    .map(({ name }) => ({ label: name, value: name }));
 
+  const shortcuts = [
+    {
+      name: 'cancel',
+      shortcut: 'esc',
+      handler: handleKeyCommand(onCancel),
+    },
+    {
+      name: 'save',
+      handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
+    },
+    {
+      name: 'expandAllSections',
+      handler: () => expandAll(mapValues(sections, () => true)),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: () => expandAll(mapValues(sections, () => false)),
+    },
+    {
+      name: 'search',
+      handler: handleKeyCommand(() => history.push('/orders')),
+    },
+  ];
+
+  if (!initialValues) {
     return (
-      <div style={{ height: '100vh' }}>
-        <HasCommand
-          commands={shortcuts}
-          isWithinScope={checkScope}
-          scope={document.body}
-        >
-          <Paneset>
-            <Pane
-              defaultWidth="100%"
-              firstMenu={firstMenu}
-              actionMenu={actionMenu}
-              id="pane-poForm"
-              footer={paneFooter}
-              onClose={onCancel}
-              paneTitle={paneTitle}
-            >
-              <form
-                id="form-po"
-                data-test-form-page
-              >
-                <Row>
-                  <Col xs={12}>
-                    <AccordionStatus ref={this.accordionStatusRef}>
-                      <Row center="xs">
-                        <Col xs={12} md={8}>
-                          <Row end="xs">
-                            <Col xs={12}>
-                              <ExpandAllButton />
-                            </Col>
-                          </Row>
-                        </Col>
-
-                        <Col xs={12} md={8}>
-                          <Row>
-                            <Col xs={4}>
-                              <FieldSelection
-                                dataOptions={orderTemplates}
-                                onChange={this.onChangeTemplate}
-                                labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                                name="template"
-                                id="order-template"
-                                disabled={Boolean(poLinesLength)}
-                              />
-                            </Col>
-                          </Row>
-                        </Col>
-
-                        <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                          <AccordionSet>
-                            <Accordion
-                              id="purchaseOrder"
-                              label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
-                            >
-                              <PODetailsForm
-                                addresses={addresses}
-                                change={change}
-                                formValues={formValues}
-                                generatedNumber={generatedNumber}
-                                order={initialValues}
-                                orderNumberSetting={orderNumberSetting}
-                                prefixesSetting={prefixesSetting}
-                                suffixesSetting={suffixesSetting}
-                                validateNumber={this.validateNumber}
-                                hiddenFields={this.state.hiddenFields}
-                              />
-                            </Accordion>
-                            {isOngoing(formValues.orderType) && (
-                              <OngoingInfoForm hiddenFields={this.state.hiddenFields} />
-                            )}
-                            <Accordion
-                              id="POSummary"
-                              label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
-                            >
-                              <SummaryForm
-                                initialValues={initialValues}
-                                hiddenFields={this.state.hiddenFields}
-                              />
-                            </Accordion>
-                          </AccordionSet>
-                        </Col>
-                      </Row>
-                    </AccordionStatus>
-                  </Col>
-                </Row>
-              </form>
-            </Pane>
-          </Paneset>
-        </HasCommand>
-      </div>
+      <Pane
+        defaultWidth="fill"
+        firstMenu={firstMenu}
+        id="pane-podetails"
+        footer={paneFooter}
+        onClose={onCancel}
+        paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.detailsLoading" />}
+      >
+        <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
+      </Pane>
     );
   }
-}
+
+  return (
+    <div style={{ height: '100vh' }}>
+      <HasCommand
+        commands={shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
+        <Paneset>
+          <Pane
+            defaultWidth="100%"
+            firstMenu={firstMenu}
+            actionMenu={getActionMenu}
+            id="pane-poForm"
+            footer={paneFooter}
+            onClose={onCancel}
+            paneTitle={paneTitle}
+          >
+            <form
+              id="form-po"
+              data-test-form-page
+            >
+              <Row>
+                <Col xs={12}>
+                  <Row center="xs">
+                    <Col xs={12} md={8}>
+                      <Row end="xs">
+                        <Col xs={12}>
+                          <ExpandAllButton
+                            accordionStatus={sections}
+                            onToggle={expandAll}
+                          />
+                        </Col>
+                      </Row>
+                    </Col>
+
+                    <Col xs={12} md={8}>
+                      <Row>
+                        <Col xs={4}>
+                          <FieldSelection
+                            dataOptions={orderTemplates}
+                            onChange={onChangeTemplate}
+                            labelId="ui-orders.settings.orderTemplates.editor.template.name"
+                            name="template"
+                            id="order-template"
+                            disabled={Boolean(poLinesLength)}
+                          />
+                        </Col>
+                      </Row>
+                    </Col>
+
+                    <Col xs={12} md={8} style={{ textAlign: 'left' }}>
+                      <AccordionSet
+                        accordionStatus={sections}
+                        onToggle={toggleSection}
+                      >
+                        <Accordion
+                          id={ACCORDION_ID.purchaseOrder}
+                          label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
+                        >
+                          <PODetailsForm
+                            addresses={addresses}
+                            change={change}
+                            formValues={formValues}
+                            generatedNumber={generatedNumber}
+                            order={initialValues}
+                            orderNumberSetting={orderNumberSetting}
+                            prefixesSetting={prefixesSetting}
+                            suffixesSetting={suffixesSetting}
+                            validateNumber={validateNumber}
+                            hiddenFields={hiddenFields}
+                          />
+                        </Accordion>
+                        {isOngoing(formValues.orderType) && (
+                          <OngoingInfoForm hiddenFields={hiddenFields} />
+                        )}
+                        <Accordion
+                          id={ACCORDION_ID.poSummary}
+                          label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
+                        >
+                          <SummaryForm
+                            initialValues={initialValues}
+                            hiddenFields={hiddenFields}
+                          />
+                        </Accordion>
+                      </AccordionSet>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </form>
+          </Pane>
+        </Paneset>
+      </HasCommand>
+    </div>
+  );
+};
+
+POForm.propTypes = {
+  values: PropTypes.object,
+  form: PropTypes.object.isRequired,
+  generatedNumber: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  pristine: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  parentResources: PropTypes.object.isRequired,
+  parentMutator: PropTypes.object.isRequired,
+};
 
 export default withRouter(stripesForm({
   enableReinitialize: true,

@@ -39,7 +39,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
   const memoizedGet = useMemo(() => memoize(callValidationAPI), [callValidationAPI]);
 
   const validateProductIdCB = useCallback(async (productId, formValues, blurredField) => {
-    const requiredError = validateRequired(productId);
+    const requiredError = required ? validateRequired(productId) : undefined;
 
     if (requiredError) {
       return requiredError;
