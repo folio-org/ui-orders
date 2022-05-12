@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -30,22 +30,28 @@ export const ChangeInstanceModalContainer = ({
     return getUpdateHoldingsOptions(isMovingRestricted);
   }, [isMovingRestricted]);
 
+  const handleSubmit = useCallback(({ holdingsOperation }) => {
+    setOperation(holdingsOperation);
+
+    return (
+      holdingsConfigs.willAbandoned
+      && SHOW_DELETE_HOLDINGS_MODAL_CONFIGS[holdingsOperation]
+    )
+      ? toggleDeleteHoldingsModal()
+      : onSubmit({ holdingsOperation });
+  }, [
+    holdingsConfigs.willAbandoned,
+    onSubmit,
+    toggleDeleteHoldingsModal,
+  ]);
+
   return (
     <>
       <ChangeInstanceModal
         detailed={isDetailed}
         isLoading={isLoading}
         onCancel={onCancel}
-        onSubmit={({ holdingsOperation }) => {
-          setOperation(holdingsOperation);
-
-          return (
-            holdingsConfigs.willAbandoned
-            && SHOW_DELETE_HOLDINGS_MODAL_CONFIGS[holdingsOperation]
-          )
-            ? toggleDeleteHoldingsModal()
-            : onSubmit({ holdingsOperation });
-        }}
+        onSubmit={handleSubmit}
         poLine={poLine}
         selectedInstance={selectedInstance}
         updateHoldingsOptions={updateHoldingsOptions}
