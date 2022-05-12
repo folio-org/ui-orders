@@ -38,27 +38,23 @@ const ChangeInstanceModal = ({
 
   const modalLabel = intl.formatMessage({ id: 'ui-orders.line.changeInstance.heading' });
 
-  const message = useMemo(() => {
-    return (
-      detailed
-        ? intl.formatMessage(
-          { id: 'ui-orders.line.changeInstance.detailedMessage' },
-          {
-            from: (
-              <Link to={`/inventory/view/${poLine.instanceId}`}>
-                {poLine.titleOrPackage}
-              </Link>
-            ),
-            to: (
-              <Link to={`/inventory/view/${selectedInstance.id}`}>
-                {selectedInstance.title}
-              </Link>
-            ),
-          },
-        )
-        : intl.formatMessage({ id: 'ui-orders.line.changeInstance.message' })
-    );
-  }, [detailed, intl, poLine, selectedInstance]);
+  const message = useMemo(() => (
+    intl.formatMessage(
+      { id: `ui-orders.line.changeInstance.${detailed ? 'detailedMessage' : 'message'}` },
+      {
+        from: (
+          <Link to={`/inventory/view/${poLine.instanceId}`}>
+            {poLine.titleOrPackage}
+          </Link>
+        ),
+        to: (
+          <Link to={`/inventory/view/${selectedInstance.id}`}>
+            {selectedInstance.title}
+          </Link>
+        ),
+      },
+    )
+  ), [detailed, intl, poLine, selectedInstance]);
 
   const footer = (
     <ModalFooter>

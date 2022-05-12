@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import noop from 'lodash/noop';
 
 import {
   useShowCallout,
@@ -22,8 +23,10 @@ export const useChangeInstanceConnection = (poLine) => {
     const params = {
       deleteAbandonedHoldings,
       holdingsOperation,
-      newInstanceId: selectedInstance.id,
+      newInstanceId: selectedInstance?.id,
     };
+
+    noop(poLine, params);
 
     setShowConfirmChangeInstance(false);
 
@@ -31,7 +34,7 @@ export const useChangeInstanceConnection = (poLine) => {
       messageId: 'ui-orders.errors.instanceWasNotChanged',
       type: 'error',
     });
-  }, [selectedInstance?.id, showCallout]);
+  }, [poLine, selectedInstance?.id, showCallout]);
 
   const cancelChangeInstance = useCallback(() => {
     setShowConfirmChangeInstance(false);
