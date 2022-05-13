@@ -7,7 +7,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   IfPermission,
-  Pluggable,
   useStripes,
 } from '@folio/stripes/core';
 import {
@@ -62,6 +61,7 @@ import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
 import VendorView from './Vendor/VendorView';
 import EresourcesView from './Eresources/EresourcesView';
+import InstancePlugin from './Item/InstancePlugin';
 import ItemView from './Item/ItemView';
 import { LineLinkedInstances } from './LineLinkedInstances';
 import PhysicalView from './Physical/PhysicalView';
@@ -118,6 +118,7 @@ const POLineView = ({
   const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();
   const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
   const [isPrintLineModalOpened, togglePrintLineModal] = useModalToggle();
+  const [isInstancePluginOpen, toggleInstancePlugin] = useModalToggle();
   const [hiddenFields, setHiddenFields] = useState({});
 
   const {
@@ -180,6 +181,17 @@ const POLineView = ({
     order?.id, order?.acqUnitIds,
   );
 
+  const renderInstancePlugin = useCallback(({
+    onSelect,
+    onClose: onClosePlugin,
+  }) => (
+    <InstancePlugin
+      addInstance={onSelect}
+      onClose={onClosePlugin}
+      withTrigger={false}
+    />
+  ), []);
+
   const shortcuts = [
     {
       name: 'edit',
@@ -227,26 +239,17 @@ const POLineView = ({
             </Button>
 
             {isChangeInstanceVisible && (
-              <Pluggable
-                aria-haspopup="true"
-                dataKey="instances"
-                searchButtonStyle="dropdownItem"
-                renderTrigger={({ onClick, id }) => (
-                  <Button
-                    buttonStyle="dropdownItem"
-                    id={id}
-                    data-testid="line-details-actions-change-instance"
-                    disabled={isRestrictionsLoading || restrictions.protectUpdate}
-                    onClick={onClick}
-                  >
-                    <Icon size="small" icon="edit">
-                      <FormattedMessage id="ui-orders.buttons.line.changeInstance" />
-                    </Icon>
-                  </Button>
-                )}
-                selectInstance={onSelectInstance}
-                type="find-instance"
-              />
+              <Button
+                buttonStyle="dropdownItem"
+                id="change-instance-connection-action"
+                data-testid="line-details-actions-change-instance"
+                disabled={isRestrictionsLoading || restrictions.protectUpdate}
+                onClick={toggleInstancePlugin}
+              >
+                <Icon size="small" icon="edit">
+                  <FormattedMessage id="ui-orders.buttons.line.changeInstance" />
+                </Icon>
+              </Button>
             )}
           </IfPermission>
         )}
@@ -599,6 +602,12 @@ const POLineView = ({
             open
           />
         )}
+
+        {isInstancePluginOpen && renderInstancePlugin({
+          onSelect: onSelectInstance,
+          onClose: toggleInstancePlugin,
+        })}
+
         {showConfirmChangeInstance && (
           <ChangeInstanceModal
             onCancel={cancelChangeInstance}
