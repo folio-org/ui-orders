@@ -48,9 +48,9 @@ describe('useChangeInstanceConnection', () => {
     ));
 
     act(() => result.current.onSelectInstance(selectedInstance));
-    
+
     expect(result.current.showConfirmChangeInstance).toBeTruthy();
-    
+
     act(() => result.current.cancelChangeInstance());
 
     expect(result.current.showConfirmChangeInstance).toBeFalsy();
