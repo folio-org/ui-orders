@@ -1,0 +1,1 @@
+export { useChangeInstanceModalConfigs } from './useChangeInstanceModalConfigs';

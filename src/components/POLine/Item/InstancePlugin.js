@@ -9,9 +9,11 @@ const InstancePlugin = ({
   searchLabelId = 'ui-orders.itemDetails.titleLookUp',
   searchButtonStyle = 'link',
   disabled = false,
+  ...props
 }) => {
   return (
     <Pluggable
+      {...props}
       aria-haspopup="true"
       dataKey="instances"
       searchButtonStyle={searchButtonStyle}

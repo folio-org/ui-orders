@@ -73,6 +73,11 @@ export const getCreateInventory = (line) => {
         (physical === INVENTORY_RECORDS_TYPE.none || physical === INVENTORY_RECORDS_TYPE.instance)
       ) return INVENTORY_RECORDS_TYPE.none;
 
+      if (
+        (eresource === INVENTORY_RECORDS_TYPE.instanceAndHolding || eresource === INVENTORY_RECORDS_TYPE.all) ||
+        (physical === INVENTORY_RECORDS_TYPE.instanceAndHolding || physical === INVENTORY_RECORDS_TYPE.all)
+      ) return INVENTORY_RECORDS_TYPE.instanceAndHolding;
+
       return undefined;
     }
     default: return undefined;

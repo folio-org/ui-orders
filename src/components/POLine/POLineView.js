@@ -7,7 +7,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   IfPermission,
-  Pluggable,
   useStripes,
 } from '@folio/stripes/core';
 import {
@@ -36,12 +35,10 @@ import {
 import {
   FundDistributionView,
   handleKeyCommand,
-  INVENTORY_RECORDS_TYPE,
   ORDER_FORMATS,
   TagsBadge,
   useAcqRestrictions,
   useModalToggle,
-  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -64,6 +61,7 @@ import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
 import VendorView from './Vendor/VendorView';
 import EresourcesView from './Eresources/EresourcesView';
+import InstancePlugin from './Item/InstancePlugin';
 import ItemView from './Item/ItemView';
 import { LineLinkedInstances } from './LineLinkedInstances';
 import PhysicalView from './Physical/PhysicalView';
@@ -71,12 +69,15 @@ import { OtherView } from './Other';
 import { POLineAgreementLinesContainer } from './POLineAgreementLines';
 import { RelatedInvoiceLines } from './RelatedInvoiceLines';
 import {
+  ChangeInstanceModal,
+  useChangeInstanceConnection,
+} from './ChangeInstanceConnection';
+import {
   ACCORDION_ID,
   ERESOURCES,
   PHRESOURCES,
 } from './const';
 import {
-  getCreateInventory,
   isCancelableLine,
 } from './utils';
 
@@ -115,11 +116,18 @@ const POLineView = ({
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();
-  const [showConfirmChangeInstance, toggleConfirmChangeInstance] = useModalToggle();
   const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
   const [isPrintLineModalOpened, togglePrintLineModal] = useModalToggle();
+  const [isInstancePluginOpen, toggleInstancePlugin] = useModalToggle();
   const [hiddenFields, setHiddenFields] = useState({});
-  const showCallout = useShowCallout();
+
+  const {
+    cancelChangeInstance,
+    onSelectInstance,
+    selectedInstance,
+    showConfirmChangeInstance,
+    submitChangeInstance,
+  } = useChangeInstanceConnection(line);
 
   const isCancelable = isCancelableLine(line, order);
 
@@ -173,24 +181,16 @@ const POLineView = ({
     order?.id, order?.acqUnitIds,
   );
 
-  const onSelectInstance = () => {
-    const createInventoryValue = getCreateInventory(line);
-
-    switch (createInventoryValue) {
-      case INVENTORY_RECORDS_TYPE.instance:
-      case INVENTORY_RECORDS_TYPE.none: return toggleConfirmChangeInstance();
-      default: return undefined;
-    }
-  };
-
-  const onConfirmChangeInstance = useCallback(() => {
-    toggleConfirmChangeInstance();
-
-    return showCallout({
-      messageId: 'ui-orders.errors.instanceWasNotChanged',
-      type: 'error',
-    });
-  }, [showCallout, toggleConfirmChangeInstance]);
+  const renderInstancePlugin = useCallback(({
+    onSelect,
+    onClose: onClosePlugin,
+  }) => (
+    <InstancePlugin
+      addInstance={onSelect}
+      onClose={onClosePlugin}
+      withTrigger={false}
+    />
+  ), []);
 
   const shortcuts = [
     {
@@ -239,26 +239,17 @@ const POLineView = ({
             </Button>
 
             {isChangeInstanceVisible && (
-              <Pluggable
-                aria-haspopup="true"
-                dataKey="instances"
-                searchButtonStyle="dropdownItem"
-                renderTrigger={({ onClick, id }) => (
-                  <Button
-                    buttonStyle="dropdownItem"
-                    id={id}
-                    data-testid="line-details-actions-change-instance"
-                    disabled={isRestrictionsLoading || restrictions.protectUpdate}
-                    onClick={onClick}
-                  >
-                    <Icon size="small" icon="edit">
-                      <FormattedMessage id="ui-orders.buttons.line.changeInstance" />
-                    </Icon>
-                  </Button>
-                )}
-                selectInstance={onSelectInstance}
-                type="find-instance"
-              />
+              <Button
+                buttonStyle="dropdownItem"
+                id="change-instance-connection-action"
+                data-testid="line-details-actions-change-instance"
+                disabled={isRestrictionsLoading || restrictions.protectUpdate}
+                onClick={toggleInstancePlugin}
+              >
+                <Icon size="small" icon="edit">
+                  <FormattedMessage id="ui-orders.buttons.line.changeInstance" />
+                </Icon>
+              </Button>
             )}
           </IfPermission>
         )}
@@ -404,7 +395,6 @@ const POLineView = ({
     { id: 'ui-orders.order.delete.heading' },
     { orderNumber: poLineNumber },
   );
-  const changeInstanceConfirmationModalLabel = intl.formatMessage({ id: 'ui-orders.line.changeInstance.heading' });
 
   return (
     <HasCommand
@@ -612,16 +602,18 @@ const POLineView = ({
             open
           />
         )}
+
+        {isInstancePluginOpen && renderInstancePlugin({
+          onSelect: onSelectInstance,
+          onClose: toggleInstancePlugin,
+        })}
+
         {showConfirmChangeInstance && (
-          <ConfirmationModal
-            aria-label={changeInstanceConfirmationModalLabel}
-            id="changing-instance-confirmation"
-            confirmLabel={<FormattedMessage id="ui-orders.line.changeInstance.confirmLabel" />}
-            heading={changeInstanceConfirmationModalLabel}
-            message={<FormattedMessage id="ui-orders.line.changeInstance.message" />}
-            onCancel={toggleConfirmChangeInstance}
-            onConfirm={onConfirmChangeInstance}
-            open
+          <ChangeInstanceModal
+            onCancel={cancelChangeInstance}
+            onSubmit={submitChangeInstance}
+            poLine={line}
+            selectedInstance={selectedInstance}
           />
         )}
       </Pane>
