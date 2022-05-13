@@ -1,7 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { ACCORDION_ID as PO_LINE_ACCORDION } from '../../components/POLine/const';
+import {
+  ACCORDION_ID as PO_LINE_ACCORDION,
+  MAP_FIELD_ACCORDION as PO_LINE_FIELD_ACC_MAP,
+} from '../../components/POLine/const';
+import {
+  MAP_FIELD_ACCORDION as PO_FIELD_ACC_MAP,
+} from '../../components/PurchaseOrder/constants';
 
 export const ORDER_TEMPLATES_ACCORDION = {
   TEMPLATE_INFO: 'templateInfo',
@@ -61,4 +67,10 @@ export const INITIAL_SECTIONS = {
   [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
   [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
   [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
+};
+
+export const MAP_FIELD_ACCORDION = {
+  ...PO_FIELD_ACC_MAP,
+  ...PO_LINE_FIELD_ACC_MAP,
+  templateName: ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO,
 };
