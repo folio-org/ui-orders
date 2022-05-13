@@ -44,6 +44,6 @@ export const checkRelatedHoldings = (ky) => async (poLine) => {
   return {
     holdingIds,
     relatedToAnother: (holdingsPiecesCount - poLinePieces.length) > 0,
-    willAbandoned: (holdingIds.length && (holdingsPiecesCount - poLinePieces.length) === 0),
+    willAbandoned: Boolean(holdingIds.length && (holdingsPiecesCount - poLinePieces.length) === 0),
   };
 };

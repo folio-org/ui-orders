@@ -4,6 +4,8 @@ import { render, screen } from '@testing-library/react';
 
 import ChangeInstanceModal from './ChangeInstanceModal';
 
+jest.mock('../RelatedItemsList', () => ({ RelatedItemsList: jest.fn(() => 'RelatedItemsList') }));
+
 const defaultProps = {
   detailed: false,
   isLoading: false,
