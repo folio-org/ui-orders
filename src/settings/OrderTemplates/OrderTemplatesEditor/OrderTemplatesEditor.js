@@ -25,6 +25,7 @@ import {
 
 import {
   INITIAL_SECTIONS,
+  MAP_FIELD_ACCORDION,
   ORDER_TEMPLATES_ACCORDION,
   ORDER_TEMPLATES_ACCORDION_TITLES,
 } from '../constants';
@@ -35,7 +36,6 @@ import {
   isOtherResource,
 } from '../../../common/POLFields';
 import { WORKFLOW_STATUS } from '../../../common/constants';
-import { MAP_FIELD_ACCORDION } from '../../../components/POLine/const';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import TemplateInformationForm from './TemplateInformationForm';
