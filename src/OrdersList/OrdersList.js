@@ -60,7 +60,10 @@ export const resultsFormatter = {
       <>
         {order.poNumber}
         &nbsp;
-        <Tooltip text={<FormattedMessage id="ui-orders.canceled" />}>
+        <Tooltip
+          id="cancel-tooltip"
+          text={<FormattedMessage id="ui-orders.canceled" />}
+        >
           {({ ref, ariaIds }) => (
             <Icon
               data-testid="cancel-icon"

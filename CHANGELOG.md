@@ -19,6 +19,7 @@
 * Edit instance connection of POL - create inventory set to `Instance, holding` or `Instance, holding, item`. Refs UIOR-594.
 * Edit instance connection of POL - option to delete abandoned holdings. Refs UIOR-942.
 * Display toast when Edit instance connection of POL is successful. Refs UIOR-937.
+* ui-orders: module warnings analysis. Refs UIOR-969.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
