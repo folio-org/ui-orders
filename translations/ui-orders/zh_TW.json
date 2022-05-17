@@ -727,7 +727,7 @@
     "title.actions.add": "新增",
     "title.actions.save.success": "此題名 <b>{title}</b> 已經成功地新增到訂單細項 <b>{poLineNumber}</b>",
     "title.actions.save.error.genericError": "此題名 {title} 尚未被新增到訂單細項 {poLineNumber}",
-    "title.actions.save.error.titleExist": "訂單細項 {poLineNumber} 的題名 {title} } 已存在",
+    "title.actions.save.error.titleExist": "訂單細項 {poLineNumber} 的題名 {title} 已存在",
     "permission.order.showHidden": "訂單：顯示所有隱藏欄位",
     "differentAccounts.title": "不同的帳戶號碼",
     "differentAccounts.message": "此訂單包括 <b> {accountNumber} </b> 個用於匯出的唯一帳戶號碼。如果訂單細項具有不同的帳戶號碼，則您不能開啟此具有多個訂單細項集合的訂單來匯出。開啟前請編輯這些訂單細項的帳戶號碼資訊或將不同帳戶號碼的訂單細項移動到不同的訂單中。",
