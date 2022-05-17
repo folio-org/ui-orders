@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import {
   FormattedMessage,
 } from 'react-intl';
-
 import { get } from 'lodash';
 
+import { ClipCopy } from '@folio/stripes/smart-components';
 import {
   Checkbox,
   Col,
   KeyValue,
   Loading,
+  NoValue,
   Row,
 } from '@folio/stripes/components';
 import {
@@ -41,10 +42,17 @@ const POLineDetails = ({ line, hiddenFields }) => {
           xs={6}
           lg={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.poLine.number" />}
-            value={get(line, 'poLineNumber')}
-          />
+          <KeyValue label={<FormattedMessage id="ui-orders.poLine.number" />}>
+            {line?.poLineNumber
+              ? (
+                <>
+                  {line.poLineNumber}
+                  <ClipCopy text={line.poLineNumber} />
+                </>
+              )
+              : <NoValue />
+            }
+          </KeyValue>
         </Col>
         <IfVisible visible={!hiddenFields.acquisitionMethod}>
           <Col
