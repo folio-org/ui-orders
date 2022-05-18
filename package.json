@@ -48,6 +48,7 @@
       "order-templates": "1.0",
       "orders": "11.0 12.0",
       "organizations.organizations": "1.0",
+      "organizations-storage.organization-types": "1.0",
       "pieces": "2.0",
       "po-number": "1.0",
       "receiving": "1.0",
@@ -373,7 +374,9 @@
         "displayName": "Orders: Export search results",
         "description": "",
         "visible": true,
-        "subPermissions": []
+        "subPermissions": [
+          "organizations-storage.organization-types.collection.get"
+        ]
       },
       {
         "permissionName": "ui-orders.order.showHidden",
