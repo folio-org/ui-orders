@@ -55,6 +55,7 @@ import {
   NOTES_ROUTE,
   ORDERS_DOMAIN,
 } from '../../common/constants';
+import { isOngoing } from '../../common/POFields';
 
 import LocationView from './Location/LocationView';
 import { POLineDetails } from './POLineDetails';
@@ -72,6 +73,7 @@ import {
   ChangeInstanceModal,
   useChangeInstanceConnection,
 } from './ChangeInstanceConnection';
+import { OngoingOrderView } from './OngoingOrder';
 import {
   ACCORDION_ID,
   ERESOURCES,
@@ -469,6 +471,17 @@ const POLineView = ({
               hiddenFields={hiddenFields}
             />
           </Accordion>
+          {isOngoing(order.orderType) && (
+            <Accordion
+              label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
+              id={ACCORDION_ID.ongoingOrder}
+            >
+              <OngoingOrderView
+                renewalNote={line.renewalNote}
+                hiddenFields={hiddenFields}
+              />
+            </Accordion>
+          )}
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
             id="Vendor"

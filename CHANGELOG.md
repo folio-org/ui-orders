@@ -21,6 +21,7 @@
 * Display toast when Edit instance connection of POL is successful. Refs UIOR-937.
 * ui-orders: module warnings analysis. Refs UIOR-969.
 * Add copy icon to PO and POL number. Refs UIOR-966.
+* Display "Renewal note" field on POL. Refs UIOR-965.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)

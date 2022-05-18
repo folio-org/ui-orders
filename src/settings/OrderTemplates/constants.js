@@ -26,6 +26,7 @@ export const ORDER_TEMPLATES_ACCORDION = {
   POL_OTHER_RESOURCES: PO_LINE_ACCORDION.other,
   POL_LOCATION: PO_LINE_ACCORDION.location,
   POL_TAGS: 'polTags',
+  POL_ONGOING_ORDER: 'polOngoingOrder',
 };
 
 export const ORDER_TEMPLATES_ACCORDION_TITLES = {
@@ -36,6 +37,7 @@ export const ORDER_TEMPLATES_ACCORDION_TITLES = {
   [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poSummary" />,
   [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poOngoing" />,
   [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poItemDetails" />,
+  [ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polOngoingOrder" />,
   [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polDetails" />,
   [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polCostDetails" />,
   [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polVendor" />,
@@ -58,6 +60,7 @@ export const INITIAL_SECTIONS = {
   [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
   [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
   [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]: false,
   [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
   [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
   [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: false,

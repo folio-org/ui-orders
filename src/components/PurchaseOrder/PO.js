@@ -83,7 +83,7 @@ import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
-import { OngoingOrderInfoView } from './OngoingOgderInfo';
+import { OngoingOrderInfoView } from './OngoingOrderInfo';
 import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';

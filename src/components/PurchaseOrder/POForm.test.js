@@ -19,7 +19,7 @@ jest.mock('@folio/stripes-acq-components/lib/hooks/useAccordionToggle', () => ({
   useAccordionToggle: jest.fn().mockReturnValue([jest.fn(), {}, jest.fn()]),
 }));
 jest.mock('./PODetails/PODetailsForm', () => jest.fn().mockReturnValue('PODetailsForm'));
-jest.mock('./OngoingOgderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
+jest.mock('./OngoingOrderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
 
 const defaultProps = {
   values: {},

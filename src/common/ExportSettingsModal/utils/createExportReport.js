@@ -154,6 +154,7 @@ export const createExportReport = (
       packagePoLineId: poLinesMap[lineRecord.packagePoLineId]?.poLineNumber || lineRecord.packagePoLineId,
       contributor: getContributorData(lineRecord, contributorNameTypeMap, invalidReference),
       productIdentifier: getProductIdData(lineRecord, identifierTypeMap, invalidReference),
+      renewalNote: lineRecord.renewalNote,
       description: lineRecord.description,
       acquisitionMethod: acquisitionMethodsMap[lineRecord.acquisitionMethod]?.value,
       orderFormat: lineRecord.orderFormat,

@@ -84,6 +84,7 @@ export const EXPORT_LINE_FIELDS = {
   userLimit: 'User limit',
   resourceUrl: 'URL',
   poLineTags: 'POLine tags',
+  renewalNote: 'Renewal note',
 };
 
 export const EXPORT_ORDER_FIELDS_OPTIONS = Object.keys(EXPORT_ORDER_FIELDS).map(field => ({
