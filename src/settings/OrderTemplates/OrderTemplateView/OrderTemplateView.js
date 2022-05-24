@@ -32,7 +32,7 @@ import {
 
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
 import { SummaryView } from '../../../components/PurchaseOrder/Summary';
-import { OngoingOrderInfoView } from '../../../components/PurchaseOrder/OngoingOgderInfo';
+import { OngoingOrderInfoView } from '../../../components/PurchaseOrder/OngoingOrderInfo';
 import { ItemView } from '../../../components/POLine/Item';
 import { POLineDetails } from '../../../components/POLine/POLineDetails';
 import { CostView } from '../../../components/POLine/Cost';
@@ -40,6 +40,7 @@ import { VendorView } from '../../../components/POLine/Vendor';
 import { EresourcesView } from '../../../components/POLine/Eresources';
 import { PhysicalView } from '../../../components/POLine/Physical';
 import { OtherView } from '../../../components/POLine/Other';
+import { OngoingOrderView } from '../../../components/POLine/OngoingOrder';
 import LocationView from '../../../components/POLine/Location/LocationView';
 import {
   ERESOURCES,
@@ -160,6 +161,7 @@ class OrderTemplateView extends Component {
       [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
@@ -280,6 +282,15 @@ class OrderTemplateView extends Component {
                     >
                       <POLineDetails line={orderTemplate} />
                     </Accordion>
+
+                    {isOngoing(orderType) && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER}
+                      >
+                        <OngoingOrderView renewalNote={orderTemplate.renewalNote} />
+                      </Accordion>
+                    )}
 
                     <Accordion
                       label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}

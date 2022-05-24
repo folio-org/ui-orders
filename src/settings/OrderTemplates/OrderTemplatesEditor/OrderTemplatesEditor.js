@@ -38,9 +38,10 @@ import {
 import { WORKFLOW_STATUS } from '../../../common/constants';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
+import { OngoingOrderForm } from '../../../components/POLine/OngoingOrder';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
-import { OngoingInfoForm } from '../../../components/PurchaseOrder/OngoingOgderInfo';
+import { OngoingInfoForm } from '../../../components/PurchaseOrder/OngoingOrderInfo';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
 import POLineDetailsForm from './POLineDetailsForm';
@@ -52,6 +53,7 @@ import POLineLocationsForm from './POLineLocationsForm';
 import calculateEstimatedPrice from '../../../components/POLine/calculateEstimatedPrice';
 
 import css from './OrderTemplatesEditor.css';
+import { isOngoing } from '../../../common/POFields';
 
 const ORDER = {
   workflowStatus: WORKFLOW_STATUS.pending,
@@ -126,6 +128,7 @@ const OrderTemplatesEditor = ({
     cost,
     fundDistribution = [],
     orderFormat,
+    orderType,
   } = formValues;
 
   const estimatedPrice = calculateEstimatedPrice(formValues);
@@ -275,6 +278,15 @@ const OrderTemplatesEditor = ({
                       createInventorySetting={createInventorySetting}
                     />
                   </Accordion>
+
+                  {isOngoing(orderType) && (
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER}
+                    >
+                      <OngoingOrderForm />
+                    </Accordion>
+                  )}
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}

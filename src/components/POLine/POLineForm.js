@@ -37,6 +37,7 @@ import {
   isPhresource,
   isOtherResource,
 } from '../../common/POLFields';
+import { isOngoing } from '../../common/POFields';
 import LocationForm from './Location/LocationForm';
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
@@ -45,6 +46,7 @@ import { VendorForm } from './Vendor';
 import { CostForm } from './Cost';
 import { ItemForm } from './Item';
 import { OtherForm } from './Other';
+import { OngoingOrderForm } from './OngoingOrder';
 import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
@@ -414,6 +416,16 @@ function POLineForm({
                         integrationConfigs={integrationConfigs}
                       />
                     </Accordion>
+                    {isOngoing(order.orderType) && (
+                      <Accordion
+                        label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
+                        id={ACCORDION_ID.ongoingOrder}
+                      >
+                        <OngoingOrderForm
+                          hiddenFields={hiddenFields}
+                        />
+                      </Accordion>
+                    )}
                     <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
                       id={ACCORDION_ID.vendor}

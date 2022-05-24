@@ -46,7 +46,7 @@ import {
 } from './constants';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
-import { OngoingInfoForm } from './OngoingOgderInfo';
+import { OngoingInfoForm } from './OngoingOrderInfo';
 
 const POForm = ({
   form: {
