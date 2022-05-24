@@ -4,6 +4,8 @@ import {
   isEqual,
 } from 'lodash';
 
+import { PRODUCT_ID_TYPE, QUALIFIER_SEPARATOR } from '../../../common/constants';
+
 // transform form's initialValues to the state of data from inventory
 export const getInventoryData = (initialValues) => {
   return {
@@ -43,4 +45,53 @@ export const shouldSetInstanceId = (formValues, inventoryData) => {
     && isEqualProductIds
     && !formValues?.isPackage
   );
+};
+
+export const createPOLDataFromInstance = (instance = {}, identifierTypes = []) => {
+  const { contributors, editions, publication, title, identifiers, id } = instance;
+  const { publisher } = publication?.[0] || {};
+  const publicationDate = (publication || [])
+    .map(({ dateOfPublication }) => dateOfPublication)
+    .filter(Boolean)
+    .join(', ');
+  const lineContributors = contributors?.map(({ name, contributorNameTypeId }) => ({
+    contributor: name,
+    contributorNameTypeId,
+  })) || [];
+  let productIds = [];
+
+  if (identifiers?.length) {
+    const isbnTypeUUID = identifierTypes.find(({ label }) => label === PRODUCT_ID_TYPE.isbn).value;
+    const allowedResIdentifierTypeIds = identifierTypes
+      .map(({ value }) => value);
+    const lineIdentifiers = identifiers
+      .filter(({ identifierTypeId }) => allowedResIdentifierTypeIds.includes(identifierTypeId))
+      .map(({ identifierTypeId, value }) => {
+        const result = {
+          productId: value,
+          productIdType: identifierTypeId,
+        };
+
+        if (isbnTypeUUID === identifierTypeId) {
+          const [productId, ...qualifier] = value.split(QUALIFIER_SEPARATOR);
+
+          result.productId = productId;
+          result.qualifier = qualifier.join(QUALIFIER_SEPARATOR);
+        }
+
+        return result;
+      });
+
+    productIds = lineIdentifiers;
+  }
+
+  return ({
+    instanceId: id,
+    titleOrPackage: title,
+    publisher: publisher || '',
+    publicationDate,
+    edition: editions?.[0] || '',
+    contributors: lineContributors,
+    productIds,
+  });
 };

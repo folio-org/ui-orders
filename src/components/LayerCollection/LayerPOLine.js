@@ -38,6 +38,7 @@ import {
   VALIDATION_ERRORS,
 } from '../../common/constants';
 import {
+  useInstance,
   useLinesLimit,
   useOpenOrderSettings,
   useOrder,
@@ -104,6 +105,7 @@ function LayerPOLine({
   const { isLoading: isLinesLimitLoading, linesLimit } = useLinesLimit(!(lineId || poLine));
   const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(locationState?.isCreateAnotherChecked);
   const { isFetching: isConfigsFetching, integrationConfigs } = useIntegrationConfigs({ organizationId: vendor?.id });
+  const { instance, isLoading: isInstanceLoading } = useInstance(locationState?.instanceId);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -218,11 +220,13 @@ function LayerPOLine({
     }
   };
 
-  const submitPOLine = useCallback(async ({ saveAndOpen, ...line }) => {
-    setIsLoading(true);
+  const submitPOLine = useCallback(async (lineValues) => {
+    const { saveAndOpen, ...line } = lineValues;
     let savedLine;
 
-    setSavingValues(line);
+    setIsLoading(true);
+
+    setSavingValues(lineValues);
     try {
       setIsLoading(true);
 
@@ -243,9 +247,10 @@ function LayerPOLine({
         type: 'success',
       });
 
-      const pathname = isCreateAnotherChecked
+      const ordersPath = isCreateAnotherChecked
         ? `/orders/view/${id}/po-line/create`
         : `/orders/view/${id}/po-line/view/${savedLine.id}`;
+      const pathname = (locationState?.instanceId && saveAndOpen) ? `/inventory/view/${locationState.instanceId}` : ordersPath;
       const state = isCreateAnotherChecked ? { isCreateAnotherChecked: true } : {};
 
       setSavingValues();
@@ -451,7 +456,7 @@ function LayerPOLine({
       if (vendorId) {
         memoizedMutator.orderVendor.GET({ path: `${VENDORS_API}/${vendorId}` })
           .then(
-            setVendor,
+            setVendor({}),
             errorResponse => {
               let response;
 
@@ -504,7 +509,8 @@ function LayerPOLine({
     get(order, 'id') === id &&
     !isLinesLimitLoading &&
     !isConfigsFetching &&
-    !isOpenOrderSettingsFetching
+    !isOpenOrderSettingsFetching &&
+    !isInstanceLoading
   );
 
   if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
@@ -531,6 +537,8 @@ function LayerPOLine({
         isCreateAnotherChecked={isCreateAnotherChecked}
         toggleCreateAnother={setCreateAnotherChecked}
         integrationConfigs={integrationConfigs}
+        isCreateFromInstance={Boolean(locationState?.instanceId)}
+        instance={instance}
       />
       {isLinesLimitExceededModalOpened && (
         <LinesLimit

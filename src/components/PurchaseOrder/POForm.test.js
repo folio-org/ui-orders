@@ -118,6 +118,12 @@ describe('POForm', () => {
     expect(screen.getByText(/OngoingInfoForm/i)).toBeInTheDocument();
   });
 
+  it('should render \'Add POL\' button', () => {
+    renderPOForm({ instanceId: 'id' });
+
+    expect(screen.queryByText('ui-orders.paneMenu.addPOLine')).toBeInTheDocument();
+  });
+
   it('should change template when another selected and show hidden fields when \'Show hidden fields\' btn was clicked', async () => {
     renderPOForm();
 

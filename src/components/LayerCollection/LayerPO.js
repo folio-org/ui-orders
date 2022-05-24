@@ -54,6 +54,7 @@ function LayerPO({
   const [updateOrderError, setUpdateOrderError] = useState();
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const order = id ? resources?.order?.records[0] : NEW_ORDER;
+  const instanceId = location.state?.instanceId;
 
   useEffect(() => {
     memoizedMutator.orderNumber.reset();
@@ -82,24 +83,36 @@ function LayerPO({
           message: <FormattedMessage id="ui-orders.order.save.success" values={{ orderNumber: savedOrder.poNumber }} />,
         });
         history.push({
-          pathname: `/orders/view/${savedOrder.id}`,
+          pathname: instanceId ? `/orders/view/${savedOrder.id}/po-line/create` : `/orders/view/${savedOrder.id}`,
           search: location.search,
+          state: instanceId ? { instanceId } : {},
         });
       })
       .catch(async e => {
         setIsLoading(false);
         await handleErrorResponse(e, openOrderErrorModalShow);
       });
-  }, [handleErrorResponse, history, location.search, memoizedMutator.order, openOrderErrorModalShow, sendCallout]);
+  }, [
+    handleErrorResponse,
+    history,
+    instanceId,
+    location.search,
+    memoizedMutator.order,
+    openOrderErrorModalShow,
+    sendCallout,
+  ]);
 
   const onCancel = useCallback(
     () => {
+      const ordersPath = id ? `/orders/view/${id}` : '/orders';
+      const pathname = instanceId ? `/inventory/view/${instanceId}` : ordersPath;
+
       history.push({
-        pathname: id ? `/orders/view/${id}` : '/orders',
+        pathname,
         search: location.search,
       });
     },
-    [history, id, location.search],
+    [history, id, location.search, instanceId],
   );
 
   if (isLoading || !order) return <LoadingView dismissible onClose={onCancel} />;
@@ -124,6 +137,7 @@ function LayerPO({
         onSubmit={updatePO}
         parentMutator={memoizedMutator}
         parentResources={resources}
+        instanceId={instanceId}
       />
       {isErrorsModalOpened && (
         <UpdateOrderErrorModal

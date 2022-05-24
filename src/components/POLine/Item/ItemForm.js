@@ -21,10 +21,6 @@ import {
   TextField,
 } from '@folio/stripes-acq-components';
 
-import {
-  PRODUCT_ID_TYPE,
-  QUALIFIER_SEPARATOR,
-} from '../../../common/constants';
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { VisibilityControl } from '../../../common/VisibilityControl';
 import ContributorForm from './ContributorForm';
@@ -33,6 +29,7 @@ import InstancePlugin from './InstancePlugin';
 import {
   shouldSetInstanceId,
   getInventoryData,
+  createPOLDataFromInstance,
 } from './util';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import PackagePoLineField from './PackagePoLineField';
@@ -51,12 +48,14 @@ class ItemForm extends Component {
     formValues: PropTypes.object.isRequired,
     required: PropTypes.bool,
     hiddenFields: PropTypes.object,
+    isCreateFromInstance: PropTypes.bool,
   };
 
   static defaultProps = {
     initialValues: {},
     hiddenFields: {},
     required: true,
+    isCreateFromInstance: false,
   };
 
   constructor(props) {
@@ -72,76 +71,24 @@ class ItemForm extends Component {
   };
 
   onAddInstance = (instance) => {
-    const { change, identifierTypes, formValues } = this.props;
-    const { contributors, editions, publication, title, identifiers, id } = instance;
-    const inventoryData = { instanceId: id };
+    const { batch, change, identifierTypes, formValues } = this.props;
+    const inventoryData = createPOLDataFromInstance(instance, identifierTypes);
 
-    change('instanceId', id);
-    change('titleOrPackage', title || '');
-    inventoryData.title = title || '';
+    batch(() => {
+      Object.keys(inventoryData).forEach(field => {
+        if (field === 'productIds') return change(`details.${field}`, inventoryData[field]);
 
-    const { publisher } = publication?.[0] || {};
+        return change(field, inventoryData[field]);
+      });
+    });
 
-    change('publisher', publisher || '');
-    inventoryData.publisher = publisher || '';
-
-    const publicationDate = (publication || [])
-      .map(({ dateOfPublication }) => dateOfPublication)
-      .filter(Boolean)
-      .join(', ');
-
-    change('publicationDate', publicationDate);
-    inventoryData.publicationDate = publicationDate;
-
-    const edition = editions?.[0] || '';
-
-    change('edition', edition);
-    inventoryData.edition = edition;
-
-    const lineContributors = contributors?.map(({ name, contributorNameTypeId }) => ({
-      contributor: name,
-      contributorNameTypeId,
-    })) || [];
-
-    change('contributors', lineContributors);
-    inventoryData.contributors = lineContributors;
-
-    if (identifiers && identifiers.length) {
-      const isbnTypeUUID = identifierTypes.find(({ label }) => label === PRODUCT_ID_TYPE.isbn).value;
-      const allowedResIdentifierTypeIds = identifierTypes
-        .map(({ value }) => value);
-      const lineidentifiers = identifiers
-        .filter(({ identifierTypeId }) => allowedResIdentifierTypeIds.includes(identifierTypeId))
-        .map(({ identifierTypeId, value }) => {
-          const result = {
-            productId: value,
-            productIdType: identifierTypeId,
-          };
-
-          if (isbnTypeUUID === identifierTypeId) {
-            const [productId, ...qualifier] = value.split(QUALIFIER_SEPARATOR);
-
-            result.productId = productId;
-            result.qualifier = qualifier.join(QUALIFIER_SEPARATOR);
-          }
-
-          return result;
-        });
-
-      change('details.productIds', lineidentifiers);
-      inventoryData.productIds = lineidentifiers;
-    } else {
-      change('details.productIds', []);
-      inventoryData.productIds = [];
-    }
-
-    if (formValues.instanceId && formValues.instanceId !== id) {
+    if (formValues.instanceId && formValues.instanceId !== inventoryData.instanceId) {
       change('locations', []);
     }
 
     this.setState(({
       instanceId: inventoryData.instanceId,
-      title: get(inventoryData, 'title', ''),
+      title: get(inventoryData, 'titleOrPackage', ''),
       publisher: get(inventoryData, 'publisher', ''),
       publicationDate: get(inventoryData, 'publicationDate', null),
       edition: get(inventoryData, 'edition', ''),
@@ -252,11 +199,12 @@ class ItemForm extends Component {
       contributorNameTypes,
       formValues,
       identifierTypes,
+      isCreateFromInstance,
       required,
       hiddenFields,
     } = this.props;
     const isPackage = Boolean(formValues?.isPackage);
-    const isSelectInstanceVisible = !(isPackage || isPostPendingOrder);
+    const isSelectInstanceVisible = !(isPackage || isPostPendingOrder || isCreateFromInstance);
 
     return (
       <>
@@ -274,7 +222,7 @@ class ItemForm extends Component {
                   name="isPackage"
                   onChange={this.setIsPackage}
                   type="checkbox"
-                  disabled={isPostPendingOrder}
+                  disabled={isPostPendingOrder || isCreateFromInstance}
                 />
               </VisibilityControl>
             </Col>
@@ -288,6 +236,7 @@ class ItemForm extends Component {
               onChange={this.setTitleOrPackage}
               poLineDetails={formValues}
               required={required}
+              disabled={isCreateFromInstance}
             />
             {isSelectInstanceVisible && <InstancePlugin addInstance={this.onAddInstance} />}
           </Col>
@@ -363,6 +312,7 @@ class ItemForm extends Component {
           >
             <Field
               component={TextField}
+              disabled={isCreateFromInstance}
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
               name="publicationDate"
@@ -377,6 +327,7 @@ class ItemForm extends Component {
           >
             <Field
               component={TextField}
+              disabled={isCreateFromInstance}
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
               name="publisher"
@@ -392,6 +343,7 @@ class ItemForm extends Component {
             <Field
               component={TextField}
               fullWidth
+              disabled={isCreateFromInstance}
               label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
               onChange={this.setEdition}
               name="edition"
@@ -419,8 +371,9 @@ class ItemForm extends Component {
           <Col xs={12}>
             <ContributorForm
               contributorNameTypes={contributorNameTypes}
+              isNonInteractive={isPostPendingOrder}
               onChangeField={this.onChangeField}
-              disabled={isPostPendingOrder}
+              disabled={isCreateFromInstance}
               required={required}
             />
           </Col>
@@ -429,8 +382,9 @@ class ItemForm extends Component {
           <Col xs={12}>
             <ProductIdDetailsForm
               identifierTypes={identifierTypes}
+              isNonInteractive={isPostPendingOrder}
               onChangeField={this.onChangeField}
-              disabled={isPostPendingOrder}
+              disabled={isCreateFromInstance}
               required={required}
             />
           </Col>

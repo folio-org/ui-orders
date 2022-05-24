@@ -422,6 +422,7 @@
   "paneBlock.ongoingInfo": "Ongoing order information",
   "paneBlock.reopenBtn": "Reopen",
   "paneBlock.updateEncumbrances": "Update encumbrances",
+  "paneMenu.addPOLine": "Add POL",
   "paneMenu.createPurchaseOrder": "Create purchase order",
   "paneMenu.editOrder": "Edit order",
   "paneMenu.saveOrder": "Save & close",
