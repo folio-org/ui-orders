@@ -66,6 +66,7 @@ const POForm = ({
   onCancel,
   parentMutator,
   parentResources,
+  instanceId,
 }) => {
   const [template, setTemplate] = useState();
   const [hiddenFields, setHiddenFields] = useState({});
@@ -246,9 +247,10 @@ const POForm = ({
     ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
     : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
 
+  const buttonLabelId = instanceId ? 'ui-orders.paneMenu.addPOLine' : 'ui-orders.paneMenu.saveOrder';
   const paneFooter = initialValues.id
     ? getPaneFooter('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder')
-    : getPaneFooter('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
+    : getPaneFooter('clickable-create-new-purchase-order', buttonLabelId);
 
   const prefixesSetting = get(parentResources, 'prefixesSetting.records', [])
     .map(({ name }) => ({ label: name, value: name }));
@@ -403,6 +405,7 @@ POForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   parentResources: PropTypes.object.isRequired,
   parentMutator: PropTypes.object.isRequired,
+  instanceId: PropTypes.string,
 };
 
 export default withRouter(stripesForm({

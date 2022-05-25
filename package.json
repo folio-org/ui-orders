@@ -139,6 +139,7 @@
           "finance.funds.expense-classes.collection.get",
           "inventory.instances.collection.get",
           "orders-storage.order-invoice-relationships.collection.get",
+          "orders.acquisition-method.item.get",
           "orders.acquisition-methods.collection.get",
           "orders.collection.get",
           "orders.configuration.prefixes.collection.get",
@@ -148,6 +149,7 @@
           "orders.pieces.collection.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
+          "orders.titles.collection.get",
           "ui-orders.third-party-services"
         ]
       },

@@ -24,6 +24,7 @@ jest.mock('../../common/hooks', () => ({
   useOpenOrderSettings: jest.fn().mockReturnValue({ isFetching: false, openOrderSettings: {} }),
   useLinesLimit: jest.fn().mockReturnValue({ isLoading: false, linesLimit: 1 }),
   useOrder: jest.fn(),
+  useInstance: jest.fn().mockReturnValue({ isLoading: false, instance: {} }),
 }));
 jest.mock('../POLine/POLineForm', () => jest.fn().mockReturnValue('POLineForm'));
 jest.mock('../ModalDeletePieces', () => jest.fn().mockReturnValue('ModalDeletePieces'));

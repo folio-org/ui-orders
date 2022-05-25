@@ -157,6 +157,22 @@ describe('POLineForm', () => {
       expect(screen.getByText('ui-orders.line.accordion.ongoingOrder')).toBeInTheDocument();
     });
   });
+
+  it('should render \'Create another\' checkbox', async () => {
+    renderPOLineForm();
+
+    await waitFor(() => {
+      expect(screen.getByText('ui-orders.buttons.line.createAnother')).toBeInTheDocument();
+    });
+  });
+
+  it('should not render \'Create another\' checkbox', async () => {
+    renderPOLineForm({ isCreateFromInstance: true });
+
+    await waitFor(() => {
+      expect(screen.queryByText('ui-orders.buttons.line.createAnother')).not.toBeInTheDocument();
+    });
+  });
 });
 
 describe('POLineForm shortcuts', () => {

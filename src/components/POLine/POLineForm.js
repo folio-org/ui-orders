@@ -61,6 +61,7 @@ import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import styles from './POLineForm.css';
+import { createPOLDataFromInstance } from './Item/util';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 
@@ -83,17 +84,20 @@ function POLineForm({
   isCreateAnotherChecked = false,
   toggleCreateAnother,
   integrationConfigs = [],
+  instance,
+  isCreateFromInstance = false,
 }) {
   const history = useHistory();
   const [hiddenFields, setHiddenFields] = useState({});
 
+  const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const locations = parentResources?.locations?.records;
   const templateValue = getOrderTemplateValue(parentResources, order?.template, {
     locations,
   });
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
-  const initialInventoryData = (
+  const initialTemplateInventoryData = (
     !lineId && templateValue.id
       ? {
         ...pick(templateValue, [
@@ -108,6 +112,9 @@ function POLineForm({
       }
       : {}
   );
+  const initialInventoryData = isCreateFromInstance
+    ? createPOLDataFromInstance(instance, identifierTypes)
+    : initialTemplateInventoryData;
 
   useEffect(() => {
     setTimeout(() => {
@@ -130,11 +137,23 @@ function POLineForm({
           });
         });
       }
+
+      if (isCreateFromInstance) {
+        form.batch(() => {
+          change('isPackage', false);
+
+          Object.keys(initialInventoryData).forEach(field => {
+            if (field === 'productIds') {
+              change(`details.${field}`, initialInventoryData[field]);
+            } else change(field, initialInventoryData[field]);
+          });
+        });
+      }
     });
 
     setHiddenFields(templateValue?.hiddenFields || {});
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [change, lineId, templateValue.id]);
+  }, [change, instance?.id, isCreateFromInstance, lineId, templateValue.id]);
 
   const getAddFirstMenu = () => {
     return (
@@ -213,7 +232,7 @@ function POLineForm({
 
     const end = (
       <>
-        {!lineId && (linesLimit > 1) && (
+        {!isCreateFromInstance && !lineId && (linesLimit > 1) && (
           <Checkbox
             label={<FormattedMessage id="ui-orders.buttons.line.createAnother" />}
             checked={isCreateAnotherChecked}
@@ -319,7 +338,6 @@ function POLineForm({
   const showPhresources = isPhresource(orderFormat);
   const showOther = isOtherResource(orderFormat);
   const materialTypes = getMaterialTypesForSelect(parentResources);
-  const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
   const orderTemplates = getOrderTemplatesForSelect(parentResources);
   const locationIds = locations?.map(({ id }) => id);
@@ -399,6 +417,7 @@ function POLineForm({
                         initialValues={{ ...initialValues, ...initialInventoryData }}
                         stripes={stripes}
                         hiddenFields={hiddenFields}
+                        isCreateFromInstance={isCreateFromInstance}
                       />
                     </Accordion>
                     <Accordion
@@ -545,6 +564,8 @@ POLineForm.propTypes = {
   isCreateAnotherChecked: PropTypes.bool,
   toggleCreateAnother: PropTypes.func.isRequired,
   integrationConfigs: PropTypes.arrayOf(PropTypes.object),
+  instance: PropTypes.object,
+  isCreateFromInstance: PropTypes.bool,
 };
 
 export default stripesForm({

@@ -1,6 +1,11 @@
 import '@folio/stripes-acq-components/test/jest/__mock__';
 
+import { instance } from '../../../../test/jest/fixtures';
+
+import { PRODUCT_ID_TYPE } from '../../../common/constants';
+
 import {
+  createPOLDataFromInstance,
   getInventoryData,
   shouldSetInstanceId,
 } from './util';
@@ -113,5 +118,22 @@ describe('shouldSetInstanceId', () => {
     };
 
     expect(shouldSetInstanceId(newProductIdsFormValues, inventoryData)).toBeFalsy();
+  });
+});
+
+describe('createPOLDataFromInstance', () => {
+  it('should return POL data from instance', () => {
+    expect(createPOLDataFromInstance(instance, [{ label: PRODUCT_ID_TYPE.isbn, value: 'isbn' }])).toEqual({
+      instanceId: instance.id,
+      titleOrPackage: instance.title,
+      publisher: instance.publication[0].publisher,
+      publicationDate: instance.publication[0].dateOfPublication,
+      edition: instance.editions?.[0],
+      contributors: [{
+        contributor: instance.contributors[0].name,
+        contributorNameTypeId: instance.contributors[0].contributorNameTypeId,
+      }],
+      productIds: [],
+    });
   });
 });
