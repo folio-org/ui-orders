@@ -577,7 +577,7 @@
     "deletePiece.btn.cancel": "Annulla",
     "deletePiece.btn.deletePiece": "Delete",
     "deletePiece.title": "Piece(s) to be deleted",
-    "deletePiece.warning": "The selected piece(s) and its' linked item record(s) in inventory will be PERMANENTLY DELETED. You can NOT delete items that have open requests.",
+    "deletePiece.warning": "I pezzi selezionati e i relativi record di articoli nell'inventario saranno PERMANENTEMENTE ELIMINATI. NON è possibile eliminare articoli che hanno richieste aperte.",
     "deletePiece.delete.success": "Selected pieces were deleted",
     "deletePiece.delete.fail": "Selected pieces were not deleted",
     "deletePiece.delete.thereAreRequestsOnItem": "Selected pieces were not deleted. There are requests on item",
