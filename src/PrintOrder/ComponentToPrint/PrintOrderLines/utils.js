@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  List,
   NoValue,
 } from '@folio/stripes/components';
 import {
@@ -16,6 +17,14 @@ export const summurizeLinesQuantity = (field, lines = []) => {
     return acc + quantity;
   }, 0);
 };
+
+export const getElementsList = (items) => (
+  <List
+    items={items}
+    listStyle="bullets"
+    marginBottom0
+  />
+);
 
 export const getColumns = (lines = []) => {
   const totalQuantityPhysical = summurizeLinesQuantity('quantityPhysical', lines);
@@ -54,7 +63,7 @@ export const getColumns = (lines = []) => {
           />
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
-            value={line.productIdentifier}
+            value={line.productIdentifier && getElementsList(line.productIdentifier.split(' | '))}
           />
           <KeyValueInline
             label={<FormattedMessage id="ui-orders.lineListing.fundCode" />}
