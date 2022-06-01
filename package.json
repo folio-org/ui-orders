@@ -188,6 +188,7 @@
           "orders.po-lines.item.post",
           "orders.po-number.item.get",
           "orders.po-number.item.post",
+          "orders.titles.item.put",
           "ui-orders.orders.view"
         ]
       },

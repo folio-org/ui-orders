@@ -49,6 +49,7 @@ class ItemForm extends Component {
     required: PropTypes.bool,
     hiddenFields: PropTypes.object,
     isCreateFromInstance: PropTypes.bool,
+    lineId: PropTypes.string,
   };
 
   static defaultProps = {
@@ -202,6 +203,7 @@ class ItemForm extends Component {
       isCreateFromInstance,
       required,
       hiddenFields,
+      lineId,
     } = this.props;
     const isPackage = Boolean(formValues?.isPackage);
     const isSelectInstanceVisible = !(isPackage || isPostPendingOrder || isCreateFromInstance);
@@ -254,7 +256,24 @@ class ItemForm extends Component {
               validateFields={[]}
             />
           </Col>
-
+          {!lineId && (
+            <Col
+              xs={6}
+              md={3}
+            >
+              <Field
+                component={Checkbox}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
+                name="isAcknowledged"
+                type="checkbox"
+                vertical
+                validateFields={[]}
+              />
+            </Col>
+          )}
+        </Row>
+        <Row>
           <IfFieldVisible visible={!hiddenFields.details?.subscriptionFrom} name="details.subscriptionFrom">
             <Col
               xs={6}

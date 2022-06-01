@@ -86,6 +86,7 @@
 * Accessibility analysis. Refs UIOR-917.
 * Replace deprecated permission search.instances.facets.collection.get. Refs UIOR-918.
 * Grant budget permissions. Refs UIOR-981.
+* Allow user to set "Must acknowledge receiving note" for title when creating POL. Refs UIOR-745.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)

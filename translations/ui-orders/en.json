@@ -254,6 +254,7 @@
   "itemDetails.contributors": "Contributors",
   "itemDetails.contributorType": "Contributor type",
   "itemDetails.internalNote": "Internal note",
+  "itemDetails.isAcknowledged": "Must acknowledge receiving note",
   "itemDetails.edition": "Edition",
   "itemDetails.linkPackage": "Linked package",
   "itemDetails.linkPackageLookUp": "Lookup package POL",
@@ -714,6 +715,7 @@
   "title.actions.save.success": "The title <b>{title}</b> has been successfully added for <b>PO line {poLineNumber}</b>",
   "title.actions.save.error.genericError": "The title {title} has not been added for PO line {poLineNumber}",
   "title.actions.save.error.titleExist": "The title {title} for PO line {poLineNumber} already exists",
+  "title.actions.update.error": "The title was not updated",
 
   "updatedDateAndTime": "Updated date and time",
   "updatedSource": "Updated source",
