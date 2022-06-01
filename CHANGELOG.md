@@ -24,6 +24,7 @@
 * Display "Renewal note" field on POL. Refs UIOR-965.
 * Creating an order from instance record. Refs UIOR-973.
 * Cancel creating an order or order line from instance record. Refs UIOR-975.
+* Printing `Product IDs` on separate lines which makes them hard to read. Refs UIOR-912.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
