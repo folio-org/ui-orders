@@ -247,10 +247,14 @@ function LayerPOLine({
         type: 'success',
       });
 
-      const ordersPath = isCreateAnotherChecked
+      let pathname = isCreateAnotherChecked
         ? `/orders/view/${id}/po-line/create`
         : `/orders/view/${id}/po-line/view/${savedLine.id}`;
-      const pathname = (locationState?.instanceId && saveAndOpen) ? `/inventory/view/${locationState.instanceId}` : ordersPath;
+
+      if (locationState?.instanceId) {
+        pathname = saveAndOpen ? `/inventory/view/${locationState.instanceId}` : `/orders/view/${id}`;
+      }
+
       const state = isCreateAnotherChecked ? { isCreateAnotherChecked: true } : {};
 
       setSavingValues();
