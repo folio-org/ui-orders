@@ -7,3 +7,5 @@ export const UPDATE_ENCUMBRANCES_API = `${ORDERS_API}/:{id}/re-encumber`;
 
 export const INVOICES_API = 'invoice/invoices';
 export const INVOICE_LINES_API = 'invoice/invoice-lines';
+
+export const TITLES_API = 'orders/titles';

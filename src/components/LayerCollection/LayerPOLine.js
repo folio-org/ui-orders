@@ -42,6 +42,7 @@ import {
   useLinesLimit,
   useOpenOrderSettings,
   useOrder,
+  useTitleMutation,
 } from '../../common/hooks';
 import {
   getCreateInventorySetting,
@@ -106,6 +107,7 @@ function LayerPOLine({
   const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(locationState?.isCreateAnotherChecked);
   const { isFetching: isConfigsFetching, integrationConfigs } = useIntegrationConfigs({ organizationId: vendor?.id });
   const { instance, isLoading: isInstanceLoading } = useInstance(locationState?.instanceId);
+  const { mutateTitle } = useTitleMutation();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -221,7 +223,7 @@ function LayerPOLine({
   };
 
   const submitPOLine = useCallback(async (lineValues) => {
-    const { saveAndOpen, ...line } = lineValues;
+    const { saveAndOpen, isAcknowledged, ...line } = lineValues;
     let savedLine;
 
     setIsLoading(true);
@@ -258,6 +260,17 @@ function LayerPOLine({
       const state = isCreateAnotherChecked ? { isCreateAnotherChecked: true } : {};
 
       setSavingValues();
+
+      if (isAcknowledged) {
+        try {
+          await mutateTitle(savedLine.id);
+        } catch {
+          sendCallout({
+            message: <FormattedMessage id="ui-orders.title.actions.update.error" />,
+            type: 'error',
+          });
+        }
+      }
 
       return history.push({
         pathname,
