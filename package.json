@@ -166,6 +166,7 @@
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.pieces.item.delete",
+          "orders.po-lines.item.patch",
           "orders.po-lines.item.put",
           "orders.po-number.item.get",
           "orders.po-number.item.post",

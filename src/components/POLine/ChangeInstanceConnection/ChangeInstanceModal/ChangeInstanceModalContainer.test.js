@@ -1,22 +1,23 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 
-import { UPDATE_HOLDINGS_OPERATIONS_MAP } from '../constants';
-import { useChangeInstanceModalConfigs } from '../hooks';
+import { ERROR_CODES, UPDATE_HOLDINGS_OPERATIONS_MAP } from '../constants';
+import { useChangeInstanceModalConfigs, useNotMovedItems } from '../hooks';
 import { ChangeInstanceModalContainer } from './ChangeInstanceModalContainer';
 
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useChangeInstanceModalConfigs: jest.fn(() => ({})),
+  useNotMovedItems: jest.fn(() => ({})),
 }));
 jest.mock('../RelatedItemsList', () => ({
   RelatedItemsList: jest.fn(() => 'RelatedItemsList'),
 }));
 
 const defaultProps = {
-  onSubmit: jest.fn(),
+  onSubmit: jest.fn(() => Promise.resolve()),
   onCancel: jest.fn(),
   poLine: {
     instanceId: 'instanceId',
@@ -63,6 +64,13 @@ describe('ChangeInstanceModalContainer', () => {
     useChangeInstanceModalConfigs
       .mockClear()
       .mockReturnValue(mockModalConfigs);
+    useNotMovedItems
+      .mockClear()
+      .mockReturnValue({
+        items: [{}],
+        itemsCount: 1,
+        isLoading: false,
+      });
   });
 
   describe('Default change instance confirmation modal:', () => {
@@ -162,6 +170,36 @@ describe('ChangeInstanceModalContainer', () => {
             deleteAbandonedHoldings: true,
           }));
         });
+      });
+    });
+
+    describe('Error handling', () => {
+      it('should render \'Not moved items\' modal', async () => {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        const onSubmit = jest.fn(() => Promise.reject({
+          json: () => ({
+            errors: [{
+              code: ERROR_CODES.itemUpdateFailed,
+              parameters: [
+                { key: 'itemId', value: 'itemId' },
+              ],
+            }],
+          }),
+        }));
+
+        renderChangeInstanceModal({ onSubmit });
+
+        await act(async () => {
+          user.selectOptions(
+            screen.getByLabelText(/ui-orders.line.changeInstance.holdingOperations.field/),
+            [UPDATE_HOLDINGS_OPERATIONS_MAP.create],
+          );
+        });
+        await act(async () => {
+          user.click(screen.getByText('ui-orders.buttons.line.submit'));
+        });
+
+        expect(screen.getByText('ui-orders.line.changeInstance.notMovedItems')).toBeInTheDocument();
       });
     });
   });
