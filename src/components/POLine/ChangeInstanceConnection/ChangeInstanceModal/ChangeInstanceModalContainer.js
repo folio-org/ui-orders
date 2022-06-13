@@ -54,7 +54,7 @@ export const ChangeInstanceModalContainer = ({
         const itemIds = itemUpdateError.parameters?.map(({ value }) => value);
 
         showCallout({
-          values: { error: itemUpdateError?.message },
+          values: { error: itemUpdateError.message },
           messageId: 'ui-orders.line.changeInstance.error',
           type: 'error',
         });

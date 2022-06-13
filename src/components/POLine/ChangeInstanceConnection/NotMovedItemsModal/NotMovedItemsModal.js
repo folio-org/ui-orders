@@ -24,8 +24,6 @@ export const NotMovedItemsModal = ({ itemIds = [], onClose }) => {
 
   const modalLabel = intl.formatMessage({ id: 'ui-orders.line.changeInstance.notMovedItems' });
 
-  if (isLoading) return <Loading />;
-
   return (
     <Modal
       aria-label={modalLabel}
@@ -34,16 +32,22 @@ export const NotMovedItemsModal = ({ itemIds = [], onClose }) => {
       onClose={onClose}
       label={modalLabel}
     >
-      <MultiColumnList
-        id="po-line-related-items"
-        interactive={false}
-        columnIdPrefix="related-items"
-        columnMapping={ITEMS_COLUMN_MAPPING}
-        contentData={items}
-        formatter={ITEMS_ROW_FORMATTER}
-        totalCount={itemsCount}
-        visibleColumns={ITEMS_VISIBLE_COLUMNS}
-      />
+      {
+        isLoading
+          ? <Loading />
+          : (
+            <MultiColumnList
+              id="po-line-related-items"
+              interactive={false}
+              columnIdPrefix="related-items"
+              columnMapping={ITEMS_COLUMN_MAPPING}
+              contentData={items}
+              formatter={ITEMS_ROW_FORMATTER}
+              totalCount={itemsCount}
+              visibleColumns={ITEMS_VISIBLE_COLUMNS}
+            />
+          )
+      }
     </Modal>
   );
 };
