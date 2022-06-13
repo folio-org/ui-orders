@@ -1,8 +1,15 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 
+import { useOkapiKy } from '@folio/stripes/core';
+
 import { orderLine } from '../../../../../../test/jest/fixtures/orderLine';
 import { UPDATE_HOLDINGS_OPERATIONS_MAP } from '../../constants';
 import { useChangeInstanceConnection } from './useChangeInstanceConnection';
+
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  useOkapiKy: jest.fn(),
+}));
 
 const selectedInstance = {
   id: 'selectedInstanceId',
@@ -15,6 +22,18 @@ const instanceChangeParams = {
 };
 
 describe('useChangeInstanceConnection', () => {
+  const kyMock = {
+    patch: jest.fn(() => ({
+      json: jest.fn(() => Promise.resolve()),
+    })),
+  };
+
+  beforeEach(() => {
+    useOkapiKy
+      .mockClear()
+      .mockReturnValue(kyMock);
+  });
+
   it('should return tools for managing change instance connection operation', () => {
     const { result } = renderHook(() => (
       useChangeInstanceConnection(orderLine)
@@ -56,14 +75,14 @@ describe('useChangeInstanceConnection', () => {
     expect(result.current.showConfirmChangeInstance).toBeFalsy();
   });
 
-  it('should submit instance changing and close \'Change instance\' modal when operation was submitted', () => {
+  it('should call \'patch\' method on submit', async () => {
     const { result } = renderHook(() => (
       useChangeInstanceConnection(orderLine)
     ));
 
-    act(() => result.current.onSelectInstance(selectedInstance));
-    act(() => result.current.submitChangeInstance(instanceChangeParams));
+    await act(async () => result.current.onSelectInstance(selectedInstance));
+    await act(async () => result.current.submitChangeInstance(instanceChangeParams));
 
-    expect(result.current.showConfirmChangeInstance).toBeFalsy();
+    expect(kyMock.patch).toHaveBeenCalled();
   });
 });

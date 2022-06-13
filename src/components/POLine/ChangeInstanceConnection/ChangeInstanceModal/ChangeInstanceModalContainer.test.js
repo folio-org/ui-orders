@@ -16,7 +16,7 @@ jest.mock('../RelatedItemsList', () => ({
 }));
 
 const defaultProps = {
-  onSubmit: jest.fn(),
+  onSubmit: jest.fn(() => Promise.resolve()),
   onCancel: jest.fn(),
   poLine: {
     instanceId: 'instanceId',
