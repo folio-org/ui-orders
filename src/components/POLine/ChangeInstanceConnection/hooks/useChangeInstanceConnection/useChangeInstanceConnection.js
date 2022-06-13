@@ -9,7 +9,10 @@ import {
 
 import { REPLACE_OPERATION_TYPE } from '../../constants';
 
-export const useChangeInstanceConnection = (poLine, { refetch = noop }) => {
+export const useChangeInstanceConnection = (
+  poLine,
+  { refetch = noop } = {},
+) => {
   const ky = useOkapiKy();
   const showCallout = useShowCallout();
   const [selectedInstance, setSelectedInstance] = useState();
