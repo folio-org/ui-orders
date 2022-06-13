@@ -104,7 +104,7 @@ export const ChangeInstanceModalContainer = ({
       {isDeleteHoldingsModalOpen && (
         <DeleteHoldingsModal
           onCancel={toggleDeleteHoldingsModal}
-          onKeepHoldings={() => onSubmit({ holdingsOperation: operation })}
+          onKeepHoldings={() => onSubmit({ holdingsOperation: operation }).catch(handleErrorResponse)}
           onConfirm={() => onSubmit({
             holdingsOperation: operation,
             deleteAbandonedHoldings: true,
