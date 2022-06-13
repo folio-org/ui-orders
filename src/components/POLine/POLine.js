@@ -158,6 +158,12 @@ function POLine({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchOrderLine]);
 
+  const refetch = useCallback(async () => {
+    setIsLoading(true);
+    await fetchOrderLine();
+    setIsLoading(false);
+  }, [fetchOrderLine]);
+
   if (isLoading || isLoadingOrder || line?.id !== lineId || isOrderTemplateLoading) {
     return (
       <LoadingPane
@@ -187,6 +193,7 @@ function POLine({
         cancelLine={cancelLine}
         tagsToggle={toggleTagsPane}
         orderTemplate={orderTemplate}
+        refetch={refetch}
       />
       {isTagsPaneOpened && (
         <Tags
