@@ -158,6 +158,12 @@ const OrderLineDetails = ({
     [location.search],
   );
 
+  const refetch = useCallback(async () => {
+    setIsLoading(true);
+    await fetchLineDetails();
+    setIsLoading(false);
+  }, [fetchLineDetails]);
+
   if (isLoading || line?.id !== lineId || isOrderTemplateLoading) {
     return (
       <LoadingPane
@@ -183,6 +189,7 @@ const OrderLineDetails = ({
         tagsToggle={toggleTagsPane}
         onClose={onClose}
         orderTemplate={orderTemplate}
+        refetch={refetch}
       />
       {isTagsPaneOpened && (
         <Tags

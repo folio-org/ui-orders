@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import noop from 'lodash/noop';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import {
@@ -8,7 +9,7 @@ import {
 
 import { REPLACE_OPERATION_TYPE } from '../../constants';
 
-export const useChangeInstanceConnection = (poLine) => {
+export const useChangeInstanceConnection = (poLine, { refetch = noop }) => {
   const ky = useOkapiKy();
   const showCallout = useShowCallout();
   const [selectedInstance, setSelectedInstance] = useState();
@@ -39,10 +40,11 @@ export const useChangeInstanceConnection = (poLine) => {
         showCallout({
           messageId: 'ui-orders.line.changeInstance.success',
         });
+        refetch();
 
         return res;
       });
-  }, [ky, poLine.id, selectedInstance?.id, showCallout]);
+  }, [ky, poLine.id, refetch, selectedInstance?.id, showCallout]);
 
   const cancelChangeInstance = useCallback(() => {
     setShowConfirmChangeInstance(false);

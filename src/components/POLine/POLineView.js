@@ -98,6 +98,7 @@ const POLineView = ({
   poURL,
   tagsToggle,
   orderTemplate,
+  refetch,
 }) => {
   const intl = useIntl();
   const stripes = useStripes();
@@ -129,7 +130,7 @@ const POLineView = ({
     selectedInstance,
     showConfirmChangeInstance,
     submitChangeInstance,
-  } = useChangeInstanceConnection(line);
+  } = useChangeInstanceConnection(line, { refetch });
 
   const isCancelable = isCancelableLine(line, order);
 
@@ -668,6 +669,7 @@ POLineView.propTypes = {
   cancelLine: PropTypes.func,
   tagsToggle: PropTypes.func.isRequired,
   orderTemplate: PropTypes.object,
+  refetch: PropTypes.func.isRequired,
 };
 
 POLineView.defaultProps = {
