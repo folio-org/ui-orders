@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Add `New invoice` action for PO actions menu. Refs UIOR-985.
+
 ## [3.2.0](https://github.com/folio-org/ui-orders/tree/v3.2.0) (2022-07-07)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.2...v3.2.0)
 
