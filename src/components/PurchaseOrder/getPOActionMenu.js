@@ -24,6 +24,7 @@ export function getPOActionMenu({
   clickCancel,
   clickClone,
   clickClose,
+  clickCreateInvoice,
   clickDelete,
   clickEdit,
   clickOpen,
@@ -156,6 +157,16 @@ export function getPOActionMenu({
             <FormattedMessage id="ui-orders.paneBlock.updateEncumbrances" />
           </Button>
         )}
+      </IfPermission>
+      <IfPermission perm="ui-invoice.invoice.create">
+        <Button
+          buttonStyle="dropdownItem"
+          onClick={clickCreateInvoice}
+        >
+          <Icon size="small" icon="plus-sign">
+            <FormattedMessage id="ui-orders.paneBlock.createInvoice" />
+          </Icon>
+        </Button>
       </IfPermission>
       <IfPermission perm="orders.item.post">
         <Button

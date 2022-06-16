@@ -111,6 +111,9 @@
   "createdDateAndTime": "Created date and time",
   "createdSource": "Created source",
 
+  "createInvoice.confirmationModal.title": "Create invoice",
+  "createInvoice.confirmationModal.order.message": "Do you want to create an invoice from this order?",
+
   "duplicateLines.confirmation.heading": "Save order line",
   "duplicateLines.confirmation.message": "This appears to be a duplicate order line",
   "duplicateLines.confirmation.title": "Possible duplicate order line",
@@ -416,6 +419,7 @@
   "paneBlock.checkInBtn": "Check-in",
   "paneBlock.cloneBtn": "Duplicate",
   "paneBlock.closeBtn": "Close order",
+  "paneBlock.createInvoice": "New invoice",
   "paneBlock.openBtn": "Open",
   "paneBlock.unopenBtn": "Unopen",
   "paneBlock.POLines": "PO lines",
