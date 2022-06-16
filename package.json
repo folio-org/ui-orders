@@ -279,33 +279,6 @@
         ]
       },
       {
-        "permissionName": "ui-orders.createInvoice",
-        "displayName": "Orders: Can create new Invoice and Invoice lines from PO(s)/PO line(s)",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "ui-orders.orders.view",
-          "batch-groups.collection.get",
-          "batch-groups.item.get",
-          "batch-voucher.batch-voucher-exports.collection.get",
-          "batch-voucher.export-configurations.collection.get",
-          "finance.expense-classes.item.get",
-          "finance.funds.item.get",
-          "invoice.invoice-lines.item.get",
-          "invoice.invoice-lines.item.post",
-          "invoice.invoices.documents.collection.get",
-          "invoice.invoices.documents.item.get",
-          "invoice.invoices.documents.item.post",
-          "invoice.invoices.item.get",
-          "invoice.invoices.item.post",
-          "organizations-storage.categories.collection.get",
-          "users.item.get",
-          "voucher.voucher-lines.collection.get",
-          "voucher.vouchers.collection.get",
-          "voucher.vouchers.item.get"
-        ]
-      },
-      {
         "permissionName": "ui-orders.settings.order-templates.view",
         "displayName": "Settings (Orders): Can view Order Templates",
         "description": "",

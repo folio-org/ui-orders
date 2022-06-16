@@ -775,7 +775,6 @@
   "permission.orders.delete": "Orders: Can delete Orders and Order lines",
   "permission.acq.unit.assignment.assign": "Orders: Assign acquisition units to new order",
   "permission.acq.unit.assignment.manage": "Orders: Manage acquisition units",
-  "permission.createInvoice": "Orders: Can create new Invoice and Invoice lines from PO(s)/PO line(s)",
   "permission.order.approve": "Orders: Approve purchase orders",
   "permission.order.cancel": "Orders: Cancel purchase orders",
   "permission.order.reopen": "Orders: Reopen purchase orders",

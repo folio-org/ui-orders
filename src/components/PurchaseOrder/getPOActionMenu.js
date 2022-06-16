@@ -158,7 +158,7 @@ export function getPOActionMenu({
           </Button>
         )}
       </IfPermission>
-      <IfPermission perm="ui-orders.createInvoice">
+      <IfPermission perm="ui-invoice.invoice.create">
         <Button
           buttonStyle="dropdownItem"
           onClick={clickCreateInvoice}
