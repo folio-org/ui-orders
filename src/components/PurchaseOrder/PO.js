@@ -52,7 +52,10 @@ import {
 } from '../../common/utils';
 import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
 import { isOngoing } from '../../common/POFields';
-import { WORKFLOW_STATUS } from '../../common/constants';
+import {
+  INVOICES_ROUTE,
+  WORKFLOW_STATUS,
+} from '../../common/constants';
 import {
   reasonsForClosureResource,
   updateEncumbrancesResource,
@@ -196,6 +199,7 @@ const PO = ({
   const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const [isPrintModalOpened, togglePrintModal] = useModalToggle();
   const [isDifferentAccountModalOpened, toggleDifferentAccountModal] = useModalToggle();
+  const [isCreateInvoiceModalOpened, toggleCreateInvoiceModal] = useModalToggle();
   const [accountNumbers, setAccountNumbers] = useState([]);
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
@@ -581,6 +585,10 @@ const PO = ({
     [fetchOrder, handleErrorResponse, orderErrorModalShow, sendCallout],
   );
 
+  const onCreateInvoice = useCallback(() => {
+    history.push(`${INVOICES_ROUTE}/create`, { orderIds: [order.id] });
+  }, [history, order]);
+
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     order?.id, order?.acqUnitIds,
   );
@@ -665,6 +673,7 @@ const PO = ({
   );
   const cloneOrderModalLabel = intl.formatMessage({ id: 'ui-orders.order.clone.heading' });
   const differentAccountModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
+  const createInvoiceModalLabel = intl.formatMessage({ id: 'ui-orders.createInvoice.confirmationModal.title' });
 
   const POPane = (
     <HasCommand
@@ -683,6 +692,7 @@ const PO = ({
           },
           clickClone: toggleCloneConfirmation,
           clickClose: toggleCloseOrderModal,
+          clickCreateInvoice: toggleCreateInvoiceModal,
           clickDelete: toggleDeleteOrderConfirm,
           clickEdit: onEdit,
           clickOpen: toggleOpenOrderModal,
@@ -851,6 +861,17 @@ const PO = ({
             label={differentAccountModalLabel}
             content={<FormattedMessage id="ui-orders.differentAccounts.message" values={{ accountNumber: accountNumbers.length }} />}
             onClose={toggleDifferentAccountModal}
+            open
+          />
+        )}
+        {isCreateInvoiceModalOpened && (
+          <ConfirmationModal
+            aria-label={createInvoiceModalLabel}
+            id="create-invoice-from-order"
+            heading={createInvoiceModalLabel}
+            message={<FormattedMessage id="ui-orders.createInvoice.confirmationModal.order.message" />}
+            onCancel={toggleCreateInvoiceModal}
+            onConfirm={onCreateInvoice}
             open
           />
         )}
