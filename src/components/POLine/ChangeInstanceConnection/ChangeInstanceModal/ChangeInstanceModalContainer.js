@@ -38,17 +38,17 @@ export const ChangeInstanceModalContainer = ({
     return getUpdateHoldingsOptions(isMovingRestricted);
   }, [isMovingRestricted]);
 
-  const handleErrorResponse = useCallback(async (err) => {
-    let response;
+  const handleErrorResponse = useCallback(async ({ response }) => {
+    let errorResponse;
 
     try {
-      response = await err.json();
+      errorResponse = await response.json();
     } catch {
-      response = err;
+      errorResponse = response;
     }
 
-    if (response.errors && response.errors.length) {
-      const itemUpdateError = response.errors.find(el => el.code === ERROR_CODES.itemUpdateFailed);
+    if (errorResponse.errors && errorResponse.errors.length) {
+      const itemUpdateError = errorResponse.errors.find(el => el.code === ERROR_CODES.itemUpdateFailed);
 
       if (itemUpdateError) {
         const itemIds = itemUpdateError.parameters?.map(({ value }) => value);
