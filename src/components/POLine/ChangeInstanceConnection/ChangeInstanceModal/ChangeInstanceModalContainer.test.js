@@ -177,14 +177,16 @@ describe('ChangeInstanceModalContainer', () => {
       it('should render \'Not moved items\' modal', async () => {
         // eslint-disable-next-line prefer-promise-reject-errors
         const onSubmit = jest.fn(() => Promise.reject({
-          json: () => ({
-            errors: [{
-              code: ERROR_CODES.itemUpdateFailed,
-              parameters: [
-                { key: 'itemId', value: 'itemId' },
-              ],
-            }],
-          }),
+          response: {
+            json: () => ({
+              errors: [{
+                code: ERROR_CODES.itemUpdateFailed,
+                parameters: [
+                  { key: 'itemId', value: 'itemId' },
+                ],
+              }],
+            }),
+          },
         }));
 
         renderChangeInstanceModal({ onSubmit });
