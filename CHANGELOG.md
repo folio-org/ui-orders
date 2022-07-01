@@ -27,6 +27,7 @@
 * Printing `Product IDs` on separate lines which makes them hard to read. Refs UIOR-912.
 * Instance connection of POL (integration with back end). Refs UIOR-979.
 * Add `New invoice` action for PO actions menu. Refs UIOR-985.
+* New invoice action (PO details). Refs UIOR-990.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
