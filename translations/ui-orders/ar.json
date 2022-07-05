@@ -533,7 +533,7 @@
     "errors.userHasNoApprovalPermission": "لا يملك المستخدم صلاحيات قبول الطلبية - العملية مقيدة",
     "errors.zeroLocQty": "يجب تحديد كمية الموقع الإلكتروني أو المادي",
     "checkIn.receivedDate": "تاريخ الاستلام",
-    "errors.fundCannotBePaid": "لا يمكن رهن أحد توزيعات التمويل أو أكثر في هذه الطلبية بسبب عدم وجود مال كافٍ في الميزانية",
+    "errors.fundCannotBePaid": "لا يمكن رهن أحد توزيعات التمويل أو أكثر في هذه الطلبية بسبب عدم وجود مال كافٍ في <b>{fundCodes}</b>.",
     "receiving.itemStatus.Order closed": "تم إغلاق الطلبية",
     "cost.quantity": "الكمية",
     "itemDetails.packageName": "اسم الحزمة",
@@ -731,8 +731,8 @@
     "permission.order.showHidden": "الطلبيات: إظهار كل الحقول المخفية",
     "differentAccounts.title": "أرقام حسابات مختلفة",
     "differentAccounts.message": "تشتمل هذه الطلبية <b> {accountNumber} </b> على أرقام حسابات فريدة للتصدير. لا يمكنك فتح طلبية ذات أكثر من سطر أمر شراء معين للتصدير إذا كان لسطور أوامر الشراء أرقام حساب مختلفة. يرجى تعديل معلومات رقم الحساب لتلك السطور أو نقل سطور أوامر الشراء ذات أرقام الحساب المختلفة إلى طلبيات مختلفة قبل الفتح.",
-    "order.hideField": "Hide field",
-    "orderDetails.dateOpened": "Date opened",
-    "search.dateOpened": "Date opened",
-    "dateOpened": "Date opened"
+    "order.hideField": "إخفاء الحقل",
+    "orderDetails.dateOpened": "تاريخ الفتح",
+    "search.dateOpened": "تاريخ الفتح",
+    "dateOpened": "تاريخ الفتح"
 }

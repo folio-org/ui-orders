@@ -48,18 +48,21 @@ import {
   isCheckInAvailableForLine,
   isReceiveAvailableForLine,
   isWorkflowStatusClosed,
+  isWorkflowStatusOpen,
 } from '../PurchaseOrder/util';
 import {
   NOTE_TYPES,
   NOTES_ROUTE,
   ORDERS_DOMAIN,
 } from '../../common/constants';
+import { isOngoing } from '../../common/POFields';
 
 import LocationView from './Location/LocationView';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
 import VendorView from './Vendor/VendorView';
 import EresourcesView from './Eresources/EresourcesView';
+import InstancePlugin from './Item/InstancePlugin';
 import ItemView from './Item/ItemView';
 import { LineLinkedInstances } from './LineLinkedInstances';
 import PhysicalView from './Physical/PhysicalView';
@@ -67,12 +70,21 @@ import { OtherView } from './Other';
 import { POLineAgreementLinesContainer } from './POLineAgreementLines';
 import { RelatedInvoiceLines } from './RelatedInvoiceLines';
 import {
+  ChangeInstanceModal,
+  useChangeInstanceConnection,
+} from './ChangeInstanceConnection';
+import { OngoingOrderView } from './OngoingOrder';
+import {
   ACCORDION_ID,
   ERESOURCES,
   PHRESOURCES,
 } from './const';
+import {
+  isCancelableLine,
+} from './utils';
 
 const POLineView = ({
+  cancelLine,
   deleteLine,
   editable,
   goToOrderDetails,
@@ -86,6 +98,7 @@ const POLineView = ({
   poURL,
   tagsToggle,
   orderTemplate,
+  refetch,
 }) => {
   const intl = useIntl();
   const stripes = useStripes();
@@ -105,9 +118,21 @@ const POLineView = ({
     [ACCORDION_ID.linkedInstances]: false,
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
+  const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();
   const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
   const [isPrintLineModalOpened, togglePrintLineModal] = useModalToggle();
+  const [isInstancePluginOpen, toggleInstancePlugin] = useModalToggle();
   const [hiddenFields, setHiddenFields] = useState({});
+
+  const {
+    cancelChangeInstance,
+    onSelectInstance,
+    selectedInstance,
+    showConfirmChangeInstance,
+    submitChangeInstance,
+  } = useChangeInstanceConnection(line, { refetch });
+
+  const isCancelable = isCancelableLine(line, order);
 
   useEffect(() => {
     setHiddenFields(orderTemplate.hiddenFields);
@@ -150,16 +175,32 @@ const POLineView = ({
     deleteLine();
   }, [deleteLine, toggleConfirmDelete]);
 
+  const onConfirmCancel = useCallback(() => {
+    toggleConfirmCancel();
+    cancelLine();
+  }, [cancelLine, toggleConfirmCancel]);
+
   const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
     order?.id, order?.acqUnitIds,
   );
+
+  const renderInstancePlugin = useCallback(({
+    onSelect,
+    onClose: onClosePlugin,
+  }) => (
+    <InstancePlugin
+      addInstance={onSelect}
+      onClose={onClosePlugin}
+      withTrigger={false}
+    />
+  ), []);
 
   const shortcuts = [
     {
       name: 'edit',
       handler: handleKeyCommand(() => {
         if (
-          stripes.hasPerm('ui-orders.order-lines.edit') &&
+          stripes.hasPerm('ui-orders.orders.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) onEditPOLine();
@@ -179,6 +220,7 @@ const POLineView = ({
   const getActionMenu = ({ onToggle }) => {
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
     const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
+    const isChangeInstanceVisible = isWorkflowStatusClosed(order) || isWorkflowStatusOpen(order);
 
     // TODO: unify actions after Order Lines list is implemented fully
     return (
@@ -198,6 +240,20 @@ const POLineView = ({
                 <FormattedMessage id="ui-orders.button.edit" />
               </Icon>
             </Button>
+
+            {isChangeInstanceVisible && (
+              <Button
+                buttonStyle="dropdownItem"
+                id="change-instance-connection-action"
+                data-testid="line-details-actions-change-instance"
+                disabled={isRestrictionsLoading || restrictions.protectUpdate}
+                onClick={toggleInstancePlugin}
+              >
+                <Icon size="small" icon="edit">
+                  <FormattedMessage id="ui-orders.buttons.line.changeInstance" />
+                </Icon>
+              </Button>
+            )}
           </IfPermission>
         )}
         {goToOrderDetails && (
@@ -228,6 +284,23 @@ const POLineView = ({
             </Button>
           )}
         </IfPermission>
+        {isCancelable && (
+          <IfPermission perm="ui-orders.order-lines.cancel">
+            <Button
+              buttonStyle="dropdownItem"
+              data-testid="cancel-line-button"
+              disabled={isRestrictionsLoading || restrictions.protectUpdate}
+              onClick={() => {
+                onToggle();
+                toggleConfirmCancel();
+              }}
+            >
+              <Icon size="small" icon="cancel">
+                <FormattedMessage id="ui-orders.buttons.line.cancel" />
+              </Icon>
+            </Button>
+          </IfPermission>
+        )}
         <IfPermission perm="orders.po-lines.item.delete">
           <Button
             buttonStyle="dropdownItem"
@@ -318,8 +391,9 @@ const POLineView = ({
   const fundDistributions = get(line, 'fundDistribution');
   const currency = get(line, 'cost.currency');
   const metadata = get(line, 'metadata');
-  const isClosedOrder = isWorkflowStatusClosed(order);
   const paneTitle = <FormattedMessage id="ui-orders.line.paneTitle.details" values={{ poLineNumber }} />;
+  const isClosedOrder = isWorkflowStatusClosed(order);
+  const cancelPOLModalLabel = intl.formatMessage({ id: 'ui-orders.line.cancel.heading' }, { poLineNumber });
   const deletePOLModalLabel = intl.formatMessage(
     { id: 'ui-orders.order.delete.heading' },
     { orderNumber: poLineNumber },
@@ -398,6 +472,17 @@ const POLineView = ({
               hiddenFields={hiddenFields}
             />
           </Accordion>
+          {isOngoing(order.orderType) && (
+            <Accordion
+              label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
+              id={ACCORDION_ID.ongoingOrder}
+            >
+              <OngoingOrderView
+                renewalNote={line.renewalNote}
+                hiddenFields={hiddenFields}
+              />
+            </Accordion>
+          )}
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
             id="Vendor"
@@ -519,6 +604,32 @@ const POLineView = ({
             open
           />
         )}
+        {showConfirmCancel && (
+          <ConfirmationModal
+            aria-label={cancelPOLModalLabel}
+            id="cancel-line-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.line.cancel.confirmLabel" />}
+            heading={cancelPOLModalLabel}
+            message={<FormattedMessage id="ui-orders.line.cancel.message" />}
+            onCancel={toggleConfirmCancel}
+            onConfirm={onConfirmCancel}
+            open
+          />
+        )}
+
+        {isInstancePluginOpen && renderInstancePlugin({
+          onSelect: onSelectInstance,
+          onClose: toggleInstancePlugin,
+        })}
+
+        {showConfirmChangeInstance && (
+          <ChangeInstanceModal
+            onCancel={cancelChangeInstance}
+            onSubmit={submitChangeInstance}
+            poLine={line}
+            selectedInstance={selectedInstance}
+          />
+        )}
       </Pane>
 
       {
@@ -555,8 +666,10 @@ POLineView.propTypes = {
   editable: PropTypes.bool,
   goToOrderDetails: PropTypes.func,
   deleteLine: PropTypes.func,
+  cancelLine: PropTypes.func,
   tagsToggle: PropTypes.func.isRequired,
   orderTemplate: PropTypes.object,
+  refetch: PropTypes.func.isRequired,
 };
 
 POLineView.defaultProps = {

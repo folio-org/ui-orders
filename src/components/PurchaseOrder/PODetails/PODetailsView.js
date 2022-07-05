@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-
 import { get } from 'lodash';
 
 import {
   Checkbox,
   Col,
   KeyValue,
+  NoValue,
   Row,
 } from '@folio/stripes/components';
-import { ViewMetaData } from '@folio/stripes/smart-components';
+import {
+  ClipCopy,
+  ViewMetaData,
+} from '@folio/stripes/smart-components';
 import {
   AcqUnitsView,
   FolioFormattedTime,
@@ -54,10 +57,17 @@ class PODetailsView extends Component {
             xs={6}
             lg={3}
           >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-              value={get(order, 'poNumber')}
-            />
+            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}>
+              {order?.poNumber
+                ? (
+                  <>
+                    {order.poNumber}
+                    <ClipCopy text={order.poNumber} />
+                  </>
+                )
+                : <NoValue />
+              }
+            </KeyValue>
           </Col>
           <Col
             xs={6}

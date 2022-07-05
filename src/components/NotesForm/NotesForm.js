@@ -12,7 +12,7 @@ import {
 } from '@folio/stripes/components';
 import { validateRequired } from '@folio/stripes-acq-components';
 
-const NotesForm = ({ fields }) => {
+const NotesForm = ({ fields, required }) => {
   const intl = useIntl();
   const noteLabel = intl.formatMessage({ id: 'ui-orders.order.notes' });
 
@@ -29,7 +29,7 @@ const NotesForm = ({ fields }) => {
               name={note}
               type="text"
               component={TextArea}
-              validate={validateRequired}
+              validate={required ? validateRequired : undefined}
               validateFields={[]}
             />
           </Col>
@@ -60,6 +60,7 @@ NotesForm.displayName = 'NotesForm';
 
 NotesForm.propTypes = {
   fields: PropTypes.object.isRequired,
+  required: PropTypes.bool,
 };
 
 export default NotesForm;

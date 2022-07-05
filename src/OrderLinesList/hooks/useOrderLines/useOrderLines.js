@@ -1,10 +1,12 @@
 import { useQuery } from 'react-query';
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
+import moment from 'moment';
 
 import {
   useNamespace,
   useOkapiKy,
+  useStripes,
 } from '@folio/stripes/core';
 import {
   getFiltersCount,
@@ -16,6 +18,7 @@ import { getLinesQuery } from '@folio/plugin-find-po-line';
 export const useOrderLines = ({ pagination, fetchReferences }) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'order-lines-list' });
+  const { timezone } = useStripes();
 
   const { search } = useLocation();
   const queryParams = queryString.parse(search);
@@ -25,7 +28,11 @@ export const useOrderLines = ({ pagination, fetchReferences }) => {
   const { isFetching, data = {} } = useQuery(
     [namespace, pagination.timestamp, pagination.limit, pagination.offset],
     async () => {
+      moment.tz.setDefault(timezone);
+
       const query = await buildQuery();
+
+      moment.tz.setDefault();
 
       if (!filtersCount || !query) {
         return { orderLines: [], orderLinesCount: 0, query };

@@ -9,12 +9,14 @@ import {
   Layout,
   MultiColumnList,
   NoValue,
+  Tooltip,
 } from '@folio/stripes/components';
 import {
   acqRowFormatter,
   AmountWithCurrencyField,
 } from '@folio/stripes-acq-components';
 
+import { isOrderLineCancelled } from '../../POLine/utils';
 import { LINE_LISTING_COLUMN_MAPPING } from '../constants';
 
 const alignRowProps = { alignLastColToEnd: true };
@@ -43,6 +45,30 @@ function LineListing({
     return acc;
   }, {});
   const resultsFormatter = {
+    poLineNumber: item => {
+      const isCancelled = isOrderLineCancelled(item);
+
+      return !isCancelled ? item.poLineNumber : (
+        <>
+          {item.poLineNumber}
+          &nbsp;
+          <Tooltip
+            id="cancel-tooltip"
+            text={<FormattedMessage id="ui-orders.canceled" />}
+          >
+            {({ ref, ariaIds }) => (
+              <Icon
+                data-testid="cancel-icon"
+                icon="cancel"
+                status="warn"
+                ref={ref}
+                aria-labelledby={ariaIds.text}
+              />
+            )}
+          </Tooltip>
+        </>
+      );
+    },
     title: ({ titleOrPackage }) => titleOrPackage || '',
     productId: item => map(get(item, 'details.productIds', []), 'productId').join(', '),
     estimatedPrice: item => (

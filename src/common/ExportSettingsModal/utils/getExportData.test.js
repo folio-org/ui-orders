@@ -3,9 +3,10 @@ import { useIntl } from 'react-intl';
 
 import { getExportData } from './getExportData';
 import {
+  address,
   orderLine,
   order,
-  address,
+  vendor,
 } from '../../../../test/jest/fixtures';
 
 jest.mock('./createExportReport', () => ({
@@ -18,7 +19,7 @@ const mockMutator = {
     reset: jest.fn(),
   },
   exportVendors: {
-    GET: jest.fn(),
+    GET: jest.fn().mockReturnValue([vendor]),
     reset: jest.fn(),
   },
   exportUsers: {
@@ -51,6 +52,10 @@ const mockMutator = {
   },
   exportAddresses: {
     GET: jest.fn().mockResolvedValue([address]),
+    reset: jest.fn(),
+  },
+  organizationTypes: {
+    GET: jest.fn().mockResolvedValue([]),
     reset: jest.fn(),
   },
 };

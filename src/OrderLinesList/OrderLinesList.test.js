@@ -1,6 +1,11 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+
+import {
+  PAYMENT_STATUS,
+  RECEIPT_STATUS,
+} from '@folio/stripes-acq-components';
 
 import OrderLinesList, { resultsFormatter } from './OrderLinesList';
 import { orderLine } from '../../test/jest/fixtures';
@@ -100,5 +105,22 @@ describe('resultsFormatter', () => {
     const { getByText } = render(resultsFormatter.orderWorkflow({ ...orderLine, orderWorkflow: 'Pending' }));
 
     expect(getByText('stripes-acq-components.order.status.pending')).toBeInTheDocument();
+  });
+
+  it('should display only order line number', () => {
+    render(resultsFormatter.poLineNumber(orderLine));
+
+    expect(screen.getByText(orderLine.poLineNumber)).toBeInTheDocument();
+    expect(screen.queryByTestId('cancel-icon')).toBeNull();
+  });
+
+  it('should display order line number with cancel icon', () => {
+    render(resultsFormatter.poLineNumber({
+      ...orderLine,
+      paymentStatus: PAYMENT_STATUS.cancelled,
+      receiptStatus: RECEIPT_STATUS.cancelled,
+    }));
+
+    expect(screen.getByTestId('cancel-icon')).toBeInTheDocument();
   });
 });

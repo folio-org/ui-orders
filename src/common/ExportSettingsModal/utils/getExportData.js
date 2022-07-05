@@ -18,6 +18,10 @@ export const getExportData = async (mutator, lines, orders, intl) => {
   ]))))).filter(Boolean);
   const vendorIds = uniq(flatten([...orderVendorIds, ...lineVendorIds]));
   const vendors = await fetchExportDataByIds(mutator.exportVendors, vendorIds);
+  const organizationTypeIds = uniq(flatten(vendors.map(
+    ({ organizationTypes }) => organizationTypes,
+  ))).filter(Boolean);
+  const orgTypes = await fetchExportDataByIds(mutator.organizationTypes, organizationTypeIds);
   const userIds = uniq(flatten((orders.map(({ metadata, assignedTo, approvedBy }) => ([
     metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedBy,
   ]))))).filter(Boolean);
@@ -29,25 +33,25 @@ export const getExportData = async (mutator, lines, orders, intl) => {
   ])))).filter(Boolean);
   const mTypes = await fetchExportDataByIds(mutator.exportMaterialTypes, mTypeIds);
   const holdingIds = uniq(flatten(lines.map(({ locations }) => (
-    locations?.map(({ holdingId }) => holdingId
-  ))))).filter(Boolean);
+    locations?.map(({ holdingId }) => holdingId)
+  )))).filter(Boolean);
   const lineHoldings = await fetchExportDataByIds(mutator.exportHoldings, holdingIds);
   const holdingLocationIds = lineHoldings.map(({ permanentLocationId }) => permanentLocationId);
   const locationIds = uniq([...flatten(lines.map(({ locations }) => (
-    locations?.map(({ locationId }) => locationId
-  )))), ...holdingLocationIds]).filter(Boolean);
+    locations?.map(({ locationId }) => locationId)
+  ))), ...holdingLocationIds]).filter(Boolean);
   const lineLocations = await fetchExportDataByIds(mutator.exportLocations, locationIds);
   const contributorNameTypeIds = uniq(flatten(lines.map(({ contributors }) => (
-    contributors?.map(({ contributorNameTypeId }) => contributorNameTypeId
-  ))))).filter(Boolean);
+    contributors?.map(({ contributorNameTypeId }) => contributorNameTypeId)
+  )))).filter(Boolean);
   const contributorNameTypes = await fetchExportDataByIds(mutator.exportContributorNameTypes, contributorNameTypeIds);
   const identifierTypeIds = uniq(flatten(lines.map(({ details }) => (
-    details?.productIds?.map(({ productIdType }) => productIdType
-  ))))).filter(Boolean);
+    details?.productIds?.map(({ productIdType }) => productIdType)
+  )))).filter(Boolean);
   const identifierTypes = await fetchExportDataByIds(mutator.exportIdentifierTypes, identifierTypeIds);
   const expenseClassIds = uniq(flatten(lines.map(({ fundDistribution }) => (
-    fundDistribution?.map(({ expenseClassId }) => expenseClassId
-  ))))).filter(Boolean);
+    fundDistribution?.map(({ expenseClassId }) => expenseClassId)
+  )))).filter(Boolean);
   const expenseClasses = await fetchExportDataByIds(mutator.exportExpenseClasses, expenseClassIds);
   const addressIds = uniq(flatten(orders.map(({ billTo, shipTo }) => ([billTo, shipTo])))).filter(Boolean);
   const buildAddressQuery = (itemsChunk) => {
@@ -78,5 +82,6 @@ export const getExportData = async (mutator, lines, orders, intl) => {
     expenseClasses,
     addresses,
     acquisitionMethods,
+    orgTypes,
   ));
 };

@@ -1,10 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { useModalToggle } from '@folio/stripes-acq-components';
 import { MemoryRouter } from 'react-router-dom';
+
 import { HasCommand } from '@folio/stripes/components';
+import { useModalToggle, ORDER_STATUSES } from '@folio/stripes-acq-components';
 
 import OrdersList, { resultsFormatter } from './OrdersList';
+import { CANCEL_ORDER_REASON } from '../common/constants';
 
 import { order } from '../../test/jest/fixtures';
 import { history } from '../../test/jest/routerMocks';
@@ -110,5 +112,22 @@ describe('resultsFormatter', () => {
     render(resultsFormatter.workflowStatus(order));
 
     expect(screen.getByText('stripes-acq-components.order.status.pending')).toBeInTheDocument();
+  });
+
+  it('should render only order number', () => {
+    render(resultsFormatter.poNumber(order));
+
+    expect(screen.getByText(order.poNumber)).toBeInTheDocument();
+    expect(screen.queryByTestId('cancel-icon')).toBeNull();
+  });
+
+  it('should render order number with cancel icon', () => {
+    render(resultsFormatter.poNumber({
+      ...order,
+      workflowStatus: ORDER_STATUSES.closed,
+      closeReason: { reason: CANCEL_ORDER_REASON },
+    }));
+
+    expect(screen.getByTestId('cancel-icon')).toBeInTheDocument();
   });
 });

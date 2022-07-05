@@ -5,7 +5,28 @@
 * Updated "Date ordered" label to "Date opened". Refs UIOR-908.
 * Remove react-hot-loader - unmaintained, security (CVE-2021-44906). Refs UIOR-932.
 * Select filter should announce the number of Results in Result List pane header. Refs UIOR-925.
-
+* Remove "Folio invoice number" from display in invoice line column. Refs UIOR-957.
+* Orders filter search results do not match "Date created" period specified. Refs UIOR-934.
+* Renewal date and renewal interval no longer required. Refs UIOR-961.
+* New Permission - "Orders: Approve purchase orders". Refs UIOR-933.
+* Add cancel PO action and display indication that PO is canceled. Refs UIOR-889.
+* Replace `babel-eslint` with `@babel/eslint-parser`. Refs UIOR-962.
+* Add cancel POL action and display indication that POL is canceled. Refs UIOR-740.
+* Update Order Permission. Refs UIOR-963.
+* Add organizations "Type" to order csv export. Refs UIOR-893.
+* Edit instance connection of POL - create inventory set to Instance or none. Refs UIOR-936.
+* Saving an order template can fail without a visible message. Refs UIOR-952.
+* Edit instance connection of POL - create inventory set to `Instance, holding` or `Instance, holding, item`. Refs UIOR-594.
+* Edit instance connection of POL - option to delete abandoned holdings. Refs UIOR-942.
+* Display toast when Edit instance connection of POL is successful. Refs UIOR-937.
+* ui-orders: module warnings analysis. Refs UIOR-969.
+* Add copy icon to PO and POL number. Refs UIOR-966.
+* Display "Renewal note" field on POL. Refs UIOR-965.
+* Creating an order from instance record. Refs UIOR-973.
+* Cancel creating an order or order line from instance record. Refs UIOR-975.
+* Printing `Product IDs` on separate lines which makes them hard to read. Refs UIOR-912.
+* Instance connection of POL (integration with back end). Refs UIOR-979.
+* `Move` option is not disabled when holdings contain piece(s) and/or item(s) that are NOT related to the POLine. Refs UIOR-991.
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
 
@@ -65,6 +86,8 @@
 * Refactor psets away from backend ".all" permissions. Refs UIOR-810.
 * Accessibility analysis. Refs UIOR-917.
 * Replace deprecated permission search.instances.facets.collection.get. Refs UIOR-918.
+* Grant budget permissions. Refs UIOR-981.
+* Allow user to set "Must acknowledge receiving note" for title when creating POL. Refs UIOR-745.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)

@@ -24,6 +24,8 @@ jest.mock('../../common/hooks', () => ({
   useOpenOrderSettings: jest.fn().mockReturnValue({ isFetching: false, openOrderSettings: {} }),
   useLinesLimit: jest.fn().mockReturnValue({ isLoading: false, linesLimit: 1 }),
   useOrder: jest.fn(),
+  useInstance: jest.fn().mockReturnValue({ isLoading: false, instance: {} }),
+  useTitleMutation: jest.fn().mockReturnValue({ mutateTitle: jest.fn().mockReturnValue(() => Promise.resolve()) }),
 }));
 jest.mock('../POLine/POLineForm', () => jest.fn().mockReturnValue('POLineForm'));
 jest.mock('../ModalDeletePieces', () => jest.fn().mockReturnValue('ModalDeletePieces'));
@@ -137,6 +139,7 @@ describe('LayerPOLine', () => {
     POLineForm.mockClear();
     history.push.mockClear();
     defaultProps.mutator.poLines.PUT.mockClear();
+    defaultProps.mutator.poLines.POST.mockClear();
     useOrder.mockClear().mockReturnValue({ isLoading: false, order });
   });
 
@@ -146,6 +149,19 @@ describe('LayerPOLine', () => {
     const form = await screen.findByText('POLineForm');
 
     expect(form).toBeInTheDocument();
+  });
+
+  it('should create POLine', async () => {
+    renderLayerPOLine({ match: {
+      ...match,
+      params: {
+        id: order.id,
+      },
+    } });
+
+    await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ saveAndOpen: false, isAcknowledged: true }));
+
+    expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
   });
 
   it('should update POLine', async () => {

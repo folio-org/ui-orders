@@ -22,6 +22,7 @@ export const ACCORDION_ID = {
   relatedInvoices: 'relatedInvoices',
   vendor: 'vendor',
   linkedInstances: 'linkedInstances',
+  ongoingOrder: 'ongoingOrder',
 };
 
 // Mapping between attribute (field) in form and id of accordion

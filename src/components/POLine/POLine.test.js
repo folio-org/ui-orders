@@ -132,6 +132,14 @@ describe('POLine actions', () => {
     expect(defaultProps.mutator.poLine.DELETE).toHaveBeenCalled();
   });
 
+  it('should cancel POLine', async () => {
+    renderPOLine();
+
+    await waitFor(() => POLineView.mock.calls[0][0].cancelLine());
+
+    expect(defaultProps.mutator.poLine.PUT).toHaveBeenCalled();
+  });
+
   it('should open Tags pane', async () => {
     renderPOLine();
 

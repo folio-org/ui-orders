@@ -1,31 +1,33 @@
 import React from 'react';
 import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
-import { Form } from 'react-final-form';
+import { render, screen, act } from '@testing-library/react';
+import { Field, Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import {
-  HasCommand,
-  expandAllSections,
-  collapseAllSections,
-} from '@folio/stripes/components';
+import { HasCommand } from '@folio/stripes/components';
+import { TextField, useAccordionToggle } from '@folio/stripes-acq-components';
 
-import { ORDER_TYPE } from '../../common/constants';
-import POForm from './POForm';
 import { history } from '../../../test/jest/routerMocks';
+import { ORDER_TYPE } from '../../common/constants';
+import PODetailsForm from './PODetails/PODetailsForm';
+import POForm from './POForm';
 
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
-  expandAllSections: jest.fn(),
-  collapseAllSections: jest.fn(),
+}));
+jest.mock('@folio/stripes-acq-components/lib/hooks/useAccordionToggle', () => ({
+  useAccordionToggle: jest.fn().mockReturnValue([jest.fn(), {}, jest.fn()]),
 }));
 jest.mock('./PODetails/PODetailsForm', () => jest.fn().mockReturnValue('PODetailsForm'));
-jest.mock('./OngoingOgderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
+jest.mock('./OngoingOrderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
 
 const defaultProps = {
   values: {},
   generatedNumber: '1000',
-  initialValues: {},
+  initialValues: {
+    template: 'templateId',
+    poNumber: '',
+  },
   pristine: false,
   submitting: false,
   onSubmit: jest.fn(),
@@ -33,12 +35,28 @@ const defaultProps = {
   change: jest.fn(),
   handleSubmit: jest.fn(),
   parentResources: {
+    orderNumberSetting: {
+      records: [{
+        value: JSON.stringify({ canUserEditOrderNumber: true }),
+      }],
+    },
+    prefixesSetting: {
+      records: [{
+        name: 'pref',
+      }],
+    },
+    suffixesSetting: {
+      records: [{
+        name: 'pref',
+      }],
+    },
     orderTemplates: {
       records: [{
         id: 'templateId',
         label: 'label',
         templateName: 'templateName',
         templateCode: 'templateCode',
+        orderType: ORDER_TYPE.ongoing,
         locations: [{
           locationId: 'locationId',
         }],
@@ -51,7 +69,11 @@ const defaultProps = {
     batch: jest.fn(),
     getRegisteredFields: jest.fn(),
   },
-  parentMutator: {},
+  parentMutator: {
+    orderNumber: {
+      POST: jest.fn(() => Promise.resolve({})),
+    },
+  },
   history,
 };
 
@@ -69,6 +91,10 @@ const renderPOForm = (props = {}) => render(
 );
 
 describe('POForm', () => {
+  beforeEach(() => {
+    PODetailsForm.mockClear();
+  });
+
   it('should render \'PO form\' fields', () => {
     renderPOForm();
 
@@ -92,16 +118,22 @@ describe('POForm', () => {
     expect(screen.getByText(/OngoingInfoForm/i)).toBeInTheDocument();
   });
 
+  it('should render \'Add POL\' button', () => {
+    renderPOForm({ instanceId: 'id' });
+
+    expect(screen.queryByText('ui-orders.paneMenu.addPOLine')).toBeInTheDocument();
+  });
+
   it('should change template when another selected and show hidden fields when \'Show hidden fields\' btn was clicked', async () => {
     renderPOForm();
 
     const select = await screen.findByLabelText('ui-orders.settings.orderTemplates.editor.template.name');
 
-    user.click(select);
+    act(() => user.click(select));
 
     const options = await screen.findAllByRole('option');
 
-    user.click(options[1]);
+    act(() => user.click(options[1]));
 
     const toggleFieldsVisibility = await screen.findByTestId('toggle-fields-visibility');
 
@@ -109,7 +141,7 @@ describe('POForm', () => {
       name: 'ui-orders.orderSummary.approved',
     })).not.toBeInTheDocument();
 
-    user.click(toggleFieldsVisibility);
+    act(() => user.click(toggleFieldsVisibility));
 
     const field = await screen.findByRole('checkbox', {
       name: 'ui-orders.orderSummary.approved',
@@ -117,28 +149,47 @@ describe('POForm', () => {
 
     expect(field).toBeInTheDocument();
   });
+
+  it('should call validator when \'PO Number\' was changed', () => {
+    PODetailsForm.mockImplementation(({ validateNumber }) => (
+      <Field
+        component={TextField}
+        label="ui-orders.orderDetails.poNumber"
+        name="poNumber"
+        validate={validateNumber}
+      />
+    ));
+
+    renderPOForm();
+
+    user.type(screen.getByLabelText('ui-orders.orderDetails.poNumber'), '777');
+
+    expect(defaultProps.parentMutator.orderNumber.POST).toHaveBeenCalled();
+  });
 });
 
 describe('POForm shortcuts', () => {
+  const toggleAll = jest.fn();
+
   beforeEach(() => {
     HasCommand.mockClear();
-    expandAllSections.mockClear();
-    collapseAllSections.mockClear();
+    toggleAll.mockClear();
+    useAccordionToggle.mockClear().mockReturnValue([toggleAll, {}, jest.fn()]);
   });
 
   it('should call expandAllSections when expandAllSections shortcut is called', () => {
     renderPOForm();
 
-    HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
+    act(() => HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler());
 
-    expect(expandAllSections).toHaveBeenCalled();
+    expect(toggleAll).toHaveBeenCalled();
   });
 
   it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
     renderPOForm();
 
-    HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
+    act(() => HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler());
 
-    expect(collapseAllSections).toHaveBeenCalled();
+    expect(toggleAll).toHaveBeenCalled();
   });
 });

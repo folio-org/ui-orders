@@ -1,7 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { ACCORDION_ID as PO_LINE_ACCORDION } from '../../components/POLine/const';
+import {
+  ACCORDION_ID as PO_LINE_ACCORDION,
+  MAP_FIELD_ACCORDION as PO_LINE_FIELD_ACC_MAP,
+} from '../../components/POLine/const';
+import {
+  MAP_FIELD_ACCORDION as PO_FIELD_ACC_MAP,
+} from '../../components/PurchaseOrder/constants';
 
 export const ORDER_TEMPLATES_ACCORDION = {
   TEMPLATE_INFO: 'templateInfo',
@@ -20,6 +26,7 @@ export const ORDER_TEMPLATES_ACCORDION = {
   POL_OTHER_RESOURCES: PO_LINE_ACCORDION.other,
   POL_LOCATION: PO_LINE_ACCORDION.location,
   POL_TAGS: 'polTags',
+  POL_ONGOING_ORDER: 'polOngoingOrder',
 };
 
 export const ORDER_TEMPLATES_ACCORDION_TITLES = {
@@ -30,6 +37,7 @@ export const ORDER_TEMPLATES_ACCORDION_TITLES = {
   [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poSummary" />,
   [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poOngoing" />,
   [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poItemDetails" />,
+  [ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polOngoingOrder" />,
   [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polDetails" />,
   [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polCostDetails" />,
   [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polVendor" />,
@@ -43,3 +51,29 @@ export const ORDER_TEMPLATES_ACCORDION_TITLES = {
 
 export const TEMPLATES_RETURN_LINK = '/settings/orders';
 export const TEMPLATES_RETURN_LINK_LABEL_ID = 'ui-orders.settings';
+
+export const INITIAL_SECTIONS = {
+  [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
+  [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
+  [ORDER_TEMPLATES_ACCORDION.PO_ONGOING]: false,
+  [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: false,
+  [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
+  [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_VENDOR]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
+};
+
+export const MAP_FIELD_ACCORDION = {
+  ...PO_FIELD_ACC_MAP,
+  ...PO_LINE_FIELD_ACC_MAP,
+  templateName: ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO,
+};

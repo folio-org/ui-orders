@@ -37,6 +37,7 @@ import {
   isPhresource,
   isOtherResource,
 } from '../../common/POLFields';
+import { isOngoing } from '../../common/POFields';
 import LocationForm from './Location/LocationForm';
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
@@ -45,6 +46,7 @@ import { VendorForm } from './Vendor';
 import { CostForm } from './Cost';
 import { ItemForm } from './Item';
 import { OtherForm } from './Other';
+import { OngoingOrderForm } from './OngoingOrder';
 import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
@@ -59,6 +61,7 @@ import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import styles from './POLineForm.css';
+import { createPOLDataFromInstance } from './Item/util';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 
@@ -81,17 +84,20 @@ function POLineForm({
   isCreateAnotherChecked = false,
   toggleCreateAnother,
   integrationConfigs = [],
+  instance,
+  isCreateFromInstance = false,
 }) {
   const history = useHistory();
   const [hiddenFields, setHiddenFields] = useState({});
 
+  const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const locations = parentResources?.locations?.records;
   const templateValue = getOrderTemplateValue(parentResources, order?.template, {
     locations,
   });
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
-  const initialInventoryData = (
+  const initialTemplateInventoryData = (
     !lineId && templateValue.id
       ? {
         ...pick(templateValue, [
@@ -106,6 +112,9 @@ function POLineForm({
       }
       : {}
   );
+  const initialInventoryData = isCreateFromInstance
+    ? createPOLDataFromInstance(instance, identifierTypes)
+    : initialTemplateInventoryData;
 
   useEffect(() => {
     setTimeout(() => {
@@ -128,11 +137,23 @@ function POLineForm({
           });
         });
       }
+
+      if (isCreateFromInstance) {
+        form.batch(() => {
+          change('isPackage', false);
+
+          Object.keys(initialInventoryData).forEach(field => {
+            if (field === 'productIds') {
+              change(`details.${field}`, initialInventoryData[field]);
+            } else change(field, initialInventoryData[field]);
+          });
+        });
+      }
     });
 
     setHiddenFields(templateValue?.hiddenFields || {});
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [change, lineId, templateValue.id]);
+  }, [change, instance?.id, isCreateFromInstance, lineId, templateValue.id]);
 
   const getAddFirstMenu = () => {
     return (
@@ -211,7 +232,7 @@ function POLineForm({
 
     const end = (
       <>
-        {!lineId && (linesLimit > 1) && (
+        {!isCreateFromInstance && !lineId && (linesLimit > 1) && (
           <Checkbox
             label={<FormattedMessage id="ui-orders.buttons.line.createAnother" />}
             checked={isCreateAnotherChecked}
@@ -253,17 +274,19 @@ function POLineForm({
     );
   };
 
-  const [expandAll, stateSections, toggleSection] = useAccordionToggle(INITIAL_SECTIONS);
+  const errors = form.getState()?.errors;
 
-  const errorAccordions = Object.keys(form.getState().errors).map(
-    (fieldName) => ({ [MAP_FIELD_ACCORDION[fieldName]]: true }),
+  const [
+    expandAll,
+    sections,
+    toggleSection,
+  ] = useAccordionToggle(
+    INITIAL_SECTIONS,
+    {
+      errors,
+      fieldsMap: MAP_FIELD_ACCORDION,
+    },
   );
-  const sections = errorAccordions.length
-    ? {
-      ...stateSections,
-      ...(errorAccordions.reduce((accum, section) => ({ ...accum, ...section }), {})),
-    }
-    : stateSections;
 
   const lineNumber = get(initialValues, 'poLineNumber', '');
   const firstMenu = getAddFirstMenu();
@@ -294,11 +317,11 @@ function POLineForm({
     },
     {
       name: 'expandAllSections',
-      handler: () => expandAll(mapValues(stateSections, () => true)),
+      handler: () => expandAll(mapValues(sections, () => true)),
     },
     {
       name: 'collapseAllSections',
-      handler: () => expandAll(mapValues(stateSections, () => false)),
+      handler: () => expandAll(mapValues(sections, () => false)),
     },
     {
       name: 'search',
@@ -315,7 +338,6 @@ function POLineForm({
   const showPhresources = isPhresource(orderFormat);
   const showOther = isOtherResource(orderFormat);
   const materialTypes = getMaterialTypesForSelect(parentResources);
-  const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
   const orderTemplates = getOrderTemplatesForSelect(parentResources);
   const locationIds = locations?.map(({ id }) => id);
@@ -395,6 +417,8 @@ function POLineForm({
                         initialValues={{ ...initialValues, ...initialInventoryData }}
                         stripes={stripes}
                         hiddenFields={hiddenFields}
+                        isCreateFromInstance={isCreateFromInstance}
+                        lineId={lineId}
                       />
                     </Accordion>
                     <Accordion
@@ -412,6 +436,16 @@ function POLineForm({
                         integrationConfigs={integrationConfigs}
                       />
                     </Accordion>
+                    {isOngoing(order.orderType) && (
+                      <Accordion
+                        label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
+                        id={ACCORDION_ID.ongoingOrder}
+                      >
+                        <OngoingOrderForm
+                          hiddenFields={hiddenFields}
+                        />
+                      </Accordion>
+                    )}
                     <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
                       id={ACCORDION_ID.vendor}
@@ -531,6 +565,8 @@ POLineForm.propTypes = {
   isCreateAnotherChecked: PropTypes.bool,
   toggleCreateAnother: PropTypes.func.isRequired,
   integrationConfigs: PropTypes.arrayOf(PropTypes.object),
+  instance: PropTypes.object,
+  isCreateFromInstance: PropTypes.bool,
 };
 
 export default stripesForm({

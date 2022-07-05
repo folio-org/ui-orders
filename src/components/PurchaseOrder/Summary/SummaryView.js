@@ -37,6 +37,7 @@ const SummaryView = ({ order, hiddenFields }) => (
             checked={order.approved}
             disabled
             label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
+            type="checkbox"
             vertical
           />
         </Col>

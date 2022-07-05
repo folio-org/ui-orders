@@ -8,6 +8,7 @@ import memoize from 'lodash/memoize';
 
 import {
   Col,
+  NoValue,
   Row,
 } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
@@ -25,7 +26,15 @@ const FIELD_PRODUCT_ID_TYPE = 'productIdType';
 
 const DEFAULT_ID_TYPES = [];
 
-function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, required, mutator }) {
+function ProductIdDetailsForm({
+  disabled,
+  identifierTypes,
+  isNonInteractive,
+  mutator,
+  onChangeField,
+  required,
+}) {
+  const isEditable = !(disabled || isNonInteractive);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
   const removeField = useCallback((fields, index) => {
@@ -39,7 +48,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
   const memoizedGet = useMemo(() => memoize(callValidationAPI), [callValidationAPI]);
 
   const validateProductIdCB = useCallback(async (productId, formValues, blurredField) => {
-    const requiredError = validateRequired(productId);
+    const requiredError = required ? validateRequired(productId) : undefined;
 
     if (requiredError) {
       return requiredError;
@@ -62,7 +71,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
     }
 
     return undefined;
-  }, [identifierTypes, memoizedGet]);
+  }, [identifierTypes, memoizedGet, required]);
 
   const renderSubForm = (elem) => {
     const validateProductId = (productId, formValues) => {
@@ -75,10 +84,11 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
           <Field
             component={TextField}
             fullWidth
+            disabled={disabled}
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             name={`${elem}.productId`}
             onChange={({ target: { value } }) => onChangeField(value, `${elem}.productId`)}
-            isNonInteractive={disabled}
+            isNonInteractive={isNonInteractive}
             required={required}
             validate={validateProductId}
             validateFields={[]}
@@ -88,10 +98,11 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
           <Field
             component={TextField}
             fullWidth
+            disabled={disabled}
             label={<FormattedMessage id="ui-orders.itemDetails.qualifier" />}
             name={`${elem}.qualifier`}
             onChange={({ target: { value } }) => onChangeField(value, `${elem}.qualifier`)}
-            isNonInteractive={disabled}
+            isNonInteractive={isNonInteractive}
             validateFields={[]}
           />
         </Col>
@@ -99,11 +110,12 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
           <FieldSelectFinal
             dataOptions={identifierTypes}
             fullWidth
+            disabled={disabled}
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
             name={`${elem}.productIdType`}
             onChange={({ target: { value } }) => onChangeField(value, `${elem}.productIdType`)}
             required={required}
-            isNonInteractive={disabled}
+            isNonInteractive={isNonInteractive}
             validate={required ? validateRequired : undefined}
             validateFields={[`${elem}.productId`]}
           />
@@ -114,15 +126,15 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
 
   return (
     <FieldArray
-      addLabel={disabled ? null : <FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />}
+      addLabel={!isEditable ? null : <FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />}
       component={RepeatableFieldWithErrorMessage}
-      emptyMessage={<FormattedMessage id="ui-orders.itemDetails.addProductId" />}
+      emptyMessage={!isEditable ? <NoValue /> : <FormattedMessage id="ui-orders.itemDetails.addProductId" />}
       id="productIds"
       legend={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
       name="details.productIds"
       onRemove={removeField}
-      canAdd={!disabled}
-      canRemove={!disabled}
+      canAdd={isEditable}
+      canRemove={isEditable}
       renderField={renderSubForm}
     />
   );
@@ -130,6 +142,7 @@ function ProductIdDetailsForm({ disabled, onChangeField, identifierTypes, requir
 
 ProductIdDetailsForm.propTypes = {
   identifierTypes: PropTypes.arrayOf(PropTypes.object),
+  isNonInteractive: PropTypes.bool,
   onChangeField: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
@@ -139,6 +152,7 @@ ProductIdDetailsForm.propTypes = {
 ProductIdDetailsForm.defaultProps = {
   disabled: false,
   identifierTypes: DEFAULT_ID_TYPES,
+  isNonInteractive: false,
   required: true,
 };
 

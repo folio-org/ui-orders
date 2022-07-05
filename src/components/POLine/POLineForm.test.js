@@ -7,7 +7,10 @@ import user from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
 
 import { HasCommand } from '@folio/stripes/components';
-import { useAccordionToggle } from '@folio/stripes-acq-components';
+import {
+  ORDER_TYPES,
+  useAccordionToggle,
+} from '@folio/stripes-acq-components';
 
 import POLineForm from './POLineForm';
 import { order } from '../../../test/jest/fixtures';
@@ -144,6 +147,30 @@ describe('POLineForm', () => {
 
     await waitFor(() => {
       expect(screen.queryByText('ui-orders.line.accordion.itemDetails')).not.toBeInTheDocument();
+    });
+  });
+
+  it('should render Ongoing order information accordion', async () => {
+    renderPOLineForm({ ...defaultProps, order: { ...order, orderType: ORDER_TYPES.ongoing } });
+
+    await waitFor(() => {
+      expect(screen.getByText('ui-orders.line.accordion.ongoingOrder')).toBeInTheDocument();
+    });
+  });
+
+  it('should render \'Create another\' checkbox', async () => {
+    renderPOLineForm();
+
+    await waitFor(() => {
+      expect(screen.getByText('ui-orders.buttons.line.createAnother')).toBeInTheDocument();
+    });
+  });
+
+  it('should not render \'Create another\' checkbox', async () => {
+    renderPOLineForm({ isCreateFromInstance: true });
+
+    await waitFor(() => {
+      expect(screen.queryByText('ui-orders.buttons.line.createAnother')).not.toBeInTheDocument();
     });
   });
 });

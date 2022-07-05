@@ -26,10 +26,11 @@
       "contributor-name-types": "1.2",
       "contributor-types": "2.0",
       "erm": "4.0 5.0",
+      "finance.budgets": "1.3 2.0",
       "finance.exchange-rate": "1.0",
-      "finance.expense-classes": "1.0 2.0",
-      "finance.funds": "1.0",
-      "finance.transactions": "4.0",
+      "finance.expense-classes": "2.0 3.0",
+      "finance.funds": "1.0 2.0",
+      "finance.transactions": "4.0 5.0",
       "holdings-storage": "4.4 5.0",
       "identifier-types": "1.2",
       "instance-formats": "2.0",
@@ -48,6 +49,7 @@
       "order-templates": "1.0",
       "orders": "11.0 12.0",
       "organizations.organizations": "1.0",
+      "organizations-storage.organization-types": "1.0",
       "pieces": "2.0",
       "po-number": "1.0",
       "receiving": "1.0",
@@ -127,120 +129,77 @@
         ]
       },
       {
-        "permissionName": "ui-orders.order.view",
-        "displayName": "Orders: View orders",
+        "permissionName": "ui-orders.orders.view",
+        "displayName": "Orders: Can view Orders and Order lines",
         "description": "",
         "visible": true,
         "subPermissions": [
           "module.orders.enabled",
+          "finance.budgets.collection.get",
+          "finance.exchange-rate.item.get",
+          "finance.expense-classes.collection.get",
+          "finance.funds.expense-classes.collection.get",
+          "inventory.instances.collection.get",
           "orders-storage.order-invoice-relationships.collection.get",
+          "orders.acquisition-method.item.get",
+          "orders.acquisition-methods.collection.get",
           "orders.collection.get",
           "orders.configuration.prefixes.collection.get",
-          "orders.configuration.suffixes.collection.get",
           "orders.configuration.reasons-for-closure.collection.get",
+          "orders.configuration.suffixes.collection.get",
           "orders.item.get",
           "orders.pieces.collection.get",
+          "orders.po-lines.collection.get",
+          "orders.po-lines.item.get",
+          "orders.titles.collection.get",
           "ui-orders.third-party-services"
         ]
       },
       {
-        "permissionName": "ui-orders.order.create",
-        "displayName": "Orders: Create orders",
+        "permissionName": "ui-orders.orders.edit",
+        "displayName": "Orders: Can edit Orders and Order lines",
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-orders.order.view",
-          "orders.item.post",
-          "orders.order-templates.collection.get",
-          "orders.order-templates.item.get",
-          "orders.po-number.item.get",
-          "orders.po-number.item.post"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.order.edit",
-        "displayName": "Orders: Edit orders",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "orders.configuration.prefixes.collection.get",
-          "orders.configuration.suffixes.collection.get",
-          "orders.configuration.reasons-for-closure.collection.get",
-          "orders.order-templates.collection.get",
-          "orders.order-templates.item.get",
+          "data-export.config.collection.get",
           "orders.item.put",
-          "orders.item.approve",
-          "orders.po-number.item.post",
-          "orders.po-number.item.get",
-          "ui-orders.order.view"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.order.delete",
-        "displayName": "Orders: Remove orders",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "orders.item.delete"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.order-lines.view",
-        "displayName": "Orders: View order lines",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "module.orders.enabled",
-          "inventory.instances.collection.get",
-          "finance.exchange-rate.item.get",
-          "finance.funds.expense-classes.collection.get",
-          "finance.expense-classes.collection.get",
-          "orders-storage.order-invoice-relationships.collection.get",
-          "orders.collection.get",
-          "orders.item.get",
-          "orders.configuration.prefixes.collection.get",
-          "orders.configuration.suffixes.collection.get",
-          "orders.po-lines.collection.get",
-          "orders.po-lines.item.get",
-          "orders.pieces.collection.get",
-          "ui-orders.third-party-services",
-          "orders.acquisition-methods.collection.get"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.order-lines.create",
-        "displayName": "Orders: Create order lines",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "data-export.config.collection.get",
-          "orders.order-templates.collection.get",
-          "orders.order-templates.item.get",
-          "orders.po-lines.item.post",
-          "ui-orders.order-lines.view"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.order-lines.edit",
-        "displayName": "Orders: Edit order lines",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "data-export.config.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
           "orders.pieces.item.delete",
+          "orders.po-lines.item.patch",
           "orders.po-lines.item.put",
+          "orders.po-number.item.get",
+          "orders.po-number.item.post",
           "orders.titles.item.post",
-          "ui-orders.order-lines.view"
+          "ui-orders.orders.view"
         ]
       },
       {
-        "permissionName": "ui-orders.order-lines.delete",
-        "displayName": "Orders: Delete order lines",
+        "permissionName": "ui-orders.orders.create",
+        "displayName": "Orders: Can create new Orders and Order lines",
         "description": "",
         "visible": true,
         "subPermissions": [
+          "data-export.config.collection.get",
+          "orders.item.post",
+          "orders.order-templates.collection.get",
+          "orders.order-templates.collection.get",
+          "orders.order-templates.item.get",
+          "orders.order-templates.item.get",
+          "orders.po-lines.item.post",
+          "orders.po-number.item.get",
+          "orders.po-number.item.post",
+          "orders.titles.item.put",
+          "ui-orders.orders.view"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.orders.delete",
+        "displayName": "Orders: Can delete Orders and Order lines",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.item.delete",
           "orders.po-lines.item.delete"
         ]
       },
@@ -280,6 +239,34 @@
         "subPermissions": [
           "orders.item.put",
           "orders.item.unopen"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order.approve",
+        "displayName": "Orders: Approve purchase orders",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.item.approve",
+          "orders.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order.cancel",
+        "displayName": "Orders: Cancel purchase orders",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order-lines.cancel",
+        "displayName": "Orders: Cancel order lines",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.po-lines.item.put"
         ]
       },
       {
@@ -393,7 +380,9 @@
         "displayName": "Orders: Export search results",
         "description": "",
         "visible": true,
-        "subPermissions": []
+        "subPermissions": [
+          "organizations-storage.organization-types.collection.get"
+        ]
       },
       {
         "permissionName": "ui-orders.order.showHidden",
@@ -416,6 +405,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
+    "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-decorators": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
@@ -424,20 +414,19 @@
     "@bigtest/interactor": "^0.9.3",
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
-    "@folio/eslint-config-stripes": "^6.0.0",
+    "@folio/eslint-config-stripes": "^6.1.0",
     "@folio/stripes": "^7.0.0",
-    "@folio/stripes-cli": "^2.0.0",
+    "@folio/stripes-cli": "^2.4.0",
     "@formatjs/cli": "^4.2.7",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.0.2",
     "@testing-library/react-hooks": "^5.0.3",
     "@testing-library/user-event": "^13.2.1",
-    "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",
     "chai": "^4.2.0",
     "core-js": "^3.6.1",
-    "eslint": "^7.7.0",
+    "eslint": "^7.32.0",
     "eslint-plugin-filenames": "^1.3.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.0.0",
@@ -486,7 +475,6 @@
     "redux": "*"
   },
   "resolutions": {
-    "babel-eslint/@babel/parser": "7.7.5",
     "@rehooks/local-storage": "2.4.0"
   },
   "optionalDependencies": {

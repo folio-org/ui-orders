@@ -4,22 +4,20 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import {
-  HasCommand,
-  expandAllSections,
-  collapseAllSections,
-} from '@folio/stripes/components';
+import { HasCommand } from '@folio/stripes/components';
+import { useAccordionToggle } from '@folio/stripes-acq-components';
 
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
-  expandAllSections: jest.fn(),
-  collapseAllSections: jest.fn(),
 }));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   Layer: jest.fn(({ children }) => <>{children}</>),
+}));
+jest.mock('@folio/stripes-acq-components/lib/hooks/useAccordionToggle', () => ({
+  useAccordionToggle: jest.fn().mockReturnValue([jest.fn(), {}, jest.fn()]),
 }));
 
 const defaultProps = {
@@ -115,10 +113,12 @@ describe('OrderTemplatesEditor', () => {
   });
 
   describe('OrderTemplatesEditor shortcuts', () => {
+    const toggleAll = jest.fn();
+
     beforeEach(() => {
       HasCommand.mockClear();
-      expandAllSections.mockClear();
-      collapseAllSections.mockClear();
+      toggleAll.mockClear();
+      useAccordionToggle.mockClear().mockReturnValue([toggleAll, {}, jest.fn()]);
       defaultProps.close.mockClear();
     });
 
@@ -127,7 +127,7 @@ describe('OrderTemplatesEditor', () => {
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
 
-      expect(expandAllSections).toHaveBeenCalled();
+      expect(toggleAll).toHaveBeenCalled();
     });
 
     it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
@@ -135,7 +135,7 @@ describe('OrderTemplatesEditor', () => {
 
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
 
-      expect(collapseAllSections).toHaveBeenCalled();
+      expect(toggleAll).toHaveBeenCalled();
     });
 
     it('should call close when cancel shortcut is called', () => {

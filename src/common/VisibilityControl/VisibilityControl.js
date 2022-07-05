@@ -49,7 +49,7 @@ export const VisibilityControl = ({
                 size="medium"
                 icon={input.checked ? 'eye-closed' : 'eye-open'}
                 role="checkbox"
-                tabIndex={0}
+                tabIndex="0"
               />
             </label>
           </div>

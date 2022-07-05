@@ -27,7 +27,7 @@ export const PrintOrderLines = ({ lines = [] }) => {
           lineColumns.map((column, i) => (
             <Col
               xs={column.size}
-              key={i}
+              key={`${i}-${column.title}`}
             >
               {column.title}
             </Col>

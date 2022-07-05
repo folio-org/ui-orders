@@ -3,6 +3,7 @@ export const EXPORT_ORDER_FIELDS = {
   poNumber: 'PO number',
   poNumberSuffix: 'PO number suffix',
   vendor: 'Vendor',
+  organizationType: 'Organization type',
   orderType: 'Order type',
   acquisitionsUnits: 'Acquisitions units',
   approvalDate: 'Approval date',
@@ -83,6 +84,7 @@ export const EXPORT_LINE_FIELDS = {
   userLimit: 'User limit',
   resourceUrl: 'URL',
   poLineTags: 'POLine tags',
+  renewalNote: 'Renewal note',
 };
 
 export const EXPORT_ORDER_FIELDS_OPTIONS = Object.keys(EXPORT_ORDER_FIELDS).map(field => ({

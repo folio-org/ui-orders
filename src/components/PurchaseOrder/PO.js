@@ -83,7 +83,7 @@ import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
-import { OngoingOrderInfoView } from './OngoingOgderInfo';
+import { OngoingOrderInfoView } from './OngoingOrderInfo';
 import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
@@ -205,6 +205,7 @@ const PO = ({
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
   const tags = get(order, 'tags.tagList', []);
   const accordionStatusRef = useRef();
+  const [isCancelReason, setIsCancelReason] = useState(false);
 
   const isReceiptRequired = !(poLines?.every(({ receiptStatus }) => (
     receiptStatus === RECEIPT_STATUS.receiptNotRequired
@@ -296,6 +297,7 @@ const PO = ({
         },
       };
 
+      setIsCancelReason(false);
       toggleCloseOrderModal();
       setIsLoading(true);
       updateOrderResource(order, mutator.orderDetails, closeOrderProps)
@@ -604,7 +606,7 @@ const PO = ({
       name: 'edit',
       handler: handleKeyCommand(() => {
         if (
-          stripes.hasPerm('ui-orders.order.edit') &&
+          stripes.hasPerm('ui-orders.orders.edit') &&
           !isRestrictionsLoading &&
           !restrictions.protectUpdate
         ) onEdit();
@@ -675,6 +677,10 @@ const PO = ({
         actionMenu={getPOActionMenu({
           approvalsSetting,
           clickApprove: approveOrder,
+          clickCancel: () => {
+            setIsCancelReason(true);
+            toggleCloseOrderModal();
+          },
           clickClone: toggleCloneConfirmation,
           clickClose: toggleCloseOrderModal,
           clickDelete: toggleDeleteOrderConfirm,
@@ -709,10 +715,14 @@ const PO = ({
 
               {isCloseOrderModalOpened && (
                 <CloseOrderModal
-                  cancel={toggleCloseOrderModal}
+                  cancel={() => {
+                    setIsCancelReason(false);
+                    toggleCloseOrderModal();
+                  }}
                   closeOrder={closeOrder}
                   closingReasons={reasonsForClosure}
                   orderNumber={orderNumber}
+                  isCancelReason={isCancelReason}
                 />
               )}
 

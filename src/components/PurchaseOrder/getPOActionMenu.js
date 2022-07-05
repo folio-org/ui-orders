@@ -21,6 +21,7 @@ import {
 export function getPOActionMenu({
   approvalsSetting,
   clickApprove,
+  clickCancel,
   clickClone,
   clickClose,
   clickDelete,
@@ -105,6 +106,20 @@ export function getPOActionMenu({
             </Icon>
           </Button>
         )}
+        <IfPermission perm="ui-orders.order.cancel">
+          {isOrderInOpenStatus && (
+            <Button
+              buttonStyle="dropdownItem"
+              data-testid="cancel-order-button"
+              disabled={isUpdateDisabled}
+              onClick={clickCancel}
+            >
+              <Icon size="small" icon="cancel">
+                <FormattedMessage id="ui-orders.buttons.line.cancel" />
+              </Icon>
+            </Button>
+          )}
+        </IfPermission>
         <IfPermission perm="orders.item.unopen">
           {isOrderInOpenStatus && (
             <Button

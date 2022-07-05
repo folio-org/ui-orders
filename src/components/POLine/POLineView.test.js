@@ -4,6 +4,8 @@ import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
+import { ORDER_TYPES } from '@folio/stripes-acq-components';
+
 import POLineView from './POLineView';
 import { history, location, match } from '../../../test/jest/routerMocks';
 import { orderLine, order } from '../../../test/jest/fixtures';
@@ -99,6 +101,12 @@ describe('POLineView', () => {
     expect(screen.getByText(/ViewMetaData/i)).toBeInTheDocument();
   });
 
+  it('should render Ongoing order information accordion', async () => {
+    renderPOLineView({ ...defaultProps, order: { ...order, orderType: ORDER_TYPES.ongoing } });
+
+    expect(screen.getByText('ui-orders.line.accordion.ongoingOrder')).toBeInTheDocument();
+  });
+
   it('should go to order details when corresponding button was pressed', async () => {
     renderPOLineView();
 
@@ -107,5 +115,11 @@ describe('POLineView', () => {
     user.click(goToBtn);
 
     expect(defaultProps.goToOrderDetails).toHaveBeenCalled();
+  });
+
+  it('should not render change instance button for pending order', async () => {
+    renderPOLineView();
+
+    expect(screen.queryByText('ui-orders.buttons.line.changeInstance')).toBeNull();
   });
 });

@@ -36,5 +36,6 @@ test('createExportReport should return export report object', () => {
     [expenseClass],
     [address],
     [{ id: orderLine.acquisitionMethod, value: 'Purchase' }],
+    [{ id: vendor?.organizationTypes?.[0], name: 'Test type' }],
   )).toEqual(exportReport);
 });
