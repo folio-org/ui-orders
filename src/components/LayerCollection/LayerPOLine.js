@@ -164,7 +164,12 @@ function LayerPOLine({
           }
 
           sendCallout({
-            message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
+            message: (
+              <FormattedMessage
+                id={`ui-orders.errors.${messageCode}`}
+                defaultMessage={intl.formatMessage({ id: 'ui-orders.errors.orderLineGenericError' })}
+              />
+            ),
             type: 'error',
           });
         }
