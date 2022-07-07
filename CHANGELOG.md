@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.2.0](https://github.com/folio-org/ui-orders/tree/v3.2.0) (2022-07-07)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.2...v3.2.0)
+
 * Updated "Date ordered" label to "Date opened". Refs UIOR-908.
 * Remove react-hot-loader - unmaintained, security (CVE-2021-44906). Refs UIOR-932.
 * Select filter should announce the number of Results in Result List pane header. Refs UIOR-925.
