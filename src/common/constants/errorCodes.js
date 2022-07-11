@@ -10,6 +10,8 @@ export const ERROR_CODES = {
   costUnitPriceElectronicInvalid: 'costUnitPriceElectronicInvalid',
   costUnitPriceInvalid: 'costUnitPriceInvalid',
   currentFYearNotFound: 'currentFYearNotFound',
+  deleteConnectedToInvoice: 'deleteConnectedToInvoice',
+  deleteWithExpendedAmount: 'deleteWithExpendedAmount',
   electronicLocCostQtyMismatch: 'electronicLocCostQtyMismatch',
   encumbranceCreationFailure: 'encumbranceCreationFailure',
   fundCannotBePaid: 'fundCannotBePaid',

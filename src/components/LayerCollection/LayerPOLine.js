@@ -147,16 +147,29 @@ function LayerPOLine({
         response = e;
       }
 
-      if (response.errors && response.errors.length) {
+      if (response?.errors?.length) {
         if (response.errors.find(el => el.code === ERROR_CODES.polLimitExceeded)) {
           openLineLimitExceededModal(line);
         } else if (response.errors.find(el => el.code === ERROR_CODES.piecesNeedToBeDeleted)) {
           toggleDeletePieces();
         } else {
-          const messageCode = get(ERROR_CODES, response.errors[0].code, 'orderLineGenericError');
+          let messageCode = get(ERROR_CODES, response.errors[0].code);
+
+          if (!messageCode) {
+            try {
+              messageCode = JSON.parse(response.errors[0].message)?.errors?.[0]?.code || 'orderLineGenericError';
+            } catch {
+              messageCode = 'orderLineGenericError';
+            }
+          }
 
           sendCallout({
-            message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
+            message: (
+              <FormattedMessage
+                id={`ui-orders.errors.${messageCode}`}
+                defaultMessage={intl.formatMessage({ id: 'ui-orders.errors.orderLineGenericError' })}
+              />
+            ),
             type: 'error',
           });
         }

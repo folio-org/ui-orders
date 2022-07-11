@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.2.0](https://github.com/folio-org/ui-orders/tree/v3.2.0) (2022-07-07)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.2...v3.2.0)
+
 * Updated "Date ordered" label to "Date opened". Refs UIOR-908.
 * Remove react-hot-loader - unmaintained, security (CVE-2021-44906). Refs UIOR-932.
 * Select filter should announce the number of Results in Result List pane header. Refs UIOR-925.
@@ -27,6 +30,8 @@
 * Printing `Product IDs` on separate lines which makes them hard to read. Refs UIOR-912.
 * Instance connection of POL (integration with back end). Refs UIOR-979.
 * `Move` option is not disabled when holdings contain piece(s) and/or item(s) that are NOT related to the POLine. Refs UIOR-991.
+* Error handling improvement. Refs UIOR-994.
+
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
 

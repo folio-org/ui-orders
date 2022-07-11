@@ -138,6 +138,8 @@
   "errors.costUnitPriceElectronicInvalid": "Cost's list unit price for Electronic resource(s) is invalid",
   "errors.costUnitPriceInvalid": "Cost's list unit price is invalid",
   "errors.currentFYearNotFound": "Current fiscal year not found for ledger",
+  "errors.deleteConnectedToInvoice": "Fund distribution(s) could not be edit because this POL has related approved or paid invoices for the current fiscal year.",
+  "errors.deleteWithExpendedAmount": "Fund distribution(s) could not be edit because this POL has related approved or paid invoices for the current fiscal year.",
   "errors.electronicLocCostQtyMismatch": "PO line electronic quantity and locations electronic quantity do not match",
   "errors.encumbranceCreationFailure": "One or more encumbrance record(s) failed to be created",
   "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in <b>{fundCodes}</b>.",
