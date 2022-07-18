@@ -24,6 +24,7 @@ export function getPOActionMenu({
   clickCancel,
   clickClone,
   clickClose,
+  clickCreateInvoice,
   clickDelete,
   clickEdit,
   clickOpen,
@@ -44,9 +45,12 @@ export function getPOActionMenu({
   const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
   const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
   const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
-  const isReopenButtonVisible = isWorkflowStatusClosed(order);
+  const isOrderInClosedStatus = isWorkflowStatusClosed(order);
   const isOrderInOpenStatus = isWorkflowStatusOpen(order);
   const isUpdateDisabled = isRestrictionsLoading || restrictions.protectUpdate;
+  const isNewInvoiceButtonVisible = Boolean(
+    (isOrderInOpenStatus || isOrderInClosedStatus) && order.compositePoLines?.length,
+  );
 
   return ({ onToggle }) => (
     <MenuSection id="order-details-actions">
@@ -157,6 +161,18 @@ export function getPOActionMenu({
           </Button>
         )}
       </IfPermission>
+      <IfPermission perm="ui-invoice.invoice.create">
+        {isNewInvoiceButtonVisible && (
+          <Button
+            buttonStyle="dropdownItem"
+            onClick={clickCreateInvoice}
+          >
+            <Icon size="small" icon="plus-sign">
+              <FormattedMessage id="ui-orders.paneBlock.createInvoice" />
+            </Icon>
+          </Button>
+        )}
+      </IfPermission>
       <IfPermission perm="orders.item.post">
         <Button
           buttonStyle="dropdownItem"
@@ -169,7 +185,7 @@ export function getPOActionMenu({
           </Icon>
         </Button>
       </IfPermission>
-      {isReopenButtonVisible && (
+      {isOrderInClosedStatus && (
         <Button
           buttonStyle="dropdownItem"
           data-test-reopen-order-button

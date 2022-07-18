@@ -7,3 +7,5 @@ export const ORDER_LINE_VIEW_ROUTE = `${ORDER_VIEW_ROUTE}/po-line/view/:lineId`;
 export const ORDER_CREATE_ROUTE = `${ORDERS_ROUTE}/create`;
 export const ORDER_EDIT_ROUTE = `${ORDERS_ROUTE}/edit/:id`;
 export const NOTES_ROUTE = `${ORDERS_ROUTE}/notes`;
+
+export const INVOICES_ROUTE = '/invoice';
