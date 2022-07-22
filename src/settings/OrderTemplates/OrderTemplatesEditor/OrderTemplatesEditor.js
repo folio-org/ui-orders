@@ -30,12 +30,14 @@ import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
 } from '../constants';
 
+import { isOngoing } from '../../../common/POFields';
 import {
   isEresource,
   isPhresource,
   isOtherResource,
 } from '../../../common/POLFields';
 import { WORKFLOW_STATUS } from '../../../common/constants';
+import { useFundDistributionValidation } from '../../../common/hooks';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import { OngoingOrderForm } from '../../../components/POLine/OngoingOrder';
@@ -53,7 +55,6 @@ import POLineLocationsForm from './POLineLocationsForm';
 import calculateEstimatedPrice from '../../../components/POLine/calculateEstimatedPrice';
 
 import css from './OrderTemplatesEditor.css';
-import { isOngoing } from '../../../common/POFields';
 
 const ORDER = {
   workflowStatus: WORKFLOW_STATUS.pending,
@@ -80,6 +81,7 @@ const OrderTemplatesEditor = ({
   pristine,
   submitting,
 }) => {
+  const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
   const errors = getState()?.errors;
 
   const [
@@ -319,6 +321,7 @@ const OrderTemplatesEditor = ({
                       name="fundDistribution"
                       totalAmount={estimatedPrice}
                       required={false}
+                      validateFundDistributionTotal={validateFundDistributionTotal}
                     />
                   </Accordion>
 

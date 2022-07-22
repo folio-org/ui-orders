@@ -1,4 +1,7 @@
-import { ORDERS_API } from '@folio/stripes-acq-components';
+import {
+  LINES_API,
+  ORDERS_API,
+} from '@folio/stripes-acq-components';
 
 export const INSTANCE_STATUSES_API = 'instance-statuses';
 export const INSTANCE_TYPES_API = 'instance-types';
@@ -9,3 +12,5 @@ export const INVOICES_API = 'invoice/invoices';
 export const INVOICE_LINES_API = 'invoice/invoice-lines';
 
 export const TITLES_API = 'orders/titles';
+
+export const VALIDATE_PO_LINE_FUND_DISTRIBUTION_API = `${LINES_API}/fund-distributions/validate`;
