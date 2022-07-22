@@ -32,6 +32,7 @@ import {
   useAccordionToggle,
 } from '@folio/stripes-acq-components';
 
+import { useFundDistributionValidation } from '../../common/hooks';
 import {
   isEresource,
   isPhresource,
@@ -89,6 +90,7 @@ function POLineForm({
 }) {
   const history = useHistory();
   const [hiddenFields, setHiddenFields] = useState({});
+  const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
 
   const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const locations = parentResources?.locations?.records;
@@ -480,6 +482,7 @@ function POLineForm({
                         fundDistribution={fundDistribution}
                         name="fundDistribution"
                         totalAmount={estimatedPrice}
+                        validateFundDistributionTotal={validateFundDistributionTotal}
                       />
                     </Accordion>
                     <Accordion
