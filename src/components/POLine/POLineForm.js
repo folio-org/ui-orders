@@ -92,9 +92,6 @@ function POLineForm({
   const [hiddenFields, setHiddenFields] = useState({});
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
 
-  // console.log('form', form);
-  // console.log('form state', form.getState());
-
   const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const locations = parentResources?.locations?.records;
   const templateValue = getOrderTemplateValue(parentResources, order?.template, {
