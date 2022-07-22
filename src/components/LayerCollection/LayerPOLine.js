@@ -73,6 +73,18 @@ import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import ModalDeletePieces from '../ModalDeletePieces';
 
+const parseErrorMessage = (code) => {
+  let messageCode;
+
+  try {
+    messageCode = JSON.parse(code)?.errors?.[0]?.code || 'orderLineGenericError';
+  } catch {
+    messageCode = 'orderLineGenericError';
+  }
+
+  return messageCode;
+};
+
 function LayerPOLine({
   history,
   location: { search, state: locationState },
@@ -156,11 +168,7 @@ function LayerPOLine({
           let messageCode = get(ERROR_CODES, response.errors[0].code);
 
           if (!messageCode) {
-            try {
-              messageCode = JSON.parse(response.errors[0].message)?.errors?.[0]?.code || 'orderLineGenericError';
-            } catch {
-              messageCode = 'orderLineGenericError';
-            }
+            messageCode = parseErrorMessage(response.errors[0].message);
           }
 
           sendCallout({
