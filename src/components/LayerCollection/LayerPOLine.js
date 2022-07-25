@@ -494,8 +494,10 @@ function LayerPOLine({
       if (vendorId) {
         memoizedMutator.orderVendor.GET({ path: `${VENDORS_API}/${vendorId}` })
           .then(
-            setVendor({}),
+            setVendor,
             errorResponse => {
+              setVendor({});
+
               let response;
 
               try {
