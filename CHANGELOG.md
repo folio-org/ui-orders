@@ -3,6 +3,7 @@
 ## (IN PROGRESS)
 
 * Use BE validation of fund distributions total. Refs UIOR-978.
+* Unable to select account number. Refs UIOR-1000.
 
 ## [3.2.0](https://github.com/folio-org/ui-orders/tree/v3.2.0) (2022-07-07)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.2...v3.2.0)
