@@ -129,10 +129,13 @@ export function getPOActionMenu({
             <Button
               buttonStyle="dropdownItem"
               data-test-unopen-order-button
+              data-testid="unopen-order-button"
               disabled={isUpdateDisabled}
               onClick={clickUnopen}
             >
-              <FormattedMessage id="ui-orders.paneBlock.unopenBtn" />
+              <Icon size="small" icon="arrow-left">
+                <FormattedMessage id="ui-orders.paneBlock.unopenBtn" />
+              </Icon>
             </Button>
           )}
         </IfPermission>
@@ -155,9 +158,12 @@ export function getPOActionMenu({
         {isOrderInOpenStatus && (
           <Button
             buttonStyle="dropdownItem"
+            data-testid="update-encumbrances-button"
             onClick={clickUpdateEncumbrances}
           >
-            <FormattedMessage id="ui-orders.paneBlock.updateEncumbrances" />
+            <Icon size="small" icon="arrow-up">
+              <FormattedMessage id="ui-orders.paneBlock.updateEncumbrances" />
+            </Icon>
           </Button>
         )}
       </IfPermission>
@@ -196,7 +202,9 @@ export function getPOActionMenu({
             clickReopen();
           }}
         >
-          <FormattedMessage id="ui-orders.paneBlock.reopenBtn" />
+          <Icon size="small" icon="arrow-right">
+            <FormattedMessage id="ui-orders.paneBlock.reopenBtn" />
+          </Icon>
         </Button>
       )}
       <IfPermission perm="orders.item.delete">
