@@ -130,7 +130,7 @@
     "settings.closingReasons.saveBtn": "Speichern",
     "linesLimit.label": "Bestellposten-Limit erreicht",
     "linesLimit.reasonText": "Dies würde die maximale Anzahl von Bestellposten überschreiten, die durch die Systemeinstellungen zulässig sind.",
-    "linesLimit.adviceText": "Für weitere Informationen wenden Sie sich an Ihren Systemadministrator.",
+    "linesLimit.adviceText": "Für weitere Informationen wenden Sie sich an Ihre Systemadministration.",
     "linesLimit.okBtn": "In Ordnung",
     "linesLimit.createBtn": "Neue Bestellung erstellen",
     "errors.noCreatedOrder": "Bestellung wurde nicht erstellt",
@@ -680,7 +680,7 @@
     "acquisitionMethod.invalid": "Invalid reference",
     "button.printOrder": "Print order",
     "button.printLine": "Print order line",
-    "buttons.line.submit": "Submit",
+    "buttons.line.submit": "Absenden",
     "unopenOrderModal.message.withoutPieces": "Are you sure you want to unopen the order?",
     "unopenOrderModal.message.withPieces": "Diese Bestellung hat mindestens eine Bestellposition mit Eingangsworkflow „Synchronisierte Bestell- und Eingangsmenge“. Bei solchen POLs mit zugehörigen Inventarisierungsdatensätzen werden alle nicht inventarisierten Stücke gelöscht, und alle Bestellexemplare, die sich auf diese Exemplare beziehen, werden ebenfalls aus dem Katalog gelöscht. Bestände, die mit solchen Exemplaren verknüpft sind, und die keine anderen verknüpften Exemplare haben, werden ebenfalls aus dem Katalog gelöscht. Soll die  Bestellung wirklich rückgängig gemacht werden?",
     "duplicateLines.confirmation.heading": "Save order line",
@@ -711,7 +711,7 @@
     "settings.openOrder.isDuplicateCheckDisabled": "Disable duplicate check that occurs when opening orders and saving purchase order lines",
     "settings.orderTemplates.editor.template.hideAll": "Hide all eligible fields",
     "settings.orderTemplates.editor.template.hideAll.info": "Mark all eligible fields as hidden on Order and Order Line when using this template",
-    "settings.acquisitionMethods": "Acquisition methods",
+    "settings.acquisitionMethods": "Erwerbungsarten",
     "settings.acquisitionMethods.singular": "Acquisition method",
     "settings.acquisitionMethods.name": "Name",
     "title.actions.add": "Add",
@@ -761,5 +761,8 @@
     "permission.orders.delete": "Orders: Can delete Orders and Order lines",
     "permission.order.approve": "Orders: Approve purchase orders",
     "permission.order.cancel": "Orders: Cancel purchase orders",
-    "permission.order-lines.cancel": "Orders: Cancel order lines"
+    "permission.order-lines.cancel": "Orders: Cancel order lines",
+    "createInvoice.confirmationModal.title": "Create invoice",
+    "createInvoice.confirmationModal.order.message": "Do you want to create an invoice from this order?",
+    "paneBlock.createInvoice": "New invoice"
 }
