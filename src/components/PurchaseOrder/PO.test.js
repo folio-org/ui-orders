@@ -108,7 +108,7 @@ describe('PO', () => {
     renderComponent();
     await act(() => Promise.resolve());
 
-    expect(screen.getByText('ui-orders.paneBlock.updateEncumbrances')).toBeDefined();
+    expect(screen.findByTestId('update-encumbrances-button')).toBeDefined();
   });
 });
 
@@ -177,7 +177,7 @@ describe('PO actions', () => {
     it('should unopen order after confirmation', async () => {
       renderComponent();
 
-      const unopenBtn = await screen.findByText('ui-orders.paneBlock.unopenBtn');
+      const unopenBtn = await screen.findByTestId('unopen-order-button');
 
       user.click(unopenBtn);
 
@@ -191,7 +191,7 @@ describe('PO actions', () => {
     it('should update encumbrances when corresponding button was clicked', async () => {
       renderComponent();
 
-      const updateEncumbBtn = await screen.findByText('ui-orders.paneBlock.updateEncumbrances');
+      const updateEncumbBtn = await screen.findByTestId('update-encumbrances-button');
 
       user.click(updateEncumbBtn);
 
