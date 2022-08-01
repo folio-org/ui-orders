@@ -761,5 +761,8 @@
     "permission.orders.delete": "Orders: Can delete Orders and Order lines",
     "permission.order.approve": "Orders: Approve purchase orders",
     "permission.order.cancel": "Orders: Cancel purchase orders",
-    "permission.order-lines.cancel": "Orders: Cancel order lines"
+    "permission.order-lines.cancel": "Orders: Cancel order lines",
+    "createInvoice.confirmationModal.title": "Create invoice",
+    "createInvoice.confirmationModal.order.message": "Do you want to create an invoice from this order?",
+    "paneBlock.createInvoice": "New invoice"
 }
