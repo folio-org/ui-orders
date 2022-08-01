@@ -90,7 +90,7 @@ const sections = [
         component: InstanceMatching,
         label: <FormattedMessage id="ui-orders.settings.instanceMatching" />,
         route: 'instance-matching',
-        perm: 'ui-orders.settings.all',
+        perm: 'ui-orders.settings.view',
       },
       {
         component: CreateInventory,
