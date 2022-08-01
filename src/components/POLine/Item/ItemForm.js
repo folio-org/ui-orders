@@ -110,7 +110,7 @@ class ItemForm extends Component {
         change('instanceId', inventoryData.instanceId);
       } else {
         change('instanceId', null);
-        locations.forEach((_, i) => change(`locations[${i}].holdingId`, null));
+        locations?.forEach((_, i) => change(`locations[${i}].holdingId`, null));
       }
     });
   };
