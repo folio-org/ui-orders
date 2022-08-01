@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Orders (settings): View all settings not allowing user to see Instance matching area. Refs UIOR-1004.
+
 ## [3.2.1](https://github.com/folio-org/ui-orders/tree/v3.2.1) (2022-07-27)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.0...v3.2.1)
 
