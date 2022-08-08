@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
