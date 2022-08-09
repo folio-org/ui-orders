@@ -5,9 +5,6 @@
   "main": "src/index.js",
   "repository": "",
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">=10"
-  },
   "stripes": {
     "actsAs": [
       "app",
@@ -402,6 +399,7 @@
     "test": "yarn run test:unit",
     "test:unit": "jest --ci --coverage",
     "test:unit:watch": "jest --ci --coverage --watch",
+    "build-mod-descriptor": "stripes mod descriptor --full --strict | jq '.[]' > module-descriptor.json ",
     "test:e2e": "yarn stripes test karma --karma.singleRun --karma.browsers ChromeDocker --karma.reporters mocha junit --coverage",
     "lint": "eslint ."
   },
