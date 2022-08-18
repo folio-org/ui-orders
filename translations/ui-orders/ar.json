@@ -759,10 +759,10 @@
     "permission.orders.create": "Orders: Can create new Orders and Order lines",
     "permission.orders.edit": "Orders: Can edit Orders and Order lines",
     "permission.orders.delete": "Orders: Can delete Orders and Order lines",
-    "permission.order.approve": "Orders: Approve purchase orders",
+    "permission.order.approve": "الطلبيات:قبول |أوامر الشراء",
     "permission.order.cancel": "الطلبيات: إلغاء أوامر الشراء",
     "permission.order-lines.cancel": "الطلبيات: إلغاء سطور الطلبيات",
     "createInvoice.confirmationModal.title": "إنشاء فاتورة",
     "createInvoice.confirmationModal.order.message": "Do you want to create an invoice from this order?",
-    "paneBlock.createInvoice": "New invoice"
+    "paneBlock.createInvoice": "فاتورة جديدة"
 }
