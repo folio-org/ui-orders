@@ -28,7 +28,7 @@
       "finance.expense-classes": "2.0 3.0",
       "finance.funds": "1.0 2.0",
       "finance.transactions": "4.0 5.0",
-      "holdings-storage": "4.4 5.0",
+      "holdings-storage": "4.4 5.0 6.0",
       "identifier-types": "1.2",
       "instance-formats": "2.0",
       "instance-relationship-types": "1.0",
