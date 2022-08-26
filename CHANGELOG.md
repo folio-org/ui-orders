@@ -6,6 +6,7 @@
 * New invoice action (PO details). Refs UIOR-990.
 * Add icon for Unopen/Reopen order and Update encumbrance. Refs UIOr-998.
 * Do not unconditionally iterate over possibly null value. Refs UIOR-997.
+* Support `holdings-storage` `6.0`. Refs UIOR-1017.
 
 ## [3.2.2](https://github.com/folio-org/ui-orders/tree/v3.2.2) (2022-08-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.1...v3.2.2)
