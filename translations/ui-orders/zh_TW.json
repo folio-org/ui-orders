@@ -389,7 +389,7 @@
     "settings.orderTemplates.editor.save": "儲存",
     "settings.orderTemplates.confirmDelete.confirmLabel": "確認",
     "settings.orderTemplates.confirmDelete.heading": "刪除範本",
-    "settings.orderTemplates.confirmDelete.message": "確定要刪除這個範本嗎 ？",
+    "settings.orderTemplates.confirmDelete.message": "確定要刪除這個範本嗎？",
     "settings.orderTemplates.remove.success": "範本已刪除",
     "settings.orderTemplates.remove.error": "範本未被刪除",
     "settings.orderTemplates.accordion.polOtherResources": "其他資源詳細資訊",
