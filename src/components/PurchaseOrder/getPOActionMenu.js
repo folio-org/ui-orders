@@ -11,6 +11,7 @@ import {
 import { IfPermission } from '@folio/stripes/core';
 import { getConfigSetting } from '@folio/stripes-acq-components';
 
+import { ReexportActionButton } from '../../common/ReexportActionButton';
 import {
   isOpenAvailableForOrder,
   isReceiveAvailableForOrder,
@@ -29,6 +30,7 @@ export function getPOActionMenu({
   clickEdit,
   clickOpen,
   clickReceive,
+  clickReexport,
   clickReopen,
   clickUnopen,
   clickUpdateEncumbrances,
@@ -47,10 +49,14 @@ export function getPOActionMenu({
   const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
   const isOrderInClosedStatus = isWorkflowStatusClosed(order);
   const isOrderInOpenStatus = isWorkflowStatusOpen(order);
+  const isManualOrder = order.manualPo;
   const isUpdateDisabled = isRestrictionsLoading || restrictions.protectUpdate;
   const isNewInvoiceButtonVisible = Boolean(
     (isOrderInOpenStatus || isOrderInClosedStatus) && order.compositePoLines?.length,
   );
+
+  const exportedOrderLines = order.compositePoLines.filter(({ lastEdiExportDate }) => lastEdiExportDate);
+  const isOrderReexportDisabled = !(isOrderInOpenStatus && !isManualOrder && exportedOrderLines.length);
 
   return ({ onToggle }) => (
     <MenuSection id="order-details-actions">
@@ -191,6 +197,16 @@ export function getPOActionMenu({
           </Icon>
         </Button>
       </IfPermission>
+
+      <ReexportActionButton
+        id="reexport-order-button"
+        disabled={isOrderReexportDisabled}
+        onClick={() => {
+          onToggle();
+          clickReexport();
+        }}
+      />
+
       {isOrderInClosedStatus && (
         <Button
           buttonStyle="dropdownItem"

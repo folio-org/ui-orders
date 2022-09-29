@@ -54,8 +54,11 @@ import {
   NOTE_TYPES,
   NOTES_ROUTE,
   ORDERS_DOMAIN,
+  REEXPORT_SOURCES,
 } from '../../common/constants';
 import { isOngoing } from '../../common/POFields';
+import { ReexportActionButton } from '../../common/ReexportActionButton';
+import { ReexportModal } from '../../common/ReexportModal';
 
 import LocationView from './Location/LocationView';
 import { POLineDetails } from './POLineDetails';
@@ -122,6 +125,7 @@ const POLineView = ({
   const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
   const [isPrintLineModalOpened, togglePrintLineModal] = useModalToggle();
   const [isInstancePluginOpen, toggleInstancePlugin] = useModalToggle();
+  const [isOrderLineReexportModalOpened, toggleOrderLineReexportModal] = useModalToggle();
   const [hiddenFields, setHiddenFields] = useState({});
 
   const {
@@ -221,6 +225,9 @@ const POLineView = ({
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
     const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
     const isChangeInstanceVisible = isWorkflowStatusClosed(order) || isWorkflowStatusOpen(order);
+    const isOrderLineReexportDisabled = !(
+      isWorkflowStatusOpen(order) && line.lastEdiExportDate && line.automaticExport
+    );
 
     // TODO: unify actions after Order Lines list is implemented fully
     return (
@@ -284,6 +291,16 @@ const POLineView = ({
             </Button>
           )}
         </IfPermission>
+
+        <ReexportActionButton
+          id="reexport-order-line-button"
+          disabled={isOrderLineReexportDisabled}
+          onClick={() => {
+            onToggle();
+            toggleOrderLineReexportModal();
+          }}
+        />
+
         {isCancelable && (
           <IfPermission perm="ui-orders.order-lines.cancel">
             <Button
@@ -628,6 +645,16 @@ const POLineView = ({
             onSubmit={submitChangeInstance}
             poLine={line}
             selectedInstance={selectedInstance}
+          />
+        )}
+
+        {isOrderLineReexportModalOpened && (
+          <ReexportModal
+            id="reexport-order-line-confirm-modal"
+            onCancel={toggleOrderLineReexportModal}
+            onConfirm={() => console.log('re exp ol')}
+            order={order}
+            source={REEXPORT_SOURCES.orderLine}
           />
         )}
       </Pane>

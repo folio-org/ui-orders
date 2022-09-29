@@ -52,8 +52,10 @@ import {
 } from '../../common/utils';
 import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
 import { isOngoing } from '../../common/POFields';
+import { ReexportModal } from '../../common/ReexportModal';
 import {
   INVOICES_ROUTE,
+  REEXPORT_SOURCES,
   WORKFLOW_STATUS,
 } from '../../common/constants';
 import {
@@ -200,6 +202,7 @@ const PO = ({
   const [isPrintModalOpened, togglePrintModal] = useModalToggle();
   const [isDifferentAccountModalOpened, toggleDifferentAccountModal] = useModalToggle();
   const [isCreateInvoiceModalOpened, toggleCreateInvoiceModal] = useModalToggle();
+  const [isOrderReexportModalOpened, toggleOrderReexportModal] = useModalToggle();
   const [accountNumbers, setAccountNumbers] = useState([]);
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
@@ -697,6 +700,7 @@ const PO = ({
           clickEdit: onEdit,
           clickOpen: toggleOpenOrderModal,
           clickReceive: goToReceiving,
+          clickReexport: toggleOrderReexportModal,
           clickReopen: reopenOrder,
           clickUnopen: toggleUnopenOrderModal,
           clickUpdateEncumbrances: updateEncumbrances,
@@ -873,6 +877,15 @@ const PO = ({
             onCancel={toggleCreateInvoiceModal}
             onConfirm={onCreateInvoice}
             open
+          />
+        )}
+        {isOrderReexportModalOpened && (
+          <ReexportModal
+            id="reexport-order-confirm-modal"
+            onCancel={toggleOrderReexportModal}
+            onConfirm={() => console.log('re exp o')}
+            order={order}
+            source={REEXPORT_SOURCES.order}
           />
         )}
       </Pane>
