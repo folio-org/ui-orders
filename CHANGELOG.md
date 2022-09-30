@@ -8,6 +8,7 @@
 * Do not unconditionally iterate over possibly null value. Refs UIOR-997.
 * Support `holdings-storage` `6.0`. Refs UIOR-1017.
 * Support `inventory` `12.0`. Refs UIOR-1020.
+* Re-export order and order lines via `Re-export` action. Refs UIOR-884.
 
 ## [3.2.2](https://github.com/folio-org/ui-orders/tree/v3.2.2) (2022-08-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.1...v3.2.2)

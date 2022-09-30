@@ -32,3 +32,8 @@ export const VALIDATION_ERRORS = {
 };
 
 export const CANCEL_ORDER_REASON = 'Cancelled';
+
+export const REEXPORT_SOURCES = {
+  order: 'order',
+  orderLine: 'orderLine',
+};
