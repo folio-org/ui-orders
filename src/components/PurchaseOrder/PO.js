@@ -604,6 +604,12 @@ const PO = ({
     ));
   };
 
+  const onReexportConfirm = useCallback(() => {
+    toggleOrderReexportModal();
+    setIsLoading(true);
+    fetchOrder().finally(() => setIsLoading(false));
+  }, [fetchOrder, toggleOrderReexportModal]);
+
   const shortcuts = [
     {
       name: 'new',
@@ -883,8 +889,9 @@ const PO = ({
           <ReexportModal
             id="reexport-order-confirm-modal"
             onCancel={toggleOrderReexportModal}
-            onConfirm={() => console.log('re exp o')}
+            onConfirm={onReexportConfirm}
             order={order}
+            poLines={poLines}
             source={REEXPORT_SOURCES.order}
           />
         )}

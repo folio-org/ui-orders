@@ -188,6 +188,11 @@ const POLineView = ({
     order?.id, order?.acqUnitIds,
   );
 
+  const onReexportConfirm = useCallback(() => {
+    toggleOrderLineReexportModal();
+    refetch();
+  }, [refetch, toggleOrderLineReexportModal]);
+
   const renderInstancePlugin = useCallback(({
     onSelect,
     onClose: onClosePlugin,
@@ -226,7 +231,7 @@ const POLineView = ({
     const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
     const isChangeInstanceVisible = isWorkflowStatusClosed(order) || isWorkflowStatusOpen(order);
     const isOrderLineReexportDisabled = !(
-      isWorkflowStatusOpen(order) && line.lastEdiExportDate && line.automaticExport
+      isWorkflowStatusOpen(order) && line.lastEDIExportDate && line.automaticExport
     );
 
     // TODO: unify actions after Order Lines list is implemented fully
@@ -652,8 +657,9 @@ const POLineView = ({
           <ReexportModal
             id="reexport-order-line-confirm-modal"
             onCancel={toggleOrderLineReexportModal}
-            onConfirm={() => console.log('re exp ol')}
+            onConfirm={onReexportConfirm}
             order={order}
+            poLines={[line]}
             source={REEXPORT_SOURCES.orderLine}
           />
         )}

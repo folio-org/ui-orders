@@ -55,7 +55,7 @@ export function getPOActionMenu({
     (isOrderInOpenStatus || isOrderInClosedStatus) && order.compositePoLines?.length,
   );
 
-  const exportedOrderLines = order.compositePoLines.filter(({ lastEdiExportDate }) => lastEdiExportDate);
+  const exportedOrderLines = order.compositePoLines.filter(({ lastEDIExportDate }) => lastEDIExportDate);
   const isOrderReexportDisabled = !(isOrderInOpenStatus && !isManualOrder && exportedOrderLines.length);
 
   return ({ onToggle }) => (
