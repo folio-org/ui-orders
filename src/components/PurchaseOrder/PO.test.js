@@ -33,6 +33,7 @@ const ORDER = {
     cost: {
       quantityPhysical: 1,
     },
+    lastEDIExportDate: '2022-90-31T00:00:00.000Z',
   }],
 };
 
@@ -243,6 +244,20 @@ describe('PO actions', () => {
       user.click(approveBtn);
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
+    });
+
+    it('should update order details after re-export', async () => {
+      renderComponent();
+
+      const reexportBtn = await screen.findByTestId('reexport-order-button');
+
+      await act(async () => user.click(reexportBtn));
+
+      const reexportConfirmBtn = await screen.findByTestId('confirm-reexport-button');
+
+      await act(async () => user.click(reexportConfirmBtn));
+
+      expect(defaultProps.mutator.orderDetails.GET).toHaveBeenCalled();
     });
   });
 

@@ -56,6 +56,7 @@ export const ReexportModal = ({
   const footer = (
     <ModalFooter>
       <Button
+        data-testid="confirm-reexport-button"
         buttonStyle="primary"
         marginBottom0
         onClick={onReexport}
