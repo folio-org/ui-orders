@@ -764,5 +764,15 @@
     "permission.order-lines.cancel": "Objednávky: Zrušte řádky objednávky",
     "createInvoice.confirmationModal.title": "Vytvořit fakturu",
     "createInvoice.confirmationModal.order.message": "Chcete z této objednávky vytvořit fakturu?",
-    "paneBlock.createInvoice": "Nová faktura"
+    "paneBlock.createInvoice": "Nová faktura",
+    "button.confirm": "Confirm",
+    "button.reexport": "Re-export",
+    "reexport.order.confirmModal.heading": "Re-export order",
+    "reexport.order.success": "Order re-export was successfully completed",
+    "reexport.order.fail": "Order re-export was failed",
+    "reexport.order.confirmModal.message": "Would you like this order to be sent to <b>{vendorFromOrder}</b> with the next export?",
+    "reexport.orderLine.confirmModal.heading": "Re-export order line",
+    "reexport.orderLine.confirmModal.message": "Would you like this order line to be sent to <b>{vendorFromOrder}</b> with the next export?",
+    "reexport.orderLine.success": "Order line re-export was successfully completed",
+    "reexport.orderLine.fail": "Order line re-export was failed"
 }
