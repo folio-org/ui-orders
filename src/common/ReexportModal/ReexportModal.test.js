@@ -1,9 +1,11 @@
 import user from '@testing-library/user-event';
 import { act, render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
+import { exportHistory, orderLine } from '../../../test/jest/fixtures';
 import { REEXPORT_SOURCES } from '../constants';
-import { ReexportModal } from './ReexportModal';
 import { useReexport } from '../hooks';
+import { ReexportModal } from './ReexportModal';
 
 const vendorName = 'Test Vendor';
 
@@ -20,18 +22,28 @@ jest.mock('../hooks', () => ({
 }));
 
 const defaultProps = {
-  id: 'reexport-moda;',
+  exportHistory: [exportHistory],
+  id: 'reexport-modal',
+  isLoading: false,
   onCancel: jest.fn(),
   onConfirm: jest.fn(),
   order: { id: 'id' },
+  poLines: [orderLine],
   source: REEXPORT_SOURCES.order,
 };
+
+const wrapper = ({ children }) => (
+  <MemoryRouter>
+    {children}
+  </MemoryRouter>
+);
 
 const renderReexportModal = (props = {}) => render(
   <ReexportModal
     {...defaultProps}
     {...props}
   />,
+  { wrapper },
 );
 
 describe('ReexportModal', () => {

@@ -141,7 +141,11 @@ const PO = ({
   const poLines = order?.compositePoLines;
 
   const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
-  const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(order?.id, order?.acqUnitIds);
+
+  const {
+    isLoading: isRestrictionsLoading,
+    restrictions,
+  } = useAcqRestrictions(order?.id, order?.acqUnitIds);
 
   const {
     isLoading: isOrderTemplateLoading,

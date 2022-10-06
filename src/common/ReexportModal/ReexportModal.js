@@ -40,7 +40,6 @@ export const ReexportModal = ({
     isLoading: isReexporting,
   } = useReexport();
 
-  const { vendorName, exportMethod } = exportHistory[0];
   const isLoading = isLoadingProp || isOrderVendorLoading;
   const modalLabel = intl.formatMessage({ id: `ui-orders.reexport.${source}.confirmModal.heading` });
 
@@ -93,8 +92,8 @@ export const ReexportModal = ({
       <FormattedMessage
         id={`ui-orders.reexport.${source}.confirmModal.message`}
         values={{
-          exportMethod,
-          vendorFromExport: vendorName,
+          exportMethod: exportHistory[0]?.exportMethod,
+          vendorFromExport: exportHistory[0]?.vendorName,
           vendorFromOrder: `${organization?.name} (${organization?.code})`,
         }}
       />
