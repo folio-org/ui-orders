@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import {
+  Icon,
+  Layout,
   Loading,
   MultiColumnList,
 } from '@folio/stripes/components';
@@ -18,13 +21,20 @@ export const ExportDetailsList = ({
   if (isLoading) return <Loading />;
 
   return (
-    <MultiColumnList
-      columnIdPrefix="export-details"
-      contentData={data}
-      formatter={RESULTS_FORMATTER}
-      visibleColumns={VISIBLE_COLUMNS}
-      columnMapping={COLUMN_MAPPING}
-    />
+    <>
+      <MultiColumnList
+        columnIdPrefix="export-details"
+        contentData={data}
+        formatter={RESULTS_FORMATTER}
+        visibleColumns={VISIBLE_COLUMNS}
+        columnMapping={COLUMN_MAPPING}
+      />
+      <Layout className="textCentered">
+        <Icon icon="end-mark">
+          <FormattedMessage id="stripes-components.endOfList" />
+        </Icon>
+      </Layout>
+    </>
   );
 };
 
