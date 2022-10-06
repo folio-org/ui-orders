@@ -51,14 +51,18 @@ import {
   isWorkflowStatusOpen,
 } from '../PurchaseOrder/util';
 import {
+  ExportDetailsAccordion,
+  ReexportActionButton,
+  ReexportModal,
+} from '../../common';
+import {
   NOTE_TYPES,
   NOTES_ROUTE,
   ORDERS_DOMAIN,
   REEXPORT_SOURCES,
 } from '../../common/constants';
+import { useExportHistory } from '../../common/hooks';
 import { isOngoing } from '../../common/POFields';
-import { ReexportActionButton } from '../../common/ReexportActionButton';
-import { ReexportModal } from '../../common/ReexportModal';
 
 import LocationView from './Location/LocationView';
 import { POLineDetails } from './POLineDetails';
@@ -119,6 +123,7 @@ const POLineView = ({
     [ACCORDION_ID.notes]: true,
     [ACCORDION_ID.poLine]: true,
     [ACCORDION_ID.linkedInstances]: false,
+    [ACCORDION_ID.exportDetails]: false,
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();
@@ -135,6 +140,11 @@ const POLineView = ({
     showConfirmChangeInstance,
     submitChangeInstance,
   } = useChangeInstanceConnection(line, { refetch });
+
+  const {
+    isLoading: isExportHistoryLoading,
+    exportHistory,
+  } = useExportHistory([line.id]);
 
   const isCancelable = isCancelableLine(line, order);
 
@@ -596,6 +606,14 @@ const POLineView = ({
             />
           </IfPermission>
 
+          {Boolean(exportHistory?.length) && (
+            <ExportDetailsAccordion
+              id={ACCORDION_ID.exportDetails}
+              exportHistory={exportHistory}
+              isLoading={isExportHistoryLoading}
+            />
+          )}
+
           <RelatedInvoiceLines
             label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoiceLines" />}
             lineId={line?.id}
@@ -660,6 +678,8 @@ const POLineView = ({
             onConfirm={onReexportConfirm}
             order={order}
             poLines={[line]}
+            exportHistory={exportHistory}
+            isLoading={isExportHistoryLoading}
             source={REEXPORT_SOURCES.orderLine}
           />
         )}

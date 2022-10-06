@@ -15,9 +15,12 @@ import {
 
 import { REEXPORT_SOURCES } from '../constants';
 import { useReexport } from '../hooks';
+import { ExportDetailsList } from '../ExportDetailsList';
 
 export const ReexportModal = ({
+  exportHistory,
   id,
+  isLoading: isLoadingProp,
   onCancel,
   onConfirm,
   order,
@@ -26,9 +29,19 @@ export const ReexportModal = ({
 }) => {
   const intl = useIntl();
   const showCallout = useShowCallout();
-  const { organization, isLoading } = useOrganization(order.vendor);
-  const { reExport, isLoading: isReexporting } = useReexport();
 
+  const {
+    organization,
+    isLoading: isOrderVendorLoading,
+  } = useOrganization(order.vendor);
+
+  const {
+    reExport,
+    isLoading: isReexporting,
+  } = useReexport();
+
+  const { vendorName, exportMethod } = exportHistory[0];
+  const isLoading = isLoadingProp || isOrderVendorLoading;
   const modalLabel = intl.formatMessage({ id: `ui-orders.reexport.${source}.confirmModal.heading` });
 
   const onReexport = useCallback(() => {
@@ -76,12 +89,23 @@ export const ReexportModal = ({
   );
 
   const message = (
-    <FormattedMessage
-      id={`ui-orders.reexport.${source}.confirmModal.message`}
-      values={{
-        vendorFromOrder: organization?.name,
-      }}
-    />
+    <>
+      <FormattedMessage
+        id={`ui-orders.reexport.${source}.confirmModal.message`}
+        values={{
+          exportMethod,
+          vendorFromExport: vendorName,
+          vendorFromOrder: `${organization?.name} (${organization?.code})`,
+        }}
+      />
+
+      {source === REEXPORT_SOURCES.order && (
+        <ExportDetailsList
+          data={exportHistory}
+          isLoading={isLoading}
+        />
+      )}
+    </>
   );
 
   return (
@@ -98,7 +122,9 @@ export const ReexportModal = ({
 };
 
 ReexportModal.propTypes = {
+  exportHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   order: PropTypes.object.isRequired,
