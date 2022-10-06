@@ -47,12 +47,14 @@ import {
 } from '@folio/stripes/smart-components';
 
 import {
+  ExportDetailsAccordion,
+  ReexportModal,
+} from '../../common';
+import {
   getAddresses,
   getExportAccountNumbers,
 } from '../../common/utils';
-import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
 import { isOngoing } from '../../common/POFields';
-import { ReexportModal } from '../../common/ReexportModal';
 import {
   INVOICES_ROUTE,
   REEXPORT_SOURCES,
@@ -62,7 +64,11 @@ import {
   reasonsForClosureResource,
   updateEncumbrancesResource,
 } from '../../common/resources';
-import { useOrderTemplate } from '../../common/hooks';
+import {
+  useExportHistory,
+  useHandleOrderUpdateError,
+  useOrderTemplate,
+} from '../../common/hooks';
 import {
   PrintOrder,
 } from '../../PrintOrder';
@@ -115,7 +121,18 @@ const PO = ({
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const [updateOrderErrors, setUpdateOrderErrors] = useState();
   const [hiddenFields, setHiddenFields] = useState({});
-  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
+
+  const poLines = order?.compositePoLines;
+
+  const {
+    isLoading: isOrderTemplateLoading,
+    orderTemplate,
+  } = useOrderTemplate(order?.template);
+
+  const {
+    isLoading: isExportHistoryLoading,
+    exportHistory,
+  } = useExportHistory(poLines?.map(({ id }) => id));
 
   const orderErrorModalShow = useCallback((errors) => {
     toggleErrorsModal();
@@ -206,7 +223,6 @@ const PO = ({
   const [accountNumbers, setAccountNumbers] = useState([]);
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
-  const poLines = order?.compositePoLines;
   const poLinesCount = poLines?.length || 0;
   const workflowStatus = get(order, 'workflowStatus');
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
@@ -806,6 +822,14 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
               orderInvoicesIds={orderInvoicesIds}
             />
+
+            {Boolean(exportHistory?.length) && (
+              <ExportDetailsAccordion
+                id="exportDetails"
+                exportHistory={exportHistory}
+                isLoading={isExportHistoryLoading}
+              />
+            )}
           </AccordionSet>
         </AccordionStatus>
         {isLinesLimitExceededModalOpened && (
@@ -892,6 +916,8 @@ const PO = ({
             onConfirm={onReexportConfirm}
             order={order}
             poLines={poLines}
+            exportHistory={exportHistory}
+            isLoading={isExportHistoryLoading}
             source={REEXPORT_SOURCES.order}
           />
         )}
