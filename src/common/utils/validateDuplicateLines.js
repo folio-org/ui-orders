@@ -1,3 +1,4 @@
+import { escapeCqlValue } from '@folio/stripes/util';
 import { batchFetch } from '@folio/stripes-acq-components';
 
 import {
@@ -6,7 +7,7 @@ import {
 } from '../constants';
 
 export const validateDuplicateLines = async (line, mutator, resources) => {
-  const baseQuery = `id<>"${line.id}" and titleOrPackage=="*${line.titleOrPackage}*"`;
+  const baseQuery = `id<>"${line.id}" and titleOrPackage=="*${escapeCqlValue(line.titleOrPackage)}*"`;
   const productIdentifiers = line.details?.productIds || [];
   const isbnIdentifierTypeId = (
     resources
