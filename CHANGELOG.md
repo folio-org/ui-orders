@@ -2,6 +2,7 @@
 
 ## (IN PROGRESS)
 
+* Supports 'users' interface version 16.0. Refs UIOR-1030.
 * Add `New invoice` action for PO actions menu. Refs UIOR-985.
 * New invoice action (PO details). Refs UIOR-990.
 * Add icon for Unopen/Reopen order and Update encumbrance. Refs UIOr-998.
