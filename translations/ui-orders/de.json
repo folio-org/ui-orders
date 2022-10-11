@@ -663,7 +663,7 @@
     "shortcut.duplicateRecord": "Datensatz duplizieren",
     "cost.listPriceOfPhysical": "Preis physische Ressource",
     "cost.quantityPopover": "Diese Bestellung hat Inventarisierungsdatensätze. Die Anzahl kann nur in den Datensätzen der Inventarisierung-App bearbeitet werden.",
-    "cost.rolloverAdjustment": "Bindung beim Jahresübergang",
+    "cost.rolloverAdjustment": "Differenz durch Jahresübergang",
     "cost.rolloverAdjustment.info": "Dieser Wert wurde beim Jahresübergang hinzugefügt, um die Bestellkosten mit der gewünschten Bindung für das neue Jahr auszugleichen. Wenn die Kosten bearbeitet werden, wird dieser Wert entfernt und der belastete Wert wird auf der Grundlage des neuen geschätzten Preises aktualisiert.",
     "location.createHolding": "Neue Bestände für den Standort anlegen",
     "location.holding": "Bestand",
@@ -764,5 +764,15 @@
     "permission.order-lines.cancel": "Orders: Cancel order lines",
     "createInvoice.confirmationModal.title": "Create invoice",
     "createInvoice.confirmationModal.order.message": "Do you want to create an invoice from this order?",
-    "paneBlock.createInvoice": "New invoice"
+    "paneBlock.createInvoice": "New invoice",
+    "button.confirm": "Confirm",
+    "button.reexport": "Re-export",
+    "reexport.order.confirmModal.heading": "Re-export order",
+    "reexport.order.success": "Order re-export was successfully completed",
+    "reexport.order.fail": "Order re-export was failed",
+    "reexport.order.confirmModal.message": "Would you like this order to be sent to <b>{vendorFromOrder}</b> with the next export?",
+    "reexport.orderLine.confirmModal.heading": "Re-export order line",
+    "reexport.orderLine.confirmModal.message": "Would you like this order line to be sent to <b>{vendorFromOrder}</b> with the next export?",
+    "reexport.orderLine.success": "Order line re-export was successfully completed",
+    "reexport.orderLine.fail": "Order line re-export was failed"
 }

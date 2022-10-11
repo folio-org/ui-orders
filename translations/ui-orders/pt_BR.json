@@ -764,5 +764,15 @@
     "permission.order-lines.cancel": "Pedidos: Cancelar linhas de pedidos",
     "createInvoice.confirmationModal.title": "Criar fatura",
     "createInvoice.confirmationModal.order.message": "Você deseja criar uma fatura a partir deste pedido?",
-    "paneBlock.createInvoice": "Nova fatura"
+    "paneBlock.createInvoice": "Nova fatura",
+    "button.confirm": "Confirm",
+    "button.reexport": "Re-export",
+    "reexport.order.confirmModal.heading": "Re-export order",
+    "reexport.order.success": "Order re-export was successfully completed",
+    "reexport.order.fail": "Order re-export was failed",
+    "reexport.order.confirmModal.message": "Would you like this order to be sent to <b>{vendorFromOrder}</b> with the next export?",
+    "reexport.orderLine.confirmModal.heading": "Re-export order line",
+    "reexport.orderLine.confirmModal.message": "Would you like this order line to be sent to <b>{vendorFromOrder}</b> with the next export?",
+    "reexport.orderLine.success": "Order line re-export was successfully completed",
+    "reexport.orderLine.fail": "Order line re-export was failed"
 }
