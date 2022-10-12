@@ -29,7 +29,6 @@ describe('ExportDetailsList', () => {
 
     expect(screen.getByText('ui-orders.export.jobId')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.export.exportDate')).toBeInTheDocument();
-    expect(screen.getByText('ui-orders.export.jobStatus')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.export.fileName')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.export.method')).toBeInTheDocument();
   });

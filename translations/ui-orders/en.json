@@ -215,7 +215,6 @@
   "export.exportDate": "Export date",
   "export.fileName": "File name",
   "export.jobId": "Job ID",
-  "export.jobStatus": "Job status",
   "export.method": "Export method",
   "export.invalidReference": "Invalid reference",
   "exportSettings.load.error": "Failed to load data for export results (CSV)",

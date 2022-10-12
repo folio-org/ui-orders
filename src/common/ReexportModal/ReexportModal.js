@@ -31,7 +31,12 @@ export const ReexportModal = ({
   const showCallout = useShowCallout();
 
   const {
-    organization,
+    organization: exortVendor,
+    isLoading: isExportVendorLoading,
+  } = useOrganization(exportHistory[0]?.vendorId);
+
+  const {
+    organization: orderVendor,
     isLoading: isOrderVendorLoading,
   } = useOrganization(order.vendor);
 
@@ -40,7 +45,7 @@ export const ReexportModal = ({
     isLoading: isReexporting,
   } = useReexport();
 
-  const isLoading = isLoadingProp || isOrderVendorLoading;
+  const isLoading = isLoadingProp || isOrderVendorLoading || isExportVendorLoading;
   const modalLabel = intl.formatMessage({ id: `ui-orders.reexport.${source}.confirmModal.heading` });
 
   const onReexport = useCallback(() => {
@@ -93,8 +98,8 @@ export const ReexportModal = ({
         id={`ui-orders.reexport.${source}.confirmModal.message`}
         values={{
           exportMethod: exportHistory[0]?.exportMethod,
-          vendorFromExport: exportHistory[0]?.vendorName,
-          vendorFromOrder: `${organization?.name} (${organization?.code})`,
+          vendorFromExport: `${exortVendor?.name} (${exortVendor?.code})`,
+          vendorFromOrder: `${orderVendor?.name} (${orderVendor?.code})`,
         }}
       />
 

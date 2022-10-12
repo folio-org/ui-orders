@@ -1,26 +1,46 @@
 import { useQuery } from 'react-query';
+import { uniqBy } from 'lodash/fp';
 
 import { useOkapiKy, useNamespace } from '@folio/stripes/core';
-import { LIMIT_MAX } from '@folio/stripes-acq-components';
+import { batchRequest } from '@folio/stripes-acq-components';
 
 import { EXPORT_HISTORY_API } from '../../../components/Utils/api';
+
+const buildQueryByPoLineIds = (poLineIds) => {
+  const query = poLineIds.map(id => `"*\\"${id}\\"*"`).join(' or ');
+
+  return `exportedPoLineIds==(${query}) sortby exportDate/sort.descending`;
+};
 
 export const useExportHistory = (poLineIds = []) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'export-history' });
 
-  const searchParams = {
-    limit: LIMIT_MAX,
-    // TODO: add query based on po-lines ids
-    // query: ''
-  };
+  const fetchFn = ({ params: searchParams }) => (
+    ky.get(EXPORT_HISTORY_API, { searchParams })
+      .json()
+      .then(({ exportHistories }) => exportHistories)
+  );
 
   const {
     data = {},
     isLoading,
   } = useQuery(
     [namespace, poLineIds],
-    () => ky.get(EXPORT_HISTORY_API, { searchParams }).json(),
+    async () => {
+      const exportHistories = await batchRequest(
+        fetchFn,
+        poLineIds,
+        buildQueryByPoLineIds,
+      )
+        .then(uniqBy('id'))
+        .then(histories => histories.sort((a, b) => new Date(b.exportDate) - new Date(a.exportDate)));
+
+      return {
+        exportHistories,
+        totalRecords: exportHistories.length,
+      };
+    },
     {
       enabled: Boolean(poLineIds.length),
     },
