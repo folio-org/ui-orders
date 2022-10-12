@@ -47,25 +47,37 @@ import {
 } from '@folio/stripes/smart-components';
 
 import {
-  getAddresses,
-  getExportAccountNumbers,
-} from '../../common/utils';
-import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
-import { isOngoing } from '../../common/POFields';
-import { ReexportModal } from '../../common/ReexportModal';
+  ExportDetailsAccordion,
+  ReexportModal,
+} from '../../common';
 import {
   INVOICES_ROUTE,
   REEXPORT_SOURCES,
   WORKFLOW_STATUS,
 } from '../../common/constants';
 import {
+  useExportHistory,
+  useHandleOrderUpdateError,
+  useOrderTemplate,
+} from '../../common/hooks';
+import { isOngoing } from '../../common/POFields';
+import {
   reasonsForClosureResource,
   updateEncumbrancesResource,
 } from '../../common/resources';
-import { useOrderTemplate } from '../../common/hooks';
+import {
+  getAddresses,
+  getExportAccountNumbers,
+} from '../../common/utils';
 import {
   PrintOrder,
 } from '../../PrintOrder';
+import ModalDeletePieces from '../ModalDeletePieces';
+import { LINES_LIMIT_DEFAULT } from '../Utils/const';
+import {
+  cloneOrder,
+  updateOrderResource,
+} from '../Utils/orderResource';
 import {
   ADDRESSES,
   APPROVALS_SETTING,
@@ -77,23 +89,17 @@ import {
   ORDER,
   ORDERS,
 } from '../Utils/resources';
-import {
-  cloneOrder,
-  updateOrderResource,
-} from '../Utils/orderResource';
-import { LINES_LIMIT_DEFAULT } from '../Utils/const';
-import { LINE_LISTING_COLUMN_MAPPING } from './constants';
 import CloseOrderModal from './CloseOrder';
 import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 import LineListing from './LineListing';
-import { PODetailsView } from './PODetails';
-import { SummaryView } from './Summary';
-import { OngoingOrderInfoView } from './OngoingOrderInfo';
 import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
-import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
+import { LINE_LISTING_COLUMN_MAPPING } from './constants';
 import { getPOActionMenu } from './getPOActionMenu';
-import ModalDeletePieces from '../ModalDeletePieces';
+import { OngoingOrderInfoView } from './OngoingOrderInfo';
+import { PODetailsView } from './PODetails';
+import { SummaryView } from './Summary';
+import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 
 const PO = ({
   history,
@@ -106,26 +112,90 @@ const PO = ({
 }) => {
   const intl = useIntl();
   const sendCallout = useShowCallout();
-  const orderId = match.params.id;
+  const accordionStatusRef = useRef();
   const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
 
   const [order, setOrder] = useState({});
   const [orderInvoicesIds, setOrderInvoicesIds] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const [updateOrderErrors, setUpdateOrderErrors] = useState();
   const [hiddenFields, setHiddenFields] = useState({});
-  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
+  const [accountNumbers, setAccountNumbers] = useState([]);
+  const [isCancelReason, setIsCancelReason] = useState(false);
 
-  const orderErrorModalShow = useCallback((errors) => {
-    toggleErrorsModal();
-    setUpdateOrderErrors(errors);
-  }, [toggleErrorsModal]);
+  const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
+  const [isCloneConfirmation, toggleCloneConfirmation] = useModalToggle();
+  const [isTagsPaneOpened, toggleTagsPane] = useModalToggle();
+  const [isLinesLimitExceededModalOpened, toggleLinesLimitExceededModal] = useModalToggle();
+  const [isCloseOrderModalOpened, toggleCloseOrderModal] = useModalToggle();
+  const [showConfirmDelete, toggleDeleteOrderConfirm] = useModalToggle();
+  const [isOpenOrderModalOpened, toggleOpenOrderModal] = useModalToggle();
+  const [isUnopenOrderModalOpened, toggleUnopenOrderModal] = useModalToggle();
+  const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
+  const [isPrintModalOpened, togglePrintModal] = useModalToggle();
+  const [isDifferentAccountModalOpened, toggleDifferentAccountModal] = useModalToggle();
+  const [isCreateInvoiceModalOpened, toggleCreateInvoiceModal] = useModalToggle();
+  const [isOrderReexportModalOpened, toggleOrderReexportModal] = useModalToggle();
 
-  const orderErrorModalClose = useCallback(() => {
-    toggleErrorsModal();
-    setUpdateOrderErrors();
-  }, [toggleErrorsModal]);
+  const orderId = match.params.id;
+  const poLines = order?.compositePoLines;
+
+  const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
+
+  const {
+    isLoading: isRestrictionsLoading,
+    restrictions,
+  } = useAcqRestrictions(order?.id, order?.acqUnitIds);
+
+  const {
+    isLoading: isOrderTemplateLoading,
+    orderTemplate,
+  } = useOrderTemplate(order?.template);
+
+  const {
+    isLoading: isExportHistoryLoading,
+    exportHistory,
+  } = useExportHistory(poLines?.map(({ id }) => id));
+
+  const reasonsForClosure = get(resources, 'closingReasons.records');
+  const orderNumber = get(order, 'poNumber', '');
+  const poLinesCount = poLines?.length || 0;
+  const workflowStatus = get(order, 'workflowStatus');
+  const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
+  const tags = get(order, 'tags.tagList', []);
+  const orderType = get(order, 'orderType');
+  const addresses = getAddresses(get(resources, 'addresses.records', []));
+  const funds = get(resources, 'fund.records', []);
+  const approvalsSetting = get(resources, 'approvalsSetting.records', {});
+
+  const isReceiptRequired = !(poLines?.every(({ receiptStatus }) => (
+    receiptStatus === RECEIPT_STATUS.receiptNotRequired
+  )));
+  const hasRemovablePieces = isReceiptRequired && poLines?.some(({ cost, checkinItems }) => (
+    !checkinItems
+    && (cost?.quantityPhysical || 0 + cost?.quantityElectronic || 0) > 0
+  ));
+
+  const unopenOrderModalLabel = intl.formatMessage(
+    { id: 'ui-orders.unopenOrderModal.title' },
+    { orderNumber },
+  );
+  const deleteOrderModalLabel = intl.formatMessage(
+    { id: 'ui-orders.order.delete.heading' },
+    { orderNumber },
+  );
+  const cloneOrderModalLabel = intl.formatMessage({ id: 'ui-orders.order.clone.heading' });
+  const differentAccountModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
+  const createInvoiceModalLabel = intl.formatMessage({ id: 'ui-orders.createInvoice.confirmationModal.title' });
+
+  const lastMenu = (
+    <PaneMenu>
+      <TagsBadge
+        tagsToggle={toggleTagsPane}
+        tagsQuantity={tags.length}
+      />
+    </PaneMenu>
+  );
 
   const fetchOrder = useCallback(
     () => Promise.all([
@@ -191,45 +261,15 @@ const PO = ({
     setHiddenFields(orderTemplate.hiddenFields);
   }, [orderTemplate]);
 
-  const [isCloneConfirmation, toggleCloneConfirmation] = useModalToggle();
-  const [isTagsPaneOpened, toggleTagsPane] = useModalToggle();
-  const [isLinesLimitExceededModalOpened, toggleLinesLimitExceededModal] = useModalToggle();
-  const [isCloseOrderModalOpened, toggleCloseOrderModal] = useModalToggle();
-  const [showConfirmDelete, toggleDeleteOrderConfirm] = useModalToggle();
-  const [isOpenOrderModalOpened, toggleOpenOrderModal] = useModalToggle();
-  const [isUnopenOrderModalOpened, toggleUnopenOrderModal] = useModalToggle();
-  const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
-  const [isPrintModalOpened, togglePrintModal] = useModalToggle();
-  const [isDifferentAccountModalOpened, toggleDifferentAccountModal] = useModalToggle();
-  const [isCreateInvoiceModalOpened, toggleCreateInvoiceModal] = useModalToggle();
-  const [isOrderReexportModalOpened, toggleOrderReexportModal] = useModalToggle();
-  const [accountNumbers, setAccountNumbers] = useState([]);
-  const reasonsForClosure = get(resources, 'closingReasons.records');
-  const orderNumber = get(order, 'poNumber', '');
-  const poLines = order?.compositePoLines;
-  const poLinesCount = poLines?.length || 0;
-  const workflowStatus = get(order, 'workflowStatus');
-  const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
-  const tags = get(order, 'tags.tagList', []);
-  const accordionStatusRef = useRef();
-  const [isCancelReason, setIsCancelReason] = useState(false);
+  const orderErrorModalShow = useCallback((errors) => {
+    toggleErrorsModal();
+    setUpdateOrderErrors(errors);
+  }, [toggleErrorsModal]);
 
-  const isReceiptRequired = !(poLines?.every(({ receiptStatus }) => (
-    receiptStatus === RECEIPT_STATUS.receiptNotRequired
-  )));
-  const hasRemovablePieces = isReceiptRequired && poLines?.some(({ cost, checkinItems }) => (
-    !checkinItems
-    && (cost?.quantityPhysical || 0 + cost?.quantityElectronic || 0) > 0
-  ));
-
-  const lastMenu = (
-    <PaneMenu>
-      <TagsBadge
-        tagsToggle={toggleTagsPane}
-        tagsQuantity={tags.length}
-      />
-    </PaneMenu>
-  );
+  const orderErrorModalClose = useCallback(() => {
+    toggleErrorsModal();
+    setUpdateOrderErrors();
+  }, [toggleErrorsModal]);
 
   const onCloneOrder = useCallback(
     () => {
@@ -513,8 +553,6 @@ const PO = ({
     [location.search, match.params.id, history],
   );
 
-  const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
-
   const onAddPOLine = useCallback(
     () => {
       const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
@@ -592,10 +630,6 @@ const PO = ({
     history.push(`${INVOICES_ROUTE}/create`, { orderIds: [order.id] });
   }, [history, order]);
 
-  const { restrictions, isLoading: isRestrictionsLoading } = useAcqRestrictions(
-    order?.id, order?.acqUnitIds,
-  );
-
   const toggleForceVisibility = () => {
     setHiddenFields(prevHiddenFields => (
       prevHiddenFields
@@ -666,23 +700,6 @@ const PO = ({
       />
     );
   }
-
-  const orderType = get(order, 'orderType');
-  const addresses = getAddresses(get(resources, 'addresses.records', []));
-  const funds = get(resources, 'fund.records', []);
-  const approvalsSetting = get(resources, 'approvalsSetting.records', {});
-
-  const deleteOrderModalLabel = intl.formatMessage(
-    { id: 'ui-orders.order.delete.heading' },
-    { orderNumber },
-  );
-  const unopenOrderModalLabel = intl.formatMessage(
-    { id: 'ui-orders.unopenOrderModal.title' },
-    { orderNumber },
-  );
-  const cloneOrderModalLabel = intl.formatMessage({ id: 'ui-orders.order.clone.heading' });
-  const differentAccountModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
-  const createInvoiceModalLabel = intl.formatMessage({ id: 'ui-orders.createInvoice.confirmationModal.title' });
 
   const POPane = (
     <HasCommand
@@ -806,6 +823,14 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
               orderInvoicesIds={orderInvoicesIds}
             />
+
+            {Boolean(exportHistory?.length) && (
+              <ExportDetailsAccordion
+                id="exportDetails"
+                exportHistory={exportHistory}
+                isLoading={isExportHistoryLoading}
+              />
+            )}
           </AccordionSet>
         </AccordionStatus>
         {isLinesLimitExceededModalOpened && (
@@ -892,6 +917,8 @@ const PO = ({
             onConfirm={onReexportConfirm}
             order={order}
             poLines={poLines}
+            exportHistory={exportHistory}
+            isLoading={isExportHistoryLoading}
             source={REEXPORT_SOURCES.order}
           />
         )}

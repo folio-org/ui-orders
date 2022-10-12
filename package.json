@@ -137,6 +137,7 @@
           "finance.expense-classes.collection.get",
           "finance.funds.expense-classes.collection.get",
           "inventory.instances.collection.get",
+          "orders-storage.export-history.collection.get",
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.acquisition-method.item.get",
           "orders.acquisition-methods.collection.get",

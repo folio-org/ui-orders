@@ -15,9 +15,12 @@ import {
 
 import { REEXPORT_SOURCES } from '../constants';
 import { useReexport } from '../hooks';
+import { ExportDetailsList } from '../ExportDetailsList';
 
 export const ReexportModal = ({
+  exportHistory,
   id,
+  isLoading: isLoadingProp,
   onCancel,
   onConfirm,
   order,
@@ -26,9 +29,23 @@ export const ReexportModal = ({
 }) => {
   const intl = useIntl();
   const showCallout = useShowCallout();
-  const { organization, isLoading } = useOrganization(order.vendor);
-  const { reExport, isLoading: isReexporting } = useReexport();
 
+  const {
+    organization: exortVendor,
+    isLoading: isExportVendorLoading,
+  } = useOrganization(exportHistory[0]?.vendorId);
+
+  const {
+    organization: orderVendor,
+    isLoading: isOrderVendorLoading,
+  } = useOrganization(order.vendor);
+
+  const {
+    reExport,
+    isLoading: isReexporting,
+  } = useReexport();
+
+  const isLoading = isLoadingProp || isOrderVendorLoading || isExportVendorLoading;
   const modalLabel = intl.formatMessage({ id: `ui-orders.reexport.${source}.confirmModal.heading` });
 
   const onReexport = useCallback(() => {
@@ -76,12 +93,23 @@ export const ReexportModal = ({
   );
 
   const message = (
-    <FormattedMessage
-      id={`ui-orders.reexport.${source}.confirmModal.message`}
-      values={{
-        vendorFromOrder: organization?.name,
-      }}
-    />
+    <>
+      <FormattedMessage
+        id={`ui-orders.reexport.${source}.confirmModal.message`}
+        values={{
+          exportMethod: exportHistory[0]?.exportMethod,
+          vendorFromExport: `${exortVendor?.name} (${exortVendor?.code})`,
+          vendorFromOrder: `${orderVendor?.name} (${orderVendor?.code})`,
+        }}
+      />
+
+      {source === REEXPORT_SOURCES.order && (
+        <ExportDetailsList
+          data={exportHistory}
+          isLoading={isLoading}
+        />
+      )}
+    </>
   );
 
   return (
@@ -98,7 +126,9 @@ export const ReexportModal = ({
 };
 
 ReexportModal.propTypes = {
+  exportHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   order: PropTypes.object.isRequired,

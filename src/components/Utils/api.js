@@ -1,5 +1,6 @@
 export const AGREEMENTS_API = 'erm/sas';
 export const AGREEMENT_LINES_API = 'erm/entitlements';
+export const EXPORT_HISTORY_API = 'orders-storage/export-history';
 export const HOLDINGS_API = 'holdings-storage/holdings';
 export const INVOICES_API = 'invoice/invoices';
 export const INVOICE_LINES_API = 'invoice/invoice-lines';

@@ -8,4 +8,6 @@ export const ORDER_CREATE_ROUTE = `${ORDERS_ROUTE}/create`;
 export const ORDER_EDIT_ROUTE = `${ORDERS_ROUTE}/edit/:id`;
 export const NOTES_ROUTE = `${ORDERS_ROUTE}/notes`;
 
+export const EXPORT_MANAGER_ROUTE = '/export-manager';
+export const EXPORT_MANAGER_EDI_JOBS_ROUTE = `${EXPORT_MANAGER_ROUTE}/edi-jobs`;
 export const INVOICES_ROUTE = '/invoice';
