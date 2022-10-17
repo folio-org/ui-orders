@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { keyBy, uniq } from 'lodash/fp';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import {
@@ -68,7 +69,7 @@ export const useLinkedInstances = line => {
   const { isLoading: isLinkedTitlesLoading, linkedTitles = [], refetchLinkedTitles } = useLinkedTitles(line);
   const ky = useOkapiKy();
 
-  const linkedInstanceIds = linkedTitles.map(({ instanceId }) => instanceId).filter(Boolean);
+  const linkedInstanceIds = uniq(linkedTitles.map(({ instanceId }) => instanceId).filter(Boolean));
 
   if (
     line.instanceId
@@ -83,25 +84,22 @@ export const useLinkedInstances = line => {
     async () => {
       const { data: relationTypesData } = await fetchInstanceRelationTypes();
 
-      return batchRequest(
+      const hydrateLinkedInstancesMap = await batchRequest(
         async ({ params: searchParams }) => {
           const { instances = [] } = await ky.get('inventory/instances', { searchParams }).json();
-          const hydrateLinkedInstancesMap = instances.reduce((acc, instance) => {
-            acc[instance.id] = {
-              ...instance,
-              ...hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
-            };
 
-            return acc;
-          }, {});
-
-          return linkedTitles.map((title) => ({
-            ...hydrateLinkedInstancesMap[title.instanceId],
-            receivingTitle: title,
+          return instances.map((instance) => ({
+            ...instance,
+            ...hydrateLinkedInstance(instance, relationTypesData?.instanceRelationshipTypes),
           }));
         },
         linkedInstanceIds,
-      );
+      ).then(keyBy('id'));
+
+      return linkedTitles.map((title) => ({
+        ...hydrateLinkedInstancesMap[title.instanceId],
+        receivingTitle: title,
+      }));
     },
     { enabled: Boolean(linkedInstanceIds.length) },
   );
