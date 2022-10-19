@@ -182,8 +182,6 @@
           "data-export.config.collection.get",
           "orders.item.post",
           "orders.order-templates.collection.get",
-          "orders.order-templates.collection.get",
-          "orders.order-templates.item.get",
           "orders.order-templates.item.get",
           "orders.po-lines.item.post",
           "orders.po-number.item.get",
