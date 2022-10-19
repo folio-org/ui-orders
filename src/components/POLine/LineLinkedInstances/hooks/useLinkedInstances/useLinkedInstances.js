@@ -1,5 +1,8 @@
 import { useQuery } from 'react-query';
-import { keyBy, uniq } from 'lodash/fp';
+import {
+  keyBy,
+  uniq,
+} from 'lodash/fp';
 
 import { useOkapiKy } from '@folio/stripes/core';
 import {
