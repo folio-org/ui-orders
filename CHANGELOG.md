@@ -13,6 +13,7 @@
 * Can not create PO line when title contains double quote. Refs UIOR-1028.
 * Display export details accordion for exported order lines. Refs UIOR-882.
 * Display export details on order view. Refs UIOR-886.
+* Link title MCL is showing blank rows. Refs UIOR-1027.
 
 ## [3.2.2](https://github.com/folio-org/ui-orders/tree/v3.2.2) (2022-08-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.1...v3.2.2)
