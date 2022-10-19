@@ -14,7 +14,6 @@ import {
   AmountWithCurrencyField,
   CurrencyExchangeRateFields,
   ORDER_FORMATS,
-  parseNumberFieldValue,
   TextField,
   TypeToggle,
   validateRequiredNotNegative,
@@ -118,7 +117,7 @@ const CostForm = ({
       change('cost.fyroAdjustmentAmount', 0);
     }
 
-    change(e.target.name, e.target.value);
+    change(e.target.name, parseNumber(e.target.value));
   };
 
   return (
@@ -138,7 +137,6 @@ const CostForm = ({
                     fullWidth
                     label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
                     name="cost.listUnitPrice"
-                    parse={parseNumberFieldValue}
                     type="number"
                     isNonInteractive={isDisabledToChangePaymentInfo}
                     {...validatePhresourcesPrices}
@@ -181,7 +179,6 @@ const CostForm = ({
                 fullWidth
                 label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
                 name="cost.additionalCost"
-                parse={parseNumberFieldValue}
                 type="number"
                 validate={validateNotNegative}
                 isNonInteractive={isDisabledToChangePaymentInfo}
@@ -231,7 +228,6 @@ const CostForm = ({
                     fullWidth
                     label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
                     name="cost.listUnitPriceElectronic"
-                    parse={parseNumberFieldValue}
                     type="number"
                     isNonInteractive={isDisabledToChangePaymentInfo}
                     {...validateEresourcesPrices}
@@ -274,6 +270,7 @@ const CostForm = ({
                 label={<FormattedMessage id="ui-orders.cost.discount" />}
                 name="cost.discount"
                 type="number"
+                parse={parseNumber}
                 validate={validateNotNegative}
                 isNonInteractive={isDisabledToChangePaymentInfo}
               />
