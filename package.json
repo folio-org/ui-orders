@@ -146,6 +146,7 @@
           "orders.configuration.reasons-for-closure.collection.get",
           "orders.configuration.suffixes.collection.get",
           "orders.item.get",
+          "orders.order-templates.item.get",
           "orders.pieces.collection.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
