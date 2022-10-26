@@ -764,5 +764,19 @@
     "permission.order-lines.cancel": "Pedidos: Cancelar linhas de pedidos",
     "createInvoice.confirmationModal.title": "Criar fatura",
     "createInvoice.confirmationModal.order.message": "Você deseja criar uma fatura a partir deste pedido?",
-    "paneBlock.createInvoice": "Nova fatura"
+    "paneBlock.createInvoice": "Nova fatura",
+    "button.confirm": "Confirmar",
+    "button.reexport": "Reexportar",
+    "reexport.order.confirmModal.heading": "Reexportar pedido",
+    "reexport.order.success": "A reexportação do pedido foi concluída com sucesso",
+    "reexport.order.fail": "A reexportação do pedido falhou",
+    "reexport.order.confirmModal.message": "Este pedido foi enviado anteriormente para <b> {vendorFromExport} </b> via <b> {exportMethod} </b> . Você gostaria que este pedido fosse enviado para <b> {vendorFromOrder} </b> com a próxima exportação?",
+    "reexport.orderLine.confirmModal.heading": "Reexportar pedido",
+    "reexport.orderLine.confirmModal.message": "Esta linha de pedido foi enviada anteriormente para <b> {vendorFromExport} </b> via <b> {exportMethod} </b> . Você gostaria que esta linha de pedido fosse enviada para <b> {vendorFromOrder} </b> com a próxima exportação?",
+    "reexport.orderLine.success": "A reexportação do pedido foi concluída com sucesso",
+    "reexport.orderLine.fail": "A reexportação do pedido falhou",
+    "export.fileName": "Nome do arquivo",
+    "export.jobId": "ID do job",
+    "export.method": "Método de exportação",
+    "paneBlock.exportDetails": "Detalhes da exportação"
 }
