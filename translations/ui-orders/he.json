@@ -764,5 +764,19 @@
     "permission.order-lines.cancel": "Orders: Cancel order lines",
     "createInvoice.confirmationModal.title": "Create invoice",
     "createInvoice.confirmationModal.order.message": "Do you want to create an invoice from this order?",
-    "paneBlock.createInvoice": "חשבונית חדשה"
+    "paneBlock.createInvoice": "חשבונית חדשה",
+    "button.confirm": "Confirm",
+    "button.reexport": "Re-export",
+    "reexport.order.confirmModal.heading": "Re-export order",
+    "reexport.order.success": "Order re-export was successfully completed",
+    "reexport.order.fail": "Order re-export was failed",
+    "reexport.order.confirmModal.message": "This order was previously sent to <b>{vendorFromExport}</b> via <b>{exportMethod}</b>. Would you like this order to be sent to <b>{vendorFromOrder}</b> with the next export?",
+    "reexport.orderLine.confirmModal.heading": "Re-export order line",
+    "reexport.orderLine.confirmModal.message": "This order line was previously sent to <b>{vendorFromExport}</b> via <b>{exportMethod}</b>. Would you like this order line to be sent to <b>{vendorFromOrder}</b> with the next export?",
+    "reexport.orderLine.success": "Order line re-export was successfully completed",
+    "reexport.orderLine.fail": "Order line re-export was failed",
+    "export.fileName": "File name",
+    "export.jobId": "Job ID",
+    "export.method": "Export method",
+    "paneBlock.exportDetails": "Export details"
 }
