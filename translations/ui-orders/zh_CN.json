@@ -764,5 +764,19 @@
     "permission.order-lines.cancel": "订单：取消订单行",
     "createInvoice.confirmationModal.title": "创建发票",
     "createInvoice.confirmationModal.order.message": "想从此订单创建发票？",
-    "paneBlock.createInvoice": "新建发票"
+    "paneBlock.createInvoice": "新建发票",
+    "button.confirm": "确认",
+    "button.reexport": "重新导出",
+    "reexport.order.confirmModal.heading": "重新导出订单",
+    "reexport.order.success": "订单重新导出成功完成",
+    "reexport.order.fail": "订单重新导出失败",
+    "reexport.order.confirmModal.message": "此订单之前已通过<b>{exportMethod}</b>发送至<b>{vendorFromExport}</b>。是否希望在下一次导出时将此订单发送给<b>{vendorFromOrder}</b>？",
+    "reexport.orderLine.confirmModal.heading": "重新导出订单行",
+    "reexport.orderLine.confirmModal.message": "此订单行先前已通过<b>{exportMethod}</b>发送给<b>{vendorFromExport}</b>。是否希望在下次导出时将此订单行发送给<b>{vendorFromOrder}</b>？",
+    "reexport.orderLine.success": "订单行重新导出已成功完成",
+    "reexport.orderLine.fail": "订单行重新导出失败",
+    "export.fileName": "文件名",
+    "export.jobId": "任务ID",
+    "export.method": "导出方式",
+    "paneBlock.exportDetails": "导出详情"
 }
