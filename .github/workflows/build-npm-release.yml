@@ -26,7 +26,7 @@ jobs:
       COMPILE_TRANSLATION_FILES: 'true'
       PUBLISH_MOD_DESCRIPTOR: 'true'
       FOLIO_NPM_REGISTRY: 'https://repository.folio.org/repository/npm-folio/'
-      FOLIO_NPM_REGISTRY_AUTH: '//repository.folio.org/repository/npm-folioci/'
+      FOLIO_NPM_REGISTRY_AUTH: '//repository.folio.org/repository/npm-folio/'
       FOLIO_MD_REGISTRY: 'https://folio-registry.dev.folio.org'
       NODEJS_VERSION: '16'
       JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest-junit'
@@ -214,7 +214,6 @@ jobs:
           always-auth: true
 
       - name: Set _auth in .npmrc
-        if: ${{ github.ref == 'refs/heads/master' || github.ref  == 'refs/heads/main' }}
         run: |
           npm config set @folio:registry $FOLIO_NPM_REGISTRY
           npm config set $FOLIO_NPM_REGISTRY_AUTH:_auth $NODE_AUTH_TOKEN
