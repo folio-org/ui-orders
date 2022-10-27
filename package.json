@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -451,7 +451,7 @@
   },
   "dependencies": {
     "@folio/plugin-find-po-line": "^3.2.0",
-    "@folio/stripes-acq-components": "~3.2.0",
+    "@folio/stripes-acq-components": "~3.3.0",
     "classnames": "^2.2.5",
     "final-form": "^4.19.1",
     "lodash": "^4.17.19",

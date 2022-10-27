@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.3.0](https://github.com/folio-org/ui-orders/tree/v3.3.0) (2022-10-27)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.2...v3.3.0)
+
 * Supports 'users' interface version 16.0. Refs UIOR-1030.
 * Add `New invoice` action for PO actions menu. Refs UIOR-985.
 * New invoice action (PO details). Refs UIOR-990.
