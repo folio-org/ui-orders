@@ -13,6 +13,7 @@ import {
   DEFAULT_CLOSE_ORDER_REASONS,
   REASONS_FOR_CLOSURE_API,
 } from '../../common/constants';
+import { getControlledVocabTranslations } from '../../common/utils';
 
 const hiddenFields = ['numberOfObjects', 'lastUpdated'];
 const visibleFields = ['reason', 'source'];
@@ -68,7 +69,7 @@ class ClosingReasons extends Component {
         hiddenFields={hiddenFields}
         id="closingReasons"
         label={intl.formatMessage({ id: 'ui-orders.settings.closingOrderReasons' })}
-        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.closingReasons.reason' })}
+        translations={getControlledVocabTranslations('ui-orders.settings.closingReasons')}
         nameKey="reason"
         objectLabel={reasonsLabel}
         readOnlyFields={readOnlyFields}
