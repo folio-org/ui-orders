@@ -3,6 +3,7 @@ export * from './getFundOptions';
 export * from './getSettingsList';
 export * from './getAddresses';
 export * from './getAddressOptions';
+export * from './getControlledVocabTranslations';
 export { default as getCreateInventorySetting } from './getCreateInventorySetting';
 export * from './getUserNameById';
 export * from './getExportAccountNumbers';

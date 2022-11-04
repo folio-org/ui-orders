@@ -11,6 +11,7 @@ import {
   ACQUISITION_METHODS_API,
 } from '@folio/stripes-acq-components';
 
+import { getControlledVocabTranslations } from '../../common/utils';
 import { getTranslatedAcqMethod } from '../../components/Utils/getTranslatedAcqMethod';
 
 const ACQ_METHODS_SYSTEM_SOURCE = 'System';
@@ -49,7 +50,7 @@ class AcquisitionMethods extends Component {
         nameKey="value"
         editable={stripes.hasPerm('ui-orders.settings.all')}
         label={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods' })}
-        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods.singular' })}
+        translations={getControlledVocabTranslations('ui-orders.settings.acquisitionMethods')}
         columnMapping={columnMapping}
         objectLabel={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods.singular' })}
         formatter={formatter}
