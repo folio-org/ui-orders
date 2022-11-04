@@ -7,9 +7,11 @@ import PropTypes from 'prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
-import { PREFIXES_API } from '@folio/stripes-acq-components';
+import {
+  getControlledVocabTranslations,
+  PREFIXES_API,
+} from '@folio/stripes-acq-components';
 
-import { getControlledVocabTranslations } from '../../common/utils';
 import { validatePrefixSuffixName } from '../utils';
 
 const prefixColumnMapping = {

@@ -7,13 +7,13 @@ import PropTypes from 'prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
+import { getControlledVocabTranslations } from '@folio/stripes-acq-components';
 
 import {
   CLOSING_REASONS_SOURCE,
   DEFAULT_CLOSE_ORDER_REASONS,
   REASONS_FOR_CLOSURE_API,
 } from '../../common/constants';
-import { getControlledVocabTranslations } from '../../common/utils';
 
 const hiddenFields = ['numberOfObjects', 'lastUpdated'];
 const visibleFields = ['reason', 'source'];

@@ -9,9 +9,9 @@ import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import {
   ACQUISITION_METHODS_API,
+  getControlledVocabTranslations,
 } from '@folio/stripes-acq-components';
 
-import { getControlledVocabTranslations } from '../../common/utils';
 import { getTranslatedAcqMethod } from '../../components/Utils/getTranslatedAcqMethod';
 
 const ACQ_METHODS_SYSTEM_SOURCE = 'System';
