@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
+import { getControlledVocabTranslations } from '@folio/stripes-acq-components';
 
 import {
   CLOSING_REASONS_SOURCE,
@@ -68,7 +69,7 @@ class ClosingReasons extends Component {
         hiddenFields={hiddenFields}
         id="closingReasons"
         label={intl.formatMessage({ id: 'ui-orders.settings.closingOrderReasons' })}
-        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.closingReasons.reason' })}
+        translations={getControlledVocabTranslations('ui-orders.settings.closingReasons')}
         nameKey="reason"
         objectLabel={reasonsLabel}
         readOnlyFields={readOnlyFields}

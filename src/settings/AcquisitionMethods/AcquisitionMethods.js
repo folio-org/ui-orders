@@ -9,6 +9,7 @@ import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import {
   ACQUISITION_METHODS_API,
+  getControlledVocabTranslations,
 } from '@folio/stripes-acq-components';
 
 import { getTranslatedAcqMethod } from '../../components/Utils/getTranslatedAcqMethod';
@@ -49,7 +50,7 @@ class AcquisitionMethods extends Component {
         nameKey="value"
         editable={stripes.hasPerm('ui-orders.settings.all')}
         label={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods' })}
-        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods.singular' })}
+        translations={getControlledVocabTranslations('ui-orders.settings.acquisitionMethods')}
         columnMapping={columnMapping}
         objectLabel={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods.singular' })}
         formatter={formatter}

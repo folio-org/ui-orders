@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
-import { PREFIXES_API } from '@folio/stripes-acq-components';
+import {
+  getControlledVocabTranslations,
+  PREFIXES_API,
+} from '@folio/stripes-acq-components';
 
 import { validatePrefixSuffixName } from '../utils';
 
@@ -35,7 +38,7 @@ class Prefixes extends Component {
         hiddenFields={prefixHiddenFields}
         id="prefixes"
         label={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefixes' })}
-        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefix' })}
+        translations={getControlledVocabTranslations('ui-orders.settings.poNumber.prefix')}
         nameKey="name"
         objectLabel={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefix' })}
         records="prefixes"

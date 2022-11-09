@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
-import { SUFFIXES_API } from '@folio/stripes-acq-components';
+import {
+  getControlledVocabTranslations,
+  SUFFIXES_API,
+} from '@folio/stripes-acq-components';
 
 import { validatePrefixSuffixName } from '../utils';
 
@@ -34,7 +37,7 @@ class Suffixes extends Component {
         editable
         id="suffixes"
         label={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}
-        labelSingular={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffix' })}
+        translations={getControlledVocabTranslations('ui-orders.settings.poNumber.suffix')}
         nameKey="name"
         objectLabel={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffix' })}
         records="suffixes"
