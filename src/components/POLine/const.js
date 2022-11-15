@@ -58,6 +58,6 @@ export const POL_TEMPLATE_FIELDS_MAP = {
   'tags.tagList': 'polTags.tagList',
 };
 
-export const INITIAL_SECTIONS = Object.keys(ACCORDION_ID).reduce(
+export const INITIAL_SECTIONS = Object.values(ACCORDION_ID).reduce(
   (accum, id) => ({ ...accum, [id]: true }), {},
 );
