@@ -32,6 +32,7 @@ export const MAP_FIELD_ACCORDION = {
   details: ACCORDION_ID.itemDetails,
   eresource: ACCORDION_ID.eresources,
   fundDistribution: ACCORDION_ID.fundDistribution,
+  'fundDistribution-error': ACCORDION_ID.fundDistribution,
   locations: ACCORDION_ID.location,
   orderFormat: ACCORDION_ID.lineDetails,
   other: ACCORDION_ID.other,

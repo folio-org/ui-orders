@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { mapValues } from 'lodash';
 
@@ -38,6 +39,7 @@ import {
 } from '../../../common/POLFields';
 import { WORKFLOW_STATUS } from '../../../common/constants';
 import { useFundDistributionValidation } from '../../../common/hooks';
+import { omitFieldArraysAsyncErrors } from '../../../common/utils';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import { OngoingOrderForm } from '../../../components/POLine/OngoingOrder';
@@ -82,7 +84,8 @@ const OrderTemplatesEditor = ({
   submitting,
 }) => {
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
-  const errors = getState()?.errors;
+  const formErrors = getState()?.errors;
+  const errors = useMemo(() => omitFieldArraysAsyncErrors(formErrors, ['fundDistribution']), [formErrors]);
 
   const [
     expandAll,
