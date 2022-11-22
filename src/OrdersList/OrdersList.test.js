@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { HasCommand } from '@folio/stripes/components';
@@ -22,6 +22,11 @@ const mockLocalStorageFilters = {
   searchIndex: '',
 };
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  // eslint-disable-next-line react/prop-types
+  withRouter: (Component) => (props) => <Component {...props} />,
+}));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   // eslint-disable-next-line react/prop-types
@@ -50,6 +55,9 @@ const defaultProps = {
   resetData: jest.fn(),
   refreshList: jest.fn(),
   history,
+  location: {
+    search: '',
+  },
 };
 
 const renderOrdersList = (props = {}) => render(
@@ -62,6 +70,7 @@ const renderOrdersList = (props = {}) => render(
 
 describe('OrdersList', () => {
   beforeEach(() => {
+    defaultProps.history.push.mockClear();
     HasCommand.mockClear();
     useModalToggle.mockClear();
   });
@@ -97,6 +106,16 @@ describe('OrdersList', () => {
       renderOrdersList();
 
       expect(screen.getByText('OrderExportSettingsModalContainer')).toBeInTheDocument();
+    });
+  });
+
+  describe('shortcuts', () => {
+    it('should handle \'new\' shortcut', async () => {
+      renderOrdersList();
+
+      await act(async () => HasCommand.mock.calls[0][0].commands.find(c => c.name === 'new').handler());
+
+      expect(history.push).toHaveBeenCalled();
     });
   });
 });
