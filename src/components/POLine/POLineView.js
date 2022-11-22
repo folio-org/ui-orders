@@ -124,6 +124,7 @@ const POLineView = ({
     [ACCORDION_ID.poLine]: true,
     [ACCORDION_ID.linkedInstances]: false,
     [ACCORDION_ID.exportDetails]: false,
+    [ACCORDION_ID.ongoingOrder]: true,
   });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();

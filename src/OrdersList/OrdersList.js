@@ -168,7 +168,7 @@ function OrdersList({
     {
       name: 'new',
       handler: handleKeyCommand(() => {
-        if (stripes.hasPerm('ui-orders.order.create')) {
+        if (stripes.hasPerm('ui-orders.orders.create')) {
           history.push('/orders/create');
         }
       }),

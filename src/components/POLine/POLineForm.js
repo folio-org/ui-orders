@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get, mapValues, pick } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -39,6 +39,7 @@ import {
   isOtherResource,
 } from '../../common/POLFields';
 import { isOngoing } from '../../common/POFields';
+import { omitFieldArraysAsyncErrors } from '../../common/utils';
 import LocationForm from './Location/LocationForm';
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
@@ -276,7 +277,8 @@ function POLineForm({
     );
   };
 
-  const errors = form.getState()?.errors;
+  const formErrors = form.getState()?.errors;
+  const errors = useMemo(() => omitFieldArraysAsyncErrors(formErrors, ['fundDistribution']), [formErrors]);
 
   const [
     expandAll,

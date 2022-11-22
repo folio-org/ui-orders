@@ -8,4 +8,5 @@ export * from './getUserNameById';
 export * from './getExportAccountNumbers';
 export * from './getRecordMap';
 export * from './fetchExportDataByIds';
+export * from './omitFieldArraysAsyncErrors';
 export * from './validateDuplicateLines';

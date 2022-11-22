@@ -32,6 +32,7 @@ export const MAP_FIELD_ACCORDION = {
   details: ACCORDION_ID.itemDetails,
   eresource: ACCORDION_ID.eresources,
   fundDistribution: ACCORDION_ID.fundDistribution,
+  'fundDistribution-error': ACCORDION_ID.fundDistribution,
   locations: ACCORDION_ID.location,
   orderFormat: ACCORDION_ID.lineDetails,
   other: ACCORDION_ID.other,
@@ -58,6 +59,6 @@ export const POL_TEMPLATE_FIELDS_MAP = {
   'tags.tagList': 'polTags.tagList',
 };
 
-export const INITIAL_SECTIONS = Object.keys(ACCORDION_ID).reduce(
+export const INITIAL_SECTIONS = Object.values(ACCORDION_ID).reduce(
   (accum, id) => ({ ...accum, [id]: true }), {},
 );
