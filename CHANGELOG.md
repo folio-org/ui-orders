@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [3.3.1](https://github.com/folio-org/ui-orders/tree/v3.3.1) (2022-11-25)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.0...v3.3.1)
+
 * Some shortcut keys do not work in the "Orders" application. Refs UIOR-1038.
 
 ## [3.3.0](https://github.com/folio-org/ui-orders/tree/v3.3.0) (2022-10-27)
