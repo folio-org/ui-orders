@@ -4,6 +4,7 @@
 
 * Use Orders Export History API (mod-orders). Refs UIOR-1034.
 * Provide local translations to `ControlledVocab`. Refs UIOR-1018.
+* Loose plugin dependencies permit incompatible versions. Refs UIOR-1042.
 
 ## [3.3.1](https://github.com/folio-org/ui-orders/tree/v3.3.1) (2022-11-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.0...v3.3.1)
