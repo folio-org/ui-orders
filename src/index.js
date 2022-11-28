@@ -97,7 +97,10 @@ const Orders = ({ match, location, showSettings }) => {
                   <NavListSection>
                     <NavListItem
                       id="orders-app-search-item"
-                      to={ORDER_LINES_ROUTE}
+                      to={{
+                        pathname: ORDER_LINES_ROUTE,
+                        state: { resetFilters: true },
+                      }}
                       onClick={() => {
                         handleToggle();
                         focusSearchField();
