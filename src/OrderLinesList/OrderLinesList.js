@@ -30,6 +30,7 @@ import {
   ResetButton,
   ResultsPane,
   SingleSearchForm,
+  useFiltersReset,
   useFiltersToogle,
   useLocalStorageFilters,
   useLocationSorting,
@@ -135,6 +136,8 @@ function OrderLinesList({
   );
   const { visibleColumns, toggleColumn } = useColumnManager('order-lines-column-manager', columnMapping);
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('order-lines-list');
+
+  useFiltersReset(resetFilters);
 
   const resultsStatusMessage = (
     <NoResultsMessage

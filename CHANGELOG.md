@@ -26,6 +26,7 @@
 * Link title MCL is showing blank rows. Refs UIOR-1027.
 * A user with certain permission gets 403 error when viewing order/order line. Refs UIOR-1032.
 * Blanking "Quantity physical" or "Quantity electronic" from order template sets property to empty string. Refs UIOR-1029.
+* No results found shown after return to search page. Refs UIOR-1048.
 
 ## [3.2.2](https://github.com/folio-org/ui-orders/tree/v3.2.2) (2022-08-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.1...v3.2.2)
