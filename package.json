@@ -480,8 +480,8 @@
     "@rehooks/local-storage": "2.4.0"
   },
   "optionalDependencies": {
-    "@folio/plugin-find-instance": "*",
-    "@folio/plugin-find-organization": "*",
-    "@folio/plugin-find-user": "*"
+    "@folio/plugin-find-instance": "^6.3.0",
+    "@folio/plugin-find-organization": "^3.3.0",
+    "@folio/plugin-find-user": "^6.3.0"
   }
 }
