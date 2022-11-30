@@ -4,7 +4,12 @@
 
 * Use Orders Export History API (mod-orders). Refs UIOR-1034.
 * Provide local translations to `ControlledVocab`. Refs UIOR-1018.
+
+## [3.3.2](https://github.com/folio-org/ui-orders/tree/v3.3.2) (2022-11-30)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.1...v3.3.2)
+
 * Loose plugin dependencies permit incompatible versions. Refs UIOR-1042.
+* No results found shown after return to search page. Refs UIOR-1048.
 
 ## [3.3.1](https://github.com/folio-org/ui-orders/tree/v3.3.1) (2022-11-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.0...v3.3.1)
@@ -28,7 +33,6 @@
 * Link title MCL is showing blank rows. Refs UIOR-1027.
 * A user with certain permission gets 403 error when viewing order/order line. Refs UIOR-1032.
 * Blanking "Quantity physical" or "Quantity electronic" from order template sets property to empty string. Refs UIOR-1029.
-* No results found shown after return to search page. Refs UIOR-1048.
 
 ## [3.2.2](https://github.com/folio-org/ui-orders/tree/v3.2.2) (2022-08-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.1...v3.2.2)
