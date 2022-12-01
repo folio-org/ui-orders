@@ -791,7 +791,7 @@
     "settings.poNumber.prefix.termWillBeDeleted": "The prefix <b>{term}</b> will be <b>deleted.</b>",
     "settings.poNumber.suffix.cannotDeleteTermHeader": "Cannot delete the suffix",
     "settings.poNumber.suffix.cannotDeleteTermMessage": "This suffix cannot be deleted, as it is in use by one or more records.",
-    "settings.poNumber.suffix.deleteEntry": "Delete suffix",
+    "settings.poNumber.suffix.deleteEntry": "Supprimer le suffixe",
     "settings.poNumber.suffix.termDeleted": "The suffix <b>{term}</b> was successfully <b>deleted</b>",
     "settings.poNumber.suffix.termWillBeDeleted": "The suffix <b>{term}</b> will be <b>deleted.</b>",
     "settings.acquisitionMethods.cannotDeleteTermHeader": "Cannot delete the acquisition method",
