@@ -25,9 +25,9 @@ import {
   ORDER_VIEW_VERSIONS_ROUTE,
 } from '../../common/constants';
 import { PO } from '../PurchaseOrder';
-// import { getPoFieldsLabelMap } from '../PurchaseOrder/util';
+import { getPoFieldsLabelMap } from '../PurchaseOrder/util';
 import { POLine } from '../POLine';
-// import { getPoLineFieldsLabelMap } from '../POLine/utils';
+import { getPoLineFieldsLabelMap } from '../POLine/utils';
 
 // TODO: remove during UIOR-1036
 const mockLineSnapshot = { ...orderLineAuditEvent.orderLineSnapshot };
@@ -130,7 +130,7 @@ const Panes = ({
                 })}
                 onSelectVersion={setCurrentVersion}
                 currentVersion={currentVersion}
-                // labelsMap={getPoFieldsLabelMap()}
+                labelsMap={getPoFieldsLabelMap()}
                 snapshotPath="orderSnapshot"
                 versions={mockOrderVersions}
               />
@@ -172,7 +172,7 @@ const Panes = ({
                   })}
                   onSelectVersion={setCurrentVersion}
                   currentVersion={currentVersion}
-                  // labelsMap={getPoLineFieldsLabelMap({})}
+                  labelsMap={getPoLineFieldsLabelMap({})}
                   snapshotPath="orderLineSnapshot"
                   versions={mockVersions}
                 />

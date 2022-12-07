@@ -48,7 +48,7 @@ import { orderLineAuditEvent } from '@folio/stripes-acq-components/test/jest/fix
 import OrdersNavigation from '../common/OrdersNavigation';
 import { ORDER_LINES_ROUTE } from '../common/constants';
 import {
-  // getPoLineFieldsLabelMap,
+  getPoLineFieldsLabelMap,
   isOrderLineCancelled,
 } from '../components/POLine/utils';
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
@@ -338,7 +338,7 @@ function OrderLinesList({
                 onSelectVersion={setCurrentVersion}
                 currentVersion={currentVersion}
                 snapshotPath="orderLineSnapshot"
-                // labelsMap={getPoLineFieldsLabelMap({})}
+                labelsMap={getPoLineFieldsLabelMap({})}
                 versions={mockVersions}
               />
             </>
