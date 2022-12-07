@@ -50,6 +50,7 @@ export const ERROR_CODES = {
   piecesNeedToBeCreated: 'piecesNeedToBeCreated',
   piecesNeedToBeDeleted: 'piecesNeedToBeDeleted',
   polLimitExceeded: 'polLimitExceeded',
+  poLineHasRelatedApprovedInvoice: 'poLineHasRelatedApprovedInvoice',
   poNumberNotUnique: 'poNumberNotUnique',
   poNumberRequired: 'poNumberRequired',
   protectedFieldChanging: 'protectedFieldChanging',
