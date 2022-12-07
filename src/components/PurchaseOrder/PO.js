@@ -18,6 +18,7 @@ import {
   useAcqRestrictions,
   useModalToggle,
   useShowCallout,
+  VersionHistoryButton,
 } from '@folio/stripes-acq-components';
 import {
   Accordion,
@@ -52,6 +53,7 @@ import {
 } from '../../common';
 import {
   INVOICES_ROUTE,
+  ORDERS_ROUTE,
   REEXPORT_SOURCES,
   WORKFLOW_STATUS,
 } from '../../common/constants';
@@ -114,6 +116,7 @@ const PO = ({
   const sendCallout = useShowCallout();
   const accordionStatusRef = useRef();
   const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
+  const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
 
   const [order, setOrder] = useState({});
   const [orderInvoicesIds, setOrderInvoicesIds] = useState();
@@ -140,8 +143,6 @@ const PO = ({
   const orderId = match.params.id;
   const poLines = order?.compositePoLines;
 
-  const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
-
   const {
     isLoading: isRestrictionsLoading,
     restrictions,
@@ -167,7 +168,6 @@ const PO = ({
   const addresses = getAddresses(get(resources, 'addresses.records', []));
   const funds = get(resources, 'fund.records', []);
   const approvalsSetting = get(resources, 'approvalsSetting.records', {});
-
   const isReceiptRequired = !(poLines?.every(({ receiptStatus }) => (
     receiptStatus === RECEIPT_STATUS.receiptNotRequired
   )));
@@ -175,7 +175,6 @@ const PO = ({
     !checkinItems
     && (cost?.quantityPhysical || 0 + cost?.quantityElectronic || 0) > 0
   ));
-
   const unopenOrderModalLabel = intl.formatMessage(
     { id: 'ui-orders.unopenOrderModal.title' },
     { orderNumber },
@@ -188,11 +187,21 @@ const PO = ({
   const differentAccountModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
   const createInvoiceModalLabel = intl.formatMessage({ id: 'ui-orders.createInvoice.confirmationModal.title' });
 
+  const openVersionHistory = useCallback(() => {
+    history.push({
+      pathname: `${ORDERS_ROUTE}/view/${order.id}/versions`,
+      search: location.search,
+    });
+  }, [history, location.search, order.id]);
+
   const lastMenu = (
     <PaneMenu>
       <TagsBadge
         tagsToggle={toggleTagsPane}
         tagsQuantity={tags.length}
+      />
+      <VersionHistoryButton
+        onClick={openVersionHistory}
       />
     </PaneMenu>
   );
@@ -813,7 +822,7 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
             >
               <LineListing
-                baseUrl={match.url}
+                baseUrl={`${ORDERS_ROUTE}/view/${order.id}`}
                 funds={funds}
                 poLines={poLines}
                 visibleColumns={visibleColumns}

@@ -39,6 +39,7 @@ import {
   TagsBadge,
   useAcqRestrictions,
   useModalToggle,
+  VersionHistoryButton,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -59,7 +60,9 @@ import {
   NOTE_TYPES,
   NOTES_ROUTE,
   ORDERS_DOMAIN,
+  ORDERS_ROUTE,
   REEXPORT_SOURCES,
+  ORDER_LINES_ROUTE,
 } from '../../common/constants';
 import { useExportHistory } from '../../common/hooks';
 import { isOngoing } from '../../common/POFields';
@@ -175,6 +178,15 @@ const POLineView = ({
   const handleExpandAll = useCallback((newSections) => {
     setSections(newSections);
   }, []);
+
+  const openVersionHistory = useCallback(() => {
+    history.push({
+      pathname: poURL
+        ? `${ORDERS_ROUTE}/view/${order.id}/po-line/view/${line.id}/versions`
+        : `${ORDER_LINES_ROUTE}/view/${line.id}/versions`,
+      search: location.search,
+    });
+  }, [history, line.id, location.search, order.id, poURL]);
 
   const onEditPOLine = useCallback((e) => {
     if (e) e.preventDefault();
@@ -411,6 +423,9 @@ const POLineView = ({
       <TagsBadge
         tagsToggle={tagsToggle}
         tagsQuantity={tags.length}
+      />
+      <VersionHistoryButton
+        onClick={openVersionHistory}
       />
     </PaneMenu>
   );
