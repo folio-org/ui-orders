@@ -9,6 +9,7 @@ import {
 import {
   getCancelledLine,
   getCreateInventory,
+  getPoLineFieldsLabelMap,
   isCancelableLine,
   isOrderLineCancelled,
   setPaymentStatus,
@@ -150,5 +151,43 @@ describe('isCancelableLine', () => {
         physical: { createInventory: INVENTORY_RECORDS_TYPE.instance },
       })).toEqual(INVENTORY_RECORDS_TYPE.none);
     });
+  });
+});
+
+describe('getPoLineFieldsLabelMap', () => {
+  it('should return labels\' map for fields of package PO Line', () => {
+    expect(getPoLineFieldsLabelMap({ isPackage: true })).toEqual(
+      expect.objectContaining({
+        'titleOrPackage': 'ui-orders.itemDetails.packageName',
+        'cost.listUnitPrice': 'ui-orders.cost.listPrice',
+        'cost.quantityPhysical': 'ui-orders.cost.quantity',
+        'cost.listUnitPriceElectronic': 'ui-orders.cost.listPrice',
+        'cost.quantityElectronic': 'ui-orders.cost.quantity',
+      }),
+    );
+  });
+
+  it('should return labels\' map for fields of package PO Line with mixed order', () => {
+    expect(getPoLineFieldsLabelMap({ isPackage: true, orderFormat: ORDER_FORMATS.PEMix })).toEqual(
+      expect.objectContaining({
+        'titleOrPackage': 'ui-orders.itemDetails.packageName',
+        'cost.listUnitPrice': 'ui-orders.cost.listPriceOfPhysical',
+        'cost.quantityPhysical': 'ui-orders.cost.quantityPhysical',
+        'cost.listUnitPriceElectronic': 'ui-orders.cost.listPrice',
+        'cost.quantityElectronic': 'ui-orders.cost.quantity',
+      }),
+    );
+  });
+
+  it('should return labels\' map for non-package PO Line fields', () => {
+    expect(getPoLineFieldsLabelMap()).toEqual(
+      expect.objectContaining({
+        'titleOrPackage': 'ui-orders.itemDetails.title',
+        'cost.listUnitPrice': 'ui-orders.cost.listPriceOfPhysical',
+        'cost.quantityPhysical': 'ui-orders.cost.quantityPhysical',
+        'cost.listUnitPriceElectronic': 'ui-orders.cost.unitPriceOfElectronic',
+        'cost.quantityElectronic': 'ui-orders.cost.quantityElectronic',
+      }),
+    );
   });
 });

@@ -215,6 +215,11 @@ function OrderLinesList({
     [orderLinesCount, toggleExportModal, visibleColumns, toggleColumn],
   );
 
+  const onVersionsClose = useCallback((id) => () => history.push({
+    pathname: `${ORDER_LINES_ROUTE}/view/${id}`,
+    search: location.search,
+  }), [history, location.search]);
+
   return (
     <PersistedPaneset
       appId="ui-orders"
@@ -330,11 +335,8 @@ function OrderLinesList({
               />
               <VersionHistoryPane
                 id="order-line"
-                onClose={() => history.push({
-                  // eslint-disable-next-line react/prop-types
-                  pathname: `${ORDER_LINES_ROUTE}/view/${props.match.params.id}`,
-                  search: location.search,
-                })}
+                // eslint-disable-next-line react/prop-types
+                onClose={onVersionsClose(props.match.params.id)}
                 onSelectVersion={setCurrentVersion}
                 currentVersion={currentVersion}
                 snapshotPath="orderLineSnapshot"

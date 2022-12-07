@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Switch,
   Route,
@@ -87,6 +87,16 @@ const Panes = ({
   // TODO: move logic to the VersionView component (UIOR-1036)
   const [currentVersion, setCurrentVersion] = useState(params?.versionId || mockVersions[0].id);
 
+  const onCloseOrderVersions = useCallback((orderId) => () => history.push({
+    pathname: `${ORDERS_ROUTE}/view/${orderId}`,
+    search: location.search,
+  }), [history, location.search]);
+
+  const onCloseOrderLineVersions = useCallback((orderId, lineId) => () => history.push({
+    pathname: `${ORDERS_ROUTE}/view/${orderId}/po-line/view/${lineId}`,
+    search: location.search,
+  }), [history, location.search]);
+
   return (
     <Switch>
       <Route
@@ -113,10 +123,7 @@ const Panes = ({
               />
               <VersionHistoryPane
                 id="order"
-                onClose={() => history.push({
-                  pathname: `${ORDERS_ROUTE}/view/${props.match.params.id}`,
-                  search: location.search,
-                })}
+                onClose={onCloseOrderVersions(props.match.params.id)}
                 onSelectVersion={setCurrentVersion}
                 currentVersion={currentVersion}
                 labelsMap={getPoFieldsLabelMap()}
@@ -155,10 +162,7 @@ const Panes = ({
                 />
                 <VersionHistoryPane
                   id="order-line"
-                  onClose={() => history.push({
-                    pathname: `${ORDERS_ROUTE}/view/${props.match.params.id}/po-line/view/${props.match.params.lineId}`,
-                    search: location.search,
-                  })}
+                  onClose={onCloseOrderLineVersions(props.match.params.id, props.match.params.lineId)}
                   onSelectVersion={setCurrentVersion}
                   currentVersion={currentVersion}
                   labelsMap={getPoLineFieldsLabelMap({})}
