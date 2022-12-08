@@ -196,6 +196,11 @@ function OrderLinesList({
     />
   );
 
+  const onVersionsClose = useCallback((id) => () => history.push({
+    pathname: `${ORDER_LINES_ROUTE}/view/${id}`,
+    search: location.search,
+  }), [history, location.search]);
+
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
       <>
@@ -215,10 +220,32 @@ function OrderLinesList({
     [orderLinesCount, toggleExportModal, visibleColumns, toggleColumn],
   );
 
-  const onVersionsClose = useCallback((id) => () => history.push({
-    pathname: `${ORDER_LINES_ROUTE}/view/${id}`,
-    search: location.search,
-  }), [history, location.search]);
+  const renderLineDetails = useCallback((props) => (
+    <Details
+      {...props}
+      refreshList={refreshList}
+    />
+  ), [refreshList]);
+
+  // TODO: replace this render with POLineVersionView component after its implementation (UIOR-1036)
+  const renderLineVersionHistory = useCallback((props) => (
+    <>
+      <Details
+        {...props}
+        refreshList={refreshList}
+      />
+      <VersionHistoryPane
+        id="order-line"
+        // eslint-disable-next-line react/prop-types
+        onClose={onVersionsClose(props.match.params.id)}
+        onSelectVersion={setCurrentVersion}
+        currentVersion={currentVersion}
+        snapshotPath="orderLineSnapshot"
+        labelsMap={getPoLineFieldsLabelMap({})}
+        versions={mockVersions}
+      />
+    </>
+  ), [currentVersion, onVersionsClose, refreshList]);
 
   return (
     <PersistedPaneset
@@ -315,36 +342,13 @@ function OrderLinesList({
         <Route
           exact
           path="/orders/lines/view/:id"
-          render={props => (
-            <Details
-              {...props}
-              refreshList={refreshList}
-            />
-          )}
+          render={renderLineDetails}
         />
 
         <Route
           exact
           path="/orders/lines/view/:id/versions/:versionId?"
-          render={props => (
-            // TODO: replace this render with POLineVersionView component after its implementation (UIOR-1036)
-            <>
-              <Details
-                {...props}
-                refreshList={refreshList}
-              />
-              <VersionHistoryPane
-                id="order-line"
-                // eslint-disable-next-line react/prop-types
-                onClose={onVersionsClose(props.match.params.id)}
-                onSelectVersion={setCurrentVersion}
-                currentVersion={currentVersion}
-                snapshotPath="orderLineSnapshot"
-                labelsMap={getPoLineFieldsLabelMap({})}
-                versions={mockVersions}
-              />
-            </>
-          )}
+          render={renderLineVersionHistory}
         />
       </Switch>
     </PersistedPaneset>

@@ -364,15 +364,18 @@ const PO = ({
 
             return fetchOrder();
           },
-          e => {
-            return handleErrorResponse(e, orderErrorModalShow, 'closeOrder');
-          },
+          e => handleErrorResponse(e, orderErrorModalShow, 'closeOrder'),
         )
         .finally(setIsLoading);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [toggleCloseOrderModal, order, sendCallout, refreshList, fetchOrder, handleErrorResponse, orderErrorModalShow],
   );
+
+  const cancelClosingOrder = useCallback(() => {
+    setIsCancelReason(false);
+    toggleCloseOrderModal();
+  }, [toggleCloseOrderModal]);
 
   const approveOrder = useCallback(
     () => {
@@ -761,10 +764,7 @@ const PO = ({
 
               {isCloseOrderModalOpened && (
                 <CloseOrderModal
-                  cancel={() => {
-                    setIsCancelReason(false);
-                    toggleCloseOrderModal();
-                  }}
+                  cancel={cancelClosingOrder}
                   closeOrder={closeOrder}
                   closingReasons={reasonsForClosure}
                   orderNumber={orderNumber}

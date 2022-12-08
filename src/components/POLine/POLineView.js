@@ -12,16 +12,13 @@ import {
 import {
   Accordion,
   AccordionSet,
-  Button,
   checkScope,
   Col,
   ConfirmationModal,
   ExpandAllButton,
   HasCommand,
-  Icon,
   IconButton,
   Loading,
-  MenuSection,
   MessageBanner,
   Pane,
   PaneMenu,
@@ -45,15 +42,9 @@ import {
 import {
   PrintOrder,
 } from '../../PrintOrder';
-import {
-  isCheckInAvailableForLine,
-  isReceiveAvailableForLine,
-  isWorkflowStatusClosed,
-  isWorkflowStatusOpen,
-} from '../PurchaseOrder/util';
+import { isWorkflowStatusClosed } from '../PurchaseOrder/util';
 import {
   ExportDetailsAccordion,
-  ReexportActionButton,
   ReexportModal,
 } from '../../common';
 import {
@@ -84,6 +75,7 @@ import {
   useChangeInstanceConnection,
 } from './ChangeInstanceConnection';
 import { OngoingOrderView } from './OngoingOrder';
+import { POLineActionMenu } from './POLineActionMenu';
 import {
   ACCORDION_ID,
   ERESOURCES,
@@ -156,13 +148,13 @@ const POLineView = ({
     setHiddenFields(orderTemplate.hiddenFields);
   }, [orderTemplate.hiddenFields]);
 
-  const toggleForceVisibility = () => {
+  const toggleForceVisibility = useCallback(() => {
     setHiddenFields(prevHiddenFields => (
       prevHiddenFields
         ? undefined
         : (orderTemplate.hiddenFields || {})
     ));
-  };
+  }, [orderTemplate.hiddenFields]);
 
   const onToggleSection = useCallback(({ id, isOpened }) => {
     setSections((prevSections) => {
@@ -249,163 +241,48 @@ const POLineView = ({
   ];
 
   // eslint-disable-next-line react/prop-types
-  const getActionMenu = ({ onToggle }) => {
-    const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
-    const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
-    const isChangeInstanceVisible = isWorkflowStatusClosed(order) || isWorkflowStatusOpen(order);
-    const isOrderLineReexportDisabled = !(
-      isWorkflowStatusOpen(order) && line.lastEDIExportDate && line.automaticExport
-    );
-
-    // TODO: unify actions after Order Lines list is implemented fully
+  const getActionMenu = useCallback(({ onToggle }) => {
     return (
-      <MenuSection id="data-test-line-details-actions">
-        {editable && (
-          <IfPermission perm="orders.po-lines.item.put">
-            <Button
-              buttonStyle="dropdownItem"
-              data-test-button-edit-line
-              disabled={isRestrictionsLoading || restrictions.protectUpdate}
-              onClick={() => {
-                onToggle();
-                onEditPOLine();
-              }}
-            >
-              <Icon size="small" icon="edit">
-                <FormattedMessage id="ui-orders.button.edit" />
-              </Icon>
-            </Button>
-
-            {isChangeInstanceVisible && (
-              <Button
-                buttonStyle="dropdownItem"
-                id="change-instance-connection-action"
-                data-testid="line-details-actions-change-instance"
-                disabled={isRestrictionsLoading || restrictions.protectUpdate}
-                onClick={toggleInstancePlugin}
-              >
-                <Icon size="small" icon="edit">
-                  <FormattedMessage id="ui-orders.buttons.line.changeInstance" />
-                </Icon>
-              </Button>
-            )}
-          </IfPermission>
-        )}
-        {goToOrderDetails && (
-          <Button
-            data-test-line-details-actions-view-po
-            data-testid="line-details-actions-view-po"
-            buttonStyle="dropdownItem"
-            onClick={() => {
-              onToggle();
-              goToOrderDetails();
-            }}
-          >
-            <Icon icon="eye-open">
-              <FormattedMessage id="ui-orders.poLine.actions.viewPO" />
-            </Icon>
-          </Button>
-        )}
-        <IfPermission perm="ui-receiving.view">
-          {(isReceiveButtonVisible || isCheckInButtonVisible) && (
-            <Button
-              buttonStyle="dropdownItem"
-              data-test-line-receive-button
-              to={`/receiving?qindex=poLine.poLineNumber&query=${line.poLineNumber}`}
-            >
-              <Icon size="small" icon="receive">
-                <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
-              </Icon>
-            </Button>
-          )}
-        </IfPermission>
-
-        <ReexportActionButton
-          id="reexport-order-line-button"
-          disabled={isOrderLineReexportDisabled}
-          onClick={() => {
-            onToggle();
-            toggleOrderLineReexportModal();
-          }}
-        />
-
-        {isCancelable && (
-          <IfPermission perm="ui-orders.order-lines.cancel">
-            <Button
-              buttonStyle="dropdownItem"
-              data-testid="cancel-line-button"
-              disabled={isRestrictionsLoading || restrictions.protectUpdate}
-              onClick={() => {
-                onToggle();
-                toggleConfirmCancel();
-              }}
-            >
-              <Icon size="small" icon="cancel">
-                <FormattedMessage id="ui-orders.buttons.line.cancel" />
-              </Icon>
-            </Button>
-          </IfPermission>
-        )}
-        <IfPermission perm="orders.po-lines.item.delete">
-          <Button
-            buttonStyle="dropdownItem"
-            data-test-button-delete-line
-            data-testid="button-delete-line"
-            disabled={isRestrictionsLoading || restrictions.protectDelete}
-            onClick={() => {
-              onToggle();
-              toggleConfirmDelete();
-            }}
-          >
-            <Icon size="small" icon="trash">
-              <FormattedMessage id="ui-orders.button.delete" />
-            </Icon>
-          </Button>
-        </IfPermission>
-
-        <Button
-          buttonStyle="dropdownItem"
-          onClick={() => {
-            onToggle();
-            togglePrintLineModal();
-          }}
-        >
-          <Icon size="small" icon="print">
-            <FormattedMessage id="ui-orders.button.printLine" />
-          </Icon>
-        </Button>
-
-        <Button
-          buttonStyle="dropdownItem"
-          onClick={() => {
-            onToggle();
-            togglePrintOrderModal();
-          }}
-        >
-          <Icon size="small" icon="print">
-            <FormattedMessage id="ui-orders.button.printOrder" />
-          </Icon>
-        </Button>
-        {Boolean(orderTemplate.hiddenFields) && (
-          <IfPermission perm="ui-orders.order.showHidden">
-            <Button
-              id="line-clickable-show-hidden"
-              data-testid="line-toggle-key-values-visibility"
-              buttonStyle="dropdownItem"
-              onClick={() => {
-                toggleForceVisibility();
-                onToggle();
-              }}
-            >
-              <Icon size="small" icon={`eye-${hiddenFields ? 'open' : 'closed'}`}>
-                <FormattedMessage id={`ui-orders.order.${hiddenFields ? 'showHidden' : 'hideFields'}`} />
-              </Icon>
-            </Button>
-          </IfPermission>
-        )}
-      </MenuSection>
+      <POLineActionMenu
+        hiddenFields={hiddenFields}
+        line={line}
+        order={order}
+        orderTemplate={orderTemplate}
+        restrictions={restrictions}
+        isCancelable={isCancelable}
+        isEditable={editable}
+        isRestrictionsLoading={isRestrictionsLoading}
+        onToggle={onToggle}
+        onCancelLine={toggleConfirmCancel}
+        onChangeInstance={toggleInstancePlugin}
+        onDeleteLine={toggleConfirmDelete}
+        onEditLine={onEditPOLine}
+        onNavigateToOrder={goToOrderDetails}
+        onPrintLine={togglePrintLineModal}
+        onPrintOrder={togglePrintOrderModal}
+        onReexport={toggleOrderLineReexportModal}
+        toggleForceVisibility={toggleForceVisibility}
+      />
     );
-  };
+  }, [
+    editable,
+    goToOrderDetails,
+    hiddenFields,
+    isCancelable,
+    isRestrictionsLoading,
+    line,
+    onEditPOLine,
+    order,
+    orderTemplate,
+    restrictions,
+    toggleConfirmCancel,
+    toggleConfirmDelete,
+    toggleForceVisibility,
+    toggleInstancePlugin,
+    toggleOrderLineReexportModal,
+    togglePrintLineModal,
+    togglePrintOrderModal,
+  ]);
 
   const tags = get(line, ['tags', 'tagList'], []);
 

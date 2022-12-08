@@ -97,81 +97,83 @@ const Panes = ({
     search: location.search,
   }), [history, location.search]);
 
+  const renderOrderDetails = useCallback((props) => (
+    <PO
+      {...props}
+      refreshList={refreshList}
+    />
+  ), [refreshList]);
+
+  // TODO: replace this render with POVersionView component after its implementation (UIOR-1036)
+  const renderOrderVersionHistory = useCallback((props) => (
+    <>
+      <PO
+        {...props}
+        refreshList={refreshList}
+      />
+      <VersionHistoryPane
+        id="order"
+        onClose={onCloseOrderVersions(props.match.params.id)}
+        onSelectVersion={setCurrentVersion}
+        currentVersion={currentVersion}
+        labelsMap={getPoFieldsLabelMap()}
+        snapshotPath="orderSnapshot"
+        versions={mockOrderVersions}
+      />
+    </>
+  ), [currentVersion, onCloseOrderVersions, refreshList]);
+
+  const renderOrderLineDetails = useCallback((props) => (
+    <POLine
+      poURL={url}
+      {...props}
+    />
+  ), [url]);
+
+  // TODO: replace this render with POLineVersionView component after its implementation (UIOR-1036)
+  const renderOrderLineVersionHistory = useCallback((props) => (
+    <>
+      <POLine
+        poURL={url}
+        {...props}
+      />
+      <VersionHistoryPane
+        id="order-line"
+        onClose={onCloseOrderLineVersions(props.match.params.id, props.match.params.lineId)}
+        onSelectVersion={setCurrentVersion}
+        currentVersion={currentVersion}
+        labelsMap={getPoLineFieldsLabelMap({})}
+        snapshotPath="orderLineSnapshot"
+        versions={mockVersions}
+      />
+    </>
+  ), [currentVersion, onCloseOrderLineVersions, url]);
+
   return (
     <Switch>
       <Route
         exact
         path={ORDER_VIEW_ROUTE}
-        render={props => (
-          <PO
-            {...props}
-            refreshList={refreshList}
-          />
-        )}
+        render={renderOrderDetails}
       />
 
       <Route
         exact
         path={ORDER_VIEW_VERSIONS_ROUTE}
-        render={
-          // TODO: replace this render with POVersionView component after its implementation (UIOR-1036)
-          props => (
-            <>
-              <PO
-                {...props}
-                refreshList={refreshList}
-              />
-              <VersionHistoryPane
-                id="order"
-                onClose={onCloseOrderVersions(props.match.params.id)}
-                onSelectVersion={setCurrentVersion}
-                currentVersion={currentVersion}
-                labelsMap={getPoFieldsLabelMap()}
-                snapshotPath="orderSnapshot"
-                versions={mockOrderVersions}
-              />
-            </>
-          )
-        }
+        render={renderOrderVersionHistory}
       />
 
       <IfPermission perm="orders.po-lines.item.get">
         <Route
           exact
           path={ORDER_LINE_VIEW_ROUTE}
-          render={
-            props => (
-              <POLine
-                poURL={url}
-                {...props}
-              />
-            )
-          }
+          render={renderOrderLineDetails}
         />
 
         <Route
           exact
           path={ORDER_LINE_VIEW_VERSIONS_ROUTE}
-          render={
-            // TODO: replace this render with POLineVersionView component after its implementation (UIOR-1036)
-            props => (
-              <>
-                <POLine
-                  poURL={url}
-                  {...props}
-                />
-                <VersionHistoryPane
-                  id="order-line"
-                  onClose={onCloseOrderLineVersions(props.match.params.id, props.match.params.lineId)}
-                  onSelectVersion={setCurrentVersion}
-                  currentVersion={currentVersion}
-                  labelsMap={getPoLineFieldsLabelMap({})}
-                  snapshotPath="orderLineSnapshot"
-                  versions={mockVersions}
-                />
-              </>
-            )
-          }
+          render={renderOrderLineVersionHistory}
         />
       </IfPermission>
     </Switch>
