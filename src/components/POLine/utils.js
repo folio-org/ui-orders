@@ -83,3 +83,120 @@ export const getCreateInventory = (line) => {
     default: return undefined;
   }
 };
+
+export const getPoLineFieldsLabelMap = ({
+  isPackage,
+  orderFormat,
+} = {}) => {
+  const isNotMixedFormat = orderFormat !== ORDER_FORMATS.PEMix;
+
+  return {
+    'tagList': 'stripes-acq-components.label.tags',
+    'tagList[\\d]': 'stripes-acq-components.label.tags',
+
+    // Item details fields
+    'titleOrPackage': `ui-orders.itemDetails.${isPackage ? 'packageName' : 'title'}`,
+    'details.receivingNote': 'ui-orders.itemDetails.receivingNote',
+    'details.subscriptionFrom': 'ui-orders.itemDetails.subscriptionFrom',
+    'details.subscriptionTo': 'ui-orders.itemDetails.subscriptionTo',
+    'details.subscriptionInterval': 'ui-orders.itemDetails.subscriptionInterval',
+    'publicationDate': 'ui-orders.itemDetails.publicationDate',
+    'publisher': 'ui-orders.itemDetails.publisher',
+    'edition': 'ui-orders.itemDetails.edition',
+    'isPackage': 'ui-orders.poLine.package',
+    'packagePoLineId': 'ui-orders.itemDetails.linkPackage',
+    'contributors[\\d]': 'ui-orders.itemDetails.contributors',
+    'contributors[\\d].contributor': 'stripes-acq-components.label.contributor',
+    'contributors[\\d].contributorNameTypeId': 'stripes-acq-components.label.contributorType',
+    'details.productIds[\\d]': 'ui-orders.itemDetails.productIds',
+    'details.productIds[\\d].productId': 'stripes-acq-components.label.productId',
+    'details.productIds[\\d].productIdType': 'stripes-acq-components.label.productIdType',
+    'details.productIds[\\d].qualifier': 'stripes-acq-components.label.qualifier',
+    'description': 'ui-orders.itemDetails.internalNote',
+
+    // PO Line details fields
+    'poLineNumber': 'ui-orders.poLine.number',
+    'acquisitionMethod': 'ui-orders.poLine.acquisitionMethod',
+    'automaticExport': 'ui-orders.poLine.automaticExport',
+    'orderFormat': 'ui-orders.poLine.orderFormat',
+    'metadata.createdDate': 'ui-orders.poLine.createdOn',
+    'receiptDate': 'ui-orders.poLine.receiptDate',
+    'receiptStatus': 'ui-orders.poLine.receiptStatus',
+    'paymentStatus': 'ui-orders.poLine.paymentStatus',
+    'source': 'ui-orders.poLine.source',
+    'donor': 'ui-orders.poLine.donor',
+    'selector': 'ui-orders.poLine.selector',
+    'requester': 'ui-orders.poLine.requester',
+    'cancellationRestriction': 'ui-orders.poLine.cancellationRestriction',
+    'rush': 'ui-orders.poLine.rush',
+    'collection': 'ui-orders.poLine.сollection',
+    'checkinItems': 'ui-orders.poLine.receivingWorkflow',
+    'cancellationRestrictionNote': 'ui-orders.poLine.cancellationRestrictionNote',
+    'poLineDescription': 'ui-orders.poLine.poLineDescription',
+
+    // Ongoing PO details fields
+    'renewalNote': 'ui-orders.poLine.renewalNote',
+
+    // Vendor details fields
+    'vendorDetail.noteFromVendor': 'ui-orders.vendor.referenceNumbers',
+    'vendorDetail.referenceNumbers': 'ui-orders.vendor.referenceNumbers',
+    'vendorDetail.referenceNumbers[\\d]': 'ui-orders.vendor.referenceNumbers',
+    'vendorDetail.referenceNumbers[\\d].refNumber': 'stripes-acq-components.referenceNumbers.refNumber',
+    'vendorDetail.referenceNumbers[\\d].refNumberType': 'stripes-acq-components.referenceNumbers.refNumberType',
+    'vendorDetail.instructions': 'ui-orders.vendor.instructions',
+    'vendorDetail.vendorAccount': 'ui-orders.vendor.accountNumber',
+
+    // Cost details
+    'cost.listUnitPrice': `ui-orders.cost.${isPackage && isNotMixedFormat ? 'listPrice' : 'listPriceOfPhysical'}`,
+    'cost.quantityPhysical': `ui-orders.cost.${isPackage && isNotMixedFormat ? 'quantity' : 'quantityPhysical'}`,
+    'cost.currency': 'ui-orders.cost.currency',
+    'cost.exchangeRate': 'stripes-acq-components.exchangeRate',
+    'cost.listUnitPriceElectronic': `ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`,
+    'cost.quantityElectronic': `ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`,
+    'cost.additionalCost': 'ui-orders.cost.additionalCost',
+    'cost.discount': 'ui-orders.cost.discount',
+    'cost.discountType': 'ui-orders.cost.discount',
+    'cost.poLineEstimatedPrice': 'ui-orders.cost.estimatedPrice',
+    'cost.fyroAdjustmentAmount': 'ui-orders.cost.rolloverAdjustment',
+
+    // Fund distribution fields
+    'fundDistribution': 'ui-orders.line.accordion.fund',
+    'fundDistribution[\\d]': 'ui-orders.line.accordion.fund',
+    'fundDistribution[\\d].fundId': 'stripes-acq-components.fundDistribution.name',
+    'fundDistribution[\\d].code': 'stripes-acq-components.fundDistribution.name',
+    'fundDistribution[\\d].expenseClassId': 'stripes-acq-components.fundDistribution.expenseClass',
+    'fundDistribution[\\d].value': 'stripes-acq-components.fundDistribution.value',
+    'fundDistribution[\\d].distributionType': 'stripes-acq-components.fundDistribution.value',
+    'fundDistribution[\\d].encumbrance': 'stripes-acq-components.fundDistribution.currentEncumbrance',
+
+    // Location fields
+    'locations': 'ui-orders.line.accordion.location',
+    'locations[\\d].holdingId': 'ui-orders.location.holding',
+    'locations[\\d].locationId': 'ui-orders.location.nameCode',
+    'locations[\\d].quantity': 'ui-orders.cost.quantity',
+    'locations[\\d].quantityPhysical': 'ui-orders.location.quantityPhysical',
+    'locations[\\d].quantityElectronic': 'ui-orders.location.quantityElectronic',
+
+    // Physical resources fields
+    'physical': 'ui-orders.line.accordion.physical',
+    'physical.materialSupplier': 'ui-orders.physical.materialSupplier',
+    'physical.receiptDue': 'ui-orders.physical.receiptDue',
+    'physical.expectedReceiptDate': 'ui-orders.physical.expectedReceiptDate',
+    'physical.volumes': 'ui-orders.physical.volumes',
+    'physical.volumes[\\d]': 'ui-orders.physical.volumes',
+    'physical.createInventory': 'ui-orders.physical.createInventory',
+    'physical.materialType': 'ui-orders.poLine.materialType',
+
+    // Eresource resources fields
+    'eresource': 'ui-orders.line.accordion.eresource',
+    'eresource.accessProvider': 'ui-orders.eresource.accessProvider',
+    'eresource.activated': 'ui-orders.eresource.activationStatus',
+    'eresource.activationDue': 'ui-orders.eresource.activationDue',
+    'eresource.createInventory': 'ui-orders.eresource.createInventory',
+    'eresource.materialType': 'ui-orders.poLine.materialType',
+    'eresource.trial': 'ui-orders.eresource.trial',
+    'eresource.expectedActivation': 'ui-orders.eresource.expectedActivation',
+    'eresource.userLimit': 'ui-orders.eresource.userLimit',
+    'eresource.url': 'ui-orders.eresource.url',
+  };
+};

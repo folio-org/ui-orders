@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   FormattedMessage,
 } from 'react-intl';
@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
   Route,
+  Switch,
+  useParams,
   withRouter,
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -36,15 +38,57 @@ import {
   useLocationSorting,
   useModalToggle,
   useItemToView,
+  VersionHistoryPane,
 } from '@folio/stripes-acq-components';
 import { searchableIndexes } from '@folio/plugin-find-po-line';
 
+// TODO: remove during UIOR-1036
+import { orderLineAuditEvent } from '@folio/stripes-acq-components/test/jest/fixtures';
+
 import OrdersNavigation from '../common/OrdersNavigation';
-import { isOrderLineCancelled } from '../components/POLine/utils';
+import { ORDER_LINES_ROUTE } from '../common/constants';
+import {
+  getPoLineFieldsLabelMap,
+  isOrderLineCancelled,
+} from '../components/POLine/utils';
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
 import Details from './Details';
 import OrderLinesListActionMenu from './OrderLinesListActionMenu';
 import LineExportSettingsModalContainer from './LineExportSettingModalContainer';
+
+// TODO: remove during UIOR-1036
+const mockSnapshot = { ...orderLineAuditEvent.orderLineSnapshot };
+const mockVersions = [
+  {
+    ...orderLineAuditEvent,
+    id: 'qwerty12345',
+    userId: '3c963ca5-7575-4c2a-8a15-a6598db734ba',
+    eventDate: '2022-11-10T10:19:53.804Z',
+    orderLineSnapshot: { ...mockSnapshot,
+      contributors: [...mockSnapshot.contributors, { name: '2' }],
+      publicationDate: '1998',
+      claims: [
+        {
+          claimed: false,
+          grace: 0,
+        },
+      ] },
+  },
+  {
+    ...orderLineAuditEvent,
+    id: 'qwerty1234',
+    userId: '6c963ca5-7575-4c2a-8a15-a6598db734ba',
+    eventDate: '2022-11-10T10:18:53.804Z',
+    orderLineSnapshot: { ...mockSnapshot, poLineDescription: 'Test desc' },
+  },
+  {
+    ...orderLineAuditEvent,
+    id: 'qwerty123',
+    eventDate: '2022-11-10T10:17:53.804Z',
+    orderLineSnapshot: { ...mockSnapshot, details: { ...mockSnapshot.details, productIds: [{ ...mockSnapshot.details.productIds[0], productId: '0747-0089' }] } },
+  },
+  { ...orderLineAuditEvent, id: 'qwerty12' },
+];
 
 const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
@@ -139,6 +183,10 @@ function OrderLinesList({
 
   useFiltersReset(resetFilters);
 
+  // TODO: move logic to the VersionView component (UIOR-1036)
+  const { versionId } = useParams();
+  const [currentVersion, setCurrentVersion] = useState(versionId || mockVersions[0].id);
+
   const resultsStatusMessage = (
     <NoResultsMessage
       isLoading={isLoading}
@@ -147,6 +195,11 @@ function OrderLinesList({
       toggleFilters={toggleFilters}
     />
   );
+
+  const onVersionsClose = useCallback((id) => () => history.push({
+    pathname: `${ORDER_LINES_ROUTE}/view/${id}`,
+    search: location.search,
+  }), [history, location.search]);
 
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
@@ -166,6 +219,33 @@ function OrderLinesList({
     ),
     [orderLinesCount, toggleExportModal, visibleColumns, toggleColumn],
   );
+
+  const renderLineDetails = useCallback((props) => (
+    <Details
+      {...props}
+      refreshList={refreshList}
+    />
+  ), [refreshList]);
+
+  // TODO: replace this render with POLineVersionView component after its implementation (UIOR-1036)
+  const renderLineVersionHistory = useCallback((props) => (
+    <>
+      <Details
+        {...props}
+        refreshList={refreshList}
+      />
+      <VersionHistoryPane
+        id="order-line"
+        // eslint-disable-next-line react/prop-types
+        onClose={onVersionsClose(props.match.params.id)}
+        onSelectVersion={setCurrentVersion}
+        currentVersion={currentVersion}
+        snapshotPath="orderLineSnapshot"
+        labelsMap={getPoLineFieldsLabelMap({})}
+        versions={mockVersions}
+      />
+    </>
+  ), [currentVersion, onVersionsClose, refreshList]);
 
   return (
     <PersistedPaneset
@@ -258,16 +338,19 @@ function OrderLinesList({
         />
       )}
 
-      <Route
-        exact
-        path="/orders/lines/view/:id"
-        render={props => (
-          <Details
-            {...props}
-            refreshList={refreshList}
-          />
-        )}
-      />
+      <Switch>
+        <Route
+          exact
+          path="/orders/lines/view/:id"
+          render={renderLineDetails}
+        />
+
+        <Route
+          exact
+          path="/orders/lines/view/:id/versions/:versionId?"
+          render={renderLineVersionHistory}
+        />
+      </Switch>
     </PersistedPaneset>
   );
 }

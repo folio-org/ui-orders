@@ -12,8 +12,9 @@ import {
   collapseAllSections,
 } from '@folio/stripes/components';
 
-import PO from './PO';
 import { history } from '../../../test/jest/routerMocks';
+import { ORDERS_ROUTE } from '../../common/constants';
+import PO from './PO';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/hooks/useAcqRestrictions', () => {
   return {
@@ -342,6 +343,18 @@ describe('PO actions', () => {
     user.click(screen.getByRole('button'));
 
     expect(history.push).toHaveBeenCalled();
+  });
+
+  it('should open PO version history pane', async () => {
+    renderComponent();
+
+    const openPaneBtn = await screen.findByRole('button', { name: 'stripes-acq-components.versionHistory.pane.header' });
+
+    await act(async () => user.click(openPaneBtn));
+
+    expect(defaultProps.history.push).toHaveBeenCalledWith(expect.objectContaining({
+      pathname: `${ORDERS_ROUTE}/view/${ORDER.id}/versions`,
+    }));
   });
 });
 

@@ -1,15 +1,22 @@
-import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { ORDER_TYPES } from '@folio/stripes-acq-components';
 
-import POLineView from './POLineView';
 import { history, location, match } from '../../../test/jest/routerMocks';
 import { orderLine, order } from '../../../test/jest/fixtures';
+import {
+  ORDERS_ROUTE,
+  ORDER_LINES_ROUTE,
+} from '../../common/constants';
+import POLineView from './POLineView';
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  withRouter: (Component) => Component,
+}));
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
 }));
@@ -86,6 +93,10 @@ const renderPOLineView = (props = {}) => render(
 );
 
 describe('POLineView', () => {
+  beforeEach(() => {
+    history.push.mockClear();
+  });
+
   it('should render PO Line view', async () => {
     renderPOLineView();
 
@@ -121,5 +132,25 @@ describe('POLineView', () => {
     renderPOLineView();
 
     expect(screen.queryByText('ui-orders.buttons.line.changeInstance')).toBeNull();
+  });
+
+  it('should open PO Line versions history pane on Order lines page', async () => {
+    renderPOLineView();
+
+    await act(async () => user.click(screen.getByRole('button', { name: 'stripes-acq-components.versionHistory.pane.header' })));
+
+    expect(defaultProps.history.push).toHaveBeenCalledWith(expect.objectContaining({
+      pathname: `${ORDER_LINES_ROUTE}/view/${defaultProps.line.id}/versions`,
+    }));
+  });
+
+  it('should open PO Line versions history pane on Orders page', async () => {
+    renderPOLineView({ poURL: 'urlToPo' });
+
+    await act(async () => user.click(screen.getByRole('button', { name: 'stripes-acq-components.versionHistory.pane.header' })));
+
+    expect(defaultProps.history.push).toHaveBeenCalledWith(expect.objectContaining({
+      pathname: `${ORDERS_ROUTE}/view/${defaultProps.order.id}/po-line/view/${defaultProps.line.id}/versions`,
+    }));
   });
 });
