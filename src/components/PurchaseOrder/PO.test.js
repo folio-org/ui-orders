@@ -348,7 +348,7 @@ describe('PO actions', () => {
   it('should open PO version history pane', async () => {
     renderComponent();
 
-    const openPaneBtn = await screen.findByRole('button', { name: 'stripes-acq-components.versionHistory.pane.header' })
+    const openPaneBtn = await screen.findByRole('button', { name: 'stripes-acq-components.versionHistory.pane.header' });
 
     await act(async () => user.click(openPaneBtn));
 
