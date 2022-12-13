@@ -798,5 +798,6 @@
     "settings.acquisitionMethods.cannotDeleteTermMessage": "无法删除此采购方式，因为一个或多个记录正在使用它。",
     "settings.acquisitionMethods.deleteEntry": "删除采购方式",
     "settings.acquisitionMethods.termDeleted": "采购方式<b>{term} </b>已成功<b>删除</b>",
-    "settings.acquisitionMethods.termWillBeDeleted": "采购方式<b>{term} </b>将被<b>删除。 </b>"
+    "settings.acquisitionMethods.termWillBeDeleted": "采购方式<b>{term} </b>将被<b>删除。 </b>",
+    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line refers to an approved invoice in the current fiscal year"
 }

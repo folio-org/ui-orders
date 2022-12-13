@@ -134,7 +134,7 @@
     "linesLimit.okBtn": "Ok",
     "linesLimit.createBtn": "Vytvořit novou nákupní objednávku",
     "errors.noCreatedOrder": "Nákupní objednávka nebyla vytvořena",
-    "closeOrderModal.closingReasons.ceased": "Zastavený",
+    "closeOrderModal.closingReasons.ceased": "Zastaveno",
     "closeOrderModal.closingReasons.transferred": "Převedeno k jinému vydavateli",
     "closeOrderModal.closingReasons.merged": "Sloučeno s jiným názvem",
     "closeOrderModal.closingReasons.split": "Rozděleno na další názvy",
@@ -671,7 +671,7 @@
     "location.editInReceiving": "Upravit při příjmu",
     "relatedInvoices.vendorInvoiceNo": "Číslo faktury prodejce",
     "permission.order.updateEncumbrances": "Objednávky: Aktualizace věcných břemen",
-    "settings.inventoryInteraction.label": "Interakce se zásobami",
+    "settings.inventoryInteraction.label": "Interakce v katalogu",
     "settings.instanceMatching": "Porovnávání titulů",
     "settings.instanceMatching.description": "Když aktivní porovnávání katalogu způsobí, že řádky nákupní objednávky, které jsou nastaveny tak, aby vytvořily titul, ale nejsou ručně propojeny se záznamem titulu. Chcete-li nejprve vyhledat titul a najít shodu pro jedno nebo více ID produktů uvedených v ŘNO. Pokud je nalezeno ID produktu, bude titul propojen s ŘNO a systém pro tento ŘNO nevytvoří nový titul. Pokud nejsou nalezeny žádné shody, systém vytvoří nový záznam katalogu a propojí ŘNO s tímto titulem.",
     "settings.instanceMatching.toggle": "Zakázat porovnávání katalogu",
@@ -708,7 +708,7 @@
     "relatedInvoiceLines.vendorInvoiceNo": "Číslo faktury prodejce",
     "relatedInvoiceLines.vendorName": "Název prodejce",
     "relatedInvoiceLines.comment": "Komentář",
-    "settings.openOrder.isDuplicateCheckDisabled": "Zakázat duplicitní kontrolu, která se objevuje při otevírání objednávek a ukládání řádků objednávek.",
+    "settings.openOrder.isDuplicateCheckDisabled": "Zakázat kontrolu duplicit, ke které dochází při otevírání objednávek a ukládání řádků nákupní objednávky.",
     "settings.orderTemplates.editor.template.hideAll": "Skryjte všechna vhodná pole",
     "settings.orderTemplates.editor.template.hideAll.info": "Při využití této šablony označte všechna vhodná pole jako skrytá na řádku objednávky a objednávky",
     "settings.acquisitionMethods": "Akviziční metody",
@@ -798,5 +798,6 @@
     "settings.acquisitionMethods.cannotDeleteTermMessage": "Tuto metodu akvizice nelze smazat, protože je používána jedním nebo více záznamy.",
     "settings.acquisitionMethods.deleteEntry": "Smazat metodu akvizice",
     "settings.acquisitionMethods.termDeleted": "Metoda akvizice <b>{term}</b> byla úspěšně <b>smazána</b>",
-    "settings.acquisitionMethods.termWillBeDeleted": "Metoda akvizice <b>{term}</b> bude <b>smazána.</b>"
+    "settings.acquisitionMethods.termWillBeDeleted": "Metoda akvizice <b>{term}</b> bude <b>smazána.</b>",
+    "errors.poLineHasRelatedApprovedInvoice": "Řádek nákupní objednávky odkazuje na schválenou fakturu v aktuálním fiskálním roce"
 }

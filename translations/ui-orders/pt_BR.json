@@ -798,5 +798,6 @@
     "settings.acquisitionMethods.cannotDeleteTermMessage": "Este método de aquisição não pode ser excluído, pois está em uso por um ou mais registros.",
     "settings.acquisitionMethods.deleteEntry": "Excluir método de aquisição",
     "settings.acquisitionMethods.termDeleted": "O método de aquisição <b>{term}</b> foi <b>excluído</b> com sucesso",
-    "settings.acquisitionMethods.termWillBeDeleted": "O método de aquisição <b> {term} </b> será <b> excluído. </b>"
+    "settings.acquisitionMethods.termWillBeDeleted": "O método de aquisição <b> {term} </b> será <b> excluído. </b>",
+    "errors.poLineHasRelatedApprovedInvoice": "A linha da ordem de compra refere-se a uma fatura aprovada no ano fiscal atual"
 }
