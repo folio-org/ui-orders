@@ -798,5 +798,6 @@
     "settings.acquisitionMethods.cannotDeleteTermMessage": "This acquisition method cannot be deleted, as it is in use by one or more records.",
     "settings.acquisitionMethods.deleteEntry": "Delete acquisition method",
     "settings.acquisitionMethods.termDeleted": "The acquisition method <b>{term}</b> was successfully <b>deleted</b>",
-    "settings.acquisitionMethods.termWillBeDeleted": "The acquisition method <b>{term}</b> will be <b>deleted.</b>"
+    "settings.acquisitionMethods.termWillBeDeleted": "The acquisition method <b>{term}</b> will be <b>deleted.</b>",
+    "errors.poLineHasRelatedApprovedInvoice": "La línea de pedido se refiere a una factura aprobada en el ejercicio fiscal en curso"
 }
