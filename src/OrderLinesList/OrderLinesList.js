@@ -49,6 +49,7 @@ import { orderLineAuditEvent } from '@folio/stripes-acq-components/test/jest/fix
 
 import OrdersNavigation from '../common/OrdersNavigation';
 import { ORDER_LINES_ROUTE } from '../common/constants';
+import { useIsRowSelected } from '../common/hooks';
 import {
   getPoLineFieldsLabelMap,
   isOrderLineCancelled,
@@ -191,6 +192,8 @@ function OrderLinesList({
     />
   );
 
+  const isRowSelected = useIsRowSelected(`${match.path}/view/:id`);
+
   const onVersionsClose = useCallback((id) => () => history.push({
     pathname: `${ORDER_LINES_ROUTE}/view/${id}`,
     search: location.search,
@@ -241,14 +244,6 @@ function OrderLinesList({
       />
     </>
   ), [currentVersion, onVersionsClose, refreshList]);
-
-  const urlParams = useMemo(() => (
-    matchPath(location.pathname, { path: `${match.path}/view/:id` })
-  ), [location.pathname, match.path]);
-
-  const isRowSelected = useCallback(({ item }) => {
-    return urlParams && (urlParams.params.id === item.id);
-  }, [urlParams]);
 
   return (
     <PersistedPaneset

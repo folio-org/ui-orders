@@ -42,6 +42,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { CANCEL_ORDER_REASON } from '../common/constants';
+import { useIsRowSelected } from '../common/hooks';
 import OrdersNavigation from '../common/OrdersNavigation';
 import Panes from '../components/Panes';
 
@@ -140,6 +141,9 @@ function OrdersList({
       toggleFilters={toggleFilters}
     />
   );
+
+  const isRowSelected = useIsRowSelected(`${match.path}/view/:id`);
+
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
       <>
@@ -166,14 +170,6 @@ function OrdersList({
       refreshList={refreshList}
     />
   ), [refreshList]);
-
-  const urlParams = useMemo(() => (
-    matchPath(location.pathname, { path: `${match.path}/view/:id` })
-  ), [location.pathname, match.path]);
-
-  const isRowSelected = useCallback(({ item }) => {
-    return urlParams && (urlParams.params.id === item.id);
-  }, [urlParams]);
 
   const shortcuts = [
     {
