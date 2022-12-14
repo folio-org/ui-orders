@@ -799,5 +799,5 @@
     "settings.acquisitionMethods.deleteEntry": "Erwerbungsart löschen",
     "settings.acquisitionMethods.termDeleted": "Die Erwerbunsgart <b>{term}</b> wurde erfolgreich <b>gelöscht.</b>",
     "settings.acquisitionMethods.termWillBeDeleted": "Die Erwerbunsgart <b>{term}</b> wird <b>gelöscht.</b>",
-    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line refers to an approved invoice in the current fiscal year"
+    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status"
 }
