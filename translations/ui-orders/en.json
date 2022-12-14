@@ -194,7 +194,7 @@
   "errors.physicalLocCostQtyMismatch": "PO line physical quantity and locations physical quantity do not match",
   "errors.piecesNeedToBeCreated": "Pieces need to be created",
   "errors.polLimitExceeded": "Your FOLIO system is configured to limit the number of PO Lines on each order",
-  "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be change because the order line is linked to an invoice line that is currently in the status approved.",
+  "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status",
   "errors.poNumberNotUnique": "PO Number already exists",
   "errors.poNumberRequired": "PO Number is missing",
   "errors.protectedFieldChanging": "Protected fields can't be modified",
