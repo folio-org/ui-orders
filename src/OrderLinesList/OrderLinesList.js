@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   FormattedMessage,
 } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, omit } from 'lodash';
 import {
-  matchPath,
   Route,
   Switch,
   useParams,
