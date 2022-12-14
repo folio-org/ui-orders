@@ -7,6 +7,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { omit } from 'lodash';
 
 import { useStripes } from '@folio/stripes/core';
 import {
@@ -150,7 +151,7 @@ function OrdersList({
         />
         <ColumnManagerMenu
           prefix="orders"
-          columnMapping={columnMapping}
+          columnMapping={omit(columnMapping, 'poNumber')}
           visibleColumns={visibleColumns}
           toggleColumn={toggleColumn}
         />

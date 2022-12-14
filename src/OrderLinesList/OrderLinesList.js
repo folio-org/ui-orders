@@ -3,7 +3,7 @@ import {
   FormattedMessage,
 } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 import {
   matchPath,
   Route,
@@ -206,7 +206,7 @@ function OrderLinesList({
         />
         <ColumnManagerMenu
           prefix="order-lines"
-          columnMapping={columnMapping}
+          columnMapping={omit(columnMapping, 'poLineNumber')}
           visibleColumns={visibleColumns}
           toggleColumn={toggleColumn}
         />

@@ -77,15 +77,7 @@ describe('OrderLinesList', () => {
     expect(getByText('OrderLinesFiltersContainer')).toBeDefined();
   });
 
-  it('should display order lines results list', async () => {
-    const { getByText } = renderOrderLinesList();
-
-    expect(getByText('ui-orders.orderLineList.poLineNumber')).toBeInTheDocument();
-    expect(getByText('ui-orders.orderLineList.updatedDate')).toBeInTheDocument();
-    expect(getByText('ui-orders.orderLineList.titleOrPackage')).toBeInTheDocument();
-  });
-
-  it('should display order details pane', async () => {
+  it('should display order line details pane', async () => {
     const { getByText } = renderOrderLinesList();
 
     await act(async () => user.click(getByText(defaultProps.orderLines[0].poLineNumber)));
