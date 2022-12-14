@@ -799,5 +799,5 @@
     "settings.acquisitionMethods.deleteEntry": "Delete acquisition method",
     "settings.acquisitionMethods.termDeleted": "The acquisition method <b>{term}</b> was successfully <b>deleted</b>",
     "settings.acquisitionMethods.termWillBeDeleted": "The acquisition method <b>{term}</b> will be <b>deleted.</b>",
-    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line refers to an approved invoice in the current fiscal year"
+    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status"
 }
