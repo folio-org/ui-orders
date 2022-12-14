@@ -7,8 +7,8 @@ import {
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
-import OrderLinesList, { resultsFormatter } from './OrderLinesList';
-import { orderLine } from '../../test/jest/fixtures';
+import OrderLinesList, { getResultsFormatter } from './OrderLinesList';
+import { location, orderLine } from '../../test/jest/fixtures';
 
 const mockLocalStorageFilters = {
   filters: {},
@@ -21,6 +21,9 @@ const mockLocalStorageFilters = {
   searchIndex: '',
 };
 
+jest.mock('react-virtualized-auto-sizer', () => jest.fn(
+  (props) => <div>{props.children({ width: 123 })}</div>,
+));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   // eslint-disable-next-line react/prop-types
@@ -74,9 +77,9 @@ describe('OrderLinesList', () => {
   });
 });
 
-describe('resultsFormatter', () => {
+describe('getResultsFormatter', () => {
   it('should display formatted date', () => {
-    const FormattedDate = resultsFormatter['metadata.updatedDate'](orderLine);
+    const FormattedDate = getResultsFormatter(location)['metadata.updatedDate'](orderLine);
 
     const { getByText } = render(FormattedDate);
 
@@ -84,42 +87,42 @@ describe('resultsFormatter', () => {
   });
 
   it('should display comma separated product ids', () => {
-    expect(resultsFormatter.productIds(orderLine)).toBe('0552142352, 9780552142352');
+    expect(getResultsFormatter(location).productIds(orderLine)).toBe('0552142352, 9780552142352');
   });
 
   it('should display vendor refNumber', () => {
-    expect(resultsFormatter['vendorDetail.refNumber'](orderLine)).toBe('refNumber');
+    expect(getResultsFormatter(location)['vendorDetail.refNumber'](orderLine)).toBe('refNumber');
   });
 
   it('should display a hypen if refNumber is missed', () => {
-    const { getByText } = render(resultsFormatter['vendorDetail.refNumber']({}));
+    const { getByText } = render(getResultsFormatter(location)['vendorDetail.refNumber']({}));
 
     expect(getByText('-')).toBeInTheDocument();
   });
 
   it('should display funcodes', () => {
-    expect(resultsFormatter.funCodes(orderLine)).toBe('USHIST');
+    expect(getResultsFormatter(location).funCodes(orderLine)).toBe('USHIST');
   });
 
   it('should display workflow status', () => {
-    const { getByText } = render(resultsFormatter.orderWorkflow({ ...orderLine, orderWorkflow: 'Pending' }));
+    const { getByText } = render(getResultsFormatter(location).orderWorkflow({ ...orderLine, orderWorkflow: 'Pending' }));
 
     expect(getByText('stripes-acq-components.order.status.pending')).toBeInTheDocument();
   });
 
   it('should display only order line number', () => {
-    render(resultsFormatter.poLineNumber(orderLine));
+    render(getResultsFormatter(location).poLineNumber(orderLine), { wrapper: MemoryRouter });
 
     expect(screen.getByText(orderLine.poLineNumber)).toBeInTheDocument();
     expect(screen.queryByTestId('cancel-icon')).toBeNull();
   });
 
   it('should display order line number with cancel icon', () => {
-    render(resultsFormatter.poLineNumber({
+    render(getResultsFormatter(location).poLineNumber({
       ...orderLine,
       paymentStatus: PAYMENT_STATUS.cancelled,
       receiptStatus: RECEIPT_STATUS.cancelled,
-    }));
+    }), { wrapper: MemoryRouter });
 
     expect(screen.getByTestId('cancel-icon')).toBeInTheDocument();
   });

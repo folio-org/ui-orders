@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
+  matchPath,
   Route,
   withRouter,
 } from 'react-router-dom';
@@ -13,6 +14,7 @@ import {
   HasCommand,
   Icon,
   MultiColumnList,
+  TextLink,
   Tooltip,
 } from '@folio/stripes/components';
 import {
@@ -51,14 +53,16 @@ const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orders" />;
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', UPDATED_DATE];
 
-export const resultsFormatter = {
+export const getResultsFormatter = ({ search }) => ({
   poNumber: order => {
     const isCancelled = order.workflowStatus === ORDER_STATUSES.closed &&
       order.closeReason?.reason === CANCEL_ORDER_REASON;
 
-    return !isCancelled ? order.poNumber : (
+    const orderLink = <TextLink to={`/orders/view/${order.id}${search}`}>{order.poNumber}</TextLink>;
+
+    return !isCancelled ? orderLink : (
       <>
-        {order.poNumber}
+        {orderLink}
         &nbsp;
         <Tooltip
           id="cancel-tooltip"
@@ -79,7 +83,7 @@ export const resultsFormatter = {
   },
   [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} utc={false} />,
   workflowStatus: order => ORDER_STATUS_LABEL[order.workflowStatus],
-};
+});
 
 export const columnMapping = {
   poNumber: <FormattedMessage id="ui-orders.order.poNumber" />,
@@ -95,6 +99,7 @@ function OrdersList({
   history,
   isLoading,
   location,
+  match,
   onNeedMoreData,
   orders,
   ordersCount,
@@ -126,16 +131,6 @@ function OrdersList({
 
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('orders-list');
 
-  const selectOrder = useCallback(
-    (e, { id }) => {
-      history.push({
-        pathname: `/orders/view/${id}`,
-        search: location.search,
-      });
-    },
-    [history, location.search],
-  );
-
   const resultsStatusMessage = (
     <NoResultsMessage
       isLoading={isLoading}
@@ -163,6 +158,21 @@ function OrdersList({
     ),
     [location.search, ordersCount, toggleExportModal, visibleColumns, toggleColumn],
   );
+
+  const renderDetailsPane = useCallback((props) => (
+    <Panes
+      {...props}
+      refreshList={refreshList}
+    />
+  ), [refreshList]);
+
+  const urlParams = useMemo(() => (
+    matchPath(location.pathname, { path: `${match.path}/view/:id` })
+  ), [location.pathname, match.path]);
+
+  const isRowSelected = useCallback(({ item }) => {
+    return urlParams && (urlParams.params.id === item.id);
+  }, [urlParams]);
 
   const shortcuts = [
     {
@@ -232,13 +242,13 @@ function OrdersList({
               <MultiColumnList
                 columnMapping={columnMapping}
                 contentData={orders}
-                formatter={resultsFormatter}
+                formatter={getResultsFormatter(location)}
                 id="orders-list"
                 hasMargin
                 isEmptyMessage={resultsStatusMessage}
+                isSelected={isRowSelected}
                 loading={isLoading}
                 onHeaderClick={changeSorting}
-                onRowClick={selectOrder}
                 sortDirection={sortingDirection}
                 sortOrder={sortingField}
                 totalCount={orders.length}
@@ -272,12 +282,7 @@ function OrdersList({
 
         <Route
           path="/orders/view/:id"
-          render={props => (
-            <Panes
-              {...props}
-              refreshList={refreshList}
-            />
-          )}
+          render={renderDetailsPane}
         />
       </PersistedPaneset>
     </HasCommand>
@@ -292,6 +297,7 @@ OrdersList.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
   refreshList: PropTypes.func.isRequired,
   ordersQuery: PropTypes.string,
   pagination: PropTypes.object,
