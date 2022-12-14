@@ -1,5 +1,5 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import user from '@testing-library/user-event';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import {
@@ -39,13 +39,14 @@ jest.mock('@folio/stripes-acq-components', () => {
     SingleSearchForm: () => <span>SingleSearchForm</span>,
   };
 });
+jest.mock('./Details', () => jest.fn().mockReturnValue('OrderLineDetails'));
 jest.mock('./OrderLinesFiltersContainer', () => jest.fn().mockReturnValue('OrderLinesFiltersContainer'));
 
 const defaultProps = {
   onNeedMoreData: jest.fn(),
   resetData: jest.fn(),
   refreshList: jest.fn(),
-  orderLine: [orderLine],
+  orderLines: [orderLine],
   orderLinesCount: 1,
 };
 
@@ -74,6 +75,22 @@ describe('OrderLinesList', () => {
     const { getByText } = renderOrderLinesList();
 
     expect(getByText('OrderLinesFiltersContainer')).toBeDefined();
+  });
+
+  it('should display order lines results list', async () => {
+    const { getByText } = renderOrderLinesList();
+
+    expect(getByText('ui-orders.orderLineList.poLineNumber')).toBeInTheDocument();
+    expect(getByText('ui-orders.orderLineList.updatedDate')).toBeInTheDocument();
+    expect(getByText('ui-orders.orderLineList.titleOrPackage')).toBeInTheDocument();
+  });
+
+  it('should display order details pane', async () => {
+    const { getByText } = renderOrderLinesList();
+
+    await act(async () => user.click(getByText(defaultProps.orderLines[0].poLineNumber)));
+
+    expect(getByText('OrderLineDetails')).toBeInTheDocument();
   });
 });
 
