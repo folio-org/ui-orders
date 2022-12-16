@@ -4,6 +4,7 @@ export * from './useExportHistory';
 export * from './useFundDistributionValidation';
 export * from './useHandleOrderUpdateError';
 export * from './useInstance';
+export * from './useIsRowSelected';
 export * from './useLinesLimit';
 export * from './useOpenOrderSettings';
 export * from './useOrder/useOrder';

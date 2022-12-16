@@ -5,11 +5,11 @@ import { MemoryRouter } from 'react-router-dom';
 import { HasCommand } from '@folio/stripes/components';
 import { useModalToggle, ORDER_STATUSES } from '@folio/stripes-acq-components';
 
-import OrdersList, { resultsFormatter } from './OrdersList';
+import OrdersList, { getResultsFormatter } from './OrdersList';
 import { CANCEL_ORDER_REASON } from '../common/constants';
 
 import { order } from '../../test/jest/fixtures';
-import { history } from '../../test/jest/routerMocks';
+import { history, location, match } from '../../test/jest/routerMocks';
 
 const mockLocalStorageFilters = {
   filters: {},
@@ -27,6 +27,9 @@ jest.mock('react-router-dom', () => ({
   // eslint-disable-next-line react/prop-types
   withRouter: (Component) => (props) => <Component {...props} />,
 }));
+jest.mock('react-virtualized-auto-sizer', () => jest.fn(
+  (props) => <div>{props.children({ width: 123 })}</div>,
+));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   // eslint-disable-next-line react/prop-types
@@ -58,6 +61,7 @@ const defaultProps = {
   location: {
     search: '',
   },
+  match,
 };
 
 const renderOrdersList = (props = {}) => render(
@@ -120,32 +124,32 @@ describe('OrdersList', () => {
   });
 });
 
-describe('resultsFormatter', () => {
+describe('getResultsFormatter', () => {
   it('should render formatted updated date', () => {
-    render(resultsFormatter['metadata.updatedDate'](order));
+    render(getResultsFormatter(location)['metadata.updatedDate'](order));
 
     expect(screen.getByText('2021-08-15')).toBeInTheDocument();
   });
 
   it('should render formatted order status', () => {
-    render(resultsFormatter.workflowStatus(order));
+    render(getResultsFormatter(location).workflowStatus(order));
 
     expect(screen.getByText('stripes-acq-components.order.status.pending')).toBeInTheDocument();
   });
 
   it('should render only order number', () => {
-    render(resultsFormatter.poNumber(order));
+    render(getResultsFormatter(location).poNumber(order), { wrapper: MemoryRouter });
 
     expect(screen.getByText(order.poNumber)).toBeInTheDocument();
     expect(screen.queryByTestId('cancel-icon')).toBeNull();
   });
 
   it('should render order number with cancel icon', () => {
-    render(resultsFormatter.poNumber({
+    render(getResultsFormatter(location).poNumber({
       ...order,
       workflowStatus: ORDER_STATUSES.closed,
       closeReason: { reason: CANCEL_ORDER_REASON },
-    }));
+    }), { wrapper: MemoryRouter });
 
     expect(screen.getByTestId('cancel-icon')).toBeInTheDocument();
   });

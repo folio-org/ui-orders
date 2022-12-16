@@ -6,6 +6,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { omit } from 'lodash';
 
 import { useStripes } from '@folio/stripes/core';
 import {
@@ -13,6 +14,7 @@ import {
   HasCommand,
   Icon,
   MultiColumnList,
+  TextLink,
   Tooltip,
 } from '@folio/stripes/components';
 import {
@@ -39,6 +41,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { CANCEL_ORDER_REASON } from '../common/constants';
+import { useIsRowSelected } from '../common/hooks';
 import OrdersNavigation from '../common/OrdersNavigation';
 import Panes from '../components/Panes';
 
@@ -51,14 +54,16 @@ const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orders" />;
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', UPDATED_DATE];
 
-export const resultsFormatter = {
+export const getResultsFormatter = ({ search }) => ({
   poNumber: order => {
     const isCancelled = order.workflowStatus === ORDER_STATUSES.closed &&
       order.closeReason?.reason === CANCEL_ORDER_REASON;
 
-    return !isCancelled ? order.poNumber : (
+    const orderLink = <TextLink to={`/orders/view/${order.id}${search}`}>{order.poNumber}</TextLink>;
+
+    return !isCancelled ? orderLink : (
       <>
-        {order.poNumber}
+        {orderLink}
         &nbsp;
         <Tooltip
           id="cancel-tooltip"
@@ -79,7 +84,7 @@ export const resultsFormatter = {
   },
   [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} utc={false} />,
   workflowStatus: order => ORDER_STATUS_LABEL[order.workflowStatus],
-};
+});
 
 export const columnMapping = {
   poNumber: <FormattedMessage id="ui-orders.order.poNumber" />,
@@ -95,6 +100,7 @@ function OrdersList({
   history,
   isLoading,
   location,
+  match,
   onNeedMoreData,
   orders,
   ordersCount,
@@ -126,16 +132,6 @@ function OrdersList({
 
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('orders-list');
 
-  const selectOrder = useCallback(
-    (e, { id }) => {
-      history.push({
-        pathname: `/orders/view/${id}`,
-        search: location.search,
-      });
-    },
-    [history, location.search],
-  );
-
   const resultsStatusMessage = (
     <NoResultsMessage
       isLoading={isLoading}
@@ -144,6 +140,9 @@ function OrdersList({
       toggleFilters={toggleFilters}
     />
   );
+
+  const isRowSelected = useIsRowSelected(`${match.path}/view/:id`);
+
   const renderActionMenu = useCallback(
     ({ onToggle }) => (
       <>
@@ -155,7 +154,7 @@ function OrdersList({
         />
         <ColumnManagerMenu
           prefix="orders"
-          columnMapping={columnMapping}
+          columnMapping={omit(columnMapping, 'poNumber')}
           visibleColumns={visibleColumns}
           toggleColumn={toggleColumn}
         />
@@ -163,6 +162,13 @@ function OrdersList({
     ),
     [location.search, ordersCount, toggleExportModal, visibleColumns, toggleColumn],
   );
+
+  const renderDetailsPane = useCallback((props) => (
+    <Panes
+      {...props}
+      refreshList={refreshList}
+    />
+  ), [refreshList]);
 
   const shortcuts = [
     {
@@ -232,13 +238,13 @@ function OrdersList({
               <MultiColumnList
                 columnMapping={columnMapping}
                 contentData={orders}
-                formatter={resultsFormatter}
+                formatter={getResultsFormatter(location)}
                 id="orders-list"
                 hasMargin
                 isEmptyMessage={resultsStatusMessage}
+                isSelected={isRowSelected}
                 loading={isLoading}
                 onHeaderClick={changeSorting}
-                onRowClick={selectOrder}
                 sortDirection={sortingDirection}
                 sortOrder={sortingField}
                 totalCount={orders.length}
@@ -272,12 +278,7 @@ function OrdersList({
 
         <Route
           path="/orders/view/:id"
-          render={props => (
-            <Panes
-              {...props}
-              refreshList={refreshList}
-            />
-          )}
+          render={renderDetailsPane}
         />
       </PersistedPaneset>
     </HasCommand>
@@ -292,6 +293,7 @@ OrdersList.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
   refreshList: PropTypes.func.isRequired,
   ordersQuery: PropTypes.string,
   pagination: PropTypes.object,

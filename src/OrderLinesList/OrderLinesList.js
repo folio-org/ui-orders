@@ -3,7 +3,7 @@ import {
   FormattedMessage,
 } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 import {
   Route,
   Switch,
@@ -16,6 +16,7 @@ import {
   Icon,
   MultiColumnList,
   NoValue,
+  TextLink,
   Tooltip,
 } from '@folio/stripes/components';
 import {
@@ -47,6 +48,7 @@ import { orderLineAuditEvent } from '@folio/stripes-acq-components/test/jest/fix
 
 import OrdersNavigation from '../common/OrdersNavigation';
 import { ORDER_LINES_ROUTE } from '../common/constants';
+import { useIsRowSelected } from '../common/hooks';
 import {
   getPoLineFieldsLabelMap,
   isOrderLineCancelled,
@@ -95,13 +97,14 @@ const UPDATED_DATE = 'metadata.updatedDate';
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
 const sortableColumns = ['poLineNumber', UPDATED_DATE, 'titleOrPackage'];
 
-export const resultsFormatter = {
+export const getResultsFormatter = ({ search }) => ({
   poLineNumber: line => {
     const isCancelled = isOrderLineCancelled(line);
+    const orderLineLink = <TextLink to={`/orders/lines/view/${line.id}${search}`}>{line.poLineNumber}</TextLink>;
 
-    return !isCancelled ? line.poLineNumber : (
+    return !isCancelled ? orderLineLink : (
       <>
-        {line.poLineNumber}
+        {orderLineLink}
         &nbsp;
         <Tooltip
           id="cancel-tooltip"
@@ -127,7 +130,7 @@ export const resultsFormatter = {
   ),
   funCodes: line => line.fundDistribution?.map(({ code }) => code).filter(Boolean).join(', '),
   orderWorkflow: line => ORDER_STATUS_LABEL[line.orderWorkflow],
-};
+});
 
 export const columnMapping = {
   poLineNumber: <FormattedMessage id="ui-orders.orderLineList.poLineNumber" />,
@@ -144,6 +147,7 @@ function OrderLinesList({
   history,
   isLoading,
   location,
+  match,
   onNeedMoreData,
   resetData,
   orderLines,
@@ -169,15 +173,6 @@ function OrderLinesList({
   ] = useLocationSorting(location, history, resetData, sortableColumns);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-orders/order-lines/filters');
   const [isExportModalOpened, toggleExportModal] = useModalToggle();
-  const selectOrderLine = useCallback(
-    (e, { id }) => {
-      history.push({
-        pathname: `/orders/lines/view/${id}`,
-        search: location.search,
-      });
-    },
-    [history, location.search],
-  );
   const { visibleColumns, toggleColumn } = useColumnManager('order-lines-column-manager', columnMapping);
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('order-lines-list');
 
@@ -196,6 +191,8 @@ function OrderLinesList({
     />
   );
 
+  const isRowSelected = useIsRowSelected(`${match.path}/view/:id`);
+
   const onVersionsClose = useCallback((id) => () => history.push({
     pathname: `${ORDER_LINES_ROUTE}/view/${id}`,
     search: location.search,
@@ -211,7 +208,7 @@ function OrderLinesList({
         />
         <ColumnManagerMenu
           prefix="order-lines"
-          columnMapping={columnMapping}
+          columnMapping={omit(columnMapping, 'poLineNumber')}
           visibleColumns={visibleColumns}
           toggleColumn={toggleColumn}
         />
@@ -299,14 +296,14 @@ function OrderLinesList({
             <MultiColumnList
               columnMapping={columnMapping}
               contentData={orderLines}
-              formatter={resultsFormatter}
+              formatter={getResultsFormatter(location)}
               hasMargin
               id="order-line-list"
               isEmptyMessage={resultsStatusMessage}
+              isSelected={isRowSelected}
               loading={isLoading}
               onHeaderClick={changeSorting}
               onNeedMoreData={onNeedMoreData}
-              onRowClick={selectOrderLine}
               pagingType="none"
               sortDirection={sortingDirection}
               sortOrder={sortingField}
@@ -363,6 +360,7 @@ OrderLinesList.propTypes = {
   orderLines: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
   refreshList: PropTypes.func.isRequired,
   linesQuery: PropTypes.string,
   pagination: PropTypes.object,
