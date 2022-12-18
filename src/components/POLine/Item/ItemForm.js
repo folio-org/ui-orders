@@ -43,6 +43,8 @@ import { TitleField } from './TitleField';
 // import { SubscriptionIntervalField } from './SubscriptionIntervalField';
 import css from './ItemForm.css';
 
+const FIELDS_TO_INTERSEPT_ON_DELETE = ['contributors'];
+
 class ItemForm extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
@@ -177,9 +179,10 @@ class ItemForm extends Component {
     const normalizedInventoryData = getNormalizedInventoryData(this.state.inventoryData);
     const fieldName = `${fields.name}[${index}]`;
 
-    // Allow removal of added repeatable field for connected instance
+    // Intercept deletion of connected instance field
     if (
       formValues?.instanceId
+        && FIELDS_TO_INTERSEPT_ON_DELETE.includes(fields.name)
         && isEqual(get(formValues, fieldName), get(normalizedInventoryData, fieldName))
     ) {
       return this.onBreakInstanceConnection()

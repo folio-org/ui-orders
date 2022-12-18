@@ -31,24 +31,19 @@ export const getNormalizedInventoryData = (inventoryData) => {
 
 // It compares actual form data (formValues) to contain data came from inventory or initial get request (inventoryData)
 export const shouldSetInstanceId = (formValues, inventoryData) => {
-  const formContributors = get(formValues, 'contributors', []);
+  const isEqualContributors = inventoryData.contributors.every(el => {
+    const contributor = find(get(formValues, 'contributors', []), { 'contributor': el.contributor });
+
+    return contributor ? isEqual(contributor, el) : false;
+  });
+
   const formProductIds = get(formValues, 'details.productIds', []);
 
-  const isEqualContributors = (
-    (formContributors.length === inventoryData.contributors?.length) && inventoryData.contributors.every(el => {
-      const contributor = find(get(formValues, 'contributors', []), { 'contributor': el.contributor });
+  const isEqualProductIds = formProductIds.every(item => {
+    const productId = find(inventoryData.productIds, { 'productId': item.productId });
 
-      return contributor ? isEqual(contributor, el) : false;
-    })
-  );
-
-  const isEqualProductIds = (
-    (formProductIds.length === inventoryData.productIds?.length) && formProductIds.every(item => {
-      const productId = find(inventoryData.productIds, { 'productId': item.productId });
-
-      return productId ? isEqual(productId, item) : false;
-    })
-  );
+    return productId ? isEqual(productId, item) : false;
+  });
 
   return (
     inventoryData.instanceId
