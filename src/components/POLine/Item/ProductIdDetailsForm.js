@@ -32,15 +32,13 @@ function ProductIdDetailsForm({
   isNonInteractive,
   mutator,
   onChangeField,
+  onRemoveField,
   required,
 }) {
   const isEditable = !(disabled || isNonInteractive);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
-  const removeField = useCallback((fields, index) => {
-    fields.remove(index);
-    onChangeField();
-  }, [onChangeField]);
+
   const callValidationAPI = useCallback(
     (isbn) => memoizedMutator.validateISBN.GET({ params: { isbn } }),
     [memoizedMutator.validateISBN],
@@ -132,7 +130,7 @@ function ProductIdDetailsForm({
       id="productIds"
       legend={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
       name="details.productIds"
-      onRemove={removeField}
+      onRemove={onRemoveField}
       canAdd={isEditable}
       canRemove={isEditable}
       renderField={renderSubForm}
@@ -144,6 +142,7 @@ ProductIdDetailsForm.propTypes = {
   identifierTypes: PropTypes.arrayOf(PropTypes.object),
   isNonInteractive: PropTypes.bool,
   onChangeField: PropTypes.func.isRequired,
+  onRemoveField: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
   mutator: PropTypes.object,

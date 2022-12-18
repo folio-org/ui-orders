@@ -4,7 +4,11 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
-import { get } from 'lodash';
+import {
+  get,
+  isEqual,
+  noop,
+} from 'lodash';
 
 import {
   Checkbox,
@@ -27,12 +31,14 @@ import ContributorForm from './ContributorForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import InstancePlugin from './InstancePlugin';
 import {
-  shouldSetInstanceId,
-  getInventoryData,
   createPOLDataFromInstance,
+  getInventoryData,
+  getNormalizedInventoryData,
+  shouldSetInstanceId,
 } from './util';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import PackagePoLineField from './PackagePoLineField';
+import { BreakInstanceConnectionModal } from './BreakInstanceConnectionModal';
 import { TitleField } from './TitleField';
 // import { SubscriptionIntervalField } from './SubscriptionIntervalField';
 import css from './ItemForm.css';
@@ -62,8 +68,34 @@ class ItemForm extends Component {
   constructor(props) {
     super(props);
 
-    this.state = getInventoryData(props.initialValues);
+    this.state = {
+      inventoryData: getInventoryData(props.initialValues),
+      isBreakInstanceConnectionModalOpen: false,
+    };
+
+    this.changeItemDetailsTimeout = null;
+    this.breakInstanceConnectionPromise = Promise.resolve();
   }
+
+  breakInstanceConnection = () => {
+    const { batch, change, formValues } = this.props;
+    const locations = formValues?.locations;
+
+    batch(() => {
+      change('instanceId', null);
+      locations?.forEach((_, i) => change(`locations[${i}].holdingId`, null));
+    });
+  }
+
+  onBreakInstanceConnection = () => (
+    new Promise((resolve, reject) => {
+      this.breakInstanceConnectionPromise = { resolve, reject };
+
+      this.setState({ isBreakInstanceConnectionModalOpen: true });
+    })
+      .then(this.breakInstanceConnection)
+      .finally(() => this.setState({ isBreakInstanceConnectionModalOpen: false }))
+  );
 
   onAddLinkPackage = ([selectedPoLine]) => {
     const { change } = this.props;
@@ -88,64 +120,110 @@ class ItemForm extends Component {
     }
 
     this.setState(({
-      instanceId: inventoryData.instanceId,
-      title: get(inventoryData, 'titleOrPackage', ''),
-      publisher: get(inventoryData, 'publisher', ''),
-      publicationDate: get(inventoryData, 'publicationDate', null),
-      edition: get(inventoryData, 'edition', ''),
-      contributors: get(inventoryData, 'contributors', []),
-      productIds: get(inventoryData, 'productIds', []),
+      inventoryData: {
+        instanceId: inventoryData.instanceId,
+        title: get(inventoryData, 'titleOrPackage', ''),
+        publisher: get(inventoryData, 'publisher', ''),
+        publicationDate: get(inventoryData, 'publicationDate', null),
+        edition: get(inventoryData, 'edition', ''),
+        contributors: get(inventoryData, 'contributors', []),
+        productIds: get(inventoryData, 'productIds', []),
+      },
     }));
   };
 
   onChangeField = (value, fieldName) => {
+    clearTimeout(this.changeItemDetailsTimeout);
+
     const { change, formValues } = this.props;
-    const inventoryData = this.state;
-    const locations = formValues?.locations;
+    const { inventoryData } = this.state;
+
+    const connectedInstance = formValues?.instanceId;
+    const rollbackData = {
+      isPackage: formValues.isPackage,
+      ...getNormalizedInventoryData(inventoryData),
+    };
+    const rollbackValue = get(rollbackData, fieldName);
 
     if (fieldName) change(fieldName, value);
 
-    setTimeout(() => {
-      if (shouldSetInstanceId(this.props.formValues, inventoryData)) {
-        change('instanceId', inventoryData.instanceId);
-      } else {
-        change('instanceId', null);
-        locations?.forEach((_, i) => change(`locations[${i}].holdingId`, null));
-      }
+    return new Promise((resolve, reject) => {
+      this.changeItemDetailsTimeout = setTimeout(() => {
+        if (shouldSetInstanceId(this.props.formValues, inventoryData)) {
+          change('instanceId', inventoryData.instanceId);
+          resolve();
+        } else if (connectedInstance) {
+          this.onBreakInstanceConnection()
+            .then(resolve)
+            .catch(() => {
+              change(fieldName, rollbackValue);
+              reject();
+            });
+        } else {
+          this.breakInstanceConnection();
+          resolve();
+        }
+      });
     });
   };
 
+  safeChangeField = (value, fieldName) => {
+    return this.onChangeField(value, fieldName).catch(noop);
+  };
+
+  onRemoveField = (fields, index) => {
+    const { formValues } = this.props;
+
+    const normalizedInventoryData = getNormalizedInventoryData(this.state.inventoryData);
+    const fieldName = `${fields.name}[${index}]`;
+
+    // Allow removal of added repeatable field for connected instance
+    if (
+      formValues?.instanceId
+        && isEqual(get(formValues, fieldName), get(normalizedInventoryData, fieldName))
+    ) {
+      return this.onBreakInstanceConnection()
+        .then(() => fields.remove(index))
+        .catch(noop);
+    }
+
+    return fields.remove(index);
+  }
+
   setTitleOrPackage = ({ target: { value } }) => {
-    this.onChangeField(value, 'titleOrPackage');
+    this.safeChangeField(value, 'titleOrPackage');
   };
 
   setIsPackage = () => {
     const { batch, change, formValues } = this.props;
     const isPackageValue = !formValues?.isPackage;
 
-    this.onChangeField(isPackageValue, 'isPackage');
-    this.onChangeField(isPackageValue, 'checkinItems');
+    this.onChangeField(isPackageValue, 'isPackage')
+      .then(() => {
+        change('checkinItems', isPackageValue);
 
-    if (isPackageValue) {
-      batch(() => {
-        formValues?.locations?.forEach((_, i) => {
-          change(`locations[${i}].quantityPhysical`, null);
-          change(`locations[${i}].quantityElectronic`, null);
-        });
-      });
-    }
+        if (isPackageValue) {
+          batch(() => {
+            formValues?.locations?.forEach((_, i) => {
+              change(`locations[${i}].quantityPhysical`, null);
+              change(`locations[${i}].quantityElectronic`, null);
+            });
+          });
+        }
+      })
+      .catch(noop);
   };
 
   setPublisher = ({ target: { value } }) => {
-    this.onChangeField(value, 'publisher');
+    this.safeChangeField(value, 'publisher');
   };
 
   setPublicationDate = ({ target: { value } }) => {
-    this.onChangeField(value || null, 'publicationDate');
+    this.safeChangeField(value || null, 'publicationDate');
   };
 
   setEdition = ({ target: { value } }) => {
-    this.onChangeField(value, 'edition');
+    this.safeChangeField(value, 'edition');
   };
 
   getTitleLabel = () => {
@@ -187,7 +265,7 @@ class ItemForm extends Component {
       </>
     );
 
-    if (!this.state.instanceId) {
+    if (!this.state.inventoryData.instanceId) {
       return title;
     }
 
@@ -391,7 +469,8 @@ class ItemForm extends Component {
             <ContributorForm
               contributorNameTypes={contributorNameTypes}
               isNonInteractive={isPostPendingOrder}
-              onChangeField={this.onChangeField}
+              onChangeField={this.safeChangeField}
+              onRemoveField={this.onRemoveField}
               disabled={isCreateFromInstance}
               required={required}
             />
@@ -402,7 +481,8 @@ class ItemForm extends Component {
             <ProductIdDetailsForm
               identifierTypes={identifierTypes}
               isNonInteractive={isPostPendingOrder}
-              onChangeField={this.onChangeField}
+              onChangeField={this.safeChangeField}
+              onRemoveField={this.onRemoveField}
               disabled={isCreateFromInstance}
               required={required}
             />
@@ -426,6 +506,14 @@ class ItemForm extends Component {
             </Col>
           </IfFieldVisible>
         </Row>
+
+        {this.state.isBreakInstanceConnectionModalOpen && (
+          <BreakInstanceConnectionModal
+            onConfirm={this.breakInstanceConnectionPromise.resolve}
+            onCancel={this.breakInstanceConnectionPromise.reject}
+            title={this.props.formValues?.titleOrPackage}
+          />
+        )}
       </>
     );
   }
