@@ -314,6 +314,7 @@ class ItemForm extends Component {
         <Row>
           <Col xs={12}>
             <TitleField
+              data-testid="titleOrPackage-field"
               label={this.getTitleLabel()}
               isNonInteractive={isPostPendingOrder}
               onChange={this.setTitleOrPackage}
