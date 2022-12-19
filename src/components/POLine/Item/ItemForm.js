@@ -43,7 +43,7 @@ import { TitleField } from './TitleField';
 // import { SubscriptionIntervalField } from './SubscriptionIntervalField';
 import css from './ItemForm.css';
 
-const FIELDS_TO_INTERSEPT_ON_DELETE = ['contributors'];
+const FIELDS_TO_INTERCEPT_ON_DELETE = ['contributors'];
 
 class ItemForm extends Component {
   static propTypes = {
@@ -182,7 +182,7 @@ class ItemForm extends Component {
     // Intercept deletion of connected instance field
     if (
       formValues?.instanceId
-        && FIELDS_TO_INTERSEPT_ON_DELETE.includes(fields.name)
+        && FIELDS_TO_INTERCEPT_ON_DELETE.includes(fields.name)
         && isEqual(get(formValues, fieldName), get(normalizedInventoryData, fieldName))
     ) {
       return this.onBreakInstanceConnection()
