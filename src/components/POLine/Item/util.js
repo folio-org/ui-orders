@@ -19,6 +19,16 @@ export const getInventoryData = (initialValues) => {
   };
 };
 
+export const getNormalizedInventoryData = (inventoryData) => {
+  const { productIds, title, ...data } = inventoryData;
+
+  return {
+    titleOrPackage: title,
+    details: { productIds },
+    ...data,
+  };
+};
+
 // It compares actual form data (formValues) to contain data came from inventory or initial get request (inventoryData)
 export const shouldSetInstanceId = (formValues, inventoryData) => {
   const isEqualContributors = inventoryData.contributors.every(el => {

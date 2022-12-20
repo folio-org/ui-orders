@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
@@ -17,17 +16,13 @@ import {
 
 const ContributorForm = ({
   onChangeField,
+  onRemoveField,
   disabled,
   isNonInteractive,
   required,
   contributorNameTypes,
 }) => {
   const isEditable = !(disabled || isNonInteractive);
-
-  const removeFields = (fields, index) => {
-    fields.remove(index);
-    onChangeField();
-  };
 
   const renderForm = (elem) => {
     return (
@@ -74,7 +69,7 @@ const ContributorForm = ({
       addLabel={!isEditable ? null : <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />}
       emptyMessage={!isEditable ? <NoValue /> : <FormattedMessage id="ui-orders.itemDetails.addContributor" />}
       id="contributors"
-      onRemove={removeFields}
+      onRemove={onRemoveField}
       canAdd={isEditable}
       canRemove={isEditable}
       renderField={renderForm}
@@ -84,6 +79,7 @@ const ContributorForm = ({
 
 ContributorForm.propTypes = {
   onChangeField: PropTypes.func.isRequired,
+  onRemoveField: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   isNonInteractive: PropTypes.bool,
   required: PropTypes.bool,

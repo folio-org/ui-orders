@@ -1,6 +1,9 @@
 {
   "appMenu.ordersAppSearch": "Orders app Search",
 
+  "breakInstanceConnection.modal.heading": "Remove instance connection",
+  "breakInstanceConnection.modal.message": "Making this change will remove the link between the POL and selected inventory instance. Are you sure you would like to proceed with making this change and unlink this POL from the inventory instance \"<b>{titleOrPackage}</b>\"?",
+
   "deletePiece.btn.cancel": "Cancel",
   "deletePiece.btn.deletePiece": "Delete",
   "deletePiece.title": "Piece(s) to be deleted",
