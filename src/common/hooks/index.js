@@ -8,6 +8,7 @@ export * from './useIsRowSelected';
 export * from './useLinesLimit';
 export * from './useOpenOrderSettings';
 export * from './useOrder/useOrder';
+export * from './useOrderLine';
 export * from './useOrderTemplate';
 export * from './usePOLineRelatedItems';
 export * from './useReexport';
