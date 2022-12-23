@@ -1,0 +1,1 @@
+export { PODetailsVersionView } from './PODetailsVersionView';

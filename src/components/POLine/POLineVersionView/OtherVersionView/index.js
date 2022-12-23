@@ -1,0 +1,1 @@
+export { OtherVersionView } from './OtherVersionView';
