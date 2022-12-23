@@ -14,6 +14,8 @@
     "route": "/orders",
     "home": "/orders/lines",
     "okapiInterfaces": {
+      "acquisition-order-events": "1.0",
+      "acquisition-order-line-events": "1.0",
       "acquisition-methods": "1.0",
       "acquisitions-units": "1.1",
       "configuration.prefixes": "1.0",
@@ -133,6 +135,8 @@
         "visible": true,
         "subPermissions": [
           "module.orders.enabled",
+          "acquisition.order.events.get",
+          "acquisition.order-line.events.get",
           "finance.budgets.collection.get",
           "finance.exchange-rate.item.get",
           "finance.expense-classes.collection.get",
