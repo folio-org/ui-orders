@@ -120,6 +120,7 @@ export const getPoLineFieldsLabelMap = ({
     'automaticExport': 'ui-orders.poLine.automaticExport',
     'orderFormat': 'ui-orders.poLine.orderFormat',
     'metadata.createdDate': 'ui-orders.poLine.createdOn',
+    'metadata.updatedDate': 'ui-orders.orderLineList.updatedDate',
     'receiptDate': 'ui-orders.poLine.receiptDate',
     'receiptStatus': 'ui-orders.poLine.receiptStatus',
     'paymentStatus': 'ui-orders.poLine.paymentStatus',
