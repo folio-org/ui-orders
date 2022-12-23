@@ -12,7 +12,7 @@ export const VersionCheckbox = ({
 
   return (
     <Checkbox
-      checked={Boolean(checked)}
+      checked={checked}
       disabled
       label={checkboxLabel}
       vertical
