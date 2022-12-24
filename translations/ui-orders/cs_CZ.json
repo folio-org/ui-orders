@@ -676,7 +676,7 @@
     "settings.instanceMatching.description": "Když aktivní porovnávání katalogu způsobí, že řádky nákupní objednávky, které jsou nastaveny tak, aby vytvořily titul, ale nejsou ručně propojeny se záznamem titulu. Chcete-li nejprve vyhledat titul a najít shodu pro jedno nebo více ID produktů uvedených v ŘNO. Pokud je nalezeno ID produktu, bude titul propojen s ŘNO a systém pro tento ŘNO nevytvoří nový titul. Pokud nejsou nalezeny žádné shody, systém vytvoří nový záznam katalogu a propojí ŘNO s tímto titulem.",
     "settings.instanceMatching.toggle": "Zakázat porovnávání katalogu",
     "shortcut.addPOL": "ŘNO přidat",
-    "appMenu.ordersAppSearch": "Vyhledávání v aplikaci Objednávky",
+    "appMenu.ordersAppSearch": "Vyhledat objednávku",
     "acquisitionMethod.invalid": "Neplatná reference",
     "button.printOrder": "Vytisknout",
     "button.printLine": "Tisk řádku objednávky",
@@ -799,5 +799,7 @@
     "settings.acquisitionMethods.deleteEntry": "Smazat metodu akvizice",
     "settings.acquisitionMethods.termDeleted": "Metoda akvizice <b>{term}</b> byla úspěšně <b>smazána</b>",
     "settings.acquisitionMethods.termWillBeDeleted": "Metoda akvizice <b>{term}</b> bude <b>smazána.</b>",
-    "errors.poLineHasRelatedApprovedInvoice": "Řádek nákupní objednávky odkazuje na schválenou fakturu v aktuálním fiskálním roce"
+    "errors.poLineHasRelatedApprovedInvoice": "Rozdělení prostředků na řádku objednávky nelze změnit, protože řádek objednávky je spojen s řádkem faktury, který má aktuálně stav \"schváleno\".",
+    "breakInstanceConnection.modal.heading": "Odebrat připojení titulu",
+    "breakInstanceConnection.modal.message": "Provedením této změny se zruší vazba mezi ŘNO a vybranou instancí katalogu. Jste si jisti, že chcete pokračovat v provádění této změny a zrušit vazbu tohoto ŘNO na instanci katalogu<b>\"{titleOrPackage}\"</b>?"
 }

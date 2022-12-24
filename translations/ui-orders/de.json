@@ -1,6 +1,6 @@
 {
     "meta.title": "Bestellungen",
-    "search": "Suche",
+    "search": "Suchen",
     "resultCount": "{count, number} {count, plural, one {Datensatz gefunden} other {Datensätze gefunden}}",
     "order_format.container": "Container",
     "order_format.electronicResource": "Elektronische Ressource",
@@ -186,7 +186,7 @@
     "receiving.receiveBtn": "Inventarisieren",
     "receiving.receiveAllBtn": "Alle inventarisieren",
     "receiving.cancelBtn": "Abbrechen",
-    "receiving.search": "Suche",
+    "receiving.search": "Suchen",
     "receiving.title": "Titel",
     "receiving.poLine": "Bestellposten",
     "receiving.received": "Inventarisiert",
@@ -676,7 +676,7 @@
     "settings.instanceMatching.description": "Wenn der Instanzabgleich aktiv ist, werden Bestellposten, die laut Einstellung eine Instanz erstellen sollen, aber nicht manuell mit einem Instanzdatensatz verknüpft sind, als Instanz angezeigt. Zuerst werden die Instanzen durchsucht, um eine Übereinstimmung mit einer oder mehreren der Produkt-IDs zu finden, die im Bestellposten angegeben sind. Wenn eine Produkt-ID gefunden wird, wird diese Instanz mit dem Bestellposten verknüpft und das System erstellt KEINE neue Instanz für diesen Bestellposten. Wenn keine Übereinstimmungen gefunden werden, erstellt das System einen neuen Instanzdatensatz und verknüpft den Bestellposten mit dieser Instanz.",
     "settings.instanceMatching.toggle": "Instanzabgleich deaktivieren",
     "shortcut.addPOL": "Bestellposten hinzufügen",
-    "appMenu.ordersAppSearch": "Orders app Search",
+    "appMenu.ordersAppSearch": "Suche in Bestellungen-App",
     "acquisitionMethod.invalid": "Invalid reference",
     "button.printOrder": "Print order",
     "button.printLine": "Print order line",
@@ -799,5 +799,7 @@
     "settings.acquisitionMethods.deleteEntry": "Erwerbungsart löschen",
     "settings.acquisitionMethods.termDeleted": "Die Erwerbunsgart <b>{term}</b> wurde erfolgreich <b>gelöscht.</b>",
     "settings.acquisitionMethods.termWillBeDeleted": "Die Erwerbunsgart <b>{term}</b> wird <b>gelöscht.</b>",
-    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status"
+    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status",
+    "breakInstanceConnection.modal.heading": "Remove instance connection",
+    "breakInstanceConnection.modal.message": "Making this change will remove the link between the POL and selected inventory instance. Are you sure you would like to proceed with making this change and unlink this POL from the inventory instance \"<b>{titleOrPackage}</b>\"?"
 }
