@@ -72,6 +72,7 @@ export const ifDisabledToChangePaymentInfo = (order = {}) => {
 
 export const getPoFieldsLabelMap = () => {
   return {
+    'tags': 'stripes-acq-components.label.tags',
     'tags.tagList': 'stripes-acq-components.label.tags',
     'tags.tagList[\\d]': 'stripes-acq-components.label.tags',
     'template': 'ui-orders.settings.orderTemplates.editor.template.name',

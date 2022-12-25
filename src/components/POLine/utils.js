@@ -91,10 +91,12 @@ export const getPoLineFieldsLabelMap = ({
   const isNotMixedFormat = orderFormat !== ORDER_FORMATS.PEMix;
 
   return {
-    'tagList': 'stripes-acq-components.label.tags',
-    'tagList[\\d]': 'stripes-acq-components.label.tags',
+    'tags': 'stripes-acq-components.label.tags',
+    'tags.tagList': 'stripes-acq-components.label.tags',
+    'tags.tagList[\\d]': 'stripes-acq-components.label.tags',
 
     // Item details fields
+    'instanceId': 'ui-orders.itemDetails.instanceId',
     'titleOrPackage': `ui-orders.itemDetails.${isPackage ? 'packageName' : 'title'}`,
     'details.receivingNote': 'ui-orders.itemDetails.receivingNote',
     'details.subscriptionFrom': 'ui-orders.itemDetails.subscriptionFrom',
@@ -172,6 +174,7 @@ export const getPoLineFieldsLabelMap = ({
 
     // Location fields
     'locations': 'ui-orders.line.accordion.location',
+    'locations[\\d]': 'ui-orders.line.accordion.location',
     'locations[\\d].holdingId': 'ui-orders.location.holding',
     'locations[\\d].locationId': 'ui-orders.location.nameCode',
     'locations[\\d].quantity': 'ui-orders.cost.quantity',

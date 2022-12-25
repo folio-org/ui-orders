@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox } from '@folio/stripes/components';
 
 export const VersionCheckbox = ({
+  checked,
   marked,
   label,
   ...props
@@ -11,6 +12,7 @@ export const VersionCheckbox = ({
 
   return (
     <Checkbox
+      checked={Boolean(checked)}
       disabled
       label={checkboxLabel}
       vertical
@@ -20,6 +22,7 @@ export const VersionCheckbox = ({
 };
 
 VersionCheckbox.propTypes = {
+  checked: PropTypes.bool,
   marked: PropTypes.bool,
   label: PropTypes.node.isRequired,
 };
