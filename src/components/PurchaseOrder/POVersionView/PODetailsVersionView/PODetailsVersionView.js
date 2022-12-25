@@ -166,7 +166,7 @@ export const PODetailsVersionView = ({ version }) => {
         <Col xs={12}>
           {version?.notes?.map((note, index) => (
             <VersionKeyValue
-              key={index}
+              key={note}
               name={`notes[${index}]`}
               label={<FormattedMessage id="ui-orders.orderDetails.note" />}
               value={note}

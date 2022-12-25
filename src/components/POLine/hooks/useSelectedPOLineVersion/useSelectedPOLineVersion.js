@@ -31,6 +31,8 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
   const [namespace] = useNamespace({ key: 'order-line-version-data' });
 
   const deletedRecordLabel = intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
+  const getReferenceFieldValue = (condition, value) => condition && (value || deletedRecordLabel);
+
   const versionSnapshot = useMemo(() => (
     get(snapshotPath, versions?.find(({ id }) => id === versionId))
   ), [snapshotPath, versionId, versions]);
@@ -88,29 +90,20 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
         acquisitionMethod: (
           acqMethods.find(({ id }) => id === versionSnapshot?.acquisitionMethod)?.value || deletedRecordLabel
         ),
-        packagePoLineId: linkedPackagePoLineId && (
-          orderLine?.titleOrPackage || deletedRecordLabel
-        ),
-        accessProvider: accessProviderId && (
-          organizationsMap[accessProviderId]?.name || deletedRecordLabel
-        ),
+        packagePoLineId: getReferenceFieldValue(linkedPackagePoLineId, orderLine?.titleOrPackage),
+        accessProvider: getReferenceFieldValue(accessProviderId, organizationsMap[accessProviderId]?.name),
         eresource: eresource && {
           ...eresource,
-          accessProvider: eresourceAccessProvider && (
-            organizationsMap[eresourceAccessProvider]?.name || deletedRecordLabel
+          accessProvider: getReferenceFieldValue(
+            eresourceAccessProvider,
+            organizationsMap[eresourceAccessProvider]?.name,
           ),
-          materialType: eresourceMaterialType && (
-            materialTypesMap[eresourceMaterialType]?.name || deletedRecordLabel
-          ),
+          materialType: getReferenceFieldValue(eresourceMaterialType, materialTypesMap[eresourceMaterialType]?.name),
         },
         physical: physical && {
           ...physical,
-          materialSupplier: materialSupplierId && (
-            organizationsMap[materialSupplierId]?.name || deletedRecordLabel
-          ),
-          materialType: physicalMaterialType && (
-            materialTypesMap[physicalMaterialType]?.name || deletedRecordLabel
-          ),
+          materialSupplier: getReferenceFieldValue(materialSupplierId, organizationsMap[materialSupplierId]?.name),
+          materialType: getReferenceFieldValue(physicalMaterialType, materialTypesMap[physicalMaterialType]?.name),
         },
         vendorDetail: {
           ...vendorDetail,
