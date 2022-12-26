@@ -24,7 +24,7 @@ export const CostVersionView = ({ version }) => {
   const isPackage = version?.isPackage;
   const cost = version?.cost;
   const currency = cost?.currency;
-  const discount = cost?.discount;
+  const discount = cost?.discount || 0;
 
   const isPhysicalValuesVisible = isPackage
     ? orderFormat !== ORDER_FORMATS.electronicResource
