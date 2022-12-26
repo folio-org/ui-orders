@@ -72,7 +72,6 @@ const POLineVersionView = ({
         icon="arrow-left"
         id="clickable-backToPO"
         onClick={onVersionClose}
-        title="Back to PO"
       />
     </PaneMenu>);
 

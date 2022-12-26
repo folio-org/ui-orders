@@ -52,7 +52,6 @@ VersionView.propTypes = {
   id: PropTypes.string.isRequired,
   isLoading: PropTypes.bool,
   onVersionClose: PropTypes.func,
-  version: PropTypes.object.isRequired,
   tags: PropTypes.arrayOf(PropTypes.object),
 };
 

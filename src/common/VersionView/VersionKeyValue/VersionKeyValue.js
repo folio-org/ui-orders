@@ -21,5 +21,5 @@ export const VersionKeyValue = ({
 VersionKeyValue.propTypes = {
   label: PropTypes.node.isRequired,
   marked: PropTypes.bool,
-  value: PropTypes.node.isRequired,
+  value: PropTypes.node,
 };
