@@ -417,6 +417,7 @@
   "orderDetails.shipTo": "Ship to",
   "orderDetails.vendor": "Vendor",
   "orderDetails.approvalDate": "Approval date",
+  "orderDetails.approvedBy": "Approved by",
   "orderDetails.dateOpened": "Date opened",
   "orderSummary.adjustments": "Adjustments",
   "orderSummary.approved": "Approved",

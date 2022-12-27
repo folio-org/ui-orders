@@ -76,6 +76,7 @@ export const getPoFieldsLabelMap = () => {
     'tags.tagList': 'stripes-acq-components.label.tags',
     'tags.tagList[\\d]': 'stripes-acq-components.label.tags',
     'template': 'ui-orders.settings.orderTemplates.editor.template.name',
+    'approvedById': 'ui-orders.orderDetails.approvedBy',
 
     // PO details fields
     'poNumber': 'ui-orders.orderDetails.poNumber',
