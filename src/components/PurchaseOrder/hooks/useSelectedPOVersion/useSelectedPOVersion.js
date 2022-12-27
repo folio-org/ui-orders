@@ -72,7 +72,7 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
         : deletedRecordLabel;
 
       const createdByUser = versionUsersMap[createdByUserId]
-        ? getFullName(versionUsersMap[assignedToId])
+        ? getFullName(versionUsersMap[createdByUserId])
         : deletedRecordLabel;
 
       return {
