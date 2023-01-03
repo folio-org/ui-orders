@@ -96,7 +96,7 @@ const getOrderExportData = ({
     vendorRecord: vendorMap[order.vendor],
     organizationType: getOrganizationTypeData(vendorMap[order.vendor]?.organizationTypes, organizationTypeMap),
     orderType: order.orderType,
-    acquisitionsUnits: order.acqUnitIds.map(id => acqUnitMap[id].name).join(' | '),
+    acquisitionsUnits: order.acqUnitIds.map(id => acqUnitMap[id]?.name).join(' | '),
     approvalDate: formatDateTime(order.approvalDate, intl),
     assignedTo: order.assignedTo && (userMap[order.assignedTo]?.username ?? invalidReference),
     billTo: billTo && getAddressData(billTo, addressMap, invalidReference),
