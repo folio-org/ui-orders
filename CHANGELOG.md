@@ -8,7 +8,8 @@
 * User can click Change log icon to view the Change log pane. Refs UIOR-857.
 * Display all versions in change log in fourth pane. Refs UIOR-858.
 * Results List | Hyperlink one column to improve accessibility. Refs UIOR-1021.
-* Add confirmation modal - Break instance connection. Refs UIOR-1047
+* Add confirmation modal - Break instance connection. Refs UIOR-1047.
+* Include purchase orders without purchase order lines in CSV export report. Refs UIOR-1053.
 
 ## [3.3.2](https://github.com/folio-org/ui-orders/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.1...v3.3.2)
