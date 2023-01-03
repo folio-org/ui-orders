@@ -75,35 +75,20 @@ const getOrganizationTypeData = (orgTypeIds, orgTypeMap) => (
     ?.join(' | ')
 );
 
-const getExportRow = ({
-  order,
-  lineRecord,
-  intl,
-  acquisitionMethodsMap,
+const getOrderExportData = ({
   acqUnitMap,
   addressMap,
-  contributorNameTypeMap,
-  expenseClassMap,
-  holdingMap,
-  identifierTypeMap,
-  locationMap,
-  materialTypeMap,
+  intl,
+  order,
   organizationTypeMap,
-  poLinesMap,
   userMap,
   vendorMap,
 }) => {
-  const invalidReference = intl.formatMessage({ id: 'ui-orders.export.invalidReference' });
-
   const billTo = order?.billTo;
   const shipTo = order?.shipTo;
-  const materialSupplier = lineRecord.physical?.materialSupplier;
-  const materialType = lineRecord.physical?.materialType;
-  const accessProvider = lineRecord.eresource?.accessProvider;
-  const materialTypeEl = lineRecord.eresource?.materialType;
+  const invalidReference = intl.formatMessage({ id: 'ui-orders.export.invalidReference' });
 
-  return ({
-    sourceRecord: lineRecord,
+  return {
     poNumber: order.poNumber,
     poNumberPrefix: order.poNumberPrefix,
     poNumberSuffix: order.poNumberSuffix,
@@ -132,6 +117,31 @@ const getExportRow = ({
     reviewPeriod: order.ongoing?.reviewPeriod,
     renewalDate: formatDate(order.ongoing?.renewalDate, intl),
     reviewDate: formatDate(order.ongoing?.reviewDate, intl),
+    poTags: order.tags?.tagList?.join('|'),
+  };
+};
+
+const getOrderLineExportData = ({
+  acquisitionMethodsMap,
+  expenseClassMap,
+  contributorNameTypeMap,
+  holdingMap,
+  identifierTypeMap,
+  intl,
+  lineRecord,
+  locationMap,
+  materialTypeMap,
+  poLinesMap,
+  vendorMap,
+}) => {
+  const invalidReference = intl.formatMessage({ id: 'ui-orders.export.invalidReference' });
+  const materialSupplier = lineRecord.physical?.materialSupplier;
+  const materialType = lineRecord.physical?.materialType;
+  const accessProvider = lineRecord.eresource?.accessProvider;
+  const materialTypeEl = lineRecord.eresource?.materialType;
+
+  return {
+    sourceRecord: lineRecord,
     poLineNumber: lineRecord.poLineNumber,
     titleOrPackage: lineRecord.titleOrPackage,
     instanceId: lineRecord.instanceId,
@@ -188,9 +198,58 @@ const getExportRow = ({
     expectedActivation: formatDate(lineRecord.eresource?.expectedActivation, intl),
     userLimit: lineRecord.eresource?.userLimit,
     resourceUrl: lineRecord.eresource?.resourceUrl,
-    poTags: order.tags?.tagList?.join('|'),
     poLineTags: lineRecord.tags?.tagList?.join('|'),
+  };
+};
+
+const getExportRow = ({
+  order,
+  lineRecord,
+  intl,
+  acquisitionMethodsMap,
+  acqUnitMap,
+  addressMap,
+  contributorNameTypeMap,
+  expenseClassMap,
+  holdingMap,
+  identifierTypeMap,
+  locationMap,
+  materialTypeMap,
+  organizationTypeMap,
+  poLinesMap,
+  userMap,
+  vendorMap,
+}) => {
+  const orderExportData = getOrderExportData({
+    acqUnitMap,
+    addressMap,
+    intl,
+    order,
+    organizationTypeMap,
+    userMap,
+    vendorMap,
   });
+
+  const orderLineExportData = lineRecord
+    ? getOrderLineExportData({
+      acquisitionMethodsMap,
+      expenseClassMap,
+      contributorNameTypeMap,
+      holdingMap,
+      identifierTypeMap,
+      intl,
+      lineRecord,
+      locationMap,
+      materialTypeMap,
+      poLinesMap,
+      vendorMap,
+    })
+    : {};
+
+  return {
+    ...orderExportData,
+    ...orderLineExportData,
+  };
 };
 
 const buildExportRows = ({
@@ -202,7 +261,7 @@ const buildExportRows = ({
 
   return poLines?.length
     ? poLines.map((lineRecord) => getExportRow({ order, lineRecord, ...params }))
-    : [getExportRow({ order, lineRecord: {}, ...params })];
+    : [getExportRow({ order, ...params })];
 };
 
 export const createExportReport = (
