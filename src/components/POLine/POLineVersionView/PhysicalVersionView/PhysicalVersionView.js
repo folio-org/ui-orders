@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -6,16 +7,24 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { FolioFormattedDate } from '@folio/stripes-acq-components';
+import {
+  FolioFormattedDate,
+  VersionViewContext,
+} from '@folio/stripes-acq-components';
 
 import { VersionKeyValue } from '../../../../common/VersionView';
 
 const VolumesVersionValue = ({ name, value }) => {
+  const versionContext = useContext(VersionViewContext);
+  const isUpdated = versionContext?.paths?.find((field) => new RegExp(`^${name}\\[\\d\\]$`).test(field));
+
+  const content = isUpdated ? <mark>{value}</mark> : value;
+
   return (
     <KeyValue
       label={<FormattedMessage id="ui-orders.physical.volumes" />}
       name={name}
-      value={value}
+      value={content}
     />
   );
 };

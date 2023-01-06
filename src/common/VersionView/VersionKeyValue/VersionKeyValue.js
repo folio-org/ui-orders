@@ -1,20 +1,26 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
 
 import { KeyValue } from '@folio/stripes/components';
+import { VersionViewContext } from '@folio/stripes-acq-components';
 
 export const VersionKeyValue = ({
+  children,
   label,
+  name,
   value,
-  marked,
 }) => {
-  const content = marked ? <mark>{value}</mark> : value;
+  const versionContext = useContext(VersionViewContext);
+  const isUpdated = versionContext?.paths?.includes(name);
+
+  const content = children || value;
+  const displayValue = isUpdated ? <mark>{content}</mark> : content;
 
   return (
     <KeyValue
       label={label}
-    >
-      {content}
-    </KeyValue>
+      value={displayValue}
+    />
   );
 };
 
@@ -23,7 +29,8 @@ VersionKeyValue.defaultProps = {
 };
 
 VersionKeyValue.propTypes = {
+  children: PropTypes.node,
   label: PropTypes.node.isRequired,
-  marked: PropTypes.bool,
+  name: PropTypes.string.isRequired,
   value: PropTypes.node,
 };

@@ -7,7 +7,10 @@ import {
   IconButton,
   PaneMenu,
 } from '@folio/stripes/components';
-import { VersionHistoryPane } from '@folio/stripes-acq-components';
+import {
+  VersionHistoryPane,
+  VersionViewContextProvider,
+} from '@folio/stripes-acq-components';
 
 import { VersionView } from '../../../common';
 import {
@@ -15,7 +18,10 @@ import {
   ORDER_LINES_ROUTE,
 } from '../../../common/constants';
 import { useOrderLine } from '../../../common/hooks';
-import { usePOLineVersions, useSelectedPOLineVersion } from '../hooks';
+import {
+  usePOLineVersions,
+  useSelectedPOLineVersion,
+} from '../hooks';
 import { getPoLineFieldsLabelMap } from '../utils';
 import POLineVersion from './POLineVersion';
 
@@ -78,7 +84,11 @@ const POLineVersionView = ({
   const isVersionLoading = isOrderLineLoading || isHistoryLoading || isPOLineVersionLoading;
 
   return (
-    <>
+    <VersionViewContextProvider
+      snapshotPath={snapshotPath}
+      versions={versions}
+      versionId={versionId}
+    >
       <VersionView
         id="order-line"
         isLoading={isVersionLoading}
@@ -91,6 +101,7 @@ const POLineVersionView = ({
       >
         <POLineVersion version={selectedVersion} />
       </VersionView>
+
       <VersionHistoryPane
         currentVersion={versionId}
         id="order-line"
@@ -101,7 +112,7 @@ const POLineVersionView = ({
         labelsMap={getPoLineFieldsLabelMap(selectedVersion)}
         versions={versions}
       />
-    </>
+    </VersionViewContextProvider>
   );
 };
 
