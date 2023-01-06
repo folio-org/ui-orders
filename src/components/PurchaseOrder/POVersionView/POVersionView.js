@@ -45,7 +45,7 @@ const POVersionView = ({
 
   const { versions, isLoading: isHistoryLoading } = usePOVersions(orderId, {
     onSuccess: ({ orderAuditEvents }) => {
-      if (orderAuditEvents[0]?.id) onSelectVersion(orderAuditEvents[0].id);
+      if (!versionId && orderAuditEvents[0]?.id) onSelectVersion(orderAuditEvents[0].id);
     },
   });
 

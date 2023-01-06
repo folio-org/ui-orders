@@ -3,11 +3,22 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
+  KeyValue,
   Row,
 } from '@folio/stripes/components';
 import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
 import { VersionKeyValue } from '../../../../common/VersionView';
+
+const VolumesVersionValue = ({ name, value }) => {
+  return (
+    <KeyValue
+      label={<FormattedMessage id="ui-orders.physical.volumes" />}
+      name={name}
+      value={value}
+    />
+  );
+};
 
 export const PhysicalVersionView = ({ version }) => {
   const physical = version?.physical;
@@ -51,9 +62,8 @@ export const PhysicalVersionView = ({ version }) => {
         xs={6}
         lg={3}
       >
-        <VersionKeyValue
+        <VolumesVersionValue
           name="physical.volumes"
-          label={<FormattedMessage id="ui-orders.physical.volumes" />}
           value={physical?.volumes}
         />
       </Col>
@@ -74,13 +84,18 @@ export const PhysicalVersionView = ({ version }) => {
         lg={3}
       >
         <VersionKeyValue
-          name="poLine.materialType"
+          name="physical.materialType"
           label={<FormattedMessage id="ui-orders.poLine.materialType" />}
           value={physical?.materialType}
         />
       </Col>
     </Row>
   );
+};
+
+VolumesVersionValue.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.node,
 };
 
 PhysicalVersionView.propTypes = {

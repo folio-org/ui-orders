@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
+  KeyValue,
   Row,
 } from '@folio/stripes/components';
 import { VendorReferenceNumbersDetails } from '@folio/stripes-acq-components';
@@ -16,10 +17,14 @@ export const VendorVersionView = ({ version }) => {
     <>
       <Row start="xs">
         <Col xs={12}>
-          <VersionKeyValue
-            name="vendorDetail.referenceNumbers"
+          <KeyValue
             label={<FormattedMessage id="ui-orders.vendor.referenceNumbers" />}
-            value={<VendorReferenceNumbersDetails referenceNumbers={vendorDetail?.referenceNumbers} />}
+            value={(
+              <VendorReferenceNumbersDetails
+                name="vendorDetail.referenceNumbers"
+                referenceNumbers={vendorDetail?.referenceNumbers}
+              />
+            )}
           />
         </Col>
 

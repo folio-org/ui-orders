@@ -170,7 +170,7 @@ export const POLineDetailsVersionView = ({ version }) => {
           lg={3}
         >
           <VersionCheckbox
-            name=""
+            name="rush"
             checked={version?.rush}
             label={<FormattedMessage id="ui-orders.poLine.rush" />}
           />

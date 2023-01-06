@@ -14,7 +14,13 @@ import {
   useLineHoldings,
 } from '@folio/stripes-acq-components';
 
-const Location = ({ location, locationsMap, holdings }) => {
+const Location = ({
+  component,
+  holdings,
+  location,
+  locationsMap,
+  name: fieldName,
+}) => {
   const filteredLocation = locationsMap[location.locationId] || {};
   const holding = find(holdings, ['id', location.holdingId]);
   const { name, code } = filteredLocation;
@@ -23,6 +29,11 @@ const Location = ({ location, locationsMap, holdings }) => {
   const locationValue = location.holdingId
     ? getHoldingLocationName(holding, locationsMap)
     : locationNameCode;
+  const locationName = location.holdingId
+    ? `${fieldName}.holdingId`
+    : `${fieldName}.locationId`;
+
+  const KeyValueComponent = component || KeyValue;
 
   return (
     <Row start="xs">
@@ -30,7 +41,8 @@ const Location = ({ location, locationsMap, holdings }) => {
         xs={6}
         lg={3}
       >
-        <KeyValue
+        <KeyValueComponent
+          name={locationName}
           label={<FormattedMessage id={labelId} />}
           value={locationValue}
         />
@@ -39,7 +51,8 @@ const Location = ({ location, locationsMap, holdings }) => {
         xs={6}
         lg={3}
       >
-        <KeyValue
+        <KeyValueComponent
+          name={`${fieldName}.quantityPhysical`}
           label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
           value={location.quantityPhysical}
         />
@@ -48,7 +61,8 @@ const Location = ({ location, locationsMap, holdings }) => {
         xs={6}
         lg={3}
       >
-        <KeyValue
+        <KeyValueComponent
+          name={`${fieldName}.quantityElectronic`}
           label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
           value={location.quantityElectronic}
         />
@@ -57,7 +71,12 @@ const Location = ({ location, locationsMap, holdings }) => {
   );
 };
 
-const LocationView = ({ locations = [], lineLocations = [] }) => {
+const LocationView = ({
+  locations = [],
+  lineLocations = [],
+  name,
+  ...props
+}) => {
   const lineHoldingIds = lineLocations.map(({ holdingId }) => holdingId).filter(Boolean);
   const { isLoading, holdings } = useLineHoldings(lineHoldingIds);
   const locationsMap = useMemo(() => keyBy(locations, 'id'), [locations]);
@@ -70,19 +89,24 @@ const LocationView = ({ locations = [], lineLocations = [] }) => {
       location={location}
       locationsMap={locationsMap}
       holdings={holdings}
+      name={`${name}[${i}]`}
+      {...props}
     />
   ));
 };
 
 Location.propTypes = {
+  component: PropTypes.node,
   location: PropTypes.object,
   locationsMap: PropTypes.object,
   holdings: PropTypes.arrayOf(PropTypes.object),
+  name: PropTypes.string,
 };
 
 LocationView.propTypes = {
   lineLocations: PropTypes.arrayOf(PropTypes.object),
   locations: PropTypes.arrayOf(PropTypes.object),
+  name: PropTypes.string,
 };
 
 export default LocationView;

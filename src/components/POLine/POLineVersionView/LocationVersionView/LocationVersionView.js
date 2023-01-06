@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 
 import LocationView from '../../Location/LocationView';
 
+const LOCATIONS_NAME = 'locations';
+
 export const LocationVersionView = ({ version }) => {
   const locations = version?.locations;
   const locationsList = version?.locationsList;
@@ -10,6 +12,7 @@ export const LocationVersionView = ({ version }) => {
     <LocationView
       lineLocations={locations}
       locations={locationsList}
+      name={LOCATIONS_NAME}
     />
   );
 };

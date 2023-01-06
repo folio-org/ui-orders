@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import {
   Col,
+  KeyValue,
   Row,
 } from '@folio/stripes/components';
 import {
@@ -119,20 +120,28 @@ export const ItemVersionView = ({ version }) => {
         </Col>
 
         <Col xs={12}>
-          <VersionKeyValue
-            name="contributors"
+          <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}
-            value={<ContributorDetails contributors={version?.contributors} />}
+            value={(
+              <ContributorDetails
+                name="contributors"
+                contributors={version?.contributors}
+              />
+            )}
           />
         </Col>
       </Row>
 
       <Row start="xs">
         <Col xs={12}>
-          <VersionKeyValue
-            name="details.productIds"
+          <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
-            value={<ProductIdDetails productIds={version?.details?.productIds} />}
+            value={(
+              <ProductIdDetails
+                name="details.productIds"
+                productIds={version?.details?.productIds}
+              />
+            )}
           />
         </Col>
       </Row>

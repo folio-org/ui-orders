@@ -11,6 +11,7 @@ export const FundDistributionVersionView = ({ version }) => {
 
   return (
     <FundDistributionView
+      name="fundDistribution"
       currency={cost?.currency}
       fundDistributions={version?.fundDistribution}
       totalAmount={cost?.poLineEstimatedPrice}

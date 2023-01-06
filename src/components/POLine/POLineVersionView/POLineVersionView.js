@@ -57,7 +57,7 @@ const POLineVersionView = ({
     isLoading: isHistoryLoading,
   } = usePOLineVersions(orderLineId, {
     onSuccess: ({ orderLineAuditEvents }) => {
-      if (orderLineAuditEvents[0]?.id) onSelectVersion(orderLineAuditEvents[0].id);
+      if (!versionId && orderLineAuditEvents[0]?.id) onSelectVersion(orderLineAuditEvents[0].id);
     },
   });
 

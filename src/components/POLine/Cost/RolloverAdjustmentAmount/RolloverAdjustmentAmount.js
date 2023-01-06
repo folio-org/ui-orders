@@ -10,9 +10,17 @@ import {
   AmountWithCurrencyField,
 } from '@folio/stripes-acq-components';
 
-export const RolloverAdjustmentAmount = ({ currency, amount }) => {
+export const RolloverAdjustmentAmount = ({
+  amount,
+  currency,
+  component,
+  name,
+}) => {
+  const KeyValueComponent = component || KeyValue;
+
   return (
-    <KeyValue
+    <KeyValueComponent
+      name={name}
       label={
         <div>
           <span>
@@ -29,11 +37,13 @@ export const RolloverAdjustmentAmount = ({ currency, amount }) => {
         currency={currency}
         amount={amount}
       />
-    </KeyValue>
+    </KeyValueComponent>
   );
 };
 
 RolloverAdjustmentAmount.propTypes = {
-  currency: PropTypes.string,
   amount: PropTypes.number,
+  component: PropTypes.node,
+  currency: PropTypes.string,
+  name: PropTypes.string,
 };

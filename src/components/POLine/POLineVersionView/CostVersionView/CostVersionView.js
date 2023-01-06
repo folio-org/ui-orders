@@ -95,6 +95,8 @@ export const CostVersionView = ({ version }) => {
             lg={3}
           >
             <ExchangeRateValue
+              name="cost.exchangeRate"
+              component={VersionKeyValue}
               manualExchangeRate={cost?.exchangeRate}
               exchangeFrom={currency}
               exchangeTo={stripes.currency}
@@ -196,6 +198,7 @@ export const CostVersionView = ({ version }) => {
                 name="cost.fyroAdjustmentAmount"
                 currency={currency}
                 amount={cost?.fyroAdjustmentAmount}
+                component={VersionKeyValue}
               />
             </Col>
           )
