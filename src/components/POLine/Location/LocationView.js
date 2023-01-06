@@ -83,16 +83,22 @@ const LocationView = ({
 
   if (isLoading) return <Loading />;
 
-  return lineLocations.map((location, i) => (
-    <Location
-      key={location.id || i}  // i is required when new row of Location is added by User
-      location={location}
-      locationsMap={locationsMap}
-      holdings={holdings}
-      name={`${name}[${i}]`}
-      {...props}
-    />
-  ));
+  return (
+    <>
+      {
+        lineLocations.map((location, i) => (
+          <Location
+            key={location.id || i}  // i is required when new row of Location is added by User
+            location={location}
+            locationsMap={locationsMap}
+            holdings={holdings}
+            name={`${name}[${i}]`}
+            {...props}
+          />
+        ))
+      }
+    </>
+  );
 };
 
 Location.propTypes = {
