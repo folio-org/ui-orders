@@ -21,6 +21,11 @@ export const VersionCheckbox = ({
   );
 };
 
+VersionCheckbox.defaultProps = {
+  checked: false,
+  marked: false,
+};
+
 VersionCheckbox.propTypes = {
   checked: PropTypes.bool,
   marked: PropTypes.bool,

@@ -18,6 +18,10 @@ export const VersionKeyValue = ({
   );
 };
 
+VersionKeyValue.defaultProps = {
+  marked: false,
+};
+
 VersionKeyValue.propTypes = {
   label: PropTypes.node.isRequired,
   marked: PropTypes.bool,
