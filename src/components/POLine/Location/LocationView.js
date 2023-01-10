@@ -14,6 +14,16 @@ import {
   useLineHoldings,
 } from '@folio/stripes-acq-components';
 
+const getLocationFieldName = (fieldName, holdingId) => {
+  if (fieldName) {
+    return holdingId
+      ? `${fieldName}.holdingId`
+      : `${fieldName}.locationId`;
+  }
+
+  return undefined;
+};
+
 const Location = ({
   component,
   holdings,
@@ -29,9 +39,7 @@ const Location = ({
   const locationValue = location.holdingId
     ? getHoldingLocationName(holding, locationsMap)
     : locationNameCode;
-  const locationName = location.holdingId
-    ? `${fieldName}.holdingId`
-    : `${fieldName}.locationId`;
+  const locationName = getLocationFieldName(fieldName, location.holdingId);
 
   const KeyValueComponent = component || KeyValue;
 
@@ -52,7 +60,7 @@ const Location = ({
         lg={3}
       >
         <KeyValueComponent
-          name={`${fieldName}.quantityPhysical`}
+          name={fieldName && `${fieldName}.quantityPhysical`}
           label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
           value={location.quantityPhysical}
         />
@@ -62,7 +70,7 @@ const Location = ({
         lg={3}
       >
         <KeyValueComponent
-          name={`${fieldName}.quantityElectronic`}
+          name={fieldName && `${fieldName}.quantityElectronic`}
           label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
           value={location.quantityElectronic}
         />
@@ -92,7 +100,7 @@ const LocationView = ({
             location={location}
             locationsMap={locationsMap}
             holdings={holdings}
-            name={`${name}[${i}]`}
+            name={name && `${name}[${i}]`}
             {...props}
           />
         ))
