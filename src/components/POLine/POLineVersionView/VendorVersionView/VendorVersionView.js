@@ -14,43 +14,41 @@ export const VendorVersionView = ({ version }) => {
   const vendorDetail = version?.vendorDetail;
 
   return (
-    <>
-      <Row start="xs">
-        <Col xs={12}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.vendor.referenceNumbers" />}
-            value={(
-              <VendorReferenceNumbersDetails
-                name="vendorDetail.referenceNumbers"
-                referenceNumbers={vendorDetail?.referenceNumbers}
-              />
+    <Row start="xs">
+      <Col xs={12}>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.vendor.referenceNumbers" />}
+          value={(
+            <VendorReferenceNumbersDetails
+              name="vendorDetail.referenceNumbers"
+              referenceNumbers={vendorDetail?.referenceNumbers}
+            />
             )}
-          />
-        </Col>
+        />
+      </Col>
 
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <VersionKeyValue
-            name="vendorDetail.instructions"
-            label={<FormattedMessage id="ui-orders.vendor.instructions" />}
-            value={vendorDetail?.instructions}
-          />
-        </Col>
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <VersionKeyValue
+          name="vendorDetail.instructions"
+          label={<FormattedMessage id="ui-orders.vendor.instructions" />}
+          value={vendorDetail?.instructions}
+        />
+      </Col>
 
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <VersionKeyValue
-            name="vendorDetail.vendorAccount"
-            label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
-            value={vendorDetail?.vendorAccount}
-          />
-        </Col>
-      </Row>
-    </>
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <VersionKeyValue
+          name="vendorDetail.vendorAccount"
+          label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
+          value={vendorDetail?.vendorAccount}
+        />
+      </Col>
+    </Row>
   );
 };
 

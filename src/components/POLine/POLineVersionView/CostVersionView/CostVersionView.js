@@ -46,149 +46,148 @@ export const CostVersionView = ({ version }) => {
     );
 
   return (
-    <>
-      <Row start="xs">
-        {isPhysicalValuesVisible && (
-          <>
-            <Col
-              xs={6}
-              lg={3}
-            >
-              <VersionKeyValue
-                name="cost.listUnitPrice"
-                label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
-                value={(
-                  <AmountWithCurrencyField
-                    currency={currency}
-                    amount={cost?.listUnitPrice}
-                  />
-                )}
-              />
-            </Col>
-
-            <Col
-              xs={6}
-              lg={3}
-            >
-              <VersionKeyValue
-                name="cost.quantityPhysical"
-                label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
-                value={cost?.quantityPhysical}
-              />
-            </Col>
-          </>
-        )}
+    <Row start="xs">
+      {isPhysicalValuesVisible && (
+      <>
         <Col
           xs={6}
           lg={3}
         >
           <VersionKeyValue
-            name="cost.currency"
-            label={<FormattedMessage id="ui-orders.cost.currency" />}
-            value={currency}
+            name="cost.listUnitPrice"
+            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'listPrice' : 'listPriceOfPhysical'}`} />}
+            value={(
+              <AmountWithCurrencyField
+                currency={currency}
+                amount={cost?.listUnitPrice}
+              />
+                )}
           />
         </Col>
 
-        {isExchangeRateVisible && (
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <ExchangeRateValue
-              name="cost.exchangeRate"
-              component={VersionKeyValue}
-              manualExchangeRate={cost?.exchangeRate}
-              exchangeFrom={currency}
-              exchangeTo={stripes.currency}
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <VersionKeyValue
+            name="cost.quantityPhysical"
+            label={<FormattedMessage id={`ui-orders.cost.${isPackageLabel ? 'quantity' : 'quantityPhysical'}`} />}
+            value={cost?.quantityPhysical}
+          />
+        </Col>
+      </>
+      )}
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <VersionKeyValue
+          name="cost.currency"
+          label={<FormattedMessage id="ui-orders.cost.currency" />}
+          value={currency}
+        />
+      </Col>
+
+      {isExchangeRateVisible && (
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <ExchangeRateValue
+          name="cost.exchangeRate"
+          component={VersionKeyValue}
+          manualExchangeRate={cost?.exchangeRate}
+          exchangeFrom={currency}
+          exchangeTo={stripes.currency}
+        />
+      </Col>
+      )}
+
+      {isElectronicValuesVisible && (
+      <>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <VersionKeyValue
+            name="cost.listUnitPriceElectronic"
+            label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
+            value={(
+              <AmountWithCurrencyField
+                currency={currency}
+                amount={cost?.listUnitPriceElectronic}
+              />
+                )}
+          />
+        </Col>
+
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <VersionKeyValue
+            name="cost.quantityElectronic"
+            label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
+            value={cost?.quantityElectronic}
+          />
+        </Col>
+      </>
+      )}
+
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <VersionKeyValue
+          name="cost.additionalCost"
+          label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
+          value={(
+            <AmountWithCurrencyField
+              currency={currency}
+              amount={cost?.additionalCost}
             />
-          </Col>
-        )}
-
-        {isElectronicValuesVisible && (
-          <>
-            <Col
-              xs={6}
-              lg={3}
-            >
-              <VersionKeyValue
-                name="cost.listUnitPriceElectronic"
-                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'listPrice' : 'unitPriceOfElectronic'}`} />}
-                value={(
-                  <AmountWithCurrencyField
-                    currency={currency}
-                    amount={cost?.listUnitPriceElectronic}
-                  />
-                )}
-              />
-            </Col>
-
-            <Col
-              xs={6}
-              lg={3}
-            >
-              <VersionKeyValue
-                name="cost.quantityElectronic"
-                label={<FormattedMessage id={`ui-orders.cost.${isPackage ? 'quantity' : 'quantityElectronic'}`} />}
-                value={cost?.quantityElectronic}
-              />
-            </Col>
-          </>
-        )}
-
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <VersionKeyValue
-            name="cost.additionalCost"
-            label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
-            value={(
-              <AmountWithCurrencyField
-                currency={currency}
-                amount={cost?.additionalCost}
-              />
             )}
-          />
-        </Col>
+        />
+      </Col>
 
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <VersionKeyValue
-            name="cost.discount"
-            label={<FormattedMessage id="ui-orders.cost.discount" />}
-            value={displayDiscount}
-          />
-        </Col>
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <VersionKeyValue
+          name="cost.discount"
+          label={<FormattedMessage id="ui-orders.cost.discount" />}
+          value={displayDiscount}
+        />
+      </Col>
 
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <VersionKeyValue
-            name="cost.poLineEstimatedPrice"
-            label={
-              <div>
-                <span>
-                  <FormattedMessage id="ui-orders.cost.estimatedPrice" />
-                </span>
-                <InfoPopover
-                  buttonLabel={<FormattedMessage id="ui-orders.cost.buttonLabel" />}
-                  content={<FormattedMessage id="ui-orders.cost.info" />}
-                />
-              </div>
+      <Col
+        xs={6}
+        lg={3}
+      >
+        <VersionKeyValue
+          name="cost.poLineEstimatedPrice"
+          label={
+            <div>
+              <span>
+                <FormattedMessage id="ui-orders.cost.estimatedPrice" />
+              </span>
+              <InfoPopover
+                buttonLabel={<FormattedMessage id="ui-orders.cost.buttonLabel" />}
+                content={<FormattedMessage id="ui-orders.cost.info" />}
+              />
+            </div>
             }
-            value={(
-              <AmountWithCurrencyField
-                currency={currency}
-                amount={cost?.poLineEstimatedPrice}
-              />
+          value={(
+            <AmountWithCurrencyField
+              currency={currency}
+              amount={cost?.poLineEstimatedPrice}
+            />
             )}
-          />
-        </Col>
+        />
+      </Col>
 
-        {
+      {
           Boolean(cost?.fyroAdjustmentAmount) && (
             <Col
               xs={6}
@@ -203,8 +202,7 @@ export const CostVersionView = ({ version }) => {
             </Col>
           )
         }
-      </Row>
-    </>
+    </Row>
   );
 };
 
