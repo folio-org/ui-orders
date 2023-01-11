@@ -72,9 +72,11 @@ export const ifDisabledToChangePaymentInfo = (order = {}) => {
 
 export const getPoFieldsLabelMap = () => {
   return {
+    'tags': 'stripes-acq-components.label.tags',
     'tags.tagList': 'stripes-acq-components.label.tags',
     'tags.tagList[\\d]': 'stripes-acq-components.label.tags',
     'template': 'ui-orders.settings.orderTemplates.editor.template.name',
+    'approvedById': 'ui-orders.orderDetails.approvedBy',
 
     // PO details fields
     'poNumber': 'ui-orders.orderDetails.poNumber',
@@ -92,6 +94,7 @@ export const getPoFieldsLabelMap = () => {
     'reEncumber': 'ui-orders.orderDetails.reEncumber',
     'metadata.createdByUserId': 'ui-orders.orderDetails.createdBy',
     'metadata.createdDate': 'ui-orders.orderDetails.createdOn',
+    'metadata.updatedDate': 'ui-orders.order.lastUpdated',
     'dateOrdered': 'ui-orders.orderDetails.dateOpened',
     'notes': 'ui-orders.orderDetails.note',
     'notes[\\d]': 'ui-orders.orderDetails.note',

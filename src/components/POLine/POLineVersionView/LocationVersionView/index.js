@@ -1,0 +1,1 @@
+export { LocationVersionView } from './LocationVersionView';

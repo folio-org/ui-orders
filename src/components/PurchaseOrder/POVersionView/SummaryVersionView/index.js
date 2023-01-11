@@ -1,0 +1,1 @@
+export { SummaryVersionView } from './SummaryVersionView';

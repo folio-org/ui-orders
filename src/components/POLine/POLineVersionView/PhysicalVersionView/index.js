@@ -1,0 +1,1 @@
+export { PhysicalVersionView } from './PhysicalVersionView';

@@ -10,6 +10,9 @@
 * Results List | Hyperlink one column to improve accessibility. Refs UIOR-1021.
 * Add confirmation modal - Break instance connection. Refs UIOR-1047.
 * Include purchase orders without purchase order lines in CSV export report. Refs UIOR-1053.
+* Cancel/dismiss version history and reload current version. Refs UIOR-1035.
+* Display selected version in POL view. Refs UIOR-1036.
+* Display selected version in PO view. Refs UIOR-1057.
 
 ## [3.3.2](https://github.com/folio-org/ui-orders/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.1...v3.3.2)

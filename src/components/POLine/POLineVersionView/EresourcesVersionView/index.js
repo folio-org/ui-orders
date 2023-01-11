@@ -1,0 +1,1 @@
+export { EresourcesVersionView } from './EresourcesVersionView';

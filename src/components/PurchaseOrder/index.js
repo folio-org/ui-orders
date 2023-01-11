@@ -1,4 +1,3 @@
-import PO from './PO';
-import POForm from './POForm';
-
-export { PO, POForm };
+export { default as PO } from './PO';
+export { default as POForm } from './POForm';
+export { POVersionView } from './POVersionView';

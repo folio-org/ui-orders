@@ -1,0 +1,1 @@
+export { OngoingInfoVersionView } from './OngoingInfoVersionView';
