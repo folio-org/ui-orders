@@ -32,6 +32,7 @@ import POLineVersionView from './POLineVersionView';
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   ExchangeRateValue: jest.fn(() => 'ExchangeRateValue'),
+  useLineHoldings: jest.fn(() => ({ isLoading: false, holdings: [] })),
 }));
 jest.mock('@folio/stripes-acq-components/lib/hooks/useUsersBatch', () => ({
   useUsersBatch: jest.fn(() => ({ users: [], isLoading: false })),
@@ -44,7 +45,6 @@ jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useSelectedPOLineVersion: jest.fn(() => {}),
 }));
-jest.mock('../Location/LocationView', () => jest.fn(() => 'LocationView'));
 
 const { orderLineSnapshot, ...auditEvent } = orderLineAuditEvent;
 
