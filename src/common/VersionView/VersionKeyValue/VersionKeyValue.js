@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { useContext, useMemo } from 'react';
 
-import { KeyValue } from '@folio/stripes/components';
+import {
+  KeyValue,
+  NoValue,
+} from '@folio/stripes/components';
 import { VersionViewContext } from '@folio/stripes-acq-components';
 
 export const VersionKeyValue = ({
@@ -18,7 +21,7 @@ export const VersionKeyValue = ({
       : versionContext?.paths?.includes(name)
   ), [multiple, name, versionContext?.paths]);
 
-  const content = children || value;
+  const content = (children || value) || <NoValue />;
   const displayValue = isUpdated ? <mark>{content}</mark> : content;
 
   return (
