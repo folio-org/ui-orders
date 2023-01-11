@@ -1,33 +1,15 @@
 import PropTypes from 'prop-types';
-import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
-  KeyValue,
   Row,
 } from '@folio/stripes/components';
 import {
   FolioFormattedDate,
-  VersionViewContext,
 } from '@folio/stripes-acq-components';
 
 import { VersionKeyValue } from '../../../../common/VersionView';
-
-const VolumesVersionValue = ({ name, value }) => {
-  const versionContext = useContext(VersionViewContext);
-  const isUpdated = versionContext?.paths?.find((field) => new RegExp(`^${name}\\[\\d\\]$`).test(field));
-
-  const content = isUpdated ? <mark>{value}</mark> : value;
-
-  return (
-    <KeyValue
-      label={<FormattedMessage id="ui-orders.physical.volumes" />}
-      name={name}
-      value={content}
-    />
-  );
-};
 
 export const PhysicalVersionView = ({ version }) => {
   const physical = version?.physical;
@@ -71,9 +53,11 @@ export const PhysicalVersionView = ({ version }) => {
         xs={6}
         lg={3}
       >
-        <VolumesVersionValue
+        <VersionKeyValue
+          label={<FormattedMessage id="ui-orders.physical.volumes" />}
           name="physical.volumes"
           value={physical?.volumes}
+          multiple
         />
       </Col>
 
@@ -100,11 +84,6 @@ export const PhysicalVersionView = ({ version }) => {
       </Col>
     </Row>
   );
-};
-
-VolumesVersionValue.propTypes = {
-  name: PropTypes.string.isRequired,
-  value: PropTypes.node,
 };
 
 PhysicalVersionView.propTypes = {

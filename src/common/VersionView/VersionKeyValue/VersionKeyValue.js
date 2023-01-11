@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 
 import { KeyValue } from '@folio/stripes/components';
 import { VersionViewContext } from '@folio/stripes-acq-components';
@@ -7,11 +7,16 @@ import { VersionViewContext } from '@folio/stripes-acq-components';
 export const VersionKeyValue = ({
   children,
   label,
+  multiple,
   name,
   value,
 }) => {
   const versionContext = useContext(VersionViewContext);
-  const isUpdated = versionContext?.paths?.includes(name);
+  const isUpdated = useMemo(() => (
+    multiple
+      ? versionContext?.paths?.find((field) => new RegExp(`^${name}\\[\\d\\]$`).test(field))
+      : versionContext?.paths?.includes(name)
+  ), [multiple, name, versionContext?.paths]);
 
   const content = children || value;
   const displayValue = isUpdated ? <mark>{content}</mark> : content;
@@ -25,12 +30,13 @@ export const VersionKeyValue = ({
 };
 
 VersionKeyValue.defaultProps = {
-  marked: false,
+  multiple: false,
 };
 
 VersionKeyValue.propTypes = {
   children: PropTypes.node,
   label: PropTypes.node.isRequired,
+  multiple: PropTypes.bool,
   name: PropTypes.string.isRequired,
   value: PropTypes.node,
 };

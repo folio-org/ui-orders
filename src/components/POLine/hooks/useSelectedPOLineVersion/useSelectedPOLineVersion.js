@@ -57,6 +57,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
       const eresourceAccessProvider = eresource?.accessProvider;
       const physicalMaterialType = physical?.materialType;
       const materialSupplierId = physical?.materialSupplier;
+      const volumes = physical?.volumes || [];
 
       const organizationIds = flow(
         uniq,
@@ -104,6 +105,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
           ...physical,
           materialSupplier: getReferenceFieldValue(materialSupplierId, organizationsMap[materialSupplierId]?.name),
           materialType: getReferenceFieldValue(physicalMaterialType, materialTypesMap[physicalMaterialType]?.name),
+          volumes: volumes.join(', '),
         },
         vendorDetail: {
           ...vendorDetail,
