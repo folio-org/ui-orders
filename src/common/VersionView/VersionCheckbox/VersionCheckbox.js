@@ -1,14 +1,21 @@
 import PropTypes from 'prop-types';
+import { useContext, useMemo } from 'react';
 
 import { Checkbox } from '@folio/stripes/components';
+import { VersionViewContext } from '@folio/stripes-acq-components';
 
 export const VersionCheckbox = ({
   checked,
-  marked,
   label,
+  name,
   ...props
 }) => {
-  const checkboxLabel = marked ? <mark>{label}</mark> : label;
+  const versionContext = useContext(VersionViewContext);
+  const isUpdated = useMemo(() => (
+    versionContext?.paths?.includes(name)
+  ), [name, versionContext?.paths]);
+
+  const checkboxLabel = isUpdated ? <mark>{label}</mark> : label;
 
   return (
     <Checkbox
@@ -23,11 +30,10 @@ export const VersionCheckbox = ({
 
 VersionCheckbox.defaultProps = {
   checked: false,
-  marked: false,
 };
 
 VersionCheckbox.propTypes = {
   checked: PropTypes.bool,
-  marked: PropTypes.bool,
   label: PropTypes.node.isRequired,
+  name: PropTypes.string.isRequired,
 };

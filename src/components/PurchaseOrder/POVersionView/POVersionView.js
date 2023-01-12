@@ -3,7 +3,10 @@ import { memo, useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
-import { VersionHistoryPane } from '@folio/stripes-acq-components';
+import {
+  VersionHistoryPane,
+  VersionViewContextProvider,
+} from '@folio/stripes-acq-components';
 
 import { VersionView } from '../../../common';
 import { ORDERS_ROUTE } from '../../../common/constants';
@@ -57,7 +60,11 @@ const POVersionView = ({
   const isVersionLoading = isOrderLoading || isHistoryLoading || isPOVersionLoading;
 
   return (
-    <>
+    <VersionViewContextProvider
+      snapshotPath={snapshotPath}
+      versions={versions}
+      versionId={versionId}
+    >
       <VersionView
         id="order"
         dismissible
@@ -70,6 +77,7 @@ const POVersionView = ({
           version={selectedVersion}
         />
       </VersionView>
+
       <VersionHistoryPane
         currentVersion={versionId}
         id="order"
@@ -80,7 +88,7 @@ const POVersionView = ({
         labelsMap={getPoFieldsLabelMap()}
         versions={versions}
       />
-    </>
+    </VersionViewContextProvider>
   );
 };
 

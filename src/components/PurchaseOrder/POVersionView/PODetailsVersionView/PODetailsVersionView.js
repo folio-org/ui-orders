@@ -61,6 +61,7 @@ export const PODetailsVersionView = ({ version }) => {
             name="acqUnitIds"
             label={<FormattedMessage id="stripes-acq-components.label.acqUnits" />}
             value={version?.acqUnits}
+            multiple
           />
         </Col>
       </Row>

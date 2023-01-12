@@ -104,6 +104,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
           ...physical,
           materialSupplier: getReferenceFieldValue(materialSupplierId, organizationsMap[materialSupplierId]?.name),
           materialType: getReferenceFieldValue(physicalMaterialType, materialTypesMap[physicalMaterialType]?.name),
+          volumes: physical?.volumes?.join(', '),
         },
         vendorDetail: {
           ...vendorDetail,
