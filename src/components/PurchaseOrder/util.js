@@ -100,6 +100,7 @@ export const getPoFieldsLabelMap = () => {
     'notes[\\d]': 'ui-orders.orderDetails.note',
 
     // Ongoing fields
+    'ongoing': 'ui-orders.line.accordion.ongoingOrder',
     'ongoing.isSubscription': 'ui-orders.renewals.subscription',
     'ongoing.interval': 'ui-orders.renewals.renewalInterval',
     'ongoing.renewalDate': 'ui-orders.renewals.renewalDate',

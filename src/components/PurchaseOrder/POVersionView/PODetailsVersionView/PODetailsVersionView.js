@@ -115,7 +115,7 @@ export const PODetailsVersionView = ({ version }) => {
           lg={3}
         >
           <VersionCheckbox
-            name="manualPO"
+            name="manualPo"
             label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
             checked={version?.manualPO}
           />
