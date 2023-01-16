@@ -810,6 +810,8 @@
   "poLine": "PO line",
   "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}",
 
+  "versionHistory.updatedByUserId": "Updated by",
+
   "permission.orders.view": "Orders: Can view Orders and Order lines",
   "permission.orders.create": "Orders: Can create new Orders and Order lines",
   "permission.orders.edit": "Orders: Can edit Orders and Order lines",
