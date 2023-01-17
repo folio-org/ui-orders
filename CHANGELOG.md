@@ -15,6 +15,7 @@
 * Display selected version in PO view. Refs UIOR-1057.
 * Show in version history record view, which fields have been edited. Refs UIOR-860.
 * Removed unneeded `react-redux`. Refs UIOR-1064.
+* Support `inventory` interface version `13.0`. Refs UIOR-1058.
 
 ## [3.3.2](https://github.com/folio-org/ui-orders/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.1...v3.3.2)
