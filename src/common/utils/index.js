@@ -10,6 +10,7 @@ export * from './getOrganizationsByIds';
 export * from './getLocations';
 export * from './getMaterialTypes';
 export * from './getUserNameById';
+export * from './getVersionMetadata';
 export * from './getExportAccountNumbers';
 export * from './getRecordMap';
 export * from './getTenantAddresses';

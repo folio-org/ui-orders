@@ -17,6 +17,7 @@
 * Removed unneeded `react-redux`. Refs UIOR-1064.
 * Align the module with API breaking change. Refs UIOR-1058.
 * Map missed error codes with new translations. Refs UIOR-1054.
+* Align the `Created by` and `Created on` fields with BE changes. Refs UIOR-1065.
 
 ## [3.3.2](https://github.com/folio-org/ui-orders/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.1...v3.3.2)
