@@ -799,5 +799,9 @@
     "settings.acquisitionMethods.deleteEntry": "删除采购方式",
     "settings.acquisitionMethods.termDeleted": "采购方式<b>{term} </b>已成功<b>删除</b>",
     "settings.acquisitionMethods.termWillBeDeleted": "采购方式<b>{term} </b>将被<b>删除。 </b>",
-    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status"
+    "errors.poLineHasRelatedApprovedInvoice": "无法更改采购订单行经费分配，因为订单行链接到当前处于“已批准”状态的发票行",
+    "breakInstanceConnection.modal.heading": "移除实例连接",
+    "breakInstanceConnection.modal.message": "进行此更改将删除订单行和选定典藏实例之间的链接。确定要继续进行此更改并取消此订单行与典藏实例“ <b> {titleOrPackage} </b> ”的链接吗？",
+    "orderDetails.approvedBy": "Approved by",
+    "versionHistory.updatedByUserId": "Updated by"
 }

@@ -799,5 +799,9 @@
     "settings.acquisitionMethods.deleteEntry": "수서 방법 삭제",
     "settings.acquisitionMethods.termDeleted": "수서 방법 <b> {term} </b> 이(가) 성공적으로 <b> 삭제되었습니다 </b>",
     "settings.acquisitionMethods.termWillBeDeleted": "수서 방법 <b> {term} </b> 이 <b> 삭제됩니다. </b>",
-    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status"
+    "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status",
+    "breakInstanceConnection.modal.heading": "Remove instance connection",
+    "breakInstanceConnection.modal.message": "Making this change will remove the link between the POL and selected inventory instance. Are you sure you would like to proceed with making this change and unlink this POL from the inventory instance \"<b>{titleOrPackage}</b>\"?",
+    "orderDetails.approvedBy": "Approved by",
+    "versionHistory.updatedByUserId": "Updated by"
 }

@@ -799,5 +799,9 @@
     "settings.acquisitionMethods.deleteEntry": "Delete acquisition method",
     "settings.acquisitionMethods.termDeleted": "The acquisition method <b>{term}</b> was successfully <b>deleted</b>",
     "settings.acquisitionMethods.termWillBeDeleted": "The acquisition method <b>{term}</b> will be <b>deleted.</b>",
-    "errors.poLineHasRelatedApprovedInvoice": "La línea de pedido se refiere a una factura aprobada en el ejercicio fiscal en curso"
+    "errors.poLineHasRelatedApprovedInvoice": "La línea de pedido se refiere a una factura aprobada en el ejercicio fiscal en curso",
+    "breakInstanceConnection.modal.heading": "Remove instance connection",
+    "breakInstanceConnection.modal.message": "Making this change will remove the link between the POL and selected inventory instance. Are you sure you would like to proceed with making this change and unlink this POL from the inventory instance \"<b>{titleOrPackage}</b>\"?",
+    "orderDetails.approvedBy": "Approved by",
+    "versionHistory.updatedByUserId": "Updated by"
 }
