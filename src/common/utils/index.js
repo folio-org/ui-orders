@@ -4,6 +4,7 @@ export * from './getFundOptions';
 export * from './getSettingsList';
 export * from './getAddresses';
 export * from './getAddressOptions';
+export * from './getCommonErrorMessage';
 export { default as getCreateInventorySetting } from './getCreateInventorySetting';
 export * from './getOrganizationsByIds';
 export * from './getLocations';
