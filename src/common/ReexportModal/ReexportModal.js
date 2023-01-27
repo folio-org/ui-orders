@@ -9,6 +9,7 @@ import {
   ModalFooter,
 } from '@folio/stripes/components';
 import {
+  getErrorCodeFromResponse,
   useOrganization,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -16,6 +17,7 @@ import {
 import { REEXPORT_SOURCES } from '../constants';
 import { useReexport } from '../hooks';
 import { ExportDetailsList } from '../ExportDetailsList';
+import { getCommonErrorMessage } from '../utils';
 
 export const ReexportModal = ({
   exportHistory,
@@ -55,14 +57,19 @@ export const ReexportModal = ({
           messageId: `ui-orders.reexport.${source}.success`,
         });
       })
-      .catch(() => {
+      .catch(async (e) => {
+        const errorCode = await getErrorCodeFromResponse(e.response);
+        const defaultMessage = intl.formatMessage({ id: `ui-orders.reexport.${source}.fail` });
+        const message = getCommonErrorMessage(errorCode, defaultMessage);
+
         showCallout({
-          messageId: `ui-orders.reexport.${source}.fail`,
+          message,
           type: 'error',
         });
       })
       .finally(onConfirm);
   }, [
+    intl,
     onConfirm,
     poLines,
     reExport,
