@@ -3,9 +3,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
+import { getCommonErrorMessage } from '../../../common/utils';
 import OrderTemplatesEditorContainer from './OrderTemplatesEditorContainer';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
+jest.mock('../../../common/utils', () => ({
+  ...jest.requireActual('../../../common/utils'),
+  getCommonErrorMessage: jest.fn(),
+}));
 jest.mock('./OrderTemplatesEditor', () => jest.fn().mockReturnValue('OrderTemplatesEditor'));
 
 const defaultProps = {
@@ -97,5 +102,21 @@ describe('OrderTemplatesEditorContainer', () => {
     await waitFor(() => OrderTemplatesEditor.mock.calls[0][0].onSubmit());
 
     expect(defaultProps.mutator.orderTemplate.POST).toHaveBeenCalled();
+  });
+
+  describe('OrderTemplatesEditorContainer error handling', () => {
+    beforeEach(() => {
+      getCommonErrorMessage.mockClear();
+    });
+
+    it('should handle error on save template', async () => {
+      defaultProps.mutator.orderTemplate.POST.mockRejectedValue();
+
+      renderOrderTemplatesEditorContainer();
+
+      await waitFor(() => OrderTemplatesEditor.mock.calls[0][0].onSubmit());
+
+      expect(getCommonErrorMessage).toHaveBeenCalled();
+    });
   });
 });
