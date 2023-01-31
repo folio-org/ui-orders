@@ -10,6 +10,7 @@ import {
 } from '@folio/stripes/core';
 import {
   baseManifest,
+  getErrorCodeFromResponse,
   LIMIT_MAX,
   handleKeyCommand,
   RECEIPT_STATUS,
@@ -69,6 +70,7 @@ import {
 } from '../../common/resources';
 import {
   getAddresses,
+  getCommonErrorMessage,
   getExportAccountNumbers,
 } from '../../common/utils';
 import {
@@ -209,12 +211,17 @@ const PO = ({
   const fetchOrder = useCallback(
     () => Promise.all([
       mutator.orderDetails.GET()
-        .catch((response) => {
-          const isGeneralError = response.message?.indexOf('Operator failed: CurrencyConversion') === -1;
-          const errorKey = isGeneralError ? 'orderNotLoaded' : 'conversionError';
+        .catch(async (errorResponse) => {
+          const isConversionError = errorResponse?.message && errorResponse.message?.indexOf('Operator failed: CurrencyConversion') !== -1;
+
+          const errorCode = isConversionError
+            ? 'conversionError'
+            : await getErrorCodeFromResponse(errorResponse);
+          const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderNotLoaded' });
+          const message = getCommonErrorMessage(errorCode, defaultMessage);
 
           sendCallout({
-            message: <FormattedMessage id={`ui-orders.errors.${errorKey}`} />,
+            message,
             type: 'error',
           });
 
@@ -233,9 +240,13 @@ const PO = ({
           limit: LIMIT_MAX,
         },
       })
-        .catch(() => {
+        .catch(async (errorResponse) => {
+          const errorCode = await getErrorCodeFromResponse(errorResponse);
+          const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderLinesNotLoaded' });
+          const message = getCommonErrorMessage(errorCode, defaultMessage);
+
           sendCallout({
-            message: <FormattedMessage id="ui-orders.errors.orderLinesNotLoaded" />,
+            message,
             type: 'error',
           });
 
@@ -331,9 +342,13 @@ const PO = ({
             search: location.search,
           });
         })
-        .catch(() => {
+        .catch(async (errorResponse) => {
+          const errorCode = await getErrorCodeFromResponse(errorResponse);
+          const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderWasNotDeleted' });
+          const message = getCommonErrorMessage(errorCode, defaultMessage);
+
           sendCallout({
-            message: <FormattedMessage id="ui-orders.errors.orderWasNotDeleted" />,
+            message,
             type: 'error',
           });
           setIsLoading();

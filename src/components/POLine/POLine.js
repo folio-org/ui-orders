@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { LoadingPane } from '@folio/stripes/components';
 import {
@@ -9,6 +9,7 @@ import {
 } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
+  getErrorCodeFromResponse,
   LINES_API,
   Tags,
   useModalToggle,
@@ -19,6 +20,7 @@ import {
   useOrder,
   useOrderTemplate,
 } from '../../common/hooks';
+import { getCommonErrorMessage } from '../../common/utils';
 import {
   CONTRIBUTOR_NAME_TYPES,
   FUND,
@@ -37,6 +39,7 @@ function POLine({
   poURL,
   resources,
 }) {
+  const intl = useIntl();
   const sendCallout = useShowCallout();
   const [isTagsPaneOpened, toggleTagsPane] = useModalToggle();
   const { isLoading: isLoadingOrder, order } = useOrder(orderId);
@@ -46,9 +49,13 @@ function POLine({
 
   const fetchOrderLine = useCallback(
     () => mutator.poLine.GET({ params: { query: `id==${lineId}` } })
-      .catch(() => {
+      .catch(async (errorResponse) => {
+        const errorCode = await getErrorCodeFromResponse(errorResponse);
+        const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderLinesNotLoaded' });
+        const message = getCommonErrorMessage(errorCode, defaultMessage);
+
         sendCallout({
-          message: <FormattedMessage id="ui-orders.errors.orderLinesNotLoaded" />,
+          message,
           type: 'error',
         });
 
@@ -57,7 +64,7 @@ function POLine({
       .then((lines) => {
         setLine(lines?.[0] || {});
       }),
-    [lineId, sendCallout],
+    [intl, lineId, mutator.poLine, sendCallout],
   );
 
   useEffect(
@@ -87,31 +94,18 @@ function POLine({
           });
         })
         .catch(async errorResponse => {
+          const errorCode = await getErrorCodeFromResponse(errorResponse);
+          const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.lineWasNotDeleted' });
+          const message = getCommonErrorMessage(errorCode, defaultMessage);
+
           setIsLoading();
           sendCallout({
-            message: <FormattedMessage id="ui-orders.errors.lineWasNotDeleted" />,
+            message,
             type: 'error',
           });
-
-          let message = null;
-
-          try {
-            const response = await errorResponse.json();
-
-            message = response.errors[0].message;
-            // eslint-disable-next-line no-empty
-          } catch (e) {}
-
-          if (message) {
-            sendCallout({
-              message,
-              timeout: 0,
-              type: 'error',
-            });
-          }
         });
     },
-    [history, line, poURL, search, sendCallout],
+    [history, intl, line, mutator.poLine, poURL, search, sendCallout],
   );
 
   const cancelLine = useCallback(
@@ -129,16 +123,20 @@ function POLine({
 
           return fetchOrderLine();
         })
-        .catch(() => {
+        .catch(async (errorResponse) => {
+          const errorCode = await getErrorCodeFromResponse(errorResponse);
+          const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.lineWasNotCancelled' });
+          const message = getCommonErrorMessage(errorCode, defaultMessage);
+
           setIsLoading();
           sendCallout({
-            message: <FormattedMessage id="ui-orders.errors.lineWasNotCancelled" />,
+            message,
             type: 'error',
           });
         })
         .finally(setIsLoading);
     },
-    [fetchOrderLine, line, sendCallout],
+    [fetchOrderLine, intl, line, mutator.poLine, sendCallout],
   );
 
   const backToOrder = useCallback(
