@@ -9,6 +9,7 @@ import { getFullName } from '@folio/stripes/util';
 import {
   ACQUISITIONS_UNITS_API,
   CONFIG_API,
+  ORDERS_API,
   useUsersBatch,
   VENDORS_API,
 } from '@folio/stripes-acq-components';
@@ -45,6 +46,9 @@ const kyMock = {
       }
       if (url.startsWith(VENDORS_API)) {
         return { organizations: [vendor] };
+      }
+      if (url.startsWith(ORDERS_API)) {
+        return { ...order };
       }
 
       return {};
