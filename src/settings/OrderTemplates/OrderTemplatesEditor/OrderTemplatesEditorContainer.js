@@ -2,13 +2,14 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
+  getErrorCodeFromResponse,
   prefixesResource,
   suffixesResource,
   useShowCallout,
@@ -33,6 +34,7 @@ import {
   getCreateInventorySetting,
   getAddresses,
   getAddressOptions,
+  getCommonErrorMessage,
 } from '../../../common/utils';
 import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
 
@@ -41,6 +43,7 @@ import OrderTemplatesEditor from './OrderTemplatesEditor';
 const INITIAL_VALUES = { isPackage: false, hideAll: false };
 
 function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
+  const intl = useIntl();
   const showToast = useShowCallout();
   const saveOrderTemplate = useCallback((values) => {
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplate.POST;
@@ -50,14 +53,18 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
         showToast({ messageId: 'ui-orders.settings.orderTemplates.save.success' });
         close();
       })
-      .catch(() => {
+      .catch(async (errorResponse) => {
+        const errorCode = await getErrorCodeFromResponse(errorResponse);
+        const defaultMessage = intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.save.error' });
+        const message = getCommonErrorMessage(errorCode, defaultMessage);
+
         showToast({
-          messageId: 'ui-orders.settings.orderTemplates.save.error',
+          message,
           type: 'error',
         });
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [close, id, showToast]);
+  }, [close, id, intl, showToast]);
 
   const locations = resources?.locations?.records;
   const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);

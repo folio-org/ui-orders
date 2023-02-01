@@ -4,7 +4,12 @@ import { MemoryRouter } from 'react-router';
 
 import OrderTemplateViewContainer from './OrderTemplateViewContainer';
 import OrderTemplateView from './OrderTemplateView';
+import { getCommonErrorMessage } from '../../../common/utils';
 
+jest.mock('../../../common/utils', () => ({
+  ...jest.requireActual('../../../common/utils'),
+  getCommonErrorMessage: jest.fn(),
+}));
 jest.mock('./OrderTemplateView', () => jest.fn().mockReturnValue('OrderTemplateView'));
 
 const defaultProps = {
@@ -42,5 +47,21 @@ describe('OrderTemplateViewContainer', () => {
     await waitFor(() => OrderTemplateView.mock.calls[0][0].onDelete());
 
     expect(defaultProps.mutator.orderTemplate.DELETE).toHaveBeenCalled();
+  });
+
+  describe('OrderTemplateViewContainer error handling', () => {
+    beforeEach(() => {
+      getCommonErrorMessage.mockClear();
+    });
+
+    it('should handle error on delete template', async () => {
+      defaultProps.mutator.orderTemplate.DELETE.mockRejectedValue();
+
+      renderOrderTemplateViewContainer();
+
+      await waitFor(() => OrderTemplateView.mock.calls[0][0].onDelete());
+
+      expect(getCommonErrorMessage).toHaveBeenCalled();
+    });
   });
 });

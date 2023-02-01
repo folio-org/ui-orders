@@ -9,17 +9,22 @@ import {
   uniq,
 } from 'lodash/fp';
 
-import { getFullName } from '@folio/stripes/util';
-import { getAddresses, useUsersBatch } from '@folio/stripes-acq-components';
-
 import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
+import { getFullName } from '@folio/stripes/util';
+import {
+  getAddresses,
+  useUsersBatch,
+} from '@folio/stripes-acq-components';
+
+import { useOrder } from '../../../../common/hooks';
 import {
   getAcqUnitsByIds,
   getOrganizationsByIds,
   getTenantAddresses,
+  getVersionMetadata,
 } from '../../../../common/utils';
 
 const getUniqItems = (arr) => (
@@ -35,21 +40,36 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
   const [namespace] = useNamespace({ key: 'order-version-data' });
 
   const deletedRecordLabel = intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
+  const currentVersion = useMemo(() => (
+    versions?.find(({ id }) => id === versionId)
+  ), [versionId, versions]);
   const versionSnapshot = useMemo(() => (
-    get(snapshotPath, versions?.find(({ id }) => id === versionId))
-  ), [snapshotPath, versionId, versions]);
+    get(snapshotPath, currentVersion)
+  ), [snapshotPath, currentVersion]);
 
+  const {
+    order,
+    isLoading: isOrderLoading,
+  } = useOrder(currentVersion?.orderId);
+
+  const metadata = useMemo(() => getVersionMetadata(currentVersion, order), [currentVersion, order]);
   const assignedToId = versionSnapshot?.assignedTo;
-  const createdByUserId = versionSnapshot?.metadata?.createdByUserId;
+  const createdByUserId = metadata?.createdByUserId;
   const vendorId = versionSnapshot?.vendor;
   const billToId = versionSnapshot?.billTo;
   const shipToId = versionSnapshot?.shipTo;
 
-  const versionUserIds = getUniqItems([assignedToId, createdByUserId]);
-  const { users, isLoading: isUsersLoading } = useUsersBatch(versionUserIds);
+  const versionUserIds = useMemo(() => getUniqItems([assignedToId, createdByUserId]), [assignedToId, createdByUserId]);
+  const {
+    users,
+    isLoading: isUsersLoading,
+  } = useUsersBatch(versionUserIds);
   const versionUsersMap = keyBy('id', users);
 
-  const { isLoading, data: selectedVersion = {} } = useQuery(
+  const {
+    isLoading: isVersionDataLoading,
+    data: selectedVersion = {},
+  } = useQuery(
     [namespace, versionId, versionSnapshot?.id],
     async () => {
       const organizationIds = [vendorId];
@@ -83,12 +103,24 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
         createdByUser: createdByUserId && createdByUser,
         billTo: billToId && (addressesMap[billToId]?.address || deletedRecordLabel),
         shipTo: shipToId && (addressesMap[shipToId]?.address || deletedRecordLabel),
+        metadata,
       };
     },
     {
-      enabled: Boolean(versionId && !isUsersLoading),
+      enabled: Boolean(
+        versionId
+        && order?.id
+        && !isOrderLoading
+        && !isUsersLoading,
+      ),
       ...options,
     },
+  );
+
+  const isLoading = (
+    isOrderLoading
+    || isUsersLoading
+    || isVersionDataLoading
   );
 
   return {

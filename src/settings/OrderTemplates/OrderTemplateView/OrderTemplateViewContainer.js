@@ -2,14 +2,18 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { useShowCallout } from '@folio/stripes-acq-components';
+import {
+  getErrorCodeFromResponse,
+  useShowCallout,
+} from '@folio/stripes-acq-components';
 
 import {
   getAddresses,
+  getCommonErrorMessage,
 } from '../../../common/utils';
 import {
   ADDRESSES,
@@ -29,6 +33,7 @@ function OrderTemplateViewContainer({
   stripes,
   history,
 }) {
+  const intl = useIntl();
   const sendCallout = useShowCallout();
   const onDeleteOrderTemplate = useCallback(
     async () => {
@@ -36,9 +41,13 @@ function OrderTemplateViewContainer({
         await mutator.orderTemplate.DELETE({ id });
         close();
         showSuccessDeleteMessage();
-      } catch (e) {
+      } catch (errorResponse) {
+        const errorCode = await getErrorCodeFromResponse(errorResponse);
+        const defaultMessage = intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.remove.error' });
+        const message = getCommonErrorMessage(errorCode, defaultMessage);
+
         sendCallout({
-          message: <FormattedMessage id="ui-orders.settings.orderTemplates.remove.error" />,
+          message,
           type: 'error',
         });
       }

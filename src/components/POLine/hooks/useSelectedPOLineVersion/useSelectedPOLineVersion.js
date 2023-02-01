@@ -18,6 +18,7 @@ import {
   getLocations,
   getMaterialTypes,
   getOrganizationsByIds,
+  getVersionMetadata,
 } from '../../../../common/utils';
 import {
   useAcqMethods,
@@ -33,17 +34,36 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
   const deletedRecordLabel = intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
   const getReferenceFieldValue = (condition, value) => condition && (value || deletedRecordLabel);
 
+  const currentVersion = useMemo(() => (
+    versions?.find(({ id }) => id === versionId)
+  ), [versionId, versions]);
   const versionSnapshot = useMemo(() => (
-    get(snapshotPath, versions?.find(({ id }) => id === versionId))
-  ), [snapshotPath, versionId, versions]);
+    get(snapshotPath, currentVersion)
+  ), [snapshotPath, currentVersion]);
 
   const linkedPackagePoLineId = versionSnapshot?.packagePoLineId;
 
-  const { order, isLoading: isOrderLoading } = useOrder(versionSnapshot?.purchaseOrderId);
-  const { orderLine, isLoading: isOrderLineLoading } = useOrderLine(linkedPackagePoLineId);
-  const { acqMethods, isLoading: isAcqMethodsLoading } = useAcqMethods();
+  const {
+    order,
+    isLoading: isOrderLoading,
+  } = useOrder(currentVersion?.orderId);
+  const {
+    orderLine,
+    isLoading: isOrderLineLoading,
+  } = useOrderLine(currentVersion?.orderLineId);
+  const {
+    orderLine: linkedOrderLine,
+    isLoading: isLinkedOrderLineLoading,
+  } = useOrderLine(linkedPackagePoLineId);
+  const {
+    acqMethods,
+    isLoading: isAcqMethodsLoading,
+  } = useAcqMethods();
 
-  const { isLoading, data: selectedVersion = {} } = useQuery(
+  const {
+    isLoading: isVersionDataLoading,
+    data: selectedVersion = {},
+  } = useQuery(
     [namespace, versionId, versionSnapshot?.id],
     async () => {
       const accessProviderId = versionSnapshot?.accessProvider;
@@ -90,7 +110,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
         acquisitionMethod: (
           acqMethods.find(({ id }) => id === versionSnapshot?.acquisitionMethod)?.value || deletedRecordLabel
         ),
-        packagePoLineId: getReferenceFieldValue(linkedPackagePoLineId, orderLine?.titleOrPackage),
+        packagePoLineId: getReferenceFieldValue(linkedPackagePoLineId, linkedOrderLine?.titleOrPackage),
         accessProvider: getReferenceFieldValue(accessProviderId, organizationsMap[accessProviderId]?.name),
         eresource: eresource && {
           ...eresource,
@@ -112,6 +132,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
             vendorAccount ? `${vendorAccount.name} (${vendorAccount.accountNo})` : accountNumber
           ),
         },
+        metadata: getVersionMetadata(currentVersion, orderLine),
       };
     },
     {
@@ -119,10 +140,19 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
         versionId
         && !isOrderLoading
         && !isOrderLineLoading
+        && !isLinkedOrderLineLoading
         && !isAcqMethodsLoading,
       ),
       ...options,
     },
+  );
+
+  const isLoading = (
+    isOrderLoading
+    || isOrderLineLoading
+    || isLinkedOrderLineLoading
+    || isAcqMethodsLoading
+    || isVersionDataLoading
   );
 
   return {

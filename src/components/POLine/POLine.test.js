@@ -98,7 +98,7 @@ describe('POLine actions', () => {
     POLineView.mockClear();
     history.push.mockClear();
     defaultProps.mutator.lineOrder.GET.mockClear();
-    defaultProps.mutator.poLine.GET.mockClear();
+    defaultProps.mutator.poLine.GET.mockClear().mockResolvedValue([orderLine]);
     defaultProps.mutator.poLine.PUT.mockClear();
     defaultProps.mutator.poLine.DELETE.mockClear();
   });
@@ -115,16 +115,6 @@ describe('POLine actions', () => {
   });
 
   it('should delete POLine', async () => {
-    renderPOLine();
-
-    await waitFor(() => POLineView.mock.calls[0][0].deleteLine());
-
-    expect(defaultProps.mutator.poLine.DELETE).toHaveBeenCalled();
-  });
-
-  it('should handle error on delete', async () => {
-    defaultProps.mutator.poLine.DELETE.mockRejectedValue();
-
     renderPOLine();
 
     await waitFor(() => POLineView.mock.calls[0][0].deleteLine());
@@ -163,5 +153,35 @@ describe('POLine actions', () => {
     await waitFor(() => Tags.mock.calls[0][0].putMutator());
 
     expect(defaultProps.mutator.poLine.PUT).toHaveBeenCalled();
+  });
+
+  describe('POLine actions error handling', () => {
+    it('should handle error on order line loading', async () => {
+      defaultProps.mutator.poLine.GET.mockRejectedValue();
+
+      renderPOLine();
+
+      expect(defaultProps.mutator.poLine.GET).toHaveBeenCalled();
+    });
+
+    it('should handle error on delete', async () => {
+      defaultProps.mutator.poLine.DELETE.mockRejectedValue();
+
+      renderPOLine();
+
+      await waitFor(() => POLineView.mock.calls[0][0].deleteLine());
+
+      expect(defaultProps.mutator.poLine.DELETE).toHaveBeenCalled();
+    });
+
+    it('should handle error on line cancellation', async () => {
+      defaultProps.mutator.poLine.PUT.mockRejectedValue();
+
+      renderPOLine();
+
+      await waitFor(() => POLineView.mock.calls[0][0].cancelLine());
+
+      expect(defaultProps.mutator.poLine.PUT).toHaveBeenCalled();
+    });
   });
 });
