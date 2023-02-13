@@ -19,6 +19,8 @@
 * Map missed error codes with new translations. Refs UIOR-1054.
 * Align the `Created by` and `Created on` fields with BE changes. Refs UIOR-1065.
 * *BREAKING*: Update `@folio/stripes` to `8.0.0`. Refs UIOR-1062.
+* Display correct value for `Manual` checkbox in Order version history view. Refs UIOR-1070.
+* Use proper date formatting for "Approval date" value. Refs UIOR-1071.
 
 ## [3.3.2](https://github.com/folio-org/ui-orders/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.1...v3.3.2)

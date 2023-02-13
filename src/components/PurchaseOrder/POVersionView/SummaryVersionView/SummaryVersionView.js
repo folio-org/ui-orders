@@ -11,6 +11,7 @@ import {
   ORDER_STATUS_LABEL,
 } from '@folio/stripes-acq-components';
 
+import { DEFAULT_CLOSE_ORDER_REASONS } from '../../../../common/constants';
 import {
   VersionCheckbox,
   VersionKeyValue,
@@ -103,14 +104,19 @@ export const SummaryVersionView = ({ version }) => {
             <VersionKeyValue
               name="closeReason.reason"
               label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
-              value={<AmountWithCurrencyField amount={version?.closeReason?.reason} />}
+              value={(
+                <FormattedMessage
+                  id={`ui-orders.closeOrderModal.closingReasons.${DEFAULT_CLOSE_ORDER_REASONS[version?.closeReason?.reason]}`}
+                  defaultMessage={version?.closeReason?.reason}
+                />
+              )}
             />
           </Col>
           <Col xs={6}>
             <VersionKeyValue
               name="closeReason.note"
               label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
-              value={<AmountWithCurrencyField amount={version?.closeReason?.note} />}
+              value={version?.closeReason?.note}
             />
           </Col>
         </Row>

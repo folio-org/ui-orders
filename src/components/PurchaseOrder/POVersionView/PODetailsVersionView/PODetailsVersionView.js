@@ -74,7 +74,7 @@ export const PODetailsVersionView = ({ version }) => {
           <VersionKeyValue
             name="approvalDate"
             label={<FormattedMessage id="ui-orders.orderDetails.approvalDate" />}
-            value={version?.approvalDate}
+            value={<FolioFormattedTime dateString={version?.approvalDate} />}
           />
         </Col>
         <Col
@@ -117,7 +117,7 @@ export const PODetailsVersionView = ({ version }) => {
           <VersionCheckbox
             name="manualPo"
             label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
-            checked={version?.manualPO}
+            checked={version?.manualPo}
           />
         </Col>
         <Col
