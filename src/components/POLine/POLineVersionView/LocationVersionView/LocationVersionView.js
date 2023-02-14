@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext } from 'react';
 
-import { KeyValue } from '@folio/stripes/components';
 import {
-  getHighlightedFields,
+  KeyValue,
+  NoValue,
+} from '@folio/stripes/components';
+import {
   VersionViewContext,
 } from '@folio/stripes-acq-components';
 
@@ -17,17 +19,9 @@ export const LocationVersionView = ({ version }) => {
   const locations = version?.locations;
   const locationsList = version?.locationsList;
 
-  const highlights = useMemo(() => (
-    getHighlightedFields({
-      changes: versionContext?.changes,
-      fieldNames: ['locationId', 'holdingId', 'quantityPhysical', 'quantityElectronic'],
-      name: LOCATIONS_NAME,
-    })
-  ), [versionContext?.changes]);
-
   const renderKeyValueComponent = useCallback(({ name, value, ...props }) => {
-    const isUpdated = highlights?.includes(name);
-    const displayValue = isUpdated ? <mark>{value}</mark> : value;
+    const isUpdated = versionContext?.paths?.includes(name);
+    const displayValue = isUpdated ? <mark>{value || <NoValue />}</mark> : value;
 
     return (
       <KeyValue
@@ -35,7 +29,7 @@ export const LocationVersionView = ({ version }) => {
         value={displayValue}
       />
     );
-  }, [highlights]);
+  }, [versionContext?.paths]);
 
   return (
     <LocationView

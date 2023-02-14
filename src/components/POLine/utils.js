@@ -203,6 +203,6 @@ export const getPoLineFieldsLabelMap = ({
     'eresource.trial': 'ui-orders.eresource.trial',
     'eresource.expectedActivation': 'ui-orders.eresource.expectedActivation',
     'eresource.userLimit': 'ui-orders.eresource.userLimit',
-    'eresource.url': 'ui-orders.eresource.url',
+    'eresource.resourceUrl': 'ui-orders.eresource.url',
   };
 };
