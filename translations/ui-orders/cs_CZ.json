@@ -805,7 +805,7 @@
     "orderDetails.approvedBy": "Schváleno",
     "versionHistory.updatedByUserId": "Aktualizoval",
     "errors.currentFYearIdNotFound": "Pro řádek NO nebyl nalezen aktuální fiskální rok",
-    "errors.errorRemovingInvoiceLineEncumbrances": "Chyba při odstraňování odkazů na břemena řádků faktur po odstranění břemen",
+    "errors.errorRemovingInvoiceLineEncumbrances": "Chyba při odstraňování propojení na břemena řádků faktur po odstranění břemen",
     "errors.errorRetrievingPoLines": "Chyba při načítání řádků nákupní objednávky z úložiště",
     "errors.errorRetrievingTransactions": "Chyba při načítání transakcí z úložiště",
     "errors.forbiddenDeleteSystemValues": "Nelze smazat systémové hodnoty",
@@ -824,7 +824,7 @@
     "errors.prefixNotFound": "Předpona není k dispozici",
     "errors.suffixIsUsed": "Příponu nelze smazat, protože ji používá jedna nebo více objednávek",
     "errors.suffixNotFound": "Přípona není k dispozici",
-    "errors.titleNotFound": "Tituly příjmu nebyly nalezeny",
+    "errors.titleNotFound": "Názvy příjmu nebyly nalezeny",
     "errors.userHasNoOrderReopenPermission": "Uživatel nemá oprávnění k opětovnému otevření objednávky - operace je omezena",
     "errors.userHasNoOrderUnopenPermission": "Uživatel nemá oprávnění zrušit objednávku - operace je omezena"
 }
