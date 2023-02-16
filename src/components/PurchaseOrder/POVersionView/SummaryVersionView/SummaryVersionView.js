@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
+  NoValue,
   Row,
 } from '@folio/stripes/components';
 import {
@@ -11,10 +12,22 @@ import {
   ORDER_STATUS_LABEL,
 } from '@folio/stripes-acq-components';
 
+import { DEFAULT_CLOSE_ORDER_REASONS } from '../../../../common/constants';
 import {
   VersionCheckbox,
   VersionKeyValue,
 } from '../../../../common/VersionView';
+
+const getClosingReasonValue = (reason) => {
+  if (!reason) return <NoValue />;
+
+  return (
+    <FormattedMessage
+      id={`ui-orders.closeOrderModal.closingReasons.${DEFAULT_CLOSE_ORDER_REASONS[reason]}`}
+      defaultMessage={reason}
+    />
+  );
+};
 
 export const SummaryVersionView = ({ version }) => {
   return (
@@ -103,14 +116,14 @@ export const SummaryVersionView = ({ version }) => {
             <VersionKeyValue
               name="closeReason.reason"
               label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
-              value={<AmountWithCurrencyField amount={version?.closeReason?.reason} />}
+              value={getClosingReasonValue(version.closeReason?.reason)}
             />
           </Col>
           <Col xs={6}>
             <VersionKeyValue
               name="closeReason.note"
               label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
-              value={<AmountWithCurrencyField amount={version?.closeReason?.note} />}
+              value={version.closeReason?.note}
             />
           </Col>
         </Row>

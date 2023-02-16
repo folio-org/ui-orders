@@ -41,7 +41,7 @@ export const EresourcesVersionView = ({ version }) => {
 
       <Col xs={3}>
         <VersionCheckbox
-          name="eresource.activationStatus"
+          name="eresource.activated"
           checked={eresource?.activated}
           label={<FormattedMessage id="ui-orders.eresource.activationStatus" />}
         />
@@ -97,7 +97,7 @@ export const EresourcesVersionView = ({ version }) => {
 
       <Col xs={3}>
         <VersionKeyValue
-          name="eresource.url"
+          name="eresource.resourceUrl"
           label={<FormattedMessage id="ui-orders.eresource.url" />}
           value={resourceUrl}
         />
