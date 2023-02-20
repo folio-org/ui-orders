@@ -22,6 +22,7 @@
 * Display correct value for `Manual` checkbox on order version history view. Refs UIOR-1070.
 * Use proper date formatting for "Approval date" value. Refs UIOR-1071.
 * Display correct values for `Reason for closure` and `Notes on closure` fields on order version history view. Refs UIOR-1072.
+* Unpin `@rehooks/local-storage` now that it's no longer broken. Refs UIOR-1066.
 
 ## [3.3.2](https://github.com/folio-org/ui-orders/tree/v3.3.2) (2022-11-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.1...v3.3.2)
