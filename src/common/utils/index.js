@@ -1,3 +1,4 @@
+export * from './checkRelatedHoldings';
 export * from './createClearFilterHandler';
 export * from './getAcqUnitsByIds';
 export * from './getFundOptions';

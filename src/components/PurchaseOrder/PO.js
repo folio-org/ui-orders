@@ -13,7 +13,6 @@ import {
   getErrorCodeFromResponse,
   LIMIT_MAX,
   handleKeyCommand,
-  RECEIPT_STATUS,
   Tags,
   TagsBadge,
   useAcqRestrictions,
@@ -100,9 +99,11 @@ import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
 import { LINE_LISTING_COLUMN_MAPPING } from './constants';
 import { getPOActionMenu } from './getPOActionMenu';
+import { useOrderMutation } from './hooks';
 import { OngoingOrderInfoView } from './OngoingOrderInfo';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
+import { UnopenOrderConfirmationModal } from './UnopenOrderConfirmationModal';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 
 const PO = ({
@@ -119,6 +120,7 @@ const PO = ({
   const accordionStatusRef = useRef();
   const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
   const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
+  const { mutateOrder } = useOrderMutation();
 
   const [order, setOrder] = useState({});
   const [orderInvoicesIds, setOrderInvoicesIds] = useState();
@@ -170,17 +172,7 @@ const PO = ({
   const addresses = getAddresses(get(resources, 'addresses.records', []));
   const funds = get(resources, 'fund.records', []);
   const approvalsSetting = get(resources, 'approvalsSetting.records', {});
-  const isReceiptRequired = !(poLines?.every(({ receiptStatus }) => (
-    receiptStatus === RECEIPT_STATUS.receiptNotRequired
-  )));
-  const hasRemovablePieces = isReceiptRequired && poLines?.some(({ cost, checkinItems }) => (
-    !checkinItems
-    && (cost?.quantityPhysical || 0 + cost?.quantityElectronic || 0) > 0
-  ));
-  const unopenOrderModalLabel = intl.formatMessage(
-    { id: 'ui-orders.unopenOrderModal.title' },
-    { orderNumber },
-  );
+
   const deleteOrderModalLabel = intl.formatMessage(
     { id: 'ui-orders.order.delete.heading' },
     { orderNumber },
@@ -492,43 +484,41 @@ const PO = ({
     [order, sendCallout, orderNumber, refreshList, fetchOrder, handleErrorResponse, orderErrorModalShow],
   );
 
-  const unopenOrder = useCallback(
-    () => {
-      const orderProps = {
-        workflowStatus: WORKFLOW_STATUS.pending,
-      };
+  const unopenOrder = useCallback(({ deleteHoldings }) => {
+    const searchParams = { deleteHoldings };
+    const changedData = {
+      workflowStatus: WORKFLOW_STATUS.pending,
+    };
 
-      toggleUnopenOrderModal();
-      setIsLoading(true);
-      updateOrderResource(order, mutator.orderDetails, orderProps)
-        .then(
-          () => {
-            sendCallout({
-              message: <FormattedMessage id="ui-orders.order.unopen.success" values={{ orderNumber }} />,
-              type: 'success',
-            });
-            refreshList();
+    toggleUnopenOrderModal();
+    setIsLoading(true);
+    mutateOrder({ searchParams, order, changedData })
+      .then(
+        () => {
+          sendCallout({
+            message: <FormattedMessage id="ui-orders.order.unopen.success" values={{ orderNumber }} />,
+            type: 'success',
+          });
+          refreshList();
 
-            return fetchOrder();
-          },
-          e => {
-            return handleErrorResponse(e, orderErrorModalShow);
-          },
-        )
-        .finally(setIsLoading);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      toggleUnopenOrderModal,
-      order,
-      sendCallout,
-      orderNumber,
-      refreshList,
-      fetchOrder,
-      handleErrorResponse,
-      orderErrorModalShow,
-    ],
-  );
+          return fetchOrder();
+        },
+        e => {
+          return handleErrorResponse(e, orderErrorModalShow);
+        },
+      )
+      .finally(setIsLoading);
+  }, [
+    fetchOrder,
+    handleErrorResponse,
+    mutateOrder,
+    order,
+    orderErrorModalShow,
+    orderNumber,
+    refreshList,
+    sendCallout,
+    toggleUnopenOrderModal,
+  ]);
 
   const createNewOrder = useCallback(
     () => {
@@ -895,15 +885,10 @@ const PO = ({
           />
         )}
         {isUnopenOrderModalOpened && (
-          <ConfirmationModal
-            aria-label={unopenOrderModalLabel}
-            id="order-unopen-confirmation"
-            confirmLabel={<FormattedMessage id="ui-orders.unopenOrderModal.confirmLabel" />}
-            heading={unopenOrderModalLabel}
-            message={<FormattedMessage id={`ui-orders.unopenOrderModal.message.${hasRemovablePieces ? 'withPieces' : 'withoutPieces'}`} />}
+          <UnopenOrderConfirmationModal
             onCancel={toggleUnopenOrderModal}
             onConfirm={unopenOrder}
-            open
+            compositeOrder={order}
           />
         )}
         {isDeletePiecesOpened && (
