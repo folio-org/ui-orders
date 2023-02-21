@@ -38,7 +38,7 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
   const {
     synchronized: synchronizedPOLines,
     independent: independentPOLines,
-  } = useMemo(() => poLines?.reduce(({ synchronized, independent }, poLine) => {
+  } = useMemo(() => poLines.reduce(({ synchronized, independent }, poLine) => {
     const targetArray = poLine.checkinItems ? independent : synchronized;
 
     targetArray.push(poLine);

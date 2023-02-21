@@ -14,6 +14,8 @@ import {
 
 import { history } from '../../../test/jest/routerMocks';
 import { ORDERS_ROUTE } from '../../common/constants';
+import { useOrderLinesAbandonedHoldingsCheck } from '../../common/hooks';
+import { useOrderMutation } from './hooks';
 import PO from './PO';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/hooks/useAcqRestrictions', () => {
@@ -25,6 +27,14 @@ jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
   expandAllSections: jest.fn(),
   collapseAllSections: jest.fn(),
+}));
+jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
+  useOrderLinesAbandonedHoldingsCheck: jest.fn(() => ({ isFetching: false, result: { type: 'withoutPieces' } })),
+}));
+jest.mock('./hooks', () => ({
+  ...jest.requireActual('./hooks'),
+  useOrderMutation: jest.fn(() => ({ updateOrder: jest.fn(() => Promise.resolve()) })),
 }));
 
 const ORDER = {
@@ -115,6 +125,8 @@ describe('PO', () => {
 });
 
 describe('PO actions', () => {
+  const updateOrder = jest.fn(() => Promise.resolve());
+
   beforeEach(() => {
     defaultProps.mutator.orderDetails.GET.mockClear();
     defaultProps.mutator.orderDetails.POST.mockClear();
@@ -123,6 +135,8 @@ describe('PO actions', () => {
     defaultProps.mutator.orderInvoicesRelns.GET.mockClear();
     defaultProps.mutator.orderLines.GET.mockClear();
     history.push.mockClear();
+    useOrderLinesAbandonedHoldingsCheck.mockClear();
+    useOrderMutation.mockClear().mockReturnValue({ updateOrder });
   });
 
   describe('an open order', () => {
@@ -181,13 +195,19 @@ describe('PO actions', () => {
 
       const unopenBtn = await screen.findByTestId('unopen-order-button');
 
-      user.click(unopenBtn);
+      await act(async () => user.click(unopenBtn));
 
       const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel');
 
-      user.click(confirmBtn);
+      await act(async () => user.click(confirmBtn));
 
-      expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
+      expect(updateOrder).toHaveBeenCalledWith(
+        expect.objectContaining({
+          changedData: expect.objectContaining({
+            workflowStatus: ORDER_STATUSES.pending,
+          }),
+        }),
+      );
     });
 
     it('should update encumbrances when corresponding button was clicked', async () => {

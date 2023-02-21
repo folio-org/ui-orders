@@ -8,14 +8,13 @@ import { updateOrderResource } from '../../../Utils/orderResource';
 export const useOrderMutation = (options = {}) => {
   const ky = useOkapiKy();
 
-  const { mutateAsync: mutateOrder } = useMutation({
+  const { mutateAsync: updateOrder } = useMutation({
     mutationFn: async ({
       searchParams,
       order,
       changedData,
     } = {}) => {
       const mutatorAdapter = {
-        POST: (orderData) => ky.post(ORDERS_API, { json: orderData }),
         PUT: (orderData) => ky.put(`${ORDERS_API}/${orderData.id}`, { searchParams, json: orderData }),
       };
 
@@ -25,6 +24,6 @@ export const useOrderMutation = (options = {}) => {
   });
 
   return {
-    mutateOrder,
+    updateOrder,
   };
 };

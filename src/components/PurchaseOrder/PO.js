@@ -120,7 +120,7 @@ const PO = ({
   const accordionStatusRef = useRef();
   const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
   const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
-  const { mutateOrder } = useOrderMutation();
+  const { updateOrder } = useOrderMutation();
 
   const [order, setOrder] = useState({});
   const [orderInvoicesIds, setOrderInvoicesIds] = useState();
@@ -492,7 +492,7 @@ const PO = ({
 
     toggleUnopenOrderModal();
     setIsLoading(true);
-    mutateOrder({ searchParams, order, changedData })
+    updateOrder({ searchParams, order, changedData })
       .then(
         () => {
           sendCallout({
@@ -511,13 +511,13 @@ const PO = ({
   }, [
     fetchOrder,
     handleErrorResponse,
-    mutateOrder,
     order,
     orderErrorModalShow,
     orderNumber,
     refreshList,
     sendCallout,
     toggleUnopenOrderModal,
+    updateOrder,
   ]);
 
   const createNewOrder = useCallback(

@@ -59,7 +59,7 @@ export const UnopenOrderConfirmationModal = ({
       marginBottom0
       onClick={onCancel}
     >
-      <FormattedMessage id="ui-receiving.piece.actions.cancel" />
+      <FormattedMessage id="stripes-components.cancel" />
     </Button>
   ), [onCancel]);
 
