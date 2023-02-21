@@ -8,18 +8,16 @@ const REQUEST_CHUNK_SIZE = 5;
 
 export const checkSynchronizedPOLinesAbandonedHoldings = (ky) => async (poLines) => {
   const poLinesChunks = chunk(poLines, REQUEST_CHUNK_SIZE);
-  const checkSynchronizedPOLine = checkRelatedHoldings(ky);
 
   const results = await poLinesChunks.reduce(async (acc, poLinesChunk) => {
     const resolvedAcc = await acc;
 
-    const responses = await Promise.all(poLinesChunk.map(checkSynchronizedPOLine));
+    const responses = await Promise.all(poLinesChunk.map(checkRelatedHoldings(ky)));
 
     return [...resolvedAcc, ...responses];
   }, Promise.resolve([]));
 
   return {
-    holdingIds: uniq(results.flatMap(({ holdingIds }) => holdingIds)),
     willAbandoned: results.some(({ willAbandoned }) => Boolean(willAbandoned)),
   };
 };
@@ -27,9 +25,9 @@ export const checkSynchronizedPOLinesAbandonedHoldings = (ky) => async (poLines)
 export const checkIndependentPOLinesAbandonedHoldings = (ky) => async (poLines) => {
   const holdingIds = uniq(
     poLines
-      ?.flatMap(({ locations }) => locations)
-      ?.map(({ holdingId }) => holdingId)
-      ?.filter(Boolean),
+      .flatMap(({ locations }) => locations)
+      .map(({ holdingId }) => holdingId)
+      .filter(Boolean),
   );
 
   const holdingIdsChunks = chunk(holdingIds, REQUEST_CHUNK_SIZE);
@@ -42,10 +40,7 @@ export const checkIndependentPOLinesAbandonedHoldings = (ky) => async (poLines) 
     return [...resolvedAcc, ...responses];
   }, Promise.resolve([]));
 
-  const willAbandoned = results.some(({ piecesCount, itemsCount }) => (piecesCount + itemsCount) === 0);
-
   return {
-    holdingIds,
-    willAbandoned,
+    willAbandoned: results.some(({ piecesCount, itemsCount }) => (piecesCount + itemsCount) === 0),
   };
 };

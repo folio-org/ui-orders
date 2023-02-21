@@ -6,11 +6,11 @@ import {
   ORDER_PIECES_API,
 } from '@folio/stripes-acq-components';
 
-import { getPiecesAndItemsByHoldingIds } from './getPiecesAndItemsByHoldingIds';
+import { getPiecesAndItemsCountByHoldingIds } from './getPiecesAndItemsCountByHoldingIds';
 
 /*
   Checks if holdings contain other pieces and items
-  that are not related to the given purchase order line (synchronized).
+  that are not related to the given purchase order line.
 */
 export const checkRelatedHoldings = (ky) => async (poLine) => {
   const poLinePieces = await fetchAllRecords(
@@ -37,14 +37,14 @@ export const checkRelatedHoldings = (ky) => async (poLine) => {
 
   const holdingIds = uniq(
     poLinePieces
-      ?.map(({ holdingId }) => holdingId)
-      ?.filter(Boolean),
+      .map(({ holdingId }) => holdingId)
+      .filter(Boolean),
   );
 
   const {
     holdingsPiecesCount,
     holdingsItemsCount,
-  } = await getPiecesAndItemsByHoldingIds(ky)(holdingIds);
+  } = await getPiecesAndItemsCountByHoldingIds(ky)(holdingIds);
 
   const relatedToAnother = (
     (holdingsPiecesCount - poLinePieces.length) > 0 || (holdingsItemsCount - poLineItems.length) > 0
