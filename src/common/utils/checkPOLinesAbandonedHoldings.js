@@ -1,0 +1,51 @@
+import chunk from 'lodash/chunk';
+import uniq from 'lodash/uniq';
+
+import { checkRelatedHoldings } from './checkRelatedHoldings';
+import { getHoldingPiecesAndItemsCount } from './getHoldingPiecesAndItemsCount';
+
+const REQUEST_CHUNK_SIZE = 5;
+
+export const checkSynchronizedPOLinesAbandonedHoldings = (ky) => async (poLines) => {
+  const poLinesChunks = chunk(poLines, REQUEST_CHUNK_SIZE);
+  const checkSynchronizedPOLine = checkRelatedHoldings(ky);
+
+  const results = await poLinesChunks.reduce(async (acc, poLinesChunk) => {
+    const resolvedAcc = await acc;
+
+    const responses = await Promise.all(poLinesChunk.map(checkSynchronizedPOLine));
+
+    return [...resolvedAcc, ...responses];
+  }, Promise.resolve([]));
+
+  return {
+    holdingIds: uniq(results.flatMap(({ holdingIds }) => holdingIds)),
+    willAbandoned: results.some(({ willAbandoned }) => Boolean(willAbandoned)),
+  };
+};
+
+export const checkIndependentPOLinesAbandonedHoldings = (ky) => async (poLines) => {
+  const holdingIds = uniq(
+    poLines
+      ?.flatMap(({ locations }) => locations)
+      ?.map(({ holdingId }) => holdingId)
+      ?.filter(Boolean),
+  );
+
+  const holdingIdsChunks = chunk(holdingIds, REQUEST_CHUNK_SIZE);
+
+  const results = await holdingIdsChunks.reduce(async (acc, holdingIdsChunk) => {
+    const resolvedAcc = await acc;
+
+    const responses = await Promise.all(holdingIdsChunk.map(getHoldingPiecesAndItemsCount(ky)));
+
+    return [...resolvedAcc, ...responses];
+  }, Promise.resolve([]));
+
+  const willAbandoned = results.some(({ piecesCount, itemsCount }) => (piecesCount + itemsCount) === 0);
+
+  return {
+    holdingIds,
+    willAbandoned,
+  };
+};

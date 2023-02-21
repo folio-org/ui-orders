@@ -8,11 +8,11 @@ import {
 
 import { UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES } from '../../constants';
 import {
-  checkIndependentPOLinesRelatedHoldings,
-  checkSynchronizedPOLinesRelatedHoldings,
+  checkIndependentPOLinesAbandonedHoldings,
+  checkSynchronizedPOLinesAbandonedHoldings,
 } from '../../utils';
 
-const getUnopenAbandonedType = (
+const getUnopenOrderAbandonedType = (
   isSynchronizedPOLineHoldingsWillAbandoned,
   isIndependenPOLineHoldingstWillAbandoned,
 ) => {
@@ -58,15 +58,15 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
         synchronizedPOLinesCheckResult,
         independentPOLinesCheckResult,
       ] = await Promise.all([
-        checkSynchronizedPOLinesRelatedHoldings(ky)(synchronizedPOLines),
-        checkIndependentPOLinesRelatedHoldings(ky)(independentPOLines),
+        checkSynchronizedPOLinesAbandonedHoldings(ky)(synchronizedPOLines),
+        checkIndependentPOLinesAbandonedHoldings(ky)(independentPOLines),
       ]);
 
       const isSynchronizedWillAbandoned = !!synchronizedPOLines.length && synchronizedPOLinesCheckResult.willAbandoned;
       const isIndependentWillAbandoned = !!independentPOLines.length && independentPOLinesCheckResult.willAbandoned;
 
       return {
-        type: getUnopenAbandonedType(isSynchronizedWillAbandoned, isIndependentWillAbandoned),
+        type: getUnopenOrderAbandonedType(isSynchronizedWillAbandoned, isIndependentWillAbandoned),
       };
     },
     {

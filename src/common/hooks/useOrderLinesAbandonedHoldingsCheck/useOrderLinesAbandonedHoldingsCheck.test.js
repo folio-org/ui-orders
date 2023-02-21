@@ -5,16 +5,16 @@ import { useOkapiKy } from '@folio/stripes/core';
 
 import { orderLine } from '../../../../test/jest/fixtures';
 import {
-  checkIndependentPOLinesRelatedHoldings,
-  checkSynchronizedPOLinesRelatedHoldings,
+  checkIndependentPOLinesAbandonedHoldings,
+  checkSynchronizedPOLinesAbandonedHoldings,
 } from '../../utils';
 import { UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES } from '../../constants';
 import { useOrderLinesAbandonedHoldingsCheck } from './useOrderLinesAbandonedHoldingsCheck';
 
 jest.mock('../../utils', () => ({
   ...jest.requireActual('../../utils'),
-  checkIndependentPOLinesRelatedHoldings: jest.fn(() => () => ({})),
-  checkSynchronizedPOLinesRelatedHoldings: jest.fn(() => () => ({})),
+  checkIndependentPOLinesAbandonedHoldings: jest.fn(() => () => ({})),
+  checkSynchronizedPOLinesAbandonedHoldings: jest.fn(() => () => ({})),
 }));
 
 const poLines = [
@@ -41,10 +41,10 @@ const kyMock = {
 
 describe('useOrderLinesAbandonedHoldingsCheck', () => {
   beforeEach(() => {
-    checkIndependentPOLinesRelatedHoldings
+    checkIndependentPOLinesAbandonedHoldings
       .mockClear()
       .mockReturnValue(() => ({ willAbandoned: false }));
-    checkSynchronizedPOLinesRelatedHoldings
+    checkSynchronizedPOLinesAbandonedHoldings
       .mockClear()
       .mockReturnValue(() => ({ willAbandoned: false }));
     useOkapiKy
@@ -64,7 +64,7 @@ describe('useOrderLinesAbandonedHoldingsCheck', () => {
   });
 
   it('should return \'independent\' type in result if there is at least one abandoned holding related to independent PO Line and not to synchronized', async () => {
-    checkIndependentPOLinesRelatedHoldings.mockReturnValue(() => ({ willAbandoned: true }));
+    checkIndependentPOLinesAbandonedHoldings.mockReturnValue(() => ({ willAbandoned: true }));
 
     const { result, waitFor } = renderHook(
       () => useOrderLinesAbandonedHoldingsCheck(poLines),
@@ -77,7 +77,7 @@ describe('useOrderLinesAbandonedHoldingsCheck', () => {
   });
 
   it('should return \'synchronized\' type in result if there is at least one abandoned holding related to synchronized PO Line', async () => {
-    checkSynchronizedPOLinesRelatedHoldings.mockReturnValue(() => ({ willAbandoned: true }));
+    checkSynchronizedPOLinesAbandonedHoldings.mockReturnValue(() => ({ willAbandoned: true }));
 
     const { result, waitFor } = renderHook(
       () => useOrderLinesAbandonedHoldingsCheck(poLines),
