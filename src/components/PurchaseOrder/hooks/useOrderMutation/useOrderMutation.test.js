@@ -12,9 +12,6 @@ import { WORKFLOW_STATUS } from '../../../../common/constants';
 import { useOrderMutation } from './useOrderMutation';
 
 const kyMock = {
-  post: jest.fn(() => ({
-    json: () => Promise.resolve(),
-  })),
   put: jest.fn(() => ({
     json: () => Promise.resolve(),
   })),

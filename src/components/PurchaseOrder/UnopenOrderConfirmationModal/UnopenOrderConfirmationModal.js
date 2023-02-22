@@ -27,8 +27,8 @@ export const UnopenOrderConfirmationModal = ({
   const intl = useIntl();
   const showCallout = useShowCallout();
 
-  const orderNumber = compositeOrder?.poNumber;
-  const poLines = compositeOrder?.compositePoLines;
+  const orderNumber = compositeOrder.poNumber;
+  const poLines = compositeOrder.compositePoLines;
   const modalLabel = intl.formatMessage(
     { id: 'ui-orders.unopenOrderModal.title' },
     { orderNumber },
