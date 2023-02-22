@@ -29,7 +29,6 @@ const wrapper = ({ children }) => (
 describe('useOrderMutation', () => {
   beforeEach(() => {
     kyMock.put.mockClear();
-    kyMock.post.mockClear();
     useOkapiKy.mockClear().mockReturnValue(kyMock);
   });
 
