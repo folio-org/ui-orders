@@ -478,9 +478,6 @@
     "react-router-dom": "^5.2.0",
     "redux": "*"
   },
-  "resolutions": {
-    "@rehooks/local-storage": "2.4.0"
-  },
   "optionalDependencies": {
     "@folio/plugin-find-instance": "^6.3.0",
     "@folio/plugin-find-organization": "^3.3.0",
