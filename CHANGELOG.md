@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [4.0.0](https://github.com/folio-org/ui-orders/tree/v4.0.0) (2023-02-24)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.2...v4.0.0)
+
 * Use Orders Export History API (mod-orders). Refs UIOR-1034.
 * Provide local translations to `ControlledVocab`. Refs UIOR-1018.
 * Show specified error message when changing of fund distribution for PO Line is blocked. Refs UIOR-1049.
