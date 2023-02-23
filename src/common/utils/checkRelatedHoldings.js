@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import uniq from 'lodash/uniq';
 
 import {
@@ -35,11 +36,11 @@ export const checkRelatedHoldings = (ky) => async (poLine) => {
     `purchaseOrderLineIdentifier==${poLine.id}`,
   );
 
-  const holdingIds = uniq(
-    poLinePieces
-      .map(({ holdingId }) => holdingId)
-      .filter(Boolean),
-  );
+  const holdingIds = uniq([
+    ...get(poLine, 'locations', []).map(({ holdingId }) => holdingId),
+    ...poLinePieces.map(({ holdingId }) => holdingId),
+    ...poLineItems.map(({ holdingsRecordId }) => holdingsRecordId),
+  ]).filter(Boolean);
 
   const {
     holdingsPiecesCount,
