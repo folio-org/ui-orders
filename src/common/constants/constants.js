@@ -37,3 +37,9 @@ export const REEXPORT_SOURCES = {
   order: 'order',
   orderLine: 'orderLine',
 };
+
+export const UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES = {
+  synchronized: 'synchronized',
+  independent: 'independent',
+  defaultType: 'withoutPieces',
+};
