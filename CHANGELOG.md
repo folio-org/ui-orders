@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Confirm if user would like to delete holdings record 'Unopen' order. Refs UIOR-1068.
+
 ## [4.0.0](https://github.com/folio-org/ui-orders/tree/v4.0.0) (2023-02-24)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.2...v4.0.0)
 
