@@ -2,12 +2,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { orderLine } from '../../../../../../test/jest/fixtures/orderLine';
+import { checkRelatedHoldings } from '../../../../../common/utils';
 import { getCreateInventory } from '../../../utils';
 import { SHOW_DETAILED_MODAL_CONFIGS } from '../../constants';
-import { checkRelatedHoldings } from '../../utils';
+
 import { useChangeInstanceModalConfigs } from './useChangeInstanceModalConfigs';
 
-jest.mock('../../utils/checkRelatedHoldings');
+jest.mock('../../../../../common/utils/checkRelatedHoldings');
 
 const modalConfigs = {
   holdingsConfigs: {

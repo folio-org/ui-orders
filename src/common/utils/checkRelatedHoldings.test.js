@@ -1,4 +1,4 @@
-import { orderLine } from '../../../../../test/jest/fixtures/orderLine';
+import { orderLine } from '../../../test/jest/fixtures/orderLine';
 import { checkRelatedHoldings } from './checkRelatedHoldings';
 
 const pieces = [{}];

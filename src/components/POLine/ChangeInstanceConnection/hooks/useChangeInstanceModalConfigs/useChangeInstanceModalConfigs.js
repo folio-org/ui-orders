@@ -2,8 +2,8 @@ import { useQuery } from 'react-query';
 
 import { useNamespace, useOkapiKy } from '@folio/stripes/core';
 
+import { checkRelatedHoldings } from '../../../../../common/utils';
 import { getCreateInventory } from '../../../utils';
-import { checkRelatedHoldings } from '../../utils';
 import { SHOW_DETAILED_MODAL_CONFIGS } from '../../constants';
 
 export const useChangeInstanceModalConfigs = (poLine) => {
