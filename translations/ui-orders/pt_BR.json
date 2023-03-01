@@ -826,5 +826,12 @@
     "errors.suffixNotFound": "O sufixo não está disponível",
     "errors.titleNotFound": "O(s) título(s) recebido(s) não pode(m) ser encontrado(s)",
     "errors.userHasNoOrderReopenPermission": "O usuário não tem permissão para reabrir o pedido - a operação é restrita",
-    "errors.userHasNoOrderUnopenPermission": "O usuário não tem permissão para fechar o pedido - a operação é restrita"
+    "errors.userHasNoOrderUnopenPermission": "O usuário não tem permissão para fechar o pedido - a operação é restrita",
+    "unopenOrderModal.confirmLabel.keepHoldings.synchronized": "Excluir itens",
+    "unopenOrderModal.confirmLabel.deleteHoldings.synchronized": "Excluir coleções e itens",
+    "unopenOrderModal.confirmLabel.keepHoldings.independent": "Manter coleções",
+    "unopenOrderModal.confirmLabel.deleteHoldings.independent": "Excluir coleções",
+    "unopenOrderModal.message.synchronized": "Este pedido tem pelo menos uma linha com fluxo de trabalho de recebimento \"Pedido sincronizado e quantidade de recebimento\". Tais Linhas de Pedidos de Compra com registros de recebimento relacionados terão todas as peças não recebidas excluídas e todos os registros de itens \"sob encomenda\" relacionados a essas peças também serão excluídos do estoque. As coleções vinculadas a esses itens que não possuem outros itens relacionados também podem ser excluídos do estoque. Como você gostaria de proceder?",
+    "unopenOrderModal.message.independent": "Este pedido tem pelo menos uma linha com registro(s) de Coleção(ões) relacionado(s) que não fazem referência a nenhuma peça ou item. Coleções sem outros itens relacionados podem ser excluídos do inventário, se desejado. Como você gostaria de proceder?",
+    "order.unopen.error": "Ocorreu um erro durante a ordem de compra não aberta"
 }
