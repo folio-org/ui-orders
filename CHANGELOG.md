@@ -2,6 +2,9 @@
 
 ## (IN PROGRESS)
 
+## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.1) (2023-03-17)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
+
 * Permissions: Order settings perms do not allow create new reason for closure. Refs UIOR-1090.
 
 ## [4.0.1](https://github.com/folio-org/ui-orders/tree/v4.0.1) (2023-03-10)
