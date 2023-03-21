@@ -770,7 +770,7 @@
     "reexport.order.confirmModal.heading": "Pedido de reexportación",
     "reexport.order.success": "La reexportación del pedido se ha completado con éxito",
     "reexport.order.fail": "Falló la reexportación del pedido",
-    "reexport.order.confirmModal.message": "Este pedido se envió anteriormente a <b>{vendedorDesdeExportación}</b> a través de <b>{métodoDeExportación}</b>. Desea que este pedido se envíe a <b>{vendorDesdePedido}</b> con la próxima exportación?",
+    "reexport.order.confirmModal.message": "Este pedido se envió anteriormente a <b>{vendorFromExport}</b> a través de <b>{exportMethod}</b>. Desea que este pedido se envíe a <b>{vendorFromOrder}</b> con la próxima exportación?",
     "reexport.orderLine.confirmModal.heading": "Línea de pedido de reexportación",
     "reexport.orderLine.confirmModal.message": "Esta línea de pedido se envió previamente a <b> {vendorFromExport} </b> a través de <b> {exportMethod} </b> . ¿Le gustaría que esta línea de pedido se envíe a <b> {vendorFromOrder} </b> con la próxima exportación?",
     "reexport.orderLine.success": "La reexportación de la línea de pedido se ha completado con éxito",
