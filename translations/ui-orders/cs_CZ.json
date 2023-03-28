@@ -474,7 +474,7 @@
     "receiving.itemStatus.In process": "Probíhá",
     "receiving.itemStatus.On order": "Objednáno",
     "receiving.itemStatus.Available": "Dostupné",
-    "receiving.itemStatus.In transit": "Na cestě",
+    "receiving.itemStatus.In transit": "V přepravě",
     "receiving.itemStatus.Undefined": "Nedefinována",
     "errors.costDiscountInvalid": "Sleva za náklady je neplatná",
     "createdDateAndTime": "Datum a čas vytvoření",
