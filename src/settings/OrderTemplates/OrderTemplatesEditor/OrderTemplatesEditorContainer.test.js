@@ -1,4 +1,5 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
@@ -74,6 +75,17 @@ const defaultProps = {
   },
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  </MemoryRouter>
+);
+
 const renderOrderTemplatesEditorContainer = (props = {}) => render(
   <Form
     onSubmit={() => jest.fn()}
@@ -84,7 +96,7 @@ const renderOrderTemplatesEditorContainer = (props = {}) => render(
       />
     )}
   />,
-  { wrapper: MemoryRouter },
+  { wrapper },
 );
 
 describe('OrderTemplatesEditorContainer', () => {

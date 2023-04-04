@@ -20,7 +20,7 @@ const defaultProps = {
     orderTemplate: {
       DELETE: jest.fn().mockResolvedValue(),
       PUT: jest.fn().mockResolvedValue(),
-      POST: jest.fn().mockResolvedValue(),
+      POST: jest.fn().mockResolvedValue({ id: 'id' }),
     },
   },
   resources: {},
@@ -34,11 +34,24 @@ const renderOrderTemplateViewContainer = (props = {}) => render(
   { wrapper: MemoryRouter },
 );
 
+const template = {
+  id: 'order-template-id',
+  templateName: 'Test',
+};
+
 describe('OrderTemplateViewContainer', () => {
   it('should render order template view', () => {
     renderOrderTemplateViewContainer();
 
     expect(screen.getByText('OrderTemplateView')).toBeInTheDocument();
+  });
+
+  it('should duplicate template when \'Duplicate\' action was called', async () => {
+    renderOrderTemplateViewContainer();
+
+    await waitFor(() => OrderTemplateView.mock.calls[0][0].onDuplicate(template));
+
+    expect(defaultProps.mutator.orderTemplate.POST).toHaveBeenCalled();
   });
 
   it('should delete template when such action was called', async () => {
@@ -52,6 +65,16 @@ describe('OrderTemplateViewContainer', () => {
   describe('OrderTemplateViewContainer error handling', () => {
     beforeEach(() => {
       getCommonErrorMessage.mockClear();
+    });
+
+    it('should handle error on duplicate template', async () => {
+      defaultProps.mutator.orderTemplate.POST.mockRejectedValue();
+
+      renderOrderTemplateViewContainer();
+
+      await waitFor(() => OrderTemplateView.mock.calls[0][0].onDuplicate(template));
+
+      expect(getCommonErrorMessage).toHaveBeenCalled();
     });
 
     it('should handle error on delete template', async () => {

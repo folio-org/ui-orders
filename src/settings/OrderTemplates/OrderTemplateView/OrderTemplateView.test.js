@@ -36,6 +36,7 @@ const mockPush = jest.fn();
 const defaultProps = {
   close: jest.fn(),
   onDelete: jest.fn(),
+  onDuplicate: jest.fn(),
   orderTemplate: {
     id: 'id',
     templateName: 'templateName',
@@ -68,6 +69,21 @@ describe('OrderTemplateView', () => {
     expect(screen.getByText('PODetailsView')).toBeInTheDocument();
     expect(screen.getByText('POLineDetails')).toBeInTheDocument();
     expect(screen.getByText('SummaryView')).toBeInTheDocument();
+  });
+
+  it('should duplicate template when \'Duplicate\' action was performed', async () => {
+    renderOrderTemplateView();
+
+    const btns = await screen.findAllByRole('button');
+
+    user.click(btns[1]);
+
+    const duplicateBtn = await screen.findByTestId('view-order-template-action-duplicate');
+
+    user.click(duplicateBtn);
+    user.click(screen.getByText('stripes-components.submit'));
+
+    expect(defaultProps.onDuplicate).toHaveBeenCalled();
   });
 
   it('should delete template when delete button was pressed', async () => {
@@ -125,6 +141,16 @@ describe('OrderTemplateView', () => {
       HasCommand.mock.calls[0][0].commands.find(c => c.name === 'edit').handler();
 
       expect(mockPush).toHaveBeenCalledWith(`${defaultProps.rootPath}/${defaultProps.orderTemplate.id}/edit`);
+    });
+
+    it('should open confirm duplicate modal when duplicate shortcut is called', async () => {
+      mockPush.mockClear();
+
+      renderOrderTemplateView();
+
+      HasCommand.mock.calls[0][0].commands.find(c => c.name === 'duplicateRecord').handler();
+
+      expect(await screen.findByText('ui-orders.settings.orderTemplates.confirmDuplicate.heading')).toBeInTheDocument();
     });
   });
 });
