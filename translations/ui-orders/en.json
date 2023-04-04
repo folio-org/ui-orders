@@ -736,10 +736,15 @@
   "settings.orderTemplates.editor.template.hideAll.info": "Mark all eligible fields as hidden on Order and Order Line when using this template",
   "settings.orderTemplates.editor.template.tags": "Tags",
 
+  "settings.orderTemplates.confirmDuplicate.heading": "Duplicate template",
+  "settings.orderTemplates.confirmDuplicate.message": "Are you sure you want to duplicate the template?",
   "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",
   "settings.orderTemplates.confirmDelete.heading": "Delete template",
   "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
 
+  "settings.orderTemplates.duplicate.suffix": "(Copy)",
+  "settings.orderTemplates.duplicate.success": "The template was successfully duplicated",
+  "settings.orderTemplates.duplicate.error": "The template was not duplicated",
   "settings.orderTemplates.remove.success": "The template was deleted",
   "settings.orderTemplates.remove.error": "The template was not deleted",
   "settings.orderTemplates.save.success": "The template was saved",

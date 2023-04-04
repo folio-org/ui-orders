@@ -58,6 +58,7 @@ class OrderTemplateView extends Component {
   static propTypes = {
     close: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
     orderTemplate: PropTypes.object,
     rootPath: PropTypes.string,
     addresses: PropTypes.arrayOf(PropTypes.object),
@@ -80,9 +81,21 @@ class OrderTemplateView extends Component {
 
     this.state = {
       showConfirmDelete: false,
+      showConfirmDuplicate: false,
     };
     this.accordionStatusRef = React.createRef();
   }
+
+  toggleDuplicateConfirmModal = () => {
+    this.setState(({ showConfirmDuplicate }) => ({ showConfirmDuplicate: !showConfirmDuplicate }));
+  }
+
+  onDuplicateOrderTemplate = () => {
+    const { orderTemplate, onDuplicate } = this.props;
+
+    this.toggleDuplicateConfirmModal();
+    onDuplicate(orderTemplate);
+  };
 
   onDeleteOrderTemplate = () => {
     const { onDelete } = this.props;
@@ -112,6 +125,22 @@ class OrderTemplateView extends Component {
             </Icon>
           </Button>
         </IfPermission>
+
+        <IfPermission perm="ui-orders.settings.order-templates.create">
+          <Button
+            data-testid="view-order-template-action-duplicate"
+            buttonStyle="dropdownItem"
+            onClick={() => {
+              onToggle();
+              this.toggleDuplicateConfirmModal();
+            }}
+          >
+            <Icon icon="duplicate">
+              <FormattedMessage id="ui-orders.paneBlock.cloneBtn" />
+            </Icon>
+          </Button>
+        </IfPermission>
+
         <IfPermission perm="ui-orders.settings.order-templates.delete">
           <Button
             data-test-view-order-template-action-delete
@@ -143,7 +172,7 @@ class OrderTemplateView extends Component {
       history,
       intl,
     } = this.props;
-    const { showConfirmDelete } = this.state;
+    const { showConfirmDelete, showConfirmDuplicate } = this.state;
     const title = get(orderTemplate, 'templateName', '');
     const orderFormat = get(orderTemplate, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
@@ -388,6 +417,17 @@ class OrderTemplateView extends Component {
                 message={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDelete.message" />}
                 onCancel={this.hideConfirmDelete}
                 onConfirm={this.onDeleteOrderTemplate}
+                open
+              />
+            )}
+
+            {showConfirmDuplicate && (
+              <ConfirmationModal
+                id="duplicate-order-template-modal"
+                heading={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDuplicate.heading" />}
+                message={<FormattedMessage id="ui-orders.settings.orderTemplates.confirmDuplicate.message" />}
+                onCancel={this.toggleDuplicateConfirmModal}
+                onConfirm={this.onDuplicateOrderTemplate}
                 open
               />
             )}

@@ -21,6 +21,7 @@ import {
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
 } from '../../../components/Utils/resources';
+import { TEMPLATES_RETURN_LINK } from '../constants';
 import OrderTemplateView from './OrderTemplateView';
 
 function OrderTemplateViewContainer({
@@ -35,6 +36,30 @@ function OrderTemplateViewContainer({
 }) {
   const intl = useIntl();
   const sendCallout = useShowCallout();
+
+  const onDuplicateOrderTemplate = useCallback(async ({ id: _, templateName, ...template }) => {
+    try {
+      const newTemplate = {
+        templateName: `${templateName} ${intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.duplicate.suffix' })}`,
+        ...template,
+      };
+
+      const { id: newTemplateId } = await mutator.orderTemplate.POST(newTemplate);
+
+      sendCallout({ messageId: 'ui-orders.settings.orderTemplates.duplicate.success' });
+      history.push(`${TEMPLATES_RETURN_LINK}/order-templates/${newTemplateId}/edit`);
+    } catch (errorResponse) {
+      const errorCode = await getErrorCodeFromResponse(errorResponse);
+      const defaultMessage = intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.duplicate.error' });
+      const message = getCommonErrorMessage(errorCode, defaultMessage);
+
+      sendCallout({
+        message,
+        type: 'error',
+      });
+    }
+  }, [history, intl, mutator.orderTemplate, sendCallout]);
+
   const onDeleteOrderTemplate = useCallback(
     async () => {
       try {
@@ -69,6 +94,7 @@ function OrderTemplateViewContainer({
       funds={funds}
       locations={locations}
       materialTypes={materialTypes}
+      onDuplicate={onDuplicateOrderTemplate}
       onDelete={onDeleteOrderTemplate}
       rootPath={rootPath}
       orderTemplate={orderTemplate}

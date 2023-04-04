@@ -8,7 +8,11 @@ export const useOrderTemplate = (orderTemplateId) => {
   const ky = useOkapiKy();
   const namespace = useNamespace({ key: 'order-template' });
 
-  const { isLoading, data = {} } = useQuery(
+  const {
+    isFetching,
+    isLoading,
+    data = {},
+  } = useQuery(
     [namespace, orderTemplateId],
     () => ky.get(`${ORDER_TEMPLATES_API}/${orderTemplateId}`).json(),
     { enabled: Boolean(orderTemplateId) },
@@ -16,6 +20,7 @@ export const useOrderTemplate = (orderTemplateId) => {
 
   return ({
     orderTemplate: data,
+    isFetching,
     isLoading,
   });
 };

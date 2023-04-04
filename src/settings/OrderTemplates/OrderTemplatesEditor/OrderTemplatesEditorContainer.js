@@ -37,6 +37,7 @@ import {
   getCommonErrorMessage,
 } from '../../../common/utils';
 import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
+import { useOrderTemplate } from '../../../common/hooks';
 
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
@@ -66,6 +67,8 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, id, intl, showToast]);
 
+  const { isFetching, orderTemplate } = useOrderTemplate(id);
+
   const locations = resources?.locations?.records;
   const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
@@ -80,21 +83,22 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
     .map(({ name }) => ({ label: name, value: name }));
   const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
   const materialTypes = getMaterialTypesForSelect(resources);
-  const orderTemplate = id
+  const initialValues = orderTemplate.id
     ? {
-      ...get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES),
+      ...orderTemplate,
       hideAll: false,
     }
     : INITIAL_VALUES;
-  const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
+  const title = get(initialValues, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
   return (
     <OrderTemplatesEditor
+      isLoading={isFetching}
       title={title}
       onSubmit={saveOrderTemplate}
       close={close}
       funds={funds}
-      initialValues={orderTemplate}
+      initialValues={initialValues}
       identifierTypes={identifierTypes}
       locationIds={locationIds}
       locations={locations}
@@ -120,7 +124,10 @@ OrderTemplatesEditorContainer.manifest = Object.freeze({
   addresses: ADDRESSES,
   vendors: VENDORS,
   materialTypes: MATERIAL_TYPES,
-  orderTemplate: ORDER_TEMPLATE,
+  orderTemplate: {
+    ...ORDER_TEMPLATE,
+    fetch: false,
+  },
   [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
 });
 
