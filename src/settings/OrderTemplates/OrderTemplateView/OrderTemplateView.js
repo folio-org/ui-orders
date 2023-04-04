@@ -213,6 +213,12 @@ class OrderTemplateView extends Component {
         }),
       },
       {
+        name: 'duplicateRecord',
+        handler: handleKeyCommand(() => {
+          if (stripes.hasPerm('ui-orders.settings.order-templates.create')) this.toggleDuplicateConfirmModal();
+        }),
+      },
+      {
         name: 'expandAllSections',
         handler: (e) => expandAllSections(e, this.accordionStatusRef),
       },
