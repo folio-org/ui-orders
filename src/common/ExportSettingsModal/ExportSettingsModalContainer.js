@@ -28,6 +28,7 @@ const ExportSettingsModalContainer = ({
   const onExportCSV = useCallback(async (exportFields) => {
     try {
       setIsExporting(true);
+      showCallout({ messageId: 'ui-orders.exportSettings.load.start' });
 
       const { lines, orders } = await fetchOrdersAndLines();
 
