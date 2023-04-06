@@ -4,6 +4,7 @@
 
 * Add action for duplicate order template. Refs UIOR-1056.
 * Success toast message is not shown at the start of export. Refs UIOR-1089.
+* The `limit` query parameter is not explicitly set to some version history's requests. Refs UIOR-1101.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
