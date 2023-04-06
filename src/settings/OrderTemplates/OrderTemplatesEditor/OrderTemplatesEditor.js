@@ -12,6 +12,7 @@ import {
   ExpandAllButton,
   HasCommand,
   Layer,
+  LoadingPane,
   Pane,
   PaneMenu,
   Row,
@@ -65,6 +66,7 @@ const ORDER = {
 const OrderTemplatesEditor = ({
   initialValues,
   identifierTypes,
+  isLoading,
   contributorNameTypes,
   createInventorySetting,
   prefixesSetting,
@@ -163,6 +165,14 @@ const OrderTemplatesEditor = ({
       handler: () => expandAll(mapValues(stateSections, () => false)),
     },
   ];
+
+  if (isLoading) {
+    return (
+      <Layer isOpen>
+        <LoadingPane />
+      </Layer>
+    );
+  }
 
   return (
     <Layer
@@ -410,6 +420,7 @@ const OrderTemplatesEditor = ({
 };
 
 OrderTemplatesEditor.propTypes = {
+  isLoading: PropTypes.bool,
   values: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   close: PropTypes.func.isRequired,

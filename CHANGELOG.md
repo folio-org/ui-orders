@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* Add action for duplicate order template. Refs UIOR-1056.
+
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
 
