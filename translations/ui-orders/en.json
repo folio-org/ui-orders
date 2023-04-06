@@ -250,6 +250,7 @@
   "export.jobId": "Job ID",
   "export.method": "Export method",
   "export.invalidReference": "Invalid reference",
+  "exportSettings.load.start": "Export has been started successfully",
   "exportSettings.load.error": "Failed to load data for export results (CSV)",
   "exportSettings.export": "Export",
   "exportSettings.cancel": "Cancel",
