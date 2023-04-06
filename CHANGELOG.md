@@ -2,6 +2,8 @@
 
 ## (IN PROGRESS)
 
+* The `limit` query parameter is not explicitly set to some version history's requests. Refs UIOR-1101.
+
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.1) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
 
