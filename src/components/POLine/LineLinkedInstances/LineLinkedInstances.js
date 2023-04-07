@@ -47,7 +47,7 @@ const resultFormatter = {
   relations: instance => instance.relations || <NoValue />,
 };
 
-export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
+export const LineLinkedInstances = ({ line, setStatus, labelId }) => {
   const intl = useIntl();
   const location = useLocation();
   const history = useHistory();
@@ -57,11 +57,11 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
   const { mutateTitle } = useTitleMutation();
 
   useEffect(() => {
-    toggleSection({
-      id: ACCORDION_ID.linkedInstances,
-      isOpened: Boolean(isLoading || line.isPackage || linkedInstances?.length),
-    });
-  }, [toggleSection, isLoading, linkedInstances, line.isPackage]);
+    setStatus((status) => ({
+      ...status,
+      [ACCORDION_ID.linkedInstances]: Boolean(isLoading || line.isPackage || linkedInstances?.length),
+    }));
+  }, [setStatus, isLoading, linkedInstances, line.isPackage]);
 
   const onAddInstance = (instance) => {
     const title = createTitleBody(instance, line.id);
@@ -145,6 +145,6 @@ export const LineLinkedInstances = ({ line, toggleSection, labelId }) => {
 
 LineLinkedInstances.propTypes = {
   line: PropTypes.object.isRequired,
-  toggleSection: PropTypes.func.isRequired,
+  setStatus: PropTypes.func.isRequired,
   labelId: PropTypes.string.isRequired,
 };
