@@ -6,6 +6,13 @@ import OrderTemplateViewContainer from './OrderTemplateViewContainer';
 import OrderTemplateView from './OrderTemplateView';
 import { getCommonErrorMessage } from '../../../common/utils';
 
+jest.mock('react-intl', () => ({
+  ...jest.requireActual('react-intl'),
+  useIntl: jest.fn(() => ({
+    formatMessage: (v) => v,
+    formatDate: (v) => v,
+  })),
+}));
 jest.mock('../../../common/utils', () => ({
   ...jest.requireActual('../../../common/utils'),
   getCommonErrorMessage: jest.fn(),
