@@ -24,6 +24,20 @@ import {
 import { TEMPLATES_RETURN_LINK } from '../constants';
 import OrderTemplateView from './OrderTemplateView';
 
+const getNewTemplateName = ({ intl, templateName }) => {
+  const nameSuffix = intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.duplicate.suffix' });
+  const timestamp = intl.formatDate(Date.now(), {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
+
+  return `${templateName} ${nameSuffix} - ${timestamp}`;
+};
+
 function OrderTemplateViewContainer({
   close,
   match: { params: { id } },
@@ -40,7 +54,7 @@ function OrderTemplateViewContainer({
   const onDuplicateOrderTemplate = useCallback(async ({ id: _, templateName, ...template }) => {
     try {
       const newTemplate = {
-        templateName: `${templateName} ${intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.duplicate.suffix' })}`,
+        templateName: getNewTemplateName({ intl, templateName }),
         ...template,
       };
 
