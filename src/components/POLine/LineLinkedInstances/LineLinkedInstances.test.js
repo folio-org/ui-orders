@@ -8,7 +8,6 @@ import { instance } from '../../../../test/jest/fixtures';
 import { location, history } from '../../../../test/jest/routerMocks';
 
 import InstancePlugin from '../Item/InstancePlugin';
-import { ACCORDION_ID } from '../const';
 import { LineLinkedInstances } from './LineLinkedInstances';
 import { useLinkedInstances, useTitleMutation } from './hooks';
 
@@ -27,10 +26,12 @@ jest.mock('./hooks', () => ({
   useTitleMutation: jest.fn().mockReturnValue({}),
 }));
 
-const renderLineLinkedInstances = ({ line = {}, toggleSection = jest.fn(), labelId = 'labelId' }) => (render(
+const setStatusMock = jest.fn();
+
+const renderLineLinkedInstances = ({ line = {}, setStatus = setStatusMock, labelId = 'labelId' } = {}) => (render(
   <LineLinkedInstances
     line={line}
-    toggleSection={toggleSection}
+    setStatus={setStatus}
     labelId={labelId}
   />,
   { wrapper: MemoryRouter },
@@ -43,6 +44,8 @@ describe('LineLinkedInstances', () => {
 
     useHistory.mockClear().mockReturnValue(history);
     useLocation.mockClear().mockReturnValue(location);
+
+    setStatusMock.mockClear();
   });
 
   it('displays table with records with fetched instances', () => {
@@ -56,33 +59,27 @@ describe('LineLinkedInstances', () => {
   });
 
   it('opens section when loading', () => {
-    const toggleSection = jest.fn();
-
     useLinkedInstances.mockReturnValue({ isLoading: true });
 
-    renderLineLinkedInstances({ toggleSection });
+    renderLineLinkedInstances();
 
-    expect(toggleSection).toHaveBeenCalledWith({ id: ACCORDION_ID.linkedInstances, isOpened: true });
+    expect(setStatusMock).toHaveBeenCalled();
   });
 
   it('opens section when instances are fetched', () => {
-    const toggleSection = jest.fn();
-
     useLinkedInstances.mockReturnValue({ linkedInstances: [{ id: 'instanceUid' }] });
 
-    renderLineLinkedInstances({ toggleSection });
+    renderLineLinkedInstances();
 
-    expect(toggleSection).toHaveBeenCalledWith({ id: ACCORDION_ID.linkedInstances, isOpened: true });
+    expect(setStatusMock).toHaveBeenCalled();
   });
 
   it('closes section when no instances are fetched', () => {
-    const toggleSection = jest.fn();
-
     useLinkedInstances.mockReturnValue({ linkedInstances: [] });
 
-    renderLineLinkedInstances({ toggleSection });
+    renderLineLinkedInstances(setStatusMock);
 
-    expect(toggleSection).toHaveBeenCalledWith({ id: ACCORDION_ID.linkedInstances, isOpened: false });
+    expect(setStatusMock).toHaveBeenCalled();
   });
 
   describe('Add title', () => {
