@@ -19,12 +19,10 @@ import { order } from '../../../test/jest/fixtures';
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
   return () => <span>AcqUnitsField</span>;
 });
-jest.mock('@folio/stripes-components', () => ({
-  ...jest.requireActual('@folio/stripes-components'),
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
   collapseAllSections: jest.fn(),
   expandAllSections: jest.fn(),
-}));
-jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
 }));
 jest.mock('react-router', () => ({

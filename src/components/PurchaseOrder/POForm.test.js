@@ -16,12 +16,10 @@ import { ORDER_TYPE } from '../../common/constants';
 import PODetailsForm from './PODetails/PODetailsForm';
 import POForm from './POForm';
 
-jest.mock('@folio/stripes-components', () => ({
-  ...jest.requireActual('@folio/stripes-components'),
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
   collapseAllSections: jest.fn(),
   expandAllSections: jest.fn(),
-}));
-jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
 }));
 jest.mock('./PODetails/PODetailsForm', () => jest.fn().mockReturnValue('PODetailsForm'));
