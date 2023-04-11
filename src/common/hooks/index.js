@@ -1,4 +1,5 @@
 export * from './useAcqMethods';
+export * from './useErrorAccordionStatus';
 export { default as useCloseReasonOptions } from './useCloseReasonOptions';
 export * from './useExportHistory';
 export * from './useFundDistributionValidation';

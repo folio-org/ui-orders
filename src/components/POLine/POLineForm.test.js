@@ -6,11 +6,12 @@ import { Form } from 'react-final-form';
 import user from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
 
-import { HasCommand } from '@folio/stripes/components';
 import {
-  ORDER_TYPES,
-  useAccordionToggle,
-} from '@folio/stripes-acq-components';
+  collapseAllSections,
+  expandAllSections,
+  HasCommand,
+} from '@folio/stripes/components';
+import { ORDER_TYPES } from '@folio/stripes-acq-components';
 
 import POLineForm from './POLineForm';
 import { order } from '../../../test/jest/fixtures';
@@ -18,10 +19,10 @@ import { order } from '../../../test/jest/fixtures';
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
   return () => <span>AcqUnitsField</span>;
 });
-jest.mock('@folio/stripes-acq-components/lib/hooks/useAccordionToggle', () => ({
-  useAccordionToggle: jest.fn().mockReturnValue([jest.fn(), {}, jest.fn()]),
-}));
-jest.mock('@folio/stripes-components/lib/Commander', () => ({
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  collapseAllSections: jest.fn(),
+  expandAllSections: jest.fn(),
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
 }));
 jest.mock('react-router', () => ({
@@ -181,27 +182,19 @@ describe('POLineForm shortcuts', () => {
   });
 
   it('should call expandAllSections when expandAllSections shortcut is called', async () => {
-    const expandMock = jest.fn();
-
-    useAccordionToggle.mockClear().mockReturnValue([expandMock, {}, jest.fn()]);
-
     renderPOLineForm();
 
     HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler();
 
-    expect(expandMock).toHaveBeenCalled();
+    expect(expandAllSections).toHaveBeenCalled();
   });
 
   it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
-    const collapseMock = jest.fn();
-
-    useAccordionToggle.mockClear().mockReturnValue([collapseMock, {}, jest.fn()]);
-
     renderPOLineForm();
 
     HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler();
 
-    expect(collapseMock).toHaveBeenCalled();
+    expect(collapseAllSections).toHaveBeenCalled();
   });
 
   it('should cancel form when cancel shortcut is called', () => {

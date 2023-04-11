@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get, mapValues } from 'lodash';
+import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
@@ -9,10 +9,13 @@ import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
+  AccordionStatus,
   Button,
   checkScope,
   Col,
+  collapseAllSections,
   ExpandAllButton,
+  expandAllSections,
   HasCommand,
   Icon,
   IconButton,
@@ -26,9 +29,9 @@ import {
 import {
   FieldSelectionFinal as FieldSelection,
   handleKeyCommand,
-  useAccordionToggle,
 } from '@folio/stripes-acq-components';
 
+import { useErrorAccordionStatus } from '../../common/hooks';
 import {
   getAddresses,
 } from '../../common/utils';
@@ -71,19 +74,10 @@ const POForm = ({
   const [template, setTemplate] = useState();
   const [hiddenFields, setHiddenFields] = useState({});
 
-  const errors = getState()?.errors;
+  const accordionStatusRef = useRef();
 
-  const [
-    expandAll,
-    sections,
-    toggleSection,
-  ] = useAccordionToggle(
-    INITIAL_SECTIONS,
-    {
-      errors,
-      fieldsMap: MAP_FIELD_ACCORDION,
-    },
-  );
+  const errors = getState()?.errors;
+  const errorAccordionStatus = useErrorAccordionStatus({ errors, fieldsMap: MAP_FIELD_ACCORDION });
 
   useEffect(() => {
     if (initialValues.template) {
@@ -269,11 +263,11 @@ const POForm = ({
     },
     {
       name: 'expandAllSections',
-      handler: () => expandAll(mapValues(sections, () => true)),
+      handler: (e) => expandAllSections(e, accordionStatusRef),
     },
     {
       name: 'collapseAllSections',
-      handler: () => expandAll(mapValues(sections, () => false)),
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
     },
     {
       name: 'search',
@@ -313,79 +307,80 @@ const POForm = ({
             onClose={onCancel}
             paneTitle={paneTitle}
           >
-            <form
-              id="form-po"
-              data-test-form-page
-            >
-              <Row>
-                <Col xs={12}>
-                  <Row center="xs">
-                    <Col xs={12} md={8}>
-                      <Row end="xs">
-                        <Col xs={12}>
-                          <ExpandAllButton
-                            accordionStatus={sections}
-                            onToggle={expandAll}
-                          />
+            <AccordionStatus ref={accordionStatusRef}>
+              {({ status }) => (
+                <form
+                  id="form-po"
+                  data-test-form-page
+                >
+                  <Row>
+                    <Col xs={12}>
+                      <Row center="xs">
+                        <Col xs={12} md={8}>
+                          <Row end="xs">
+                            <Col xs={12}>
+                              <ExpandAllButton />
+                            </Col>
+                          </Row>
+                        </Col>
+
+                        <Col xs={12} md={8}>
+                          <Row>
+                            <Col xs={4}>
+                              <FieldSelection
+                                dataOptions={orderTemplates}
+                                onChange={onChangeTemplate}
+                                labelId="ui-orders.settings.orderTemplates.editor.template.name"
+                                name="template"
+                                id="order-template"
+                                disabled={Boolean(poLinesLength)}
+                              />
+                            </Col>
+                          </Row>
+                        </Col>
+
+                        <Col xs={12} md={8} style={{ textAlign: 'left' }}>
+                          <AccordionSet
+                            initialStatus={INITIAL_SECTIONS}
+                            accordionStatus={{ ...status, ...errorAccordionStatus }}
+                          >
+                            <Accordion
+                              id={ACCORDION_ID.purchaseOrder}
+                              label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
+                            >
+                              <PODetailsForm
+                                addresses={addresses}
+                                change={change}
+                                formValues={formValues}
+                                generatedNumber={generatedNumber}
+                                order={initialValues}
+                                orderNumberSetting={orderNumberSetting}
+                                prefixesSetting={prefixesSetting}
+                                suffixesSetting={suffixesSetting}
+                                validateNumber={validateNumber}
+                                hiddenFields={hiddenFields}
+                              />
+                            </Accordion>
+                            {isOngoing(formValues.orderType) && (
+                              <OngoingInfoForm hiddenFields={hiddenFields} />
+                            )}
+                            <Accordion
+                              id={ACCORDION_ID.poSummary}
+                              label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
+                            >
+                              <SummaryForm
+                                initialValues={initialValues}
+                                hiddenFields={hiddenFields}
+                              />
+                            </Accordion>
+                          </AccordionSet>
                         </Col>
                       </Row>
-                    </Col>
-
-                    <Col xs={12} md={8}>
-                      <Row>
-                        <Col xs={4}>
-                          <FieldSelection
-                            dataOptions={orderTemplates}
-                            onChange={onChangeTemplate}
-                            labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                            name="template"
-                            id="order-template"
-                            disabled={Boolean(poLinesLength)}
-                          />
-                        </Col>
-                      </Row>
-                    </Col>
-
-                    <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                      <AccordionSet
-                        accordionStatus={sections}
-                        onToggle={toggleSection}
-                      >
-                        <Accordion
-                          id={ACCORDION_ID.purchaseOrder}
-                          label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
-                        >
-                          <PODetailsForm
-                            addresses={addresses}
-                            change={change}
-                            formValues={formValues}
-                            generatedNumber={generatedNumber}
-                            order={initialValues}
-                            orderNumberSetting={orderNumberSetting}
-                            prefixesSetting={prefixesSetting}
-                            suffixesSetting={suffixesSetting}
-                            validateNumber={validateNumber}
-                            hiddenFields={hiddenFields}
-                          />
-                        </Accordion>
-                        {isOngoing(formValues.orderType) && (
-                          <OngoingInfoForm hiddenFields={hiddenFields} />
-                        )}
-                        <Accordion
-                          id={ACCORDION_ID.poSummary}
-                          label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
-                        >
-                          <SummaryForm
-                            initialValues={initialValues}
-                            hiddenFields={hiddenFields}
-                          />
-                        </Accordion>
-                      </AccordionSet>
                     </Col>
                   </Row>
-                </Col>
-              </Row>
-            </form>
+                </form>
+              )}
+            </AccordionStatus>
           </Pane>
         </Paneset>
       </HasCommand>

@@ -1,6 +1,6 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { get, mapValues } from 'lodash';
+import { get } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -12,10 +12,13 @@ import {
 import {
   Accordion,
   AccordionSet,
+  AccordionStatus,
   checkScope,
   Col,
+  collapseAllSections,
   ConfirmationModal,
   ExpandAllButton,
+  expandAllSections,
   HasCommand,
   IconButton,
   Loading,
@@ -85,6 +88,24 @@ import {
   isCancelableLine,
 } from './utils';
 
+const initialAccordionStatus = {
+  CostDetails: true,
+  Vendor: true,
+  FundDistribution: true,
+  ItemDetails: true,
+  Renewal: true,
+  [ACCORDION_ID.eresources]: true,
+  [ACCORDION_ID.location]: true,
+  [ACCORDION_ID.other]: true,
+  [ACCORDION_ID.physical]: true,
+  [ACCORDION_ID.relatedInvoiceLines]: true,
+  [ACCORDION_ID.notes]: true,
+  [ACCORDION_ID.poLine]: true,
+  [ACCORDION_ID.linkedInstances]: false,
+  [ACCORDION_ID.exportDetails]: false,
+  [ACCORDION_ID.ongoingOrder]: true,
+};
+
 const POLineView = ({
   cancelLine,
   deleteLine,
@@ -104,23 +125,6 @@ const POLineView = ({
 }) => {
   const intl = useIntl();
   const stripes = useStripes();
-  const [sections, setSections] = useState({
-    CostDetails: true,
-    Vendor: true,
-    FundDistribution: true,
-    ItemDetails: true,
-    Renewal: true,
-    [ACCORDION_ID.eresources]: true,
-    [ACCORDION_ID.location]: true,
-    [ACCORDION_ID.other]: true,
-    [ACCORDION_ID.physical]: true,
-    [ACCORDION_ID.relatedInvoiceLines]: true,
-    [ACCORDION_ID.notes]: true,
-    [ACCORDION_ID.poLine]: true,
-    [ACCORDION_ID.linkedInstances]: false,
-    [ACCORDION_ID.exportDetails]: false,
-    [ACCORDION_ID.ongoingOrder]: true,
-  });
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();
   const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
@@ -128,6 +132,8 @@ const POLineView = ({
   const [isInstancePluginOpen, toggleInstancePlugin] = useModalToggle();
   const [isOrderLineReexportModalOpened, toggleOrderLineReexportModal] = useModalToggle();
   const [hiddenFields, setHiddenFields] = useState({});
+
+  const accordionStatusRef = useRef();
 
   const {
     cancelChangeInstance,
@@ -155,21 +161,6 @@ const POLineView = ({
         : (orderTemplate.hiddenFields || {})
     ));
   }, [orderTemplate.hiddenFields]);
-
-  const onToggleSection = useCallback(({ id, isOpened }) => {
-    setSections((prevSections) => {
-      const isSectionOpened = prevSections[id];
-
-      return {
-        ...prevSections,
-        [id]: isOpened ?? !isSectionOpened,
-      };
-    });
-  }, []);
-
-  const handleExpandAll = useCallback((newSections) => {
-    setSections(newSections);
-  }, []);
 
   const openVersionHistory = useCallback(() => {
     history.push({
@@ -232,11 +223,11 @@ const POLineView = ({
     },
     {
       name: 'expandAllSections',
-      handler: () => handleExpandAll(mapValues(sections, () => true)),
+      handler: (e) => expandAllSections(e, accordionStatusRef),
     },
     {
       name: 'collapseAllSections',
-      handler: () => handleExpandAll(mapValues(sections, () => false)),
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
     },
   ];
 
@@ -341,190 +332,190 @@ const POLineView = ({
         paneTitle={paneTitle}
         paneSub={line?.titleOrPackage}
       >
-        <AccordionSet
-          accordionStatus={sections}
-          onToggle={onToggleSection}
-        >
-          <Row
-            end="xs"
-            bottom="xs"
-          >
-            <Col xs={10}>
-              {(isPrintOrderModalOpened || isPrintLineModalOpened) && <Loading size="large" />}
+        <AccordionStatus ref={accordionStatusRef}>
+          {({ setStatus }) => (
+            <>
+              <Row
+                end="xs"
+                bottom="xs"
+              >
+                <Col xs={10}>
+                  {(isPrintOrderModalOpened || isPrintLineModalOpened) && <Loading size="large" />}
 
-              {isClosedOrder && (
-                <MessageBanner type="warning">
-                  <FormattedMessage
-                    id="ui-orders.line.closedOrderMessage"
-                    values={{ reason: order.closeReason?.reason }}
+                  {isClosedOrder && (
+                    <MessageBanner type="warning">
+                      <FormattedMessage
+                        id="ui-orders.line.closedOrderMessage"
+                        values={{ reason: order.closeReason?.reason }}
+                      />
+                    </MessageBanner>
+                  )}
+                </Col>
+                <Col xs={2}>
+                  <ExpandAllButton />
+                </Col>
+              </Row>
+              <AccordionSet initialStatus={initialAccordionStatus}>
+                <Accordion
+                  label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
+                  id="ItemDetails"
+                >
+                  {metadata && <ViewMetaData metadata={metadata} />}
+
+                  <ItemView
+                    poLineDetails={line}
+                    hiddenFields={hiddenFields}
                   />
-                </MessageBanner>
-              )}
-            </Col>
-            <Col xs={2}>
-              <ExpandAllButton
-                accordionStatus={sections}
-                onToggle={handleExpandAll}
-              />
-            </Col>
-          </Row>
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
-            id="ItemDetails"
-          >
-            {metadata && <ViewMetaData metadata={metadata} />}
+                </Accordion>
 
-            <ItemView
-              poLineDetails={line}
-              hiddenFields={hiddenFields}
-            />
-          </Accordion>
+                {line.isPackage && (
+                  <LineLinkedInstances
+                    line={line}
+                    labelId="ui-orders.line.accordion.packageTitles"
+                    setStatus={setStatus}
+                  />
+                )}
 
-          {line.isPackage && (
-            <LineLinkedInstances
-              line={line}
-              toggleSection={onToggleSection}
-              labelId="ui-orders.line.accordion.packageTitles"
-            />
-          )}
+                <Accordion
+                  label={<FormattedMessage id="ui-orders.line.accordion.poLine" />}
+                  id={ACCORDION_ID.poLine}
+                >
+                  <POLineDetails
+                    line={line}
+                    hiddenFields={hiddenFields}
+                  />
+                </Accordion>
+                {isOngoing(order.orderType) && (
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
+                    id={ACCORDION_ID.ongoingOrder}
+                  >
+                    <OngoingOrderView
+                      renewalNote={line.renewalNote}
+                      hiddenFields={hiddenFields}
+                    />
+                  </Accordion>
+                )}
+                <Accordion
+                  label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
+                  id="Vendor"
+                >
+                  <VendorView
+                    vendorDetail={line.vendorDetail}
+                    vendorId={order?.vendor}
+                    hiddenFields={hiddenFields}
+                  />
+                </Accordion>
+                <Accordion
+                  label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
+                  id="CostDetails"
+                >
+                  <CostView
+                    cost={line.cost}
+                    isPackage={line.isPackage}
+                    orderFormat={orderFormat}
+                    hiddenFields={hiddenFields}
+                  />
+                </Accordion>
+                <Accordion
+                  label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
+                  id="FundDistribution"
+                >
+                  <FundDistributionView
+                    currency={currency}
+                    fundDistributions={fundDistributions}
+                    totalAmount={estimatedPrice}
+                  />
+                </Accordion>
+                <Accordion
+                  label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+                  id={ACCORDION_ID.location}
+                >
+                  <LocationView
+                    lineLocations={line.locations}
+                    locations={locations}
+                  />
+                </Accordion>
+                {showPhresources && (
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
+                    id={ACCORDION_ID.physical}
+                  >
+                    <PhysicalView
+                      materialTypes={materialTypes}
+                      physical={get(line, 'physical', {})}
+                      hiddenFields={hiddenFields}
+                    />
+                  </Accordion>
+                )}
+                {showEresources && (
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
+                    id={ACCORDION_ID.eresources}
+                  >
+                    <EresourcesView
+                      line={line}
+                      materialTypes={materialTypes}
+                      order={order}
+                      hiddenFields={hiddenFields}
+                    />
+                  </Accordion>
+                )}
+                {showOther && (
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.other" />}
+                    id={ACCORDION_ID.other}
+                  >
+                    <OtherView
+                      materialTypes={materialTypes}
+                      physical={get(line, 'physical', {})}
+                      hiddenFields={hiddenFields}
+                    />
+                  </Accordion>
+                )}
+                <IfPermission perm="ui-notes.item.view">
+                  <NotesSmartAccordion
+                    domainName={ORDERS_DOMAIN}
+                    entityId={line.id}
+                    entityName={poLineNumber}
+                    entityType={NOTE_TYPES.poLine}
+                    hideAssignButton
+                    id={ACCORDION_ID.notes}
+                    pathToNoteCreate={`${NOTES_ROUTE}/new`}
+                    pathToNoteDetails={NOTES_ROUTE}
+                  />
+                </IfPermission>
 
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.poLine" />}
-            id={ACCORDION_ID.poLine}
-          >
-            <POLineDetails
-              line={line}
-              hiddenFields={hiddenFields}
-            />
-          </Accordion>
-          {isOngoing(order.orderType) && (
-            <Accordion
-              label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
-              id={ACCORDION_ID.ongoingOrder}
-            >
-              <OngoingOrderView
-                renewalNote={line.renewalNote}
-                hiddenFields={hiddenFields}
-              />
-            </Accordion>
-          )}
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
-            id="Vendor"
-          >
-            <VendorView
-              vendorDetail={line.vendorDetail}
-              vendorId={order?.vendor}
-              hiddenFields={hiddenFields}
-            />
-          </Accordion>
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
-            id="CostDetails"
-          >
-            <CostView
-              cost={line.cost}
-              isPackage={line.isPackage}
-              orderFormat={orderFormat}
-              hiddenFields={hiddenFields}
-            />
-          </Accordion>
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
-            id="FundDistribution"
-          >
-            <FundDistributionView
-              currency={currency}
-              fundDistributions={fundDistributions}
-              totalAmount={estimatedPrice}
-            />
-          </Accordion>
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.location" />}
-            id={ACCORDION_ID.location}
-          >
-            <LocationView
-              lineLocations={line.locations}
-              locations={locations}
-            />
-          </Accordion>
-          {showPhresources && (
-            <Accordion
-              label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
-              id={ACCORDION_ID.physical}
-            >
-              <PhysicalView
-                materialTypes={materialTypes}
-                physical={get(line, 'physical', {})}
-                hiddenFields={hiddenFields}
-              />
-            </Accordion>
-          )}
-          {showEresources && (
-            <Accordion
-              label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
-              id={ACCORDION_ID.eresources}
-            >
-              <EresourcesView
-                line={line}
-                materialTypes={materialTypes}
-                order={order}
-                hiddenFields={hiddenFields}
-              />
-            </Accordion>
-          )}
-          {showOther && (
-            <Accordion
-              label={<FormattedMessage id="ui-orders.line.accordion.other" />}
-              id={ACCORDION_ID.other}
-            >
-              <OtherView
-                materialTypes={materialTypes}
-                physical={get(line, 'physical', {})}
-                hiddenFields={hiddenFields}
-              />
-            </Accordion>
-          )}
-          <IfPermission perm="ui-notes.item.view">
-            <NotesSmartAccordion
-              domainName={ORDERS_DOMAIN}
-              entityId={line.id}
-              entityName={poLineNumber}
-              entityType={NOTE_TYPES.poLine}
-              hideAssignButton
-              id={ACCORDION_ID.notes}
-              onToggle={onToggleSection}
-              pathToNoteCreate={`${NOTES_ROUTE}/new`}
-              pathToNoteDetails={NOTES_ROUTE}
-            />
-          </IfPermission>
+                {Boolean(exportHistory?.length) && (
+                  <ExportDetailsAccordion
+                    id={ACCORDION_ID.exportDetails}
+                    exportHistory={exportHistory}
+                    isLoading={isExportHistoryLoading}
+                  />
+                )}
 
-          {Boolean(exportHistory?.length) && (
-            <ExportDetailsAccordion
-              id={ACCORDION_ID.exportDetails}
-              exportHistory={exportHistory}
-              isLoading={isExportHistoryLoading}
-            />
+                <RelatedInvoiceLines
+                  label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoiceLines" />}
+                  lineId={line?.id}
+                />
+
+                <POLineAgreementLinesContainer
+                  label={<FormattedMessage id="ui-orders.line.accordion.linkedAgreementLines" />}
+                  lineId={line.id}
+                />
+
+                {!line.isPackage && (
+                  <LineLinkedInstances
+                    line={line}
+                    labelId="ui-orders.line.accordion.linkedInstance"
+                    setStatus={setStatus}
+                  />
+                )}
+              </AccordionSet>
+            </>
           )}
+        </AccordionStatus>
 
-          <RelatedInvoiceLines
-            label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoiceLines" />}
-            lineId={line?.id}
-          />
-
-          <POLineAgreementLinesContainer
-            label={<FormattedMessage id="ui-orders.line.accordion.linkedAgreementLines" />}
-            lineId={line.id}
-          />
-
-          {!line.isPackage && (
-            <LineLinkedInstances
-              line={line}
-              toggleSection={onToggleSection}
-              labelId="ui-orders.line.accordion.linkedInstance"
-            />
-          )}
-        </AccordionSet>
         {showConfirmDelete && (
           <ConfirmationModal
             aria-label={deletePOLModalLabel}

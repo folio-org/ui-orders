@@ -4,19 +4,23 @@ import { render, screen, act } from '@testing-library/react';
 import { Field, Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import { HasCommand } from '@folio/stripes/components';
-import { TextField, useAccordionToggle } from '@folio/stripes-acq-components';
+import {
+  HasCommand,
+  collapseAllSections,
+  expandAllSections,
+} from '@folio/stripes/components';
+import { TextField } from '@folio/stripes-acq-components';
 
 import { history } from '../../../test/jest/routerMocks';
 import { ORDER_TYPE } from '../../common/constants';
 import PODetailsForm from './PODetails/PODetailsForm';
 import POForm from './POForm';
 
-jest.mock('@folio/stripes-components/lib/Commander', () => ({
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  collapseAllSections: jest.fn(),
+  expandAllSections: jest.fn(),
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
-}));
-jest.mock('@folio/stripes-acq-components/lib/hooks/useAccordionToggle', () => ({
-  useAccordionToggle: jest.fn().mockReturnValue([jest.fn(), {}, jest.fn()]),
 }));
 jest.mock('./PODetails/PODetailsForm', () => jest.fn().mockReturnValue('PODetailsForm'));
 jest.mock('./OngoingOrderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
@@ -169,12 +173,8 @@ describe('POForm', () => {
 });
 
 describe('POForm shortcuts', () => {
-  const toggleAll = jest.fn();
-
   beforeEach(() => {
     HasCommand.mockClear();
-    toggleAll.mockClear();
-    useAccordionToggle.mockClear().mockReturnValue([toggleAll, {}, jest.fn()]);
   });
 
   it('should call expandAllSections when expandAllSections shortcut is called', () => {
@@ -182,7 +182,7 @@ describe('POForm shortcuts', () => {
 
     act(() => HasCommand.mock.calls[0][0].commands.find(c => c.name === 'expandAllSections').handler());
 
-    expect(toggleAll).toHaveBeenCalled();
+    expect(expandAllSections).toHaveBeenCalled();
   });
 
   it('should call collapseAllSections when collapseAllSections shortcut is called', () => {
@@ -190,6 +190,6 @@ describe('POForm shortcuts', () => {
 
     act(() => HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler());
 
-    expect(toggleAll).toHaveBeenCalled();
+    expect(collapseAllSections).toHaveBeenCalled();
   });
 });
