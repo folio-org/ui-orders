@@ -833,5 +833,11 @@
     "unopenOrderModal.confirmLabel.deleteHoldings.independent": "Smazat holdingy",
     "unopenOrderModal.message.synchronized": "Tato objednávka má alespoň jeden řádek objednávky s pracovním postupem příjmu \"Synchronizované množství objednávky a příjmu\". U takových ŘNO se souvisejícími záznamy o příjmu budou vymazány všechny nepřijaté kusy a všechny záznamy jednotek „na objednávku“ související s těmito kusy budou také vymazány z katalogu. Z katalogu lze také odstranit jednotky spojené s jednotkami, které nemají žádné další související jednotky. Jak byste chtěli postupovat?",
     "unopenOrderModal.message.independent": "Tato objednávka má alespoň jeden řádek objednávky se souvisejícím záznamem holdingu, který neodkazuje na žádné kusy nebo jednotky. Holdingy bez dalších souvisejících jednotek mohou být v případě potřeby odstraněny z inventáře. Jak byste chtěli postupovat?",
-    "order.unopen.error": "Při neotevření nákupní objednávky došlo k chybě"
+    "order.unopen.error": "Při neotevření nákupní objednávky došlo k chybě",
+    "settings.orderTemplates.confirmDuplicate.heading": "Duplikovat šablonu",
+    "settings.orderTemplates.confirmDuplicate.message": "Opravdu chcete šablonu duplikovat?",
+    "settings.orderTemplates.duplicate.suffix": "(Kopírovat)",
+    "settings.orderTemplates.duplicate.success": "Šablona byla úspěšně duplikována",
+    "settings.orderTemplates.duplicate.error": "Šablona nebyla duplikována",
+    "exportSettings.load.start": "Export byl úspěšně zahájen"
 }

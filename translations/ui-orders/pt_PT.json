@@ -833,5 +833,11 @@
     "unopenOrderModal.confirmLabel.deleteHoldings.independent": "Delete Holdings",
     "unopenOrderModal.message.synchronized": "This order has at least one order line with receiving workflow \"Synchronized order and receipt quantity\". Such POLs with related receiving records will have any unreceived pieces deleted, and any \"On order\" Item records related to those pieces will also be deleted from inventory. Holdings linked to those items that have no other related items can also be deleted from inventory. How would you like to proceed?",
     "unopenOrderModal.message.independent": "This order has at least one order line with related Holdings record(s) that do not reference any pieces or items. Holdings with no other related items can be deleted from inventory if desired. How would you like to proceed?",
-    "order.unopen.error": "An error occured during purchase order unopen"
+    "order.unopen.error": "An error occured during purchase order unopen",
+    "settings.orderTemplates.confirmDuplicate.heading": "Duplicate template",
+    "settings.orderTemplates.confirmDuplicate.message": "Are you sure you want to duplicate the template?",
+    "settings.orderTemplates.duplicate.suffix": "(Copy)",
+    "settings.orderTemplates.duplicate.success": "The template was successfully duplicated",
+    "settings.orderTemplates.duplicate.error": "The template was not duplicated",
+    "exportSettings.load.start": "A exportação foi iniciada com sucesso"
 }
