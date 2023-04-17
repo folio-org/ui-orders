@@ -1,5 +1,5 @@
 {
-    "meta.title": "Aquisições",
+    "meta.title": "Pedidos",
     "search": "Pesquisa",
     "resultCount": "{count, number} {count, plural, one {Registro encontrado} other {Registros encontrados}}",
     "order_format.container": "Contêiner",
@@ -108,7 +108,7 @@
     "physical.volume": "Volume",
     "physical.addVolume": "Por favor, adicione o volume",
     "physical.addVolumeBtn": "Adicionar volume",
-    "settings.index.paneTitle": "Aquisições",
+    "settings.index.paneTitle": "Pedidos",
     "settings.saveBtn": "Salvar",
     "settings.setPOLInesLimit": "Definir limite de linhas de pedidos",
     "settings.setPOLInesLimit.changed": "O limite de linhas de pedidos foi salvo com sucesso",
@@ -676,7 +676,7 @@
     "settings.instanceMatching.description": "Quando a correspondência ativa de instância fará com que as linhas de pedidos de compra sejam definidas para criar uma instância, mas não são vinculadas manualmente a um registro de instância. Para primeiro procurar instâncias para encontrar uma correspondência para uma ou mais das identificações de produtos fornecidas na Linha do Pedido de Compra. Se for encontrada uma identificação de produto, essa instância será vinculada à Linha do Pedido de Compra e o sistema NÃO criará uma nova instância para essa Linha do Pedido de Compra. Se não for encontrada nenhuma correspondência, o sistema criará um novo registro de instância e ligará a Linha do Pedido de Compra a essa instância.",
     "settings.instanceMatching.toggle": "Desativar correspondência de instância",
     "shortcut.addPOL": "Adicionar Linha do Pedido de Compra",
-    "appMenu.ordersAppSearch": "Busca na app de Aquisições",
+    "appMenu.ordersAppSearch": "Busca na app de Pedidos",
     "acquisitionMethod.invalid": "Referência inválida",
     "button.printOrder": "Imprimir pedido",
     "button.printLine": "Imprimir linha de pedido",
@@ -833,5 +833,11 @@
     "unopenOrderModal.confirmLabel.deleteHoldings.independent": "Excluir coleções",
     "unopenOrderModal.message.synchronized": "Este pedido tem pelo menos uma linha com fluxo de trabalho de recebimento \"Pedido sincronizado e quantidade de recebimento\". Tais Linhas de Pedidos de Compra com registros de recebimento relacionados terão todas as peças não recebidas excluídas e todos os registros de itens \"sob encomenda\" relacionados a essas peças também serão excluídos do estoque. As coleções vinculadas a esses itens que não possuem outros itens relacionados também podem ser excluídos do estoque. Como você gostaria de proceder?",
     "unopenOrderModal.message.independent": "Este pedido tem pelo menos uma linha com registro(s) de Coleção(ões) relacionado(s) que não fazem referência a nenhuma peça ou item. Coleções sem outros itens relacionados podem ser excluídos do inventário, se desejado. Como você gostaria de proceder?",
-    "order.unopen.error": "Ocorreu um erro durante o pedido de compra não aberta"
+    "order.unopen.error": "Ocorreu um erro durante o pedido de compra não aberta",
+    "settings.orderTemplates.confirmDuplicate.heading": "Modelo duplicado",
+    "settings.orderTemplates.confirmDuplicate.message": "Tem certeza de que deseja duplicar o modelo?",
+    "settings.orderTemplates.duplicate.suffix": "(Cópia)",
+    "settings.orderTemplates.duplicate.success": "O modelo foi duplicado com sucesso",
+    "settings.orderTemplates.duplicate.error": "O modelo não foi duplicado",
+    "exportSettings.load.start": "A exportação foi iniciada com sucesso"
 }

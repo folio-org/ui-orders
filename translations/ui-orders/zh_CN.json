@@ -833,5 +833,11 @@
     "unopenOrderModal.confirmLabel.deleteHoldings.independent": "删除馆藏",
     "unopenOrderModal.message.synchronized": "此订单至少有一个带有接收工作流程“已同步订单和接收数量”的订单行。此类具有相关接收记录的订单行将删除所有未接收件，并且与这些件相关的任何“订购中”单件记录也将从典藏中删除。链接到那些没有其他相关单件的单件的馆藏也可以从典藏中删除。你想如何进行？",
     "unopenOrderModal.message.independent": "此订单至少有一个订单行包含相关的馆藏记录，但未引用任何件或单件。如果需要，可以从典藏中删除没有其他相关单件的馆藏。你想如何进行？",
-    "order.unopen.error": "采购订单解开时发生错误"
+    "order.unopen.error": "采购订单解开时发生错误",
+    "settings.orderTemplates.confirmDuplicate.heading": "Duplicate template",
+    "settings.orderTemplates.confirmDuplicate.message": "Are you sure you want to duplicate the template?",
+    "settings.orderTemplates.duplicate.suffix": "(Copy)",
+    "settings.orderTemplates.duplicate.success": "The template was successfully duplicated",
+    "settings.orderTemplates.duplicate.error": "The template was not duplicated",
+    "exportSettings.load.start": "Export has been started successfully"
 }
