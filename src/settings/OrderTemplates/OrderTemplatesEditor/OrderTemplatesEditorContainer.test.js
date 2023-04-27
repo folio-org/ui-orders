@@ -111,7 +111,9 @@ describe('OrderTemplatesEditorContainer', () => {
   it('should save template when form was submitted', async () => {
     renderOrderTemplatesEditorContainer();
 
-    await waitFor(() => OrderTemplatesEditor.mock.calls[0][0].onSubmit());
+    await waitFor(() => OrderTemplatesEditor.mock.calls[0][0].onSubmit({
+      templateName: 'aaa',
+    }));
 
     expect(defaultProps.mutator.orderTemplate.POST).toHaveBeenCalled();
   });
@@ -126,7 +128,9 @@ describe('OrderTemplatesEditorContainer', () => {
 
       renderOrderTemplatesEditorContainer();
 
-      await waitFor(() => OrderTemplatesEditor.mock.calls[0][0].onSubmit());
+      await waitFor(() => OrderTemplatesEditor.mock.calls[0][0].onSubmit({
+        templateName: 'aaa',
+      }));
 
       expect(getCommonErrorMessage).toHaveBeenCalled();
     });

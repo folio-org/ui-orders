@@ -48,8 +48,9 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   const showToast = useShowCallout();
   const saveOrderTemplate = useCallback((values) => {
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplate.POST;
+    const templateName = values.templateName?.trim();
 
-    mutatorMethod({ ...values, hideAll: undefined })
+    mutatorMethod({ ...values, templateName, hideAll: undefined })
       .then(() => {
         showToast({ messageId: 'ui-orders.settings.orderTemplates.save.success' });
         close();
