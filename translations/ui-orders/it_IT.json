@@ -772,7 +772,7 @@
     "reexport.order.fail": "La riesportazione del buono d'ordine è fallita",
     "reexport.order.confirmModal.message": "Questo buono d'ordine è stato precedentemente inviato a <b>{vendorFromExport}</b> tramite <b>{exportMethod}</b>. Si desidera che questo buono venga inviato a <b>{vendorFromOrder}</b> con la prossima esportazione?",
     "reexport.orderLine.confirmModal.heading": "Riesporta la riga dell'ordine",
-    "reexport.orderLine.confirmModal.message": "Si desidera che questa riga d'ordine venga inviata a <b>{vendorFromOrder}</b> con la prossima esportazione?",
+    "reexport.orderLine.confirmModal.message": "This order line was previously sent to <b>{vendorFromExport}</b> via <b>{exportMethod}</b>. Would you like this order line to be sent to <b>{vendorFromOrder}</b> with the next export?",
     "reexport.orderLine.success": "La riesportazione della riga d'ordine è stata completata con successo",
     "reexport.orderLine.fail": "La riesportazione della riga d'ordine è fallita",
     "export.fileName": "File name",
