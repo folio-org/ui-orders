@@ -188,6 +188,7 @@
   "errors.missingInstanceType": "Order can not be opened as the type of {value} is undefined",
   "errors.missingLoanType": "Order can not be opened as a loan type was not configured in orders settings or the configured type {value} no longer exists",
   "errors.missingOngoing": "Ongoing field must be present for Ongoing order",
+  "errors.multipleFiscalYearsFound": "Order line fund distributions have active budgets in multiple fiscal years.",
   "errors.multipleNonPackageTitles": "Non-package PO Line must not contain more than one title reference",
   "errors.noCreatedOrder": "Purchase order has not been created",
   "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
