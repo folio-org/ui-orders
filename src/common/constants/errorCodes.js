@@ -45,6 +45,7 @@ export const ERROR_CODES = {
   missingInstanceType: 'missingInstanceType',
   missingLoanType: 'missingLoanType',
   missingOngoing: 'missingOngoing',
+  multipleFiscalYears: 'multipleFiscalYears',
   multipleNonPackageTitles: 'multipleNonPackageTitles',
   nonZeroCostQtyElectronic: 'nonZeroCostQtyElectronic',
   nonZeroCostQtyPhysical: 'nonZeroCostQtyPhysical',
