@@ -839,5 +839,6 @@
     "settings.orderTemplates.duplicate.suffix": "（复制）",
     "settings.orderTemplates.duplicate.success": "模板复制成功",
     "settings.orderTemplates.duplicate.error": "模板未被复制",
-    "exportSettings.load.start": "导出已成功启动"
+    "exportSettings.load.start": "导出已成功启动",
+    "errors.multipleFiscalYears": "Order line fund distributions have active budgets in multiple fiscal years."
 }

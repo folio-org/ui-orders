@@ -839,5 +839,6 @@
     "settings.orderTemplates.duplicate.suffix": "(Copy)",
     "settings.orderTemplates.duplicate.success": "The template was successfully duplicated",
     "settings.orderTemplates.duplicate.error": "The template was not duplicated",
-    "exportSettings.load.start": "A exportação foi iniciada com sucesso"
+    "exportSettings.load.start": "A exportação foi iniciada com sucesso",
+    "errors.multipleFiscalYears": "Order line fund distributions have active budgets in multiple fiscal years."
 }
