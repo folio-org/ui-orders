@@ -1,3 +1,4 @@
+export * from './useAcqMethod';
 export * from './useAcqMethods';
 export * from './useErrorAccordionStatus';
 export { default as useCloseReasonOptions } from './useCloseReasonOptions';

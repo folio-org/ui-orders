@@ -1,8 +1,14 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 
-import POLineDetails from './POLineDetails';
+import { ACQUISITION_METHOD } from '@folio/stripes-acq-components';
+
+import POLineDetails, {
+  getAcquisitionMethodValue,
+  getReceivingWorkflowValue,
+} from './POLineDetails';
 
 const queryClient = new QueryClient();
 
@@ -41,5 +47,43 @@ describe('POLineDetails', () => {
     expect(screen.getByText('ui-orders.poLine.receivingWorkflow')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.cancellationRestrictionNote')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.poLineDescription')).toBeInTheDocument();
+  });
+
+  describe('getAcquisitionMethodValue', () => {
+    it('should return \'null\' if PO Line \'acquisitionMethod\' is undefined or null', () => {
+      const acqMethodValue = getAcquisitionMethodValue(null, null);
+
+      expect(acqMethodValue).toBeNull();
+    });
+
+    it('should return \'invalid reference\' label if acq method with specified ID was not loaded', () => {
+      const acqMethodValue = getAcquisitionMethodValue('testAcqMethod', null);
+
+      expect(acqMethodValue).toEqual(<FormattedMessage id="ui-orders.acquisitionMethod.invalid" />);
+    });
+
+    it('should return translated label for acq method', () => {
+      const acqMethodValue = getAcquisitionMethodValue('acqMethod', { value: ACQUISITION_METHOD.approvalPlan });
+
+      expect(acqMethodValue).toEqual(
+        <FormattedMessage
+          id="stripes-acq-components.acquisition_method.approvalPlan"
+          defaultMessage={ACQUISITION_METHOD.approvalPlan}
+        />,
+      );
+    });
+  });
+
+  describe('getReceivingWorkflowValue', () => {
+    it('should return \'null\' if PO Line \'checkinItems\' is undefined or null', () => {
+      const acqMethodValue = getReceivingWorkflowValue(null);
+
+      expect(acqMethodValue).toBeNull();
+    });
+
+    it('should return translated label for receiving workflow', () => {
+      expect(getReceivingWorkflowValue(false)).toEqual(<FormattedMessage id="ui-orders.poLine.receivingWorkflow.synchronized" />);
+      expect(getReceivingWorkflowValue(true)).toEqual(<FormattedMessage id="ui-orders.poLine.receivingWorkflow.independent" />);
+    });
   });
 });

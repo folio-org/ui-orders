@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import {
   FormattedMessage,
 } from 'react-intl';
-import { get } from 'lodash';
+import {
+  get,
+  isNil,
+} from 'lodash';
 
 import { ClipCopy } from '@folio/stripes/smart-components';
 import {
@@ -20,19 +23,33 @@ import {
   sourceLabels,
 } from '@folio/stripes-acq-components';
 
-import { useAcqMethods } from '../../../common/hooks';
+import { useAcqMethod } from '../../../common/hooks';
 import { IfVisible } from '../../../common/IfVisible';
 import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
 
+export const getReceivingWorkflowValue = (checkinItems) => {
+  if (isNil(checkinItems)) return null;
+
+  return (
+    <FormattedMessage
+      id={`ui-orders.poLine.receivingWorkflow.${checkinItems ? 'independent' : 'synchronized'}`}
+    />
+  );
+};
+
+export const getAcquisitionMethodValue = (acqMethodId, acqMethod) => {
+  if (!acqMethodId) return null;
+
+  return acqMethod
+    ? getTranslatedAcqMethod(acqMethod.value)
+    : invalidAcqMethod;
+};
+
 const POLineDetails = ({ line, hiddenFields }) => {
   const receiptDate = get(line, 'receiptDate');
-  const { acqMethods, isLoading } = useAcqMethods(line.acquisitionMethod);
-
-  const translatedAcqMethod = (!isLoading && acqMethods[0])
-    ? getTranslatedAcqMethod(acqMethods[0].value)
-    : invalidAcqMethod;
+  const { acqMethod, isLoading } = useAcqMethod(line.acquisitionMethod);
 
   return (
     <>
@@ -62,7 +79,7 @@ const POLineDetails = ({ line, hiddenFields }) => {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-              value={isLoading ? <Loading /> : translatedAcqMethod}
+              value={isLoading ? <Loading /> : getAcquisitionMethodValue(line.acquisitionMethod, acqMethod)}
             />
           </Col>
         </IfVisible>
@@ -247,7 +264,7 @@ const POLineDetails = ({ line, hiddenFields }) => {
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.receivingWorkflow" />}
-              value={<FormattedMessage id={`ui-orders.poLine.receivingWorkflow.${line.checkinItems ? 'independent' : 'synchronized'}`} />}
+              value={getReceivingWorkflowValue(line.checkinItems)}
             />
           </Col>
         </IfVisible>
