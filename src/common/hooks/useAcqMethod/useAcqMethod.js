@@ -14,7 +14,7 @@ export const useAcqMethod = (methodId, options = {}) => {
     [namespace, methodId],
     () => ky.get(`${ACQUISITION_METHODS_API}/${methodId}`).json(),
     {
-      enabled: methodId,
+      enabled: Boolean(methodId),
       ...options,
     },
   );
