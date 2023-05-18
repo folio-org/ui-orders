@@ -29,7 +29,7 @@ import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
 
-const getReceivingWorkflowValue = (checkinItems) => {
+export const getReceivingWorkflowValue = (checkinItems) => {
   if (isNil(checkinItems)) return null;
 
   return (
@@ -39,7 +39,7 @@ const getReceivingWorkflowValue = (checkinItems) => {
   );
 };
 
-const getAcquisitionMethodValue = (acqMethodId, acqMethod) => {
+export const getAcquisitionMethodValue = (acqMethodId, acqMethod) => {
   if (!acqMethodId) return null;
 
   return acqMethod
