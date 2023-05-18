@@ -1,7 +1,9 @@
-import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Form } from 'react-final-form';
+
+import { RECEIPT_STATUS } from '@folio/stripes-acq-components';
 
 import POLineDetailsForm from './POLineDetailsForm';
 
@@ -10,10 +12,6 @@ const defaultProps = {
     label: 'label',
     value: 'value',
   }],
-  formValues: {
-    isPackage: false,
-  },
-  initialValues: {},
   order: {
     workflowStatus: 'Pending',
   },
@@ -22,7 +20,6 @@ const defaultProps = {
       records: [],
     },
   },
-  change: jest.fn(),
 };
 
 const queryClient = new QueryClient();
@@ -34,11 +31,19 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-const renderPOLineDetailsForm = (props = {}) => render(
+const renderPOLineDetailsForm = (props = {}, _initialValues = {}) => render(
   <Form
     onSubmit={() => jest.fn()}
-    render={() => (
+    initialValues={_initialValues}
+    render={({
+      initialValues,
+      form: { change },
+      values,
+    }) => (
       <POLineDetailsForm
+        initialValues={initialValues}
+        formValues={values}
+        change={change}
         {...defaultProps}
         {...props}
       />
@@ -68,5 +73,19 @@ describe('POLineDetailsForm', () => {
     expect(screen.getByText('ui-orders.poLine.receivingWorkflow')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.cancellationRestrictionNote')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.poLineDescription')).toBeInTheDocument();
+  });
+
+  it('should set to \'Independent order and receipt quantity\' if a user selects \'Receipt not required\'', () => {
+    renderPOLineDetailsForm(null, { checkinItems: false });
+
+    const receiptStatusField = screen.getByRole('combobox', { name: 'ui-orders.poLine.receiptStatus' });
+    const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
+
+    expect(receivingWorkflowField).toHaveValue('false');
+
+    userEvent.selectOptions(receiptStatusField, RECEIPT_STATUS.receiptNotRequired);
+
+    expect(receivingWorkflowField).toHaveValue('true');
+    expect(receivingWorkflowField).toBeDisabled();
   });
 });

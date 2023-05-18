@@ -12,6 +12,7 @@ import {
   FolioFormattedTime,
   sourceLabels,
   FieldTags,
+  RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -37,6 +38,8 @@ import getCreateInventorySetting from '../../../common/utils/getCreateInventoryS
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
 
+const isReceiptNotRequired = (status) => status === RECEIPT_STATUS.receiptNotRequired;
+
 function POLineDetailsForm({
   change,
   formValues,
@@ -52,6 +55,12 @@ function POLineDetailsForm({
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isPackage = get(formValues, 'isPackage');
 
+  const checkinItemsFieldDisabled = (
+    isPostPendingOrder
+    || isPackage
+    || (!isPostPendingOrder && isReceiptNotRequired(formValues?.receiptStatus))
+  );
+
   const onAcqMethodChange = useCallback(
     (value) => {
       change('acquisitionMethod', value);
@@ -60,6 +69,14 @@ function POLineDetailsForm({
       toggleAutomaticExport({ vendorAccount, acquisitionMethod: value, integrationConfigs, change });
     }, [change, formValues, integrationConfigs],
   );
+
+  const onReceiptStatusChange = useCallback(({ target: { value } }) => {
+    change('receiptStatus', value);
+
+    if (!isPostPendingOrder && isReceiptNotRequired(value)) {
+      change('checkinItems', true);
+    }
+  }, [change, isPostPendingOrder]);
 
   return (
     <>
@@ -132,7 +149,10 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldReceiptStatus workflowStatus={order.workflowStatus} />
+            <FieldReceiptStatus
+              workflowStatus={order.workflowStatus}
+              onChange={onReceiptStatusChange}
+            />
           </Col>
         </IfFieldVisible>
 
@@ -215,7 +235,7 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldCheckInItems disabled={isPostPendingOrder || isPackage} required />
+            <FieldCheckInItems disabled={checkinItemsFieldDisabled} required />
           </Col>
         </IfFieldVisible>
       </Row>

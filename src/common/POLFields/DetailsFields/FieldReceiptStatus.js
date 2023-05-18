@@ -29,7 +29,10 @@ const RECEIPT_STATUSES_BY_ORDER_STATUS = {
   ],
 };
 
-const FieldReceiptStatus = ({ workflowStatus }) => {
+const FieldReceiptStatus = ({
+  onChange,
+  workflowStatus,
+}) => {
   const { meta: { initial } } = useField('receiptStatus');
   const statuses = Object.keys(RECEIPT_STATUS)
     .filter(key => {
@@ -46,11 +49,13 @@ const FieldReceiptStatus = ({ workflowStatus }) => {
       label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
       name="receiptStatus"
       disabled={!statuses.length}
+      onChange={onChange}
     />
   );
 };
 
 FieldReceiptStatus.propTypes = {
+  onChange: PropTypes.func,
   workflowStatus: PropTypes.string,
 };
 
