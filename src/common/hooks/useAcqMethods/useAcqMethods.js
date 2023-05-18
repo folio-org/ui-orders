@@ -1,30 +1,39 @@
 import { useQuery } from 'react-query';
 
-import { useOkapiKy } from '@folio/stripes/core';
-
+import {
+  useNamespace,
+  useOkapiKy,
+} from '@folio/stripes/core';
 import {
   ACQUISITION_METHODS_API,
   LIMIT_MAX,
 } from '@folio/stripes-acq-components';
 
-export const useAcqMethods = (methodId) => {
+const DEFAULT_DATA = [];
+
+export const useAcqMethods = (options = {}) => {
   const ky = useOkapiKy();
+  const [namespace] = useNamespace();
 
   const searchParams = {
     limit: LIMIT_MAX,
     query: 'cql.allRecords=1 sortby value',
   };
 
-  const { isLoading, data } = useQuery(
-    ['ui-orders', 'acq-methods', methodId],
+  const {
+    isLoading,
+    data = DEFAULT_DATA,
+  } = useQuery(
+    [namespace, 'acq-methods'],
     () => ky.get(
-      methodId ? `${ACQUISITION_METHODS_API}/${methodId}` : ACQUISITION_METHODS_API,
+      ACQUISITION_METHODS_API,
       { searchParams },
-    ).json().catch(() => null),
+    ).json(),
+    options,
   );
 
   return ({
-    acqMethods: (methodId ? [data] : data?.acquisitionMethods) ?? [],
+    acqMethods: data?.acquisitionMethods,
     isLoading,
   });
 };
