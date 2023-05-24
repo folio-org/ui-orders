@@ -56,6 +56,7 @@ export const cloneOrder = async (order, mutator, orderNumberMutator, lines) => {
       [
         'id', 'adjustment', 'metadata', 'poNumber', 'workflowStatus',
         'compositePoLines', 'approved', 'approvedById', 'approvalDate',
+        'nextPolNumber',
       ],
     ),
     poNumber,
