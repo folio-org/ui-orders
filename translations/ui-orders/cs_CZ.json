@@ -480,7 +480,7 @@
     "createdDateAndTime": "Datum a čas vytvoření",
     "createdSource": "Vytvořený zdroj",
     "fund.fundIdentifier": "ID fondu",
-    "fund.selectAdjustment": "Vyberte úpravu",
+    "fund.selectAdjustment": "Vybrat úpravu",
     "fund.value": "Hodnota",
     "order.adminData": "NO údaje správce",
     "order.notes.date": "Datum",
@@ -840,5 +840,5 @@
     "settings.orderTemplates.duplicate.success": "Šablona byla úspěšně duplikována",
     "settings.orderTemplates.duplicate.error": "Šablona nebyla duplikována",
     "exportSettings.load.start": "Export byl úspěšně zahájen",
-    "errors.multipleFiscalYears": "Order line fund distributions have active budgets in multiple fiscal years."
+    "errors.multipleFiscalYears": "Rozdělení prostředků v rámci řádku objednávky má aktivní rozpočty na více fiskálních let."
 }
