@@ -840,5 +840,5 @@
     "settings.orderTemplates.duplicate.success": "模板复制成功",
     "settings.orderTemplates.duplicate.error": "模板未被复制",
     "exportSettings.load.start": "导出已成功启动",
-    "errors.multipleFiscalYears": "Order line fund distributions have active budgets in multiple fiscal years."
+    "errors.multipleFiscalYears": "订单行经费分配在多个财务年度都有有效预算。"
 }
