@@ -22,14 +22,14 @@ import {
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { VisibilityControl } from '../../../common/VisibilityControl';
 import { ACCORDION_ID } from '../constants';
-import { isWorkflowStatusIsPending } from '../util';
+import { isWorkflowStatusOpen } from '../util';
 
 const OngoingInfoForm = ({ hiddenFields = {} }) => {
   const { values } = useFormState();
   const ongoingFormValues = values.ongoing;
   const disabled = !isOngoing(values.orderType);
   const isSubscription = !!ongoingFormValues?.isSubscription;
-  const isNonInteractive = values.workflowStatus && !isWorkflowStatusIsPending(values);
+  const isNonInteractive = values.workflowStatus && !isWorkflowStatusOpen(values);
 
   if (isNonInteractive && disabled) return null;
 
