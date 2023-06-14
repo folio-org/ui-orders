@@ -68,5 +68,6 @@ describe('useConnectedInvoiceLines', () => {
     });
 
     expect(result.current.invoiceLines).toEqual(resultData);
+    expect(result.current.totalInvoiceLines).toBe(1);
   });
 });
