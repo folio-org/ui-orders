@@ -11,6 +11,7 @@
 * Some values are displayed by default in "View" mode for empty fields in the order template. Refs UIOR-1103.
 * Automatically set to Independent order and receipt quantity if a user selects Receipt not required. Refs UIOR-1015.
 * Ability to edit Ongoing order information of Open orders. Refs UIOR-1102.
+* Add pagination to "Related invoices" accordion PO. Refs UIOR-1106.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)

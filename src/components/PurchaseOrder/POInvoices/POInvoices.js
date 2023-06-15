@@ -14,6 +14,9 @@ import {
   FolioFormattedDate,
   FrontendSortingMCL,
   DESC_DIRECTION,
+  RESULT_COUNT_INCREMENT,
+  useLocalPagination,
+  PrevNextPagination,
 } from '@folio/stripes-acq-components';
 
 const COLUMN_INVOICE_DATE = 'invoiceDate';
@@ -31,6 +34,8 @@ const sorters = {
 };
 
 const POInvoices = ({ orderInvoices, vendors }) => {
+  const { paginatedData, pagination, setPagination } = useLocalPagination(orderInvoices, RESULT_COUNT_INCREMENT);
+
   if (!orderInvoices || !vendors) {
     return null;
   }
@@ -57,18 +62,29 @@ const POInvoices = ({ orderInvoices, vendors }) => {
   };
 
   return (
-    <FrontendSortingMCL
-      columnMapping={columnMapping}
-      contentData={orderInvoices}
-      formatter={resultFormatter}
-      id="orderInvoices"
-      interactive={false}
-      sortDirection={DESC_DIRECTION}
-      sortedColumn={COLUMN_INVOICE_DATE}
-      sorters={sorters}
-      visibleColumns={visibleColumns}
-      columnIdPrefix="invoices"
-    />
+    <>
+      <FrontendSortingMCL
+        columnMapping={columnMapping}
+        contentData={paginatedData}
+        formatter={resultFormatter}
+        id="orderInvoices"
+        interactive={false}
+        sortDirection={DESC_DIRECTION}
+        sortedColumn={COLUMN_INVOICE_DATE}
+        sorters={sorters}
+        visibleColumns={visibleColumns}
+        columnIdPrefix="invoices"
+        hasPagination
+      />
+      {orderInvoices?.length > 0 && (
+        <PrevNextPagination
+          {...pagination}
+          totalCount={orderInvoices.length}
+          onChange={setPagination}
+          disabled={false}
+        />
+      )}
+    </>
   );
 };
 
