@@ -13,6 +13,9 @@ import {
   FolioFormattedDate,
   FrontendSortingMCL,
   DESC_DIRECTION,
+  RESULT_COUNT_INCREMENT,
+  useLocalPagination,
+  PrevNextPagination,
 } from '@folio/stripes-acq-components';
 
 import { ACCORDION_ID } from '../const';
@@ -64,7 +67,8 @@ const sorters = {
 };
 
 export const RelatedInvoiceLines = ({ lineId, label }) => {
-  const { isLoading, invoiceLines } = useConnectedInvoiceLines(lineId);
+  const { isLoading, invoiceLines, totalInvoiceLines } = useConnectedInvoiceLines(lineId);
+  const { paginatedData, pagination, setPagination } = useLocalPagination(invoiceLines, RESULT_COUNT_INCREMENT);
 
   return (
     <Accordion
@@ -75,7 +79,7 @@ export const RelatedInvoiceLines = ({ lineId, label }) => {
         isLoading ? <Loading /> : (
           <FrontendSortingMCL
             columnMapping={columnMapping}
-            contentData={invoiceLines}
+            contentData={paginatedData}
             formatter={resultFormatter}
             id="invoiceLines"
             interactive={false}
@@ -84,9 +88,18 @@ export const RelatedInvoiceLines = ({ lineId, label }) => {
             sorters={sorters}
             visibleColumns={visibleColumns}
             columnIdPrefix="invoice-lines"
+            hasPagination
           />
         )
       }
+      {invoiceLines?.length > 0 && (
+        <PrevNextPagination
+          {...pagination}
+          totalCount={totalInvoiceLines}
+          onChange={setPagination}
+          disabled={false}
+        />
+      )}
     </Accordion>
   );
 };

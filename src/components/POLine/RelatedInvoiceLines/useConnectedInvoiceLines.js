@@ -28,7 +28,7 @@ export const useConnectedInvoiceLines = (orderLineId) => {
   const { isLoading, data = [] } = useQuery(
     [namespace],
     async () => {
-      const { invoiceLines = [] } = await ky.get(INVOICE_LINES_API, {
+      const { invoiceLines = [], totalRecords } = await ky.get(INVOICE_LINES_API, {
         searchParams: {
           query: `poLineId==${orderLineId}`,
           limit: LIMIT_MAX,
@@ -57,7 +57,7 @@ export const useConnectedInvoiceLines = (orderLineId) => {
       );
       const vendorsMap = convertToMap(vendors);
 
-      return invoiceLines.map(invoiceLine => {
+      const result = invoiceLines.map(invoiceLine => {
         const invoice = invoicesMap[invoiceLine.invoiceId];
         const vendor = vendorsMap[invoice.vendorId];
 
@@ -67,12 +67,18 @@ export const useConnectedInvoiceLines = (orderLineId) => {
           vendor,
         };
       });
+
+      return {
+        invoiceLines: result,
+        totalInvoiceLines: totalRecords,
+      };
     },
     { enabled: Boolean(orderLineId) },
   );
 
   return {
-    invoiceLines: data,
     isLoading,
+    invoiceLines: data.invoiceLines,
+    totalInvoiceLines: data.totalInvoiceLines,
   };
 };
