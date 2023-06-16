@@ -37,7 +37,7 @@ const resultData = [{
 const queryClient = new QueryClient();
 
 const kyResponseMap = {
-  [INVOICE_LINES_API]: { invoiceLines: [invoiceLine] },
+  [INVOICE_LINES_API]: { invoiceLines: [invoiceLine], totalRecords: 1 },
   [INVOICES_API]: { invoices: [invoice] },
   [VENDORS_API]: { organizations: [vendor] },
 };
@@ -68,5 +68,6 @@ describe('useConnectedInvoiceLines', () => {
     });
 
     expect(result.current.invoiceLines).toEqual(resultData);
+    expect(result.current.totalInvoiceLines).toBe(1);
   });
 });
