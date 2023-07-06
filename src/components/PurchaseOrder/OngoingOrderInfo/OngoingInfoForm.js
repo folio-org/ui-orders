@@ -22,16 +22,20 @@ import {
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { VisibilityControl } from '../../../common/VisibilityControl';
 import { ACCORDION_ID } from '../constants';
-import { isWorkflowStatusClosed } from '../util';
+import {
+  isWorkflowStatusIsPending,
+  isWorkflowStatusClosed,
+} from '../util';
 
 const OngoingInfoForm = ({ hiddenFields = {} }) => {
   const { values } = useFormState();
   const ongoingFormValues = values.ongoing;
   const disabled = !isOngoing(values.orderType);
   const isSubscription = !!ongoingFormValues?.isSubscription;
-  const isNonInteractive = values.workflowStatus && isWorkflowStatusClosed(values);
+  const isClosedNonInteractive = values.workflowStatus && isWorkflowStatusClosed(values);
+  const isNonPendingNonInteractive = values.workflowStatus && !isWorkflowStatusIsPending(values);
 
-  if (isNonInteractive && disabled) return null;
+  if (isClosedNonInteractive && disabled) return null;
 
   return (
     <Accordion
@@ -47,7 +51,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
             <VisibilityControl name="hiddenFields.ongoing.isSubscription">
               <FieldRenewalSubscription
                 disabled={disabled}
-                isNonInteractive={isNonInteractive}
+                isNonInteractive={isNonPendingNonInteractive}
               />
             </VisibilityControl>
           </Col>
@@ -62,7 +66,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
                 <VisibilityControl name="hiddenFields.ongoing.interval">
                   <FieldRenewalInterval
                     disabled={!isSubscription}
-                    isNonInteractive={isNonInteractive}
+                    isNonInteractive={isClosedNonInteractive}
                   />
                 </VisibilityControl>
               </Col>
@@ -76,7 +80,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
                 <VisibilityControl name="hiddenFields.ongoing.renewalDate">
                   <FieldRenewalDate
                     disabled={!isSubscription}
-                    isNonInteractive={isNonInteractive}
+                    isNonInteractive={isClosedNonInteractive}
                   />
                 </VisibilityControl>
               </Col>
@@ -90,7 +94,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
                 <VisibilityControl name="hiddenFields.ongoing.reviewPeriod">
                   <FieldRenewalPeriod
                     disabled={!isSubscription}
-                    isNonInteractive={isNonInteractive}
+                    isNonInteractive={isClosedNonInteractive}
                   />
                 </VisibilityControl>
               </Col>
@@ -104,7 +108,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
                 <VisibilityControl name="hiddenFields.ongoing.manualRenewal">
                   <FieldIsManualRenewal
                     disabled={!isSubscription}
-                    isNonInteractive={isNonInteractive}
+                    isNonInteractive={isNonPendingNonInteractive}
                   />
                 </VisibilityControl>
               </Col>
@@ -118,7 +122,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
                 <VisibilityControl name="hiddenFields.ongoing.reviewDate">
                   <FieldReviewDate
                     disabled={isSubscription}
-                    isNonInteractive={isNonInteractive}
+                    isNonInteractive={isClosedNonInteractive}
                   />
                 </VisibilityControl>
               </Col>
@@ -131,7 +135,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
               >
                 <VisibilityControl name="hiddenFields.ongoing.notes">
                   <FieldOngoingInfoNotes
-                    isNonInteractive={isNonInteractive}
+                    isNonInteractive={isClosedNonInteractive}
                   />
                 </VisibilityControl>
               </Col>
