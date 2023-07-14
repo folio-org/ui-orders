@@ -14,7 +14,7 @@ import { FIELD_ARRAY_ITEM_IDENTIFIER_KEY } from '../../constants';
  * @returns
  */
 const buildHandler = (handler) => (values, fieldArrays) => {
-  if (!fieldArrays || !fieldArrays.length) return values;
+  if (!fieldArrays?.length) return values;
 
   const clonedValues = cloneDeep(values);
 
