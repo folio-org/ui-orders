@@ -43,3 +43,5 @@ export const UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES = {
   independent: 'independent',
   defaultType: 'withoutPieces',
 };
+
+export const FIELD_ARRAY_ITEM_IDENTIFIER_KEY = '__key__';

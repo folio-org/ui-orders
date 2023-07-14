@@ -100,7 +100,7 @@ export const isLocationsRequired = (values, valuesAll) => {
   const eresourceInventory = get(valuesAll, 'eresource.createInventory', '');
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physicalInventory);
   const isElectronicQuantityRequired = isLocationEresourceQuantityRequired(orderFormat, eresourceInventory);
-  const isLocationRequired = (isPhysicalQuantityRequired || isElectronicQuantityRequired) && !values.length;
+  const isLocationRequired = (isPhysicalQuantityRequired || isElectronicQuantityRequired) && !values?.length;
 
   return isLocationRequired
     ? LOCATION_MUST_BE_SPECIFIED

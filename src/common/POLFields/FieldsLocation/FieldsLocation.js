@@ -18,6 +18,10 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  addFieldArrayItemWithUniqueKey,
+  getFieldUniqueKey,
+} from '../../utils';
+import {
   isLocationEresourceQuantityRequired,
   isLocationPhysicalQuantityRequired,
   isLocationsRequired,
@@ -75,6 +79,8 @@ const FieldsLocation = ({
         </MessageBanner>
       )}
       <FieldArray
+        getFieldUniqueKey={getFieldUniqueKey}
+        onAdd={addFieldArrayItemWithUniqueKey}
         addLabel={isDisabledToChangePaymentInfo ? null : <FormattedMessage id="ui-orders.location.button.addLocation" />}
         component={RepeatableFieldWithValidation}
         name="locations"

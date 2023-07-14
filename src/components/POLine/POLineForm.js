@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { get, pick } from 'lodash';
+import { flow, get, pick } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
@@ -44,7 +44,10 @@ import {
   isOtherResource,
 } from '../../common/POLFields';
 import { isOngoing } from '../../common/POFields';
-import { omitFieldArraysAsyncErrors } from '../../common/utils';
+import {
+  omitFieldArraysAsyncErrors,
+  withUniqueFieldArrayItemKeys,
+} from '../../common/utils';
 import LocationForm from './Location/LocationForm';
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
@@ -571,10 +574,13 @@ POLineForm.propTypes = {
   isCreateFromInstance: PropTypes.bool,
 };
 
-export default stripesForm({
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-  navigationCheck: true,
-  validateOnBlur: true,
-  subscription: { values: true },
-})(POLineForm);
+export default flow(
+  stripesForm({
+    enableReinitialize: true,
+    keepDirtyOnReinitialize: true,
+    navigationCheck: true,
+    validateOnBlur: true,
+    subscription: { values: true },
+  }),
+  withUniqueFieldArrayItemKeys,
+)(POLineForm);

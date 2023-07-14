@@ -13,6 +13,7 @@
 * Ability to edit Ongoing order information of Open orders. Refs UIOR-1102.
 * Add pagination to "Related invoices" accordion PO. Refs UIOR-1106.
 * Add pagination to "Related invoices" accordion POL. Refs UIOR-1024.
+* Removing a row in the locations fields array containing both location and holding causes problem with displaying first column name. Refs UIOR-1130.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
