@@ -280,7 +280,7 @@
     "validation.quantity.canNotBeLess0": "Anzahl kann nicht kleiner als 0 sein",
     "checkIn.buttons.addItem": "Exemplar hinzufügen",
     "checkIn.location": "Standort",
-    "checkIn.pieceFormat": "Format des Teils",
+    "checkIn.pieceFormat": "Teilformat",
     "pieceFormat.electronic": "Elektronisch",
     "pieceFormat.other": "Sonstige",
     "pieceFormat.physical": "Physisch",
