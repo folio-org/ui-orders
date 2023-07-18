@@ -85,6 +85,8 @@ const parseErrorMessage = (code) => {
   return messageCode;
 };
 
+const FIELD_ARRAYS_TO_HYDRATE = ['locations'];
+
 function LayerPOLine({
   history,
   location: { search, state: locationState },
@@ -579,6 +581,7 @@ function LayerPOLine({
         integrationConfigs={integrationConfigs}
         isCreateFromInstance={Boolean(locationState?.instanceId)}
         instance={instance}
+        fieldArraysToHydrate={FIELD_ARRAYS_TO_HYDRATE}
       />
       {isLinesLimitExceededModalOpened && (
         <LinesLimit
