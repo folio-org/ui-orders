@@ -4,10 +4,10 @@ import { Accordion, Loading } from '@folio/stripes/components';
 
 import { ACCORDION_ID } from '../../POLine/const';
 import POInvoices from './POInvoices';
-import { useConnectedInvoiceLines } from './useConnectedInvoiceLines';
+import { useRelatedInvoices } from './useRelatedInvoices';
 
 const POInvoicesContainer = ({ label, orderInvoicesIds }) => {
-  const { isLoading, orderInvoices } = useConnectedInvoiceLines(orderInvoicesIds);
+  const { isLoading, orderInvoices } = useRelatedInvoices(orderInvoicesIds);
 
   return (
     <Accordion
