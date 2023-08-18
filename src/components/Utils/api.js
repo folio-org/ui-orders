@@ -17,3 +17,4 @@ export const ORDER_TEMPLATES_API = 'orders/order-templates';
 export const ORDER_TEMPLATE_DETAIL_API = `${ORDER_TEMPLATES_API}/:{id}`;
 export const ORGANIZATION_TYPES_API = 'organizations-storage/organization-types';
 export const RECEIVING_API = 'orders/receiving-history';
+export const FISCAL_YEARS_API = 'finance/fiscal-years';

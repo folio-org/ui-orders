@@ -1,12 +1,7 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
-import {
-  find,
-  get,
-} from 'lodash';
+import { get } from 'lodash';
 
 import { NoValue } from '@folio/stripes/components';
 import {
@@ -19,28 +14,31 @@ import {
   PrevNextPagination,
 } from '@folio/stripes-acq-components';
 
-const COLUMN_INVOICE_DATE = 'invoiceDate';
-const visibleColumns = ['invoice', COLUMN_INVOICE_DATE, 'vendorName', 'vendorInvoiceNo', 'status', 'expendedAmount'];
-const columnMapping = {
-  invoice: <FormattedMessage id="ui-orders.relatedInvoices.invoice" />,
-  [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
-  vendorName: <FormattedMessage id="ui-orders.relatedInvoices.vendorName" />,
-  vendorInvoiceNo: <FormattedMessage id="ui-orders.relatedInvoices.vendorInvoiceNo" />,
-  status: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
-  expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
-};
+import {
+  COLUMN_INVOICE_DATE,
+  COLUMN_MAPPING,
+  VISIBLE_COLUMNS,
+} from './constants';
+
 const sorters = {
   [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
 };
 
-const POInvoices = ({ orderInvoices, vendors }) => {
+const getFormattedDate = (date) => {
+  if (!date) return <NoValue />;
+
+  return <FolioFormattedDate value={date} />;
+};
+
+const POInvoices = ({ orderInvoices }) => {
   const { paginatedData, pagination, setPagination } = useLocalPagination(orderInvoices, RESULT_COUNT_INCREMENT);
 
-  if (!orderInvoices || !vendors) {
+  if (!orderInvoices) {
     return null;
   }
 
   const resultFormatter = {
+    vendorInvoiceNo: invoice => invoice.vendorInvoiceNo || <NoValue />,
     invoice: invoice => (
       <Link
         data-test-link-to-invoice
@@ -49,9 +47,12 @@ const POInvoices = ({ orderInvoices, vendors }) => {
         {get(invoice, 'folioInvoiceNo', '')}
       </Link>
     ),
+    fiscalYear: invoice => invoice.fiscalYear?.code || <NoValue />,
     [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
-    vendorName: invoice => get(find(vendors, ['id', get(invoice, 'vendorId', '')]), 'name', ''),
-    vendorInvoiceNo: invoice => invoice.vendorInvoiceNo || <NoValue />,
+    vendorCode: invoice => invoice.vendor?.code || <NoValue />,
+    subscriptionStart: invoice => getFormattedDate(invoice.fiscalYear?.periodStart),
+    subscriptionEnd: invoice => getFormattedDate(invoice.fiscalYear?.periodEnd),
+    subscriptionDescription: invoice => invoice.fiscalYear?.description || <NoValue />,
     status: invoice => get(invoice, 'status', ''),
     expendedAmount: invoice => (
       <AmountWithCurrencyField
@@ -64,7 +65,7 @@ const POInvoices = ({ orderInvoices, vendors }) => {
   return (
     <>
       <FrontendSortingMCL
-        columnMapping={columnMapping}
+        columnMapping={COLUMN_MAPPING}
         contentData={paginatedData}
         formatter={resultFormatter}
         id="orderInvoices"
@@ -72,7 +73,7 @@ const POInvoices = ({ orderInvoices, vendors }) => {
         sortDirection={DESC_DIRECTION}
         sortedColumn={COLUMN_INVOICE_DATE}
         sorters={sorters}
-        visibleColumns={visibleColumns}
+        visibleColumns={VISIBLE_COLUMNS}
         columnIdPrefix="invoices"
         hasPagination
       />
@@ -90,7 +91,6 @@ const POInvoices = ({ orderInvoices, vendors }) => {
 
 POInvoices.propTypes = {
   orderInvoices: PropTypes.arrayOf(PropTypes.object),
-  vendors: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default POInvoices;
