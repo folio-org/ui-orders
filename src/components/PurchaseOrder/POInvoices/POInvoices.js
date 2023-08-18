@@ -50,9 +50,9 @@ const POInvoices = ({ orderInvoices }) => {
     fiscalYear: invoice => invoice.fiscalYear?.code || <NoValue />,
     [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
     vendorCode: invoice => invoice.vendor?.code || <NoValue />,
-    subscriptionStart: invoice => getFormattedDate(invoice.fiscalYear?.periodStart),
-    subscriptionEnd: invoice => getFormattedDate(invoice.fiscalYear?.periodEnd),
-    subscriptionDescription: invoice => invoice.fiscalYear?.description || <NoValue />,
+    subscriptionStart: ({ fiscalYear }) => getFormattedDate(fiscalYear?.periodStart),
+    subscriptionEnd: ({ fiscalYear }) => getFormattedDate(fiscalYear?.periodEnd),
+    subscriptionDescription: ({ fiscalYear }) => fiscalYear?.description || <NoValue />,
     status: invoice => get(invoice, 'status', ''),
     expendedAmount: invoice => (
       <AmountWithCurrencyField

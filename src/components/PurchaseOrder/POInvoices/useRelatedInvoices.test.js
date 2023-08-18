@@ -4,9 +4,7 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import '@folio/stripes-acq-components/test/jest/__mock__';
 import { useOkapiKy } from '@folio/stripes/core';
-import {
-  VENDORS_API,
-} from '@folio/stripes-acq-components';
+import { VENDORS_API } from '@folio/stripes-acq-components';
 
 import {
   FISCAL_YEARS_API,

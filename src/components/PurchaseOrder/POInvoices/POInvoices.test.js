@@ -5,8 +5,21 @@ import { MemoryRouter } from 'react-router';
 import POInvoices from './POInvoices';
 
 const defaultProps = {
-  orderInvoices: [{}],
-  vendors: [{}],
+  orderInvoices: [{
+    id: 'invoiceId',
+    vendorId: 'vendorId',
+    fiscalYearId: 'fiscalYearId',
+    vendor: {
+      id: 'vendorId',
+      code: 'vendorCode',
+    },
+    fiscalYear: {
+      id: 'fiscalYearId',
+      code: 'fiscalYearCode',
+      description: 'fiscalYearDescription',
+      periodStart: '2020-01-01',
+    },
+  }],
 };
 
 const renderPOInvoices = (props = {}) => render(
@@ -27,5 +40,11 @@ describe('POInvoices', () => {
     expect(screen.getByText('ui-orders.relatedInvoices.vendorInvoiceNo')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.status')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.expendedAmount')).toBeInTheDocument();
+  });
+
+  it('should not render the component with empty orderInvoices', () => {
+    renderPOInvoices({ orderInvoices: [] });
+
+    expect(screen.queryByText('ui-orders.relatedInvoices.invoice')).not.toBeInTheDocument();
   });
 });
