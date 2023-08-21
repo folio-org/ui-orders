@@ -17,17 +17,12 @@ import {
 import {
   COLUMN_INVOICE_DATE,
   COLUMN_MAPPING,
+  COLUMN_NAMES,
   VISIBLE_COLUMNS,
 } from './constants';
 
 const sorters = {
   [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
-};
-
-const getFormattedDate = (date) => {
-  if (!date) return <NoValue />;
-
-  return <FolioFormattedDate value={date} />;
 };
 
 const POInvoices = ({ orderInvoices }) => {
@@ -38,8 +33,8 @@ const POInvoices = ({ orderInvoices }) => {
   }
 
   const resultFormatter = {
-    vendorInvoiceNo: invoice => invoice.vendorInvoiceNo || <NoValue />,
-    invoice: invoice => (
+    [COLUMN_NAMES.vendorInvoiceNo]: invoice => invoice.vendorInvoiceNo || <NoValue />,
+    [COLUMN_NAMES.invoice]: invoice => (
       <Link
         data-test-link-to-invoice
         to={`/invoice/view/${invoice.id}`}
@@ -47,14 +42,14 @@ const POInvoices = ({ orderInvoices }) => {
         {get(invoice, 'folioInvoiceNo', '')}
       </Link>
     ),
-    fiscalYear: invoice => invoice.fiscalYear?.code || <NoValue />,
+    [COLUMN_NAMES.fiscalYear]: invoice => invoice.fiscalYear?.code || <NoValue />,
     [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
-    vendorCode: invoice => invoice.vendor?.code || <NoValue />,
-    subscriptionStart: ({ fiscalYear }) => getFormattedDate(fiscalYear?.periodStart),
-    subscriptionEnd: ({ fiscalYear }) => getFormattedDate(fiscalYear?.periodEnd),
-    subscriptionDescription: ({ fiscalYear }) => fiscalYear?.description || <NoValue />,
-    status: invoice => get(invoice, 'status', ''),
-    expendedAmount: invoice => (
+    [COLUMN_NAMES.vendorCode]: invoice => invoice.vendor?.code || <NoValue />,
+    [COLUMN_NAMES.subscriptionStart]: ({ fiscalYear }) => <FolioFormattedDate value={fiscalYear?.periodStart} />,
+    [COLUMN_NAMES.subscriptionEnd]: ({ fiscalYear }) => <FolioFormattedDate value={fiscalYear?.periodEnd} />,
+    [COLUMN_NAMES.subscriptionDescription]: ({ fiscalYear }) => fiscalYear?.description || <NoValue />,
+    [COLUMN_NAMES.status]: invoice => get(invoice, 'status', ''),
+    [COLUMN_NAMES.expendedAmount]: invoice => (
       <AmountWithCurrencyField
         currency={invoice.currency}
         amount={get(invoice, 'total', 0)}
