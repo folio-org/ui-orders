@@ -25,37 +25,37 @@ const sorters = {
   [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
 };
 
+const resultFormatter = {
+  [COLUMN_NAMES.vendorInvoiceNo]: (invoice) => invoice.vendorInvoiceNo || <NoValue />,
+  [COLUMN_NAMES.invoice]: (invoice) => (
+    <Link
+      data-test-link-to-invoice
+      to={`/invoice/view/${invoice.id}`}
+    >
+      {get(invoice, 'folioInvoiceNo', '')}
+    </Link>
+  ),
+  [COLUMN_NAMES.fiscalYear]: (invoice) => invoice.fiscalYear?.code || <NoValue />,
+  [COLUMN_INVOICE_DATE]: (invoice) => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
+  [COLUMN_NAMES.vendorCode]: (invoice) => invoice.vendor?.code || <NoValue />,
+  [COLUMN_NAMES.subscriptionStart]: (invoice) => <FolioFormattedDate value={invoice.fiscalYear?.periodStart} />,
+  [COLUMN_NAMES.subscriptionEnd]: (invoice) => <FolioFormattedDate value={invoice.fiscalYear?.periodEnd} />,
+  [COLUMN_NAMES.subscriptionDescription]: (invoice) => invoice.fiscalYear?.description || <NoValue />,
+  [COLUMN_NAMES.status]: (invoice) => get(invoice, 'status', ''),
+  [COLUMN_NAMES.expendedAmount]: (invoice) => (
+    <AmountWithCurrencyField
+      currency={invoice.currency}
+      amount={get(invoice, 'total', 0)}
+    />
+  ),
+};
+
 const POInvoices = ({ orderInvoices }) => {
   const { paginatedData, pagination, setPagination } = useLocalPagination(orderInvoices, RESULT_COUNT_INCREMENT);
 
   if (!orderInvoices) {
     return null;
   }
-
-  const resultFormatter = {
-    [COLUMN_NAMES.vendorInvoiceNo]: invoice => invoice.vendorInvoiceNo || <NoValue />,
-    [COLUMN_NAMES.invoice]: invoice => (
-      <Link
-        data-test-link-to-invoice
-        to={`/invoice/view/${invoice.id}`}
-      >
-        {get(invoice, 'folioInvoiceNo', '')}
-      </Link>
-    ),
-    [COLUMN_NAMES.fiscalYear]: invoice => invoice.fiscalYear?.code || <NoValue />,
-    [COLUMN_INVOICE_DATE]: invoice => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
-    [COLUMN_NAMES.vendorCode]: invoice => invoice.vendor?.code || <NoValue />,
-    [COLUMN_NAMES.subscriptionStart]: ({ fiscalYear }) => <FolioFormattedDate value={fiscalYear?.periodStart} />,
-    [COLUMN_NAMES.subscriptionEnd]: ({ fiscalYear }) => <FolioFormattedDate value={fiscalYear?.periodEnd} />,
-    [COLUMN_NAMES.subscriptionDescription]: ({ fiscalYear }) => fiscalYear?.description || <NoValue />,
-    [COLUMN_NAMES.status]: invoice => get(invoice, 'status', ''),
-    [COLUMN_NAMES.expendedAmount]: invoice => (
-      <AmountWithCurrencyField
-        currency={invoice.currency}
-        amount={get(invoice, 'total', 0)}
-      />
-    ),
-  };
 
   return (
     <>
