@@ -14,7 +14,7 @@ import { FISCAL_YEARS_API, INVOICES_API } from '../../Utils/api';
 
 export const useRelatedInvoices = (invoiceIds = []) => {
   const ky = useOkapiKy();
-  const [namespace] = useNamespace({ key: 'connected-invoice-lines' });
+  const [namespace] = useNamespace({ key: 'related-invoice-lines' });
 
   const { isLoading, data = [] } = useQuery(
     [namespace],
