@@ -160,6 +160,7 @@
   "errors.errorRetrievingPoLines": "Error retrieving purchase order lines from storage",
   "errors.errorRetrievingTransactions": "Error retrieving the transactions from storage",
   "errors.encumbranceCreationFailure": "One or more encumbrance record(s) failed to be created",
+  "errors.encumbrancesForReEncumberNotFound": "The encumbrances were correctly created during the rollover or have already been updated.",
   "errors.forbiddenDeleteSystemValues": "Can not delete system values",
   "errors.forbiddenDeleteUsedValue": "This value can not be deleted",
   "errors.fundCannotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in <b>{fundCodes}</b>.",
