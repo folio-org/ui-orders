@@ -669,7 +669,7 @@
     "location.holding": "Holding",
     "location.selectHoldings": "Vybrat holdingy",
     "location.editInReceiving": "Upravit při příjmu",
-    "relatedInvoices.vendorInvoiceNo": "Číslo faktury prodejce",
+    "relatedInvoices.vendorInvoiceNo": "# faktury prodejce",
     "permission.order.updateEncumbrances": "Objednávky: Aktualizace věcných břemen",
     "settings.inventoryInteraction.label": "Interakce v katalogu",
     "settings.instanceMatching": "Porovnávání titulů",
@@ -705,7 +705,7 @@
     "relatedInvoiceLines.invoiceDate": "Datum faktury",
     "relatedInvoiceLines.quantity": "Množství",
     "relatedInvoiceLines.status": "Stav",
-    "relatedInvoiceLines.vendorInvoiceNo": "Číslo faktury prodejce",
+    "relatedInvoiceLines.vendorInvoiceNo": "# faktury prodejce",
     "relatedInvoiceLines.vendorName": "Název prodejce",
     "relatedInvoiceLines.comment": "Komentář",
     "settings.openOrder.isDuplicateCheckDisabled": "Zakázat kontrolu duplicit, ke které dochází při otevírání objednávek a ukládání řádků nákupní objednávky.",
@@ -840,5 +840,10 @@
     "settings.orderTemplates.duplicate.success": "Šablona byla úspěšně duplikována",
     "settings.orderTemplates.duplicate.error": "Šablona nebyla duplikována",
     "exportSettings.load.start": "Export byl úspěšně zahájen",
-    "errors.multipleFiscalYears": "Rozdělení prostředků v rámci řádku objednávky má aktivní rozpočty na více fiskálních let."
+    "errors.multipleFiscalYears": "Rozdělení prostředků v rámci řádku objednávky má aktivní rozpočty na více fiskálních let.",
+    "relatedInvoices.vendorCode": "Kód prodejce",
+    "relatedInvoices.fiscalYear": "Fiskální rok",
+    "relatedInvoices.subscriptionStart": "Začátek předplatného",
+    "relatedInvoices.subscriptionEnd": "Konec předplatného",
+    "relatedInvoices.subscriptionDescription": "Informace o předplatném"
 }

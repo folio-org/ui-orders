@@ -840,5 +840,10 @@
     "settings.orderTemplates.duplicate.success": "O modelo foi duplicado com sucesso",
     "settings.orderTemplates.duplicate.error": "O modelo não foi duplicado",
     "exportSettings.load.start": "A exportação foi iniciada com sucesso",
-    "errors.multipleFiscalYears": "As distribuições de fundos de linha de pedidos têm orçamentos ativos em vários anos fiscais."
+    "errors.multipleFiscalYears": "As distribuições de fundos de linha de pedidos têm orçamentos ativos em vários anos fiscais.",
+    "relatedInvoices.vendorCode": "Vendor code",
+    "relatedInvoices.fiscalYear": "Fiscal year",
+    "relatedInvoices.subscriptionStart": "Subscription start",
+    "relatedInvoices.subscriptionEnd": "Fim da assinatura",
+    "relatedInvoices.subscriptionDescription": "Informações sobre a assinatura"
 }
