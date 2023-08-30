@@ -15,6 +15,7 @@
 * Add pagination to "Related invoices" accordion POL. Refs UIOR-1024.
 * Removing a row in the locations fields array containing both location and holding causes problem with displaying first column name. Refs UIOR-1130.
 * Update related invoice details to include additional fields. Refs UIOR-1131.
+* Update `Node.js` to `v18` in GitHub Actions. Refs UIOR-1135.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
