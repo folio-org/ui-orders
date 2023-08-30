@@ -1,9 +1,9 @@
-import { renderHook } from '@testing-library/react-hooks';
 import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { getFullName } from '@folio/stripes/util';
 import {
@@ -76,7 +76,7 @@ describe('useSelectedPOVersion', () => {
   });
 
   it('should return PO version data', async () => {
-    const { result, waitFor } = renderHook(() => useSelectedPOVersion({
+    const { result } = renderHook(() => useSelectedPOVersion({
       versionId: orderAuditEvent.id,
       versions: [{
         ...orderAuditEvent,
@@ -90,7 +90,7 @@ describe('useSelectedPOVersion', () => {
       snapshotPath: 'orderSnapshot',
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     const {
       id,

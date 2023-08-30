@@ -1,7 +1,7 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import {
   HasCommand,
@@ -9,7 +9,7 @@ import {
   collapseAllSections,
 } from '@folio/stripes/components';
 
-import { history } from '../../../../test/jest/routerMocks';
+import { history } from 'fixtures/routerMocks';
 import OrderTemplateView from './OrderTemplateView';
 
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
@@ -76,12 +76,12 @@ describe('OrderTemplateView', () => {
 
     const btns = await screen.findAllByRole('button');
 
-    user.click(btns[1]);
+    await user.click(btns[1]);
 
     const duplicateBtn = await screen.findByTestId('view-order-template-action-duplicate');
 
-    user.click(duplicateBtn);
-    user.click(screen.getByText('stripes-components.submit'));
+    await user.click(duplicateBtn);
+    await user.click(screen.getByText('stripes-components.submit'));
 
     expect(defaultProps.onDuplicate).toHaveBeenCalled();
   });
@@ -91,12 +91,12 @@ describe('OrderTemplateView', () => {
 
     const btns = await screen.findAllByRole('button');
 
-    user.click(btns[1]);
+    await user.click(btns[1]);
 
     const deleteBtn = await screen.findByTestId('view-order-template-action-delete');
 
-    user.click(deleteBtn);
-    user.click(screen.getByText('ui-orders.settings.orderTemplates.confirmDelete.confirmLabel'));
+    await user.click(deleteBtn);
+    await user.click(screen.getByText('ui-orders.settings.orderTemplates.confirmDelete.confirmLabel'));
 
     expect(defaultProps.onDelete).toHaveBeenCalled();
   });

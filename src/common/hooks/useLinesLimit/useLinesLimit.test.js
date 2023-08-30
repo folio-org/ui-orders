@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { LINES_LIMIT_DEFAULT } from '../../../components/Utils/const';
@@ -21,11 +21,9 @@ describe('useLinesLimit', () => {
   it('should return default lines limit config', async () => {
     useOkapiKy.mockClear();
 
-    const { result, waitFor } = renderHook(() => useLinesLimit(false), { wrapper });
+    const { result } = renderHook(() => useLinesLimit(false), { wrapper });
 
-    await waitFor(() => {
-      return !result.current.isLoading;
-    });
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.linesLimit).toBe(LINES_LIMIT_DEFAULT);
   });
@@ -39,11 +37,9 @@ describe('useLinesLimit', () => {
       }),
     });
 
-    const { result, waitFor } = renderHook(() => useLinesLimit(), { wrapper });
+    const { result } = renderHook(() => useLinesLimit(), { wrapper });
 
-    await waitFor(() => {
-      return !result.current.isLoading;
-    });
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.linesLimit).toBe(Number(linesLimit));
   });

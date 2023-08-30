@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
+import { order } from 'fixtures';
 import { useOrder } from './useOrder';
-import { order } from '../../../../test/jest/fixtures';
 
 const queryClient = new QueryClient();
 
@@ -25,9 +25,9 @@ describe('useOrder', () => {
         }),
       });
 
-    const { result, waitForNextUpdate } = renderHook(() => useOrder(order.id), { wrapper });
+    const { result } = renderHook(() => useOrder(order.id), { wrapper });
 
-    await waitForNextUpdate();
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.order).toEqual(order);
   });

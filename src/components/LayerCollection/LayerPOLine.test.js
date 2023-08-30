@@ -1,20 +1,23 @@
-import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router';
-import user from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/react';
 
-import { useOrder } from '../../common/hooks';
-import LayerPOLine from './LayerPOLine';
-import POLineForm from '../POLine/POLineForm';
-import ModalDeletePieces from '../ModalDeletePieces';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
-import { location, history, match } from '../../../test/jest/routerMocks';
 import {
   order,
   orderLine,
   vendor,
-} from '../../../test/jest/fixtures';
+} from 'fixtures';
+import {
+  history,
+  location,
+  match, 
+} from 'fixtures/routerMocks';
+import { useOrder } from '../../common/hooks';
+import ModalDeletePieces from '../ModalDeletePieces';
+import POLineForm from '../POLine/POLineForm';
+import LayerPOLine from './LayerPOLine';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
@@ -198,7 +201,7 @@ describe('LayerPOLine', () => {
 
       const okBtn = await screen.findByText(/ui-orders.linesLimit.okBtn/i);
 
-      user.click(okBtn);
+      await user.click(okBtn);
 
       expect(screen.queryByText(/ui-orders.linesLimit.okBtn/i)).not.toBeInTheDocument();
     });
@@ -217,7 +220,7 @@ describe('LayerPOLine', () => {
 
       const createBtn = await screen.findByText(/ui-orders.linesLimit.createBtn/i);
 
-      user.click(createBtn);
+      await user.click(createBtn);
 
       await waitFor(() => expect(history.push).toHaveBeenCalled());
     });

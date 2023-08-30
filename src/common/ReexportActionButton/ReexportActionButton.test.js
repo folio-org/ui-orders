@@ -1,5 +1,5 @@
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import { ReexportActionButton } from './ReexportActionButton';
 
@@ -27,10 +27,10 @@ describe('ReexportActionButton', () => {
     expect(screen.getByTestId(defaultProps.id)).toBeInTheDocument();
   });
 
-  it('should call \'onClick\' handler when button was clicked', () => {
+  it('should call \'onClick\' handler when button was clicked', async () => {
     renderReexportActionButton();
 
-    user.click(screen.getByTestId(defaultProps.id));
+    await user.click(screen.getByTestId(defaultProps.id));
 
     expect(defaultProps.onClick).toHaveBeenCalled();
   });

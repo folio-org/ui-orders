@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { orderLine } from 'fixtures';
 import LinkToPoLine from './LinkToPoLine';
 
-import { orderLine } from '../../../test/jest/fixtures';
 
 const renderLinkToPoLine = (props = {}) => render(
   <LinkToPoLine

@@ -1,10 +1,9 @@
-import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
-import user from '@testing-library/user-event';
-import { act, render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 import {
   HasCommand,
@@ -12,7 +11,7 @@ import {
   collapseAllSections,
 } from '@folio/stripes/components';
 
-import { history } from '../../../test/jest/routerMocks';
+import { history } from 'fixtures/routerMocks';
 import { ORDERS_ROUTE } from '../../common/constants';
 import { useOrderLinesAbandonedHoldingsCheck } from '../../common/hooks';
 import { useOrderMutation } from './hooks';
@@ -145,7 +144,7 @@ describe('PO actions', () => {
 
       const receiveBtn = await screen.findByTestId('order-receiving-button');
 
-      user.click(receiveBtn);
+      await user.click(receiveBtn);
 
       expect(history.push).toHaveBeenCalled();
     });
@@ -155,7 +154,7 @@ describe('PO actions', () => {
 
       const editBtn = await screen.findByTestId('button-edit-order');
 
-      user.click(editBtn);
+      await user.click(editBtn);
 
       expect(history.push).toHaveBeenCalled();
     });
@@ -165,13 +164,13 @@ describe('PO actions', () => {
 
       const closeBtn = await screen.findByTestId('close-order-button');
 
-      user.click(closeBtn);
+      await user.click(closeBtn);
 
       const confirmCloseBtn = await screen.findByText('ui-orders.closeOrderModal.submit');
       const selectReason = await screen.findByLabelText('ui-orders.closeOrderModal.reason');
 
-      user.selectOptions(selectReason, 'reason');
-      user.click(confirmCloseBtn);
+      await user.selectOptions(selectReason, 'reason');
+      await user.click(confirmCloseBtn);
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
@@ -181,11 +180,11 @@ describe('PO actions', () => {
 
       const cancelBtn = await screen.findByTestId('cancel-order-button');
 
-      user.click(cancelBtn);
+      await user.click(cancelBtn);
 
       const confirmCloseBtn = await screen.findByText('ui-orders.closeOrderModal.submit');
 
-      user.click(confirmCloseBtn);
+      await user.click(confirmCloseBtn);
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
@@ -195,11 +194,11 @@ describe('PO actions', () => {
 
       const unopenBtn = await screen.findByTestId('unopen-order-button');
 
-      await act(async () => user.click(unopenBtn));
+      await act(async () => await user.click(unopenBtn));
 
       const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel');
 
-      await act(async () => user.click(confirmBtn));
+      await act(async () => await user.click(confirmBtn));
 
       expect(updateOrder).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -215,7 +214,7 @@ describe('PO actions', () => {
 
       const updateEncumbBtn = await screen.findByTestId('update-encumbrances-button');
 
-      user.click(updateEncumbBtn);
+      await user.click(updateEncumbBtn);
 
       expect(defaultProps.mutator.updateEncumbrances.POST).toHaveBeenCalled();
     });
@@ -225,11 +224,11 @@ describe('PO actions', () => {
 
       const cloneBtn = await screen.findByTestId('clone-order-button');
 
-      user.click(cloneBtn);
+      await user.click(cloneBtn);
 
       const confirmBtn = await screen.findByText('ui-orders.order.clone.confirmLabel');
 
-      user.click(confirmBtn);
+      await user.click(confirmBtn);
 
       expect(defaultProps.mutator.generatedOrderNumber.GET).toHaveBeenCalled();
     });
@@ -239,11 +238,11 @@ describe('PO actions', () => {
 
       const deleteBtn = await screen.findByTestId('button-delete-order');
 
-      user.click(deleteBtn);
+      await user.click(deleteBtn);
 
       const confirmBtn = await screen.findByText('ui-orders.order.delete.confirmLabel');
 
-      user.click(confirmBtn);
+      await user.click(confirmBtn);
 
       expect(defaultProps.mutator.orderDetails.DELETE).toHaveBeenCalled();
     });
@@ -262,7 +261,7 @@ describe('PO actions', () => {
 
       const approveBtn = await screen.findByTestId('approve-order-button');
 
-      user.click(approveBtn);
+      await user.click(approveBtn);
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
@@ -293,11 +292,11 @@ describe('PO actions', () => {
 
       const openBtn = await screen.findByTestId('open-order-button');
 
-      user.click(openBtn);
+      await user.click(openBtn);
 
       const confirmBtn = await screen.findByText('ui-orders.openOrderModal.submit');
 
-      user.click(confirmBtn);
+      await user.click(confirmBtn);
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
@@ -314,7 +313,7 @@ describe('PO actions', () => {
 
       const reopenBtn = await screen.findByTestId('reopen-order-button');
 
-      user.click(reopenBtn);
+      await user.click(reopenBtn);
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
@@ -332,7 +331,7 @@ describe('PO actions', () => {
 
       const addPOLineBtn = await screen.findByTestId('add-line-button');
 
-      user.click(addPOLineBtn);
+      await user.click(addPOLineBtn);
 
       expect(history.push).toHaveBeenCalled();
     });
@@ -347,20 +346,20 @@ describe('PO actions', () => {
 
       const addPOLineBtn = await screen.findByTestId('add-line-button');
 
-      user.click(addPOLineBtn);
+      await user.click(addPOLineBtn);
 
       const createOrderBtn = await screen.findByText('ui-orders.linesLimit.createBtn');
 
-      user.click(createOrderBtn);
+      await user.click(createOrderBtn);
 
       expect(defaultProps.mutator.generatedOrderNumber.GET).toHaveBeenCalled();
     });
   });
 
-  it('should close pane when close icon was clicked', () => {
+  it('should close pane when close icon was clicked', async () => {
     renderComponent();
 
-    user.click(screen.getByRole('button'));
+    await user.click(screen.getByRole('button'));
 
     expect(history.push).toHaveBeenCalled();
   });

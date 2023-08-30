@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { order } from 'fixtures';
 import LocationForm from './LocationForm';
-import { order } from '../../../../test/jest/fixtures';
 
 jest.mock('../../../common/POLFields/FieldsLocation', () => jest.fn().mockReturnValue('FieldsLocation'));
 

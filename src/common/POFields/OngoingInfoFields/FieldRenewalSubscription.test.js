@@ -1,7 +1,7 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
+
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import FieldRenewalSubscription from './FieldRenewalSubscription';
 
@@ -37,7 +37,7 @@ describe('FieldRenewalSubscription', () => {
 
     const checkbox = await screen.findByRole('checkbox');
 
-    user.click(checkbox);
+    await user.click(checkbox);
     expect(checkbox).toBeChecked();
   });
 });

@@ -1,9 +1,9 @@
-import { renderHook } from '@testing-library/react-hooks';
 import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useAcqMethod } from './useAcqMethod';
@@ -31,9 +31,9 @@ describe('useAcqMethod', () => {
   });
 
   it('should fetch acq method by id', async () => {
-    const { result, waitFor } = renderHook(() => useAcqMethod(acqMethod.id), { wrapper });
+    const { result } = renderHook(() => useAcqMethod(acqMethod.id), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.acqMethod).toEqual(acqMethod);
   });

@@ -1,8 +1,7 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
+import { orderLine } from 'fixtures';
 import TitleView from './TitleView';
-import { orderLine } from '../../../../../test/jest/fixtures';
 
 const defaultProps = {
   poLineDetails: orderLine,

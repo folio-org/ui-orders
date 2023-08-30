@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { VersionViewContextProvider } from '@folio/stripes-acq-components';
 
-import { orderLine } from '../../../../../test/jest/fixtures';
+import { orderLine } from 'fixtures';
 import { ORDER_LINES_ROUTE } from '../../../../common/constants';
 import { LocationVersionView } from './LocationVersionView';
 

@@ -1,6 +1,5 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import UpdateOrderErrorModal from './UpdateOrderErrorModal';
 
@@ -37,7 +36,7 @@ describe('UpdateOrderErrorModal actions', () => {
 
     const cancelBtn = await screen.findByText('ui-orders.openOrderModal.cancel');
 
-    user.click(cancelBtn);
+    await user.click(cancelBtn);
 
     expect(defaultProps.cancel).toHaveBeenCalled();
   });

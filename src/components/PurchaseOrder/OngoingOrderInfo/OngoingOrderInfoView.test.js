@@ -1,11 +1,8 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import {
-  ORDER_STATUSES,
-} from '@folio/stripes-acq-components';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 
-import OngoingOrderInfoView from './OngoingOrderInfoView';
 import { ORDER_TYPE } from '../../../common/constants';
+import OngoingOrderInfoView from './OngoingOrderInfoView';
 
 const renderOngoingOrderInfoView = (props = {}) => render(
   <OngoingOrderInfoView

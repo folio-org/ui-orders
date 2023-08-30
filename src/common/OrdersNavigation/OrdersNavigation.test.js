@@ -1,7 +1,7 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
 import OrdersNavigation from './OrdersNavigation';
 
@@ -26,12 +26,12 @@ describe('OrdersNavigation actions', () => {
     const { getByText, findAllByRole } = renderOrdersNavigation();
     const btns = await findAllByRole('button');
 
-    user.click(getByText('ui-orders.navigation.orderLines'));
+    await user.click(getByText('ui-orders.navigation.orderLines'));
 
-    waitFor(async () => expect(btns[0].classList[1]).toBe('default'));
+    await waitFor(async () => expect(btns[0].classList[1]).toBe('default'));
 
-    user.click(getByText('ui-orders.navigation.orders'));
+    await user.click(getByText('ui-orders.navigation.orders'));
 
-    waitFor(async () => expect(btns[0].classList[1]).toBe('primary'));
+    await waitFor(async () => expect(btns[0].classList[1]).toBe('primary'));
   });
 });

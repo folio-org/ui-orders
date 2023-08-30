@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { orderLine } from '../../../../test/jest/fixtures/orderLine';
+import { orderLine } from 'fixtures/orderLine';
 import { usePOLineRelatedItems } from './usePOLineRelatedItems';
 
 const items = [{
@@ -35,9 +35,9 @@ describe('usePOLineRelatedItems', () => {
   });
 
   it('should return items related to POLine', async () => {
-    const { result, waitFor } = renderHook(() => usePOLineRelatedItems(orderLine), { wrapper });
+    const { result } = renderHook(() => usePOLineRelatedItems(orderLine), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.items).toEqual(items);
   });

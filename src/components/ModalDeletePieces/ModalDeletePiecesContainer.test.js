@@ -1,9 +1,8 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
+import { orderLine } from 'fixtures';
 import ModalDeletePiecesContainer from './ModalDeletePiecesContainer';
-import { orderLine } from '../../../test/jest/fixtures';
 
 const defaultProps = {
   poLines: [orderLine],
@@ -68,9 +67,9 @@ describe('ModalDeletePiecesContainer', () => {
     const checkboxs = await screen.findAllByRole('checkbox');
     const deleteBtn = await screen.findByText('ui-orders.deletePiece.btn.deletePiece');
 
-    user.dblClick(checkboxs[1]);
-    user.click(checkboxs[0]);
-    user.click(deleteBtn);
+    await user.dblClick(checkboxs[1]);
+    await user.click(checkboxs[0]);
+    await user.click(deleteBtn);
 
     expect(defaultProps.mutator.deletePiece.DELETE).toHaveBeenCalled();
   });

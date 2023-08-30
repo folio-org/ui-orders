@@ -1,12 +1,11 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { useLocation } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { getLinesQuery } from '@folio/plugin-find-po-line';
 
-import { orderLine } from '../../../../test/jest/fixtures';
-
+import { orderLine } from 'fixtures';
 import { useOrderLines } from './useOrderLines';
 
 jest.mock('react-router', () => ({
@@ -55,11 +54,11 @@ describe('useOrderLines', () => {
       .mockClear()
       .mockReturnValue({ search: '' });
 
-    const { result, waitFor } = renderHook(() => useOrderLines({
+    const { result } = renderHook(() => useOrderLines({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current).toEqual({
       orderLines: [],
@@ -75,12 +74,12 @@ describe('useOrderLines', () => {
       .mockReturnValue({ search: 'workflowStatus=Open' });
 
     const fetchReferences = jest.fn().mockReturnValue(Promise.resolve({}));
-    const { result, waitFor } = renderHook(() => useOrderLines({
+    const { result } = renderHook(() => useOrderLines({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
       fetchReferences,
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(fetchReferences).toHaveBeenCalled();
   });
@@ -93,12 +92,12 @@ describe('useOrderLines', () => {
     const fetchReferences = jest.fn().mockReturnValue(Promise.resolve({
       ordersMap: { [orderLine.purchaseOrderId]: { workflowStatus: 'Open' } },
     }));
-    const { result, waitFor } = renderHook(() => useOrderLines({
+    const { result } = renderHook(() => useOrderLines({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
       fetchReferences,
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current).toEqual({
       orderLines: [{ ...orderLine, orderWorkflow: 'Open' }],

@@ -1,14 +1,14 @@
-import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import {
   PAYMENT_STATUS,
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
+import { location, orderLine } from 'fixtures';
 import OrderLinesList, { getResultsFormatter } from './OrderLinesList';
-import { location, orderLine } from '../../test/jest/fixtures';
 
 const mockLocalStorageFilters = {
   filters: {},

@@ -1,10 +1,9 @@
-import React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { orderLine } from '../../../../test/jest/fixtures';
+import { orderLine } from 'fixtures';
 import { TITLES_API } from '../../constants';
 import { useTitleMutation } from './useTitleMutation';
 
@@ -42,11 +41,10 @@ describe('useTitleMutation', () => {
   });
 
   it('should fetch title and update it', async () => {
-    const { result, waitFor } = renderHook(() => useTitleMutation(), { wrapper });
+    const { result } = renderHook(() => useTitleMutation(), { wrapper });
 
     await result.current.mutateTitle(orderLine.id);
-
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(putMock).toHaveBeenCalledWith(`${TITLES_API}/${title.id}`, { 'json': { ...title, isAcknowledged: true } });
   });
@@ -58,11 +56,10 @@ describe('useTitleMutation', () => {
       }),
     });
 
-    const { result, waitFor } = renderHook(() => useTitleMutation(), { wrapper });
+    const { result } = renderHook(() => useTitleMutation(), { wrapper });
 
     await result.current.mutateTitle(orderLine.id);
-
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(putMock).not.toHaveBeenCalled();
   });

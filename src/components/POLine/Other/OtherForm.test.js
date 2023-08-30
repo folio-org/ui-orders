@@ -1,10 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
-import OtherForm from './OtherForm';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { order } from '../../../../test/jest/fixtures';
+import { order } from 'fixtures';
+import OtherForm from './OtherForm';
 
 const defaultProps = {
   materialTypes: [{

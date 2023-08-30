@@ -1,8 +1,7 @@
-import { act, renderHook } from '@testing-library/react-hooks';
-
+import { act, renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { orderLine } from '../../../../../../test/jest/fixtures/orderLine';
+import { orderLine } from 'fixtures/orderLine';
 import { UPDATE_HOLDINGS_OPERATIONS_MAP } from '../../constants';
 import { useChangeInstanceConnection } from './useChangeInstanceConnection';
 

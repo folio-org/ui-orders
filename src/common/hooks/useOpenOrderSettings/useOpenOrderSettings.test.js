@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useOpenOrderSettings, defaultConfig } from './useOpenOrderSettings';
@@ -25,11 +25,9 @@ describe('useOpenOrderSettings', () => {
       }),
     });
 
-    const { result, waitFor } = renderHook(() => useOpenOrderSettings(), { wrapper });
+    const { result } = renderHook(() => useOpenOrderSettings(), { wrapper });
 
-    await waitFor(() => {
-      return !result.current.isFetching;
-    });
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current.openOrderSettings).toEqual(defaultConfig);
   });

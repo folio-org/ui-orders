@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { exportHistory } from '../../../test/jest/fixtures';
+import { exportHistory } from 'fixtures';
 import ExportDetailsAccordion from './ExportDetailsAccordion';
 
 jest.mock('../ExportDetailsList', () => ({

@@ -1,13 +1,13 @@
-import { renderHook } from '@testing-library/react-hooks';
 import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
 
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { ORDERS_API } from '@folio/stripes-acq-components';
 
-import { order } from '../../../../../test/jest/fixtures';
+import { order } from 'fixtures';
 import { WORKFLOW_STATUS } from '../../../../common/constants';
 import { useOrderMutation } from './useOrderMutation';
 

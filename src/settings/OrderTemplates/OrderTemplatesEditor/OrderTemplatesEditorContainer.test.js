@@ -1,8 +1,8 @@
-import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { render, screen, waitFor } from '@testing-library/react';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
+
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
 import { getCommonErrorMessage } from '../../../common/utils';
 import OrderTemplatesEditorContainer from './OrderTemplatesEditorContainer';

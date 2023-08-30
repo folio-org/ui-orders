@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { exportHistory } from '../../../test/jest/fixtures';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { exportHistory } from 'fixtures';
 import { ExportDetailsList } from './ExportDetailsList';
 
 const defaultProps = {

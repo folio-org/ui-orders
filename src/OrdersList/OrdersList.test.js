@@ -1,15 +1,13 @@
-import React from 'react';
-import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { HasCommand } from '@folio/stripes/components';
 import { useModalToggle, ORDER_STATUSES } from '@folio/stripes-acq-components';
 
-import OrdersList, { getResultsFormatter } from './OrdersList';
+import { order } from 'fixtures';
+import { history, location, match } from 'fixtures/routerMocks';
 import { CANCEL_ORDER_REASON } from '../common/constants';
-
-import { order } from '../../test/jest/fixtures';
-import { history, location, match } from '../../test/jest/routerMocks';
+import OrdersList, { getResultsFormatter } from './OrdersList';
 
 const mockLocalStorageFilters = {
   filters: {},

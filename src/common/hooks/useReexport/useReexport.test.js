@@ -1,10 +1,10 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
+import { orderLine } from 'fixtures/orderLine';
 import { useReexport } from './useReexport';
-import { orderLine } from '../../../../test/jest/fixtures/orderLine';
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (

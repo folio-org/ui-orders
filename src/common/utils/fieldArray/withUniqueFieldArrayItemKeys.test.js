@@ -1,6 +1,7 @@
-import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
+
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import { FIELD_ARRAY_ITEM_IDENTIFIER_KEY } from '../../constants';
 import { withUniqueFieldArrayItemKeys } from './withUniqueFieldArrayItemKeys';
@@ -60,14 +61,14 @@ describe('withUniqueFieldArrayItemKeys', () => {
     expect(screen.getAllByText(new RegExp(`${FIELD_ARRAY_ITEM_IDENTIFIER_KEY}\\d`))).toHaveLength(initialValues.items.length);
   });
 
-  it('should dehydrate field array items from unique identifiers for the form submission', () => {
+  it('should dehydrate field array items from unique identifiers for the form submission', async () => {
     renderTestComponent({
       fieldArraysToHydrate: ['items'],
       initialValues,
       onSubmit,
     });
 
-    userEvent.click(screen.getByText('Submit'));
+    await userEvent.click(screen.getByText('Submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(initialValues);
   });

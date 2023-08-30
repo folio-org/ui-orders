@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+
+import { arrayMutators } from 'fixtures/arrayMutatorsMock';
 import PODetailsForm from './PODetailsForm';
-import { arrayMutators } from '../../../../test/jest/arrayMutatorsMock';
 
 const optionMock = {
   disabled: false,

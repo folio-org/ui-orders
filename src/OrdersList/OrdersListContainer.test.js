@@ -1,13 +1,12 @@
-import React from 'react';
-import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
-import { order } from '../../test/jest/fixtures';
-import { location } from '../../test/jest/routerMocks';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
+import { order } from 'fixtures';
+import { location } from 'fixtures/routerMocks';
+import { useOrders } from './hooks';
 import OrdersListContainer from './OrdersListContainer';
 import OrdersList from './OrdersList';
-import { useOrders } from './hooks';
 
 const defaultProps = {
   mutator: {

@@ -1,9 +1,8 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen, act } from '@testing-library/react';
 import { Field, Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen, act } from '@folio/jest-config-stripes/testing-library/react';
 import {
   HasCommand,
   collapseAllSections,
@@ -11,7 +10,7 @@ import {
 } from '@folio/stripes/components';
 import { TextField } from '@folio/stripes-acq-components';
 
-import { history } from '../../../test/jest/routerMocks';
+import { history } from 'fixtures/routerMocks';
 import { ORDER_TYPE } from '../../common/constants';
 import PODetailsForm from './PODetails/PODetailsForm';
 import POForm from './POForm';
@@ -133,11 +132,11 @@ describe('POForm', () => {
 
     const select = await screen.findByLabelText('ui-orders.settings.orderTemplates.editor.template.name');
 
-    act(() => user.click(select));
+    await act(async () => user.click(select));
 
     const options = await screen.findAllByRole('option');
 
-    act(() => user.click(options[1]));
+    await act(async () => user.click(options[1]));
 
     const toggleFieldsVisibility = await screen.findByTestId('toggle-fields-visibility');
 
@@ -145,7 +144,7 @@ describe('POForm', () => {
       name: 'ui-orders.orderSummary.approved',
     })).not.toBeInTheDocument();
 
-    act(() => user.click(toggleFieldsVisibility));
+    await act(async () => user.click(toggleFieldsVisibility));
 
     const field = await screen.findByRole('checkbox', {
       name: 'ui-orders.orderSummary.approved',
@@ -154,7 +153,7 @@ describe('POForm', () => {
     expect(field).toBeInTheDocument();
   });
 
-  it('should call validator when \'PO Number\' was changed', () => {
+  it('should call validator when \'PO Number\' was changed', async () => {
     PODetailsForm.mockImplementation(({ validateNumber }) => (
       <Field
         component={TextField}
@@ -166,7 +165,7 @@ describe('POForm', () => {
 
     renderPOForm();
 
-    user.type(screen.getByLabelText('ui-orders.orderDetails.poNumber'), '777');
+    await user.type(screen.getByLabelText('ui-orders.orderDetails.poNumber'), '777');
 
     expect(defaultProps.parentMutator.orderNumber.POST).toHaveBeenCalled();
   });

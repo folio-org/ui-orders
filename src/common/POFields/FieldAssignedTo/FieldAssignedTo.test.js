@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { user as mockUser } from 'fixtures';
 import FieldAssignedTo from './FieldAssignedTo';
-import { user as mockUser } from '../../../../test/jest/fixtures';
 
 const defaultProps = {
   change: jest.fn(),

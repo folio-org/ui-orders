@@ -1,12 +1,19 @@
-import user from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { ORDER_TYPES } from '@folio/stripes-acq-components';
 
-import { history, location, match } from '../../../test/jest/routerMocks';
-import { orderLine, order } from '../../../test/jest/fixtures';
+import {
+  orderLine,
+  order,
+} from 'fixtures';
+import {
+  history,
+  location,
+  match,
+} from 'fixtures/routerMocks';
 import {
   ORDERS_ROUTE,
   ORDER_LINES_ROUTE,
@@ -123,7 +130,7 @@ describe('POLineView', () => {
 
     const goToBtn = await screen.findByTestId('line-details-actions-view-po');
 
-    user.click(goToBtn);
+    await user.click(goToBtn);
 
     expect(defaultProps.goToOrderDetails).toHaveBeenCalled();
   });

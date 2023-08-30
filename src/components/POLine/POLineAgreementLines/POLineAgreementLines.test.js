@@ -1,9 +1,7 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 
-import '@folio/stripes-acq-components/test/jest/__mock__';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import POLineAgreementLines from './POLineAgreementLines';
 

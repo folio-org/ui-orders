@@ -1,8 +1,9 @@
-import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { order, orderLine } from '../../../../test/jest/fixtures';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { order, orderLine } from 'fixtures';
 import { WORKFLOW_STATUS } from '../../../common/constants';
 import { POLineActionMenu } from './POLineActionMenu';
 

@@ -1,8 +1,9 @@
-import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { exportHistory, orderLine } from '../../../test/jest/fixtures';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { exportHistory, orderLine } from 'fixtures';
 import { REEXPORT_SOURCES } from '../constants';
 import { useReexport } from '../hooks';
 import { ReexportModal } from './ReexportModal';

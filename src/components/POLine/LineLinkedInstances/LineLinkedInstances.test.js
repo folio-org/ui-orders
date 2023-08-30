@@ -1,15 +1,14 @@
-import React from 'react';
-import { act, render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { useLocation, useHistory } from 'react-router';
 
-import { instance } from '../../../../test/jest/fixtures';
-import { location, history } from '../../../../test/jest/routerMocks';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
+import { instance } from 'fixtures';
+import { location, history } from 'fixtures/routerMocks';
 import InstancePlugin from '../Item/InstancePlugin';
-import { LineLinkedInstances } from './LineLinkedInstances';
 import { useLinkedInstances, useTitleMutation } from './hooks';
+import { LineLinkedInstances } from './LineLinkedInstances';
 
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
@@ -105,26 +104,26 @@ describe('LineLinkedInstances', () => {
   });
 
   describe('Row select', () => {
-    it('should not open receiving title edit form when instance title is clicked', () => {
+    it('should not open receiving title edit form when instance title is clicked', async () => {
       const linkedInstance = { title: 'ABA', id: 'instanceUid', contributors: 'Mark' };
 
       useLinkedInstances.mockReturnValue({ isLoading: false, linkedInstances: [linkedInstance] });
 
       renderLineLinkedInstances({ line: { instanceId: 'instanceUid' } });
 
-      user.click(screen.getByText(linkedInstance.title));
+      await user.click(screen.getByText(linkedInstance.title));
 
       expect(history.push).not.toHaveBeenCalled();
     });
 
-    it('should open receiving title edit form when instance row is clicked', () => {
+    it('should open receiving title edit form when instance row is clicked', async () => {
       const linkedInstance = { title: 'ABA', id: 'instanceUid', contributors: 'Mark', receivingTitle: { id: 'titleId' } };
 
       useLinkedInstances.mockReturnValue({ isLoading: false, linkedInstances: [linkedInstance] });
 
       renderLineLinkedInstances({ line: { instanceId: 'instanceUid' } });
 
-      user.click(screen.getByText(linkedInstance.contributors));
+      await user.click(screen.getByText(linkedInstance.contributors));
 
       expect(history.push).toHaveBeenCalled();
     });

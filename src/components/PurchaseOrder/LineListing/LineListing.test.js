@@ -1,14 +1,13 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import {
   PAYMENT_STATUS,
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
+import { orderLine } from 'fixtures';
 import LineListing from './LineListing';
-import { orderLine } from '../../../../test/jest/fixtures';
 
 const defaultProps = {
   poLines: [orderLine],

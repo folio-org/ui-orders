@@ -1,11 +1,10 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
-import CostForm from './CostForm';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { order } from '../../../../test/jest/fixtures';
+import { order } from 'fixtures';
+import CostForm from './CostForm';
 
 const defaultProps = {
   formValues: {
@@ -46,10 +45,10 @@ describe('CostForm', () => {
     expect(screen.getByText('ui-orders.cost.estimatedPrice')).toBeInTheDocument();
   });
 
-  it('should change input value', () => {
+  it('should change input value', async () => {
     renderCostForm();
 
-    user.type(screen.getByLabelText('ui-orders.cost.additionalCost'), '42');
+    await user.type(screen.getByLabelText('ui-orders.cost.additionalCost'), '42');
 
     expect(screen.getByLabelText('ui-orders.cost.additionalCost').value).toBe('42');
   });

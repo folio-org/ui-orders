@@ -1,8 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
 
-import { orderLine } from '../../../../../test/jest/fixtures/orderLine';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { orderLine } from 'fixtures/orderLine';
 import { RelatedItemsList } from './RelatedItemsList';
 
 jest.mock('../../../../common/hooks', () => ({

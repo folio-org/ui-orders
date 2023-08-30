@@ -1,12 +1,12 @@
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import {
   VersionViewContextProvider,
   ORDER_STATUSES,
 } from '@folio/stripes-acq-components';
 
-import { order } from '../../../../../test/jest/fixtures';
+import { order } from 'fixtures';
 import { ORDERS_ROUTE } from '../../../../common/constants';
 import { SummaryVersionView } from './SummaryVersionView';
 
