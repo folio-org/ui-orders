@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import { memo, useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useParams } from 'react-router';
 
 import {
+  Layout,
   LoadingPane,
   Pane,
   PaneMenu,
@@ -22,6 +24,8 @@ const VersionView = ({
 }) => {
   const { versionId } = useParams();
 
+  const isVersionExist = versionId && !isLoading;
+
   const lastMenu = useMemo(() => (
     <PaneMenu>
       <TagsBadge
@@ -32,7 +36,7 @@ const VersionView = ({
     </PaneMenu>
   ), [tags?.length]);
 
-  if (isLoading || !versionId) return <LoadingPane />;
+  if (isLoading) return <LoadingPane />;
 
   return (
     <Pane
@@ -42,7 +46,18 @@ const VersionView = ({
       lastMenu={lastMenu}
       {...props}
     >
-      {children}
+      {
+        isVersionExist
+          ? children
+          : (
+            <Layout
+              element="span"
+              className="flex centerContent"
+            >
+              <FormattedMessage id="ui-orders.versionHistory.noVersion" />
+            </Layout>
+          )
+      }
     </Pane>
   );
 };
