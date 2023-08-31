@@ -7,7 +7,6 @@ import { useOrderLines } from './hooks';
 import OrderLinesListContainer from './OrderLinesListContainer';
 import OrderLinesList from './OrderLinesList';
 
-
 jest.mock('./hooks', () => ({
   useOrderLines: jest.fn().mockReturnValue({}),
 }));

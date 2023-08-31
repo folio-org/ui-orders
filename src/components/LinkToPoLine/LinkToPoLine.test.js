@@ -5,7 +5,6 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 import { orderLine } from 'fixtures';
 import LinkToPoLine from './LinkToPoLine';
 
-
 const renderLinkToPoLine = (props = {}) => render(
   <LinkToPoLine
     {...props}

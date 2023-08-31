@@ -1,7 +1,7 @@
 import { MemoryRouter } from 'react-router-dom';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { exportHistory, orderLine } from 'fixtures';

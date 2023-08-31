@@ -12,7 +12,7 @@ import {
 import {
   history,
   location,
-  match, 
+  match,
 } from 'fixtures/routerMocks';
 import { useOrder } from '../../common/hooks';
 import ModalDeletePieces from '../ModalDeletePieces';

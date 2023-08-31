@@ -9,7 +9,7 @@ import {
 } from 'fixtures';
 import {
   history,
-  location, 
+  location,
 } from 'fixtures/routerMocks';
 import POForm from '../PurchaseOrder/POForm';
 import LayerPO from './LayerPO';

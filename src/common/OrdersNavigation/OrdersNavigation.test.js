@@ -6,7 +6,6 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 import { history } from 'fixtures/routerMocks';
 import OrdersNavigation from './OrdersNavigation';
 
-
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   withRouter: (Component) => (props) => <Component {...props} />,
