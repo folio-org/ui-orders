@@ -2,6 +2,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { exportHistory, orderLine } from 'fixtures';
 import { REEXPORT_SOURCES } from '../constants';
@@ -9,10 +10,12 @@ import { useReexport } from '../hooks';
 import { ReexportModal } from './ReexportModal';
 
 const vendorName = 'Test Vendor';
+const showCallout = jest.fn();
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useOrganization: jest.fn(() => ({ name: vendorName, isLoading: false })),
+  useShowCallout: jest.fn(() => jest.fn()),
 }));
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
@@ -66,32 +69,33 @@ describe('ReexportModal actions', () => {
     defaultProps.onConfirm.mockClear();
     mockReexport.reExport.mockClear();
     useReexport.mockClear().mockReturnValue(mockReexport);
+    useShowCallout.mockClear().mockReturnValue(showCallout);
   });
 
   it('should call \'onConfirm\' when \'Confirm\' button was clicked', async () => {
     renderReexportModal();
 
-    await act(async () => user.click(screen.getByText('ui-orders.button.confirm')));
+    await user.click(screen.getByText('ui-orders.button.confirm'));
 
     expect(mockReexport.reExport).toHaveBeenCalled();
     expect(defaultProps.onConfirm).toHaveBeenCalled();
   });
 
   it('should catch reexport error', async () => {
-    mockReexport.reExport.mockReturnValue(Promise.reject(new Error('Test')));
+    mockReexport.reExport.mockImplementation(() => Promise.reject(new Error('Test')));
 
     renderReexportModal();
 
-    await act(async () => user.click(screen.getByText('ui-orders.button.confirm')));
+    await user.click(screen.getByText('ui-orders.button.confirm'));
 
-    expect(mockReexport.reExport).rejects.toBeDefined();
     expect(defaultProps.onConfirm).toHaveBeenCalled();
+    expect(showCallout).toHaveBeenCalled();
   });
 
   it('should call \'onCancel\' when \'Cancel\' button was clicked', async () => {
     renderReexportModal();
 
-    await act(async () => user.click(screen.getByText('ui-orders.buttons.line.cancel')));
+    await user.click(screen.getByText('ui-orders.buttons.line.cancel'));
 
     expect(defaultProps.onCancel).toHaveBeenCalled();
   });

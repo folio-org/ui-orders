@@ -1,4 +1,4 @@
-import { BrowserRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -88,15 +88,13 @@ const queryClient = new QueryClient();
 // eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
+    <MemoryRouter initialEntries={['/orders/view/73a9b376-844f-41b5-8b3f-71f2fae63f1f']}>
       {children}
-    </BrowserRouter>
+    </MemoryRouter>
   </QueryClientProvider>
 );
 
 const renderComponent = (configProps = {}) => {
-  window.history.pushState({}, 'Test page', '/orders/view/73a9b376-844f-41b5-8b3f-71f2fae63f1f');
-
   return render(
     <IntlProvider locale="en">
       <Route
@@ -194,11 +192,11 @@ describe('PO actions', () => {
 
       const unopenBtn = await screen.findByTestId('unopen-order-button');
 
-      await act(async () => await user.click(unopenBtn));
+      await user.click(unopenBtn);
 
       const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel');
 
-      await act(async () => await user.click(confirmBtn));
+      await user.click(confirmBtn);
 
       expect(updateOrder).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -271,11 +269,11 @@ describe('PO actions', () => {
 
       const reexportBtn = await screen.findByTestId('reexport-order-button');
 
-      await act(async () => user.click(reexportBtn));
+      await user.click(reexportBtn);
 
       const reexportConfirmBtn = await screen.findByTestId('confirm-reexport-button');
 
-      await act(async () => user.click(reexportConfirmBtn));
+      await user.click(reexportConfirmBtn);
 
       expect(defaultProps.mutator.orderDetails.GET).toHaveBeenCalled();
     });
@@ -359,7 +357,11 @@ describe('PO actions', () => {
   it('should close pane when close icon was clicked', async () => {
     renderComponent();
 
-    await user.click(screen.getByRole('button'));
+    await waitFor(async () => expect(await screen.findByText('ui-orders.order.paneTitle.details')).toBeInTheDocument());
+
+    const closeBtn = await screen.findByRole('button', { name: 'stripes-components.closeItem' });
+
+    await user.click(closeBtn);
 
     expect(history.push).toHaveBeenCalled();
   });

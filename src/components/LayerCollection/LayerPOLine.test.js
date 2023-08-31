@@ -189,7 +189,7 @@ describe('LayerPOLine', () => {
   describe('LinesLimit', () => {
     it('should render \'LinesLimit\' modal if \'polLimitExceeded\' error occurs and closed when confirmed', async () => {
       // eslint-disable-next-line prefer-promise-reject-errors
-      defaultProps.mutator.poLines.PUT.mockReturnValue(Promise.reject({
+      defaultProps.mutator.poLines.PUT.mockImplementation(() => Promise.reject({
         errors: [{
           code: 'polLimitExceeded',
         }],
@@ -208,7 +208,7 @@ describe('LayerPOLine', () => {
 
     it('should redirect to order creation', async () => {
       // eslint-disable-next-line prefer-promise-reject-errors
-      defaultProps.mutator.poLines.PUT.mockReturnValue(Promise.reject({
+      defaultProps.mutator.poLines.PUT.mockImplementation(() => Promise.reject({
         errors: [{
           code: 'polLimitExceeded',
         }],
@@ -229,7 +229,7 @@ describe('LayerPOLine', () => {
   describe('ModalDeletePieces', () => {
     it('should render \'ModalDeletePieces\' and close it when cancelling', async () => {
       // eslint-disable-next-line prefer-promise-reject-errors
-      defaultProps.mutator.poLines.PUT.mockReturnValue(Promise.reject({
+      defaultProps.mutator.poLines.PUT.mockImplementation(() => Promise.reject({
         errors: [{
           code: 'piecesNeedToBeDeleted',
         }],
@@ -250,7 +250,7 @@ describe('LayerPOLine', () => {
 
     it('should update POLine when piece was deleted', async () => {
       // eslint-disable-next-line prefer-promise-reject-errors
-      defaultProps.mutator.poLines.PUT.mockReturnValue(Promise.reject({
+      defaultProps.mutator.poLines.PUT.mockImplementation(() => Promise.reject({
         errors: [{
           code: 'piecesNeedToBeDeleted',
         }],
@@ -290,7 +290,7 @@ describe('LayerPOLine', () => {
 
   it('should handle another errors', async () => {
     // eslint-disable-next-line prefer-promise-reject-errors
-    defaultProps.mutator.poLines.PUT.mockReturnValue(Promise.reject({
+    defaultProps.mutator.poLines.PUT.mockImplementation(() => Promise.reject({
       errors: [{
         code: 'someError',
       }],

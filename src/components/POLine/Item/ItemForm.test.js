@@ -1,3 +1,4 @@
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
