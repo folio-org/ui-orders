@@ -18,7 +18,7 @@
 * Upgrade `Node.js` to `18` version in GitHub Actions. Refs UIOR-1135.
 * **BREAKING:** Upgrade `React` to `18` version. Refs UIOR-1134.
 * Provide a human-readable error message for `encumbrancesForReEncumberNotFound` code. Refs UIOR-1143.
-* PO or POL with zero audit history shows endless loading dots in history pane. Refs UIOR-1136.
+* Show a message about the missing version in the history. Refs UIOR-1136.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
