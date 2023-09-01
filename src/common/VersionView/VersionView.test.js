@@ -1,4 +1,4 @@
-import { render, screen } from '@folio/jest-config-stripes/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { useParams, MemoryRouter } from 'react-router-dom';
 
 import VersionView from './VersionView';
