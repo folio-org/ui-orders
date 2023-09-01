@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { OrderLinesFilters } from '@folio/plugin-find-po-line';
 
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';

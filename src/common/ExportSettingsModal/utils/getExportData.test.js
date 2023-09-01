@@ -1,13 +1,14 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { useIntl } from 'react-intl';
 
-import { getExportData } from './getExportData';
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
+
 import {
   address,
   orderLine,
   order,
   vendor,
-} from '../../../../test/jest/fixtures';
+} from 'fixtures';
+import { getExportData } from './getExportData';
 
 jest.mock('./createExportReport', () => ({
   createExportReport: jest.fn().mockReturnValue('test report'),

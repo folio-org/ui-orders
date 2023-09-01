@@ -1,7 +1,7 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import OrdersListActionMenu from './OrdersListActionMenu';
 
@@ -21,10 +21,10 @@ const renderOrdersListActionMenu = (props = {}) => render(
 );
 
 describe('OrdersListActionMenu', () => {
-  it('should handle toggle action when export result button is clicked', () => {
+  it('should handle toggle action when export result button is clicked', async () => {
     renderOrdersListActionMenu();
 
-    user.click(screen.getAllByRole('button')[1]);
+    await user.click(screen.getAllByRole('button')[1]);
 
     expect(defaultProps.onToggle).toHaveBeenCalled();
     expect(defaultProps.toggleExportModal).toHaveBeenCalled();

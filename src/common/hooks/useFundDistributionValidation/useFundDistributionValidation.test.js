@@ -1,6 +1,6 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { VALIDATE_PO_LINE_FUND_DISTRIBUTION_API } from '../../constants';
@@ -48,10 +48,10 @@ describe('useFundDistributionValidation', () => {
   });
 
   it('should fetch title and update it', async () => {
-    const { result, waitFor } = renderHook(() => useFundDistributionValidation({ cost }), { wrapper });
+    const { result } = renderHook(() => useFundDistributionValidation({ cost }), { wrapper });
 
     await result.current.validateFundDistributionTotal({ ...cost, ...fundDistribution });
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(putMock).toHaveBeenCalledWith(VALIDATE_PO_LINE_FUND_DISTRIBUTION_API, expect.objectContaining({}));
   });

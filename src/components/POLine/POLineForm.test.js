@@ -1,11 +1,10 @@
-import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Form } from 'react-final-form';
-import user from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/react';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import {
   collapseAllSections,
   expandAllSections,
@@ -13,8 +12,8 @@ import {
 } from '@folio/stripes/components';
 import { ORDER_TYPES } from '@folio/stripes-acq-components';
 
+import { order } from 'fixtures';
 import POLineForm from './POLineForm';
-import { order } from '../../../test/jest/fixtures';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
   return () => <span>AcqUnitsField</span>;
@@ -234,7 +233,7 @@ describe('POLineForm actions', () => {
       name: 'ui-orders.poLine.package',
     })).not.toBeInTheDocument();
 
-    user.click(toggleFieldsVisibility);
+    await user.click(toggleFieldsVisibility);
 
     const field = screen.getByRole('checkbox', { name: 'ui-orders.poLine.package' });
 

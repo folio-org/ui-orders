@@ -1,7 +1,7 @@
-import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { order } from '../../../../test/jest/fixtures';
+import { order } from 'fixtures';
 import { UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES } from '../../../common/constants';
 import { useOrderLinesAbandonedHoldingsCheck } from '../../../common/hooks';
 import { UnopenOrderConfirmationModal } from './UnopenOrderConfirmationModal';
@@ -45,7 +45,7 @@ describe('UnopenOrderConfirmationModal actions', () => {
 
     const cancelBtn = await screen.findByText('stripes-components.cancel');
 
-    await act(async () => user.click(cancelBtn));
+    await user.click(cancelBtn);
 
     expect(defaultProps.onCancel).toHaveBeenCalled();
   });
@@ -55,7 +55,7 @@ describe('UnopenOrderConfirmationModal actions', () => {
 
     const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel');
 
-    await act(async () => user.click(confirmBtn));
+    await user.click(confirmBtn);
 
     expect(defaultProps.onConfirm).toHaveBeenCalledWith({ deleteHoldings: false });
   });
@@ -80,7 +80,7 @@ describe('UnopenOrderConfirmationModal actions', () => {
 
         const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel.deleteHoldings.synchronized');
 
-        await act(async () => user.click(confirmBtn));
+        await user.click(confirmBtn);
 
         expect(defaultProps.onConfirm).toHaveBeenCalledWith({ deleteHoldings: true });
       });
@@ -90,7 +90,7 @@ describe('UnopenOrderConfirmationModal actions', () => {
 
         const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel.keepHoldings.synchronized');
 
-        await act(async () => user.click(confirmBtn));
+        await user.click(confirmBtn);
 
         expect(defaultProps.onConfirm).toHaveBeenCalledWith({ deleteHoldings: false });
       });
@@ -115,7 +115,7 @@ describe('UnopenOrderConfirmationModal actions', () => {
 
         const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel.deleteHoldings.independent');
 
-        await act(async () => user.click(confirmBtn));
+        await user.click(confirmBtn);
 
         expect(defaultProps.onConfirm).toHaveBeenCalledWith({ deleteHoldings: true });
       });
@@ -125,7 +125,7 @@ describe('UnopenOrderConfirmationModal actions', () => {
 
         const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel.keepHoldings.independent');
 
-        await act(async () => user.click(confirmBtn));
+        await user.click(confirmBtn);
 
         expect(defaultProps.onConfirm).toHaveBeenCalledWith({ deleteHoldings: false });
       });

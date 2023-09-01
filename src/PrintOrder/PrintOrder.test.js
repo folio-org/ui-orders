@@ -1,8 +1,7 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
+import { order, orderLine } from 'fixtures';
 import { PrintOrder } from './PrintOrder';
-import { order, orderLine } from '../../test/jest/fixtures';
 
 jest.mock('./ComponentToPrint', () => jest.fn().mockReturnValue('ComponentToPrint'));
 jest.mock('../common/ExportSettingsModal/utils/getExportData', () => ({

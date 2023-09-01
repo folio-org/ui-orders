@@ -1,6 +1,6 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import POInvoicesContainer from './POInvoicesContainer';
 import { useRelatedInvoices } from './useRelatedInvoices';

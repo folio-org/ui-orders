@@ -1,12 +1,12 @@
 import React from 'react';
-import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { Pluggable } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
 
-import { instance, order, orderLine } from '../../../../test/jest/fixtures';
+import { instance, order, orderLine } from 'fixtures';
 import { PRODUCT_ID_TYPE } from '../../../common/constants';
 import ItemForm from './ItemForm';
 
@@ -103,42 +103,42 @@ describe('ItemForm', () => {
     expect(screen.getByRole('checkbox', { name: 'ui-orders.poLine.package' })).toBeChecked();
   });
 
-  it('should handle \'TitleField\' change', () => {
+  it('should handle \'TitleField\' change', async () => {
     renderItemForm();
 
     const field = screen.getByLabelText('ui-orders.itemDetails.title');
 
-    user.type(field, 'new title');
+    await user.type(field, 'new title');
 
     expect(field.value).toBe('new title');
   });
 
-  it('should handle \'publisher field\' change', () => {
+  it('should handle \'publisher field\' change', async () => {
     renderItemForm();
 
     const field = screen.getByLabelText('ui-orders.itemDetails.publisher');
 
-    user.type(field, 'new publisher');
+    await user.type(field, 'new publisher');
 
     expect(field.value).toBe('new publisher');
   });
 
-  it('should handle \'publicationDate field\' change', () => {
+  it('should handle \'publicationDate field\' change', async () => {
     renderItemForm();
 
     const field = screen.getByLabelText('ui-orders.itemDetails.publicationDate');
 
-    user.type(field, '01/01/2021');
+    await user.type(field, '01/01/2021');
 
     expect(field.value).toBe('01/01/2021');
   });
 
-  it('should handle \'edition field\' change', () => {
+  it('should handle \'edition field\' change', async () => {
     renderItemForm();
 
     const field = screen.getByLabelText('ui-orders.itemDetails.edition');
 
-    user.type(field, 'some edition');
+    await user.type(field, 'some edition');
 
     expect(field.value).toBe('some edition');
   });

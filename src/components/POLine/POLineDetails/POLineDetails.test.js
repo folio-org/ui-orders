@@ -1,8 +1,7 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { render, screen } from '@testing-library/react';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { ACQUISITION_METHOD } from '@folio/stripes-acq-components';
 
 import POLineDetails, {

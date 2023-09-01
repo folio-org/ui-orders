@@ -1,9 +1,3 @@
-import user from '@testing-library/user-event';
-import {
-  act,
-  render,
-  screen,
-} from '@testing-library/react';
 import {
   QueryClient,
   QueryClientProvider,
@@ -15,10 +9,15 @@ import {
   withRouter,
 } from 'react-router-dom';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { orderLineAuditEvent } from '@folio/stripes-acq-components/test/jest/fixtures';
 
-import { orderLine } from '../../../../test/jest/fixtures';
+import { orderLine } from 'fixtures';
 import {
   AUDIT_ACQ_EVENTS_API,
   ORDER_LINES_ROUTE,
@@ -144,13 +143,13 @@ describe('POLineVersionView', () => {
     const versionBtns = await screen.findAllByRole('button', { name: 'stripes-acq-components.versionHistory.card.select.tooltip' });
 
     // Open original version from history
-    await act(async () => user.click(versionBtns[1]));
+    await user.click(versionBtns[1]);
 
     expect(screen.queryByText(versions[0].orderLineSnapshot.map.edition)).not.toBeInTheDocument();
     expect(screen.getByText(versions[1].orderLineSnapshot.map.edition)).toBeInTheDocument();
 
     // Open latest version from history
-    await act(async () => user.click(versionBtns[0]));
+    await user.click(versionBtns[0]);
 
     expect(screen.getByText(versions[0].orderLineSnapshot.map.edition)).toBeInTheDocument();
     expect(screen.queryByText(versions[1].orderLineSnapshot.map.edition)).not.toBeInTheDocument();

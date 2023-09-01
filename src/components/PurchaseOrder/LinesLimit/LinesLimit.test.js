@@ -1,6 +1,5 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import LinesLimit from './LinesLimit';
 
@@ -35,7 +34,7 @@ describe('CloseOrderModal actions', () => {
 
     const cancelBtn = await screen.findByText('ui-orders.linesLimit.okBtn');
 
-    user.click(cancelBtn);
+    await user.click(cancelBtn);
 
     expect(defaultProps.cancel).toHaveBeenCalled();
   });
@@ -45,7 +44,7 @@ describe('CloseOrderModal actions', () => {
 
     const closeBtn = await screen.findByText('ui-orders.linesLimit.createBtn');
 
-    user.click(closeBtn);
+    await user.click(closeBtn);
 
     expect(defaultProps.createOrder).toHaveBeenCalled();
   });

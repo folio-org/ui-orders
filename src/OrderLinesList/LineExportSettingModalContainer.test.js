@@ -1,9 +1,8 @@
-import React from 'react';
-import { waitFor, render, screen } from '@testing-library/react';
+import { waitFor, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import LineExportSettingModalContainer from './LineExportSettingModalContainer';
 import ExportSettingsModalContainer from '../common/ExportSettingsModal/ExportSettingsModalContainer';
 import { fetchExportDataByIds } from '../common/utils';
+import LineExportSettingModalContainer from './LineExportSettingModalContainer';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),

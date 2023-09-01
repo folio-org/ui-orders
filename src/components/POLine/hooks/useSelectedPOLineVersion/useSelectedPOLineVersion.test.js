@@ -1,9 +1,9 @@
-import { renderHook } from '@testing-library/react-hooks';
 import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import {
   LOCATIONS_API,
@@ -19,7 +19,7 @@ import {
   location,
   materialType,
   order,
-} from '../../../../../test/jest/fixtures';
+} from 'fixtures';
 import {
   useAcqMethods,
   useOrder,
@@ -93,7 +93,7 @@ describe('useSelectedPOLineVersion', () => {
   });
 
   it('should return PO Line version data', async () => {
-    const { result, waitFor } = renderHook(() => useSelectedPOLineVersion({
+    const { result } = renderHook(() => useSelectedPOLineVersion({
       versionId: orderLineAuditEvent.id,
       versions: [{
         ...orderLineAuditEvent,
@@ -105,7 +105,7 @@ describe('useSelectedPOLineVersion', () => {
       snapshotPath: 'orderLineSnapshot',
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     const {
       accessProvider,

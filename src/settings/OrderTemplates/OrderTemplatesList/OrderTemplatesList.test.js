@@ -1,7 +1,6 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { MemoryRouter, useHistory } from 'react-router';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { HasCommand } from '@folio/stripes/components';
 
 import OrderTemplatesList from './OrderTemplatesList';

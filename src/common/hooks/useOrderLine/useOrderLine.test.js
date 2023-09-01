@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { orderLine } from '../../../../test/jest/fixtures';
+import { orderLine } from 'fixtures';
 import { useOrderLine } from './useOrderLine';
 
 const queryClient = new QueryClient();
@@ -25,9 +25,9 @@ describe('useOrderLine', () => {
         }),
       });
 
-    const { result, waitForNextUpdate } = renderHook(() => useOrderLine(orderLine.id), { wrapper });
+    const { result } = renderHook(() => useOrderLine(orderLine.id), { wrapper });
 
-    await waitForNextUpdate();
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.orderLine).toEqual(orderLine);
   });

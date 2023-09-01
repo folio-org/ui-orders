@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { orderLine } from 'fixtures';
 import TitleField from './TitleField';
-import { orderLine } from '../../../../../test/jest/fixtures';
 
 const defaultProps = {
   poLineDetails: orderLine,

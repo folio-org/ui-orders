@@ -1,11 +1,10 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
-import FieldOrderFormat from './FieldOrderFormat';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { vendor } from '../../../../test/jest/fixtures';
+import { vendor } from 'fixtures';
+import FieldOrderFormat from './FieldOrderFormat';
 
 const defaultProps = {
   formValues: {
@@ -42,11 +41,11 @@ describe('FieldOrderFormat', () => {
     const options = screen.getAllByRole('option');
     const select = await screen.findByRole('combobox');
 
-    user.selectOptions(select, 'Other');
+    await user.selectOptions(select, 'Other');
 
     expect(options[4].selected).toBeTruthy();
 
-    user.selectOptions(select, 'Electronic Resource');
+    await user.selectOptions(select, 'Electronic Resource');
 
     expect(options[1].selected).toBeTruthy();
   });

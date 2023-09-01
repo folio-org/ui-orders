@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
-import user from '@testing-library/user-event';
-import { act, render, screen } from '@testing-library/react';
+
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import { ERROR_CODES, UPDATE_HOLDINGS_OPERATIONS_MAP } from '../constants';
 import { useChangeInstanceModalConfigs, useNotMovedItems } from '../hooks';
@@ -84,14 +85,14 @@ describe('ChangeInstanceModalContainer', () => {
       expect(screen.getByText('ui-orders.line.changeInstance.confirmLabel')).toBeInTheDocument();
     });
 
-    it('should call \'onCancel\' when \'Cancel\' button was clicked', () => {
-      user.click(screen.getByText('ui-orders.buttons.line.cancel'));
+    it('should call \'onCancel\' when \'Cancel\' button was clicked', async () => {
+      await user.click(screen.getByText('ui-orders.buttons.line.cancel'));
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
     });
 
-    it('should call \'onSubmit\' when \'Confirm\' button was clicked', () => {
-      user.click(screen.getByText('ui-orders.line.changeInstance.confirmLabel'));
+    it('should call \'onSubmit\' when \'Confirm\' button was clicked', async () => {
+      await user.click(screen.getByText('ui-orders.line.changeInstance.confirmLabel'));
 
       expect(defaultProps.onSubmit).toHaveBeenCalled();
     });
@@ -124,45 +125,45 @@ describe('ChangeInstanceModalContainer', () => {
     });
 
     describe('Delete holdings modal:', () => {
-      const renderConfigured = () => {
+      const renderConfigured = async () => {
         renderChangeInstanceModal();
 
-        user.selectOptions(
+        await user.selectOptions(
           screen.getByLabelText(/ui-orders.line.changeInstance.holdingOperations.field/),
           [UPDATE_HOLDINGS_OPERATIONS_MAP.create],
         );
-        user.click(screen.getByText('ui-orders.buttons.line.submit'));
+        await user.click(screen.getByText('ui-orders.buttons.line.submit'));
       };
 
-      it('should NOT render modal if related holding(s) contain another piece(s)/item(s)', () => {
-        renderConfigured();
+      it('should NOT render modal if related holding(s) contain another piece(s)/item(s)', async () => {
+        await renderConfigured();
 
         expect(screen.queryByText('stripes-acq-components.holdings.deleteModal.message')).not.toBeInTheDocument();
       });
 
       describe('when related holding(s) will be abandoned after instance changing:', () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           useChangeInstanceModalConfigs
             .mockClear()
             .mockReturnValue(getDetailedModalConfigs({ willAbandoned: true }));
 
-          renderConfigured();
+          await renderConfigured();
         });
 
         it('should render \'Delete holdings\' modal', () => {
           expect(screen.getByText('stripes-acq-components.holdings.deleteModal.message')).toBeInTheDocument();
         });
 
-        it('should call \'onSubmit\' without deletion flag when \'Keep holdings\' button was clicked', () => {
-          user.click(screen.getByText('stripes-acq-components.holdings.deleteModal.keepHoldings'));
+        it('should call \'onSubmit\' without deletion flag when \'Keep holdings\' button was clicked', async () => {
+          await user.click(screen.getByText('stripes-acq-components.holdings.deleteModal.keepHoldings'));
 
           expect(defaultProps.onSubmit).toHaveBeenCalledWith({
             holdingsOperation: UPDATE_HOLDINGS_OPERATIONS_MAP.create,
           });
         });
 
-        it('should call \'onSubmit\' with deletion flag when \'Delete holdings\' button was clicked', () => {
-          user.click(screen.getByRole('button', {
+        it('should call \'onSubmit\' with deletion flag when \'Delete holdings\' button was clicked', async () => {
+          await user.click(screen.getByRole('button', {
             name: 'stripes-acq-components.holdings.deleteModal.heading',
           }));
 
@@ -192,13 +193,13 @@ describe('ChangeInstanceModalContainer', () => {
         renderChangeInstanceModal({ onSubmit });
 
         await act(async () => {
-          user.selectOptions(
+          await user.selectOptions(
             screen.getByLabelText(/ui-orders.line.changeInstance.holdingOperations.field/),
             [UPDATE_HOLDINGS_OPERATIONS_MAP.create],
           );
         });
         await act(async () => {
-          user.click(screen.getByText('ui-orders.buttons.line.submit'));
+          await user.click(screen.getByText('ui-orders.buttons.line.submit'));
         });
 
         expect(screen.getByText('ui-orders.line.changeInstance.notMovedItems')).toBeInTheDocument();

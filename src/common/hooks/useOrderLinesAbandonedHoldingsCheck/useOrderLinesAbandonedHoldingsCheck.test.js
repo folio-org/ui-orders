@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { orderLine } from '../../../../test/jest/fixtures';
+import { orderLine } from 'fixtures';
 import {
   checkIndependentPOLinesAbandonedHoldings,
   checkSynchronizedPOLinesAbandonedHoldings,
@@ -53,12 +53,12 @@ describe('useOrderLinesAbandonedHoldingsCheck', () => {
   });
 
   it('should return default type in result if there are no abandoned holdings', async () => {
-    const { result, waitFor } = renderHook(
+    const { result } = renderHook(
       () => useOrderLinesAbandonedHoldingsCheck(poLines),
       { wrapper },
     );
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current.result.type).toEqual(UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.defaultType);
   });
@@ -66,12 +66,12 @@ describe('useOrderLinesAbandonedHoldingsCheck', () => {
   it('should return \'independent\' type in result if there is at least one abandoned holding related to independent PO Line and not to synchronized', async () => {
     checkIndependentPOLinesAbandonedHoldings.mockReturnValue(() => ({ willAbandoned: true }));
 
-    const { result, waitFor } = renderHook(
+    const { result } = renderHook(
       () => useOrderLinesAbandonedHoldingsCheck(poLines),
       { wrapper },
     );
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current.result.type).toEqual(UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.independent);
   });
@@ -79,12 +79,12 @@ describe('useOrderLinesAbandonedHoldingsCheck', () => {
   it('should return \'synchronized\' type in result if there is at least one abandoned holding related to synchronized PO Line', async () => {
     checkSynchronizedPOLinesAbandonedHoldings.mockReturnValue(() => ({ willAbandoned: true }));
 
-    const { result, waitFor } = renderHook(
+    const { result } = renderHook(
       () => useOrderLinesAbandonedHoldingsCheck(poLines),
       { wrapper },
     );
 
-    await waitFor(() => !result.current.isFetching);
+    await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(result.current.result.type).toEqual(UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.synchronized);
   });

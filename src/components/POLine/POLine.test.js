@@ -1,15 +1,16 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { Tags } from '@folio/stripes-acq-components';
 
+import {
+  orderLine,
+  order,
+} from 'fixtures';
+import { history } from 'fixtures/routerMocks';
 import POLine from './POLine';
 import POLineView from './POLineView';
-
-import { orderLine, order } from '../../../test/jest/fixtures';
-import { history } from '../../../test/jest/routerMocks';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),

@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
 import POLineAgreementLinesContainer from './POLineAgreementLinesContainer';
 import POLineAgreementLines from './POLineAgreementLines';

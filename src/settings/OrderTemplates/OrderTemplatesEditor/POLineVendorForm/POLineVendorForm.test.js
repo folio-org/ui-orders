@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { arrayMutators } from 'fixtures/arrayMutatorsMock';
 import POLineVendorForm from './POLineVendorForm';
-import { arrayMutators } from '../../../../../test/jest/arrayMutatorsMock';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),

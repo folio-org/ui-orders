@@ -1,12 +1,11 @@
-import React from 'react';
-import { render, screen, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { render, screen, act } from '@folio/jest-config-stripes/testing-library/react';
+
+import { order, orderLine } from 'fixtures';
 import { useOrderLines } from './hooks';
 import OrderLinesListContainer from './OrderLinesListContainer';
 import OrderLinesList from './OrderLinesList';
-
-import { order, orderLine } from '../../test/jest/fixtures';
 
 jest.mock('./hooks', () => ({
   useOrderLines: jest.fn().mockReturnValue({}),

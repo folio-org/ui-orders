@@ -1,7 +1,7 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
+
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import NotesForm from './NotesForm';
 
@@ -32,18 +32,18 @@ describe('NotesForm', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
-  it('should add a note', () => {
+  it('should add a note', async () => {
     renderNotesForm();
 
-    user.click(screen.getByText('ui-orders.orderDetails.addNoteBtn'));
+    await user.click(screen.getByText('ui-orders.orderDetails.addNoteBtn'));
 
     expect(defaultProps.fields.push).toHaveBeenCalled();
   });
 
-  it('should remove a note', () => {
+  it('should remove a note', async () => {
     renderNotesForm();
 
-    user.click(screen.getByText(/icon/i));
+    await user.click(screen.getByText(/icon/i));
 
     expect(defaultProps.fields.remove).toHaveBeenCalled();
   });

@@ -1,17 +1,18 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
-import LayerPO from './LayerPO';
-import POForm from '../PurchaseOrder/POForm';
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
-import { location, history } from '../../../test/jest/routerMocks';
 import {
-  order,
   address,
+  order,
   user as userMock,
-
-} from '../../../test/jest/fixtures';
+} from 'fixtures';
+import {
+  history,
+  location,
+} from 'fixtures/routerMocks';
+import POForm from '../PurchaseOrder/POForm';
+import LayerPO from './LayerPO';
 
 jest.mock('../PurchaseOrder/POForm', () => jest.fn().mockReturnValue('POForm'));
 

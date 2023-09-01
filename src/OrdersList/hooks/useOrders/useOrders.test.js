@@ -1,12 +1,12 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { useLocation } from 'react-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
+import { order } from 'fixtures';
 import { useBuildQuery } from '../useBuildQuery';
 import { useOrders } from './useOrders';
-import { order } from '../../../../test/jest/fixtures';
 
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
@@ -52,11 +52,11 @@ describe('useOrders', () => {
       .mockClear()
       .mockReturnValue({ search: '' });
 
-    const { result, waitFor } = renderHook(() => useOrders({
+    const { result } = renderHook(() => useOrders({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current).toEqual({
       orders: [],
@@ -72,12 +72,12 @@ describe('useOrders', () => {
       .mockReturnValue({ search: 'workflowStatus=Open&workflowStatus=Pending' });
 
     const fetchReferences = jest.fn().mockReturnValue(Promise.resolve({}));
-    const { result, waitFor } = renderHook(() => useOrders({
+    const { result } = renderHook(() => useOrders({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
       fetchReferences,
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(fetchReferences).toHaveBeenCalled();
   });
@@ -92,12 +92,12 @@ describe('useOrders', () => {
       usersMap: { [order.assignedTo]: { personal: { lastName: 'testUser' } } },
       acqUnitsMap: { [order.acqUnitIds[0]]: { name: 'Main' } },
     }));
-    const { result, waitFor } = renderHook(() => useOrders({
+    const { result } = renderHook(() => useOrders({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
       fetchReferences,
     }), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current).toEqual({
       orders: [{ ...order, vendorCode: 'vendorCode', acquisitionsUnit: 'Main', assignedTo: 'testUser  ' }],

@@ -1,6 +1,5 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import CloseOrderModal from './CloseOrderModal';
 
@@ -41,7 +40,7 @@ describe('CloseOrderModal actions', () => {
 
     const cancelBtn = await screen.findByText('ui-orders.closeOrderModal.cancel');
 
-    user.click(cancelBtn);
+    await user.click(cancelBtn);
 
     expect(defaultProps.cancel).toHaveBeenCalled();
   });
@@ -53,9 +52,9 @@ describe('CloseOrderModal actions', () => {
     const select = await screen.findByLabelText('ui-orders.closeOrderModal.reason');
     const notes = await screen.findByLabelText('ui-orders.closeOrderModal.notes');
 
-    user.selectOptions(select, 'reason');
-    user.type(notes, 'some notes');
-    user.click(closeBtn);
+    await user.selectOptions(select, 'reason');
+    await user.type(notes, 'some notes');
+    await user.click(closeBtn);
 
     expect(defaultProps.closeOrder).toHaveBeenCalled();
   });

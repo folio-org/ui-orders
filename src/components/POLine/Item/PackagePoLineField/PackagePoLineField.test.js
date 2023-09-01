@@ -1,11 +1,10 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { TextField } from '@folio/stripes/components';
 
+import { orderLine } from 'fixtures';
 import PackagePoLineField from './PackagePoLineField';
-import { orderLine } from '../../../../../test/jest/fixtures';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),

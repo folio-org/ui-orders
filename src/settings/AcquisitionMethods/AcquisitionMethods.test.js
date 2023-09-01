@@ -1,7 +1,6 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { render, screen } from '@testing-library/react';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import { ACQUISITION_METHOD } from '@folio/stripes-acq-components';
 

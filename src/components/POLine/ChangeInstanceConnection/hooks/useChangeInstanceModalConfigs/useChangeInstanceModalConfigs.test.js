@@ -1,11 +1,11 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
-import { orderLine } from '../../../../../../test/jest/fixtures/orderLine';
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+
+import { orderLine } from 'fixtures/orderLine';
 import { checkRelatedHoldings } from '../../../../../common/utils';
 import { getCreateInventory } from '../../../utils';
 import { SHOW_DETAILED_MODAL_CONFIGS } from '../../constants';
-
 import { useChangeInstanceModalConfigs } from './useChangeInstanceModalConfigs';
 
 jest.mock('../../../../../common/utils/checkRelatedHoldings');
@@ -36,9 +36,9 @@ describe('useChangeInstanceModalConfigs', () => {
   });
 
   it('should return modal configs', async () => {
-    const { result, waitFor } = renderHook(() => useChangeInstanceModalConfigs(orderLine), { wrapper });
+    const { result } = renderHook(() => useChangeInstanceModalConfigs(orderLine), { wrapper });
 
-    await waitFor(() => !result.current.isLoading);
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current).toEqual(expect.objectContaining(modalConfigs));
   });

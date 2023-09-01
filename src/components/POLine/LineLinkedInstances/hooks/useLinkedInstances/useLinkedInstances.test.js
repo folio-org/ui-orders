@@ -1,8 +1,6 @@
-import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
-import '@folio/stripes-acq-components/test/jest/__mock__';
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { useLinkedInstances } from './useLinkedInstances';
@@ -55,11 +53,9 @@ describe('useLinkedInstances', () => {
   it('should fetch package POL linked instances', async () => {
     const pol = { id: 'line1', isPackage: true };
 
-    const { result, waitFor } = renderHook(() => useLinkedInstances(pol), { wrapper });
+    const { result } = renderHook(() => useLinkedInstances(pol), { wrapper });
 
-    await waitFor(() => {
-      return !result.current.isLoading;
-    });
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.linkedInstances).toEqual(linkedTitles.map(() => formattedLinkedInstance));
   });

@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+
+import { getCommonErrorMessage } from '../../../common/utils';
 import OrderTemplateViewContainer from './OrderTemplateViewContainer';
 import OrderTemplateView from './OrderTemplateView';
-import { getCommonErrorMessage } from '../../../common/utils';
 
 jest.mock('react-intl', () => ({
   ...jest.requireActual('react-intl'),

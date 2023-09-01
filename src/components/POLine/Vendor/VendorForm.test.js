@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+
+import { arrayMutators } from 'fixtures/arrayMutatorsMock';
 import VendorForm from './VendorForm';
-import { arrayMutators } from '../../../../test/jest/arrayMutatorsMock';
 
 const defaultProps = {
   accounts: [{

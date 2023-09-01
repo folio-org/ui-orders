@@ -1,13 +1,8 @@
-import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
-import '@folio/stripes-acq-components/test/jest/__mock__';
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
-
-import {
-  VENDORS_API,
-} from '@folio/stripes-acq-components';
+import { VENDORS_API } from '@folio/stripes-acq-components';
 
 import {
   INVOICES_API,
@@ -61,11 +56,9 @@ describe('useConnectedInvoiceLines', () => {
   });
 
   it('should fetch connected to po line invoice lines', async () => {
-    const { result, waitFor } = renderHook(() => useConnectedInvoiceLines('orderLineId'), { wrapper });
+    const { result } = renderHook(() => useConnectedInvoiceLines('orderLineId'), { wrapper });
 
-    await waitFor(() => {
-      return !result.current.isLoading;
-    });
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(result.current.invoiceLines).toEqual(resultData);
     expect(result.current.totalInvoiceLines).toBe(1);

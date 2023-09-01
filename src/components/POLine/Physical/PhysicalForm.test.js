@@ -1,11 +1,10 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Form } from 'react-final-form';
 
-import PhysicalForm from './PhysicalForm';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { order } from '../../../../test/jest/fixtures';
-import { arrayMutators } from '../../../../test/jest/arrayMutatorsMock';
+import { order } from 'fixtures';
+import { arrayMutators } from 'fixtures/arrayMutatorsMock';
+import PhysicalForm from './PhysicalForm';
 
 const defaultProps = {
   materialTypes: [{

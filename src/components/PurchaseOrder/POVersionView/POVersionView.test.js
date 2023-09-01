@@ -1,9 +1,3 @@
-import user from '@testing-library/user-event';
-import {
-  act,
-  render,
-  screen,
-} from '@testing-library/react';
 import {
   QueryClient,
   QueryClientProvider,
@@ -15,11 +9,17 @@ import {
   withRouter,
 } from 'react-router-dom';
 
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import {
+  act,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 import { orderAuditEvent } from '@folio/stripes-acq-components/test/jest/fixtures';
 
-import { order } from '../../../../test/jest/fixtures';
+import { order } from 'fixtures';
 import {
   AUDIT_ACQ_EVENTS_API,
   ORDERS_ROUTE,

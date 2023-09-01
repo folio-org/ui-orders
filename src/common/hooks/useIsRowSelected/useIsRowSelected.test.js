@@ -1,7 +1,8 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { MemoryRouter } from 'react-router-dom';
-import { ORDERS_ROUTE } from '../../constants';
 
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
+
+import { ORDERS_ROUTE } from '../../constants';
 import { useIsRowSelected } from './useIsRowSelected';
 
 // eslint-disable-next-line react/prop-types

@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { renderHook } from '@testing-library/react-hooks';
 
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { orderLine, exportHistory } from '../../../../test/jest/fixtures';
+import { orderLine, exportHistory } from 'fixtures';
 import { useExportHistory } from './useExportHistory';
 
 const queryClient = new QueryClient();
@@ -31,21 +31,17 @@ describe('useExportHistory', () => {
   });
 
   it('should NOT fetch export history if PO Line IDs are not provided', async () => {
-    const { result, waitFor } = renderHook(() => useExportHistory(), { wrapper });
+    const { result } = renderHook(() => useExportHistory(), { wrapper });
 
-    await waitFor(() => {
-      return !result.current.isLoading;
-    });
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(getMock).not.toHaveBeenCalled();
   });
 
   it('should fetch export history by PO Line IDs', async () => {
-    const { result, waitFor } = renderHook(() => useExportHistory([orderLine.id]), { wrapper });
+    const { result } = renderHook(() => useExportHistory([orderLine.id]), { wrapper });
 
-    await waitFor(() => {
-      return !result.current.isLoading;
-    });
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(getMock).toHaveBeenCalled();
     expect(result.current.exportHistory).toEqual([exportHistory]);

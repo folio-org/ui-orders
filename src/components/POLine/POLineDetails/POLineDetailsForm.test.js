@@ -1,8 +1,8 @@
-import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Form } from 'react-final-form';
 
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { RECEIPT_STATUS } from '@folio/stripes-acq-components';
 
 import POLineDetailsForm from './POLineDetailsForm';
@@ -75,7 +75,7 @@ describe('POLineDetailsForm', () => {
     expect(screen.getByText('ui-orders.poLine.poLineDescription')).toBeInTheDocument();
   });
 
-  it('should set to \'Independent order and receipt quantity\' if a user selects \'Receipt not required\'', () => {
+  it('should set to \'Independent order and receipt quantity\' if a user selects \'Receipt not required\'', async () => {
     renderPOLineDetailsForm(null, { checkinItems: false });
 
     const receiptStatusField = screen.getByRole('combobox', { name: 'ui-orders.poLine.receiptStatus' });
@@ -83,7 +83,7 @@ describe('POLineDetailsForm', () => {
 
     expect(receivingWorkflowField).toHaveValue('false');
 
-    userEvent.selectOptions(receiptStatusField, RECEIPT_STATUS.receiptNotRequired);
+    await userEvent.selectOptions(receiptStatusField, RECEIPT_STATUS.receiptNotRequired);
 
     expect(receivingWorkflowField).toHaveValue('true');
     expect(receivingWorkflowField).toBeDisabled();

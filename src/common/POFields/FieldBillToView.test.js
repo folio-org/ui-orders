@@ -1,8 +1,7 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
+import { address } from 'fixtures';
 import FieldBillToView from './FieldBillToView';
-import { address } from '../../../test/jest/fixtures';
 
 const renderFieldBillToView = (props = {}) => render(
   <FieldBillToView

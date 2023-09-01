@@ -1,7 +1,7 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
-import useHandleOrderUpdateError from './useHandleOrderUpdateError';
 import showUpdateOrderError from '../../../components/Utils/order/showUpdateOrderError';
+import useHandleOrderUpdateError from './useHandleOrderUpdateError';
 
 jest.mock('../../../components/Utils/order/showUpdateOrderError', () => jest.fn());
 

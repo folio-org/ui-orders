@@ -1,6 +1,5 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 
@@ -36,7 +35,7 @@ describe('OpenOrderConfirmationModal actions', () => {
 
     const cancelBtn = await screen.findByText('ui-orders.openOrderModal.cancel');
 
-    user.click(cancelBtn);
+    await user.click(cancelBtn);
 
     expect(defaultProps.cancel).toHaveBeenCalled();
   });
@@ -46,7 +45,7 @@ describe('OpenOrderConfirmationModal actions', () => {
 
     const closeBtn = await screen.findByText('ui-orders.openOrderModal.submit');
 
-    user.click(closeBtn);
+    await user.click(closeBtn);
 
     expect(defaultProps.submit).toHaveBeenCalled();
   });

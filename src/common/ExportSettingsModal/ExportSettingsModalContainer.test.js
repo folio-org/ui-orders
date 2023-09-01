@@ -1,6 +1,5 @@
-import React from 'react';
-import user from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import ExportSettingsModalContainer from './ExportSettingsModalContainer';
 
@@ -50,18 +49,18 @@ describe('ExportSettingsModalContainer:', () => {
   });
 
   describe('when export button in Export Settings Modal is clicked:', () => {
-    it('should fetch orders and lines', () => {
+    it('should fetch orders and lines', async () => {
       renderExportSettingsModalContainer();
-      user.click(screen.getByText('ui-orders.exportSettings.export'));
+      await user.click(screen.getByText('ui-orders.exportSettings.export'));
 
       expect(defaultProps.fetchOrdersAndLines).toHaveBeenCalled();
     });
   });
 
   describe('when cancel button in Export Settings Modal is clicked:', () => {
-    it('should call onCancel function', () => {
+    it('should call onCancel function', async () => {
       renderExportSettingsModalContainer();
-      user.click(screen.getByText('ui-orders.exportSettings.cancel'));
+      await user.click(screen.getByText('ui-orders.exportSettings.cancel'));
 
       expect(defaultProps.onCancel).toHaveBeenCalled();
     });

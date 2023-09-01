@@ -1,6 +1,6 @@
 # Change history for ui-orders
 
-## (IN PROGRESS)
+## (5.0.0 IN PROGRESS)
 
 * Add action for duplicate order template. Refs UIOR-1056.
 * Success toast message is not shown at the start of export. Refs UIOR-1089.
@@ -15,6 +15,8 @@
 * Add pagination to "Related invoices" accordion POL. Refs UIOR-1024.
 * Removing a row in the locations fields array containing both location and holding causes problem with displaying first column name. Refs UIOR-1130.
 * Update related invoice details to include additional fields. Refs UIOR-1131.
+* Upgrade `Node.js` to `18` version in GitHub Actions. Refs UIOR-1135.
+* **BREAKING:** Upgrade `React` to `18` version. Refs UIOR-1134.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
