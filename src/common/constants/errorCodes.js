@@ -16,6 +16,7 @@ export const ERROR_CODES = {
   deleteWithExpendedAmount: 'deleteWithExpendedAmount',
   electronicLocCostQtyMismatch: 'electronicLocCostQtyMismatch',
   encumbranceCreationFailure: 'encumbranceCreationFailure',
+  encumbrancesForReEncumberNotFound: 'encumbrancesForReEncumberNotFound',
   errorRemovingInvoiceLineEncumbrances: 'errorRemovingInvoiceLineEncumbrances',
   errorRetrievingPoLines: 'errorRetrievingPoLines',
   errorRetrievingTransactions: 'errorRetrievingTransactions',
