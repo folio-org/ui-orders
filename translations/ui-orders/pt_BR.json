@@ -840,5 +840,12 @@
     "settings.orderTemplates.duplicate.success": "O modelo foi duplicado com sucesso",
     "settings.orderTemplates.duplicate.error": "O modelo não foi duplicado",
     "exportSettings.load.start": "A exportação foi iniciada com sucesso",
-    "errors.multipleFiscalYears": "As distribuições de fundos de linha de pedidos têm orçamentos ativos em vários anos fiscais."
+    "errors.multipleFiscalYears": "As distribuições de fundos de linha de pedidos têm orçamentos ativos em vários anos fiscais.",
+    "relatedInvoices.vendorCode": "Código do fornecedor",
+    "relatedInvoices.fiscalYear": "Ano fiscal",
+    "relatedInvoices.subscriptionStart": "Início da assinatura",
+    "relatedInvoices.subscriptionEnd": "Fim da assinatura",
+    "relatedInvoices.subscriptionDescription": "Informações sobre a assinatura",
+    "errors.encumbrancesForReEncumberNotFound": "Os gravames foram criados corretamente durante a rolagem ou já foram atualizados.",
+    "versionHistory.noVersion": "Nenhum histórico de versões para exibir."
 }

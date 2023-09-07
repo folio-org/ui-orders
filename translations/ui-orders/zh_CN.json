@@ -584,8 +584,8 @@
     "error.fetching.vendor": "提取订单供应商时出错",
     "relatedAgreementLines.actions.load.error": "无法加载协议行数据",
     "relatedAgreementLines.name": "名称",
-    "relatedAgreementLines.startDate": "有效自",
-    "relatedAgreementLines.endDate": "有效到",
+    "relatedAgreementLines.startDate": "激活自",
+    "relatedAgreementLines.endDate": "激活到",
     "relatedAgreementLines.status": "总体协议状态",
     "relatedAgreementLines.status.active": "激活",
     "relatedAgreementLines.status.closed": "已关闭",
@@ -673,7 +673,7 @@
     "permission.order.updateEncumbrances": "订单：更新预支",
     "settings.inventoryInteraction.label": "馆藏清点",
     "settings.instanceMatching": "实例匹配",
-    "settings.instanceMatching.description": "当活动实例匹配将导致设置为创建实例但未人工链接到实例记录的采购订单行时。首先搜索实例以查找订单行上提供的一个或多个产品ID的匹配项。如果找到产品ID，则该实例将链接到订单行，并且系统不会为该订单行创建新实例。如果未找到匹配项，系统将创建新的实例记录并将订单行链接到该实例。",
+    "settings.instanceMatching.description": "当激活实例匹配将导致设置为创建实例但未人工链接到实例记录的采购订单行时。首先搜索实例以查找订单行上提供的一个或多个产品ID的匹配项。如果找到产品ID，则该实例将链接到订单行，并且系统不会为该订单行创建新实例。如果未找到匹配项，系统将创建新的实例记录并将订单行链接到该实例。",
     "settings.instanceMatching.toggle": "禁用实例匹配",
     "shortcut.addPOL": "添加订单行",
     "appMenu.ordersAppSearch": "订单应用搜索",
@@ -840,5 +840,12 @@
     "settings.orderTemplates.duplicate.success": "模板复制成功",
     "settings.orderTemplates.duplicate.error": "模板未被复制",
     "exportSettings.load.start": "导出已成功启动",
-    "errors.multipleFiscalYears": "订单行经费分配在多个财务年度都有有效预算。"
+    "errors.multipleFiscalYears": "订单行经费分配在多个财务年度都有激活预算。",
+    "relatedInvoices.vendorCode": "供应商代码",
+    "relatedInvoices.fiscalYear": "财务年度",
+    "relatedInvoices.subscriptionStart": "订阅开始",
+    "relatedInvoices.subscriptionEnd": "订阅结束",
+    "relatedInvoices.subscriptionDescription": "订阅信息",
+    "errors.encumbrancesForReEncumberNotFound": "The encumbrances were correctly created during the rollover or have already been updated.",
+    "versionHistory.noVersion": "No version history to display."
 }
