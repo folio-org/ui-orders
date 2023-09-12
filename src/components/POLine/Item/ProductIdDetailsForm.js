@@ -21,6 +21,7 @@ import {
 
 import { PRODUCT_ID_TYPE } from '../../../common/constants';
 import { VALIDATE_ISBN } from '../../Utils/resources';
+import ErrorMessage from './ErrorMessage';
 
 const FIELD_PRODUCT_ID_TYPE = 'productIdType';
 
@@ -38,6 +39,7 @@ function ProductIdDetailsForm({
   const isEditable = !(disabled || isNonInteractive);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
+  const [inValidISBNs, setInValidISBNs] = React.useState({});
 
   const callValidationAPI = useCallback(
     (isbn) => memoizedMutator.validateISBN.GET({ params: { isbn } }),
@@ -57,14 +59,26 @@ function ProductIdDetailsForm({
     const productIdTypeUUID = get(formValues, `${blurredField}.${FIELD_PRODUCT_ID_TYPE}`);
 
     if (isbnTypeUUID && productIdTypeUUID === isbnTypeUUID) {
+      const errorMessage = <FormattedMessage id="ui-orders.errors.invalidProductId" />;
+
       try {
         const { isValid } = await memoizedGet(productId);
 
         if (!isValid) {
-          return <FormattedMessage id="ui-orders.errors.invalidISBN" />;
+          setInValidISBNs((prevISBNs) => ({
+            ...prevISBNs,
+            [blurredField]: errorMessage,
+          }));
+
+          return errorMessage;
         }
       } catch (e) {
-        return <FormattedMessage id="ui-orders.errors.invalidISBN" />;
+        setInValidISBNs((prevISBNs) => ({
+          ...prevISBNs,
+          [blurredField]: errorMessage,
+        }));
+
+        return errorMessage;
       }
     }
 
@@ -75,6 +89,8 @@ function ProductIdDetailsForm({
     const validateProductId = (productId, formValues) => {
       return validateProductIdCB(productId, formValues, elem);
     };
+
+    const showErrorMessage = inValidISBNs[elem] && (isNonInteractive || disabled);
 
     return (
       <Row>
@@ -91,6 +107,7 @@ function ProductIdDetailsForm({
             validate={validateProductId}
             validateFields={[]}
           />
+          {showErrorMessage && <ErrorMessage>{inValidISBNs[elem]}</ErrorMessage>}
         </Col>
         <Col xs>
           <Field

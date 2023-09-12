@@ -39,7 +39,7 @@ function asyncValidate(values, dispatch, props, blurredField) {
         if (!isValid) {
           const errors = {};
 
-          set(errors, productIdPath, <FormattedMessage id="ui-orders.errors.invalidISBN" />);
+          set(errors, productIdPath, <FormattedMessage id="ui-orders.errors.invalidProductId" />);
           throw errors;
         }
       });
@@ -55,7 +55,7 @@ function asyncValidate(values, dispatch, props, blurredField) {
     return Promise.all(validationCalls)
       .then((responses) => {
         const errors = responses.reduce((accumulator, { isValid }, index) => {
-          if (!isValid) set(accumulator, `details.productIds[${index}].productId`, <FormattedMessage id="ui-orders.errors.invalidISBN" />);
+          if (!isValid) set(accumulator, `details.productIds[${index}].productId`, <FormattedMessage id="ui-orders.errors.invalidProductId" />);
 
           return accumulator;
         }, {});
