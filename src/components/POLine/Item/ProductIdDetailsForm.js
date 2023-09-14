@@ -21,7 +21,7 @@ import {
 
 import { PRODUCT_ID_TYPE } from '../../../common/constants';
 import { VALIDATE_ISBN } from '../../Utils/resources';
-import ErrorMessage from './ErrorMessage';
+import { ErrorMessage } from './ErrorMessage';
 
 const FIELD_PRODUCT_ID_TYPE = 'productIdType';
 
@@ -39,7 +39,7 @@ function ProductIdDetailsForm({
   const isEditable = !(disabled || isNonInteractive);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
-  const [inValidISBNs, setInValidISBNs] = React.useState({});
+  const [invalidISBNs, setInvalidISBNs] = React.useState({});
 
   const callValidationAPI = useCallback(
     (isbn) => memoizedMutator.validateISBN.GET({ params: { isbn } }),
@@ -65,7 +65,7 @@ function ProductIdDetailsForm({
         const { isValid } = await memoizedGet(productId);
 
         if (!isValid) {
-          setInValidISBNs((prevISBNs) => ({
+          setInvalidISBNs((prevISBNs) => ({
             ...prevISBNs,
             [blurredField]: errorMessage,
           }));
@@ -73,7 +73,7 @@ function ProductIdDetailsForm({
           return errorMessage;
         }
       } catch (e) {
-        setInValidISBNs((prevISBNs) => ({
+        setInvalidISBNs((prevISBNs) => ({
           ...prevISBNs,
           [blurredField]: errorMessage,
         }));
@@ -90,7 +90,7 @@ function ProductIdDetailsForm({
       return validateProductIdCB(productId, formValues, elem);
     };
 
-    const showErrorMessage = inValidISBNs[elem] && (isNonInteractive || disabled);
+    const showErrorMessage = invalidISBNs[elem] && (isNonInteractive || disabled);
 
     return (
       <Row>
@@ -107,7 +107,7 @@ function ProductIdDetailsForm({
             validate={validateProductId}
             validateFields={[]}
           />
-          {showErrorMessage && <ErrorMessage>{inValidISBNs[elem]}</ErrorMessage>}
+          {showErrorMessage && <ErrorMessage>{invalidISBNs[elem]}</ErrorMessage>}
         </Col>
         <Col xs>
           <Field
