@@ -669,7 +669,7 @@
     "location.holding": "Fondo",
     "location.selectHoldings": "Seleccionar fondos",
     "location.editInReceiving": "Edit in receiving",
-    "relatedInvoices.vendorInvoiceNo": "Vendor invoice number",
+    "relatedInvoices.vendorInvoiceNo": "Vendor invoice #",
     "permission.order.updateEncumbrances": "Orders: Update encumbrances",
     "settings.inventoryInteraction.label": "Inventory interaction",
     "settings.instanceMatching": "Instance matching",
@@ -705,7 +705,7 @@
     "relatedInvoiceLines.invoiceDate": "Invoice date",
     "relatedInvoiceLines.quantity": "Quantity",
     "relatedInvoiceLines.status": "Status",
-    "relatedInvoiceLines.vendorInvoiceNo": "Vendor invoice number",
+    "relatedInvoiceLines.vendorInvoiceNo": "Vendor invoice #",
     "relatedInvoiceLines.vendorName": "Vendor name",
     "relatedInvoiceLines.comment": "Comment",
     "settings.openOrder.isDuplicateCheckDisabled": "Disable duplicate check that occurs when opening orders and saving purchase order lines",
@@ -840,5 +840,12 @@
     "settings.orderTemplates.duplicate.success": "The template was successfully duplicated",
     "settings.orderTemplates.duplicate.error": "The template was not duplicated",
     "exportSettings.load.start": "Export has been started successfully",
-    "errors.multipleFiscalYears": "Order line fund distributions have active budgets in multiple fiscal years."
+    "errors.multipleFiscalYears": "Order line fund distributions have active budgets in multiple fiscal years.",
+    "relatedInvoices.vendorCode": "Vendor code",
+    "relatedInvoices.fiscalYear": "Fiscal year",
+    "relatedInvoices.subscriptionStart": "Subscription start",
+    "relatedInvoices.subscriptionEnd": "Subscription end",
+    "relatedInvoices.subscriptionDescription": "Subscription info",
+    "errors.encumbrancesForReEncumberNotFound": "The encumbrances were correctly created during the rollover or have already been updated.",
+    "versionHistory.noVersion": "No version history to display."
 }
