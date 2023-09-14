@@ -10,13 +10,18 @@ import {
 } from '../../../common/constants';
 
 import { useConnectedInvoiceLines } from './useConnectedInvoiceLines';
+import { FISCAL_YEARS_API } from '../../Utils/api';
 
 const vendor = {
   id: 'vendorId',
 };
+const fiscalYear = {
+  id: 'fiscalYearId',
+};
 const invoice = {
   id: 'invoiceId',
   vendorId: vendor.id,
+  fiscalYearId: fiscalYear.id,
 };
 const invoiceLine = {
   id: 'invoiceLineId',
@@ -27,6 +32,7 @@ const resultData = [{
   ...invoiceLine,
   invoice,
   vendor,
+  fiscalYear,
 }];
 
 const queryClient = new QueryClient();
@@ -35,6 +41,7 @@ const kyResponseMap = {
   [INVOICE_LINES_API]: { invoiceLines: [invoiceLine], totalRecords: 1 },
   [INVOICES_API]: { invoices: [invoice] },
   [VENDORS_API]: { organizations: [vendor] },
+  [FISCAL_YEARS_API]: { fiscalYears: [fiscalYear] },
 };
 
 // eslint-disable-next-line react/prop-types

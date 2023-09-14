@@ -14,6 +14,7 @@ import {
   INVOICES_API,
   INVOICE_LINES_API,
 } from '../../../common/constants';
+import { FISCAL_YEARS_API } from '../../Utils/api';
 
 const convertToMap = (arr, key = 'id') => arr.reduce((acc, el) => {
   acc[el[key]] = el;
@@ -57,14 +58,27 @@ export const useConnectedInvoiceLines = (orderLineId) => {
       );
       const vendorsMap = convertToMap(vendors);
 
+      const fiscalYearIds = invoices.map(({ fiscalYearId }) => fiscalYearId);
+      const fiscalYears = await batchRequest(
+        async ({ params: searchParams }) => {
+          const fiscalYearData = await ky.get(FISCAL_YEARS_API, { searchParams }).json();
+
+          return fiscalYearData.fiscalYears;
+        },
+        fiscalYearIds,
+      );
+      const fiscalYearsMap = convertToMap(fiscalYears, 'id');
+
       const result = invoiceLines.map(invoiceLine => {
         const invoice = invoicesMap[invoiceLine.invoiceId];
         const vendor = vendorsMap[invoice.vendorId];
+        const fiscalYear = fiscalYearsMap[invoice.fiscalYearId];
 
         return {
           ...invoiceLine,
           invoice,
           vendor,
+          fiscalYear,
         };
       });
 

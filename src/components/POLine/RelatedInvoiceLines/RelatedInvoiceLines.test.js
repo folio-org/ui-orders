@@ -20,6 +20,12 @@ const invoiceLines = [{
     id: 'vendorId',
     name: 'Amazon',
   },
+  fiscalYear: {
+    id: 'fiscalYearId',
+    code: 'fiscalYearCode',
+    description: 'fiscalYearDescription',
+    periodStart: '2020-01-01',
+  },
 }];
 const defaultProps = {
   lineId: invoiceLines[0].id,
@@ -46,7 +52,7 @@ describe('RelatedInvoiceLines', () => {
 
     expect(screen.getByText('ui-orders.relatedInvoiceLines.invoiceLine')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.invoiceDate')).toBeInTheDocument();
-    expect(screen.getByText('ui-orders.relatedInvoiceLines.vendorName')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.relatedInvoiceLines.vendorCode')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.vendorInvoiceNo')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.status')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.quantity')).toBeInTheDocument();
