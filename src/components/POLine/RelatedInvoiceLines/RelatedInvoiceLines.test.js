@@ -53,6 +53,7 @@ describe('RelatedInvoiceLines', () => {
     expect(screen.getByText('ui-orders.relatedInvoiceLines.invoiceLine')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.invoiceDate')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.vendorCode')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.relatedInvoices.fiscalYear')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.vendorInvoiceNo')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.status')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoiceLines.quantity')).toBeInTheDocument();
