@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
@@ -39,7 +39,7 @@ function ProductIdDetailsForm({
   const isEditable = !(disabled || isNonInteractive);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
-  const [invalidISBNs, setInvalidISBNs] = React.useState({});
+  const [invalidISBNs, setInvalidISBNs] = useState({});
 
   const callValidationAPI = useCallback(
     (isbn) => memoizedMutator.validateISBN.GET({ params: { isbn } }),
