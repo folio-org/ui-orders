@@ -841,11 +841,11 @@
     "settings.orderTemplates.duplicate.error": "La plantilla se ha eliminado",
     "exportSettings.load.start": "La factura ha sido aprobada exitosamente",
     "errors.multipleFiscalYears": "Las distribuciones de fondos de la línea de pedidos tienen presupuestos activos en varios ejercicios fiscales.",
-    "relatedInvoices.vendorCode": "Vendor code",
-    "relatedInvoices.fiscalYear": "Fiscal year",
-    "relatedInvoices.subscriptionStart": "Subscription start",
-    "relatedInvoices.subscriptionEnd": "Subscription end",
-    "relatedInvoices.subscriptionDescription": "Subscription info",
+    "relatedInvoices.vendorCode": "Código del proveedor",
+    "relatedInvoices.fiscalYear": "Año fiscal",
+    "relatedInvoices.subscriptionStart": "Inicio de la suscripción",
+    "relatedInvoices.subscriptionEnd": "Fin de la suscripción",
+    "relatedInvoices.subscriptionDescription": "Información de suscripción",
     "errors.encumbrancesForReEncumberNotFound": "Los gravámenes se crearon correctamente durante la prórroga o ya se han actualizado.",
     "versionHistory.noVersion": "No version history to display."
 }
