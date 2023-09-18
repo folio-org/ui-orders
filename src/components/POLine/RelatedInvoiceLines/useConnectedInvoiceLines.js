@@ -58,7 +58,7 @@ export const useConnectedInvoiceLines = (orderLineId) => {
       );
       const vendorsMap = convertToMap(vendors);
 
-      const fiscalYearIds = invoices.map(({ fiscalYearId }) => fiscalYearId);
+      const fiscalYearIds = [...new Set(invoices.map(({ fiscalYearId }) => fiscalYearId))];
       const fiscalYears = await batchRequest(
         async ({ params: searchParams }) => {
           const fiscalYearData = await ky.get(FISCAL_YEARS_API, { searchParams }).json();

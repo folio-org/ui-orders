@@ -2,8 +2,8 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 
 import { ErrorMessage } from './ErrorMessage';
 
-const renderErrorMessage = (props = {}) => render(
-  <ErrorMessage>{props}</ErrorMessage>,
+const renderErrorMessage = (errorMessage = '') => render(
+  <ErrorMessage>{errorMessage}</ErrorMessage>,
 );
 
 describe('ErrorMessage', () => {
