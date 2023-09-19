@@ -25,8 +25,9 @@ const COLUMN_INVOICE_DATE = 'invoiceDate';
 const visibleColumns = [
   'vendorInvoiceNo',
   'invoiceLine',
+  'fiscalYear',
   COLUMN_INVOICE_DATE,
-  'vendorName',
+  'vendorCode',
   'status',
   'quantity',
   'amount',
@@ -34,8 +35,9 @@ const visibleColumns = [
 ];
 const columnMapping = {
   invoiceLine: <FormattedMessage id="ui-orders.relatedInvoiceLines.invoiceLine" />,
+  fiscalYear: <FormattedMessage id="ui-orders.relatedInvoices.fiscalYear" />,
   [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoiceLines.invoiceDate" />,
-  vendorName: <FormattedMessage id="ui-orders.relatedInvoiceLines.vendorName" />,
+  vendorCode: <FormattedMessage id="ui-orders.relatedInvoiceLines.vendorCode" />,
   vendorInvoiceNo: <FormattedMessage id="ui-orders.relatedInvoiceLines.vendorInvoiceNo" />,
   status: <FormattedMessage id="ui-orders.relatedInvoiceLines.status" />,
   quantity: <FormattedMessage id="ui-orders.relatedInvoiceLines.quantity" />,
@@ -51,8 +53,9 @@ const resultFormatter = {
       {`${invoiceLine.invoiceLineNumber}`}
     </Link>
   ),
+  fiscalYear: (invoice) => invoice.fiscalYear?.code || <NoValue />,
   [COLUMN_INVOICE_DATE]: invoiceLine => <FolioFormattedDate value={invoiceLine.invoice?.invoiceDate} />,
-  vendorName: invoiceLine => invoiceLine.vendor?.name,
+  vendorCode: (invoice) => invoice.vendor?.code || <NoValue />,
   vendorInvoiceNo: invoiceLine => invoiceLine.invoice?.vendorInvoiceNo || <NoValue />,
   status: invoiceLine => <FormattedMessage id={`ui-invoice.invoice.status.${invoiceLine.invoiceLineStatus.toLowerCase()}`} />,
   amount: invoiceLine => (

@@ -20,6 +20,7 @@
 * Provide a human-readable error message for `encumbrancesForReEncumberNotFound` code. Refs UIOR-1143.
 * Show a message about the missing version in the history. Refs UIOR-1136.
 * *BREAKING* bump `react-intl` to `v6.4.4`. Refs UIOR-1146.
+* When order line contains bad product IDs - the save & close does not work. Refs UIOR-1141.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
