@@ -846,6 +846,6 @@
     "relatedInvoices.subscriptionStart": "Začátek předplatného",
     "relatedInvoices.subscriptionEnd": "Konec předplatného",
     "relatedInvoices.subscriptionDescription": "Informace o předplatném",
-    "errors.encumbrancesForReEncumberNotFound": "The encumbrances were correctly created during the rollover or have already been updated.",
-    "versionHistory.noVersion": "No version history to display."
+    "errors.encumbrancesForReEncumberNotFound": "Břemena byly správně vytvořeny během převodu nebo již byly aktualizovány.",
+    "versionHistory.noVersion": "Žádná historie verzí k zobrazení."
 }
