@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
@@ -41,7 +40,7 @@ const {
 export const COLUMN_INVOICE_DATE = invoiceDate;
 export const SORTABLE_FIELDS = [COLUMN_INVOICE_DATE];
 export const SORTABLE_COLUMNS = {
-  [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
+  [COLUMN_INVOICE_DATE]: item => item.invoiceDate,
 };
 export const VISIBLE_COLUMNS = [
   vendorInvoiceNo,
@@ -74,26 +73,26 @@ export const COLUMN_MAPPING = {
 };
 
 export const RESULT_FORMATTER = {
-  invoiceLine: invoiceLine => (
+  invoiceLine: item => (
     <Link
       data-test-link-to-invoice
-      to={`/invoice/view/${invoiceLine.invoice?.id}/line/${invoiceLine.id}/view`}
+      to={`/invoice/view/${item.invoice?.id}/line/${item.id}/view`}
     >
-      {`${invoiceLine.invoiceLineNumber}`}
+      {`${item.invoiceLineNumber}`}
     </Link>
   ),
-  fiscalYear: (invoice) => invoice.fiscalYear?.code || <NoValue />,
-  [COLUMN_INVOICE_DATE]: invoiceLine => <FolioFormattedDate value={invoiceLine.invoice?.invoiceDate} />,
-  vendorCode: (invoice) => invoice.vendor?.code || <NoValue />,
-  vendorInvoiceNo: invoiceLine => invoiceLine.invoice?.vendorInvoiceNo || <NoValue />,
-  subscriptionStart: (invoiceLine) => <FolioFormattedDate value={invoiceLine.fiscalYear?.periodStart} />,
-  subscriptionEnd: (invoiceLine) => <FolioFormattedDate value={invoiceLine.fiscalYear?.periodEnd} />,
-  subscriptionDescription: (invoiceLine) => invoiceLine.fiscalYear?.description || <NoValue />,
-  status: invoiceLine => <FormattedMessage id={`ui-invoice.invoice.status.${invoiceLine.invoiceLineStatus.toLowerCase()}`} />,
-  amount: invoiceLine => (
+  fiscalYear: (item) => item.fiscalYear?.code || <NoValue />,
+  [COLUMN_INVOICE_DATE]: item => <FolioFormattedDate value={item.invoice?.invoiceDate} />,
+  vendorCode: item => item.vendor?.code || <NoValue />,
+  vendorInvoiceNo: item => item.invoice?.vendorInvoiceNo || <NoValue />,
+  subscriptionStart: item => <FolioFormattedDate value={item.fiscalYear?.periodStart} />,
+  subscriptionEnd: item => <FolioFormattedDate value={item.fiscalYear?.periodEnd} />,
+  subscriptionDescription: item => item.fiscalYear?.description || <NoValue />,
+  status: item => <FormattedMessage id={`ui-invoice.invoice.status.${item.invoiceLineStatus.toLowerCase()}`} />,
+  amount: item => (
     <AmountWithCurrencyField
-      currency={invoiceLine.invoice?.currency}
-      amount={invoiceLine.total}
+      currency={item.invoice?.currency}
+      amount={item.total}
     />
   ),
 };

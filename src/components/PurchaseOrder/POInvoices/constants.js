@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { get } from 'lodash';
@@ -30,7 +29,7 @@ const {
 export const COLUMN_INVOICE_DATE = invoiceDate;
 export const SORTABLE_FIELDS = [COLUMN_INVOICE_DATE];
 export const SORTABLE_COLUMNS = {
-  [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
+  [COLUMN_INVOICE_DATE]: item => item.invoiceDate,
 };
 export const VISIBLE_COLUMNS = [
   invoice,
@@ -50,27 +49,23 @@ export const COLUMN_MAPPING = {
   [expendedAmount]: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
 };
 
-export const COLUMN_SORTERS = {
-  [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
-};
-
 export const RESULT_FORMATTER = {
-  [COLUMN_NAMES.invoice]: (invoice) => (
+  [COLUMN_NAMES.invoice]: item => (
     <Link
       data-test-link-to-invoice
-      to={`/invoice/view/${invoice.id}`}
+      to={`/invoice/view/${item.id}`}
     >
-      {get(invoice, 'folioInvoiceNo', '')}
+      {get(item, 'folioInvoiceNo', '')}
     </Link>
   ),
-  [COLUMN_NAMES.fiscalYear]: (invoice) => invoice.fiscalYear?.code || <NoValue />,
-  [COLUMN_INVOICE_DATE]: (invoice) => <FolioFormattedDate value={get(invoice, 'invoiceDate')} />,
-  [COLUMN_NAMES.vendorCode]: (invoice) => invoice.vendor?.code || <NoValue />,
-  [COLUMN_NAMES.status]: (invoice) => get(invoice, 'status', ''),
-  [COLUMN_NAMES.expendedAmount]: (invoice) => (
+  [COLUMN_NAMES.fiscalYear]: item => item.fiscalYear?.code || <NoValue />,
+  [COLUMN_INVOICE_DATE]: item => <FolioFormattedDate value={get(item, 'invoiceDate')} />,
+  [COLUMN_NAMES.vendorCode]: item => item.vendor?.code || <NoValue />,
+  [COLUMN_NAMES.status]: item => get(item, 'status', ''),
+  [COLUMN_NAMES.expendedAmount]: item => (
     <AmountWithCurrencyField
-      currency={invoice.currency}
-      amount={get(invoice, 'total', 0)}
+      currency={item.currency}
+      amount={get(item, 'total', 0)}
     />
   ),
 };
