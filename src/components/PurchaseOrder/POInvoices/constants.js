@@ -16,7 +16,6 @@ export const COLUMN_NAMES = {
   invoiceDate: 'invoiceDate',
   status: 'status',
   vendorCode: 'vendorCode',
-  vendorInvoiceNo: 'vendorInvoiceNo',
 };
 
 const {
@@ -26,7 +25,6 @@ const {
   invoiceDate,
   status,
   vendorCode,
-  vendorInvoiceNo,
 } = COLUMN_NAMES;
 
 export const COLUMN_INVOICE_DATE = invoiceDate;
@@ -35,7 +33,6 @@ export const SORTABLE_COLUMNS = {
   [COLUMN_INVOICE_DATE]: ({ invoiceDate }) => invoiceDate,
 };
 export const VISIBLE_COLUMNS = [
-  vendorInvoiceNo,
   invoice,
   fiscalYear,
   COLUMN_INVOICE_DATE,
@@ -45,7 +42,6 @@ export const VISIBLE_COLUMNS = [
 ];
 
 export const COLUMN_MAPPING = {
-  [vendorInvoiceNo]: <FormattedMessage id="ui-orders.relatedInvoices.vendorInvoiceNo" />,
   [invoice]: <FormattedMessage id="ui-orders.relatedInvoices.invoice" />,
   [fiscalYear]: <FormattedMessage id="ui-orders.relatedInvoices.fiscalYear" />,
   [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
@@ -59,7 +55,6 @@ export const COLUMN_SORTERS = {
 };
 
 export const RESULT_FORMATTER = {
-  [COLUMN_NAMES.vendorInvoiceNo]: (invoice) => invoice.vendorInvoiceNo || <NoValue />,
   [COLUMN_NAMES.invoice]: (invoice) => (
     <Link
       data-test-link-to-invoice
