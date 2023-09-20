@@ -15,6 +15,7 @@ export const COLUMN_NAMES = {
   invoiceDate: 'invoiceDate',
   status: 'status',
   vendorCode: 'vendorCode',
+  vendorInvoiceNo: 'vendorInvoiceNo',
 };
 
 const {
@@ -24,6 +25,7 @@ const {
   invoiceDate,
   status,
   vendorCode,
+  vendorInvoiceNo,
 } = COLUMN_NAMES;
 
 export const COLUMN_INVOICE_DATE = invoiceDate;
@@ -36,6 +38,7 @@ export const VISIBLE_COLUMNS = [
   fiscalYear,
   COLUMN_INVOICE_DATE,
   vendorCode,
+  vendorInvoiceNo,
   status,
   expendedAmount,
 ];
@@ -45,6 +48,7 @@ export const COLUMN_MAPPING = {
   [fiscalYear]: <FormattedMessage id="ui-orders.relatedInvoices.fiscalYear" />,
   [COLUMN_INVOICE_DATE]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceDate" />,
   [vendorCode]: <FormattedMessage id="ui-orders.relatedInvoices.vendorCode" />,
+  [vendorInvoiceNo]: <FormattedMessage id="ui-orders.relatedInvoices.vendorInvoiceNo" />,
   [status]: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
   [expendedAmount]: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
 };
@@ -61,6 +65,7 @@ export const RESULT_FORMATTER = {
   [COLUMN_NAMES.fiscalYear]: item => item.fiscalYear?.code || <NoValue />,
   [COLUMN_INVOICE_DATE]: item => <FolioFormattedDate value={get(item, 'invoiceDate')} />,
   [COLUMN_NAMES.vendorCode]: item => item.vendor?.code || <NoValue />,
+  [COLUMN_NAMES.vendorInvoiceNo]: item => item.vendorInvoiceNo || <NoValue />,
   [COLUMN_NAMES.status]: item => get(item, 'status', ''),
   [COLUMN_NAMES.expendedAmount]: item => (
     <AmountWithCurrencyField
