@@ -17,7 +17,7 @@ export const useRelatedInvoices = (invoiceIds = []) => {
   const [namespace] = useNamespace({ key: 'related-invoice-lines' });
 
   const { isLoading, data = [] } = useQuery(
-    [namespace],
+    [namespace, ...invoiceIds],
     async () => {
       const invoices = await batchRequest(
         async ({ params: searchParams }) => {
