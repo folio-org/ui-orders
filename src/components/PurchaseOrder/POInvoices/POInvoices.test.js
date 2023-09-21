@@ -35,6 +35,7 @@ describe('POInvoices', () => {
     renderPOInvoices();
 
     expect(screen.getByText('ui-orders.relatedInvoices.invoice')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.relatedInvoices.fiscalYear')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.invoiceDate')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.vendorCode')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.vendorInvoiceNo')).toBeInTheDocument();
