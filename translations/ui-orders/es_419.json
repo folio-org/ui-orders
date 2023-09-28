@@ -246,7 +246,7 @@
     "settings.createInventory.physical": "Físico predeterminado",
     "settings.createInventory.other": "Otro predeterminado",
     "settings.createInventory.recordType.all": "Instancia, Fondo, Ítem",
-    "settings.createInventory.recordType.instance": "Instancia:",
+    "settings.createInventory.recordType.instance": "Instancia",
     "settings.createInventory.recordType.instanceAndHolding": "Instancia, Fondo",
     "settings.createInventory.recordType.none": "Ninguno",
     "checkIn.addPiece.error": "El elemento no se ha guardado",
@@ -847,5 +847,7 @@
     "relatedInvoices.subscriptionEnd": "Fin de la suscripción",
     "relatedInvoices.subscriptionDescription": "Información de suscripción",
     "errors.encumbrancesForReEncumberNotFound": "Los gravámenes se crearon correctamente durante la prórroga o ya se han actualizado.",
-    "versionHistory.noVersion": "No version history to display."
+    "versionHistory.noVersion": "No version history to display.",
+    "errors.invalidProductId": "Product ID number invalid based on product ID type. You can use \"Change instance connection\" to refresh product IDs from the instance record before editing the POL.",
+    "relatedInvoiceLines.vendorCode": "Vendor code"
 }
