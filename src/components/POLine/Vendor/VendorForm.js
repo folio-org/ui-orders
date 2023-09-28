@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-final-form';
 
@@ -15,6 +15,7 @@ import {
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
+import { ACCOUNT_STATUS } from '../const';
 
 const VendorForm = ({
   order,
@@ -24,10 +25,15 @@ const VendorForm = ({
 }) => {
   const { change, getState } = useForm();
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
-  const accountsDataOptions = accounts.map(({ name, accountNo }) => ({
-    label: `${name} (${accountNo})`,
-    value: accountNo,
-  }));
+
+  const activeAccountOptions = useMemo(() => {
+    const activeAccounts = accounts.filter(({ accountStatus }) => accountStatus === ACCOUNT_STATUS.ACTIVE);
+
+    return activeAccounts.map(({ name, accountNo }) => ({
+      label: `${name} (${accountNo})`,
+      value: accountNo,
+    }));
+  }, [accounts]);
 
   const onAccountChange = useCallback(
     ({ target: { value } }) => {
@@ -50,7 +56,7 @@ const VendorForm = ({
             md={3}
           >
             <FieldVendorAccountNumber
-              accounts={accountsDataOptions}
+              accounts={activeAccountOptions}
               disabled={isPostPendingOrder}
               onChange={onAccountChange}
             />
