@@ -62,3 +62,9 @@ export const POL_TEMPLATE_FIELDS_MAP = {
 export const INITIAL_SECTIONS = Object.values(ACCORDION_ID).reduce(
   (accum, id) => ({ ...accum, [id]: true }), {},
 );
+
+export const ACCOUNT_STATUS = {
+  ACTIVE: 'Active',
+  INACTIVE: 'Inactive',
+  PENDING: 'Pending',
+};
