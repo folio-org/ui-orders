@@ -847,5 +847,7 @@
     "relatedInvoices.subscriptionEnd": "Konec předplatného",
     "relatedInvoices.subscriptionDescription": "Informace o předplatném",
     "errors.encumbrancesForReEncumberNotFound": "Břemena byly správně vytvořeny během převodu nebo již byly aktualizovány.",
-    "versionHistory.noVersion": "Žádná historie verzí k zobrazení."
+    "versionHistory.noVersion": "Žádná historie verzí k zobrazení.",
+    "errors.invalidProductId": "Product ID number invalid based on product ID type. You can use \"Change instance connection\" to refresh product IDs from the instance record before editing the POL.",
+    "relatedInvoiceLines.vendorCode": "Vendor code"
 }

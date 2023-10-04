@@ -425,7 +425,7 @@
     "checkIn.pieceFormat.electronic": "电子的",
     "checkIn.pieceFormat.physical": "实体的",
     "search.productIdISBN": "产品ID ISBN",
-    "errors.invalidISBN": "无效的ISBN；调整或移除",
+    "errors.invalidISBN": "根据产品ID类型，产品ID号无效。在编辑采购订单行之前，可以使用“更改实例连接”从实例记录中刷新产品ID。",
     "itemDetails.qualifier": "限定词",
     "itemDetails.contributors": "贡献者",
     "itemDetails.productIds": "产品标识符",
@@ -846,6 +846,8 @@
     "relatedInvoices.subscriptionStart": "订阅开始",
     "relatedInvoices.subscriptionEnd": "订阅结束",
     "relatedInvoices.subscriptionDescription": "订阅信息",
-    "errors.encumbrancesForReEncumberNotFound": "The encumbrances were correctly created during the rollover or have already been updated.",
-    "versionHistory.noVersion": "No version history to display."
+    "errors.encumbrancesForReEncumberNotFound": "这些预支是在展期过程中正确创建的，或者已经更新。",
+    "versionHistory.noVersion": "没有可显示的版本历史。",
+    "errors.invalidProductId": "根据产品ID类型，产品ID号无效。在编辑采购订单行之前，可以使用“更改实例连接”从实例记录中刷新产品ID。",
+    "relatedInvoiceLines.vendorCode": "供应商代码"
 }

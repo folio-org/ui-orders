@@ -21,6 +21,7 @@
 * Show a message about the missing version in the history. Refs UIOR-1136.
 * *BREAKING* bump `react-intl` to `v6.4.4`. Refs UIOR-1146.
 * When order line contains bad product IDs - the save & close does not work. Refs UIOR-1141.
+* Upgrade `ui-plugin-find-po-line` and `ui-plugin-find-organization` plugins to `5` version. Refs UIOR-1154.
 * POL - Display only active account numbers in dropdown list. Refs UIOR-1142.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)

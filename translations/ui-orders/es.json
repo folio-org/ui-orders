@@ -847,5 +847,7 @@
     "relatedInvoices.subscriptionEnd": "Subscription end",
     "relatedInvoices.subscriptionDescription": "Subscription info",
     "errors.encumbrancesForReEncumberNotFound": "The encumbrances were correctly created during the rollover or have already been updated.",
-    "versionHistory.noVersion": "No version history to display."
+    "versionHistory.noVersion": "No version history to display.",
+    "errors.invalidProductId": "Product ID number invalid based on product ID type. You can use \"Change instance connection\" to refresh product IDs from the instance record before editing the POL.",
+    "relatedInvoiceLines.vendorCode": "Vendor code"
 }
