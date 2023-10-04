@@ -5,10 +5,6 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 import { arrayMutators } from 'fixtures/arrayMutatorsMock';
 import VendorForm from './VendorForm';
 
-jest.mock('../../../common/IfFieldVisible', () => ({
-  IfFieldVisible: jest.fn(({ children }) => children),
-}));
-
 const defaultProps = {
   accounts: [{
     name: 'name',
@@ -65,6 +61,6 @@ describe('VendorForm', () => {
     renderVendorForm({ accounts });
 
     expect(screen.getByText(`${accounts[0].name} (${accounts[0].accountNo})`)).toBeInTheDocument();
-    expect(screen.getByText(`${accounts[0].name} (${accounts[0].accountNo})`)).toBeInTheDocument();
+    expect(screen.getByText(`${accounts[2].name} (${accounts[2].accountNo})`)).toBeInTheDocument();
   });
 });
