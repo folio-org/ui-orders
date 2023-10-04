@@ -823,6 +823,7 @@
   "vendor.referenceNumbers": "Vendor reference numbers",
   "vendor.vendor_status": "Status",
   "vendor.accountNumber": "Account number",
+  "vendor.accountNumber.inActive": "The selected account number is inactive.",
 
   "dateOpened": "Date opened",
   "assignedToMe": "Assigned to me",

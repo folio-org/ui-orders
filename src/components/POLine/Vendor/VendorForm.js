@@ -1,9 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
+  MessageBanner,
   Row,
 } from '@folio/stripes/components';
 import { VendorReferenceNumbersFields } from '@folio/stripes-acq-components';
@@ -17,6 +19,8 @@ import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
 import { ACCOUNT_STATUS } from '../const';
 
+const { ACTIVE, INACTIVE } = ACCOUNT_STATUS;
+
 const VendorForm = ({
   order,
   accounts = [],
@@ -24,16 +28,21 @@ const VendorForm = ({
   integrationConfigs = [],
 }) => {
   const { change, getState } = useForm();
+  const { vendorDetail } = getState().values;
+  const currentAccountNumber = vendorDetail?.vendorAccount;
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+  const initialAccountNumber = useRef(currentAccountNumber);
 
   const activeAccountOptions = useMemo(() => {
-    const activeAccounts = accounts.filter(({ accountStatus }) => accountStatus === ACCOUNT_STATUS.ACTIVE);
+    const activeAccounts = accounts.filter(({ accountStatus, accountNo }) => {
+      return accountStatus === ACTIVE || accountNo === initialAccountNumber.current;
+    });
 
-    return activeAccounts.map(({ name, accountNo }) => ({
-      label: `${name} (${accountNo})`,
+    return activeAccounts.map(({ name, accountNo, accountStatus }) => ({
+      label: `${name} (${accountNo}) ${accountStatus === INACTIVE ? ' - Inactive' : ''}`,
       value: accountNo,
     }));
-  }, [accounts]);
+  }, [accounts, initialAccountNumber]);
 
   const onAccountChange = useCallback(
     ({ target: { value } }) => {
@@ -43,6 +52,20 @@ const VendorForm = ({
       toggleAutomaticExport({ vendorAccount: value, acquisitionMethod, integrationConfigs, change });
     }, [change, getState, integrationConfigs],
   );
+
+  const accountNumberDisabled = useMemo(() => {
+    const hasCurrentAccountNumber = accounts.some(({ accountNo }) => accountNo === currentAccountNumber);
+    const isOnlyOneActiveAccount = activeAccountOptions.length === 1;
+    const noActiveAccounts = activeAccountOptions.length === 0;
+
+    return noActiveAccounts || (hasCurrentAccountNumber && isOnlyOneActiveAccount);
+  }, [accounts, activeAccountOptions, currentAccountNumber]);
+
+  const isSelectedAccountInactive = useMemo(() => {
+    return accounts.some(({ accountNo, accountStatus }) => {
+      return accountNo === currentAccountNumber && accountStatus === INACTIVE;
+    });
+  }, [accounts, currentAccountNumber]);
 
   return (
     <>
@@ -57,9 +80,16 @@ const VendorForm = ({
           >
             <FieldVendorAccountNumber
               accounts={activeAccountOptions}
-              disabled={isPostPendingOrder}
+              disabled={isPostPendingOrder || accountNumberDisabled}
               onChange={onAccountChange}
             />
+            {
+              isSelectedAccountInactive && (
+                <MessageBanner type="warning">
+                  <FormattedMessage id="ui-orders.vendor.accountNumber.inActive" />
+                </MessageBanner>
+              )
+            }
           </Col>
         </IfFieldVisible>
 
