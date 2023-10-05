@@ -1,4 +1,4 @@
-import { Form } from 'react-final-form';
+import { Form, useFormState } from 'react-final-form';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
@@ -36,5 +36,19 @@ describe('OngoingInfoForm', () => {
     expect(screen.getByText('ui-orders.renewals.manualRenewal')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.renewals.reviewDate')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.renewals.notes')).toBeInTheDocument();
+  });
+
+  it('should subscription and renewalDate fields to be editable when workFlowStatus is Open', () => {
+    useFormState.mockClear().mockReturnValueOnce({
+      values: {
+        workflowStatus: 'Open',
+        orderType: 'Ongoing',
+      },
+    });
+
+    renderOngoingInfoForm();
+
+    expect(screen.getByText('ui-orders.renewals.subscription')).toBeEnabled();
+    expect(screen.getByText('ui-orders.renewals.renewalDate')).toBeEnabled();
   });
 });
