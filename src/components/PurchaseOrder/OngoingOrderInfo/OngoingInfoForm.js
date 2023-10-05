@@ -25,6 +25,7 @@ import { ACCORDION_ID } from '../constants';
 import {
   isWorkflowStatusIsPending,
   isWorkflowStatusClosed,
+  isWorkflowStatusOpen,
 } from '../util';
 
 const OngoingInfoForm = ({ hiddenFields = {} }) => {
@@ -51,7 +52,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
             <VisibilityControl name="hiddenFields.ongoing.isSubscription">
               <FieldRenewalSubscription
                 disabled={disabled}
-                isNonInteractive={isNonPendingNonInteractive}
+                isNonInteractive={isNonPendingNonInteractive && !isWorkflowStatusOpen(values)}
               />
             </VisibilityControl>
           </Col>
@@ -80,7 +81,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
                 <VisibilityControl name="hiddenFields.ongoing.renewalDate">
                   <FieldRenewalDate
                     disabled={!isSubscription}
-                    isNonInteractive={isClosedNonInteractive}
+                    isNonInteractive={isClosedNonInteractive && !isWorkflowStatusOpen(values)}
                   />
                 </VisibilityControl>
               </Col>
