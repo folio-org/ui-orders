@@ -1,7 +1,10 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
   Col,
@@ -27,6 +30,7 @@ const VendorForm = ({
   hiddenFields = {},
   integrationConfigs = [],
 }) => {
+  const { formatMessage } = useIntl();
   const { change, getState } = useForm();
   const { vendorDetail } = getState().values;
   const currentAccountNumber = vendorDetail?.vendorAccount;
@@ -34,15 +38,16 @@ const VendorForm = ({
   const initialAccountNumber = useRef(currentAccountNumber);
 
   const activeAccountOptions = useMemo(() => {
+    const message = ` - ${formatMessage({ id: 'ui-orders.inactive' })}`;
     const activeAccounts = accounts.filter(({ accountStatus, accountNo }) => {
       return accountStatus === ACTIVE || accountNo === initialAccountNumber.current;
     });
 
     return activeAccounts.map(({ name, accountNo, accountStatus }) => ({
-      label: `${name} (${accountNo}) ${accountStatus === INACTIVE ? ' - Inactive' : ''}`,
+      label: `${name} (${accountNo}) ${accountStatus === INACTIVE ? message : ''}`,
       value: accountNo,
     }));
-  }, [accounts, initialAccountNumber]);
+  }, [accounts, formatMessage]);
 
   const onAccountChange = useCallback(
     ({ target: { value } }) => {
