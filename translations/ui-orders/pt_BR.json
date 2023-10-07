@@ -849,5 +849,7 @@
     "errors.encumbrancesForReEncumberNotFound": "Os gravames foram criados corretamente durante a rolagem ou já foram atualizados.",
     "versionHistory.noVersion": "Nenhum histórico de versões para exibir.",
     "errors.invalidProductId": "Número de ID do produto inválido com base no tipo de ID do produto. Você pode usar \"Alterar conexão de instância\" para atualizar IDs de produto do registro de instância antes de editar a Linha do Pedido de Compra.",
-    "relatedInvoiceLines.vendorCode": "Código do fornecedor"
+    "relatedInvoiceLines.vendorCode": "Código do fornecedor",
+    "vendor.accountNumber.inActive": "O número da conta selecionada está inativo.",
+    "inactive": "Inativo"
 }
