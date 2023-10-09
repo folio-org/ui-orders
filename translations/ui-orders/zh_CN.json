@@ -849,5 +849,7 @@
     "errors.encumbrancesForReEncumberNotFound": "这些预支是在展期过程中正确创建的，或者已经更新。",
     "versionHistory.noVersion": "没有可显示的版本历史。",
     "errors.invalidProductId": "根据产品ID类型，产品ID号无效。在编辑采购订单行之前，可以使用“更改实例连接”从实例记录中刷新产品ID。",
-    "relatedInvoiceLines.vendorCode": "供应商代码"
+    "relatedInvoiceLines.vendorCode": "供应商代码",
+    "vendor.accountNumber.inActive": "The selected account number is inactive.",
+    "inactive": "Inactive"
 }
