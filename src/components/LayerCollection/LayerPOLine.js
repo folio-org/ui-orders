@@ -120,7 +120,12 @@ function LayerPOLine({
   const { isLoading: isLinesLimitLoading, linesLimit } = useLinesLimit(!(lineId || poLine));
   const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(locationState?.isCreateAnotherChecked);
   const { isFetching: isConfigsFetching, integrationConfigs } = useIntegrationConfigs({ organizationId: vendor?.id });
-  const { instance, isLoading: isInstanceLoading } = useInstance(locationState?.instanceId, { tenantId: locationState?.instanceTenantId });
+  const { instance, isLoading: isInstanceLoading } = useInstance(
+    locationState?.instanceId, 
+    {
+      tenantId: locationState?.instanceTenantId
+    },
+  );
   const { mutateTitle } = useTitleMutation();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
