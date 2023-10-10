@@ -1,13 +1,23 @@
 import { useQuery } from 'react-query';
 
-import { useOkapiKy, useNamespace } from '@folio/stripes/core';
+import { useNamespace } from '@folio/stripes/core';
 
-export const useInstance = (instanceId) => {
-  const ky = useOkapiKy();
+import { useTenantKy } from '../useTenantKy';
+
+const DEFAULT_DATA = {};
+const DEFAULT_OPTIONS = {};
+
+export const useInstance = (instanceId, options = DEFAULT_OPTIONS) => {
+  const { tenantId } = options;
+
+  const ky = useTenantKy({ tenantId });
   const [namespace] = useNamespace({ key: 'instance' });
 
-  const { isLoading, data: instance = {} } = useQuery(
-    [namespace, instanceId],
+  const {
+    isLoading,
+    data: instance = DEFAULT_DATA,
+  } = useQuery(
+    [namespace, instanceId, tenantId],
     () => ky.get(`inventory/instances/${instanceId}`).json(),
     { enabled: Boolean(instanceId) },
   );
