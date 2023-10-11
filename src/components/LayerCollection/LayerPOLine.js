@@ -121,9 +121,9 @@ function LayerPOLine({
   const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(locationState?.isCreateAnotherChecked);
   const { isFetching: isConfigsFetching, integrationConfigs } = useIntegrationConfigs({ organizationId: vendor?.id });
   const { instance, isLoading: isInstanceLoading } = useInstance(
-    locationState?.instanceId, 
+    locationState?.instanceId,
     {
-      tenantId: locationState?.instanceTenantId
+      tenantId: locationState?.instanceTenantId,
     },
   );
   const { mutateTitle } = useTitleMutation();
