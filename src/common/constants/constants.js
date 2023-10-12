@@ -45,3 +45,4 @@ export const UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES = {
 };
 
 export const FIELD_ARRAY_ITEM_IDENTIFIER_KEY = '__key__';
+export const OKAPI_TENANT_HEADER = 'X-Okapi-Tenant';

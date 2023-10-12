@@ -23,6 +23,7 @@
 * When order line contains bad product IDs - the save & close does not work. Refs UIOR-1141.
 * Upgrade `ui-plugin-find-po-line` and `ui-plugin-find-organization` plugins to `5` version. Refs UIOR-1154.
 * POL - Display only active account numbers in dropdown list. Refs UIOR-1142.
+* Use a provided `tenantId` when loading an instance in a PO line form. Refs UIOR-1159.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
