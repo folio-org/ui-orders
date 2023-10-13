@@ -85,7 +85,7 @@ function LayerPO({
         history.push({
           pathname: instanceId ? `/orders/view/${savedOrder.id}/po-line/create` : `/orders/view/${savedOrder.id}`,
           search: location.search,
-          state: instanceId ? { instanceId } : {},
+          state: instanceId ? { instanceId, instanceTenantId: location.state?.instanceTenantId } : {},
         });
       })
       .catch(async e => {
@@ -97,6 +97,7 @@ function LayerPO({
     history,
     instanceId,
     location.search,
+    location.state?.instanceTenantId,
     memoizedMutator.order,
     openOrderErrorModalShow,
     sendCallout,

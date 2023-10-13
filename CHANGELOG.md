@@ -1,10 +1,14 @@
 # Change history for ui-orders
 
-## (5.0.0 IN PROGRESS)
+## (5.1.0 IN PROGRESS)
+
+* Allow Editing of "Renewal Date" and "Subscription to" on open purchase order line. Refs UIOR-1078.
+
+## [5.0.0](https://github.com/folio-org/ui-orders/tree/v5.0.0) (2023-10-12)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.3...v5.0.0)
 
 * Add action for duplicate order template. Refs UIOR-1056.
 * Success toast message is not shown at the start of export. Refs UIOR-1089.
-* The `limit` query parameter is not explicitly set to some version history's requests. Refs UIOR-1101.
 * Keyboard shortcuts issues. Refs UIOR-1086.
 * A user can save duplicated order template name with only spaces before and after initial template name. Refs UIOR-1114.
 * Support new error `multipleFiscalYears` code. Refs UIOR-1104.
@@ -16,14 +20,19 @@
 * Removing a row in the locations fields array containing both location and holding causes problem with displaying first column name. Refs UIOR-1130.
 * Update related invoice details to include additional fields. Refs UIOR-1131.
 * Upgrade `Node.js` to `18` version in GitHub Actions. Refs UIOR-1135.
-* **BREAKING:** Upgrade `React` to `18` version. Refs UIOR-1134.
+* *BREAKING*: Upgrade `React` to `18` version. Refs UIOR-1134.
 * Provide a human-readable error message for `encumbrancesForReEncumberNotFound` code. Refs UIOR-1143.
 * Show a message about the missing version in the history. Refs UIOR-1136.
-* *BREAKING* bump `react-intl` to `v6.4.4`. Refs UIOR-1146.
+* *BREAKING*: bump `react-intl` to `v6.4.4`. Refs UIOR-1146.
 * When order line contains bad product IDs - the save & close does not work. Refs UIOR-1141.
 * Upgrade `ui-plugin-find-po-line` and `ui-plugin-find-organization` plugins to `5` version. Refs UIOR-1154.
 * POL - Display only active account numbers in dropdown list. Refs UIOR-1142.
-* Allow Editing of "Renewal Date" and "Subscription to" on open purchase order line. Refs UIOR-1078.
+* Use a provided `tenantId` when loading an instance in a PO line form. Refs UIOR-1159.
+
+## [4.0.3](https://github.com/folio-org/ui-orders/tree/v4.0.3) (2023-04-06)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.2...v4.0.3)
+
+* The `limit` query parameter is not explicitly set to some version history's requests. Refs UIOR-1101.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)

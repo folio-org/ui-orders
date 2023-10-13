@@ -1,6 +1,7 @@
 import { MemoryRouter } from 'react-router';
 
 import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import { ORDER_TYPES } from '@folio/stripes-acq-components';
 
 import {
   address,
@@ -71,6 +72,12 @@ const renderLayerPO = (props = {}) => render(
 );
 
 describe('LayerPO', () => {
+  beforeEach(() => {
+    defaultProps.mutator.order.POST.mockClear();
+    history.push.mockClear();
+    POForm.mockClear();
+  });
+
   it('should render PO form', async () => {
     renderLayerPO();
 
@@ -91,10 +98,35 @@ describe('LayerPO', () => {
     renderLayerPO();
 
     await waitFor(() => POForm.mock.calls[0][0].onSubmit({
-      orderType: 'ongoing',
+      orderType: ORDER_TYPES.ongoing,
     }));
 
     expect(history.push).toHaveBeenCalled();
+  });
+
+  describe('Create from inventory', () => {
+    it('should call onSubmit when form was submitted 2', async () => {
+      const locationState = {
+        instanceId: 'instanceId',
+        instanceTenantId: 'instanceTenantId',
+      };
+
+      renderLayerPO({
+        location: {
+          ...defaultProps.location,
+          state: locationState,
+        },
+      });
+
+      await waitFor(() => POForm.mock.calls[0][0].onSubmit({
+        orderType: ORDER_TYPES.ongoing,
+      }));
+
+      expect(history.push).toHaveBeenCalledWith(expect.objectContaining({
+        pathname: expect.stringMatching(/^\/orders\/view\/(?<orderId>.+)\/po-line\/create$/),
+        state: locationState,
+      }));
+    });
   });
 
   it('should throw an error if the order update was failed ', async () => {
@@ -103,7 +135,7 @@ describe('LayerPO', () => {
     renderLayerPO();
 
     await waitFor(() => expect(POForm.mock.calls[0][0].onSubmit({
-      orderType: 'ongoing',
+      orderType: ORDER_TYPES.ongoing,
     })).rejects.toBeTruthy());
   });
 });
