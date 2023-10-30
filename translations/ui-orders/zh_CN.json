@@ -850,6 +850,6 @@
     "versionHistory.noVersion": "没有可显示的版本历史。",
     "errors.invalidProductId": "根据产品ID类型，产品ID号无效。在编辑采购订单行之前，可以使用“更改实例连接”从实例记录中刷新产品ID。",
     "relatedInvoiceLines.vendorCode": "供应商代码",
-    "vendor.accountNumber.inActive": "The selected account number is inactive.",
-    "inactive": "Inactive"
+    "vendor.accountNumber.inActive": "所选帐号处于非激活状态。",
+    "inactive": "未激活"
 }
