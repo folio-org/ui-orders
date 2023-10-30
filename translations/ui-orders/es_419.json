@@ -851,5 +851,5 @@
     "errors.invalidProductId": "Product ID number invalid based on product ID type. You can use \"Change instance connection\" to refresh product IDs from the instance record before editing the POL.",
     "relatedInvoiceLines.vendorCode": "Vendor code",
     "vendor.accountNumber.inActive": "The selected account number is inactive.",
-    "inactive": "Inactive"
+    "inactive": "Inactivo"
 }
