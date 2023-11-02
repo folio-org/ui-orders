@@ -41,11 +41,16 @@ export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => 
           ...printData,
         },
       }));
-
-      handlePrint();
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (printableOrder) {
+      handlePrint();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [printableOrder]);
 
   return (
     <PrintContent
