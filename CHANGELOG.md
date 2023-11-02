@@ -3,6 +3,7 @@
 ## (5.1.0 IN PROGRESS)
 
 * Allow Editing of "Renewal Date" and "Subscription to" on open purchase order line. Refs UIOR-1078.
+* Add missed permission to fetch org types in view only mode. Refs UIOR-1168.
 
 ## [5.0.0](https://github.com/folio-org/ui-orders/tree/v5.0.0) (2023-10-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.3...v5.0.0)
