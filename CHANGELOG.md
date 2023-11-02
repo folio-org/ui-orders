@@ -1,6 +1,8 @@
 # Change history for ui-orders
 
-## (5.1.0 IN PROGRESS)
+## (5.0.1 IN PROGRESS)
+
+* Add missed permission to fetch org types in view only mode. Refs UIOR-1168.
 
 ## [5.0.0](https://github.com/folio-org/ui-orders/tree/v5.0.0) (2023-10-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.3...v5.0.0)

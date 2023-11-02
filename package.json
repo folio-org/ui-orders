@@ -156,6 +156,7 @@
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
           "orders.titles.collection.get",
+          "organizations-storage.organization-types.collection.get",
           "ui-orders.third-party-services"
         ]
       },
