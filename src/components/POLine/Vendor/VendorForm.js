@@ -40,7 +40,10 @@ const VendorForm = ({
   const activeAccountOptions = useMemo(() => {
     const message = ` - ${formatMessage({ id: 'ui-orders.inactive' })}`;
     const activeAccounts = accounts.filter(({ accountStatus, accountNo }) => {
-      return accountStatus === ACTIVE || accountNo === initialAccountNumber.current;
+      return (
+        accountStatus?.toLowerCase() === ACTIVE.toLowerCase()
+        || accountNo === initialAccountNumber.current
+      );
     });
 
     return activeAccounts.map(({ name, accountNo, accountStatus }) => ({
@@ -57,14 +60,6 @@ const VendorForm = ({
       toggleAutomaticExport({ vendorAccount: value, acquisitionMethod, integrationConfigs, change });
     }, [change, getState, integrationConfigs],
   );
-
-  const accountNumberDisabled = useMemo(() => {
-    const hasCurrentAccountNumber = accounts.some(({ accountNo }) => accountNo === currentAccountNumber);
-    const isOnlyOneActiveAccount = activeAccountOptions.length === 1;
-    const noActiveAccounts = activeAccountOptions.length === 0;
-
-    return noActiveAccounts || (hasCurrentAccountNumber && isOnlyOneActiveAccount);
-  }, [accounts, activeAccountOptions, currentAccountNumber]);
 
   const isSelectedAccountInactive = useMemo(() => {
     return accounts.some(({ accountNo, accountStatus }) => {
@@ -85,7 +80,7 @@ const VendorForm = ({
           >
             <FieldVendorAccountNumber
               accounts={activeAccountOptions}
-              disabled={isPostPendingOrder || accountNumberDisabled}
+              disabled={isPostPendingOrder}
               onChange={onAccountChange}
             />
             {
