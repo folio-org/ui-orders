@@ -74,7 +74,7 @@ import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
-const CHANGER_TIMEOUT = 20;
+const GAME_CHANGER_TIMEOUT = 20;
 
 function POLineForm({
   form: { change, batch, getRegisteredFields },
@@ -138,7 +138,7 @@ function POLineForm({
   /*
     Populate field values for new PO Line from a template if it exist.
     First, the values of the fields are set, which, when changed, change other fields.
-  */  
+  */
   useEffect(() => {
     if (!lineId && templateValue.id) {
       const populateFieldsFromTemplate = (fields) => {
@@ -153,7 +153,7 @@ function POLineForm({
       };
 
       setTimeout(() => populateFieldsFromTemplate(GAME_CHANGER_FIELDS));
-      setTimeout(() => populateFieldsFromTemplate(getRegisteredFields()), CHANGER_TIMEOUT);
+      setTimeout(() => populateFieldsFromTemplate(getRegisteredFields()), GAME_CHANGER_TIMEOUT);
     }
   }, [batch, change, getRegisteredFields, lineId, templateValue]);
 
@@ -169,7 +169,7 @@ function POLineForm({
             } else change(field, initialInventoryData[field]);
           });
         });
-      }, CHANGER_TIMEOUT);
+      }, GAME_CHANGER_TIMEOUT);
     }
   }, [batch, change, initialInventoryData, isCreateFromInstance]);
 
