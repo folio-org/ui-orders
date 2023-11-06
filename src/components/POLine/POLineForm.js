@@ -74,9 +74,10 @@ import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
+const CHANGER_TIMEOUT = 20;
 
 function POLineForm({
-  form: { change, batch },
+  form: { change, batch, getRegisteredFields },
   form,
   initialValues,
   onCancel,
@@ -105,12 +106,14 @@ function POLineForm({
 
   const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const locations = parentResources?.locations?.records;
-  const templateValue = getOrderTemplateValue(parentResources, order?.template, {
-    locations,
-  });
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
-  const initialTemplateInventoryData = (
+
+  const templateValue = useMemo(() => getOrderTemplateValue(parentResources, order?.template, {
+    locations,
+  }), [locations, order?.template, parentResources]);
+
+  const initialTemplateInventoryData = useMemo(() => (
     !lineId && templateValue.id
       ? {
         ...pick(templateValue, [
@@ -124,35 +127,40 @@ function POLineForm({
         ]),
       }
       : {}
-  );
-  const initialInventoryData = isCreateFromInstance
-    ? createPOLDataFromInstance(instance, identifierTypes)
-    : initialTemplateInventoryData;
+  ), [lineId, templateValue]);
+
+  const initialInventoryData = useMemo(() => (
+    isCreateFromInstance
+      ? createPOLDataFromInstance(instance, identifierTypes)
+      : initialTemplateInventoryData
+  ), [identifierTypes, initialTemplateInventoryData, instance, isCreateFromInstance]);
+
+  /*
+    Populate field values for new PO Line from a template if it exist.
+    First, the values of the fields are set, which, when changed, change other fields.
+  */  
+  useEffect(() => {
+    if (!lineId && templateValue.id) {
+      const populateFieldsFromTemplate = (fields) => {
+        batch(() => {
+          fields.forEach(field => {
+            const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
+            const templateFieldValue = get(templateValue, templateField);
+
+            if (templateFieldValue !== undefined) change(field, templateFieldValue);
+          });
+        });
+      };
+
+      setTimeout(() => populateFieldsFromTemplate(GAME_CHANGER_FIELDS));
+      setTimeout(() => populateFieldsFromTemplate(getRegisteredFields()), CHANGER_TIMEOUT);
+    }
+  }, [batch, change, getRegisteredFields, lineId, templateValue]);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (!lineId && templateValue.id) {
-        form.batch(() => {
-          GAME_CHANGER_FIELDS.forEach(field => {
-            const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
-            const templateFieldValue = get(templateValue, templateField);
-
-            if (templateFieldValue !== undefined) change(field, templateFieldValue);
-          });
-        });
-
-        form.batch(() => {
-          form.getRegisteredFields().forEach(field => {
-            const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
-            const templateFieldValue = get(templateValue, templateField);
-
-            if (templateFieldValue !== undefined) change(field, templateFieldValue);
-          });
-        });
-      }
-
-      if (isCreateFromInstance) {
-        form.batch(() => {
+    if (isCreateFromInstance) {
+      setTimeout(() => {
+        batch(() => {
           change('isPackage', false);
 
           Object.keys(initialInventoryData).forEach(field => {
@@ -161,12 +169,13 @@ function POLineForm({
             } else change(field, initialInventoryData[field]);
           });
         });
-      }
-    });
+      }, CHANGER_TIMEOUT);
+    }
+  }, [batch, change, initialInventoryData, isCreateFromInstance]);
 
+  useEffect(() => {
     setHiddenFields(templateValue?.hiddenFields || {});
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [change, instance?.id, isCreateFromInstance, lineId, templateValue.id]);
+  }, [templateValue?.hiddenFields]);
 
   const getAddFirstMenu = () => {
     return (
