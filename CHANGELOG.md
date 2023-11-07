@@ -6,6 +6,7 @@
 * Add missed permission to fetch org types in view only mode. Refs UIOR-1168.
 * Preview contains blank page when trying to print an order. Refs UIOR-1173.
 * Do not disable account numbers having only one account available. Refs UIOR-1174.
+* Populate values from a template after the fields are registered. Refs UIOR-1169.
 * Add donor info to POL. Refs UIOR-1147.
 
 ## [5.0.0](https://github.com/folio-org/ui-orders/tree/v5.0.0) (2023-10-12)
