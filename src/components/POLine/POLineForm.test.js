@@ -138,6 +138,7 @@ describe('POLineForm', () => {
       expect(screen.getByText('ui-orders.line.accordion.vendor')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.line.accordion.cost')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.line.accordion.fund')).toBeInTheDocument();
+      expect(screen.getByText('ui-orders.line.accordion.donorInformation')).toBeInTheDocument();
       expect(screen.getByText(/LocationForm/i)).toBeInTheDocument();
     });
   });

@@ -452,7 +452,7 @@ function POLineForm({
                         </Accordion>
                         <Accordion
                           id={ACCORDION_ID.donorsInformation}
-                          label={<FormattedMessage id="ui-orders.paneBlock.donorInformation" />}
+                          label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                         >
                           <DonorsList
                             name="donorOrganizationIds"
