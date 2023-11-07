@@ -30,6 +30,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/final-form';
 import {
+  DonorsList,
   FundDistributionFieldsFinal,
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
@@ -128,6 +129,7 @@ function POLineForm({
   const initialInventoryData = isCreateFromInstance
     ? createPOLDataFromInstance(instance, identifierTypes)
     : initialTemplateInventoryData;
+  const donorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -436,6 +438,15 @@ function POLineForm({
                             vendor={vendor}
                             hiddenFields={hiddenFields}
                             integrationConfigs={integrationConfigs}
+                          />
+                        </Accordion>
+                        <Accordion
+                          id={ACCORDION_ID.donorsInformation}
+                          label={<FormattedMessage id="ui-orders.paneBlock.donorInformation" />}
+                        >
+                          <DonorsList
+                            name="donorOrganizationIds"
+                            donorOrganizationIds={donorOrganizationIds}
                           />
                         </Accordion>
                         {isOngoing(order.orderType) && (

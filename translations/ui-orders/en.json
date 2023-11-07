@@ -470,6 +470,7 @@
   "paneBlock.openBtn": "Open",
   "paneBlock.unopenBtn": "Unopen",
   "paneBlock.POLines": "PO lines",
+  "paneBlock.donorInformation": "Donor information",
   "paneBlock.POSummary": "PO summary",
   "paneBlock.purchaseOrder": "Purchase order",
   "paneBlock.receiveBtn": "Receive",
