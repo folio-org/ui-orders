@@ -143,11 +143,14 @@ function POLineForm({
     if (!lineId && templateValue.id) {
       const populateFieldsFromTemplate = (fields) => {
         batch(() => {
+          console.log('debug', fields);
           fields.forEach(field => {
             const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
             const templateFieldValue = get(templateValue, templateField);
 
             if (templateFieldValue !== undefined) change(field, templateFieldValue);
+
+            // debugger;
           });
         });
       };
