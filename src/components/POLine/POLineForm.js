@@ -457,6 +457,8 @@ function POLineForm({
                           <DonorsList
                             name="donorOrganizationIds"
                             donorOrganizationIds={donorOrganizationIds}
+                            visibleColumns={['name', 'code', 'unassignDonor']}
+                            columnWidths={{ name: '45%', code: '45%', unassignDonor: '10%' }}
                           />
                         </Accordion>
                         {isOngoing(order.orderType) && (
