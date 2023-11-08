@@ -71,7 +71,7 @@ function POLineDetailsForm({
   );
 
   const onReceiptStatusChange = useCallback(({ target: { value } }) => {
-    change('receiptStatus', value);
+    change('receiptStatus', value || undefined);
 
     if (!isPostPendingOrder && isReceiptNotRequired(value)) {
       change('checkinItems', true);
