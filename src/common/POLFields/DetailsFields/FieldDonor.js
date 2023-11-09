@@ -1,31 +1,48 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { Field, useForm } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'react-final-form';
 
 import { TextField } from '@folio/stripes-acq-components';
+import { IconButton, InfoPopover } from '@folio/stripes/components';
 
-const FieldDonor = ({ disabled }) => {
+const FIELD_NAME = 'donor';
+
+const FieldDonor = () => {
+  const { change, getFieldState } = useForm();
+  const value = getFieldState(FIELD_NAME)?.value;
+
+  const label = (
+    <>
+      <FormattedMessage id="ui-orders.poLine.donor" />
+      <InfoPopover content={<FormattedMessage id="ui-orders.poLine.donor.info" />} />
+    </>
+  );
+
+  const onClick = () => {
+    change(FIELD_NAME, '');
+  };
+
+  const clearIcon = (
+    <IconButton
+      onClick={onClick}
+      icon="times-circle-solid"
+      size="small"
+    />
+  );
+
   return (
     <Field
       component={TextField}
       fullWidth
-      id="donor"
-      label={<FormattedMessage id="ui-orders.poLine.donor" />}
-      name="donor"
+      id={FIELD_NAME}
+      label={label}
+      name={FIELD_NAME}
       type="text"
-      isNonInteractive={disabled}
       validateFields={[]}
+      disabled
+      endControl={value && clearIcon}
     />
   );
-};
-
-FieldDonor.propTypes = {
-  disabled: PropTypes.bool,
-};
-
-FieldDonor.defaultProps = {
-  disabled: false,
 };
 
 export default FieldDonor;

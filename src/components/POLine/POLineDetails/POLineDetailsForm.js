@@ -180,7 +180,7 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldDonor disabled={isPostPendingOrder} />
+            <FieldDonor />
           </Col>
         </IfFieldVisible>
 
