@@ -24,6 +24,7 @@ export const ACCORDION_ID = {
   vendor: 'vendor',
   linkedInstances: 'linkedInstances',
   ongoingOrder: 'ongoingOrder',
+  donorsInformation: 'donorsInformation',
 };
 
 // Mapping between attribute (field) in form and id of accordion
@@ -59,8 +60,12 @@ export const POL_TEMPLATE_FIELDS_MAP = {
   'tags.tagList': 'polTags.tagList',
 };
 
+const INITIALLY_CLOSED_ACCORDION_IDS = {
+  [ACCORDION_ID.donorsInformation]: true,
+};
+
 export const INITIAL_SECTIONS = Object.values(ACCORDION_ID).reduce(
-  (accum, id) => ({ ...accum, [id]: true }), {},
+  (accum, id) => ({ ...accum, [id]: !INITIALLY_CLOSED_ACCORDION_IDS[id] }), {},
 );
 
 export const ACCOUNT_STATUS = {
