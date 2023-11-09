@@ -75,7 +75,7 @@ import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
-const GAME_CHANGER_TIMEOUT = 20;
+const GAME_CHANGER_TIMEOUT = 50;
 
 function POLineForm({
   form: { change, batch, getRegisteredFields },
