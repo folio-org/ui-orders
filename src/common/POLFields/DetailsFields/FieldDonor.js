@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Field, useForm } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
