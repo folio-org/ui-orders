@@ -30,6 +30,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/final-form';
 import {
+  Donors,
   FundDistributionFieldsFinal,
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
@@ -108,6 +109,7 @@ function POLineForm({
   const locations = parentResources?.locations?.records;
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
+  const donorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
 
   const templateValue = useMemo(() => getOrderTemplateValue(parentResources, order?.template, {
     locations,
@@ -139,6 +141,7 @@ function POLineForm({
     Populate field values for new PO Line from a template if it exist.
     First, the values of the fields are set, which, when changed, change other fields.
   */
+
   useEffect(() => {
     if (!lineId && templateValue.id) {
       const populateFieldsFromTemplate = (fields) => {
@@ -445,6 +448,15 @@ function POLineForm({
                             vendor={vendor}
                             hiddenFields={hiddenFields}
                             integrationConfigs={integrationConfigs}
+                          />
+                        </Accordion>
+                        <Accordion
+                          id={ACCORDION_ID.donorsInformation}
+                          label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
+                        >
+                          <Donors
+                            name="donorOrganizationIds"
+                            donorOrganizationIds={donorOrganizationIds}
                           />
                         </Accordion>
                         {isOngoing(order.orderType) && (
