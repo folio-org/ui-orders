@@ -30,7 +30,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/final-form';
 import {
-  DonorsList,
+  Donors,
   FundDistributionFieldsFinal,
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
@@ -454,11 +454,9 @@ function POLineForm({
                           id={ACCORDION_ID.donorsInformation}
                           label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                         >
-                          <DonorsList
+                          <Donors
                             name="donorOrganizationIds"
                             donorOrganizationIds={donorOrganizationIds}
-                            visibleColumns={['name', 'code', 'unassignDonor']}
-                            columnWidths={{ name: '45%', code: '45%', unassignDonor: '10%' }}
                           />
                         </Accordion>
                         {isOngoing(order.orderType) && (
