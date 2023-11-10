@@ -517,6 +517,7 @@
   "poLine.createdOn": "Created on",
   "poLine.details": "POL details",
   "poLine.donor": "Donor",
+  "poLine.donor.info": "This field has been disabled and will be deprecated in 2025. Please create donor records from the Organizations app. Use the Donor information accordion below to add donors to this POL. Please note that information deleted from this field is NOT recoverable.",
   "poLine.eResourceDetails": "POL e-resource details",
   "poLine.itemDetails": "POL item details",
   "poLine.fundDistribution": "POL fund distribution",

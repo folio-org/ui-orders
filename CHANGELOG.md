@@ -3,6 +3,7 @@
 ## (5.1.0 IN PROGRESS)
 
 * Allow Editing of "Renewal Date" and "Subscription to" on open purchase order line. Refs UIOR-1078.
+* Disable donor field in POL. Refs UIOR-1149.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
