@@ -851,5 +851,8 @@
     "errors.invalidProductId": "ID produktu je neplatné na základě typu ID produktu. Můžete použít \"Změnit připojení titulu\" k obnovení ID produktů ze záznamu titulu před úpravou řádku NO.",
     "relatedInvoiceLines.vendorCode": "Kód prodejce",
     "vendor.accountNumber.inActive": "Vybrané číslo účtu je neaktivní.",
-    "inactive": "Neaktivní"
+    "inactive": "Neaktivní",
+    "line.accordion.donorInformation": "Donor information",
+    "paneBlock.donorInformation": "Donor information",
+    "poLine.donor.info": "This field has been disabled and will be deprecated in 2025. Please create donor records from the Organizations app. Use the Donor information accordion below to add donors to this POL. Please note that information deleted from this field is NOT recoverable."
 }

@@ -851,5 +851,8 @@
     "errors.invalidProductId": "Número de ID do produto inválido com base no tipo de ID do produto. Você pode usar \"Alterar conexão de instância\" para atualizar IDs de produto do registro de instância antes de editar a Linha do Pedido de Compra.",
     "relatedInvoiceLines.vendorCode": "Código do fornecedor",
     "vendor.accountNumber.inActive": "O número da conta selecionada está inativo.",
-    "inactive": "Inativo"
+    "inactive": "Inativo",
+    "line.accordion.donorInformation": "Informações do doador",
+    "paneBlock.donorInformation": "Informações do doador",
+    "poLine.donor.info": "Esse campo foi desativado e será descontinuado em 2025. Crie registros de doadores no aplicativo Organizações. Use o termo de informações do doador abaixo para adicionar doadores a essa Linha de Pedido de Compra. Observe que as informações excluídas desse campo NÃO podem ser recuperadas."
 }
