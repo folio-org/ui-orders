@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { flow, get, pick } from 'lodash';
+import { flow, get, keyBy, pick } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
@@ -73,6 +73,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
+import { useGetDonorsByFundId } from './hooks';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 const GAME_CHANGER_TIMEOUT = 50;
@@ -109,7 +110,16 @@ function POLineForm({
   const locations = parentResources?.locations?.records;
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
-  const donorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
+  const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
+  const fundDistribution = get(formValues, 'fundDistribution');
+
+  const { donorOrganizationIds, setDonorIds } = useGetDonorsByFundId({
+    funds: parentResources?.funds?.records,
+    fundDistribution,
+    initialDonorOrganizationIds,
+  });
+
+  console.log('POLineForm: donorOrganizationIds', donorOrganizationIds);
 
   const templateValue = useMemo(() => getOrderTemplateValue(parentResources, order?.template, {
     locations,
@@ -359,7 +369,6 @@ function POLineForm({
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
   const estimatedPrice = calculateEstimatedPrice(formValues);
   const { accounts } = vendor;
-  const fundDistribution = get(formValues, 'fundDistribution');
   const metadata = get(initialValues, 'metadata');
   const currency = get(formValues, 'cost.currency');
 
