@@ -851,5 +851,8 @@
     "errors.invalidProductId": "根据产品ID类型，产品ID号无效。在编辑采购订单行之前，可以使用“更改实例连接”从实例记录中刷新产品ID。",
     "relatedInvoiceLines.vendorCode": "供应商代码",
     "vendor.accountNumber.inActive": "所选帐号处于非激活状态。",
-    "inactive": "未激活"
+    "inactive": "未激活",
+    "line.accordion.donorInformation": "Donor information",
+    "paneBlock.donorInformation": "Donor information",
+    "poLine.donor.info": "This field has been disabled and will be deprecated in 2025. Please create donor records from the Organizations app. Use the Donor information accordion below to add donors to this POL. Please note that information deleted from this field is NOT recoverable."
 }
