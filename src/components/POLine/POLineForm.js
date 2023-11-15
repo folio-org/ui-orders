@@ -1,10 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  flow,
+  get,
+  isEqual,
+  pick,
+} from 'lodash';
 import PropTypes from 'prop-types';
-import { flow, get, keyBy, pick } from 'lodash';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
-import { stripesShape, IfPermission } from '@folio/stripes/core';
+import {
+  Donors,
+  FundDistributionFieldsFinal,
+  handleKeyCommand,
+} from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
@@ -27,13 +42,12 @@ import {
   Row,
   Selection,
 } from '@folio/stripes/components';
-import { ViewMetaData } from '@folio/stripes/smart-components';
-import stripesForm from '@folio/stripes/final-form';
 import {
-  Donors,
-  FundDistributionFieldsFinal,
-  handleKeyCommand,
-} from '@folio/stripes-acq-components';
+  stripesShape,
+  IfPermission,
+} from '@folio/stripes/core';
+import stripesForm from '@folio/stripes/final-form';
+import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import {
   useErrorAccordionStatus,
@@ -111,15 +125,21 @@ function POLineForm({
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
   const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
-  const fundDistribution = get(formValues, 'fundDistribution');
+  const fundDistribution = get(formValues, 'fundDistribution', []);
 
-  const { donorOrganizationIds, setDonorIds } = useGetDonorsByFundId({
+  const { donorOrganizationIds, onDonorRemove, setDonorIds } = useGetDonorsByFundId({
     funds: parentResources?.funds?.records,
     fundDistribution,
     initialDonorOrganizationIds,
   });
 
-  console.log('POLineForm: donorOrganizationIds', donorOrganizationIds);
+  useEffect(() => {
+    const hasChanged = !isEqual(donorOrganizationIds, formValues.donorOrganizationIds);
+
+    if (hasChanged) {
+      change('donorOrganizationIds', donorOrganizationIds);
+    }
+  }, [change, donorOrganizationIds, formValues.donorOrganizationIds, setDonorIds]);
 
   const templateValue = useMemo(() => getOrderTemplateValue(parentResources, order?.template, {
     locations,
@@ -465,6 +485,8 @@ function POLineForm({
                         >
                           <Donors
                             name="donorOrganizationIds"
+                            onChange={setDonorIds}
+                            onRemove={onDonorRemove}
                             donorOrganizationIds={donorOrganizationIds}
                           />
                         </Accordion>
