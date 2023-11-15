@@ -37,7 +37,9 @@ export const useGetDonorsByFundId = ({
   };
 
   useEffect(() => {
-    setDonorIds(prevDonorIds => [...prevDonorIds, ...donorOrganizationIds]);
+    if (donorOrganizationIds.length) {
+      setDonorIds(prevDonorIds => [...prevDonorIds, ...donorOrganizationIds]);
+    }
   }, [donorOrganizationIds]);
 
   return {

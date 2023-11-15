@@ -18,6 +18,10 @@ import POLineForm from './POLineForm';
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
   return () => <span>AcqUnitsField</span>;
 });
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  Donors: jest.fn(() => 'Donors'),
+}));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   collapseAllSections: jest.fn(),
@@ -29,6 +33,14 @@ jest.mock('react-router', () => ({
   useHistory: jest.fn(),
 }));
 jest.mock('./Location/LocationForm', () => jest.fn().mockReturnValue('LocationForm'));
+jest.mock('./hooks', () => ({
+  ...jest.requireActual('./hooks'),
+  useGetDonorsByFundId: jest.fn().mockReturnValue({
+    donorOrganizationIds: [],
+    setDonorIds: jest.fn(),
+    onDonorRemove: jest.fn(),
+  }),
+}));
 
 const defaultProps = {
   onCancel: jest.fn(),
@@ -37,7 +49,10 @@ const defaultProps = {
     batch: jest.fn(),
     getRegisteredFields: jest.fn(),
   },
-  initialValues: {},
+  initialValues: {
+    donorOrganizationIds: [],
+    fundDistribution: [],
+  },
   onSubmit: jest.fn(),
   handleSubmit: jest.fn(),
   pristine: false,
@@ -96,6 +111,8 @@ const defaultProps = {
   linesLimit: 3,
   values: {
     orderFormat: 'P/E Mix',
+    donorOrganizationIds: [],
+    fundDistribution: [],
   },
   stripes: {},
 };
