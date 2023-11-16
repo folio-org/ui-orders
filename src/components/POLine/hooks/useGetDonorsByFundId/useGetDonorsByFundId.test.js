@@ -4,31 +4,44 @@ import { useGetDonorsByFundId } from './useGetDonorsByFundId';
 
 const defaultProps = {
   funds: [{
-    'code': 'STATE-SUBN',
-    'encumbrance': 'eb506834-6c70-4239-8d1a-6414a5b08011',
-    'fundId': 'fundId',
-    'distributionType': 'percentage',
-    'value': 100,
+    code: 'STATE-SUBN',
+    encumbrance: 'eb506834-6c70-4239-8d1a-6414a5b08011',
+    fundId: 'fundId',
+    distributionType: 'percentage',
+    value: 100,
+    id: 'fundId',
+    donorOrganizationIds: ['donorId'],
   }],
   fundDistribution: [
     {
-      'id': 'fundId',
-      'code': 'STATE-SUBN',
-      'name': 'STATE-SUBN',
-      'donorOrganizationIds': [
-        '80fb5168-cdf1-11e8-a8d5-c2801f1b9f21',
-      ],
+      id: 'fundId',
+      fundId: 'fundId',
+      code: 'STATE-SUBN',
+      name: 'STATE-SUBN',
     },
   ],
   initialDonorOrganizationIds: [],
 };
 
 describe('useGetDonorsByFundId', () => {
-  it('should return close reason options from default list', () => {
+  it('should return setDonorIds, onDonorRemove and donorOrganizationIds', () => {
     const { result } = renderHook(() => useGetDonorsByFundId(defaultProps));
 
     expect(result.current).toEqual(expect.objectContaining({
-      donorOrganizationIds: [],
+      donorOrganizationIds: ['donorId'],
+      onDonorRemove: expect.any(Function),
+      setDonorIds: expect.any(Function),
+    }));
+  });
+
+  it('should return list of donorOrganizationIds with [fundId, donorId]', () => {
+    const { result } = renderHook(() => useGetDonorsByFundId({
+      ...defaultProps,
+      initialDonorOrganizationIds: ['fundId'],
+    }));
+
+    expect(result.current).toEqual(expect.objectContaining({
+      donorOrganizationIds: ['fundId', 'donorId'],
       onDonorRemove: expect.any(Function),
       setDonorIds: expect.any(Function),
     }));
