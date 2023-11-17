@@ -35,7 +35,7 @@ jest.mock('react-router', () => ({
 jest.mock('./Location/LocationForm', () => jest.fn().mockReturnValue('LocationForm'));
 jest.mock('./hooks', () => ({
   ...jest.requireActual('./hooks'),
-  useGetDonorsByFundId: jest.fn().mockReturnValue({
+  useManageDonorOrganizationIds: jest.fn().mockReturnValue({
     donorOrganizationIds: [],
     setDonorIds: jest.fn(),
     onDonorRemove: jest.fn(),

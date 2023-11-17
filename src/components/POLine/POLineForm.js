@@ -87,7 +87,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
-import { useGetDonorsByFundId } from './hooks';
+import { useManageDonorOrganizationIds } from './hooks';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 const GAME_CHANGER_TIMEOUT = 50;
@@ -127,7 +127,7 @@ function POLineForm({
   const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
   const fundDistribution = get(formValues, 'fundDistribution', []);
 
-  const { donorOrganizationIds, onDonorRemove, setDonorIds } = useGetDonorsByFundId({
+  const { donorOrganizationIds, onDonorRemove, setDonorIds } = useManageDonorOrganizationIds({
     funds: parentResources?.funds?.records,
     fundDistribution,
     initialDonorOrganizationIds,

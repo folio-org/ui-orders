@@ -1,6 +1,6 @@
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
-import { useGetDonorsByFundId } from './useGetDonorsByFundId';
+import { useManageDonorOrganizationIds } from './useManageDonorOrganizationIds';
 
 const defaultProps = {
   funds: [{
@@ -23,9 +23,9 @@ const defaultProps = {
   initialDonorOrganizationIds: [],
 };
 
-describe('useGetDonorsByFundId', () => {
+describe('useManageDonorOrganizationIds', () => {
   it('should return setDonorIds, onDonorRemove and donorOrganizationIds', () => {
-    const { result } = renderHook(() => useGetDonorsByFundId(defaultProps));
+    const { result } = renderHook(() => useManageDonorOrganizationIds(defaultProps));
 
     expect(result.current).toEqual(expect.objectContaining({
       donorOrganizationIds: ['donorId'],
@@ -35,7 +35,7 @@ describe('useGetDonorsByFundId', () => {
   });
 
   it('should return list of donorOrganizationIds with [fundId, donorId]', () => {
-    const { result } = renderHook(() => useGetDonorsByFundId({
+    const { result } = renderHook(() => useManageDonorOrganizationIds({
       ...defaultProps,
       initialDonorOrganizationIds: ['fundId'],
     }));
