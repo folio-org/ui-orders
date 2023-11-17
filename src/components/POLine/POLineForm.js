@@ -1,10 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  flow,
+  get,
+  isEqual,
+  pick,
+} from 'lodash';
 import PropTypes from 'prop-types';
-import { flow, get, pick } from 'lodash';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
-import { stripesShape, IfPermission } from '@folio/stripes/core';
+import {
+  Donors,
+  FundDistributionFieldsFinal,
+  handleKeyCommand,
+} from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
@@ -27,13 +42,12 @@ import {
   Row,
   Selection,
 } from '@folio/stripes/components';
-import { ViewMetaData } from '@folio/stripes/smart-components';
-import stripesForm from '@folio/stripes/final-form';
 import {
-  Donors,
-  FundDistributionFieldsFinal,
-  handleKeyCommand,
-} from '@folio/stripes-acq-components';
+  stripesShape,
+  IfPermission,
+} from '@folio/stripes/core';
+import stripesForm from '@folio/stripes/final-form';
+import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import {
   useErrorAccordionStatus,
@@ -73,6 +87,7 @@ import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
+import { useManageDonorOrganizationIds } from './hooks';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 const GAME_CHANGER_TIMEOUT = 50;
@@ -109,7 +124,22 @@ function POLineForm({
   const locations = parentResources?.locations?.records;
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
-  const donorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
+  const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
+  const fundDistribution = get(formValues, 'fundDistribution', []);
+
+  const { donorOrganizationIds, onDonorRemove, setDonorIds } = useManageDonorOrganizationIds({
+    funds: parentResources?.funds?.records,
+    fundDistribution,
+    initialDonorOrganizationIds,
+  });
+
+  useEffect(() => {
+    const hasChanged = !isEqual(donorOrganizationIds, formValues.donorOrganizationIds);
+
+    if (hasChanged) {
+      change('donorOrganizationIds', donorOrganizationIds);
+    }
+  }, [change, donorOrganizationIds, formValues.donorOrganizationIds, setDonorIds]);
 
   const templateValue = useMemo(() => getOrderTemplateValue(parentResources, order?.template, {
     locations,
@@ -359,7 +389,6 @@ function POLineForm({
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
   const estimatedPrice = calculateEstimatedPrice(formValues);
   const { accounts } = vendor;
-  const fundDistribution = get(formValues, 'fundDistribution');
   const metadata = get(initialValues, 'metadata');
   const currency = get(formValues, 'cost.currency');
 
@@ -456,6 +485,8 @@ function POLineForm({
                         >
                           <Donors
                             name="donorOrganizationIds"
+                            onChange={setDonorIds}
+                            onRemove={onDonorRemove}
                             donorOrganizationIds={donorOrganizationIds}
                           />
                         </Accordion>
