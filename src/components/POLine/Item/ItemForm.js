@@ -36,11 +36,13 @@ import {
   getNormalizedInventoryData,
   shouldSetInstanceId,
 } from './util';
-import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
+import {
+  isWorkflowStatusIsPending,
+  isWorkflowStatusOpen,
+} from '../../PurchaseOrder/util';
 import PackagePoLineField from './PackagePoLineField';
 import { BreakInstanceConnectionModal } from './BreakInstanceConnectionModal';
 import { TitleField } from './TitleField';
-// import { SubscriptionIntervalField } from './SubscriptionIntervalField';
 import css from './ItemForm.css';
 
 const FIELDS_TO_INTERCEPT_ON_DELETE = ['contributors'];
@@ -277,6 +279,7 @@ class ItemForm extends Component {
 
   render() {
     const isPostPendingOrder = !isWorkflowStatusIsPending(this.props.order);
+    const isOrderOpen = isWorkflowStatusOpen(this.props.order);
     const {
       contributorNameTypes,
       formValues,
@@ -380,7 +383,7 @@ class ItemForm extends Component {
                 <FieldDatepickerFinal
                   label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
                   name="details.subscriptionTo"
-                  isNonInteractive={isPostPendingOrder}
+                  isNonInteractive={isPostPendingOrder && !isOrderOpen}
                   validateFields={[]}
                 />
               </VisibilityControl>
