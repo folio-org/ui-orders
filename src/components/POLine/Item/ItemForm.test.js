@@ -172,6 +172,18 @@ describe('ItemForm', () => {
     expect(screen.getByText('ui-orders.itemDetails.connectedTitle')).toBeInTheDocument();
   });
 
+  it('should `Subscription to` filed to be enabled when order status is `Open`', async () => {
+    renderItemForm({ order: { ...order, workflowStatus: 'Open' } });
+
+    expect(screen.getByLabelText('ui-orders.itemDetails.subscriptionTo')).toBeEnabled();
+  });
+
+  it('should `Subscription to` filed to be disabled when order status is `Closed`', async () => {
+    renderItemForm({ order: { ...order, workflowStatus: 'Closed' } });
+
+    expect(screen.queryByLabelText('ui-orders.itemDetails.subscriptionTo')).toBeNull();
+  });
+
   describe('Connected instance', () => {
     beforeEach(async () => {
       renderItemForm({
