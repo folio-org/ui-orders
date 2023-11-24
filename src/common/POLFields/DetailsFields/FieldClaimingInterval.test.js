@@ -4,7 +4,7 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 
 import { FieldClaimingInterval } from './FieldClaimingInterval';
 
-const FieldClaimingInterval = (props = {}) => render(
+const renderFieldClaimingInterval = (props = {}) => render(
   <Form
     onSubmit={() => jest.fn()}
     render={() => (
@@ -17,7 +17,7 @@ const FieldClaimingInterval = (props = {}) => render(
 
 describe('FieldClaimingInterval', () => {
   it('should render \'Claiming interval\' field', () => {
-    renderFieldCheckInItems();
+    renderFieldClaimingInterval();
 
     expect(screen.getByText('ui-orders.poLine.claimingInterval')).toBeInTheDocument();
   });
