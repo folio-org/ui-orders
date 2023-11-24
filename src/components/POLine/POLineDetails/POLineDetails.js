@@ -210,7 +210,7 @@ const POLineDetails = ({ line, hiddenFields }) => {
           </Col>
         </IfVisible>
       </Row>
-      
+
       <Row start="xs">
         <IfVisible visible={!hiddenFields.claimingActive}>
           <Col

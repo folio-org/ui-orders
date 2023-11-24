@@ -67,6 +67,8 @@ describe('POLineDetailsForm', () => {
     expect(screen.getByText('ui-orders.poLine.donor')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.selector')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.requester')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.poLine.claimingActive')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.poLine.claimingInterval')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.cancellationRestriction')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.rush')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.сollection')).toBeInTheDocument();
@@ -87,5 +89,23 @@ describe('POLineDetailsForm', () => {
 
     expect(receivingWorkflowField).toHaveValue('true');
     expect(receivingWorkflowField).toBeDisabled();
+  });
+
+  it('should clear the \'Claiming interval\' field when a user unchecked \'Claiming active\' checkbox', async () => {
+    renderPOLineDetailsForm(null, { claimingActive: false });
+
+    const claimingActiveField = screen.getByRole('checkbox', { name: 'ui-orders.poLine.claimingActive' });
+    const claimingIntervalField = screen.getByLabelText('ui-orders.poLine.claimingInterval');
+
+    await userEvent.click(claimingActiveField);
+    await userEvent.type(claimingIntervalField, '42');
+
+    expect(claimingActiveField).toBeChecked();
+    expect(claimingIntervalField).toHaveValue(42);
+
+    await userEvent.click(claimingActiveField);
+
+    expect(claimingActiveField).not.toBeChecked();
+    expect(claimingIntervalField).toHaveValue(null);
   });
 });
