@@ -6,6 +6,8 @@
 * Disable donor field in POL. Refs UIOR-1149.
 * Populate donor info from fund into POL. Refs UIOR-1148.
 * Add donor info to Order facets. Refs UIOR-1150.
+* Populate claiming interval in POL from Organization record. Refs UIOR-396.
+* Add claiming checkbox to POL details. Refs UIOR-397.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
