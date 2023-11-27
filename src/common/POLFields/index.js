@@ -2,6 +2,8 @@ export { default as FieldsLocation } from './FieldsLocation';
 export { default as FieldMaterialType } from './FieldMaterialType';
 
 // details
+export { FieldClaimingActive } from './DetailsFields/FieldClaimingActive';
+export { FieldClaimingInterval } from './DetailsFields/FieldClaimingInterval';
 export { default as FieldPOLineNumber } from './DetailsFields/FieldPOLineNumber';
 export { default as FieldAcquisitionMethod } from './DetailsFields/FieldAcquisitionMethod';
 export { default as FieldOrderFormat } from './DetailsFields/FieldOrderFormat';

@@ -210,6 +210,35 @@ const POLineDetails = ({ line, hiddenFields }) => {
           </Col>
         </IfVisible>
       </Row>
+
+      <Row start="xs">
+        <IfVisible visible={!hiddenFields.claimingActive}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <Checkbox
+              checked={line?.claimingActive}
+              disabled
+              label={<FormattedMessage id="ui-orders.poLine.claimingActive" />}
+              vertical
+            />
+          </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.claimingInterval}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.claimingInterval" />}
+              value={line?.claimingInterval}
+            />
+          </Col>
+        </IfVisible>
+      </Row>
+
       <Row start="xs">
         <IfVisible visible={!hiddenFields.cancellationRestriction}>
           <Col

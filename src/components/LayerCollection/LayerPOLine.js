@@ -458,6 +458,8 @@ function LayerPOLine({
   const getCreatePOLIneInitialValues = useMemo(() => {
     const orderId = order?.id;
     const newObj = {
+      claimingActive: false,
+      claimingInterval: vendor?.claimingInterval,
       source: sourceValues.user,
       cost: {
         currency: stripes.currency,

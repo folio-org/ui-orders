@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
 
 import {
   Col,
@@ -32,6 +32,8 @@ import {
   FieldRequester,
   FieldCancellationRestrictionNote,
   FieldPOLineDescription,
+  FieldClaimingActive,
+  FieldClaimingInterval,
 } from '../../../common/POLFields';
 import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
@@ -55,6 +57,8 @@ function POLineDetailsForm({
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isPackage = get(formValues, 'isPackage');
 
+  const isClaimingActive = Boolean(formValues?.claimingActive);
+
   const checkinItemsFieldDisabled = (
     isPostPendingOrder
     || isPackage
@@ -77,6 +81,14 @@ function POLineDetailsForm({
       change('checkinItems', true);
     }
   }, [change, isPostPendingOrder]);
+
+  const onClaimingActiveChange = useCallback((event) => {
+    const { target: { checked } } = event;
+
+    change('claimingActive', checked);
+
+    if (!checked) change('claimingInterval', undefined);
+  }, [change]);
 
   return (
     <>
@@ -202,6 +214,27 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
       </Row>
+
+      <Row>
+        <IfFieldVisible visible={!hiddenFields.claimingActive} name="claimingActive">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldClaimingActive onChange={onClaimingActiveChange} />
+          </Col>
+        </IfFieldVisible>
+
+        <IfFieldVisible visible={!hiddenFields.claimingInterval} name="claimingInterval">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldClaimingInterval disabled={!isClaimingActive} />
+          </Col>
+        </IfFieldVisible>
+      </Row>
+
       <Row>
         <IfFieldVisible visible={!hiddenFields.cancellationRestriction} name="cancellationRestriction">
           <Col

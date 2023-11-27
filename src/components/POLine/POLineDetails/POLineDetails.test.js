@@ -42,6 +42,8 @@ describe('POLineDetails', () => {
     expect(screen.getByText('ui-orders.poLine.requester')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.cancellationRestriction')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.rush')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.poLine.claimingActive')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.poLine.claimingInterval')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.сollection')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.receivingWorkflow')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.cancellationRestrictionNote')).toBeInTheDocument();
