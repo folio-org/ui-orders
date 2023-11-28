@@ -53,7 +53,7 @@ export const useLinkedTitles = line => {
     () => {
       const searchParams = {
         limit: LIMIT_MAX,
-        query: `poLineId=${line.id} and instanceId="" sortby title`,
+        query: `poLineId==${line.id} sortby title`,
       };
 
       return ky.get('orders/titles', { searchParams }).json();
