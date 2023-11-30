@@ -9,6 +9,7 @@
 * Populate claiming interval in POL from Organization record. Refs UIOR-396.
 * Add claiming checkbox to POL details. Refs UIOR-397.
 * Optimize linked instances query to improve performance. Refs UIOR-1181.
+* Add permission to fetch invoices-related fiscal years into the orders "view" permission set. UIOR-1185.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)

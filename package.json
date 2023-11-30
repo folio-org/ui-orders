@@ -140,6 +140,7 @@
           "finance.budgets.collection.get",
           "finance.exchange-rate.item.get",
           "finance.expense-classes.collection.get",
+          "finance.fiscal-years.collection.get",
           "finance.funds.expense-classes.collection.get",
           "inventory.instances.collection.get",
           "orders.export-history.collection.get",
