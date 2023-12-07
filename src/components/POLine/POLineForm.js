@@ -133,13 +133,23 @@ function POLineForm({
     initialDonorOrganizationIds,
   });
 
-  useEffect(() => {
-    const hasChanged = !isEqual(donorOrganizationIds, formValues.donorOrganizationIds);
+  const shouldUpdateDonorOrganizationIds = useMemo(() => {
+    const hasChanged = !isEqual(donorOrganizationIds, formValues?.donorOrganizationIds);
+    const isFundDistributionChanged = !isEqual(fundDistribution, initialValues?.fundDistribution);
 
-    if (hasChanged) {
+    return hasChanged && isFundDistributionChanged;
+  }, [
+    donorOrganizationIds,
+    formValues?.donorOrganizationIds,
+    fundDistribution,
+    initialValues?.fundDistribution,
+  ]);
+
+  useEffect(() => {
+    if (shouldUpdateDonorOrganizationIds) {
       change('donorOrganizationIds', donorOrganizationIds);
     }
-  }, [change, donorOrganizationIds, formValues.donorOrganizationIds, setDonorIds]);
+  }, [change, donorOrganizationIds, shouldUpdateDonorOrganizationIds]);
 
   const templateValue = useMemo(() => getOrderTemplateValue(parentResources, order?.template, {
     locations,
