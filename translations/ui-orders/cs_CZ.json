@@ -1,6 +1,6 @@
 {
     "meta.title": "Objednávky",
-    "search": "Vyhledávání",
+    "search": "Vyhledat",
     "resultCount": "{count, number} {count, plural, one {nalezený záznam} other {nalezených záznamů}}",
     "order_format.container": "Kontejner",
     "order_format.electronicResource": "Elektronický zdroj",
@@ -186,7 +186,7 @@
     "receiving.receiveBtn": "Příjem",
     "receiving.receiveAllBtn": "Přijmout všechny",
     "receiving.cancelBtn": "Zrušit",
-    "receiving.search": "Vyhledávání",
+    "receiving.search": "Vyhledat",
     "receiving.title": "Název",
     "receiving.poLine": "NO řádek",
     "receiving.received": "Přijato",
@@ -855,5 +855,7 @@
     "line.accordion.donorInformation": "Informace o dárci",
     "paneBlock.donorInformation": "Informace o dárci",
     "poLine.donor.info": "Toto pole bylo deaktivováno a v roce 2025 bude zastaralé. Záznamy dárců vytvářejte v aplikaci Organizace. K přidání dárců do tohoto ŘNO použijte níže uvedený odstavec s informacemi o dárci. Upozorňujeme, že informace smazané z tohoto pole NELZE obnovit.",
-    "line.accordion.donor": "Donor"
+    "line.accordion.donor": "Dárce",
+    "poLine.claimingActive": "Nárokování je aktivní",
+    "poLine.claimingInterval": "Interval reklamace"
 }
