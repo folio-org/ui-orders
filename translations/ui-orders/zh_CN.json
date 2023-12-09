@@ -852,8 +852,10 @@
     "relatedInvoiceLines.vendorCode": "供应商代码",
     "vendor.accountNumber.inActive": "所选帐号处于非激活状态。",
     "inactive": "未激活",
-    "line.accordion.donorInformation": "Donor information",
-    "paneBlock.donorInformation": "Donor information",
-    "poLine.donor.info": "This field has been disabled and will be deprecated in 2025. Please create donor records from the Organizations app. Use the Donor information accordion below to add donors to this POL. Please note that information deleted from this field is NOT recoverable.",
-    "line.accordion.donor": "Donor"
+    "line.accordion.donorInformation": "捐赠者信息",
+    "paneBlock.donorInformation": "捐赠者信息",
+    "poLine.donor.info": "此字段已被禁用，并将于 2025 年弃用。请从组织应用创建捐赠者记录。使用下面的捐赠者信息折叠块将捐赠者添加到此订单行。请注意，从此字段删除的信息无法恢复。",
+    "line.accordion.donor": "捐赠者",
+    "poLine.claimingActive": "催缺激活",
+    "poLine.claimingInterval": "催缺间隔"
 }
