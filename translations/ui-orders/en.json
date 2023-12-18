@@ -704,6 +704,8 @@
   "settings.createInventory.recordType.instance": "Instance",
   "settings.createInventory.recordType.instanceAndHolding": "Instance, holdings",
   "settings.createInventory.recordType.none": "None",
+  "settings.customFields.purchaseOrders": "Custom Fields - Purchase Orders",
+  "settings.customFields.purchaseOrderLines": "Custom Fields - Purchase Order Lines",
   "settings.general.label": "General",
   "settings.index.paneTitle": "Orders",
   "settings.inventoryInteraction.label": "Inventory interaction",
