@@ -9,7 +9,10 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { VersionView } from '../../../common';
-import { ORDERS_ROUTE } from '../../../common/constants';
+import {
+  HIDDEN_ORDER_LABELS_MAP,
+  ORDERS_ROUTE,
+} from '../../../common/constants';
 import { useOrder } from '../../../common/hooks';
 import {
   usePOVersions,
@@ -87,6 +90,7 @@ const POVersionView = ({
         snapshotPath={snapshotPath}
         labelsMap={getPoFieldsLabelMap()}
         versions={versions}
+        hiddenLabelsMap={HIDDEN_ORDER_LABELS_MAP}
       />
     </VersionViewContextProvider>
   );
