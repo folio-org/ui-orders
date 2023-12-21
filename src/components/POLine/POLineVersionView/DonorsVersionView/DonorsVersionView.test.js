@@ -1,20 +1,28 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { VersionViewContextProvider } from '@folio/stripes-acq-components';
+import { useOkapiKy } from '@folio/stripes/core';
 
 import { DonorsVersionView } from './DonorsVersionView';
 
 const queryClient = new QueryClient();
 
-jest.mock('@folio/stripes-acq-components', () => ({
-  ...jest.requireActual('@folio/stripes-acq-components'),
-  DonorsListContainer: jest.fn().mockReturnValue('DonorsListContainer'),
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  useOkapiKy: jest.fn(),
+  useNamespace: jest.fn(() => ['NameSpace']),
+  useStripes: jest.fn(() => ({
+    hasPerm: jest.fn().mockReturnValue(true),
+  })),
 }));
 
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
-    {children}
+    <MemoryRouter>
+      {children}
+    </MemoryRouter>
   </QueryClientProvider>
 );
 
@@ -44,10 +52,23 @@ const renderDonorsVersionView = (props = defaultProps) => render(
   { wrapper },
 );
 
+const donor = { id: 'id', name: 'Amazon', code: 'AMZ' };
+const getMock = jest.fn().mockReturnValue({
+  json: () => Promise.resolve(({ organizations: [donor], totalRecords: 1 })),
+});
+
 describe('DonorsVersionView', () => {
-  it('should render component', () => {
+  beforeEach(() => {
+    useOkapiKy
+      .mockClear()
+      .mockReturnValue({
+        get: getMock,
+      });
+  });
+  it('should render component', async () => {
     renderDonorsVersionView();
 
-    expect(screen.getByText('DonorsListContainer')).toBeInTheDocument();
+    await waitFor(() => screen.getByText(donor.name));
+    await waitFor(() => screen.getByText(donor.code));
   });
 });

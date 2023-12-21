@@ -18,8 +18,8 @@ export const DonorsVersionView = ({ version }) => {
   const versionContext = useContext(VersionViewContext);
 
   const changedDonorIds = useMemo(() => {
-    const changedDonors = versionContext?.changes?.filter((change) => {
-      return change.path.startsWith('donorOrganizationIds');
+    const changedDonors = versionContext?.changes?.filter(({ path, type }) => {
+      return path.startsWith('donorOrganizationIds') && type === 'create';
     });
     const donorIds = changedDonors.map(({ values }) => values.filter(Boolean));
 
