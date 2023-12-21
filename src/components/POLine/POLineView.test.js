@@ -44,6 +44,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   NotesSmartAccordion: jest.fn().mockReturnValue('NotesSmartAccordion'),
   ViewMetaData: jest.fn().mockReturnValue('ViewMetaData'),
+  ViewCustomFieldsRecord: jest.fn().mockReturnValue('ViewCustomFieldsRecord'),
 }));
 jest.mock('./Cost/CostView', () => jest.fn().mockReturnValue('CostView'));
 jest.mock('./Location/LocationView', () => jest.fn().mockReturnValue('LocationView'));
@@ -118,6 +119,7 @@ describe('POLineView', () => {
     expect(screen.getByText(/LineLinkedInstances/i)).toBeInTheDocument();
     expect(screen.getByText(/NotesSmartAccordion/i)).toBeInTheDocument();
     expect(screen.getByText(/ViewMetaData/i)).toBeInTheDocument();
+    expect(screen.getByText(/ViewCustomFieldsRecord/i)).toBeInTheDocument();
   });
 
   it('should render Ongoing order information accordion', async () => {

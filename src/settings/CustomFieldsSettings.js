@@ -6,6 +6,7 @@ import {
   ViewCustomFieldsSettings,
   EditCustomFieldsSettings,
 } from '@folio/stripes/smart-components';
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../common/constants';
 
 const CustomFieldsSettings = () => {
   const stripes = useStripes();
@@ -19,7 +20,6 @@ const CustomFieldsSettings = () => {
     canDelete: stripes.hasPerm('ui-orders.settings.custom-fields.delete'),
   };
 
-  const backendModuleName = 'Orders CRUD module';
   const entityTypePO = 'purchase_order';
   const entityTypePOL = 'po_line';
 
@@ -27,7 +27,7 @@ const CustomFieldsSettings = () => {
     <Switch>
       <Route exact path={basePO}>
         <ViewCustomFieldsSettings
-          backendModuleName={backendModuleName}
+          backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
           entityType={entityTypePO}
           editRoute={`${basePO}/edit`}
           permissions={permissions}
@@ -35,7 +35,7 @@ const CustomFieldsSettings = () => {
       </Route>
       <Route exact path={`${basePO}/edit`}>
         <EditCustomFieldsSettings
-          backendModuleName={backendModuleName}
+          backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
           entityType={entityTypePO}
           viewRoute={basePO}
           permissions={permissions}
@@ -43,7 +43,7 @@ const CustomFieldsSettings = () => {
       </Route>
       <Route exact path={basePOL}>
         <ViewCustomFieldsSettings
-          backendModuleName={backendModuleName}
+          backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
           entityType={entityTypePOL}
           editRoute={`${basePOL}/edit`}
           permissions={permissions}
@@ -51,7 +51,7 @@ const CustomFieldsSettings = () => {
       </Route>
       <Route exact path={`${basePOL}/edit`}>
         <EditCustomFieldsSettings
-          backendModuleName={backendModuleName}
+          backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
           entityType={entityTypePOL}
           viewRoute={basePOL}
           permissions={permissions}

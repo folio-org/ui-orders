@@ -24,6 +24,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import { ViewCustomFieldsRecord } from '@folio/stripes/smart-components';
+
 import {
   FundDistributionView,
   ORDER_FORMATS,
@@ -47,6 +49,7 @@ import {
   PHRESOURCES,
 } from '../../../components/POLine/const';
 import { isOngoing } from '../../../common/POFields';
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../../common/constants';
 import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
   ORDER_TEMPLATES_ACCORDION,
@@ -179,6 +182,7 @@ class OrderTemplateView extends Component {
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const showOther = orderFormat === ORDER_FORMATS.other;
     const orderType = get(orderTemplate, 'orderType');
+    const customFieldsValues = get(orderTemplate, 'customFields', {});
 
     const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(orderTemplate, 'fundDistribution');
@@ -199,6 +203,7 @@ class OrderTemplateView extends Component {
       [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_CUSTOM_FIELDS]: false,
     };
     const shortcuts = [
       {
@@ -410,6 +415,13 @@ class OrderTemplateView extends Component {
                     >
                       <OrderTemplateTagsView tags={get(orderTemplate, 'polTags.tagList')} />
                     </Accordion>
+
+                    <ViewCustomFieldsRecord
+                      accordionId={ORDER_TEMPLATES_ACCORDION.PO_CUSTOM_FIELDS}
+                      backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                      customFieldsValues={customFieldsValues}
+                      entityType="purchase_order"
+                    />
                   </AccordionSet>
                 </Col>
               </Row>

@@ -19,7 +19,9 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
+import { EditCustomFieldsRecord } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/final-form';
+import { Field } from 'react-final-form';
 import {
   FundDistributionFieldsFinal,
   FieldTags,
@@ -39,7 +41,10 @@ import {
   isPhresource,
   isOtherResource,
 } from '../../../common/POLFields';
-import { WORKFLOW_STATUS } from '../../../common/constants';
+import {
+  WORKFLOW_STATUS,
+  CUSTOM_FIELDS_BACKEND_MODULE_NAME,
+} from '../../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
@@ -404,6 +409,14 @@ const OrderTemplatesEditor = ({
                           </Col>
                         </Row>
                       </Accordion>
+
+                      <EditCustomFieldsRecord
+                        accordionId={ORDER_TEMPLATES_ACCORDION.PO_CUSTOM_FIELDS}
+                        backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                        changeFinalFormField={change}
+                        entityType="purchase_order"
+                        fieldComponent={Field}
+                      />
                     </AccordionSet>
                   </Col>
                 </Row>

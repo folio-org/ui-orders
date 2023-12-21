@@ -21,6 +21,10 @@ jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   Layer: jest.fn(({ children }) => <>{children}</>),
 }));
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  ViewCustomFieldsRecord: jest.fn().mockReturnValue('ViewCustomFieldsRecord'),
+}));
 jest.mock('./TemplateInformationView', () => jest.fn().mockReturnValue('TemplateInformationView'));
 jest.mock('./OrderTemplateTagsView', () => jest.fn().mockReturnValue('OrderTemplateTagsView'));
 jest.mock('../../../components/POLine/Cost/CostView', () => jest.fn().mockReturnValue('CostView'));
@@ -69,6 +73,7 @@ describe('OrderTemplateView', () => {
     expect(screen.getByText('PODetailsView')).toBeInTheDocument();
     expect(screen.getByText('POLineDetails')).toBeInTheDocument();
     expect(screen.getByText('SummaryView')).toBeInTheDocument();
+    expect(screen.getByText('ViewCustomFieldsRecord')).toBeInTheDocument();
   });
 
   it('should duplicate template when \'Duplicate\' action was performed', async () => {

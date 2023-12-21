@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
+import { Field } from 'react-final-form';
 
 import stripesForm from '@folio/stripes/final-form';
 import { IfPermission } from '@folio/stripes/core';
@@ -26,6 +27,7 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
+import { EditCustomFieldsRecord } from '@folio/stripes/smart-components';
 import {
   FieldSelectionFinal as FieldSelection,
   handleKeyCommand,
@@ -35,6 +37,7 @@ import { useErrorAccordionStatus } from '../../common/hooks';
 import {
   getAddresses,
 } from '../../common/utils';
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../common/constants';
 import { isOngoing } from '../../common/POFields';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
@@ -373,6 +376,13 @@ const POForm = ({
                                 hiddenFields={hiddenFields}
                               />
                             </Accordion>
+                            <EditCustomFieldsRecord
+                              accordionId="customFieldsPO"
+                              backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                              changeFinalFormField={change}
+                              entityType="purchase_order"
+                              fieldComponent={Field}
+                            />
                           </AccordionSet>
                         </Col>
                       </Row>

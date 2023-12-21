@@ -14,6 +14,7 @@ import {
 } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
+import { Field } from 'react-final-form';
 
 import {
   Donors,
@@ -47,7 +48,10 @@ import {
   IfPermission,
 } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
-import { ViewMetaData } from '@folio/stripes/smart-components';
+import {
+  ViewMetaData,
+  EditCustomFieldsRecord,
+} from '@folio/stripes/smart-components';
 
 import {
   useErrorAccordionStatus,
@@ -63,6 +67,7 @@ import {
   omitFieldArraysAsyncErrors,
   withUniqueFieldArrayItemKeys,
 } from '../../common/utils';
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../common/constants';
 import LocationForm from './Location/LocationForm';
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
@@ -601,6 +606,14 @@ function POLineForm({
                             />
                           </Accordion>
                         )}
+
+                        <EditCustomFieldsRecord
+                          accordionId="customFieldsPOLine"
+                          backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                          changeFinalFormField={change}
+                          entityType="po_line"
+                          fieldComponent={Field}
+                        />
                       </AccordionSet>
                     </Col>
                   </Row>

@@ -30,6 +30,7 @@ import {
 import {
   NotesSmartAccordion,
   ViewMetaData,
+  ViewCustomFieldsRecord,
 } from '@folio/stripes/smart-components';
 
 import {
@@ -58,6 +59,7 @@ import {
   ORDERS_ROUTE,
   REEXPORT_SOURCES,
   ORDER_LINES_ROUTE,
+  CUSTOM_FIELDS_BACKEND_MODULE_NAME,
 } from '../../common/constants';
 import { useExportHistory } from '../../common/hooks';
 import { isOngoing } from '../../common/POFields';
@@ -315,6 +317,7 @@ const POLineView = ({
     { id: 'ui-orders.order.delete.heading' },
     { orderNumber: poLineNumber },
   );
+  const customFieldsValues = get(line, 'customFields', {});
 
   return (
     <HasCommand
@@ -518,6 +521,13 @@ const POLineView = ({
                     setStatus={setStatus}
                   />
                 )}
+
+                <ViewCustomFieldsRecord
+                  accordionId="customFieldsPOLine"
+                  backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                  customFieldsValues={customFieldsValues}
+                  entityType="po_line"
+                />
               </AccordionSet>
             </>
           )}
