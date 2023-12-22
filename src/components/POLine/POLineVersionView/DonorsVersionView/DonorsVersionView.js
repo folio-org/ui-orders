@@ -26,18 +26,18 @@ export const DonorsVersionView = ({ version }) => {
     return donorIds.flat();
   }, [versionContext?.changes]);
 
-  const renderKeyValueComponent = useCallback(({ value, id, asLink = false }) => {
+  const getFormattedValue = useCallback(({ value, id, asLink = false }) => {
     const content = asLink ? <TextLink to={getDonorUrl(id)}>{value}</TextLink> : value;
     const isUpdated = changedDonorIds?.includes(id);
 
-    const displayValue = isUpdated ? <mark>{content}</mark> : content;
+    const formattedValue = isUpdated ? <mark>{content}</mark> : content;
 
-    return displayValue;
+    return formattedValue;
   }, [changedDonorIds]);
 
   const formatter = {
-    name: ({ name, id }) => renderKeyValueComponent({ value: name, id, asLink: true }),
-    code: ({ code, id }) => renderKeyValueComponent({ value: code, id }),
+    name: ({ name, id }) => getFormattedValue({ value: name, id, asLink: true }),
+    code: ({ code, id }) => getFormattedValue({ value: code, id }),
   };
 
   return (
