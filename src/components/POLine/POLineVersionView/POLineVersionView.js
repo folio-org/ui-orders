@@ -14,7 +14,7 @@ import {
 
 import { VersionView } from '../../../common';
 import {
-  HIDDEN_ORDER_LABELS_MAP,
+  HIDDEN_ORDER_FIELDS_FOR_VERSION_HISTORY,
   ORDERS_ROUTE,
   ORDER_LINES_ROUTE,
 } from '../../../common/constants';
@@ -112,7 +112,7 @@ const POLineVersionView = ({
         snapshotPath={snapshotPath}
         labelsMap={getPoLineFieldsLabelMap(selectedVersion)}
         versions={versions}
-        hiddenLabelsMap={HIDDEN_ORDER_LABELS_MAP}
+        hiddenFields={HIDDEN_ORDER_FIELDS_FOR_VERSION_HISTORY}
       />
     </VersionViewContextProvider>
   );
