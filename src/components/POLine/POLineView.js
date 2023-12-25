@@ -33,6 +33,7 @@ import {
 } from '@folio/stripes/smart-components';
 
 import {
+  DonorsListContainer,
   FundDistributionView,
   handleKeyCommand,
   ORDER_FORMATS,
@@ -396,6 +397,12 @@ const POLineView = ({
                     />
                   </Accordion>
                 )}
+                <Accordion
+                  label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
+                  id={ACCORDION_ID.donorsInformation}
+                >
+                  <DonorsListContainer donorOrganizationIds={line.donorOrganizationIds} />
+                </Accordion>
                 <Accordion
                   label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
                   id="Vendor"

@@ -37,6 +37,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
       protectDelete: false,
     },
   }),
+  DonorsListContainer: jest.fn().mockReturnValue('DonorsListContainer'),
   FundDistributionView: jest.fn(() => 'FundDistributionView'),
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
