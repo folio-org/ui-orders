@@ -24,6 +24,7 @@ import {
   PHRESOURCES,
 } from '../const';
 import { CostVersionView } from './CostVersionView';
+import { DonorsVersionView } from './DonorsVersionView';
 import { EresourcesVersionView } from './EresourcesVersionView';
 import { FundDistributionVersionView } from './FundDistributionVersionView';
 import { ItemVersionView } from './ItemVersionView';
@@ -95,6 +96,13 @@ const POLineVersion = ({ version }) => {
                 />
               </Col>
             </Row>
+          </Accordion>
+
+          <Accordion
+            label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
+            id={ACCORDION_ID.donorsInformation}
+          >
+            <DonorsVersionView version={version} />
           </Accordion>
 
           <Accordion

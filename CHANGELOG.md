@@ -10,7 +10,8 @@
 * Add claiming checkbox to POL details. Refs UIOR-397.
 * Optimize linked instances query to improve performance. Refs UIOR-1181.
 * Add permission to fetch invoices-related fiscal years into the orders "view" permission set. UIOR-1185.
-* *BREAKING* Add settings components for custom fields. Refs UIOR-1177. 
+* Do not show special fields in "Version history" for PO and POL. Refs UIOR-1117.
+* *BREAKING* Add settings components for custom fields. Refs UIOR-1177.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
