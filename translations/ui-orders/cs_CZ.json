@@ -857,5 +857,6 @@
     "poLine.donor.info": "Toto pole bylo deaktivováno a v roce 2025 bude zastaralé. Záznamy dárců vytvářejte v aplikaci Organizace. K přidání dárců do tohoto ŘNO použijte níže uvedený odstavec s informacemi o dárci. Upozorňujeme, že informace smazané z tohoto pole NELZE obnovit.",
     "line.accordion.donor": "Dárce",
     "poLine.claimingActive": "Nárokování je aktivní",
-    "poLine.claimingInterval": "Interval reklamace"
+    "poLine.claimingInterval": "Interval reklamace",
+    "poLine.donorOrganizationIds": "Donor information"
 }
