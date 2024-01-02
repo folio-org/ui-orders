@@ -857,5 +857,6 @@
     "poLine.donor.info": "Esse campo foi desativado e será descontinuado em 2025. Crie registros de doadores no aplicativo Organizações. Use o termo de informações do doador abaixo para adicionar doadores a essa Linha de Pedido de Compra. Observe que as informações excluídas desse campo NÃO podem ser recuperadas.",
     "line.accordion.donor": "Doador",
     "poLine.claimingActive": "Reclamação ativa",
-    "poLine.claimingInterval": "Intervalo de reclamação"
+    "poLine.claimingInterval": "Intervalo de reclamação",
+    "poLine.donorOrganizationIds": "Informações do doador"
 }

@@ -579,7 +579,7 @@
     "deletePiece.warning": "La (s) pieza (s) seleccionada (s) y su (s) registro(s) de ítem vinculados en el inventario serán BORRADOS PERMANENTEMENTE. NO puede eliminar ítems que tienen solicitudes abiertas.",
     "deletePiece.delete.success": "Se eliminaron las piezas seleccionadas",
     "deletePiece.delete.fail": "No se eliminaron las piezas seleccionadas",
-    "deletePiece.delete.thereAreRequestsOnItem": "Las piezas seleccionadas no se eliminaron. Hay solicitudes sobre el ejemplar",
+    "deletePiece.delete.thereAreRequestsOnItem": "Las piezas seleccionadas no se eliminaron. Hay solicitudes sobre el ítem",
     "User does not have permissions - operation is restricted": "El usuario no tiene permisos - la operación está restringida",
     "error.fetching.vendor": "Error al obtener el proveedor de la orden de compra",
     "relatedAgreementLines.actions.load.error": "Failed to load agreement lines data",
@@ -857,5 +857,6 @@
     "poLine.donor.info": "This field has been disabled and will be deprecated in 2025. Please create donor records from the Organizations app. Use the Donor information accordion below to add donors to this POL. Please note that information deleted from this field is NOT recoverable.",
     "line.accordion.donor": "Donor",
     "poLine.claimingActive": "Claiming active",
-    "poLine.claimingInterval": "Claiming interval"
+    "poLine.claimingInterval": "Claiming interval",
+    "poLine.donorOrganizationIds": "Donor information"
 }

@@ -857,5 +857,6 @@
     "poLine.donor.info": "此字段已被禁用，并将于 2025 年弃用。请从组织应用创建捐赠者记录。使用下面的捐赠者信息折叠块将捐赠者添加到此订单行。请注意，从此字段删除的信息无法恢复。",
     "line.accordion.donor": "捐赠者",
     "poLine.claimingActive": "催缺激活",
-    "poLine.claimingInterval": "催缺间隔"
+    "poLine.claimingInterval": "催缺间隔",
+    "poLine.donorOrganizationIds": "Donor information"
 }
