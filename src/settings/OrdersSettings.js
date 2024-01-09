@@ -17,6 +17,7 @@ import InstanceStatus from './InstanceStatus';
 import InstanceType from './InstanceType';
 import LoanType from './LoanType';
 import InstanceMatching from './InstanceMatching';
+import CustomFieldsSettings from './CustomFieldsSettings';
 
 const sections = [
   {
@@ -57,6 +58,18 @@ const sections = [
         label: <FormattedMessage id="ui-orders.settings.acquisitionMethods" />,
         route: 'acquisition-methods',
         perm: 'ui-orders.settings.view',
+      },
+      {
+        component: CustomFieldsSettings,
+        label: <FormattedMessage id="ui-orders.settings.customFields.purchaseOrders" />,
+        route: 'custom-fields-po',
+        perm: 'ui-orders.settings.custom-fields.view',
+      },
+      {
+        component: CustomFieldsSettings,
+        label: <FormattedMessage id="ui-orders.settings.customFields.purchaseOrderLines" />,
+        route: 'custom-fields-pol',
+        perm: 'ui-orders.settings.custom-fields.view',
       },
     ],
   },

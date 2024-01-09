@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "5.1.0",
+  "version": "6.0.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -44,9 +44,9 @@
       "material-types": "2.2",
       "modes-of-issuance": "1.0",
       "nature-of-content-terms": "1.0",
-      "order-lines": "2.0 3.0",
+      "order-lines": "3.3",
       "order-templates": "1.0",
-      "orders": "11.0 12.0",
+      "orders": "12.1",
       "orders.export-history": "1.0",
       "organizations.organizations": "1.0",
       "organizations-storage.organization-types": "1.0",
@@ -336,6 +336,43 @@
         ]
       },
       {
+        "permissionName": "ui-orders.settings.custom-fields.view",
+        "displayName": "Settings (Orders): Can view custom fields",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "configuration.entries.collection.get",
+          "orders-storage.custom-fields.collection.get",
+          "orders-storage.custom-fields.item.get",
+          "orders-storage.custom-fields.item.stats.get",
+          "orders-storage.custom-fields.item.option.stats.get"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.settings.custom-fields.edit",
+        "displayName": "Settings (Orders): Can create, edit, view custom fields",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.settings.custom-fields.view",
+          "configuration.entries.item.put",
+          "configuration.entries.item.post",
+          "orders-storage.custom-fields.collection.put",
+          "orders-storage.custom-fields.item.post",
+          "orders-storage.custom-fields.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.settings.custom-fields.delete",
+        "displayName": "Settings (Orders): Can create, edit, view and delete custom fields",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.settings.custom-fields.edit",
+          "orders-storage.custom-fields.item.delete"
+        ]
+      },
+      {
         "permissionName": "ui-orders.settings.view",
         "displayName": "Settings (Orders): Can view all settings",
         "description": "",
@@ -350,7 +387,8 @@
           "orders.configuration.reasons-for-closure.collection.get",
           "orders.configuration.suffixes.collection.get",
           "ui-orders.third-party-services",
-          "orders.acquisition-methods.collection.get"
+          "orders.acquisition-methods.collection.get",
+          "ui-orders.settings.custom-fields.view"
         ]
       },
       {
@@ -380,7 +418,10 @@
           "orders.acquisition-methods.collection.get",
           "orders.acquisition-method.item.post",
           "orders.acquisition-method.item.put",
-          "orders.acquisition-method.item.delete"
+          "orders.acquisition-method.item.delete",
+          "ui-orders.settings.custom-fields.view",
+          "ui-orders.settings.custom-fields.edit",
+          "ui-orders.settings.custom-fields.delete"
         ]
       },
       {
