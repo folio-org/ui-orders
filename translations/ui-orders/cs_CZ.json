@@ -858,5 +858,7 @@
     "line.accordion.donor": "Dárce",
     "poLine.claimingActive": "Nárokování je aktivní",
     "poLine.claimingInterval": "Interval reklamace",
-    "poLine.donorOrganizationIds": "Donor information"
+    "poLine.donorOrganizationIds": "Donor information",
+    "settings.customFields.purchaseOrders": "Custom Fields - Purchase Orders",
+    "settings.customFields.purchaseOrderLines": "Custom Fields - Purchase Order Lines"
 }
