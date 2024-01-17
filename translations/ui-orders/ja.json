@@ -852,11 +852,13 @@
     "relatedInvoiceLines.vendorCode": "Vendor code",
     "vendor.accountNumber.inActive": "The selected account number is inactive.",
     "inactive": "Inactive",
-    "line.accordion.donorInformation": "Donor information",
-    "paneBlock.donorInformation": "Donor information",
+    "line.accordion.donorInformation": "寄贈者情報",
+    "paneBlock.donorInformation": "寄贈者情報",
     "poLine.donor.info": "This field has been disabled and will be deprecated in 2025. Please create donor records from the Organizations app. Use the Donor information accordion below to add donors to this POL. Please note that information deleted from this field is NOT recoverable.",
     "line.accordion.donor": "Donor",
     "poLine.claimingActive": "Claiming active",
     "poLine.claimingInterval": "Claiming interval",
-    "poLine.donorOrganizationIds": "Donor information"
+    "poLine.donorOrganizationIds": "寄贈者情報",
+    "settings.customFields.purchaseOrders": "カスタムフィールド - 発注書",
+    "settings.customFields.purchaseOrderLines": "カスタムフィールド - 発注明細"
 }
