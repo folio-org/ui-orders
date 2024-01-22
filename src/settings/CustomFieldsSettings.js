@@ -6,7 +6,7 @@ import {
   ViewCustomFieldsSettings,
   EditCustomFieldsSettings,
 } from '@folio/stripes/smart-components';
-import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../common/constants';
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../common/constants/constants';
 
 const CustomFieldsSettings = () => {
   const stripes = useStripes();
