@@ -57,7 +57,7 @@ const POLineDetails = ({ line, hiddenFields }) => {
   const memoizedIds = useMemo(() => {
     return {
       fundIDs: get(line, 'fundDistribution', []).map(({ fundId }) => fundId),
-      holdingIds: get(line, 'locations', []).map(({ holdingId }) => holdingId).filter(Boolean),
+      holdingIDs: get(line, 'locations', []).map(({ holdingId }) => holdingId).filter(Boolean),
       locationIDs: get(line, 'locations', []).map(({ locationId }) => locationId).filter(Boolean),
     };
   }, [line]);

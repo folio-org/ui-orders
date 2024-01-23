@@ -11,14 +11,14 @@ import { useGetLocationsByHoldingIds } from '../useGetLocationsByHoldingIds';
 export const useFundsWithRestrictedLocationsById = ({
   fundIDs = [],
   locationIDs = [],
-  holdingIds = [],
+  holdingIDs = [],
 }) => {
   const [hasLocationRestrictedFund, setHasLocationRestrictedFund] = useState(false);
 
   const {
     isLoading: isLocationLoading,
     locationIds: permanentLocationId,
-  } = useGetLocationsByHoldingIds(holdingIds);
+  } = useGetLocationsByHoldingIds(holdingIDs);
 
   const listOfLocationIDs = useMemo(() => [...locationIDs, ...permanentLocationId], [locationIDs, permanentLocationId]);
 
