@@ -613,6 +613,7 @@ function POLineForm({
                           changeFinalFormField={change}
                           entityType="po_line"
                           fieldComponent={Field}
+                          finalFormCustomFieldsValues={form.getState().values.customFields}
                         />
                       </AccordionSet>
                     </Col>

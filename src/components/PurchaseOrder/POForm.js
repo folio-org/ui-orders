@@ -382,6 +382,7 @@ const POForm = ({
                               changeFinalFormField={change}
                               entityType="purchase_order"
                               fieldComponent={Field}
+                              finalFormCustomFieldsValues={getState().values.customFields}
                             />
                           </AccordionSet>
                         </Col>
