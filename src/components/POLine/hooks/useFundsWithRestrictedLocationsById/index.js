@@ -1,1 +1,0 @@
-export { useFundsWithRestrictedLocationsById } from './useFundsWithRestrictedLocationsById';

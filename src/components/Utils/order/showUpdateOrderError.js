@@ -25,7 +25,7 @@ const showUpdateOrderError = async (
   response,
   callout,
   openModal,
-  genericCode = ERROR_CODES.orderGenericError,
+  genericCode = ERROR_CODES.orderGenericError1,
   toggleDeletePieces = null,
 ) => {
   let error;

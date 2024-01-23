@@ -11,7 +11,7 @@ import POLineDetails, {
 
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
-  useFundsWithRestrictedLocationsById: jest.fn().mockReturnValue({ hasLocationRestrictedFund: true }),
+  useIsFundsRestrictedByLocationIds: jest.fn().mockReturnValue({ hasLocationRestrictedFund: true }),
 }));
 
 const queryClient = new QueryClient();

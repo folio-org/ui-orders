@@ -439,7 +439,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            return handleErrorResponse(e, orderErrorModalShow, ERROR_CODES.orderGenericError, toggleDeletePieces);
+            return handleErrorResponse(e, orderErrorModalShow, ERROR_CODES.orderGenericError1, toggleDeletePieces);
           },
         )
         .finally(setIsLoading);

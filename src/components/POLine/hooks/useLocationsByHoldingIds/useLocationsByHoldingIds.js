@@ -8,7 +8,9 @@ import { batchRequest } from '@folio/stripes-acq-components';
 
 import { HOLDINGS_API } from '../../../Utils/api';
 
-export const useGetLocationsByHoldingIds = (holdingIds = []) => {
+const DEFAULT_VALUE = [];
+
+export const useLocationsByHoldingIds = (holdingIds = []) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'holdings-by-id' });
 
@@ -44,7 +46,7 @@ export const useGetLocationsByHoldingIds = (holdingIds = []) => {
 
   return ({
     isLoading: isLoading || isFetching,
-    locationIds: data?.permanentLocationIds || [],
+    locationIds: data?.permanentLocationIds || DEFAULT_VALUE,
     totalRecords: data?.totalRecords,
   });
 };

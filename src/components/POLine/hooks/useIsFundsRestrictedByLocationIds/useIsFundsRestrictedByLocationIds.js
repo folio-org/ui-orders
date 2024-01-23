@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import {
   useCallback,
   useEffect,
@@ -6,24 +7,24 @@ import {
 } from 'react';
 
 import { useFundsById } from '../useFundsById';
-import { useGetLocationsByHoldingIds } from '../useGetLocationsByHoldingIds';
+import { useLocationsByHoldingIds } from '../useLocationsByHoldingIds';
 
-export const useFundsWithRestrictedLocationsById = ({
-  fundIDs = [],
-  locationIDs = [],
-  holdingIDs = [],
+export const useIsFundsRestrictedByLocationIds = ({
+  fundIds = [],
+  locationIds = [],
+  holdingIds = [],
 }) => {
   const [hasLocationRestrictedFund, setHasLocationRestrictedFund] = useState(false);
 
   const {
     isLoading: isLocationLoading,
     locationIds: permanentLocationId,
-  } = useGetLocationsByHoldingIds(holdingIDs);
+  } = useLocationsByHoldingIds(holdingIds);
 
-  const listOfLocationIDs = useMemo(() => [...locationIDs, ...permanentLocationId], [locationIDs, permanentLocationId]);
+  const listOfLocationIDs = useMemo(() => [...locationIds, ...permanentLocationId], [locationIds, permanentLocationId]);
 
-  const { funds, isLoading: isFundsLoading } = useFundsById(fundIDs, {
-    enabled: Boolean(fundIDs.length && !isLocationLoading),
+  const { funds, isLoading: isFundsLoading } = useFundsById(fundIds, {
+    enabled: !isLocationLoading,
   });
 
   const fundWithRestrictedLocations = useMemo(() => {

@@ -57,7 +57,7 @@ export const ERROR_CODES = {
   orderAcqUnitsNotFound: 'orderAcqUnitsNotFound',
   orderApprovalRequired: 'orderApprovalRequired',
   orderClosed: 'orderClosed',
-  orderGenericError: 'orderGenericError',
+  orderGenericError1: 'orderGenericError1',
   orderIdMismatch: 'orderIdMismatch',
   orderIdRequired: 'orderIdRequired',
   orderNotFound: 'orderNotFound',

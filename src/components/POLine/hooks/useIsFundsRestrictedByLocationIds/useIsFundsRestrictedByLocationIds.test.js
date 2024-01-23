@@ -2,15 +2,15 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
-import { useFundsWithRestrictedLocationsById } from './useFundsWithRestrictedLocationsById';
 import { useFundsById } from '../useFundsById';
-import { useGetLocationsByHoldingIds } from '../useGetLocationsByHoldingIds';
+import { useIsFundsRestrictedByLocationIds } from './useIsFundsRestrictedByLocationIds';
+import { useLocationsByHoldingIds } from '../useLocationsByHoldingIds';
 
 jest.mock('../useFundsById', () => ({
   useFundsById: jest.fn(),
 }));
-jest.mock('../useGetLocationsByHoldingIds', () => ({
-  useGetLocationsByHoldingIds: jest.fn(),
+jest.mock('../useLocationsByHoldingIds', () => ({
+  useLocationsByHoldingIds: jest.fn(),
 }));
 
 const queryClient = new QueryClient();
@@ -36,7 +36,7 @@ const holdingData = {
   'permanentLocationId': restrictedFund.locationIds,
 };
 
-describe('useFundsWithRestrictedLocationsById', () => {
+describe('useIsFundsRestrictedByLocationIds', () => {
   beforeEach(() => {
     useFundsById
       .mockClear()
@@ -44,7 +44,7 @@ describe('useFundsWithRestrictedLocationsById', () => {
         funds: [restrictedFund],
         isLoading: false,
       });
-    useGetLocationsByHoldingIds
+    useLocationsByHoldingIds
       .mockClear()
       .mockReturnValue({
         isLoading: false,
@@ -53,10 +53,10 @@ describe('useFundsWithRestrictedLocationsById', () => {
   });
 
   it('should return hasLocationRestrictedFund as true', async () => {
-    const { result } = renderHook(() => useFundsWithRestrictedLocationsById({
-      fundIDs: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
-      locationIDs: ['testId'],
-      holdingIDs: [],
+    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
+      fundIds: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
+      locationIds: ['testId'],
+      holdingIds: [],
     }), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
@@ -65,10 +65,10 @@ describe('useFundsWithRestrictedLocationsById', () => {
   });
 
   it('should return hasLocationRestrictedFund as false', async () => {
-    const { result } = renderHook(() => useFundsWithRestrictedLocationsById({
-      fundIDs: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
-      locationIDs: restrictedFund.locationIds,
-      holdingIDs: [],
+    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
+      fundIds: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
+      locationIds: restrictedFund.locationIds,
+      holdingIds: [],
     }), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
@@ -76,16 +76,16 @@ describe('useFundsWithRestrictedLocationsById', () => {
     expect(result.current.hasLocationRestrictedFund).toBe(false);
   });
 
-  it('should return hasLocationRestrictedFund as false with holdingIDs', async () => {
-    useGetLocationsByHoldingIds.mockClear().mockReturnValue({
+  it('should return hasLocationRestrictedFund as false with holdingIds', async () => {
+    useLocationsByHoldingIds.mockClear().mockReturnValue({
       isLoading: false,
       locationIds: holdingData.permanentLocationId,
     });
 
-    const { result } = renderHook(() => useFundsWithRestrictedLocationsById({
-      fundIDs: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
-      locationIDs: [],
-      holdingIDs: [holdingData.id],
+    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
+      fundIds: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
+      locationIds: [],
+      holdingIds: [holdingData.id],
     }), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
@@ -93,16 +93,16 @@ describe('useFundsWithRestrictedLocationsById', () => {
     expect(result.current.hasLocationRestrictedFund).toBe(false);
   });
 
-  it('should return hasLocationRestrictedFund as true with holdingIDs', async () => {
-    useGetLocationsByHoldingIds.mockClear().mockReturnValue({
+  it('should return hasLocationRestrictedFund as true with holdingIds', async () => {
+    useLocationsByHoldingIds.mockClear().mockReturnValue({
       isLoading: false,
       locationIds: ['wringId'],
     });
 
-    const { result } = renderHook(() => useFundsWithRestrictedLocationsById({
-      fundIDs: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
-      locationIDs: [],
-      holdingIDs: [holdingData.id],
+    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
+      fundIds: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
+      locationIds: [],
+      holdingIds: [holdingData.id],
     }), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());

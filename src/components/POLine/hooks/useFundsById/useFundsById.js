@@ -9,7 +9,10 @@ import {
   FUNDS_API,
 } from '@folio/stripes-acq-components';
 
-export const useFundsById = (fundIds = [], options) => {
+const DEFAULT_VALUE = [];
+
+export const useFundsById = (fundIds = DEFAULT_VALUE, options = {}) => {
+  const { enabled = true, ...queryOptions } = options;
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'funds-by-id' });
 
@@ -36,14 +39,14 @@ export const useFundsById = (fundIds = [], options) => {
       };
     },
     {
-      enabled: Boolean(fundIds.length),
-      ...options,
+      enabled: enabled && Boolean(fundIds?.length),
+      ...queryOptions,
     },
   );
 
   return ({
     isLoading,
-    funds: data?.funds || [],
+    funds: data?.funds || DEFAULT_VALUE,
     totalRecords: data?.totalRecords,
   });
 };

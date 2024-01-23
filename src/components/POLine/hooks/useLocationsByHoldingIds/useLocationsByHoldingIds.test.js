@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { useGetLocationsByHoldingIds } from './useGetLocationsByHoldingIds';
+import { useLocationsByHoldingIds } from './useLocationsByHoldingIds';
 
 const holdingIds = ['1'];
 const holdingsRecords = [{
@@ -20,7 +20,7 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-describe('useGetLocationsByHoldingIds', () => {
+describe('useLocationsByHoldingIds', () => {
   beforeEach(() => {
     useOkapiKy
       .mockClear()
@@ -35,7 +35,7 @@ describe('useGetLocationsByHoldingIds', () => {
   });
 
   it('should return permanentLocationId list', async () => {
-    const { result } = renderHook(() => useGetLocationsByHoldingIds(holdingIds), { wrapper });
+    const { result } = renderHook(() => useLocationsByHoldingIds(holdingIds), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 

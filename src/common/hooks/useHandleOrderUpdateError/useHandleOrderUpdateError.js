@@ -18,9 +18,22 @@ const useHandleOrderUpdateError = (mutatorExpenseClass) => {
   const handleErrorResponse = useCallback(async (response, orderErrorModalShow, defaultCode, toggleDeletePieces) => {
     try {
       const { errors } = await response.clone().json();
-      const errorCode = errors?.[0]?.code;
+      const errorCodes = errors?.map(({ code }) => code).filter(Boolean);
 
-      if (errorCode === ERROR_CODES.inactiveExpenseClass) {
+      if (errorCodes.includes(ERROR_CODES.fundLocationRestrictionViolation)) {
+        const fundCode = errors?.[0]?.parameters?.find(({ key }) => key === 'fundCode')?.value;
+        const locationCode = errors?.[0]?.parameters?.find(({ key }) => key === 'restrictedLocations')?.value;
+
+        const values = { fundCode, locationCode };
+
+        sendCallout({
+          messageId: 'ui-orders.errors.openOrder.fundLocationRestrictionViolation',
+          type: 'error',
+          values,
+        });
+      }
+
+      if (errorCodes.includes(ERROR_CODES.inactiveExpenseClass)) {
         const expenseClassId = errors?.[0]?.parameters?.find(({ key }) => key === 'expenseClassId')?.value;
 
         if (expenseClassId) {
@@ -33,17 +46,6 @@ const useHandleOrderUpdateError = (mutatorExpenseClass) => {
             values,
           });
         }
-      } else if (errorCode === ERROR_CODES.fundLocationRestrictionViolation) {
-        const fundCode = errors?.[0]?.parameters?.find(({ key }) => key === 'fundCode')?.value;
-        const locationCode = errors?.[0]?.parameters?.find(({ key }) => key === 'restrictedLocations')?.value;
-
-        const values = { fundCode, locationCode };
-
-        sendCallout({
-          messageId: 'ui-orders.errors.openOrder.fundLocationRestrictionViolation',
-          type: 'error',
-          values,
-        });
       } else {
         await showUpdateOrderError(response, context, orderErrorModalShow, defaultCode, toggleDeletePieces);
       }

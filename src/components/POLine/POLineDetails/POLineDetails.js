@@ -27,7 +27,7 @@ import {
 import { useAcqMethod } from '../../../common/hooks';
 import { IfVisible } from '../../../common/IfVisible';
 import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
-import { useFundsWithRestrictedLocationsById } from '../hooks';
+import { useIsFundsRestrictedByLocationIds } from '../hooks';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
 
@@ -56,13 +56,13 @@ const POLineDetails = ({ line, hiddenFields }) => {
 
   const memoizedIds = useMemo(() => {
     return {
-      fundIDs: get(line, 'fundDistribution', []).map(({ fundId }) => fundId),
-      holdingIDs: get(line, 'locations', []).map(({ holdingId }) => holdingId).filter(Boolean),
-      locationIDs: get(line, 'locations', []).map(({ locationId }) => locationId).filter(Boolean),
+      fundIds: get(line, 'fundDistribution', []).map(({ fundId }) => fundId),
+      holdingIds: get(line, 'locations', []).map(({ holdingId }) => holdingId).filter(Boolean),
+      locationIds: get(line, 'locations', []).map(({ locationId }) => locationId).filter(Boolean),
     };
   }, [line]);
 
-  const { hasLocationRestrictedFund } = useFundsWithRestrictedLocationsById(memoizedIds);
+  const { hasLocationRestrictedFund } = useIsFundsRestrictedByLocationIds(memoizedIds);
 
   useEffect(() => {
     if (hasLocationRestrictedFund) {
