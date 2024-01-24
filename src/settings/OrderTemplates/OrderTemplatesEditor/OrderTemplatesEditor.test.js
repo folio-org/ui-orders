@@ -22,7 +22,15 @@ jest.mock('@folio/stripes/components', () => ({
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
-  EditCustomFieldsRecord: jest.fn().mockReturnValue('EditCustomFieldsRecord'),
+  EditCustomFieldsRecord: jest.fn().mockImplementation(({ accordionId }) => {
+    if (accordionId === 'poCustomFields') {
+      return <div>EditCustomFieldsRecord_PO</div>;
+    } else if (accordionId === 'polCustomFields') {
+      return <div>EditCustomFieldsRecord_POL</div>;
+    }
+
+    return <div>EditCustomFieldsRecord</div>;
+  }),
 }));
 
 const defaultProps = {
@@ -114,7 +122,8 @@ describe('OrderTemplatesEditor', () => {
       expect(screen.getByText('ui-orders.settings.orderTemplates.accordion.polFundDistribution')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.settings.orderTemplates.accordion.polLocation')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.settings.orderTemplates.accordion.polTags')).toBeInTheDocument();
-      expect(screen.getByText('EditCustomFieldsRecord')).toBeInTheDocument();
+      expect(screen.getByText('EditCustomFieldsRecord_PO')).toBeInTheDocument();
+      expect(screen.getByText('EditCustomFieldsRecord_POL')).toBeInTheDocument();
     });
   });
 

@@ -25,6 +25,18 @@ jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   ViewCustomFieldsRecord: jest.fn().mockReturnValue('ViewCustomFieldsRecord'),
 }));
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  ViewCustomFieldsRecord: jest.fn().mockImplementation(({ accordionId }) => {
+    if (accordionId === 'poCustomFields') {
+      return <div>ViewCustomFieldsRecord_PO</div>;
+    } else if (accordionId === 'polCustomFields') {
+      return <div>ViewCustomFieldsRecord_POL</div>;
+    }
+
+    return <div>ViewCustomFieldsRecord</div>;
+  }),
+}));
 jest.mock('./TemplateInformationView', () => jest.fn().mockReturnValue('TemplateInformationView'));
 jest.mock('./OrderTemplateTagsView', () => jest.fn().mockReturnValue('OrderTemplateTagsView'));
 jest.mock('../../../components/POLine/Cost/CostView', () => jest.fn().mockReturnValue('CostView'));
@@ -73,7 +85,8 @@ describe('OrderTemplateView', () => {
     expect(screen.getByText('PODetailsView')).toBeInTheDocument();
     expect(screen.getByText('POLineDetails')).toBeInTheDocument();
     expect(screen.getByText('SummaryView')).toBeInTheDocument();
-    expect(screen.getByText('ViewCustomFieldsRecord')).toBeInTheDocument();
+    expect(screen.getByText('ViewCustomFieldsRecord_PO')).toBeInTheDocument();
+    expect(screen.getByText('ViewCustomFieldsRecord_POL')).toBeInTheDocument();
   });
 
   it('should duplicate template when \'Duplicate\' action was performed', async () => {

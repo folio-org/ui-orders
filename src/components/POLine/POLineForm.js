@@ -94,7 +94,7 @@ import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
 import { useManageDonorOrganizationIds } from './hooks';
 
-const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
+const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId', 'customFields'];
 const GAME_CHANGER_TIMEOUT = 50;
 
 function POLineForm({

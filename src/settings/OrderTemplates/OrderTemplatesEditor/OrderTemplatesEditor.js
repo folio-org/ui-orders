@@ -418,6 +418,14 @@ const OrderTemplatesEditor = ({
                         fieldComponent={Field}
                         finalFormCustomFieldsValues={getState().values.customFields}
                       />
+                      <EditCustomFieldsRecord
+                        accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
+                        backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                        changeFinalFormField={change}
+                        entityType="po_line"
+                        fieldComponent={Field}
+                        finalFormCustomFieldsValues={getState().values.customFields}
+                      />
                     </AccordionSet>
                   </Col>
                 </Row>

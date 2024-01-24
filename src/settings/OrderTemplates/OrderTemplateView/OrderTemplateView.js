@@ -422,6 +422,13 @@ class OrderTemplateView extends Component {
                       customFieldsValues={customFieldsValues}
                       entityType="purchase_order"
                     />
+
+                    <ViewCustomFieldsRecord
+                      accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
+                      backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                      customFieldsValues={customFieldsValues}
+                      entityType="po_line"
+                    />
                   </AccordionSet>
                 </Col>
               </Row>
