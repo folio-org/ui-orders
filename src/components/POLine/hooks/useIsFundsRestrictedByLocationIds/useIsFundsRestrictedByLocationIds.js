@@ -1,9 +1,7 @@
 import { uniq } from 'lodash';
 import {
   useCallback,
-  useEffect,
   useMemo,
-  useState,
 } from 'react';
 
 import { useFundsById } from '../useFundsById';
@@ -14,8 +12,6 @@ export const useIsFundsRestrictedByLocationIds = ({
   locationIds: locationIdsProp = [],
   holdingIds = [],
 }) => {
-  const [hasLocationRestrictedFund, setHasLocationRestrictedFund] = useState(false);
-
   const {
     isLoading: isLocationLoading,
     permanentLocationIds,
@@ -41,13 +37,11 @@ export const useIsFundsRestrictedByLocationIds = ({
     });
   }, [fundsWithRestrictedLocations, listOfLocationIDs]);
 
-  useEffect(() => {
-    if (fundsWithRestrictedLocations.length) {
-      const fundRestricted = !isFundNotRestricted();
-
-      setHasLocationRestrictedFund(fundRestricted);
-    }
-  }, [fundsWithRestrictedLocations, hasLocationRestrictedFund, isFundNotRestricted]);
+  const hasLocationRestrictedFund = useMemo(() => {
+    return fundsWithRestrictedLocations.length
+      ? !isFundNotRestricted()
+      : false;
+  }, [fundsWithRestrictedLocations.length, isFundNotRestricted]);
 
   return ({
     isLoading: isLocationLoading || isFundsLoading,
