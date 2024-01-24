@@ -858,5 +858,7 @@
     "line.accordion.donor": "Doador",
     "poLine.claimingActive": "Reclamação ativa",
     "poLine.claimingInterval": "Intervalo de reclamação",
-    "poLine.donorOrganizationIds": "Informações do doador"
+    "poLine.donorOrganizationIds": "Informações do doador",
+    "settings.customFields.purchaseOrders": "Campos Personalizados - Pedidos de Compra",
+    "settings.customFields.purchaseOrderLines": "Campos Personalizados - Linhas do Pedido de Compra"
 }
