@@ -18,12 +18,12 @@ export const useIsFundsRestrictedByLocationIds = ({
 
   const {
     isLoading: isLocationLoading,
-    permanentLocationId,
+    permanentLocationIds,
   } = useLocationsByHoldingIds(holdingIds);
 
   const listOfLocationIDs = useMemo(() => {
-    return uniq([...locationIdsProp, permanentLocationId]);
-  }, [locationIdsProp, permanentLocationId]);
+    return uniq([...locationIdsProp, ...permanentLocationIds]);
+  }, [locationIdsProp, permanentLocationIds]);
 
   const { funds, isLoading: isFundsLoading } = useFundsById(fundIds, {
     enabled: !isLocationLoading,

@@ -48,7 +48,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
       .mockClear()
       .mockReturnValue({
         isLoading: false,
-        locationIds: [],
+        permanentLocationIds: [],
       });
   });
 
@@ -79,7 +79,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   it('should return hasLocationRestrictedFund as false with holdingIds', async () => {
     useLocationsByHoldingIds.mockClear().mockReturnValue({
       isLoading: false,
-      locationIds: holdingData.permanentLocationId,
+      permanentLocationIds: holdingData.permanentLocationId,
     });
 
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
@@ -96,7 +96,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   it('should return hasLocationRestrictedFund as true with holdingIds', async () => {
     useLocationsByHoldingIds.mockClear().mockReturnValue({
       isLoading: false,
-      locationIds: ['wringId'],
+      permanentLocationIds: ['wringId'],
     });
 
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
