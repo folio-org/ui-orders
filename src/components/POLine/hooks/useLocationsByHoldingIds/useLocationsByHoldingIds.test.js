@@ -39,6 +39,6 @@ describe('useLocationsByHoldingIds', () => {
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
-    expect(result.current.locationIds).toEqual([holdingsRecords[0].permanentLocationId]);
+    expect(result.current.permanentLocationIds).toEqual([holdingsRecords[0].permanentLocationId]);
   });
 });

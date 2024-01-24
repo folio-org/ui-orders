@@ -46,7 +46,7 @@ export const useLocationsByHoldingIds = (holdingIds = []) => {
 
   return ({
     isLoading: isLoading || isFetching,
-    locationIds: data?.permanentLocationIds || DEFAULT_VALUE,
+    permanentLocationIds: data?.permanentLocationIds || DEFAULT_VALUE,
     totalRecords: data?.totalRecords,
   });
 };

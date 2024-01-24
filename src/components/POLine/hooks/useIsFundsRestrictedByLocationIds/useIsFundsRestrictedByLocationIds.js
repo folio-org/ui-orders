@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow */
+import { uniq } from 'lodash';
 import {
   useCallback,
   useEffect,
@@ -11,23 +11,25 @@ import { useLocationsByHoldingIds } from '../useLocationsByHoldingIds';
 
 export const useIsFundsRestrictedByLocationIds = ({
   fundIds = [],
-  locationIds = [],
+  locationIds: locationIdsProp = [],
   holdingIds = [],
 }) => {
   const [hasLocationRestrictedFund, setHasLocationRestrictedFund] = useState(false);
 
   const {
     isLoading: isLocationLoading,
-    locationIds: permanentLocationId,
+    permanentLocationId,
   } = useLocationsByHoldingIds(holdingIds);
 
-  const listOfLocationIDs = useMemo(() => [...locationIds, ...permanentLocationId], [locationIds, permanentLocationId]);
+  const listOfLocationIDs = useMemo(() => {
+    return uniq([...locationIdsProp, permanentLocationId]);
+  }, [locationIdsProp, permanentLocationId]);
 
   const { funds, isLoading: isFundsLoading } = useFundsById(fundIds, {
     enabled: !isLocationLoading,
   });
 
-  const fundWithRestrictedLocations = useMemo(() => {
+  const fundsWithRestrictedLocations = useMemo(() => {
     return funds
       .filter(({ restrictByLocations }) => restrictByLocations)
       .map(({ locationIds, id }) => ({ id, locationIds }));
@@ -35,17 +37,17 @@ export const useIsFundsRestrictedByLocationIds = ({
 
   const isFundNotRestricted = useCallback(() => {
     return listOfLocationIDs.some((locationId) => {
-      return fundWithRestrictedLocations.some(({ locationIds }) => locationIds.includes(locationId));
+      return fundsWithRestrictedLocations.some(({ locationIds }) => locationIds.includes(locationId));
     });
-  }, [fundWithRestrictedLocations, listOfLocationIDs]);
+  }, [fundsWithRestrictedLocations, listOfLocationIDs]);
 
   useEffect(() => {
-    if (fundWithRestrictedLocations.length) {
+    if (fundsWithRestrictedLocations.length) {
       const fundRestricted = !isFundNotRestricted();
 
       setHasLocationRestrictedFund(fundRestricted);
     }
-  }, [fundWithRestrictedLocations, hasLocationRestrictedFund, isFundNotRestricted]);
+  }, [fundsWithRestrictedLocations, hasLocationRestrictedFund, isFundNotRestricted]);
 
   return ({
     isLoading: isLocationLoading || isFundsLoading,
