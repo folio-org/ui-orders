@@ -4,8 +4,8 @@ import {
   useMemo,
 } from 'react';
 
+import { useHoldingsByIds } from '../../../../common/hooks';
 import { useFundsById } from '../useFundsById';
-import { useLocationsByHoldingIds } from '../useLocationsByHoldingIds';
 
 export const useIsFundsRestrictedByLocationIds = ({
   fundIds = [],
@@ -13,29 +13,31 @@ export const useIsFundsRestrictedByLocationIds = ({
   holdingIds = [],
 }) => {
   const {
-    isLoading: isLocationLoading,
-    permanentLocationIds,
-  } = useLocationsByHoldingIds(holdingIds);
+    isLoading: isHoldingsLoading,
+    holdings,
+  } = useHoldingsByIds(holdingIds);
 
-  const listOfLocationIDs = useMemo(() => {
+  const listOfLocationIds = useMemo(() => {
+    const permanentLocationIds = holdings.map(({ permanentLocationId }) => permanentLocationId);
+
     return uniq([...locationIdsProp, ...permanentLocationIds]);
-  }, [locationIdsProp, permanentLocationIds]);
+  }, [holdings, locationIdsProp]);
 
   const { funds, isLoading: isFundsLoading } = useFundsById(fundIds, {
-    enabled: !isLocationLoading,
+    enabled: !isHoldingsLoading,
   });
 
   const fundsWithRestrictedLocations = useMemo(() => {
     return funds
       .filter(({ restrictByLocations }) => restrictByLocations)
-      .map(({ locationIds, id }) => ({ id, locationIds }));
+      .map(({ locationIds }) => ({ locationIds }));
   }, [funds]);
 
   const isFundNotRestricted = useCallback(() => {
-    return listOfLocationIDs.some((locationId) => {
+    return listOfLocationIds.some((locationId) => {
       return fundsWithRestrictedLocations.some(({ locationIds }) => locationIds.includes(locationId));
     });
-  }, [fundsWithRestrictedLocations, listOfLocationIDs]);
+  }, [fundsWithRestrictedLocations, listOfLocationIds]);
 
   const hasLocationRestrictedFund = useMemo(() => {
     return fundsWithRestrictedLocations.length
@@ -44,7 +46,7 @@ export const useIsFundsRestrictedByLocationIds = ({
   }, [fundsWithRestrictedLocations.length, isFundNotRestricted]);
 
   return ({
-    isLoading: isLocationLoading || isFundsLoading,
+    isLoading: isHoldingsLoading || isFundsLoading,
     hasLocationRestrictedFund,
   });
 };

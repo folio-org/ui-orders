@@ -6,11 +6,11 @@ import {
 } from '@folio/stripes/core';
 import { batchRequest } from '@folio/stripes-acq-components';
 
-import { HOLDINGS_API } from '../../../Utils/api';
+import { HOLDINGS_API } from '../../../components/Utils/api';
 
 const DEFAULT_VALUE = [];
 
-export const useLocationsByHoldingIds = (holdingIds = []) => {
+export const useHoldingsByIds = (holdingIds = []) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'holdings-by-id' });
 
@@ -32,11 +32,9 @@ export const useLocationsByHoldingIds = (holdingIds = []) => {
         holdingIds,
       );
 
-      const permanentLocationIds = holdings.map(({ permanentLocationId }) => permanentLocationId);
-
       return {
-        permanentLocationIds,
-        totalRecords: permanentLocationIds.length,
+        holdings,
+        totalRecords: holdings.length,
       };
     },
     {
@@ -46,7 +44,7 @@ export const useLocationsByHoldingIds = (holdingIds = []) => {
 
   return ({
     isLoading: isLoading || isFetching,
-    permanentLocationIds: data?.permanentLocationIds || DEFAULT_VALUE,
+    holdings: data?.holdings || DEFAULT_VALUE,
     totalRecords: data?.totalRecords,
   });
 };

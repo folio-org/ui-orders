@@ -2,15 +2,15 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
+import { useHoldingsByIds } from '../../../../common/hooks';
 import { useFundsById } from '../useFundsById';
 import { useIsFundsRestrictedByLocationIds } from './useIsFundsRestrictedByLocationIds';
-import { useLocationsByHoldingIds } from '../useLocationsByHoldingIds';
 
 jest.mock('../useFundsById', () => ({
   useFundsById: jest.fn(),
 }));
-jest.mock('../useLocationsByHoldingIds', () => ({
-  useLocationsByHoldingIds: jest.fn(),
+jest.mock('../../../../common/hooks', () => ({
+  useHoldingsByIds: jest.fn(),
 }));
 
 const queryClient = new QueryClient();
@@ -31,9 +31,11 @@ const restrictedFund = {
   ],
 };
 
+const fundIds = [restrictedFund.id];
+
 const holdingData = {
   'id': '53cf956f-c1df-410b-8bea-27f712cca7c0',
-  'permanentLocationId': restrictedFund.locationIds,
+  'permanentLocationId': restrictedFund.locationIds[0],
 };
 
 describe('useIsFundsRestrictedByLocationIds', () => {
@@ -44,17 +46,17 @@ describe('useIsFundsRestrictedByLocationIds', () => {
         funds: [restrictedFund],
         isLoading: false,
       });
-    useLocationsByHoldingIds
+    useHoldingsByIds
       .mockClear()
       .mockReturnValue({
         isLoading: false,
-        permanentLocationIds: [],
+        holdings: [],
       });
   });
 
   it('should return hasLocationRestrictedFund as true', async () => {
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
-      fundIds: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
+      fundIds,
       locationIds: ['testId'],
       holdingIds: [],
     }), { wrapper });
@@ -66,7 +68,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
 
   it('should return hasLocationRestrictedFund as false', async () => {
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
-      fundIds: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
+      fundIds,
       locationIds: restrictedFund.locationIds,
       holdingIds: [],
     }), { wrapper });
@@ -77,13 +79,13 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   });
 
   it('should return hasLocationRestrictedFund as false with holdingIds', async () => {
-    useLocationsByHoldingIds.mockClear().mockReturnValue({
+    useHoldingsByIds.mockClear().mockReturnValue({
       isLoading: false,
-      permanentLocationIds: holdingData.permanentLocationId,
+      holdings: [holdingData],
     });
 
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
-      fundIds: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
+      fundIds,
       locationIds: [],
       holdingIds: [holdingData.id],
     }), { wrapper });
@@ -94,13 +96,13 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   });
 
   it('should return hasLocationRestrictedFund as true with holdingIds', async () => {
-    useLocationsByHoldingIds.mockClear().mockReturnValue({
+    useHoldingsByIds.mockClear().mockReturnValue({
       isLoading: false,
-      permanentLocationIds: ['wringId'],
+      holdings: [{ ...holdingData, permanentLocationId: 'wrongId' }],
     });
 
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
-      fundIds: ['e3f68402-5570-4839-a54a-cecd5fd799e5'],
+      fundIds,
       locationIds: [],
       holdingIds: [holdingData.id],
     }), { wrapper });

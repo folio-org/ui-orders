@@ -1,1 +1,0 @@
-export { useLocationsByHoldingIds } from './useLocationsByHoldingIds';
