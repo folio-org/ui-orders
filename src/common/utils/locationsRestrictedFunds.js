@@ -1,7 +1,5 @@
 import intersection from 'lodash/intersection';
-import keyBy from 'lodash/keyBy';
 import partition from 'lodash/partition';
-import uniq from 'lodash/uniq';
 
 /*
   Return a list of funds that are not restricted by locations or restricted by specified locations.
