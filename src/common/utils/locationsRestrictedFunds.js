@@ -25,19 +25,12 @@ export const filterLocationsByRestrictedFunds = (funds, locations, includeLocati
 
   if (!funds?.length || unrestrictedFunds.length) return locations;
 
-  const locationsMap = keyBy(locations, 'id');
-  const validLocations = uniq(
+  const validLocationSet = new Set(
     restrictedFunds
       .flatMap(({ locationIds }) => locationIds)
       .concat(includeLocationIds),
-  )
-    .reduce((acc, locationId) => {
-      const location = locationsMap[locationId];
-
-      if (location) acc.push(location);
-
-      return acc;
-    }, []);
+  );
+  const validLocations = locations.filter(({ id }) => validLocationSet.has(id));
 
   return validLocations;
 };
