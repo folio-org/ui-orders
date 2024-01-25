@@ -41,7 +41,7 @@ describe('Filtering funds and locations', () => {
         },
       ];
 
-      expect(filterFundsRestrictedByLocations(locationIds, funds)).toEqual(funds.toSpliced(2, 1));
+      expect(filterFundsRestrictedByLocations(locationIds, funds)).toEqual(funds.slice(0, 2).concat(funds[3]));
     });
   });
 
@@ -185,7 +185,7 @@ describe('Filtering funds and locations', () => {
         { id: '4' },
       ];
 
-      expect(filterLocationsByRestrictedFunds(funds, locations)).toEqual(locations.toSpliced(2, 1));
+      expect(filterLocationsByRestrictedFunds(funds, locations)).toEqual(locations.slice(0, 2).concat(locations[3]));
     });
 
     it('should persist locations provided by IDs', () => {
