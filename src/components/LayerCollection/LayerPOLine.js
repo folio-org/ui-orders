@@ -20,7 +20,6 @@ import {
   baseManifest,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
-  FUNDS_API,
   getConfigSetting,
   LIMIT_MAX,
   locationsManifest,
@@ -670,14 +669,6 @@ LayerPOLine.manifest = Object.freeze({
   [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
   orderNumber: ORDER_NUMBER,
   orders: ORDERS,
-  funds: {
-    ...baseManifest,
-    path: FUNDS_API,
-    params: {
-      query: 'cql.allRecords=1 sortby name',
-    },
-    records: 'funds',
-  },
 });
 
 LayerPOLine.propTypes = {
