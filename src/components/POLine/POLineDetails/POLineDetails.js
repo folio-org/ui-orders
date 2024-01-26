@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
@@ -21,11 +21,13 @@ import {
   FolioFormattedDate,
   FolioFormattedTime,
   sourceLabels,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import { useAcqMethod } from '../../../common/hooks';
 import { IfVisible } from '../../../common/IfVisible';
 import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
+import { useIsFundsRestrictedByLocationIds } from '../hooks';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
 
@@ -48,8 +50,28 @@ export const getAcquisitionMethodValue = (acqMethodId, acqMethod) => {
 };
 
 const POLineDetails = ({ line, hiddenFields }) => {
+  const showCallout = useShowCallout();
   const receiptDate = get(line, 'receiptDate');
   const { acqMethod, isLoading } = useAcqMethod(line.acquisitionMethod);
+
+  const memoizedIds = useMemo(() => {
+    return {
+      fundIds: get(line, 'fundDistribution', []).map(({ fundId }) => fundId),
+      holdingIds: get(line, 'locations', []).map(({ holdingId }) => holdingId).filter(Boolean),
+      locationIds: get(line, 'locations', []).map(({ locationId }) => locationId).filter(Boolean),
+    };
+  }, [line]);
+
+  const { hasLocationRestrictedFund } = useIsFundsRestrictedByLocationIds(memoizedIds);
+
+  useEffect(() => {
+    if (hasLocationRestrictedFund) {
+      showCallout({
+        messageId: 'ui-orders.errors.poLineHasLocationRestrictedFund',
+        type: 'error',
+      });
+    }
+  }, [hasLocationRestrictedFund, showCallout]);
 
   return (
     <>

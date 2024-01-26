@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
@@ -52,6 +53,7 @@ import {
   ReexportModal,
 } from '../../common';
 import {
+  ERROR_CODES,
   INVOICES_ROUTE,
   ORDERS_ROUTE,
   REEXPORT_SOURCES,
@@ -437,7 +439,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            return handleErrorResponse(e, orderErrorModalShow, 'orderGenericError1', toggleDeletePieces);
+            return handleErrorResponse(e, orderErrorModalShow, ERROR_CODES.orderGenericError1, toggleDeletePieces);
           },
         )
         .finally(setIsLoading);
