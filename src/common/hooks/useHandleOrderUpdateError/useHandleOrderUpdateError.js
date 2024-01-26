@@ -6,7 +6,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { showUpdateOrderError } from '../../../components/Utils/order';
-import { ERROR_CODES } from '../../constants';
 
 const useHandleOrderUpdateError = (mutatorExpenseClass) => {
   const mutator = useMemo(() => mutatorExpenseClass, [mutatorExpenseClass]);
@@ -18,22 +17,9 @@ const useHandleOrderUpdateError = (mutatorExpenseClass) => {
   const handleErrorResponse = useCallback(async (response, orderErrorModalShow, defaultCode, toggleDeletePieces) => {
     try {
       const { errors } = await response.clone().json();
-      const errorCodes = errors?.map(({ code }) => code).filter(Boolean);
+      const errorCode = errors?.[0]?.code;
 
-      if (errorCodes.includes(ERROR_CODES.fundLocationRestrictionViolation)) {
-        const fundCode = errors?.[0]?.parameters?.find(({ key }) => key === 'fundCode')?.value;
-        const locationCode = errors?.[0]?.parameters?.find(({ key }) => key === 'restrictedLocations')?.value;
-
-        const values = { fundCode, locationCode };
-
-        sendCallout({
-          messageId: 'ui-orders.errors.openOrder.fundLocationRestrictionViolation',
-          type: 'error',
-          values,
-        });
-      }
-
-      if (errorCodes.includes(ERROR_CODES.inactiveExpenseClass)) {
+      if (errorCode === 'inactiveExpenseClass') {
         const expenseClassId = errors?.[0]?.parameters?.find(({ key }) => key === 'expenseClassId')?.value;
 
         if (expenseClassId) {

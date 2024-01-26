@@ -47,18 +47,6 @@ describe('useHandleOrderUpdateError', () => {
     }
   });
 
-  it('should handle error response with \'fundLocationRestrictionViolation\' error code', async () => {
-    const { result } = renderHook(() => useHandleOrderUpdateError(mutator));
-
-    try {
-      await result.current[0](getMockResponse('fundLocationRestrictionViolation', 'restrictedLocations'));
-
-      expect(mutator.GET).toHaveBeenCalled();
-    } catch (e) {
-      expect(e.message).toEqual('Order update error');
-    }
-  });
-
   it('should handle response with another error code', async () => {
     const { result } = renderHook(() => useHandleOrderUpdateError(mutator));
 
