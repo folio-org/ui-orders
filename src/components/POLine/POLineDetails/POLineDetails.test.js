@@ -9,6 +9,11 @@ import POLineDetails, {
   getReceivingWorkflowValue,
 } from './POLineDetails';
 
+jest.mock('../hooks', () => ({
+  ...jest.requireActual('../hooks'),
+  useIsFundsRestrictedByLocationIds: jest.fn().mockReturnValue({ hasLocationRestrictedFund: true }),
+}));
+
 const queryClient = new QueryClient();
 
 // eslint-disable-next-line react/prop-types
