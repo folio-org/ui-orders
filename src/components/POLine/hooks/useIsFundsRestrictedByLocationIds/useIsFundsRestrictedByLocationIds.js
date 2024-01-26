@@ -30,12 +30,12 @@ export const useIsFundsRestrictedByLocationIds = ({
   const fundsWithRestrictedLocations = useMemo(() => {
     return funds
       .filter(({ restrictByLocations }) => restrictByLocations)
-      .map(({ locationIds }) => ({ locationIds }));
+      .map(({ locationIds }) => locationIds);
   }, [funds]);
 
   const isFundNotRestricted = useCallback(() => {
     return listOfLocationIds.some((locationId) => {
-      return fundsWithRestrictedLocations.some(({ locationIds }) => locationIds.includes(locationId));
+      return fundsWithRestrictedLocations.some((locationIds) => locationIds.includes(locationId));
     });
   }, [fundsWithRestrictedLocations, listOfLocationIds]);
 

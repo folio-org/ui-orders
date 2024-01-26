@@ -43,8 +43,9 @@ export const useHoldingsByIds = (holdingIds = []) => {
   );
 
   return ({
-    isLoading: isLoading || isFetching,
-    holdings: data?.holdings || DEFAULT_VALUE,
-    totalRecords: data?.totalRecords,
+    isFetching,
+    isLoading,
+    holdings: data.holdings || DEFAULT_VALUE,
+    totalRecords: data.totalRecords,
   });
 };
