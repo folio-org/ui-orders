@@ -90,6 +90,19 @@ const showUpdateOrderError = async (
       callout.sendCallout({ messageId: `ui-orders.errors.${ERROR_CODES[code]}`, type: 'error', values: { fundCodes } });
       break;
     }
+    case ERROR_CODES.fundLocationRestrictionViolation: {
+      const fundCode = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'fundCode')?.value;
+      const locationCode = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'restrictedLocations')?.value;
+
+      const values = { fundCode, locationCode };
+
+      callout.sendCallout({
+        messageId: 'ui-orders.errors.openOrder.fundLocationRestrictionViolation',
+        type: 'error',
+        values,
+      });
+      break;
+    }
     default: {
       callout.sendCallout({
         message: <FormattedMessage id={`ui-orders.errors.${code}`} />,
