@@ -1,15 +1,16 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
+import { FieldsLocation } from '../../../common/POLFields';
 import {
   ifDisabledToChangePaymentInfo,
   isWorkflowStatusIsPending,
   isWorkflowStatusOpen,
 } from '../../PurchaseOrder/util';
-import { FieldsLocation } from '../../../common/POLFields';
 
 const LocationForm = ({
   changeLocation,
+  filterHoldings,
+  filterLocations,
   formValues,
   locationIds,
   locations,
@@ -30,6 +31,8 @@ const LocationForm = ({
       pOLineFormValues={formValues}
       poNumber={order.poNumber}
       withValidation={!formValues.isPackage}
+      filterHoldings={filterHoldings}
+      filterLocations={filterLocations}
     />
   );
 };
@@ -37,6 +40,8 @@ const LocationForm = ({
 LocationForm.propTypes = {
   changeLocation: PropTypes.func.isRequired,
   formValues: PropTypes.object.isRequired,
+  filterHoldings: PropTypes.func,
+  filterLocations: PropTypes.func,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object.isRequired,
