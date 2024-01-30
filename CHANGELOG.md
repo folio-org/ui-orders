@@ -1,6 +1,6 @@
 # Change history for ui-orders
 
-## (5.1.0 IN PROGRESS)
+## (6.0.0 IN PROGRESS)
 
 * Allow Editing of "Renewal Date" and "Subscription to" on open purchase order line. Refs UIOR-1078.
 * Disable donor field in POL. Refs UIOR-1149.
