@@ -18,6 +18,7 @@
 * Invoice line Subscription fields are not populated correctly. Refs UIOR-1220.
 * Add missing permissions for custom fields. Refs UIOR-1223.
 * Wait for custom fields to render before populating form fields. Refs UIOR-1225.
+* Location-restricted funds in POLs. Refs UIOR-1166.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
