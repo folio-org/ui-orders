@@ -13,6 +13,7 @@
 * Do not show special fields in "Version history" for PO and POL. Refs UIOR-1117.
 * Add validation for the `claimingInterval` field. Refs UIOR-1192.
 * *BREAKING* Add settings components for custom fields. Refs UIOR-1177.
+* *BREAKING* Bump minimum okapi interfaces for `pieces` (3.0) and `receiving` (2.0). Refs UIOR-1212.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
