@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -35,6 +34,8 @@ const NO_VALIDATE = undefined;
 
 const FieldsLocation = ({
   changeLocation,
+  filterHoldings,
+  filterLocations,
   isDisabledToChangePaymentInfo,
   isPostPendingOrder,
   isQuantityDisabled,
@@ -98,6 +99,8 @@ const FieldsLocation = ({
                 onChange={changeLocation}
                 disabled={isPostPendingOrder}
                 required={withValidation}
+                filterHoldings={filterHoldings}
+                filterLocations={filterLocations}
                 validate={validate}
                 {...instanceIdProp}
               />
@@ -141,6 +144,8 @@ const FieldsLocation = ({
 
 FieldsLocation.propTypes = {
   changeLocation: PropTypes.func.isRequired,
+  filterHoldings: PropTypes.func,
+  filterLocations: PropTypes.func,
   isDisabledToChangePaymentInfo: PropTypes.bool,
   isPostPendingOrder: PropTypes.bool,
   isQuantityDisabled: PropTypes.bool,

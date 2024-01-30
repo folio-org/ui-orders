@@ -10,9 +10,16 @@ import {
   expandAllSections,
   HasCommand,
 } from '@folio/stripes/components';
-import { ORDER_TYPES } from '@folio/stripes-acq-components';
+import {
+  ORDER_TYPES,
+  useFunds,
+  useInstanceHoldings,
+} from '@folio/stripes-acq-components';
 
-import { order } from 'fixtures';
+import {
+  location,
+  order,
+} from 'fixtures';
 import POLineForm from './POLineForm';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
@@ -21,6 +28,8 @@ jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   Donors: jest.fn(() => 'Donors'),
+  useFunds: jest.fn(),
+  useInstanceHoldings: jest.fn(),
 }));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -121,9 +130,26 @@ const defaultProps = {
   stripes: {},
 };
 
-const queryClient = new QueryClient();
+const holdings = [
+  {
+    id: 'holding-id',
+    permanentLocationId: location.id,
+  },
+];
 
-// eslint-disable-next-line react/prop-types
+const funds = [
+  {
+    id: 'fund-id-1',
+    restrictByLocations: true,
+    locationIds: [location.id],
+  },
+  {
+    id: 'fund-id-2',
+    restrictByLocations: false,
+  },
+];
+
+const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     <MemoryRouter>
@@ -148,6 +174,12 @@ const renderPOLineForm = (props = {}) => render(
 describe('POLineForm', () => {
   beforeEach(() => {
     defaultProps.form.change.mockClear();
+    useFunds
+      .mockClear()
+      .mockReturnValue({ funds });
+    useInstanceHoldings
+      .mockClear()
+      .mockReturnValue({ holdings });
   });
 
   it('should render form items', async () => {

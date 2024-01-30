@@ -2,6 +2,7 @@ import {
   flow,
   get,
   isEqual,
+  keyBy,
   pick,
 } from 'lodash';
 import PropTypes from 'prop-types';
@@ -20,6 +21,8 @@ import {
   Donors,
   FundDistributionFieldsFinal,
   handleKeyCommand,
+  useFunds,
+  useInstanceHoldings,
 } from '@folio/stripes-acq-components';
 import {
   Accordion,
@@ -65,6 +68,9 @@ import {
 } from '../../common/POLFields';
 import { isOngoing } from '../../common/POFields';
 import {
+  filterFundsRestrictedByLocations,
+  filterHoldingsByRestrictedFunds,
+  filterLocationsByRestrictedFunds,
   omitFieldArraysAsyncErrors,
   withUniqueFieldArrayItemKeys,
 } from '../../common/utils';
@@ -131,12 +137,23 @@ function POLineForm({
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
   const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
   const fundDistribution = get(formValues, 'fundDistribution', []);
+  const lineLocations = get(formValues, 'locations', []);
+  const instanceId = formValues.instanceId;
+
+  const {
+    funds: fundsRecords,
+    isLoading: isFundsLoading,
+  } = useFunds();
+
+  const fundsMap = useMemo(() => keyBy(fundsRecords, 'id'), [fundsRecords]);
 
   const { donorOrganizationIds, onDonorRemove, setDonorIds } = useManageDonorOrganizationIds({
-    funds: parentResources?.funds?.records,
+    funds: fundsRecords,
     fundDistribution,
     initialDonorOrganizationIds,
   });
+
+  const { holdings: instanceHoldings } = useInstanceHoldings(instanceId);
 
   const shouldUpdateDonorOrganizationIds = useMemo(() => {
     const hasChanged = !isEqual(donorOrganizationIds, formValues?.donorOrganizationIds);
@@ -365,6 +382,51 @@ function POLineForm({
     }
   };
 
+  const instanceHoldingsMap = useMemo(() => {
+    return keyBy(instanceHoldings, 'id');
+  }, [instanceHoldings]);
+
+  /*
+    Location IDs used in funds validation (location restriction).
+  */
+  const locationIdsForFunds = useMemo(() => {
+    return [
+      ...new Set(lineLocations.reduce((acc, { holdingId, locationId }) => {
+        const value = holdingId
+          ? instanceHoldingsMap[holdingId]?.permanentLocationId
+          : locationId;
+
+        if (value) acc.push(value);
+
+        return acc;
+      }, [])),
+    ];
+  }, [instanceHoldingsMap, lineLocations]);
+
+  const lineFunds = useMemo(() => {
+    const lineFundsMap = (fundDistribution || []).reduce((acc, { fundId }) => {
+      const fund = fundsMap[fundId];
+
+      if (fund) acc[fundId] = fund;
+
+      return acc;
+    }, {});
+
+    return Object.values(lineFundsMap);
+  }, [fundDistribution, fundsMap]);
+
+  const filterFunds = useCallback((funds) => {
+    return filterFundsRestrictedByLocations(locationIdsForFunds, funds);
+  }, [locationIdsForFunds]);
+
+  const filterLocations = useCallback((records, includeIds) => {
+    return filterLocationsByRestrictedFunds(lineFunds, records, includeIds);
+  }, [lineFunds]);
+
+  const filterHoldings = useCallback((records, includeIds) => {
+    return filterHoldingsByRestrictedFunds(lineFunds, records, includeIds);
+  }, [lineFunds]);
+
   const shortcuts = [
     {
       name: 'cancel',
@@ -389,7 +451,7 @@ function POLineForm({
     },
   ];
 
-  if (!initialValues) {
+  if (isFundsLoading || !initialValues) {
     return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
   }
 
@@ -547,6 +609,7 @@ function POLineForm({
                             change={change}
                             currency={currency}
                             disabled={isDisabledToChangePaymentInfo}
+                            filterFunds={filterFunds}
                             fundDistribution={fundDistribution}
                             name="fundDistribution"
                             totalAmount={estimatedPrice}
@@ -560,6 +623,8 @@ function POLineForm({
                           <LocationForm
                             changeLocation={changeLocation}
                             formValues={formValues}
+                            filterHoldings={filterHoldings}
+                            filterLocations={filterLocations}
                             locationIds={locationIds}
                             locations={locations}
                             order={order}
