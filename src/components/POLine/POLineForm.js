@@ -12,9 +12,9 @@ import {
   useRef,
   useState,
 } from 'react';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
-import { Field } from 'react-final-form';
 
 import {
   Donors,
@@ -53,6 +53,7 @@ import {
   EditCustomFieldsRecord,
 } from '@folio/stripes/smart-components';
 
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
@@ -67,7 +68,6 @@ import {
   omitFieldArraysAsyncErrors,
   withUniqueFieldArrayItemKeys,
 } from '../../common/utils';
-import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../common/constants';
 import LocationForm from './Location/LocationForm';
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
@@ -406,6 +406,7 @@ function POLineForm({
   const { accounts } = vendor;
   const metadata = get(initialValues, 'metadata');
   const currency = get(formValues, 'cost.currency');
+  const customFields = form.getState().values.customFields;
 
   return (
     <HasCommand
@@ -613,7 +614,7 @@ function POLineForm({
                           changeFinalFormField={change}
                           entityType="po_line"
                           fieldComponent={Field}
-                          finalFormCustomFieldsValues={form.getState().values.customFields}
+                          finalFormCustomFieldsValues={customFields}
                         />
                       </AccordionSet>
                     </Col>

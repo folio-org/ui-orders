@@ -112,7 +112,7 @@ describe('POForm', () => {
     expect(screen.getByText('ui-orders.orderSummary.totalEstimatedPrice')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.approved')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.workflowStatus')).toBeInTheDocument();
-    expect(screen.getByText(/EditCustomFieldsRecord/i)).toBeInTheDocument();
+    expect(screen.getByText('EditCustomFieldsRecord')).toBeInTheDocument();
   });
 
   it('should not render Ongoing accordion for non-ongoing order', () => {

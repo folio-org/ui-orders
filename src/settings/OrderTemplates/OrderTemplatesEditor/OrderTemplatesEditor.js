@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useMemo, useRef } from 'react';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -21,7 +22,6 @@ import {
 } from '@folio/stripes/components';
 import { EditCustomFieldsRecord } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/final-form';
-import { Field } from 'react-final-form';
 import {
   FundDistributionFieldsFinal,
   FieldTags,
@@ -146,6 +146,7 @@ const OrderTemplatesEditor = ({
     label: `${name} (${accountNo})`,
     value: accountNo,
   }));
+  const customFields = getState().values.customFields;
 
   const shortcuts = [
     {
@@ -416,7 +417,7 @@ const OrderTemplatesEditor = ({
                         changeFinalFormField={change}
                         entityType="purchase_order"
                         fieldComponent={Field}
-                        finalFormCustomFieldsValues={getState().values.customFields}
+                        finalFormCustomFieldsValues={customFields}
                       />
                       <EditCustomFieldsRecord
                         accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
@@ -424,7 +425,7 @@ const OrderTemplatesEditor = ({
                         changeFinalFormField={change}
                         entityType="po_line"
                         fieldComponent={Field}
-                        finalFormCustomFieldsValues={getState().values.customFields}
+                        finalFormCustomFieldsValues={customFields}
                       />
                     </AccordionSet>
                   </Col>

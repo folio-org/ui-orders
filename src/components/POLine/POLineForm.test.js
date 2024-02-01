@@ -161,7 +161,7 @@ describe('POLineForm', () => {
       expect(screen.getByText('ui-orders.line.accordion.fund')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.line.accordion.donorInformation')).toBeInTheDocument();
       expect(screen.getByText(/LocationForm/i)).toBeInTheDocument();
-      expect(screen.getByText(/EditCustomFieldsRecord/i)).toBeInTheDocument();
+      expect(screen.getByText('EditCustomFieldsRecord')).toBeInTheDocument();
     });
   });
 

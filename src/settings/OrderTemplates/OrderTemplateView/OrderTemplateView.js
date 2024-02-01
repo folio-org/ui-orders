@@ -48,8 +48,8 @@ import {
   ERESOURCES,
   PHRESOURCES,
 } from '../../../components/POLine/const';
-import { isOngoing } from '../../../common/POFields';
 import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../../common/constants';
+import { isOngoing } from '../../../common/POFields';
 import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
   ORDER_TEMPLATES_ACCORDION,
