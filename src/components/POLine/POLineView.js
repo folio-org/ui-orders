@@ -29,8 +29,8 @@ import {
 } from '@folio/stripes/components';
 import {
   NotesSmartAccordion,
-  ViewMetaData,
   ViewCustomFieldsRecord,
+  ViewMetaData,
 } from '@folio/stripes/smart-components';
 
 import {

@@ -49,8 +49,8 @@ import {
 } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
 import {
-  ViewMetaData,
   EditCustomFieldsRecord,
+  ViewMetaData,
 } from '@folio/stripes/smart-components';
 
 import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../common/constants';
@@ -406,7 +406,7 @@ function POLineForm({
   const { accounts } = vendor;
   const metadata = get(initialValues, 'metadata');
   const currency = get(formValues, 'cost.currency');
-  const customFields = form.getState().values.customFields;
+  const customFieldsValues = form.getState().values.customFields;
 
   return (
     <HasCommand
@@ -614,7 +614,7 @@ function POLineForm({
                           changeFinalFormField={change}
                           entityType="po_line"
                           fieldComponent={Field}
-                          finalFormCustomFieldsValues={customFields}
+                          finalFormCustomFieldsValues={customFieldsValues}
                         />
                       </AccordionSet>
                     </Col>

@@ -20,8 +20,8 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
-import { EditCustomFieldsRecord } from '@folio/stripes/smart-components';
 import stripesForm from '@folio/stripes/final-form';
+import { EditCustomFieldsRecord } from '@folio/stripes/smart-components';
 import {
   FundDistributionFieldsFinal,
   FieldTags,
@@ -146,7 +146,7 @@ const OrderTemplatesEditor = ({
     label: `${name} (${accountNo})`,
     value: accountNo,
   }));
-  const customFields = getState().values.customFields;
+  const customFieldsValues = getState().values.customFields;
 
   const shortcuts = [
     {
@@ -417,7 +417,7 @@ const OrderTemplatesEditor = ({
                         changeFinalFormField={change}
                         entityType="purchase_order"
                         fieldComponent={Field}
-                        finalFormCustomFieldsValues={customFields}
+                        finalFormCustomFieldsValues={customFieldsValues}
                       />
                       <EditCustomFieldsRecord
                         accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
@@ -425,7 +425,7 @@ const OrderTemplatesEditor = ({
                         changeFinalFormField={change}
                         entityType="po_line"
                         fieldComponent={Field}
-                        finalFormCustomFieldsValues={customFields}
+                        finalFormCustomFieldsValues={customFieldsValues}
                       />
                     </AccordionSet>
                   </Col>

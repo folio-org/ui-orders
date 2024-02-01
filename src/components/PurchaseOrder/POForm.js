@@ -239,7 +239,7 @@ const POForm = ({
   const addresses = getAddresses(get(parentResources, 'addresses.records', []));
   const orderTemplates = getOrderTemplatesForSelect(parentResources);
   const poLinesLength = get(initialValues, 'compositePoLines', []).length;
-  const customFields = getState().values.customFields;
+  const customFieldsValues = getState().values.customFields;
 
   const paneTitle = initialValues.id
     ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
@@ -383,7 +383,7 @@ const POForm = ({
                               changeFinalFormField={change}
                               entityType="purchase_order"
                               fieldComponent={Field}
-                              finalFormCustomFieldsValues={customFields}
+                              finalFormCustomFieldsValues={customFieldsValues}
                             />
                           </AccordionSet>
                         </Col>
