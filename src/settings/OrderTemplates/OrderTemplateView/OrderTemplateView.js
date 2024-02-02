@@ -32,6 +32,8 @@ import {
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
 
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../../common/constants';
+import { isOngoing } from '../../../common/POFields';
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
 import { SummaryView } from '../../../components/PurchaseOrder/Summary';
 import { OngoingOrderInfoView } from '../../../components/PurchaseOrder/OngoingOrderInfo';
@@ -48,8 +50,6 @@ import {
   ERESOURCES,
   PHRESOURCES,
 } from '../../../components/POLine/const';
-import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../../common/constants';
-import { isOngoing } from '../../../common/POFields';
 import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
   ORDER_TEMPLATES_ACCORDION,
