@@ -23,9 +23,7 @@ import {
   Pane,
   Row,
 } from '@folio/stripes/components';
-
 import { ViewCustomFieldsRecord } from '@folio/stripes/smart-components';
-
 import {
   FundDistributionView,
   ORDER_FORMATS,
