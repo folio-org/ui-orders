@@ -1,5 +1,6 @@
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
+import { CUSTOM_FIELDS } from '../../../../test/jest/fixtures/customFields';
 import { useSearchableIndexes } from './useSearchableIndexes';
 
 const SEARCHABLE_INDEXES = [
@@ -23,10 +24,34 @@ const SEARCHABLE_INDEXES = [
   },
 ];
 
+const SEARCHABLE_INDEXES_WITH_CUSTOM_FIELDS = [
+  ...SEARCHABLE_INDEXES,
+  {
+    'label': 'stripes-smart-components.customFields Datepicker',
+    'value': 'customFields.datepicker',
+    'placeholder': 'MM/DD/YYYY',
+  },
+  {
+    'label': 'stripes-smart-components.customFields Long text',
+    'value': 'customFields.longtext',
+
+  },
+  {
+    'label': 'stripes-smart-components.customFields Short text',
+    'value': 'customFields.shorttext',
+  },
+];
+
 describe('useSearchableIndexes', () => {
   it('should return array of searchable indexes', () => {
     const { result } = renderHook(() => useSearchableIndexes());
 
     expect(result.current).toEqual(SEARCHABLE_INDEXES);
+  });
+
+  it('should return array of searchable indexes and searchable indexes of custom fields', () => {
+    const { result } = renderHook(() => useSearchableIndexes(CUSTOM_FIELDS));
+
+    expect(result.current).toEqual(SEARCHABLE_INDEXES_WITH_CUSTOM_FIELDS);
   });
 });
