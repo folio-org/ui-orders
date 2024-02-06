@@ -15,6 +15,7 @@
 * *BREAKING* Add settings components for custom fields. Refs UIOR-1177.
 * Add Custom Fields to View, Edit, Create components of Orders, Order Lines and Order Templates. Refs UIOR-1195.
 * Bump up okapi interfaces for `pieces` (2.0 3.0). Refs UIOR-1212.
+* Invoice line Subscription fields are not populated correctly. Refs UIOR-1220.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
