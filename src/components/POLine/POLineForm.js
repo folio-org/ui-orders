@@ -12,6 +12,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 
@@ -47,8 +48,12 @@ import {
   IfPermission,
 } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
-import { ViewMetaData } from '@folio/stripes/smart-components';
+import {
+  EditCustomFieldsRecord,
+  ViewMetaData,
+} from '@folio/stripes/smart-components';
 
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
@@ -401,6 +406,7 @@ function POLineForm({
   const { accounts } = vendor;
   const metadata = get(initialValues, 'metadata');
   const currency = get(formValues, 'cost.currency');
+  const customFieldsValues = form.getState().values.customFields;
 
   return (
     <HasCommand
@@ -601,6 +607,15 @@ function POLineForm({
                             />
                           </Accordion>
                         )}
+
+                        <EditCustomFieldsRecord
+                          accordionId="customFieldsPOLine"
+                          backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                          changeFinalFormField={change}
+                          entityType="po_line"
+                          fieldComponent={Field}
+                          finalFormCustomFieldsValues={customFieldsValues}
+                        />
                       </AccordionSet>
                     </Col>
                   </Row>

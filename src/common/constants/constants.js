@@ -48,3 +48,5 @@ export const FIELD_ARRAY_ITEM_IDENTIFIER_KEY = '__key__';
 export const OKAPI_TENANT_HEADER = 'X-Okapi-Tenant';
 
 export const HIDDEN_ORDER_FIELDS_FOR_VERSION_HISTORY = ['nextPolNumber'];
+
+export const CUSTOM_FIELDS_BACKEND_MODULE_NAME = 'Orders CRUD module';

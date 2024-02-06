@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
@@ -26,11 +27,13 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
+import { EditCustomFieldsRecord } from '@folio/stripes/smart-components';
 import {
   FieldSelectionFinal as FieldSelection,
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
 
+import { CUSTOM_FIELDS_BACKEND_MODULE_NAME } from '../../common/constants';
 import { useErrorAccordionStatus } from '../../common/hooks';
 import {
   getAddresses,
@@ -236,6 +239,7 @@ const POForm = ({
   const addresses = getAddresses(get(parentResources, 'addresses.records', []));
   const orderTemplates = getOrderTemplatesForSelect(parentResources);
   const poLinesLength = get(initialValues, 'compositePoLines', []).length;
+  const customFieldsValues = getState().values.customFields;
 
   const paneTitle = initialValues.id
     ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
@@ -373,6 +377,14 @@ const POForm = ({
                                 hiddenFields={hiddenFields}
                               />
                             </Accordion>
+                            <EditCustomFieldsRecord
+                              accordionId="customFieldsPO"
+                              backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                              changeFinalFormField={change}
+                              entityType="purchase_order"
+                              fieldComponent={Field}
+                              finalFormCustomFieldsValues={customFieldsValues}
+                            />
                           </AccordionSet>
                         </Col>
                       </Row>

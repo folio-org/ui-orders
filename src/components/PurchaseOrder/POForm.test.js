@@ -21,6 +21,11 @@ jest.mock('@folio/stripes/components', () => ({
   expandAllSections: jest.fn(),
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
 }));
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  EditCustomFieldsRecord: jest.fn().mockReturnValue('EditCustomFieldsRecord'),
+}));
+
 jest.mock('./PODetails/PODetailsForm', () => jest.fn().mockReturnValue('PODetailsForm'));
 jest.mock('./OngoingOrderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
 
@@ -107,6 +112,7 @@ describe('POForm', () => {
     expect(screen.getByText('ui-orders.orderSummary.totalEstimatedPrice')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.approved')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.workflowStatus')).toBeInTheDocument();
+    expect(screen.getByText('EditCustomFieldsRecord')).toBeInTheDocument();
   });
 
   it('should not render Ongoing accordion for non-ongoing order', () => {

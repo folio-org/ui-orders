@@ -27,6 +27,10 @@ jest.mock('@folio/stripes-components/lib/Commander', () => ({
   expandAllSections: jest.fn(),
   collapseAllSections: jest.fn(),
 }));
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  ViewCustomFieldsRecord: jest.fn().mockReturnValue('ViewCustomFieldsRecord'),
+}));
 jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
   useOrderLinesAbandonedHoldingsCheck: jest.fn(() => ({ isFetching: false, result: { type: 'withoutPieces' } })),
@@ -118,6 +122,12 @@ describe('PO', () => {
     await act(() => Promise.resolve());
 
     expect(screen.findByTestId('update-encumbrances-button')).toBeDefined();
+  });
+
+  it('should render custom fields accordion', () => {
+    renderComponent();
+
+    expect(screen.queryByText('ViewCustomFieldsRecord')).toBeDefined();
   });
 });
 
