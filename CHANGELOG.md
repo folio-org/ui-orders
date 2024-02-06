@@ -1,6 +1,8 @@
 # Change history for ui-orders
 
-## (5.1.0 IN PROGRESS)
+## (6.0.0 IN PROGRESS)
+
+* Invoice line Subscription fields are not populated correctly. Refs UIOR-1220.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
