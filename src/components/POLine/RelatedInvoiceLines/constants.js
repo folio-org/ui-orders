@@ -85,9 +85,9 @@ export const RESULT_FORMATTER = {
   [COLUMN_INVOICE_DATE]: item => <FolioFormattedDate value={item.invoice?.invoiceDate} />,
   vendorCode: item => item.vendor?.code || <NoValue />,
   vendorInvoiceNo: item => item.invoice?.vendorInvoiceNo || <NoValue />,
-  subscriptionStart: item => <FolioFormattedDate value={item.fiscalYear?.periodStart} />,
-  subscriptionEnd: item => <FolioFormattedDate value={item.fiscalYear?.periodEnd} />,
-  subscriptionDescription: item => item.fiscalYear?.description || <NoValue />,
+  subscriptionStart: item => <FolioFormattedDate value={item.subscriptionStart} />,
+  subscriptionEnd: item => <FolioFormattedDate value={item.subscriptionEnd} />,
+  subscriptionDescription: item => item.subscriptionInfo || <NoValue />,
   status: item => <FormattedMessage id={`ui-invoice.invoice.status.${item.invoiceLineStatus.toLowerCase()}`} />,
   amount: item => (
     <AmountWithCurrencyField
