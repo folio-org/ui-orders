@@ -9,6 +9,7 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
+import { IfVisible } from '@folio/stripes-acq-components';
 
 import {
   OngoingInfoNotes,
@@ -17,7 +18,6 @@ import {
   RenewalPeriod,
   ReviewDate,
 } from '../../../common/POFields/OngoingInfoFields';
-import { IfVisible } from '../../../common/IfVisible';
 
 const OngoingOrderInfoView = ({ order: { ongoing = {} }, hiddenFields = {} }) => {
   const {

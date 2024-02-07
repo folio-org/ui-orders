@@ -21,12 +21,12 @@ import {
 } from '@folio/stripes/components';
 import {
   FieldDatepickerFinal,
+  IfFieldVisible,
   selectOptionsShape,
   TextField,
+  VisibilityControl,
 } from '@folio/stripes-acq-components';
 
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
-import { VisibilityControl } from '../../../common/VisibilityControl';
 import ContributorForm from './ContributorForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import InstancePlugin from './InstancePlugin';

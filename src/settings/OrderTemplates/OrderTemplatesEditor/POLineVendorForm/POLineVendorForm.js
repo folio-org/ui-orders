@@ -5,13 +5,15 @@ import {
   Row,
   Col,
 } from '@folio/stripes/components';
-import { VendorReferenceNumbersFields } from '@folio/stripes-acq-components';
+import {
+  VendorReferenceNumbersFields,
+  VisibilityControl,
+} from '@folio/stripes-acq-components';
 
 import {
   FieldVendorInstructions,
   FieldVendorAccountNumber,
 } from '../../../../common/POLFields';
-import { VisibilityControl } from '../../../../common/VisibilityControl';
 
 const POLineVendorForm = ({ accounts }) => {
   return (

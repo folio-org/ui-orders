@@ -8,13 +8,13 @@ import {
 } from '@folio/stripes/components';
 import {
   FieldDatepickerFinal,
+  IfFieldVisible,
 } from '@folio/stripes-acq-components';
 
 import {
   FieldMaterialType,
   FieldMaterialSupplier,
 } from '../../../common/POLFields';
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import {
   isWorkflowStatusClosed,
   isWorkflowStatusIsPending,

@@ -8,6 +8,10 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
+import {
+  IfFieldVisible,
+  VisibilityControl,
+} from '@folio/stripes-acq-components';
 
 import {
   FieldRenewalInterval,
@@ -19,8 +23,6 @@ import {
   FieldOngoingInfoNotes,
   isOngoing,
 } from '../../../common/POFields';
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
-import { VisibilityControl } from '../../../common/VisibilityControl';
 import { ACCORDION_ID } from '../constants';
 import {
   isWorkflowStatusIsPending,

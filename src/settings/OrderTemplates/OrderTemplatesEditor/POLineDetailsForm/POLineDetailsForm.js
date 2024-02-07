@@ -5,6 +5,7 @@ import {
   Row,
   Col,
 } from '@folio/stripes/components';
+import { VisibilityControl } from '@folio/stripes-acq-components';
 
 import {
   FieldPOLineNumber,
@@ -24,7 +25,6 @@ import {
   FieldCancellationRestrictionNote,
   FieldPOLineDescription,
 } from '../../../../common/POLFields';
-import { VisibilityControl } from '../../../../common/VisibilityControl';
 
 const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
   return (
