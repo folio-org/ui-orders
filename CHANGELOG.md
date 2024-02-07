@@ -16,6 +16,7 @@
 * Bump up okapi interfaces for `pieces` (2.0 3.0). Refs UIOR-1212.
 * Opening and editing POs with location-restricted funds (FE). Refs UIOR-1184.
 * Location-restricted funds in POLs. Refs UIOR-1166.
+* Allow order template to hide Currency and exchange rate fields. Refs UIOR-1214.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
