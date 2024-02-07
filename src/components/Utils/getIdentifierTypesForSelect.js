@@ -7,18 +7,19 @@ import {
 } from '../../common/constants';
 
 const ALLOWED_RES_ID_TYPE_NAMES = [
-  'ASIN',
-  'CODEN',
-  'DOI',
-  'GPO item number',
+  PRODUCT_ID_TYPE.asin,
+  PRODUCT_ID_TYPE.coden,
+  PRODUCT_ID_TYPE.doi,
+  PRODUCT_ID_TYPE.gpoItemNumber,
   PRODUCT_ID_TYPE.isbn,
-  'ISMN',
-  'ISSN',
-  'Publisher or distributor number',
-  'Report number',
-  'Standard technical report number',
-  'UPC',
-  'URN',
+  PRODUCT_ID_TYPE.ismn,
+  PRODUCT_ID_TYPE.issn,
+  PRODUCT_ID_TYPE.lccn,
+  PRODUCT_ID_TYPE.publisherOrDistributorNumber,
+  PRODUCT_ID_TYPE.reportNumber,
+  PRODUCT_ID_TYPE.standardTechnicalReportNumber,
+  PRODUCT_ID_TYPE.upc,
+  PRODUCT_ID_TYPE.urn,
 ];
 
 export default (resources) => get(resources, [DICT_IDENTIFIER_TYPES, 'records'], [])

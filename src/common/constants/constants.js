@@ -1,7 +1,19 @@
 export const ORGANIZATION_STATUS_ACTIVE = 'Active';
 
 export const PRODUCT_ID_TYPE = {
+  asin: 'ASIN',
+  coden: 'CODEN',
+  doi: 'DOI',
+  gpoItemNumber: 'GPO item number',
   isbn: 'ISBN',
+  ismn: 'ISMN',
+  issn: 'ISSN',
+  lccn: 'LCCN',
+  publisherOrDistributorNumber: 'Publisher or distributor number',
+  reportNumber: 'Report number',
+  standardTechnicalReportNumber: 'Standard technical report number',
+  upc: 'UPC',
+  urn: 'URN',
 };
 export const QUALIFIER_SEPARATOR = ' ';
 
