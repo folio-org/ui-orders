@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useMemo, useRef } from 'react';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -20,6 +21,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/final-form';
+import { EditCustomFieldsRecord } from '@folio/stripes/smart-components';
 import {
   FundDistributionFieldsFinal,
   FieldTags,
@@ -39,7 +41,10 @@ import {
   isPhresource,
   isOtherResource,
 } from '../../../common/POLFields';
-import { WORKFLOW_STATUS } from '../../../common/constants';
+import {
+  WORKFLOW_STATUS,
+  CUSTOM_FIELDS_BACKEND_MODULE_NAME,
+} from '../../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
@@ -141,6 +146,7 @@ const OrderTemplatesEditor = ({
     label: `${name} (${accountNo})`,
     value: accountNo,
   }));
+  const customFieldsValues = getState().values.customFields;
 
   const shortcuts = [
     {
@@ -404,6 +410,23 @@ const OrderTemplatesEditor = ({
                           </Col>
                         </Row>
                       </Accordion>
+
+                      <EditCustomFieldsRecord
+                        accordionId={ORDER_TEMPLATES_ACCORDION.PO_CUSTOM_FIELDS}
+                        backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                        changeFinalFormField={change}
+                        entityType="purchase_order"
+                        fieldComponent={Field}
+                        finalFormCustomFieldsValues={customFieldsValues}
+                      />
+                      <EditCustomFieldsRecord
+                        accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
+                        backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+                        changeFinalFormField={change}
+                        entityType="po_line"
+                        fieldComponent={Field}
+                        finalFormCustomFieldsValues={customFieldsValues}
+                      />
                     </AccordionSet>
                   </Col>
                 </Row>

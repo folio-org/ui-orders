@@ -37,6 +37,10 @@ jest.mock('@folio/stripes/components', () => ({
   expandAllSections: jest.fn(),
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
 }));
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  EditCustomFieldsRecord: jest.fn().mockReturnValue('EditCustomFieldsRecord'),
+}));
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
@@ -189,6 +193,7 @@ describe('POLineForm', () => {
       expect(screen.getByText('ui-orders.line.accordion.fund')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.line.accordion.donorInformation')).toBeInTheDocument();
       expect(screen.getByText(/LocationForm/i)).toBeInTheDocument();
+      expect(screen.getByText('EditCustomFieldsRecord')).toBeInTheDocument();
     });
   });
 

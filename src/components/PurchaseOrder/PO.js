@@ -46,6 +46,7 @@ import {
 import {
   ColumnManagerMenu,
   useColumnManager,
+  ViewCustomFieldsRecord,
 } from '@folio/stripes/smart-components';
 
 import {
@@ -58,6 +59,7 @@ import {
   ORDERS_ROUTE,
   REEXPORT_SOURCES,
   WORKFLOW_STATUS,
+  CUSTOM_FIELDS_BACKEND_MODULE_NAME,
 } from '../../common/constants';
 import {
   useExportHistory,
@@ -174,6 +176,7 @@ const PO = ({
   const addresses = getAddresses(get(resources, 'addresses.records', []));
   const funds = get(resources, 'fund.records', []);
   const approvalsSetting = get(resources, 'approvalsSetting.records', {});
+  const customFieldsValues = get(order, 'customFields', {});
 
   const deleteOrderModalLabel = intl.formatMessage(
     { id: 'ui-orders.order.delete.heading' },
@@ -839,7 +842,12 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
               orderInvoicesIds={orderInvoicesIds}
             />
-
+            <ViewCustomFieldsRecord
+              accordionId="customFieldsPO"
+              backendModuleName={CUSTOM_FIELDS_BACKEND_MODULE_NAME}
+              customFieldsValues={customFieldsValues}
+              entityType="purchase_order"
+            />
             {Boolean(exportHistory?.length) && (
               <ExportDetailsAccordion
                 id="exportDetails"
