@@ -121,6 +121,7 @@ function POLineForm({
 }) {
   const history = useHistory();
   const [hiddenFields, setHiddenFields] = useState({});
+  const [isCustomFieldsLoaded, setIsCustomFieldsLoaded] = useState(false);
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
 
   const accordionStatusRef = useRef();
@@ -188,7 +189,7 @@ function POLineForm({
   */
 
   useEffect(() => {
-    if (!lineId && templateValue.id) {
+    if (!lineId && templateValue.id && isCustomFieldsLoaded) {
       const populateFieldsFromTemplate = (fields) => {
         batch(() => {
           fields.forEach(field => {
@@ -203,7 +204,7 @@ function POLineForm({
       setTimeout(() => populateFieldsFromTemplate(GAME_CHANGER_FIELDS));
       setTimeout(() => populateFieldsFromTemplate(getRegisteredFields()), GAME_CHANGER_TIMEOUT);
     }
-  }, [batch, change, getRegisteredFields, lineId, templateValue]);
+  }, [batch, change, getRegisteredFields, lineId, templateValue, isCustomFieldsLoaded]);
 
   useEffect(() => {
     if (isCreateFromInstance) {
@@ -363,6 +364,10 @@ function POLineForm({
     if (holdingFieldName) {
       change(holdingFieldName, holdingId);
     }
+  };
+
+  const handleCustomFieldsLoaded = () => {
+    setIsCustomFieldsLoaded(true);
   };
 
   const shortcuts = [
@@ -615,6 +620,7 @@ function POLineForm({
                           entityType="po_line"
                           fieldComponent={Field}
                           finalFormCustomFieldsValues={customFieldsValues}
+                          onComponentLoad={handleCustomFieldsLoaded}
                         />
                       </AccordionSet>
                     </Col>
