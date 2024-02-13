@@ -42,10 +42,7 @@ describe('showUpdateOrderError', () => {
       errors: [{
         code: 'fundLocationRestrictionViolation',
         parameters: [{
-          key: 'fundCode',
-          value: 'value',
-        }, {
-          key: 'restrictedLocations',
+          key: 'poLineNumber',
           value: 'value',
         }],
       }],
