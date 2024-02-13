@@ -456,12 +456,15 @@ function LayerPOLine({
 
   const getCreatePOLIneInitialValues = useMemo(() => {
     const orderId = order?.id;
+    // Get the vendor's the latest currency as default
+    const vendorPreferredCurrency = vendor?.vendorCurrencies?.slice(-1)[0];
+
     const newObj = {
       claimingActive: false,
       claimingInterval: vendor?.claimingInterval,
       source: sourceValues.user,
       cost: {
-        currency: stripes.currency,
+        currency: vendorPreferredCurrency || stripes.currency,
         discountType: DISCOUNT_TYPE.percentage,
       },
       vendorDetail: {
