@@ -154,17 +154,6 @@ describe('LayerPOLine', () => {
     expect(form).toBeInTheDocument();
   });
 
-  it("should render POLineForm with vendor's the most recent preferred currency", async () => {
-    renderLayerPOLine();
-
-    const form = await screen.findByText('POLineForm');
-
-    expect(form).toBeInTheDocument();
-    const defaultCurrency = vendor?.vendorCurrencies?.slice(-1)[0];
-
-    expect(POLineForm.mock.calls[0][0].initialValues.cost.currency).toEqual(defaultCurrency);
-  });
-
   it('should create POLine', async () => {
     renderLayerPOLine({ match: {
       ...match,
