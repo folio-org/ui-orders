@@ -25,6 +25,7 @@
 * Opening and editing POs with location-restricted funds (FE). Refs UIOR-1184.
 * Location-restricted funds in POLs. Refs UIOR-1166.
 * Add "LCCN" to the list of valid product identifier types. Refs UIOR-1218.
+* Update error message for opening PO with location-restricted funds. Refs UIOR-1222.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
