@@ -20,6 +20,7 @@
 * Wait for custom fields to render before populating form fields. Refs UIOR-1225.
 * Location-restricted funds in POLs. Refs UIOR-1166.
 * Add "LCCN" to the list of valid product identifier types. Refs UIOR-1218.
+* Use Vendor's the most recent currency as default currency for creating POL. Refs UIOR-1213.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
