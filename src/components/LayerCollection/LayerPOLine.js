@@ -195,7 +195,7 @@ function LayerPOLine({
         });
       }
     },
-    [openLineLimitExceededModal, sendCallout, toggleDeletePieces],
+    [intl, openLineLimitExceededModal, sendCallout, toggleDeletePieces],
   );
 
   const openOrder = useCallback(
@@ -456,7 +456,7 @@ function LayerPOLine({
 
   const getCreatePOLIneInitialValues = useMemo(() => {
     const orderId = order?.id;
-    // Get the vendor's the latest currency as default
+    // Get the vendor's latest currency as default
     const vendorPreferredCurrency = vendor?.vendorCurrencies?.slice(-1)[0];
 
     const newObj = {
