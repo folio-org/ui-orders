@@ -184,7 +184,7 @@ function POLineForm({
   ), [identifierTypes, initialTemplateInventoryData, instance, isCreateFromInstance]);
 
   /*
-    Populate field values for new PO Line from a template if it exist.
+    Populate field values for new PO Line from a template if it exist and custom fields are loaded.
     First, the values of the fields are set, which, when changed, change other fields.
   */
 
