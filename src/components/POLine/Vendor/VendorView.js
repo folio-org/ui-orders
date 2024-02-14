@@ -9,9 +9,11 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import { VendorReferenceNumbersDetails } from '@folio/stripes-acq-components';
+import {
+  IfVisible,
+  VendorReferenceNumbersDetails,
+} from '@folio/stripes-acq-components';
 
-import { IfVisible } from '../../../common/IfVisible';
 import { useVendor } from '../../../common/hooks';
 
 const VendorView = ({ vendorDetail, vendorId, hiddenFields }) => {

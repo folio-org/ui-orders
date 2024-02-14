@@ -12,10 +12,10 @@ import {
 import {
   AmountWithCurrencyField,
   ExchangeRateValue,
+  IfVisible,
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
-import { IfVisible } from '../../../common/IfVisible';
 import { DISCOUNT_TYPE } from '../const';
 import { RolloverAdjustmentAmount } from './RolloverAdjustmentAmount';
 

@@ -8,10 +8,12 @@ import {
   Col,
   KeyValue,
 } from '@folio/stripes/components';
-import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
+import {
+  AmountWithCurrencyField,
+  IfFieldVisible,
+} from '@folio/stripes-acq-components';
 
 import { FieldIsApproved } from '../../../common/POFields';
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import {
   isWorkflowStatusIsPending,
 } from '../util';

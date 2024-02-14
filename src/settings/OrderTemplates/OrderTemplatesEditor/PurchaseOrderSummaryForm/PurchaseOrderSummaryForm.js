@@ -4,11 +4,11 @@ import {
   Row,
   Col,
 } from '@folio/stripes/components';
+import { VisibilityControl } from '@folio/stripes-acq-components';
 
 import {
   FieldIsApproved,
 } from '../../../../common/POFields';
-import { VisibilityControl } from '../../../../common/VisibilityControl';
 
 const PurchaseOrderSummaryForm = () => {
   return (

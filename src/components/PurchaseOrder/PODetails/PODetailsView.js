@@ -17,10 +17,10 @@ import {
 import {
   AcqUnitsView,
   FolioFormattedTime,
+  IfVisible,
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
-import { IfVisible } from '../../../common/IfVisible';
 import { isWorkflowStatusOpen } from '../util';
 import UserValue from './UserValue';
 

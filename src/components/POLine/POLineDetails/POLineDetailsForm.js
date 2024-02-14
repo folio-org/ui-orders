@@ -12,6 +12,7 @@ import {
   FolioFormattedTime,
   sourceLabels,
   FieldTags,
+  IfFieldVisible,
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
@@ -35,7 +36,6 @@ import {
   FieldClaimingActive,
   FieldClaimingInterval,
 } from '../../../common/POLFields';
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
