@@ -5,6 +5,7 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
+import { IfFieldVisible } from '@folio/stripes-acq-components';
 
 import {
   FieldMaterialSupplier,
@@ -13,7 +14,6 @@ import {
   FieldExpectedReceiptDate,
   FieldsVolume,
 } from '../../../common/POLFields';
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import {
   isWorkflowStatusClosed,
   isWorkflowStatusIsPending,

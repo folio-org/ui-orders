@@ -10,10 +10,9 @@ import {
 } from '@folio/stripes/components';
 import {
   FolioFormattedDate,
+  IfVisible,
   OrganizationValue,
 } from '@folio/stripes-acq-components';
-
-import { IfVisible } from '../../../common/IfVisible';
 
 const OtherView = ({ materialTypes, physical, hiddenFields }) => {
   const materialSupplierId = get(physical, 'materialSupplier');

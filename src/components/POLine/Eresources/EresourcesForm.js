@@ -6,6 +6,7 @@ import {
   Row,
   Col,
 } from '@folio/stripes/components';
+import { IfFieldVisible } from '@folio/stripes-acq-components';
 
 import {
   FieldAccessProvider,
@@ -17,7 +18,6 @@ import {
   FieldActivationDue,
   FieldURL,
 } from '../../../common/POLFields';
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import {
   isWorkflowStatusClosed,
   isWorkflowStatusIsPending,

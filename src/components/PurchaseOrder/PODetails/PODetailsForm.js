@@ -15,6 +15,7 @@ import {
   fieldSelectOptionsShape,
   FieldTags,
   FolioFormattedTime,
+  IfFieldVisible,
   TextField,
 } from '@folio/stripes-acq-components';
 
@@ -29,7 +30,6 @@ import {
   FieldsNotes,
   FieldAssignedTo,
 } from '../../../common/POFields';
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import FieldOrderType from './FieldOrderType';
 import {
   isWorkflowStatusClosed,

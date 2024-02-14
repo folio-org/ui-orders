@@ -8,9 +8,10 @@ import {
   Row,
   TextArea,
 } from '@folio/stripes/components';
-
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
-import { VisibilityControl } from '../../../common/VisibilityControl';
+import {
+  IfFieldVisible,
+  VisibilityControl,
+} from '@folio/stripes-acq-components';
 
 const OngoingOrderForm = ({ hiddenFields = {} }) => {
   return (

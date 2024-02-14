@@ -9,10 +9,10 @@ import {
 } from '@folio/stripes/components';
 import {
   AmountWithCurrencyField,
+  IfVisible,
   ORDER_STATUSES,
 } from '@folio/stripes-acq-components';
 
-import { IfVisible } from '../../../common/IfVisible';
 import TotalEncumberedValue from './TotalEncumberedValue';
 import TotalExpendedValue from './TotalExpendedValue';
 import WorkflowStatus from './WorkflowStatus';

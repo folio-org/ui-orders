@@ -11,10 +11,10 @@ import {
 import {
   ContributorDetails,
   FolioFormattedDate,
+  IfVisible,
   ProductIdDetails,
 } from '@folio/stripes-acq-components';
 
-import { IfVisible } from '../../../common/IfVisible';
 import { EditionView } from './EditionField';
 import { TitleView } from './TitleField';
 import { SubscriptionIntervalView } from './SubscriptionIntervalField';

@@ -7,8 +7,7 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-
-import { IfVisible } from '../../../common/IfVisible';
+import { IfVisible } from '@folio/stripes-acq-components';
 
 const OngoingOrderView = ({ renewalNote, hiddenFields = {} }) => {
   return (
