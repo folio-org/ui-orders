@@ -8,6 +8,7 @@ import {
   Col,
   TextField,
 } from '@folio/stripes/components';
+import { VisibilityControl } from '@folio/stripes-acq-components';
 
 import {
   FieldAccessProvider,
@@ -18,7 +19,6 @@ import {
   FieldExpectedActivation,
   FieldURL,
 } from '../../../../common/POLFields';
-import { VisibilityControl } from '../../../../common/VisibilityControl';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 import parseNumber from '../../../../components/Utils/parseNumber';
 

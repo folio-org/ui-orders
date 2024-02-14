@@ -11,13 +11,15 @@ import {
   MessageBanner,
   Row,
 } from '@folio/stripes/components';
-import { VendorReferenceNumbersFields } from '@folio/stripes-acq-components';
+import {
+  IfFieldVisible,
+  VendorReferenceNumbersFields,
+} from '@folio/stripes-acq-components';
 
 import {
   FieldVendorInstructions,
   FieldVendorAccountNumber,
 } from '../../../common/POLFields';
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
 import { ACCOUNT_STATUS } from '../const';

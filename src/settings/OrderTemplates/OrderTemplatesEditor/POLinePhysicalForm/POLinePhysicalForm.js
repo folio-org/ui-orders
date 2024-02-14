@@ -5,6 +5,7 @@ import {
   Row,
   Col,
 } from '@folio/stripes/components';
+import { VisibilityControl } from '@folio/stripes-acq-components';
 
 import {
   FieldMaterialSupplier,
@@ -13,7 +14,6 @@ import {
   FieldExpectedReceiptDate,
   FieldsVolume,
 } from '../../../../common/POLFields';
-import { VisibilityControl } from '../../../../common/VisibilityControl';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 
 const POLinePhysicalForm = ({ materialTypes, change, formValues }) => {

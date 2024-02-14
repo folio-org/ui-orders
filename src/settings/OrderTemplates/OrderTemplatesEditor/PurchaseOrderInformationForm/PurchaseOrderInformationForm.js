@@ -8,6 +8,7 @@ import {
 import {
   AcqUnitsField,
   FieldOrganization,
+  VisibilityControl,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -20,7 +21,6 @@ import {
   FieldAssignedTo,
 } from '../../../../common/POFields';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
-import { VisibilityControl } from '../../../../common/VisibilityControl';
 
 const PurchaseOrderInformationForm = ({
   acqUnitIds,

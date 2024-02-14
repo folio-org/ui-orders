@@ -13,15 +13,15 @@ import {
 import {
   AmountWithCurrencyField,
   CurrencyExchangeRateFields,
+  IfFieldVisible,
   ORDER_FORMATS,
   TextField,
   TypeToggle,
+  VisibilityControl,
   validateRequiredNotNegative,
   validateRequiredPositiveNumber,
 } from '@folio/stripes-acq-components';
 
-import { IfFieldVisible } from '../../../common/IfFieldVisible';
-import { VisibilityControl } from '../../../common/VisibilityControl';
 import {
   ifDisabledToChangePaymentInfo,
   isWorkflowStatusOpen,
@@ -61,8 +61,8 @@ const CostForm = ({
   order,
   initialValues,
   change,
-  required = true,
-  hiddenFields = {},
+  required,
+  hiddenFields,
 }) => {
   const orderFormat = formValues.orderFormat;
   const checkinItems = formValues.checkinItems;
@@ -211,6 +211,7 @@ const CostForm = ({
         isTooltipTextExchangeRate={!isDisabledToChangePaymentInfo}
         isUseExangeRateDisabled={isDisabledToChangePaymentInfo}
         exchangeRate={initialValues?.cost?.exchangeRate}
+        hiddenFields={hiddenFields}
       />
 
       <Row>
@@ -333,6 +334,11 @@ CostForm.propTypes = {
   initialValues: PropTypes.object.isRequired,
   change: PropTypes.func,
   hiddenFields: PropTypes.object,
+};
+
+CostForm.defaultProps = {
+  hiddenFields: {},
+  required: true,
 };
 
 export default CostForm;

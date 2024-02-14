@@ -20,11 +20,11 @@ import {
 import {
   FolioFormattedDate,
   FolioFormattedTime,
+  IfVisible,
   sourceLabels,
 } from '@folio/stripes-acq-components';
 
 import { useAcqMethod } from '../../../common/hooks';
-import { IfVisible } from '../../../common/IfVisible';
 import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
