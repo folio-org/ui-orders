@@ -121,6 +121,7 @@ function POLineForm({
 }) {
   const history = useHistory();
   const [hiddenFields, setHiddenFields] = useState({});
+  const [isCustomFieldsLoaded, setIsCustomFieldsLoaded] = useState(false);
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
 
   const accordionStatusRef = useRef();
@@ -182,44 +183,46 @@ function POLineForm({
       : initialTemplateInventoryData
   ), [identifierTypes, initialTemplateInventoryData, instance, isCreateFromInstance]);
 
+  const populateFieldsFromTemplate = useCallback((fields) => {
+    batch(() => {
+      fields.forEach(field => {
+        const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
+        const templateFieldValue = get(templateValue, templateField);
+
+        if (templateFieldValue !== undefined) change(field, templateFieldValue);
+      });
+    });
+  }, [batch, change, templateValue]);
+
+  const applyInitialInventoryData = useCallback(() => {
+    batch(() => {
+      change('isPackage', false);
+
+      Object.keys(initialInventoryData).forEach(field => {
+        if (field === 'productIds') {
+          change(`details.${field}`, initialInventoryData[field]);
+        } else change(field, initialInventoryData[field]);
+      });
+    });
+  }, [batch, change, initialInventoryData]);
+
   /*
-    Populate field values for new PO Line from a template if it exist.
+    Populate field values for new PO Line from a template if it exist and custom fields are loaded.
     First, the values of the fields are set, which, when changed, change other fields.
   */
 
   useEffect(() => {
-    if (!lineId && templateValue.id) {
-      const populateFieldsFromTemplate = (fields) => {
-        batch(() => {
-          fields.forEach(field => {
-            const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
-            const templateFieldValue = get(templateValue, templateField);
-
-            if (templateFieldValue !== undefined) change(field, templateFieldValue);
-          });
-        });
-      };
-
+    if (!lineId && templateValue.id && isCustomFieldsLoaded) {
       setTimeout(() => populateFieldsFromTemplate(GAME_CHANGER_FIELDS));
       setTimeout(() => populateFieldsFromTemplate(getRegisteredFields()), GAME_CHANGER_TIMEOUT);
     }
-  }, [batch, change, getRegisteredFields, lineId, templateValue]);
+  }, [populateFieldsFromTemplate, getRegisteredFields, lineId, templateValue, isCustomFieldsLoaded]);
 
   useEffect(() => {
     if (isCreateFromInstance) {
-      setTimeout(() => {
-        batch(() => {
-          change('isPackage', false);
-
-          Object.keys(initialInventoryData).forEach(field => {
-            if (field === 'productIds') {
-              change(`details.${field}`, initialInventoryData[field]);
-            } else change(field, initialInventoryData[field]);
-          });
-        });
-      }, GAME_CHANGER_TIMEOUT);
+      setTimeout(() => { applyInitialInventoryData(); }, GAME_CHANGER_TIMEOUT);
     }
-  }, [batch, change, initialInventoryData, isCreateFromInstance]);
+  }, [applyInitialInventoryData, isCreateFromInstance]);
 
   useEffect(() => {
     setHiddenFields(templateValue?.hiddenFields || {});
@@ -363,6 +366,10 @@ function POLineForm({
     if (holdingFieldName) {
       change(holdingFieldName, holdingId);
     }
+  };
+
+  const handleCustomFieldsLoaded = () => {
+    setIsCustomFieldsLoaded(true);
   };
 
   const shortcuts = [
@@ -615,6 +622,7 @@ function POLineForm({
                           entityType="po_line"
                           fieldComponent={Field}
                           finalFormCustomFieldsValues={customFieldsValues}
+                          onComponentLoad={handleCustomFieldsLoaded}
                         />
                       </AccordionSet>
                     </Col>
