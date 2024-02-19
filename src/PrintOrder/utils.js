@@ -64,3 +64,32 @@ export const getOrderPrintData = async (ky, order = {}) => {
     shipToRecord: addressMap[order.shipTo],
   });
 };
+
+export const getCurrencyRate = async (ky, from, to) => {
+  const currencyRate = await ky.get(`finance/exchange-rate?from=${from}&to=${to}`).json().catch(() => ({}));
+
+  return currencyRate?.exchangeRate;
+};
+
+export const getPOLineTotalEstimatedPrice = async ({ ky, poLine = {}, systemCurrency }) => {
+  const {
+    currency,
+    exchangeRate,
+    poLineEstimatedPrice,
+    quantityElectronic = 0,
+    quantityPhysical = 0,
+  } = poLine;
+
+  let currentExchangeRate = exchangeRate;
+
+  if (currency !== systemCurrency && !exchangeRate) {
+    const currencyRespond = await getCurrencyRate(ky, currency, systemCurrency);
+
+    currentExchangeRate = currencyRespond || exchangeRate;
+  }
+
+  return {
+    totalItems: quantityPhysical + quantityElectronic,
+    totalEstimatedPrice: currentExchangeRate ? (poLineEstimatedPrice * currentExchangeRate) : poLineEstimatedPrice,
+  };
+};

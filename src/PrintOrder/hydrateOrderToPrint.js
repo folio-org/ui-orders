@@ -1,4 +1,6 @@
-export function hydrateOrderToPrint({ order }) {
+import { getPOLineTotalEstimatedPrice } from './utils';
+
+export const hydrateOrderToPrint = async ({ ky, order, systemCurrency }) => {
   if (!order) {
     return undefined;
   }
@@ -14,12 +16,11 @@ export function hydrateOrderToPrint({ order }) {
     ?.find(({ isPrimary }) => isPrimary);
 
   if (order.lines?.length === 1) {
-    const [{ poLineEstimatedPrice, quantityPhysical = 0, quantityElectronic = 0 }] = order.lines;
-
-    totals = {
-      totalItems: quantityPhysical + quantityElectronic,
-      totalEstimatedPrice: poLineEstimatedPrice,
-    };
+    totals = await getPOLineTotalEstimatedPrice({
+      ky,
+      poLine: order.lines[0],
+      systemCurrency,
+    });
   }
 
   return {
@@ -31,4 +32,4 @@ export function hydrateOrderToPrint({ order }) {
     vendorPrimaryPhone,
     vendor,
   };
-}
+};

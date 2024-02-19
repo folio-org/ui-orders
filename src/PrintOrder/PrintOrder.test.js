@@ -3,6 +3,12 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 import { order, orderLine } from 'fixtures';
 import { PrintOrder } from './PrintOrder';
 
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  useStripes: () => ({
+    currency: 'USD',
+  }),
+}));
 jest.mock('./ComponentToPrint', () => jest.fn().mockReturnValue('ComponentToPrint'));
 jest.mock('../common/ExportSettingsModal/utils/getExportData', () => ({
   getExportData: jest.fn(),
