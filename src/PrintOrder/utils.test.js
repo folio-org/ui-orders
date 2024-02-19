@@ -82,5 +82,27 @@ describe('utils', () => {
 
       expect(ky.get).toHaveBeenCalled();
     });
+
+    it('should call `getPOLineTotalEstimatedPrice` with `getCurrencyRate` with reject', async () => {
+      const resp = await getPOLineTotalEstimatedPrice({
+        ky: {
+          get: jest.fn(() => ({
+            json: () => Promise.reject(),
+          })),
+        },
+        poLine: {
+          ...poLine,
+          exchangeRate: null,
+        },
+        systemCurrency: 'USD',
+      });
+
+      expect(resp).toEqual({
+        totalItems: 1,
+        totalEstimatedPrice: 1,
+      });
+
+      expect(ky.get).not.toHaveBeenCalled();
+    });
   });
 });
