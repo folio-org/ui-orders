@@ -27,6 +27,7 @@ export const orderLine = {
     additionalCost: 0,
     discount: 20,
     discountType: 'amount',
+    exchangeRate: 22,
     quantityPhysical: 6,
     quantityElectronic: 1,
     poLineEstimatedPrice: 2980,
