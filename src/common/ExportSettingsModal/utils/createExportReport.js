@@ -199,6 +199,7 @@ const getOrderLineExportData = ({
     userLimit: lineRecord.eresource?.userLimit,
     resourceUrl: lineRecord.eresource?.resourceUrl,
     poLineTags: lineRecord.tags?.tagList?.join('|'),
+    exchangeRate: lineRecord.cost?.exchangeRate,
   };
 };
 
