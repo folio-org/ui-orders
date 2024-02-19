@@ -85,6 +85,7 @@ export const EXPORT_LINE_FIELDS = {
   resourceUrl: 'URL',
   poLineTags: 'POLine tags',
   renewalNote: 'Renewal note',
+  exchangeRate: 'Exchange rate',
 };
 
 export const EXPORT_ORDER_FIELDS_OPTIONS = Object.keys(EXPORT_ORDER_FIELDS).map(field => ({
