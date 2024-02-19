@@ -83,9 +83,7 @@ export const getPOLineTotalEstimatedPrice = async ({ ky, poLine = {}, systemCurr
   let currentExchangeRate = exchangeRate;
 
   if (currency !== systemCurrency && !exchangeRate) {
-    const currencyRespond = await getCurrencyRate(ky, currency, systemCurrency);
-
-    currentExchangeRate = currencyRespond || exchangeRate;
+    currentExchangeRate = await getCurrencyRate(ky, currency, systemCurrency);
   }
 
   return {
