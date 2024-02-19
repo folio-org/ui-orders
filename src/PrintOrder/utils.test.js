@@ -1,5 +1,9 @@
 import { order } from '../../test/jest/fixtures';
-import { getOrderPrintData, getCurrencyRate, getPOLineTotalEstimatedPrice } from './utils';
+import {
+  getOrderPrintData,
+  getCurrencyRate,
+  getPOLineTotalEstimatedPrice,
+} from './utils';
 
 const poLine = {
   currency: 'EUR',
@@ -58,9 +62,10 @@ describe('utils', () => {
         totalItems: 1,
         totalEstimatedPrice: 1,
       });
+      expect(ky.get).not.toHaveBeenCalled();
     });
 
-    it('should call `getPOLineTotalEstimatedPrice`', async () => {
+    it('should call `getPOLineTotalEstimatedPrice` with `getCurrencyRate`', async () => {
       const resp = await getPOLineTotalEstimatedPrice({
         ky,
         poLine: {
@@ -74,6 +79,8 @@ describe('utils', () => {
         totalItems: 1,
         totalEstimatedPrice: 2,
       });
+
+      expect(ky.get).toHaveBeenCalled();
     });
   });
 });
