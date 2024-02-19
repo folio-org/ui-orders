@@ -71,8 +71,8 @@ describe('utils', () => {
       });
 
       expect(resp).toEqual({
-        totalItems: 2,
-        totalEstimatedPrice: 1,
+        totalItems: 1,
+        totalEstimatedPrice: 2,
       });
     });
   });
