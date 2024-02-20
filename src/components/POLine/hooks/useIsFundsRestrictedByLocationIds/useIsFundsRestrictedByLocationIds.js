@@ -39,10 +39,12 @@ export const useIsFundsRestrictedByLocationIds = ({
   }, [fundsWithRestrictedLocations, listOfLocationIds]);
 
   const hasLocationRestrictedFund = useMemo(() => {
-    return fundsWithRestrictedLocations.length
-      ? !isFundNotRestricted()
-      : false;
-  }, [fundsWithRestrictedLocations.length, isFundNotRestricted]);
+    if (!isHoldingsLoading && !isFundsLoading && fundsWithRestrictedLocations.length) {
+      return !isFundNotRestricted();
+    }
+
+    return false;
+  }, [fundsWithRestrictedLocations, isFundNotRestricted, isFundsLoading, isHoldingsLoading]);
 
   return ({
     isLoading: isHoldingsLoading || isFundsLoading,
