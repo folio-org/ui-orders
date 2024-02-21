@@ -1,4 +1,5 @@
 import { useOkapiKy, useStripes } from '@folio/stripes/core';
+import { EXCHANGE_RATE_API } from '@folio/stripes-acq-components';
 
 export const usePOLineTotalEstimatedPrice = () => {
   const ky = useOkapiKy();
@@ -7,9 +8,13 @@ export const usePOLineTotalEstimatedPrice = () => {
   const systemCurrency = stripes.currency;
 
   const getCurrencyRate = async (from) => {
-    const currencyRate = await ky.get(`finance/exchange-rate?from=${from}&to=${systemCurrency}`).json().catch(() => ({}));
+    const currencyRate = await ky
+      .get(`${EXCHANGE_RATE_API}?from=${from}&to=${systemCurrency}`)
+      .json()
+      .then(({ exchangeRate }) => exchangeRate)
+      .catch(() => ({}));
 
-    return currencyRate?.exchangeRate;
+    return currencyRate;
   };
 
   const getPOLineTotalEstimatedPrice = async ({ poLine = {} }) => {
@@ -17,8 +22,6 @@ export const usePOLineTotalEstimatedPrice = () => {
       currency,
       exchangeRate,
       poLineEstimatedPrice,
-      quantityElectronic = 0,
-      quantityPhysical = 0,
     } = poLine;
 
     let currentExchangeRate = exchangeRate;
@@ -28,7 +31,6 @@ export const usePOLineTotalEstimatedPrice = () => {
     }
 
     return {
-      totalItems: quantityPhysical + quantityElectronic,
       totalEstimatedPrice: currentExchangeRate ? (poLineEstimatedPrice * currentExchangeRate) : poLineEstimatedPrice,
     };
   };

@@ -7,7 +7,6 @@ import { usePOLineTotalEstimatedPrice } from './usePOLineTotalEstimatedPrice';
 
 const poLine = {
   currency: 'EUR',
-  exchangeRate: 1,
   poLineEstimatedPrice: 1,
   quantityElectronic: 0,
   quantityPhysical: 1,
@@ -22,35 +21,39 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-describe('getPOLineTotalEstimatedPrice', () => {
+const getCurrencyRate = jest.fn(() => ({
+  json: () => Promise.resolve({
+    exchangeRate: 2,
+  }),
+}));
+
+describe('usePOLineTotalEstimatedPrice', () => {
   beforeEach(() => {
     useOkapiKy
       .mockClear()
       .mockReturnValue({
-        get: jest.fn(() => ({
-          json: () => Promise.resolve({
-            exchangeRate: 2,
-          }),
-        })),
+        get: getCurrencyRate,
       });
   });
 
-  it('should call `getCurrencyRate`', async () => {
-    useOkapiKy
-      .mockClear()
-      .mockReturnValue({
-        get: jest.fn(() => ({
-          json: () => Promise.resolve({
-            exchangeRate: 1,
-          }),
-        })),
-      });
+  it('should call `getPOLineTotalEstimatedPrice`', async () => {
+    const { result } = renderHook(() => usePOLineTotalEstimatedPrice(), { wrapper });
 
+    const resp = await result.current.getPOLineTotalEstimatedPrice({ poLine: {
+      ...poLine,
+      exchangeRate: 10,
+    } });
+
+    expect(resp).toEqual({ 'totalEstimatedPrice': 10 });
+    expect(getCurrencyRate).not.toHaveBeenCalled();
+  });
+
+  it('should call `getPOLineTotalEstimatedPrice` with `getCurrencyRate`', async () => {
     const { result } = renderHook(() => usePOLineTotalEstimatedPrice(), { wrapper });
 
     const resp = await result.current.getPOLineTotalEstimatedPrice({ poLine });
 
-    expect(resp).toEqual({ 'totalEstimatedPrice': 1, 'totalItems': 1 });
-    expect(useOkapiKy).toHaveBeenCalled();
+    expect(resp).toEqual({ 'totalEstimatedPrice': 2 });
+    expect(getCurrencyRate).toHaveBeenCalled();
   });
 });

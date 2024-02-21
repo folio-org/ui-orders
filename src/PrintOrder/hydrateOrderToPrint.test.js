@@ -3,11 +3,6 @@ import pick from 'lodash/pick';
 import { order, exportReport, hydratedOrder } from '../../test/jest/fixtures';
 
 import { hydrateOrderToPrint } from './hydrateOrderToPrint';
-import { getPOLineTotalEstimatedPrice } from './utils';
-
-jest.mock('./utils', () => ({
-  getPOLineTotalEstimatedPrice: jest.fn(),
-}));
 
 const mockLine = {
   ...pick(exportReport[0], ['billToRecord', 'shipToRecord', 'quantityPhysical', 'quantityElectronic', 'poLineEstimatedPrice']),
@@ -17,16 +12,16 @@ const mockLine = {
   },
 };
 
-describe('hydrateOrderToPrint', () => {
-  beforeEach(async () => {
-    getPOLineTotalEstimatedPrice.mockReturnValue({
-      totalItems: mockLine.quantityPhysical + mockLine.quantityElectronic,
-      totalEstimatedPrice: mockLine.poLineEstimatedPrice,
-    });
-  });
+const getPOLineTotalEstimatedPriceMock = jest.fn().mockReturnValue({
+  totalEstimatedPrice: mockLine.poLineEstimatedPrice,
+});
 
+describe('hydrateOrderToPrint', () => {
   it('should return hydrated order', async () => {
-    const result = await hydrateOrderToPrint({ order: { order, lines: [mockLine, mockLine] } });
+    const result = await hydrateOrderToPrint({
+      order: { order, lines: [mockLine, mockLine] },
+      getPOLineTotalEstimatedPrice: getPOLineTotalEstimatedPriceMock,
+    });
 
     expect(result).toEqual({
       ...hydratedOrder,
@@ -35,11 +30,13 @@ describe('hydrateOrderToPrint', () => {
   });
 
   it('should return hydrated order for specific line', async () => {
-    const result = await hydrateOrderToPrint({ order: { order, lines: [mockLine] } });
+    const result = await hydrateOrderToPrint({
+      order: { order, lines: [mockLine] },
+      getPOLineTotalEstimatedPrice: getPOLineTotalEstimatedPriceMock,
+    });
 
     expect(result).toEqual({
       ...hydratedOrder,
-      totalItems: mockLine.quantityPhysical + mockLine.quantityElectronic,
       totalEstimatedPrice: mockLine.poLineEstimatedPrice,
     });
   });
