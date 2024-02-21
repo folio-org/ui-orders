@@ -17,7 +17,7 @@ export const usePOLineTotalEstimatedPrice = () => {
     return currencyRate;
   };
 
-  const getPOLineTotalEstimatedPrice = async ({ poLine = {} }) => {
+  const getPOLineTotalEstimatedPrice = async (poLine = {}) => {
     const {
       currency,
       exchangeRate,

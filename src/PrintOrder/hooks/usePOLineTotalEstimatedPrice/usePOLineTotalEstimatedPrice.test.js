@@ -1,6 +1,6 @@
-import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { usePOLineTotalEstimatedPrice } from './usePOLineTotalEstimatedPrice';
@@ -14,7 +14,6 @@ const poLine = {
 
 const queryClient = new QueryClient();
 
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}
@@ -39,10 +38,10 @@ describe('usePOLineTotalEstimatedPrice', () => {
   it('should call `getPOLineTotalEstimatedPrice`', async () => {
     const { result } = renderHook(() => usePOLineTotalEstimatedPrice(), { wrapper });
 
-    const resp = await result.current.getPOLineTotalEstimatedPrice({ poLine: {
+    const resp = await result.current.getPOLineTotalEstimatedPrice({
       ...poLine,
       exchangeRate: 10,
-    } });
+    });
 
     expect(resp).toEqual({ 'totalEstimatedPrice': 10 });
     expect(getCurrencyRate).not.toHaveBeenCalled();
@@ -51,7 +50,7 @@ describe('usePOLineTotalEstimatedPrice', () => {
   it('should call `getPOLineTotalEstimatedPrice` with `getCurrencyRate`', async () => {
     const { result } = renderHook(() => usePOLineTotalEstimatedPrice(), { wrapper });
 
-    const resp = await result.current.getPOLineTotalEstimatedPrice({ poLine });
+    const resp = await result.current.getPOLineTotalEstimatedPrice(poLine);
 
     expect(resp).toEqual({ 'totalEstimatedPrice': 2 });
     expect(getCurrencyRate).toHaveBeenCalled();

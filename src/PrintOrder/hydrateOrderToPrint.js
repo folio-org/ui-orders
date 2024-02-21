@@ -14,9 +14,7 @@ export const hydrateOrderToPrint = async ({ order, getPOLineTotalEstimatedPrice 
     ?.find(({ isPrimary }) => isPrimary);
 
   if (order.lines?.length === 1) {
-    totals = await getPOLineTotalEstimatedPrice({
-      poLine: order.lines[0],
-    });
+    totals = await getPOLineTotalEstimatedPrice(order.lines[0]);
   }
 
   return {
