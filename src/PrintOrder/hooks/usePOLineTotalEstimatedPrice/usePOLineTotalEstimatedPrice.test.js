@@ -13,17 +13,6 @@ const poLine = {
   quantityPhysical: 1,
 };
 
-const fundIds = ['1', '2'];
-const funds = [{
-  id: '1',
-  code: 'fundCode',
-},
-{
-  id: '2',
-  code: 'fundCode',
-},
-];
-
 const queryClient = new QueryClient();
 
 // eslint-disable-next-line react/prop-types
@@ -57,10 +46,11 @@ describe('getPOLineTotalEstimatedPrice', () => {
         })),
       });
 
-    const { result } = renderHook(() => usePOLineTotalEstimatedPrice(fundIds), { wrapper });
+    const { result } = renderHook(() => usePOLineTotalEstimatedPrice(), { wrapper });
 
     const resp = await result.current.getPOLineTotalEstimatedPrice({ poLine });
 
-    expect(resp).toEqual(1);
+    expect(resp).toEqual({ 'totalEstimatedPrice': 1, 'totalItems': 1 });
+    expect(useOkapiKy).toHaveBeenCalled();
   });
 });
