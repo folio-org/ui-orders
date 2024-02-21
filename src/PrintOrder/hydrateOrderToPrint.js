@@ -1,6 +1,4 @@
-import { getPOLineTotalEstimatedPrice } from './utils';
-
-export const hydrateOrderToPrint = async ({ ky, order, systemCurrency }) => {
+export const hydrateOrderToPrint = async ({ order, getPOLineTotalEstimatedPrice }) => {
   if (!order) {
     return undefined;
   }
@@ -17,9 +15,7 @@ export const hydrateOrderToPrint = async ({ ky, order, systemCurrency }) => {
 
   if (order.lines?.length === 1) {
     totals = await getPOLineTotalEstimatedPrice({
-      ky,
       poLine: order.lines[0],
-      systemCurrency,
     });
   }
 

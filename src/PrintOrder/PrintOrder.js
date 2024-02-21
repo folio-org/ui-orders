@@ -6,11 +6,11 @@ import { useIntl } from 'react-intl';
 import {
   stripesConnect,
   useOkapiKy,
-  useStripes,
 } from '@folio/stripes/core';
 
 import { exportManifest, getExportData } from '../common/ExportSettingsModal/utils';
 
+import { usePOLineTotalEstimatedPrice } from './hooks';
 import { hydrateOrderToPrint } from './hydrateOrderToPrint';
 import PrintContent from './PrintContent';
 import {
@@ -20,12 +20,11 @@ import {
 
 export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => {
   const intl = useIntl();
+  const { getPOLineTotalEstimatedPrice } = usePOLineTotalEstimatedPrice();
   const ky = useOkapiKy();
-  const stripes = useStripes();
 
   const [printableOrder, setPrintableOrder] = useState();
 
-  const systemCurrency = stripes.currency;
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     pageStyle: getPrintPageStyles(),
@@ -42,8 +41,7 @@ export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => 
         : await getOrderPrintData(ky, order);
 
       setPrintableOrder(await hydrateOrderToPrint({
-        ky,
-        systemCurrency,
+        getPOLineTotalEstimatedPrice,
         order: {
           ...order,
           ...printData,
