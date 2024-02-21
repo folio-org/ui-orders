@@ -16,6 +16,12 @@
 * Add Custom Fields to View, Edit, Create components of Orders, Order Lines and Order Templates. Refs UIOR-1195.
 * Bump up okapi interfaces for `pieces` (2.0 3.0). Refs UIOR-1212.
 * Invoice line Subscription fields are not populated correctly. Refs UIOR-1220.
+* Add missing permissions for custom fields. Refs UIOR-1223.
+* Wait for custom fields to render before populating form fields. Refs UIOR-1225.
+* Location-restricted funds in POLs. Refs UIOR-1166.
+* Add "LCCN" to the list of valid product identifier types. Refs UIOR-1218.
+* Use Vendor's the most recent currency as default currency for creating POL. Refs UIOR-1213.
+* Allow order template to hide Currency and exchange rate fields. Refs UIOR-1214.
 * Opening and editing POs with location-restricted funds (FE). Refs UIOR-1184.
 * Location-restricted funds in POLs. Refs UIOR-1166.
 * Add "LCCN" to the list of valid product identifier types. Refs UIOR-1218.

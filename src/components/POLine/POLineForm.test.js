@@ -39,7 +39,11 @@ jest.mock('@folio/stripes/components', () => ({
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
-  EditCustomFieldsRecord: jest.fn().mockReturnValue('EditCustomFieldsRecord'),
+  EditCustomFieldsRecord: jest.fn(props => {
+    props.onComponentLoad();
+
+    return 'EditCustomFieldsRecord';
+  }),
 }));
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
