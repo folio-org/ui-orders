@@ -8,8 +8,6 @@ import { usePOLineTotalEstimatedPrice } from './usePOLineTotalEstimatedPrice';
 const poLine = {
   currency: 'EUR',
   poLineEstimatedPrice: 1,
-  quantityElectronic: 0,
-  quantityPhysical: 1,
 };
 
 const queryClient = new QueryClient();
@@ -41,6 +39,7 @@ describe('usePOLineTotalEstimatedPrice', () => {
     const resp = await result.current.getPOLineTotalEstimatedPrice({
       ...poLine,
       exchangeRate: 10,
+      quantityPhysical: 1,
     });
 
     expect(resp).toEqual({ totalEstimatedPrice: 10, totalItems: 1 });
@@ -50,7 +49,10 @@ describe('usePOLineTotalEstimatedPrice', () => {
   it('should call `getPOLineTotalEstimatedPrice` with `getCurrencyRate`', async () => {
     const { result } = renderHook(() => usePOLineTotalEstimatedPrice(), { wrapper });
 
-    const resp = await result.current.getPOLineTotalEstimatedPrice(poLine);
+    const resp = await result.current.getPOLineTotalEstimatedPrice({
+      ...poLine,
+      quantityElectronic: 1,
+    });
 
     expect(resp).toEqual({ totalEstimatedPrice: 2, totalItems: 1 });
     expect(getCurrencyRate).toHaveBeenCalled();
