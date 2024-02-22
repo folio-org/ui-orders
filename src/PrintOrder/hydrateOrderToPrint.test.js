@@ -12,15 +12,10 @@ const mockLine = {
   },
 };
 
-const getPOLineTotalEstimatedPriceMock = jest.fn().mockReturnValue({
-  totalEstimatedPrice: mockLine.poLineEstimatedPrice,
-});
-
 describe('hydrateOrderToPrint', () => {
   it('should return hydrated order', async () => {
     const result = await hydrateOrderToPrint({
       order: { order, lines: [mockLine, mockLine] },
-      getPOLineTotalEstimatedPrice: getPOLineTotalEstimatedPriceMock,
     });
 
     expect(result).toEqual({
@@ -32,13 +27,9 @@ describe('hydrateOrderToPrint', () => {
   it('should return hydrated order for specific line', async () => {
     const result = await hydrateOrderToPrint({
       order: { order, lines: [mockLine] },
-      getPOLineTotalEstimatedPrice: getPOLineTotalEstimatedPriceMock,
     });
 
-    expect(result).toEqual({
-      ...hydratedOrder,
-      totalEstimatedPrice: mockLine.poLineEstimatedPrice,
-    });
+    expect(result).toEqual(hydratedOrder);
   });
 
   it('should return undefined if order is absent', async () => {

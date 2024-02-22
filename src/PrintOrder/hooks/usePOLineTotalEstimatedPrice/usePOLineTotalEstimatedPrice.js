@@ -22,6 +22,8 @@ export const usePOLineTotalEstimatedPrice = () => {
       currency,
       exchangeRate,
       poLineEstimatedPrice,
+      quantityPhysical = 0,
+      quantityElectronic = 0,
     } = poLine;
 
     let currentExchangeRate = exchangeRate;
@@ -31,6 +33,7 @@ export const usePOLineTotalEstimatedPrice = () => {
     }
 
     return {
+      totalItems: quantityPhysical + quantityElectronic,
       totalEstimatedPrice: currentExchangeRate ? (poLineEstimatedPrice * currentExchangeRate) : poLineEstimatedPrice,
     };
   };

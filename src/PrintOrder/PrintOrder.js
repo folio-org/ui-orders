@@ -40,11 +40,17 @@ export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => 
         ? { lines: await getExportData(mutator, linesToPrint, [order], intl) }
         : await getOrderPrintData(ky, order);
 
-      setPrintableOrder(await hydrateOrderToPrint({
-        getPOLineTotalEstimatedPrice,
+      let poLineTotals = {};
+
+      if (printData.lines?.length === 1) {
+        poLineTotals = await getPOLineTotalEstimatedPrice(printData.lines[0]);
+      }
+
+      setPrintableOrder(hydrateOrderToPrint({
         order: {
           ...order,
           ...printData,
+          ...poLineTotals,
         },
       }));
     })();

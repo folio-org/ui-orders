@@ -43,7 +43,7 @@ describe('usePOLineTotalEstimatedPrice', () => {
       exchangeRate: 10,
     });
 
-    expect(resp).toEqual({ 'totalEstimatedPrice': 10 });
+    expect(resp).toEqual({ totalEstimatedPrice: 10, totalItems: 1 });
     expect(getCurrencyRate).not.toHaveBeenCalled();
   });
 
@@ -52,7 +52,7 @@ describe('usePOLineTotalEstimatedPrice', () => {
 
     const resp = await result.current.getPOLineTotalEstimatedPrice(poLine);
 
-    expect(resp).toEqual({ 'totalEstimatedPrice': 2 });
+    expect(resp).toEqual({ totalEstimatedPrice: 2, totalItems: 1 });
     expect(getCurrencyRate).toHaveBeenCalled();
   });
 });
