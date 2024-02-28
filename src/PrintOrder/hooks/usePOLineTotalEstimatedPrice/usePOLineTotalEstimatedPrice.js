@@ -1,4 +1,7 @@
-import { useOkapiKy, useStripes } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 import { EXCHANGE_RATE_API } from '@folio/stripes-acq-components';
 
 export const usePOLineTotalEstimatedPrice = () => {
@@ -12,7 +15,7 @@ export const usePOLineTotalEstimatedPrice = () => {
       .get(`${EXCHANGE_RATE_API}?from=${from}&to=${systemCurrency}`)
       .json()
       .then(({ exchangeRate }) => exchangeRate)
-      .catch(() => ({}));
+      .catch(() => null);
 
     return currencyRate;
   };
