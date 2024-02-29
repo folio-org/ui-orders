@@ -33,4 +33,13 @@ describe('makeSearchQuery', () => {
 
     expect(query).toBe(`(customFields.shorttext==*${QUERY}*)`);
   });
+
+  it('should return keyword query with custom fields', () => {
+    const query = makeSearchQuery(null, CUSTOM_FIELDS)(QUERY);
+
+    expect(query).toBe(
+      `metadata.createdDate=="Invalid date*" or dateOrdered=="Invalid date*" or poNumber=="*${QUERY}*" or ` +
+      `customFields.datepicker=="Invalid date*" or customFields.longtext=="*${QUERY}*" or customFields.shorttext=="*${QUERY}*"`,
+    );
+  });
 });
