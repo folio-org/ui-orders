@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import { useReactToPrint } from 'react-to-print';
 import { useIntl } from 'react-intl';
 
-import { stripesConnect, useOkapiKy } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  useOkapiKy,
+} from '@folio/stripes/core';
 
 import { exportManifest, getExportData } from '../common/ExportSettingsModal/utils';
 
-import PrintContent from './PrintContent';
+import { usePOLineTotalEstimatedPrice } from './hooks';
 import { hydrateOrderToPrint } from './hydrateOrderToPrint';
+import PrintContent from './PrintContent';
 import {
   getOrderPrintData,
   getPrintPageStyles,
@@ -16,6 +20,7 @@ import {
 
 export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => {
   const intl = useIntl();
+  const { getPOLineTotalEstimatedPrice } = usePOLineTotalEstimatedPrice();
   const ky = useOkapiKy();
 
   const [printableOrder, setPrintableOrder] = useState();
@@ -35,10 +40,17 @@ export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => 
         ? { lines: await getExportData(mutator, linesToPrint, [order], intl) }
         : await getOrderPrintData(ky, order);
 
+      let poLineTotals = {};
+
+      if (printData.lines?.length === 1) {
+        poLineTotals = await getPOLineTotalEstimatedPrice(printData.lines[0]);
+      }
+
       setPrintableOrder(hydrateOrderToPrint({
         order: {
           ...order,
           ...printData,
+          ...poLineTotals,
         },
       }));
     })();
