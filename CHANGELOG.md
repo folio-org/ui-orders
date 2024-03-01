@@ -30,6 +30,7 @@
 * Allow order template to hide Currency and exchange rate fields. Refs UIOR-1214.
 * Add order line "Exchange rate" to order csv export. Refs UIOR-1208.
 * Add informative error message when a user is trying to save the order template with already existing name. Refs UIOR-1118.
+* Currency and amount in a printed order mismatch. Refs UIOR-1224.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
