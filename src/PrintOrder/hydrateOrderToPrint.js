@@ -1,4 +1,4 @@
-export const hydrateOrderToPrint = async ({ order }) => {
+export const hydrateOrderToPrint = ({ order }) => {
   if (!order) {
     return undefined;
   }
