@@ -22,6 +22,7 @@
 * Add "LCCN" to the list of valid product identifier types. Refs UIOR-1218.
 * Use Vendor's the most recent currency as default currency for creating POL. Refs UIOR-1213.
 * Allow order template to hide Currency and exchange rate fields. Refs UIOR-1214.
+* UX Consistency > Search Results > Update HTML page title with search term entered. Refs UIOR-1200.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
