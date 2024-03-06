@@ -7,6 +7,6 @@ export const useResultsPageTitle = (filters) => {
   const query = filters?.[SEARCH_PARAMETER];
 
   return query
-    ? intl.formatMessage({ id: 'ui-orders.document.title.orders.search' }, { query })
+    ? intl.formatMessage({ id: 'ui-orders.document.title.search' }, { query })
     : null;
 };

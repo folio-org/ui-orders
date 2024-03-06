@@ -24,6 +24,9 @@ const mockLocalStorageFilters = {
 jest.mock('react-virtualized-auto-sizer', () => jest.fn(
   (props) => <div>{props.children({ width: 123 })}</div>,
 ));
+jest.mock('@folio/stripes-core/src/components/TitleManager/TitleManager', () => {
+  return jest.fn(({ children }) => <div>{children}</div>);
+});
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   // eslint-disable-next-line react/prop-types
