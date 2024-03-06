@@ -36,9 +36,6 @@ jest.mock('@folio/stripes/smart-components', () => ({
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
 }));
-jest.mock('@folio/stripes-core/src/components/TitleManager/TitleManager', () => {
-  return jest.fn(({ children }) => <div>{children}</div>);
-});
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useLocalStorageFilters: jest.fn(() => Object.values(mockLocalStorageFilters)),
