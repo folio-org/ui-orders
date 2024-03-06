@@ -54,6 +54,7 @@ import {
   ReexportModal,
 } from '../../common';
 import {
+  ERROR_CODES,
   INVOICES_ROUTE,
   ORDERS_ROUTE,
   REEXPORT_SOURCES,
@@ -441,7 +442,7 @@ const PO = ({
             return fetchOrder();
           },
           e => {
-            return handleErrorResponse(e, orderErrorModalShow, 'orderGenericError1', toggleDeletePieces);
+            return handleErrorResponse(e, orderErrorModalShow, ERROR_CODES.orderGenericError1, toggleDeletePieces);
           },
         )
         .finally(setIsLoading);

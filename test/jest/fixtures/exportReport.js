@@ -107,6 +107,7 @@ export const exportReport = [
         'currency': 'USD',
         'discount': 20,
         'discountType': 'amount',
+        'exchangeRate': 22,
         'listUnitPrice': 500,
         'listUnitPriceElectronic': 0,
         'poLineEstimatedPrice': 2980,
@@ -330,5 +331,6 @@ export const exportReport = [
     },
     'volumes': 'vol. 1',
     'workflowStatus': 'Pending',
+    'exchangeRate': 22,
   },
 ];

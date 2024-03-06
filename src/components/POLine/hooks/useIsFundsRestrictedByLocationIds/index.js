@@ -1,0 +1,1 @@
+export { useIsFundsRestrictedByLocationIds } from './useIsFundsRestrictedByLocationIds';

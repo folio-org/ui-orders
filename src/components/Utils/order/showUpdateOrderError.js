@@ -25,7 +25,7 @@ const showUpdateOrderError = async (
   response,
   callout,
   openModal,
-  genericCode = 'orderGenericError1',
+  genericCode = ERROR_CODES.orderGenericError1,
   toggleDeletePieces = null,
 ) => {
   let error;
@@ -88,6 +88,16 @@ const showUpdateOrderError = async (
       const fundCodes = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'finance.funds')?.value;
 
       callout.sendCallout({ messageId: `ui-orders.errors.${ERROR_CODES[code]}`, type: 'error', values: { fundCodes } });
+      break;
+    }
+    case ERROR_CODES.fundLocationRestrictionViolation: {
+      const polNumber = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'poLineNumber')?.value;
+
+      callout.sendCallout({
+        messageId: 'ui-orders.errors.openOrder.fundLocationRestrictionViolation',
+        type: 'error',
+        values: { polNumber },
+      });
       break;
     }
     default: {

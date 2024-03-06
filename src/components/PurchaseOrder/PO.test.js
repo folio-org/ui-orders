@@ -34,6 +34,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
 jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
   useOrderLinesAbandonedHoldingsCheck: jest.fn(() => ({ isFetching: false, result: { type: 'withoutPieces' } })),
+  useHandleOrderUpdateError: jest.fn(() => [jest.fn()]),
 }));
 jest.mock('./hooks', () => ({
   ...jest.requireActual('./hooks'),
@@ -403,6 +404,36 @@ describe('PO errors', () => {
       expect(defaultProps.mutator.orderDetails.GET).toHaveBeenCalled();
       expect(defaultProps.mutator.orderInvoicesRelns.GET).toHaveBeenCalled();
       expect(defaultProps.mutator.orderLines.GET).toHaveBeenCalled();
+    });
+  });
+
+  it('should handle errors on update order', async () => {
+    defaultProps.mutator.orderDetails.PUT.mockRejectedValue({});
+
+    defaultProps.mutator.orderDetails.GET.mockResolvedValue({
+      ...ORDER,
+      workflowStatus: ORDER_STATUSES.pending,
+      approved: true,
+    });
+
+    renderComponent();
+
+    await waitFor(() => {
+      expect(defaultProps.mutator.orderDetails.GET).toHaveBeenCalled();
+    });
+
+    const openOrderBtn = await screen.findByTestId('open-order-button');
+
+    await user.click(openOrderBtn);
+
+    await waitFor(() => {
+      expect(screen.getByText('ui-orders.openOrderModal.submit')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByText('ui-orders.openOrderModal.submit'));
+
+    await waitFor(() => {
+      expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
   });
 });

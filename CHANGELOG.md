@@ -22,6 +22,11 @@
 * Add "LCCN" to the list of valid product identifier types. Refs UIOR-1218.
 * Use Vendor's the most recent currency as default currency for creating POL. Refs UIOR-1213.
 * Allow order template to hide Currency and exchange rate fields. Refs UIOR-1214.
+* Opening and editing POs with location-restricted funds (FE). Refs UIOR-1184.
+* Update error message for opening PO with location-restricted funds. Refs UIOR-1222.
+* Add order line "Exchange rate" to order csv export. Refs UIOR-1208.
+* Add informative error message when a user is trying to save the order template with already existing name. Refs UIOR-1118.
+* Currency and amount in a printed order mismatch. Refs UIOR-1224.
 * UX Consistency > Search Results > Update HTML page title with search term entered. Refs UIOR-1200.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
