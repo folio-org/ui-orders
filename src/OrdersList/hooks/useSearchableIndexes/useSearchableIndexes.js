@@ -3,7 +3,10 @@ import { useIntl } from 'react-intl';
 
 import { useLocaleDateFormat } from '@folio/stripes-acq-components';
 
-import { FILTERS } from '../../constants';
+import {
+  CUSTOM_FIELD_TYPES,
+  FILTERS,
+} from '../../constants';
 
 export function useSearchableIndexes(customFields) {
   const localeDateFormat = useLocaleDateFormat();
@@ -18,12 +21,12 @@ export function useSearchableIndexes(customFields) {
         const fieldLabel = `${customFieldLabel} ${cf.name}`;
         const fieldValue = `${FILTERS.CUSTOM_FIELDS}.${cf.refId}`;
 
-        if (cf.type === 'TEXTBOX_LONG' || cf.type === 'TEXTBOX_SHORT') {
+        if (cf.type === CUSTOM_FIELD_TYPES.TEXTBOX_LONG || cf.type === CUSTOM_FIELD_TYPES.TEXTBOX_SHORT) {
           return {
             label: fieldLabel,
             value: fieldValue,
           };
-        } else if (cf.type === 'DATE_PICKER') {
+        } else if (cf.type === CUSTOM_FIELD_TYPES.DATE_PICKER) {
           return {
             label: fieldLabel,
             value: fieldValue,

@@ -6,6 +6,13 @@ import {
   WORKFLOW_STATUS,
 } from '../common/constants';
 
+export const CUSTOM_FIELD_TYPES = {
+  DATE_PICKER: 'DATE_PICKER',
+  MULTI_SELECT_DROPDOWN: 'MULTI_SELECT_DROPDOWN',
+  TEXTBOX_LONG: 'TEXTBOX_LONG',
+  TEXTBOX_SHORT: 'TEXTBOX_SHORT',
+};
+
 export const FILTERS = {
   ACQUISITIONS_UNIT: 'acqUnitIds',
   APPROVED: 'approved',

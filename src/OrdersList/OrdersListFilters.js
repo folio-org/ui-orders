@@ -17,9 +17,11 @@ import OrdersTextFilter from '@folio/plugin-find-po-line/FindPOLine/OrdersTextFi
 import PrefixFilter from '@folio/plugin-find-po-line/FindPOLine/PrefixFilter';
 import SuffixFilter from '@folio/plugin-find-po-line/FindPOLine/SuffixFilter';
 
-import ClosingReasonFilter from '../common/ClosingReasonFilter';
-import CustomFieldsFilters from '../common/CustomFieldsFilters/CustomFieldsFilters';
-import AddressFilter from '../common/AddressFilter';
+import {
+  AddressFilter,
+  ClosingReasonFilter,
+  CustomFieldsFilters,
+} from '../common';
 import {
   closingReasonsShape,
 } from '../common/shapes';
@@ -31,7 +33,14 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-function OrdersListFilters({ activeFilters, closingReasons, customFields, applyFilters, disabled, addresses }) {
+function OrdersListFilters({
+  activeFilters,
+  closingReasons,
+  customFields,
+  applyFilters,
+  disabled,
+  addresses,
+}) {
   const onChange = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],

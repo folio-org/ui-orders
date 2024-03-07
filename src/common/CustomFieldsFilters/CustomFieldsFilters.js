@@ -13,9 +13,7 @@ const CustomFieldsFilters = ({
 
   return customFields.map((customField) => (
     <CustomFieldsFilter
-      activeFilters={
-        activeFilters[`${FILTERS.CUSTOM_FIELDS}.${customField.refId}`]
-      }
+      activeFilters={activeFilters[`${FILTERS.CUSTOM_FIELDS}.${customField.refId}`]}
       customField={customField}
       key={`custom-field-${customField.id}`}
       onChange={onChange}

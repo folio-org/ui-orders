@@ -13,7 +13,10 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { makeSearchQuery } from '../../OrdersListSearchConfig';
-import { FILTERS } from '../../constants';
+import {
+  CUSTOM_FIELD_TYPES,
+  FILTERS,
+} from '../../constants';
 
 export function useBuildQuery(customFields) {
   const localeDateFormat = useLocaleDateFormat();
@@ -25,9 +28,9 @@ export function useBuildQuery(customFields) {
       customFields.forEach((cf) => {
         const fieldName = `${FILTERS.CUSTOM_FIELDS}.${cf.refId}`;
 
-        if (cf.type === 'MULTI_SELECT_DROPDOWN') {
+        if (cf.type === CUSTOM_FIELD_TYPES.MULTI_SELECT_DROPDOWN) {
           result[fieldName] = buildArrayFieldQuery.bind(null, fieldName);
-        } else if (cf.type === 'DATE_PICKER') {
+        } else if (cf.type === CUSTOM_FIELD_TYPES.DATE_PICKER) {
           result[fieldName] = buildDateTimeRangeQuery.bind(null, fieldName);
         }
       });

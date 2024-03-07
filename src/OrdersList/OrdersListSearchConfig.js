@@ -2,7 +2,10 @@ import moment from 'moment';
 
 import { DATE_FORMAT } from '@folio/stripes-acq-components';
 
-import { FILTERS } from './constants';
+import {
+  CUSTOM_FIELD_TYPES,
+  FILTERS,
+} from './constants';
 
 const indexes = [
   'metadata.createdDate',
@@ -22,14 +25,18 @@ const customSearchMap = {
 };
 
 function getCqlQuery(query, qindex, dateFormat, customField) {
-  return customField?.type === 'DATE_PICKER'
+  return customField?.type === CUSTOM_FIELD_TYPES.DATE_PICKER
     ? searchByDate(query, dateFormat)
     : customSearchMap[qindex]?.(query, dateFormat) || `*${query}*`;
 }
 
 const getKeywordQuery = (query, dateFormat, customFields) => {
   const customFieldIndexes = (customFields || [])
-    .filter((cf) => ['DATE_PICKER', 'TEXTBOX_SHORT', 'TEXTBOX_LONG'].includes(cf.type))
+    .filter((cf) => [
+      CUSTOM_FIELD_TYPES.DATE_PICKER,
+      CUSTOM_FIELD_TYPES.TEXTBOX_SHORT,
+      CUSTOM_FIELD_TYPES.TEXTBOX_LONG,
+    ].includes(cf.type))
     .map((cf) => `${FILTERS.CUSTOM_FIELDS}.${cf.refId}`);
 
   return [...indexes, ...customFieldIndexes].reduce(
