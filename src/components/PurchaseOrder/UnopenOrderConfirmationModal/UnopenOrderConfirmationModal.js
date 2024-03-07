@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -51,7 +52,8 @@ export const UnopenOrderConfirmationModal = ({
     isFetching,
   } = useOrderLinesAbandonedHoldingsCheck(poLines, { onError });
 
-  const modalType = result.type;
+  const { type: modalType, holdingsItemsCountMap } = result;
+  const itemsCount = get(holdingsItemsCountMap, modalType, 0);
 
   const modalFooterStart = useMemo(() => (
     <Button
@@ -71,9 +73,10 @@ export const UnopenOrderConfirmationModal = ({
           id={modalId}
           onConfirm={onConfirm}
           modalType={modalType}
+          itemsCount={itemsCount}
         />
       )
-  ), [isFetching, modalType, onConfirm]);
+  ), [isFetching, itemsCount, modalType, onConfirm]);
 
   const modalFooter = useMemo(() => (
     <ModalFooter

@@ -65,7 +65,12 @@ describe('UnopenOrderConfirmationModal actions', () => {
       beforeEach(() => {
         useOrderLinesAbandonedHoldingsCheck.mockReturnValue({
           isFetching: false,
-          result: { type: UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.synchronized },
+          result: {
+            type: UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.synchronized,
+            holdingsItemsCountMap: {
+              [UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.synchronized]: 1,
+            },
+          },
         });
       });
 
@@ -93,6 +98,23 @@ describe('UnopenOrderConfirmationModal actions', () => {
         await user.click(confirmBtn);
 
         expect(defaultProps.onConfirm).toHaveBeenCalledWith({ deleteHoldings: false });
+      });
+
+      it('should render the same labels as for \'independent\' PO Line, when where are no related items', async () => {
+        useOrderLinesAbandonedHoldingsCheck.mockReturnValue({
+          isFetching: false,
+          result: {
+            type: UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.synchronized,
+            holdingsItemsCountMap: {
+              [UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.synchronized]: 0,
+            },
+          },
+        });
+
+        renderUnopenOrderConfirmationModal();
+
+        expect(await screen.findByText('ui-orders.unopenOrderModal.confirmLabel.keepHoldings.independent')).toBeInTheDocument();
+        expect(await screen.findByText('ui-orders.unopenOrderModal.confirmLabel.keepHoldings.independent')).toBeInTheDocument();
       });
     });
 
