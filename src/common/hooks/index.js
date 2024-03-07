@@ -16,6 +16,7 @@ export * from './useOrderLinesAbandonedHoldingsCheck';
 export * from './useOrderTemplate';
 export * from './usePOLineRelatedItems';
 export * from './useReexport';
+export * from './useResultsPageTitle';
 export * from './useTenantKy';
 export * from './useTitleMutation';
 export * from './useVendor';
