@@ -67,6 +67,10 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
 
       return {
         type: getUnopenOrderAbandonedType(isSynchronizedWillAbandoned, isIndependentWillAbandoned),
+        holdingsItemsCountMap: {
+          [UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.synchronized]: synchronizedPOLinesCheckResult.holdingsItemsCount,
+          [UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.independent]: independentPOLinesCheckResult.holdingsItemsCount,
+        },
       };
     },
     {

@@ -19,6 +19,7 @@ export const checkSynchronizedPOLinesAbandonedHoldings = (ky) => async (poLines)
 
   return {
     willAbandoned: results.some(({ willAbandoned }) => Boolean(willAbandoned)),
+    holdingsItemsCount: results.reduce((acc, curr) => acc + curr.holdingsItemsCount, 0),
   };
 };
 
@@ -42,5 +43,6 @@ export const checkIndependentPOLinesAbandonedHoldings = (ky) => async (poLines) 
 
   return {
     willAbandoned: results.some(({ piecesCount, itemsCount }) => (piecesCount + itemsCount) === 0),
+    holdingsItemsCount: results.reduce((acc, curr) => acc + curr.itemsCount, 0),
   };
 };
