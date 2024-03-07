@@ -1,8 +1,10 @@
 import { order } from '../../test/jest/fixtures';
-import { getOrderPrintData } from './utils';
+import {
+  getOrderPrintData,
+} from './utils';
 
-describe('getOrderPrintData', () => {
-  it('should call ky', () => {
+describe('utils', () => {
+  it('should call `getOrderPrintData`', () => {
     const ky = {
       get: jest.fn(() => ({
         json: () => Promise.resolve(),

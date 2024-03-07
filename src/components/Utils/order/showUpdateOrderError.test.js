@@ -37,6 +37,41 @@ describe('showUpdateOrderError', () => {
     expect(params.callout.sendCallout).toHaveBeenCalled();
   });
 
+  it('should handle `fundLocationRestrictionViolation` error and show message', async () => {
+    const response = {
+      errors: [{
+        code: 'fundLocationRestrictionViolation',
+        parameters: [{
+          key: 'poLineNumber',
+          value: 'value',
+        }],
+      }],
+    };
+
+    showUpdateOrderError(response, params.callout, params.openModal);
+
+    expect(params.callout.sendCallout).toHaveBeenCalled();
+  });
+
+  it('should handle `budgetExpenseClassNotFound` error and show message', async () => {
+    const response = {
+      errors: [{
+        code: 'budgetExpenseClassNotFound',
+        parameters: [{
+          key: 'fundCode',
+          value: 'value',
+        }, {
+          key: 'expenseClassName',
+          value: 'value',
+        }],
+      }],
+    };
+
+    showUpdateOrderError(response, params.callout, params.openModal);
+
+    expect(params.callout.sendCallout).toHaveBeenCalled();
+  });
+
   it('should handle default error case', async () => {
     showUpdateOrderError(...Object.values(params));
 

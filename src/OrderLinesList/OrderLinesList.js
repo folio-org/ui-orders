@@ -18,6 +18,7 @@ import {
   TextLink,
   Tooltip,
 } from '@folio/stripes/components';
+import { TitleManager } from '@folio/stripes/core';
 import {
   ColumnManagerMenu,
   PersistedPaneset,
@@ -42,7 +43,10 @@ import {
 import { searchableIndexes } from '@folio/plugin-find-po-line';
 
 import OrdersNavigation from '../common/OrdersNavigation';
-import { useIsRowSelected } from '../common/hooks';
+import {
+  useIsRowSelected,
+  useResultsPageTitle,
+} from '../common/hooks';
 import { POLineVersionView } from '../components/POLine';
 import { isOrderLineCancelled } from '../components/POLine/utils';
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
@@ -134,6 +138,8 @@ function OrderLinesList({
   const { visibleColumns, toggleColumn } = useColumnManager('order-lines-column-manager', columnMapping);
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('order-lines-list');
 
+  const pageTitle = useResultsPageTitle(filters);
+
   useFiltersReset(resetFilters);
 
   const resultsStatusMessage = (
@@ -179,6 +185,7 @@ function OrderLinesList({
       id="order-lines"
       data-test-order-line-instances
     >
+      <TitleManager page={pageTitle} />
       {isFiltersOpened && (
         <FiltersPane
           id="order-lines-filters-pane"

@@ -1,7 +1,8 @@
 import pick from 'lodash/pick';
 
-import { hydrateOrderToPrint } from './hydrateOrderToPrint';
 import { order, exportReport, hydratedOrder } from '../../test/jest/fixtures';
+
+import { hydrateOrderToPrint } from './hydrateOrderToPrint';
 
 const mockLine = {
   ...pick(exportReport[0], ['billToRecord', 'shipToRecord', 'quantityPhysical', 'quantityElectronic', 'poLineEstimatedPrice']),
@@ -12,22 +13,28 @@ const mockLine = {
 };
 
 describe('hydrateOrderToPrint', () => {
-  it('should return hydrated order', () => {
-    expect(hydrateOrderToPrint({ order: { order, lines: [mockLine, mockLine] } })).toEqual({
+  it('should return hydrated order', async () => {
+    const result = await hydrateOrderToPrint({
+      order: { order, lines: [mockLine, mockLine] },
+    });
+
+    expect(result).toEqual({
       ...hydratedOrder,
       lines: hydratedOrder.lines.concat(hydratedOrder.lines),
     });
   });
 
-  it('should return hydrated order for specific line', () => {
-    expect(hydrateOrderToPrint({ order: { order, lines: [mockLine] } })).toEqual({
-      ...hydratedOrder,
-      totalItems: mockLine.quantityPhysical + mockLine.quantityElectronic,
-      totalEstimatedPrice: mockLine.poLineEstimatedPrice,
+  it('should return hydrated order for specific line', async () => {
+    const result = await hydrateOrderToPrint({
+      order: { order, lines: [mockLine] },
     });
+
+    expect(result).toEqual(hydratedOrder);
   });
 
-  it('should return undefined if order is absent', () => {
-    expect(hydrateOrderToPrint({})).toBeFalsy();
+  it('should return undefined if order is absent', async () => {
+    const result = await hydrateOrderToPrint({});
+
+    expect(result).toBeFalsy();
   });
 });

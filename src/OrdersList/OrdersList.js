@@ -8,7 +8,10 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { omit } from 'lodash';
 
-import { useStripes } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   checkScope,
   HasCommand,
@@ -41,7 +44,10 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { CANCEL_ORDER_REASON } from '../common/constants';
-import { useIsRowSelected } from '../common/hooks';
+import {
+  useIsRowSelected,
+  useResultsPageTitle,
+} from '../common/hooks';
 import OrdersNavigation from '../common/OrdersNavigation';
 import Panes from '../components/Panes';
 
@@ -132,6 +138,7 @@ function OrdersList({
   const { visibleColumns, toggleColumn } = useColumnManager('orders-column-manager', columnMapping);
 
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('orders-list');
+  const pageTitle = useResultsPageTitle(filters);
 
   const resultsStatusMessage = (
     <NoResultsMessage
@@ -193,6 +200,7 @@ function OrdersList({
         id="orders"
         data-test-order-instances
       >
+        <TitleManager page={pageTitle} />
         {isFiltersOpened && (
           <FiltersPane
             id="orders-filters-pane"
