@@ -8,6 +8,7 @@ import { UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES } from '../../../common/constants
 
 export const UnopenOrderConfirmationModalFooterEnd = ({
   id,
+  itemsCount,
   modalType,
   onConfirm,
 }) => {
@@ -17,6 +18,9 @@ export const UnopenOrderConfirmationModalFooterEnd = ({
   const confirmWithKeepHoldings = useCallback(() => onConfirm({ deleteHoldings: false }), [onConfirm]);
 
   if ([synchronized, independent].includes(modalType)) {
+    // If there are no items in the related holdings, then use the 'independent' key, which doesn't factor in items.
+    const translationKey = itemsCount === 0 ? independent : modalType;
+
     return (
       <>
         <Button
@@ -25,7 +29,7 @@ export const UnopenOrderConfirmationModalFooterEnd = ({
           marginBottom0
           onClick={confirmWithDeleteHoldings}
         >
-          <FormattedMessage id={`ui-orders.unopenOrderModal.confirmLabel.deleteHoldings.${modalType}`} />
+          <FormattedMessage id={`ui-orders.unopenOrderModal.confirmLabel.deleteHoldings.${translationKey}`} />
         </Button>
         <Button
           id={`clickable-${id}-confirm-keep-holdings`}
@@ -33,7 +37,7 @@ export const UnopenOrderConfirmationModalFooterEnd = ({
           marginBottom0
           onClick={confirmWithKeepHoldings}
         >
-          <FormattedMessage id={`ui-orders.unopenOrderModal.confirmLabel.keepHoldings.${modalType}`} />
+          <FormattedMessage id={`ui-orders.unopenOrderModal.confirmLabel.keepHoldings.${translationKey}`} />
         </Button>
       </>
     );
@@ -57,6 +61,7 @@ UnopenOrderConfirmationModalFooterEnd.defaultProps = {
 
 UnopenOrderConfirmationModalFooterEnd.propTypes = {
   id: PropTypes.string.isRequired,
+  itemsCount: PropTypes.number.isRequired,
   modalType: PropTypes.string,
   onConfirm: PropTypes.func.isRequired,
 };
