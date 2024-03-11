@@ -17,8 +17,11 @@ import OrdersTextFilter from '@folio/plugin-find-po-line/FindPOLine/OrdersTextFi
 import PrefixFilter from '@folio/plugin-find-po-line/FindPOLine/PrefixFilter';
 import SuffixFilter from '@folio/plugin-find-po-line/FindPOLine/SuffixFilter';
 
-import ClosingReasonFilter from '../common/ClosingReasonFilter';
-import AddressFilter from '../common/AddressFilter';
+import {
+  AddressFilter,
+  ClosingReasonFilter,
+  CustomFieldsFilters,
+} from '../common';
 import {
   closingReasonsShape,
 } from '../common/shapes';
@@ -30,7 +33,14 @@ import {
 
 const applyFiltersAdapter = (applyFilters) => ({ name, values }) => applyFilters(name, values);
 
-function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabled, addresses }) {
+function OrdersListFilters({
+  activeFilters,
+  closingReasons,
+  customFields,
+  applyFilters,
+  disabled,
+  addresses,
+}) {
   const onChange = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -203,6 +213,14 @@ function OrdersListFilters({ activeFilters, closingReasons, applyFilters, disabl
         name={FILTERS.SHIP_TO}
         onChange={onChange}
       />
+      <CustomFieldsFilters
+        activeFilters={activeFilters}
+        customFields={customFields}
+        disabled={disabled}
+        id={FILTERS.CUSTOM_FIELDS}
+        name={FILTERS.CUSTOM_FIELDS}
+        onChange={onChange}
+      />
     </AccordionSet>
   );
 }
@@ -211,6 +229,7 @@ OrdersListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   applyFilters: PropTypes.func.isRequired,
   closingReasons: closingReasonsShape,
+  customFields: PropTypes.arrayOf(PropTypes.object),
   disabled: PropTypes.bool.isRequired,
   addresses: PropTypes.arrayOf(PropTypes.object),
 };

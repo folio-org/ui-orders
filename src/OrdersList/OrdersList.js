@@ -114,6 +114,7 @@ function OrdersList({
   refreshList,
   ordersQuery,
   pagination,
+  customFields,
 }) {
   const stripes = useStripes();
   const [
@@ -133,7 +134,7 @@ function OrdersList({
   ] = useLocationSorting(location, history, resetData, sortableColumns);
   const { isFiltersOpened, toggleFilters } = useFiltersToogle('ui-orders/orders/filters');
   const [isExportModalOpened, toggleExportModal] = useModalToggle();
-  const searchableIndexes = useSearchableIndexes();
+  const searchableIndexes = useSearchableIndexes(customFields);
   const { visibleColumns, toggleColumn } = useColumnManager('orders-column-manager', columnMapping);
 
   const { itemToView, setItemToView, deleteItemToView } = useItemToView('orders-list');
@@ -225,6 +226,7 @@ function OrdersList({
             <OrdersListFiltersContainer
               activeFilters={filters}
               applyFilters={applyFilters}
+              customFields={customFields}
               disabled={isLoading}
             />
           </FiltersPane>
@@ -294,6 +296,7 @@ function OrdersList({
 }
 
 OrdersList.propTypes = {
+  customFields: PropTypes.arrayOf(PropTypes.object),
   onNeedMoreData: PropTypes.func.isRequired,
   resetData: PropTypes.func.isRequired,
   ordersCount: PropTypes.number,
@@ -308,6 +311,7 @@ OrdersList.propTypes = {
 };
 
 OrdersList.defaultProps = {
+  customFields: [],
   ordersCount: 0,
   isLoading: false,
   orders: [],

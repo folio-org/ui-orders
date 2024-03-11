@@ -29,6 +29,7 @@
 * Currency and amount in a printed order mismatch. Refs UIOR-1224.
 * UX Consistency > Search Results > Update HTML page title with search term entered. Refs UIOR-1200.
 * Suggest actions only for holdings if there are no related items. UIOR-1093.
+* Add Custom Field filters components for PO. Refs UIOR-1187.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
