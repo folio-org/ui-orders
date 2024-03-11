@@ -1,4 +1,4 @@
-import { CUSTOM_FIELDS } from '../../test/jest/fixtures/customFields';
+import { CUSTOM_FIELDS } from 'fixtures/customFields';
 import { makeSearchQuery } from './OrdersListSearchConfig';
 
 describe('makeSearchQuery', () => {

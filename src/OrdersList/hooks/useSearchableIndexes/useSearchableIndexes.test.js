@@ -1,6 +1,6 @@
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
-import { CUSTOM_FIELDS } from '../../../../test/jest/fixtures/customFields';
+import { CUSTOM_FIELDS } from 'fixtures/customFields';
 import { useSearchableIndexes } from './useSearchableIndexes';
 
 const SEARCHABLE_INDEXES = [

@@ -5,7 +5,7 @@ import {
   screen,
 } from '@folio/jest-config-stripes/testing-library/react';
 
-import { CUSTOM_FIELDS } from '../../../test/jest/fixtures/customFields';
+import { CUSTOM_FIELDS } from 'fixtures/customFields';
 import CustomFieldsFilters from './CustomFieldsFilters';
 
 jest.mock('./CustomFieldsFilter', () => jest.fn(() => <div>CustomFieldsFilter</div>));

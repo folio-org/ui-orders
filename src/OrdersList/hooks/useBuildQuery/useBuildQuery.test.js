@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 
-import { CUSTOM_FIELDS } from '../../../../test/jest/fixtures/customFields';
+import { CUSTOM_FIELDS } from 'fixtures/customFields';
 import { FILTERS } from '../../constants';
 import { useBuildQuery } from './useBuildQuery';
 

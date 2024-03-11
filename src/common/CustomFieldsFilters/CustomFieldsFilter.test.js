@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { CUSTOM_FIELDS } from '../../../test/jest/fixtures/customFields';
+import { CUSTOM_FIELDS } from 'fixtures/customFields';
 import CustomFieldsFilter from './CustomFieldsFilter';
 
 const onChange = jest.fn();
