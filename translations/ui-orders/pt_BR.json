@@ -860,5 +860,9 @@
     "poLine.claimingInterval": "Intervalo de reclamação",
     "poLine.donorOrganizationIds": "Informações do doador",
     "settings.customFields.purchaseOrders": "Campos Personalizados - Pedidos de Compra",
-    "settings.customFields.purchaseOrderLines": "Campos Personalizados - Linhas do Pedido de Compra"
+    "settings.customFields.purchaseOrderLines": "Campos Personalizados - Linhas do Pedido de Compra",
+    "errors.openOrder.fundLocationRestrictionViolation": "Não foi possível abrir o pedido de compra. Um ou mais fundos para o número da linha do pedido de compra <b>{polNumber} </b> não são válidos para a(s) localização(ões) selecionada(s)",
+    "errors.poLineHasLocationRestrictedFund": "Fundo com restrição de localização aplicado a um local inválido",
+    "errors.templateNameNotUnique": "O modelo de pedido não pôde ser salvo porque esse nome de modelo já existe.",
+    "document.title.search": "Pedidos - {query} - Busca"
 }
