@@ -860,5 +860,9 @@
     "poLine.claimingInterval": "Claiming interval",
     "poLine.donorOrganizationIds": "Donor information",
     "settings.customFields.purchaseOrders": "Custom Fields - Purchase Orders",
-    "settings.customFields.purchaseOrderLines": "Custom Fields - Purchase Order Lines"
+    "settings.customFields.purchaseOrderLines": "Custom Fields - Purchase Order Lines",
+    "errors.openOrder.fundLocationRestrictionViolation": "Unable to open PO. One or more funds for POL number <b>{polNumber}</b> are not valid with the selected location(s)",
+    "errors.poLineHasLocationRestrictedFund": "Location-restricted fund applied to invalid location",
+    "errors.templateNameNotUnique": "The order template could not be saved because this template name already exists.",
+    "document.title.search": "Orders - {query} - Search"
 }
