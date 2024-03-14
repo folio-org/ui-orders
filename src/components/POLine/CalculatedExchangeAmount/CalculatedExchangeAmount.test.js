@@ -7,8 +7,8 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   AmountWithCurrencyField: jest.fn(() => 'AmountWithCurrencyField'),
 }));
-jest.mock('../../hooks', () => ({
-  ...jest.requireActual('../../hooks'),
+jest.mock('../hooks', () => ({
+  ...jest.requireActual('../hooks'),
   useExchangeCalculation: jest.fn(),
 }));
 
