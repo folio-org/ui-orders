@@ -12,6 +12,7 @@ jest.mock('../hooks', () => ({
   useExchangeCalculation: jest.fn(),
 }));
 
+const messageId = 'ui-orders.cost.calculatedTotalExchangeAmount';
 const renderComponent = (props = {}) => render(
   <CalculatedExchangeAmount {...props} />,
 );
@@ -24,23 +25,35 @@ describe('CalculatedExchangeAmount', () => {
     });
   });
 
-  it('should not render component', async () => {
-    renderComponent({
-      currency: 'USD',
-      exchangeRate: 1,
-      total: 30,
-    });
-
-    expect(screen.queryByText(/30/)).not.toBeInTheDocument();
-  });
-
-  it('should render calculated exchange amount', async () => {
+  it('should render calculated exchange amount', () => {
     renderComponent({
       currency: 'EUR',
       exchangeRate: 1,
       total: 30,
     });
 
-    expect(screen.getByText('ui-orders.cost.calculatedTotalExchangeAmount')).toBeInTheDocument();
+    expect(screen.getByText(messageId)).toBeInTheDocument();
+  });
+
+  describe('should not render component when ', () => {
+    it('currency is the same as system currency', () => {
+      renderComponent({
+        currency: 'USD',
+        exchangeRate: 1,
+        total: 30,
+      });
+
+      expect(screen.queryByText(messageId)).not.toBeInTheDocument();
+    });
+
+    it('amount is not available', () => {
+      renderComponent({
+        currency: 'USD',
+        exchangeRate: 1,
+        total: undefined,
+      });
+
+      expect(screen.queryByText(messageId)).not.toBeInTheDocument();
+    });
   });
 });
