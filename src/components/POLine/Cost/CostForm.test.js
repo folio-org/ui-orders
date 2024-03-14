@@ -6,6 +6,10 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 import { order } from 'fixtures';
 import CostForm from './CostForm';
 
+jest.mock('../CalculatedExchangeAmount', () => ({
+  CalculatedExchangeAmount: jest.fn(() => 'CalculatedExchangeAmount'),
+}));
+
 const defaultProps = {
   formValues: {
     isPackage: false,

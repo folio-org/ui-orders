@@ -31,6 +31,7 @@ import {
   ERESOURCES,
   PHRESOURCES,
 } from '../const';
+import { CalculatedExchangeAmount } from '../CalculatedExchangeAmount';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
 import {
   RolloverAdjustmentAmount,
@@ -86,6 +87,7 @@ const CostForm = ({
 
   const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
   const currency = get(formValues, 'cost.currency');
+  const exchangeRate = get(formValues, 'cost.exchangeRate');
   const isPackage = get(formValues, 'isPackage');
   const isElectronicFieldsVisible = isPackage
     ? (orderFormat === ORDER_FORMATS.electronicResource || orderFormat === ORDER_FORMATS.PEMix)
@@ -212,6 +214,12 @@ const CostForm = ({
         isUseExangeRateDisabled={isDisabledToChangePaymentInfo}
         exchangeRate={initialValues?.cost?.exchangeRate}
         hiddenFields={hiddenFields}
+      />
+
+      <CalculatedExchangeAmount
+        currency={currency}
+        exchangeRate={exchangeRate}
+        total={poLineEstimatedPrice}
       />
 
       <Row>
