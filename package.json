@@ -147,6 +147,7 @@
           "module.orders.enabled",
           "acquisition.order.events.get",
           "acquisition.order-line.events.get",
+          "finance.calculate-exchange.item.get",
           "finance.budgets.collection.get",
           "finance.exchange-rate.item.get",
           "finance.expense-classes.collection.get",

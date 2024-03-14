@@ -105,6 +105,7 @@
   "cost.buttonLabel": "Read more",
   "cost.currency": "Currency",
   "cost.exchangeRate": "Exchange rate",
+  "cost.calculatedTotalExchangeAmount": "Calculated total amount (Exchanged)",
   "cost.discount": "Discount",
   "cost.discountType": "Type",
   "cost.estimatedPrice": "Estimated price",

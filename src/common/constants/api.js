@@ -4,6 +4,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 export const AUDIT_ACQ_EVENTS_API = 'audit-data/acquisition';
+export const CALCULATE_EXCHANGE_API = 'finance/calculate-exchange';
 export const INSTANCE_STATUSES_API = 'instance-statuses';
 export const INSTANCE_TYPES_API = 'instance-types';
 export const REASONS_FOR_CLOSURE_API = 'orders/configuration/reasons-for-closure';
