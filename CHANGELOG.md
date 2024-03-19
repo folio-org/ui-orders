@@ -1,8 +1,12 @@
 # Change history for ui-orders
 
-## (6.0.0 IN PROGRESS)
+## (6.1.0 IN PROGRESS)
+
+## [6.0.0](https://github.com/folio-org/ui-orders/tree/v6.0.0) (2024-03-19)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.2...v6.0.0)
 
 * Allow Editing of "Renewal Date" and "Subscription to" on open purchase order line. Refs UIOR-1078.
+* Add donor info to POL. Refs UIOR-1147.
 * Disable donor field in POL. Refs UIOR-1149.
 * Populate donor info from fund into POL. Refs UIOR-1148.
 * Add donor info to Order facets. Refs UIOR-1150.
@@ -15,7 +19,6 @@
 * *BREAKING* Add settings components for custom fields. Refs UIOR-1177.
 * Add Custom Fields to View, Edit, Create components of Orders, Order Lines and Order Templates. Refs UIOR-1195.
 * Bump up okapi interfaces for `pieces` (2.0 3.0). Refs UIOR-1212.
-* Invoice line Subscription fields are not populated correctly. Refs UIOR-1220.
 * Add missing permissions for custom fields. Refs UIOR-1223.
 * Wait for custom fields to render before populating form fields. Refs UIOR-1225.
 * Location-restricted funds in POLs. Refs UIOR-1166.
@@ -32,6 +35,11 @@
 * Add Custom Field filters components for PO. Refs UIOR-1187.
 * The exchanged calculated total amount is not displayed when POL in foreign currency. Refs UIOR-1241.
 
+## [5.0.2](https://github.com/folio-org/ui-orders/tree/v5.0.2) (2024-02-08)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.1...v5.0.2)
+
+* Invoice line Subscription fields are not populated correctly. Refs UIOR-1220.
+
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
 
@@ -39,7 +47,6 @@
 * Preview contains blank page when trying to print an order. Refs UIOR-1173.
 * Do not disable account numbers having only one account available. Refs UIOR-1174.
 * Populate values from a template after the fields are registered. Refs UIOR-1169.
-* Add donor info to POL. Refs UIOR-1147.
 
 ## [5.0.0](https://github.com/folio-org/ui-orders/tree/v5.0.0) (2023-10-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.3...v5.0.0)
