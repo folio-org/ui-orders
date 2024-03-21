@@ -7,6 +7,7 @@ import {
   IconButton,
   PaneMenu,
 } from '@folio/stripes/components';
+import { TitleManager } from '@folio/stripes/core';
 import {
   VersionHistoryPane,
   VersionViewContextProvider,
@@ -90,6 +91,7 @@ const POLineVersionView = ({
       versions={versions}
       versionId={versionId}
     >
+      <TitleManager record={orderLine?.poLineNumber} />
       <VersionView
         id="order-line"
         isLoading={isVersionLoading}

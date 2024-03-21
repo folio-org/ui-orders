@@ -3,6 +3,7 @@ import { memo, useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
+import { TitleManager } from '@folio/stripes/core';
 import {
   VersionHistoryPane,
   VersionViewContextProvider,
@@ -68,6 +69,7 @@ const POVersionView = ({
       versions={versions}
       versionId={versionId}
     >
+      <TitleManager record={order?.poNumber} />
       <VersionView
         id="order"
         dismissible

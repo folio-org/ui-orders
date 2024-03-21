@@ -7,6 +7,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   IfPermission,
+  TitleManager,
   useStripes,
 } from '@folio/stripes/core';
 import {
@@ -325,6 +326,7 @@ const POLineView = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
+      <TitleManager record={poLineNumber} />
       <Pane
         id="order-lines-details"
         defaultWidth="fill"

@@ -1,6 +1,8 @@
 # Change history for ui-orders
 
-## (6.1.0 IN PROGRESS)
+## 6.1.0 (IN PROGRESS)
+
+* UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIOR-1202.
 
 ## [6.0.0](https://github.com/folio-org/ui-orders/tree/v6.0.0) (2024-03-19)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.2...v6.0.0)
