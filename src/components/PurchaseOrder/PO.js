@@ -7,6 +7,7 @@ import { get } from 'lodash';
 
 import {
   IfPermission,
+  TitleManager,
   stripesConnect,
 } from '@folio/stripes/core';
 import {
@@ -729,6 +730,7 @@ const PO = ({
       isWithinScope={checkScope}
       scope={document.body}
     >
+      <TitleManager record={orderNumber} />
       <Pane
         id="order-details"
         actionMenu={getPOActionMenu({
