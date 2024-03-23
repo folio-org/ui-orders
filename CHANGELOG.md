@@ -4,6 +4,11 @@
 
 * UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIOR-1202.
 
+## [6.0.1](https://github.com/folio-org/ui-orders/tree/v6.0.1) (2024-03-23)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.0...v6.0.1)
+
+* Add erm 7.0 interface support
+
 ## [6.0.0](https://github.com/folio-org/ui-orders/tree/v6.0.0) (2024-03-19)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.2...v6.0.0)
 
