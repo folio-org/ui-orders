@@ -804,7 +804,7 @@
     "breakInstanceConnection.modal.message": "Making this change will remove the link between the POL and selected inventory instance. Are you sure you would like to proceed with making this change and unlink this POL from the inventory instance \"<b>{titleOrPackage}</b>\"?",
     "orderDetails.approvedBy": "Approved by",
     "versionHistory.updatedByUserId": "Updated by",
-    "errors.currentFYearIdNotFound": "Current fiscal year not found for PO line",
+    "errors.currentFYearIdNotFound": "発注明細の現在の会計年度が見つかりません",
     "errors.errorRemovingInvoiceLineEncumbrances": "Error removing invoice line encumbrance links after deleting the encumbrances",
     "errors.errorRetrievingPoLines": "Error retrieving purchase order lines from storage",
     "errors.errorRetrievingTransactions": "Error retrieving the transactions from storage",
@@ -842,7 +842,7 @@
     "exportSettings.load.start": "Export has been started successfully",
     "errors.multipleFiscalYears": "Order line fund distributions have active budgets in multiple fiscal years.",
     "relatedInvoices.vendorCode": "Vendor code",
-    "relatedInvoices.fiscalYear": "Fiscal year",
+    "relatedInvoices.fiscalYear": "会計年度",
     "relatedInvoices.subscriptionStart": "Subscription start",
     "relatedInvoices.subscriptionEnd": "Subscription end",
     "relatedInvoices.subscriptionDescription": "Subscription info",
@@ -864,5 +864,6 @@
     "errors.openOrder.fundLocationRestrictionViolation": "Unable to open PO. One or more funds for POL number <b>{polNumber}</b> are not valid with the selected location(s)",
     "errors.poLineHasLocationRestrictedFund": "Location-restricted fund applied to invalid location",
     "errors.templateNameNotUnique": "The order template could not be saved because this template name already exists.",
-    "document.title.search": "Orders - {query} - Search"
+    "document.title.search": "Orders - {query} - Search",
+    "cost.calculatedTotalExchangeAmount": "Calculated total amount (Exchanged)"
 }

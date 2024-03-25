@@ -864,5 +864,6 @@
     "errors.openOrder.fundLocationRestrictionViolation": "Unable to open PO. One or more funds for POL number <b>{polNumber}</b> are not valid with the selected location(s)",
     "errors.poLineHasLocationRestrictedFund": "Na neplatné místo byl použit fond s omezeným umístěním",
     "errors.templateNameNotUnique": "Šablonu objednávky nebylo možné uložit, protože tento název šablony již existuje.",
-    "document.title.search": "Orders - {query} - Search"
+    "document.title.search": "Objednávky - {query} - Vyhledat",
+    "cost.calculatedTotalExchangeAmount": "Vypočítaná celková částka (vyměněná)"
 }
