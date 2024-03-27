@@ -68,7 +68,10 @@ const defaultProps = {
         locations: [{
           locationId: 'locationId',
         }],
-        hiddenFields: { ongoing: { isSubscription: true } },
+        hiddenFields: {
+          ongoing: { isSubscription: true },
+          approved: true,
+        },
       }],
     },
   },
