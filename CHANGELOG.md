@@ -3,6 +3,7 @@
 ## 6.1.0 (IN PROGRESS)
 
 * UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIOR-1202.
+* Correctly specify the field name that should be hidden according to the template. Refs UIOR-1250.
 
 ## [6.0.1](https://github.com/folio-org/ui-orders/tree/v6.0.1) (2024-03-23)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.0...v6.0.1)

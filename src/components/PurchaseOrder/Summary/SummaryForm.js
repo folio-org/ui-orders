@@ -32,7 +32,7 @@ const SummaryForm = ({ initialValues: order, hiddenFields = {} }) => (
     </Col>
 
     <IfPermission perm="orders.item.approve">
-      <IfFieldVisible visible={!hiddenFields.ongoing?.isSubscription} name="approved">
+      <IfFieldVisible visible={!hiddenFields.approved} name="approved">
         <Col xs={6} md={3}>
           <FieldIsApproved disabled={Boolean(order.workflowStatus) && !isWorkflowStatusIsPending(order)} />
         </Col>
