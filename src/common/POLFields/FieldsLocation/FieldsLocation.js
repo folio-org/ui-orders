@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Field } from 'react-final-form';
+import { Field, useForm } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,11 @@ import {
   Row,
 } from '@folio/stripes/components';
 import {
+  checkIfUserInCentralTenant,
+  useStripes,
+} from '@folio/stripes/core';
+import {
+  FieldAffiliations,
   FieldInventory,
   RepeatableFieldWithValidation,
   TextField,
@@ -45,6 +50,9 @@ const FieldsLocation = ({
   poNumber,
   withValidation,
 }) => {
+  const stripes = useStripes();
+  const { getFieldState } = useForm();
+
   if (!locations) return null;
 
   const isPhysicalQuantityRequired = isLocationPhysicalQuantityRequired(orderFormat, physical?.createInventory);
@@ -65,6 +73,9 @@ const FieldsLocation = ({
 
     return NO_VALIDATE;
   };
+
+  const isCurrentTenantConsortiumCentral = checkIfUserInCentralTenant(stripes);
+  const isAffiliationsEnabled = isCurrentTenantConsortiumCentral;
 
   return (
     <>
@@ -90,8 +101,17 @@ const FieldsLocation = ({
         canRemove={!(isDisabledToChangePaymentInfo || isQuantityDisabled)}
         renderField={(field) => (
           <Row>
-            <Col xs={6}>
+            {isAffiliationsEnabled && (
+              <Col xs={3}>
+                <FieldAffiliations
+                  name={`${field}.tenantId`}
+                  required
+                />
+              </Col>
+            )}
+            <Col xs={isAffiliationsEnabled ? 3 : 6}>
               <FieldInventory
+                tenantId={getFieldState(`${field}.tenantId`)?.value}
                 locationIds={locationIds}
                 locations={locations}
                 holdingName={`${field}.holdingId`}
