@@ -1,6 +1,7 @@
 # Change history for ui-orders
 
-## 6.1.0 (IN PROGRESS)
+## [6.0.2](https://github.com/folio-org/ui-orders/tree/v6.0.2) (2024-04-01)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.1...v6.0.2)
 
 * Correctly specify the field name that should be hidden according to the template. Refs UIOR-1250.
 
