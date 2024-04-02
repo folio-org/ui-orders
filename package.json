@@ -55,6 +55,7 @@
       "receiving": "1.0 2.0",
       "search": "0.6 1.0",
       "tags": "1.0",
+      "template-engine": "2.0",
       "titles": "1.2",
       "users": "15.0 16.0"
     },
@@ -67,7 +68,8 @@
       }
     ],
     "stripesDeps": [
-      "@folio/stripes-acq-components"
+      "@folio/stripes-acq-components",
+      "@folio/stripes-template-editor"
     ],
     "permissionSets": [
       {
@@ -505,8 +507,11 @@
   "dependencies": {
     "@folio/plugin-find-po-line": "^5.0.0",
     "@folio/stripes-acq-components": "~5.1.0",
+    "@folio/stripes-template-editor": "^3.2.0",
     "classnames": "^2.2.5",
+    "dompurify": "^3.0.9",
     "final-form": "^4.19.1",
+    "html-to-react": "^1.3.3",
     "lodash": "^4.17.19",
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",

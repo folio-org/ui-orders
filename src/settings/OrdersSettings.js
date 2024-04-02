@@ -18,6 +18,7 @@ import InstanceType from './InstanceType';
 import LoanType from './LoanType';
 import InstanceMatching from './InstanceMatching';
 import CustomFieldsSettings from './CustomFieldsSettings';
+import RoutingListConfiguration from './RoutingListConfiguration';
 
 const sections = [
   {
@@ -127,6 +128,18 @@ const sections = [
         component: LoanType,
         label: <FormattedMessage id="ui-orders.settings.loanType" />,
         route: 'loan-type',
+        perm: 'ui-orders.settings.view',
+      },
+    ],
+  },
+  {
+
+    label: <FormattedMessage id="ui-orders.settings.routing.label" />,
+    pages: [
+      {
+        component: RoutingListConfiguration,
+        label: <FormattedMessage id="ui-orders.settings.routing.listConfiguration" />,
+        route: 'list-configuration',
         perm: 'ui-orders.settings.view',
       },
     ],
