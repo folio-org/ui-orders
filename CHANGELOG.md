@@ -1,9 +1,9 @@
 # Change history for ui-orders
 
-## 6.1.0 (IN PROGRESS)
+## 7.0.0 (IN PROGRESS)
 
 * UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIOR-1202.
-* Settings - implement Routing list configuration. Refs UIOR-1249.
+* *BREAKING* Settings - implement Routing list configuration. Refs UIOR-1249.
 
 ## [6.0.2](https://github.com/folio-org/ui-orders/tree/v6.0.2) (2024-04-01)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.1...v6.0.2)

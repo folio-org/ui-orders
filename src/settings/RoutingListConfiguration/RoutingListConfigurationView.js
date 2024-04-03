@@ -36,23 +36,17 @@ const RoutingListConfigurationView = (props) => {
 
   const emailTemplate = get(listConfig, 'localizedTemplates.en.body', '');
 
-  const onEdit = () => {
-    const editPath = `${location.pathname}/edit`;
+  const onEdit = () => history.push(`${location.pathname}/edit`);
 
-    history.push(editPath);
-  };
-
-  const renderEditIcon = () => {
-    return (
-      <Button
-        buttonStyle="primary"
-        onClick={onEdit}
-        marginBottom0
-      >
-        <FormattedMessage id="stripes-core.button.edit" />
-      </Button>
-    );
-  };
+  const editIcon = (
+    <Button
+      buttonStyle="primary"
+      onClick={onEdit}
+      marginBottom0
+    >
+      <FormattedMessage id="stripes-core.button.edit" />
+    </Button>
+  );
 
   return (
     <Pane
@@ -60,7 +54,7 @@ const RoutingListConfigurationView = (props) => {
       id="routing-list-configuration-template-pane"
       defaultWidth="fill"
       paneTitle={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration' })}
-      lastMenu={renderEditIcon()}
+      lastMenu={editIcon}
     >
       <AccordionStatus>
         <Row end="xs">
