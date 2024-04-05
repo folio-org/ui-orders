@@ -1,0 +1,1 @@
+export { useListConfiguration } from './useListConfiguration';
