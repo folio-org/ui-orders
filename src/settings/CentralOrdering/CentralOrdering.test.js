@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { useOkapiKy } from '@folio/stripes/core';
+import { ORDERS_STORAGE_SETTINGS_API } from '@folio/stripes-acq-components';
 
 import { CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH } from '../../common/constants';
 import { useDefaultReceivingSearchSettings } from '../hooks';
@@ -65,7 +66,7 @@ describe('CentralOrdering component', () => {
 
     renderCentralOrderingSettings();
 
-    expect(screen.getByText('Loading')).toBeInTheDocument();
+    expect(screen.getByText('LoadingPane')).toBeInTheDocument();
   });
 
   it('should handle central ordering settings submit', async () => {
@@ -79,9 +80,16 @@ describe('CentralOrdering component', () => {
 
     renderCentralOrderingSettings();
 
-    await user.click(await screen.findByRole('checkbox', { name: 'ui-orders.settings.centralOrdering.receivingSearch.label' }));
+    await user.selectOptions(
+      await screen.findByRole('combobox', { name: 'ui-orders.settings.centralOrdering.receivingSearch.label' }),
+      [CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.empty],
+    );
     await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
 
-    expect(mockKy.put).toHaveBeenCalled();
+    expect(mockKy.put).toHaveBeenCalledWith(`${ORDERS_STORAGE_SETTINGS_API}/${mockData.id}`, expect.objectContaining({
+      json: expect.objectContaining({
+        value: CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.empty,
+      }),
+    }));
   });
 });
