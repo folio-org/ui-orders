@@ -50,6 +50,7 @@
       "orders.export-history": "1.0",
       "organizations.organizations": "1.0",
       "organizations-storage.organization-types": "1.0",
+      "organizations-storage.settings": "1.0",
       "pieces": "2.0 3.0",
       "po-number": "1.0",
       "receiving": "1.0 2.0",
@@ -401,6 +402,8 @@
           "orders.configuration.prefixes.collection.get",
           "orders.configuration.reasons-for-closure.collection.get",
           "orders.configuration.suffixes.collection.get",
+          "organizations-storage.settings.collection.get",
+          "organizations-storage.settings.item.get",
           "ui-orders.third-party-services",
           "orders.acquisition-methods.collection.get",
           "ui-orders.settings.custom-fields.view"
@@ -434,6 +437,7 @@
           "orders.acquisition-method.item.post",
           "orders.acquisition-method.item.put",
           "orders.acquisition-method.item.delete",
+          "organizations-storage.settings.item.put",
           "ui-orders.settings.custom-fields.view",
           "ui-orders.settings.custom-fields.edit",
           "ui-orders.settings.custom-fields.delete"
