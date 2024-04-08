@@ -30,6 +30,7 @@ export const NOTE_TYPES = {
 
 export const CONFIG_INSTANCE_STATUS = 'inventory-instanceStatusCode';
 export const CONFIG_INSTANCE_TYPE = 'inventory-instanceTypeCode';
+export const CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY = 'CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH';
 
 export const CLOSING_REASONS_SOURCE = {
   system: 'System',
@@ -62,3 +63,10 @@ export const OKAPI_TENANT_HEADER = 'X-Okapi-Tenant';
 export const HIDDEN_ORDER_FIELDS_FOR_VERSION_HISTORY = ['nextPolNumber'];
 
 export const CUSTOM_FIELDS_BACKEND_MODULE_NAME = 'Orders CRUD module';
+
+export const CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH = {
+  empty: 'Empty',
+  centralOnly: 'Central only',
+  centralDefault: 'Central default',
+  activeAffiliationDefault: 'Active affiliation default',
+};

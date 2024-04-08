@@ -5,6 +5,7 @@ import { Settings } from '@folio/stripes/smart-components';
 
 import AcquisitionMethods from './AcquisitionMethods';
 import POLinesLimit from './POLinesLimit';
+import { CentralOrdering } from './CentralOrdering';
 import ClosingReasons from './ClosingReasons';
 import OrderNumber from './OrderNumber';
 import CreateInventory from './CreateInventory';
@@ -133,13 +134,23 @@ const sections = [
     ],
   },
   {
-
     label: <FormattedMessage id="ui-orders.settings.routing.label" />,
     pages: [
       {
         component: RoutingListConfiguration,
         label: <FormattedMessage id="ui-orders.settings.routing.listConfiguration" />,
         route: 'list-configuration',
+        perm: 'ui-orders.settings.view',
+      },
+    ],
+  },
+  {
+    label: <FormattedMessage id="ui-orders.settings.networkInteraction.label" />,
+    pages: [
+      {
+        component: CentralOrdering,
+        label: <FormattedMessage id="ui-orders.settings.centralOrdering.label" />,
+        route: 'central-ordering',
         perm: 'ui-orders.settings.view',
       },
     ],
