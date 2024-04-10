@@ -10,7 +10,9 @@ import partition from 'lodash/partition';
 export const filterFundsRestrictedByLocations = (locationIds, funds) => {
   if (!locationIds?.length) return funds;
 
-  const filteredFunds = funds.filter(({ restrictByLocations, locationIds: fundLocationIds }) => {
+  const filteredFunds = funds.filter(({ restrictByLocations, locations }) => {
+    const fundLocationIds = locations?.map(({ locationId }) => locationId);
+
     return !restrictByLocations || (intersection(locationIds, fundLocationIds).length > 0);
   });
 

@@ -23,17 +23,23 @@ describe('Filtering funds and locations', () => {
         {
           id: '1',
           restrictByLocations: true,
-          locationIds: ['2', '4'],
+          locations: [
+            { locationId: '2' },
+            { locationId: '4' },
+          ],
         },
         {
           id: '2',
           restrictByLocations: true,
-          locationIds: ['3', '4'],
+          locations: [
+            { locationId: '3' },
+            { locationId: '4' },
+          ],
         },
         {
           id: '3',
           restrictByLocations: true,
-          locationIds: ['5'],
+          locations: [{ locationId: '5' }],
         },
         {
           id: '4',
@@ -66,7 +72,10 @@ describe('Filtering funds and locations', () => {
         {
           id: '2',
           restrictByLocations: true,
-          locationIds: ['1', '2'],
+          locations: [
+            { locationId: '1' },
+            { locationId: '2' },
+          ],
         },
       ];
       const holdings = [
@@ -83,12 +92,15 @@ describe('Filtering funds and locations', () => {
         {
           id: '1',
           restrictByLocations: true,
-          locationIds: ['4'],
+          locations: [{ locationId: '4' }],
         },
         {
           id: '2',
           restrictByLocations: true,
-          locationIds: ['1', '2'],
+          locations: [
+            { locationId: '1' },
+            { locationId: '2' },
+          ],
         },
       ];
       const holdings = [
@@ -114,7 +126,7 @@ describe('Filtering funds and locations', () => {
         {
           id: '1',
           restrictByLocations: true,
-          locationIds: ['4'],
+          locations: [{ locationId: '4' }],
         },
       ];
       const holdings = [
@@ -153,7 +165,10 @@ describe('Filtering funds and locations', () => {
         {
           id: '2',
           restrictByLocations: true,
-          locationIds: ['1', '2'],
+          locationIds: [
+            { locationId: '1' },
+            { locationId: '2' },
+          ],
         },
       ];
       const locations = [
@@ -170,12 +185,15 @@ describe('Filtering funds and locations', () => {
         {
           id: '1',
           restrictByLocations: true,
-          locationIds: ['4'],
+          locations: [{ locationId: '4' }],
         },
         {
           id: '2',
           restrictByLocations: true,
-          locationIds: ['1', '2'],
+          locations: [
+            { locationId: '1' },
+            { locationId: '2' },
+          ],
         },
       ];
       const locations = [
@@ -193,7 +211,10 @@ describe('Filtering funds and locations', () => {
         {
           id: '1',
           restrictByLocations: true,
-          locationIds: ['1', '3'],
+          locations: [
+            { locationId: '1' },
+            { locationId: '3' },
+          ],
         },
       ];
       const locations = [
