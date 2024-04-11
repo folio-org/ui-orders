@@ -10,7 +10,9 @@ import partition from 'lodash/partition';
 export const filterFundsRestrictedByLocations = (locationIds, funds) => {
   if (!locationIds?.length) return funds;
 
-  const filteredFunds = funds.filter(({ restrictByLocations, locationIds: fundLocationIds }) => {
+  const filteredFunds = funds.filter(({ restrictByLocations, locations }) => {
+    const fundLocationIds = locations?.map(({ locationId }) => locationId);
+
     return !restrictByLocations || (intersection(locationIds, fundLocationIds).length > 0);
   });
 
@@ -32,7 +34,7 @@ export const filterLocationsByRestrictedFunds = (funds, locations, includeLocati
 
   const validLocationSet = new Set(
     restrictedFunds
-      .flatMap(({ locationIds }) => locationIds)
+      .flatMap(({ locations: fundLocations }) => fundLocations.map(({ locationId }) => locationId))
       .concat(includeLocationIds),
   );
   const validLocations = locations.filter(({ id }) => validLocationSet.has(id));
@@ -53,7 +55,9 @@ export const filterHoldingsByRestrictedFunds = (funds, holdings, includeHoldingI
 
   if (!funds?.length || unrestrictedFunds.length) return holdings;
 
-  const validLocationSet = new Set(restrictedFunds.flatMap(({ locationIds }) => locationIds));
+  const validLocationSet = new Set(
+    restrictedFunds.flatMap(({ locations: fundLocations }) => fundLocations.map(({ locationId }) => locationId)),
+  );
   const persistedHoldingIdsSet = new Set(includeHoldingIds);
 
   const validHoldings = holdings.filter(({ id, permanentLocationId }) => {
