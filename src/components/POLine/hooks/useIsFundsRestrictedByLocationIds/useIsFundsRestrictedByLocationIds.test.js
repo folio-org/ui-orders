@@ -25,9 +25,9 @@ const restrictedFund = {
   'id': 'e3f68402-5570-4839-a54a-cecd5fd799e5',
   'name': 'Location restricted',
   'restrictByLocations': true,
-  'locationIds': [
-    '53cf956f-c1df-410b-8bea-27f712cca7c0',
-    '184aae84-a5bf-4c6a-85ba-4a7c73026cd5',
+  'locations': [
+    { locationId: '53cf956f-c1df-410b-8bea-27f712cca7c0' },
+    { locationId: '184aae84-a5bf-4c6a-85ba-4a7c73026cd5' },
   ],
 };
 
@@ -35,7 +35,7 @@ const fundIds = [restrictedFund.id];
 
 const holdingData = {
   'id': '53cf956f-c1df-410b-8bea-27f712cca7c0',
-  'permanentLocationId': restrictedFund.locationIds[0],
+  'permanentLocationId': restrictedFund.locations[0].locationId,
 };
 
 describe('useIsFundsRestrictedByLocationIds', () => {
@@ -57,7 +57,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   it('should return hasLocationRestrictedFund as true', async () => {
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
       fundIds,
-      locationIds: ['testId'],
+      locations: ['testId'],
       holdingIds: [],
     }), { wrapper });
 
@@ -69,7 +69,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   it('should return hasLocationRestrictedFund as false', async () => {
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
       fundIds,
-      locationIds: restrictedFund.locationIds,
+      locationIds: restrictedFund.locations.map(({ locationId }) => locationId),
       holdingIds: [],
     }), { wrapper });
 
