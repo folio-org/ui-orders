@@ -33,10 +33,10 @@ export const useSettingsSections = (initialSections) => {
   const [key, setKey] = useState(Date.now());
   const [state, dispatch] = useReducer(sectionsReducer, initialSections, buildInitialSectionsList);
 
-  const insertSection = useCallback((section) => {
+  const insertSection = useCallback((section, position) => {
     dispatch({
       type: SETTINGS_SECTIONS_REDUCER_ACTIONS.INSERT_SECTION,
-      data: section,
+      data: { section, position },
     });
     setKey(Date.now());
   }, []);

@@ -18,10 +18,7 @@ import Prefixes from './Prefixes';
 import RoutingListConfiguration from './RoutingListConfiguration';
 import Suffixes from './Suffixes';
 import { SECTION_KEYS } from './constants';
-import {
-  SETTINGS_SECTION_KEY_FIELD_NAME,
-  SETTINGS_SECTION_ORDER_FIELD_NAME,
-} from './hooks';
+import { SETTINGS_SECTION_KEY_FIELD_NAME } from './hooks';
 
 /*
   The sections of the order settings can dynamically change depending on other settings.
@@ -32,7 +29,6 @@ import {
  */
 
 export const NETWORK_ORDERING_SECTION = {
-  [SETTINGS_SECTION_ORDER_FIELD_NAME]: 5,
   [SETTINGS_SECTION_KEY_FIELD_NAME]: SECTION_KEYS.networkOrdering,
   label: <FormattedMessage id="ui-orders.settings.networkInteraction.label" />,
   pages: [
@@ -47,7 +43,6 @@ export const NETWORK_ORDERING_SECTION = {
 
 export const SECTIONS = [
   {
-    [SETTINGS_SECTION_ORDER_FIELD_NAME]: 1,
     label: <FormattedMessage id="ui-orders.settings.general.label" />,
     pages: [
       {
@@ -101,7 +96,6 @@ export const SECTIONS = [
     ],
   },
   {
-    [SETTINGS_SECTION_ORDER_FIELD_NAME]: 2,
     label: <FormattedMessage id="ui-orders.settings.poNumber.label" />,
     pages: [
       {
@@ -125,7 +119,6 @@ export const SECTIONS = [
     ],
   },
   {
-    [SETTINGS_SECTION_ORDER_FIELD_NAME]: 3,
     label: <FormattedMessage id="ui-orders.settings.inventoryInteraction.label" />,
     pages: [
       {
@@ -161,7 +154,6 @@ export const SECTIONS = [
     ],
   },
   {
-    [SETTINGS_SECTION_ORDER_FIELD_NAME]: 4,
     label: <FormattedMessage id="ui-orders.settings.routing.label" />,
     pages: [
       {
