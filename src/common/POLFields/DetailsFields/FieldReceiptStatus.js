@@ -1,4 +1,5 @@
-import React from 'react';
+import isUndefined from 'lodash/isUndefined';
+import pickBy from 'lodash/pickBy';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useField } from 'react-final-form';
@@ -43,13 +44,15 @@ const FieldReceiptStatus = ({
       value: RECEIPT_STATUS[key],
     }));
 
+  const transitProps = pickBy({ onChange }, (val) => !isUndefined(val));
+
   return (
     <FieldSelectFinal
       dataOptions={statuses}
       label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
       name="receiptStatus"
       disabled={!statuses.length}
-      onChange={onChange}
+      {...transitProps}
     />
   );
 };
