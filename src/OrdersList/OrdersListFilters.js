@@ -97,22 +97,6 @@ function OrdersListFilters({
         onChange={onChange}
         disabled={disabled}
       />
-      <PluggableUserFilter
-        id={FILTERS.CREATED_BY}
-        activeFilters={activeFilters[FILTERS.CREATED_BY]}
-        labelId="ui-orders.orderDetails.createdBy"
-        name={FILTERS.CREATED_BY}
-        onChange={onChange}
-        disabled={disabled}
-      />
-      <AcqDateRangeFilter
-        id={FILTERS.DATE_CREATED}
-        activeFilters={activeFilters[FILTERS.DATE_CREATED]}
-        labelId="ui-orders.filter.dateCreated"
-        name={FILTERS.DATE_CREATED}
-        onChange={onChange}
-        disabled={disabled}
-      />
       <AcqDateRangeFilter
         id={FILTERS.DATE_ORDERED}
         activeFilters={activeFilters[FILTERS.DATE_ORDERED]}
@@ -220,6 +204,38 @@ function OrdersListFilters({
         id={FILTERS.CUSTOM_FIELDS}
         name={FILTERS.CUSTOM_FIELDS}
         onChange={onChange}
+      />
+      <PluggableUserFilter
+        id={FILTERS.CREATED_BY}
+        activeFilters={activeFilters[FILTERS.CREATED_BY]}
+        labelId="ui-orders.orderDetails.createdBy"
+        name={FILTERS.CREATED_BY}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      <AcqDateRangeFilter
+        id={FILTERS.DATE_CREATED}
+        activeFilters={activeFilters[FILTERS.DATE_CREATED]}
+        labelId="ui-orders.filter.dateCreated"
+        name={FILTERS.DATE_CREATED}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      <PluggableUserFilter
+        id={FILTERS.UPDATED_BY}
+        activeFilters={activeFilters[FILTERS.UPDATED_BY]}
+        labelId="ui-orders.filter.updatedBy"
+        name={FILTERS.UPDATED_BY}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      <AcqDateRangeFilter
+        id={FILTERS.DATE_UPDATED}
+        activeFilters={activeFilters[FILTERS.DATE_UPDATED]}
+        labelId="ui-orders.filter.dateUpdated"
+        name={FILTERS.DATE_UPDATED}
+        onChange={onChange}
+        disabled={disabled}
       />
     </AccordionSet>
   );

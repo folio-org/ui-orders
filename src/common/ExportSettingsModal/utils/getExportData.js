@@ -11,6 +11,17 @@ import { fetchExportDataByIds } from '../../utils';
 import { getAddresses } from '../../utils/getAddresses';
 import { createExportReport } from './createExportReport';
 
+const getExportUseIds = (lines = [], orders = []) => {
+  const lineUserIds = lines.map(({ metadata }) => {
+    return [metadata?.createdByUserId, metadata?.updatedByUserId];
+  });
+  const orderUserIds = orders.map(({ metadata, assignedTo, approvedBy }) => ([
+    metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedBy,
+  ]));
+
+  return uniq(flatten([...lineUserIds, ...orderUserIds])).filter(Boolean);
+};
+
 export const getExportData = async (mutator, lines, orders, intl) => {
   const orderVendorIds = uniq(orders.map(({ vendor }) => vendor));
   const lineVendorIds = uniq(flatten((lines.map(({ physical, eresource }) => ([
@@ -22,10 +33,7 @@ export const getExportData = async (mutator, lines, orders, intl) => {
     ({ organizationTypes }) => organizationTypes,
   ))).filter(Boolean);
   const orgTypes = await fetchExportDataByIds(mutator.organizationTypes, organizationTypeIds);
-  const userIds = uniq(flatten((orders.map(({ metadata, assignedTo, approvedBy }) => ([
-    metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedBy,
-  ]))))).filter(Boolean);
-  const users = await fetchExportDataByIds(mutator.exportUsers, userIds);
+  const users = await fetchExportDataByIds(mutator.exportUsers, getExportUseIds(lines, orders));
   const acqUnitsIds = uniq(flatten((orders.map(({ acqUnitIds }) => acqUnitIds))));
   const acqUnits = await fetchExportDataByIds(mutator.exportAcqUnits, acqUnitsIds);
   const mTypeIds = uniq(flatten(lines.map(({ physical, eresource }) => ([
