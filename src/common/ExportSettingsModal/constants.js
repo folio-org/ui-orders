@@ -25,6 +25,10 @@ export const EXPORT_ORDER_FIELDS = {
   renewalDate: 'Renewal date',
   reviewDate: 'Review date',
   poTags: 'PO tags',
+  createdBy: 'Created by',
+  dateCreated: 'Date created',
+  updatedBy: 'Updated by',
+  dateUpdated: 'Date updated',
 };
 
 export const EXPORT_LINE_FIELDS = {
@@ -86,6 +90,10 @@ export const EXPORT_LINE_FIELDS = {
   poLineTags: 'POLine tags',
   renewalNote: 'Renewal note',
   exchangeRate: 'Exchange rate',
+  poLineCreatedBy: 'Created by (POL)',
+  poLineDateCreated: 'Date created (POL)',
+  poLineUpdatedBy: 'Updated by (POL)',
+  poLineDateUpdated: 'Date updated (POL)',
 };
 
 export const EXPORT_ORDER_FIELDS_OPTIONS = Object.keys(EXPORT_ORDER_FIELDS).map(field => ({
