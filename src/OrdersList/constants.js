@@ -36,6 +36,8 @@ export const FILTERS = {
   SUFFIX: 'poNumberSuffix',
   VENDOR: 'vendor',
   TAGS: 'tags.tagList',
+  DATE_UPDATED: 'metadata.updatedDate',
+  UPDATED_BY: 'metadata.updatedByUserId',
 };
 
 export const STATUS_FILTER_OPTIONS = Object.keys(WORKFLOW_STATUS).map(status => ({

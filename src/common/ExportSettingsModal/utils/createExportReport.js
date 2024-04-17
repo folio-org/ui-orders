@@ -118,6 +118,10 @@ const getOrderExportData = ({
     renewalDate: formatDate(order.ongoing?.renewalDate, intl),
     reviewDate: formatDate(order.ongoing?.reviewDate, intl),
     poTags: order.tags?.tagList?.join('|'),
+    createdBy: userMap[order.metadata?.createdByUserId]?.username ?? invalidReference,
+    dateCreated: formatDate(order.metadata?.createdDate, intl),
+    updatedBy: userMap[order.metadata?.updatedByUserId]?.username ?? invalidReference,
+    dateUpdated: formatDate(order.metadata?.updatedDate, intl),
   };
 };
 
@@ -132,6 +136,7 @@ const getOrderLineExportData = ({
   locationMap,
   materialTypeMap,
   poLinesMap,
+  userMap,
   vendorMap,
 }) => {
   const invalidReference = intl.formatMessage({ id: 'ui-orders.export.invalidReference' });
@@ -200,6 +205,10 @@ const getOrderLineExportData = ({
     resourceUrl: lineRecord.eresource?.resourceUrl,
     poLineTags: lineRecord.tags?.tagList?.join('|'),
     exchangeRate: lineRecord.cost?.exchangeRate,
+    poLineCreatedBy: userMap[lineRecord.metadata?.createdByUserId]?.username ?? invalidReference,
+    poLineDateCreated: formatDate(lineRecord.metadata?.createdDate, intl),
+    poLineUpdatedBy: userMap[lineRecord.metadata?.updatedByUserId]?.username ?? invalidReference,
+    poLineDateUpdated: formatDate(lineRecord.metadata?.updatedDate, intl),
   };
 };
 
@@ -244,6 +253,7 @@ const getExportRow = ({
       materialTypeMap,
       poLinesMap,
       vendorMap,
+      userMap,
     })
     : {};
 

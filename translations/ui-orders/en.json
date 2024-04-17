@@ -285,6 +285,10 @@
   "filter.rush": "Rush",
   "filter.trial": "Trial",
   "filter.true": "Yes",
+  "filter.createdBy": "Created by",
+  "filter.updatedBy": "Updated by",
+  "filter.dateUpdated": "Date updated",
+
   "fund.fundIdentifier": "Fund ID",
   "fund.selectAdjustment": "Select adjustment",
   "fund.value": "Value",

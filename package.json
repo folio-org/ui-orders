@@ -125,7 +125,9 @@
           "search.facets.collection.get",
           "tags.collection.get",
           "tags.item.post",
-          "users.collection.get"
+          "usergroups.collection.get",
+          "users.collection.get",
+          "users.item.get"
         ]
       },
       {
