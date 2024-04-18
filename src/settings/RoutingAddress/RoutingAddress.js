@@ -56,11 +56,11 @@ export const RoutingAddress = ({ label }) => {
     return handler(values)
       .then(() => {
         refetch();
-        showCallout({ messageId: 'ui-orders.settings.centralOrdering.submit.success' });
+        showCallout({ messageId: 'ui-orders.settings.routingAddress.submit.success' });
       })
       .catch(() => {
         showCallout({
-          messageId: 'ui-orders.settings.centralOrdering.submit.error.generic',
+          messageId: 'ui-orders.settings.routingAddress.submit.error.generic',
           type: 'error',
         });
       });
