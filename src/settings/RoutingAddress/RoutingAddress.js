@@ -16,12 +16,14 @@ import {
   useUserAddressTypes,
 } from './hooks';
 import RoutingAddressForm from './RoutingAddressForm';
+import { useConfigurationSettingsMutation } from '../hooks';
 
 export const RoutingAddress = ({ label }) => {
-  const ky = useOkapiKy();
   const showCallout = useShowCallout();
   const { addressTypes } = useUserAddressTypes();
   const { data, isFetching, refetch } = useRoutingAddressSettings();
+
+  const { createConfigSettings, updateConfigSettings } = useConfigurationSettingsMutation();
 
   const addressTypeOptions = useMemo(() => addressTypes.map(({ addressType }) => ({
     label: addressType,
@@ -31,22 +33,18 @@ export const RoutingAddress = ({ label }) => {
   const createSetting = (values) => {
     const value = values[ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY];
 
-    return ky.post(ORDERS_STORAGE_SETTINGS_API, {
-      json: {
-        key: ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY,
-        value,
-      },
+    return createConfigSettings({
+      key: ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY,
+      value,
     });
   };
 
   const updateSetting = (values) => {
     const value = values[ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY];
 
-    return ky.put(`${ORDERS_STORAGE_SETTINGS_API}/${data.id}`, {
-      json: {
-        ...data,
-        value,
-      },
+    return updateConfigSettings({
+      ...data,
+      value,
     });
   };
 

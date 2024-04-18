@@ -16,7 +16,10 @@ jest.mock('@folio/stripes/components', () => ({
 
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
-  useDefaultReceivingSearchSettings: jest.fn(),
+  useConfigurationSettingsMutation: jest.fn({
+    createConfigSettings: jest.fn(),
+    updateConfigSettings: jest.fn(),
+  }),
 }));
 
 const renderCentralOrderingSettings = () => render(

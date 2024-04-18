@@ -13,6 +13,13 @@ jest.mock('@folio/stripes/components', () => ({
   LoadingPane: () => <div>LoadingPane</div>,
 }));
 
+jest.mock('../hooks', () => ({
+  ...jest.requireActual('../hooks'),
+  useConfigurationSettingsMutation: jest.fn({
+    createConfigSettings: jest.fn(),
+    updateConfigSettings: jest.fn(),
+  }),
+}));
 jest.mock('./hooks', () => ({
   useRoutingAddressSettings: jest.fn(),
   useUserAddressTypes: jest.fn(),

@@ -1,18 +1,16 @@
 import { FormattedMessage } from 'react-intl';
 
 import { LoadingPane } from '@folio/stripes/components';
-import { useOkapiKy } from '@folio/stripes/core';
-import {
-  ORDERS_STORAGE_SETTINGS_API,
-  useShowCallout,
-} from '@folio/stripes-acq-components';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY } from '../../common/constants';
-import { useDefaultReceivingSearchSettings } from '../hooks';
+import {
+  useConfigurationSettingsMutation,
+  useDefaultReceivingSearchSettings,
+} from '../hooks';
 import CentralOrderingForm from './CentralOrderingForm';
 
 export const CentralOrdering = () => {
-  const ky = useOkapiKy();
   const showCallout = useShowCallout();
 
   const {
@@ -20,26 +18,23 @@ export const CentralOrdering = () => {
     data,
     refetch,
   } = useDefaultReceivingSearchSettings();
+  const { createConfigSettings, updateConfigSettings } = useConfigurationSettingsMutation();
 
   const createSetting = (values) => {
     const value = values[CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY];
 
-    return ky.post(ORDERS_STORAGE_SETTINGS_API, {
-      json: {
-        key: CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY,
-        value,
-      },
+    return createConfigSettings({
+      key: CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY,
+      value,
     });
   };
 
   const updateSetting = (values) => {
     const value = values[CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY];
 
-    return ky.put(`${ORDERS_STORAGE_SETTINGS_API}/${data.id}`, {
-      json: {
-        ...data,
-        value,
-      },
+    return updateConfigSettings({
+      ...data,
+      value,
     });
   };
 

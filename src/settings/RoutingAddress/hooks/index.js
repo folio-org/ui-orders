@@ -1,2 +1,2 @@
 export * from './useRoutingAddressSettings';
-export * from './useUserAddresses';
+export * from './useUserAddressTypes';
