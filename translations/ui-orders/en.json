@@ -743,7 +743,7 @@
   "settings.routing.address": "Routing address",
   "settings.routingAddress.submit.success": "Routing address setting was successfully updated",
   "settings.routingAddress.submit.error.generic": "Routing address setting update failed",
-  "settings.addressTypes.select": "Select address type",
+  "settings.addressTypes.select.label": "Select address type",
   "settings.routing.listConfiguration": "List configuration",
   "settings.routing.listConfiguration.description": "Description",
   "settings.routing.listConfiguration.generalInformation": "General information",

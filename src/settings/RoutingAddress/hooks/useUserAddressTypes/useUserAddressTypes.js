@@ -8,7 +8,7 @@ import { USER_ADDRESS_TYPES_API } from '../../../../common/constants';
 
 const DEFAULT_DATA = [];
 
-export const useUserAddresses = (options = {}) => {
+export const useUserAddressTypes = (options = {}) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace();
 

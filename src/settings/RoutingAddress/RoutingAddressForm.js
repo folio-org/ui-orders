@@ -78,7 +78,7 @@ const RoutingAddressForm = ({
           <FieldSelectFinal
             dataOptions={addressTypeOptions}
             fullWidth
-            label={<FormattedMessage id="ui-orders.settings.addressTypes.select" />}
+            label={<FormattedMessage id="ui-orders.settings.addressTypes.select.label" />}
             name={ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY}
             required
           />

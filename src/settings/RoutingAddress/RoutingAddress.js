@@ -13,14 +13,14 @@ import css from '../ConfigManagerForm.css';
 import { ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY } from './constants';
 import {
   useRoutingAddressSettings,
-  useUserAddresses,
+  useUserAddressTypes,
 } from './hooks';
 import RoutingAddressForm from './RoutingAddressForm';
 
 export const RoutingAddress = ({ label }) => {
   const ky = useOkapiKy();
   const showCallout = useShowCallout();
-  const { addressTypes } = useUserAddresses();
+  const { addressTypes } = useUserAddressTypes();
   const { data, isFetching, refetch } = useRoutingAddressSettings();
 
   const addressTypeOptions = useMemo(() => addressTypes.map(({ addressType }) => ({
