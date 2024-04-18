@@ -8,10 +8,9 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
+import { ORDERS_STORAGE_SETTINGS_API } from '@folio/stripes-acq-components';
 
-import { TEMPLATES_API } from '../../../../common/constants/api';
-import { LIST_CONFIGURATION_TEMPLATE_ID } from '../../constants';
-import { useListConfigurationMutation } from './useListConfigurationMutation';
+import { useConfigurationSettingsMutation } from './useConfigurationSettingsMutation';
 
 jest.mock('@folio/stripes/core', () => ({
   ...jest.requireActual('@folio/stripes/core'),
@@ -20,6 +19,10 @@ jest.mock('@folio/stripes/core', () => ({
 
 const putMock = jest.fn();
 const postMock = jest.fn();
+const configData = {
+  id: 'test-id',
+  value: 'test',
+};
 
 const queryClient = new QueryClient();
 
@@ -29,7 +32,7 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-describe('useListConfigurationMutation', () => {
+describe('useConfigurationSettingsMutation', () => {
   beforeEach(() => {
     putMock.mockClear();
     postMock.mockClear();
@@ -41,44 +44,23 @@ describe('useListConfigurationMutation', () => {
       });
   });
 
-  it('should call `createListConfig` mutation', async () => {
-    const { result } = renderHook(() => useListConfigurationMutation(), { wrapper });
+  it('should call `createConfigSettings` mutation', async () => {
+    const { result } = renderHook(() => useConfigurationSettingsMutation(), { wrapper });
 
-    await result.current.createListConfig({
-      description: 'test',
-      localizedTemplates: {
-        en: {
-          body: 'test',
-        },
-      },
-    });
+    await result.current.createConfigSettings(configData);
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
-    expect(postMock).toHaveBeenCalledWith(TEMPLATES_API, expect.objectContaining({}));
+    expect(postMock).toHaveBeenCalledWith(ORDERS_STORAGE_SETTINGS_API, expect.objectContaining({}));
   });
 
-  it('should call `updateListConfig` mutation', async () => {
-    const { result } = renderHook(() => useListConfigurationMutation(), { wrapper });
+  it('should call `updateConfigSettings` mutation', async () => {
+    const { result } = renderHook(() => useConfigurationSettingsMutation(), { wrapper });
 
-    await result.current.updateListConfig({
-      description: 'test',
-      localizedTemplates: {
-        en: {
-          body: 'test',
-        },
-      },
-    });
+    await result.current.updateConfigSettings(configData);
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
-    expect(putMock).toHaveBeenCalledWith(`${TEMPLATES_API}/${LIST_CONFIGURATION_TEMPLATE_ID}`, expect.objectContaining({
-      json: {
-        description: 'test',
-        localizedTemplates: {
-          en: {
-            body: 'test',
-          },
-        },
-      },
+    expect(putMock).toHaveBeenCalledWith(`${ORDERS_STORAGE_SETTINGS_API}/${configData.id}`, expect.objectContaining({
+      json: configData,
     }));
   });
 });

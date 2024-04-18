@@ -7,6 +7,7 @@ import { ORDERS_STORAGE_SETTINGS_API } from '@folio/stripes-acq-components';
 
 import { useRoutingAddressSettings, useUserAddressTypes } from './hooks';
 import { RoutingAddress } from './RoutingAddress';
+import { useConfigurationSettingsMutation } from '../hooks';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -31,6 +32,7 @@ const renderComponent = () => render(
 );
 
 const mockRefetch = jest.fn();
+const mockUpdateConfigSettings = jest.fn();
 const mockKy = {
   put: jest.fn((_url, { data }) => ({
     json() {
@@ -57,6 +59,12 @@ const mockData = {
 describe('RoutingAddress', () => {
   beforeEach(() => {
     mockKy.put.mockClear();
+    useConfigurationSettingsMutation
+      .mockClear()
+      .mockReturnValue({
+        createConfigSettings: jest.fn(),
+        updateConfigSettings: mockUpdateConfigSettings,
+      });
     useUserAddressTypes.mockClear().mockReturnValue({
       addressTypes: mockAddressTypes,
       isLoading: false,
@@ -108,10 +116,8 @@ describe('RoutingAddress', () => {
     );
     await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
 
-    expect(mockKy.put).toHaveBeenCalledWith(`${ORDERS_STORAGE_SETTINGS_API}/${mockData.id}`, expect.objectContaining({
-      json: expect.objectContaining({
-        value: mockAddressTypes[1].addressType,
-      }),
+    expect(mockUpdateConfigSettings).toHaveBeenCalledWith(expect.objectContaining({
+      value: mockAddressTypes[1].addressType,
     }));
   });
 });
