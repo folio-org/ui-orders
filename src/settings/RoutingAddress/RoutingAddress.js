@@ -1,11 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { LoadingPane } from '@folio/stripes/components';
-import { useOkapiKy } from '@folio/stripes/core';
-import {
-  ORDERS_STORAGE_SETTINGS_API,
-  useShowCallout,
-} from '@folio/stripes-acq-components';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { useMemo } from 'react';
 import css from '../ConfigManagerForm.css';

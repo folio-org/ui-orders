@@ -3,7 +3,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { useOkapiKy } from '@folio/stripes/core';
-import { ORDERS_STORAGE_SETTINGS_API } from '@folio/stripes-acq-components';
 
 import { useRoutingAddressSettings, useUserAddressTypes } from './hooks';
 import { RoutingAddress } from './RoutingAddress';
