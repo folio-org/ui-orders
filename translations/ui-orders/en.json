@@ -740,6 +740,8 @@
   "settings.networkInteraction.label": "Network ordering",
   "settings.newBtn": "New",
   "settings.routing.label": "Routing",
+  "settings.routing.address": "Routing address",
+  "settings.addressTypes.select": "Select address type",
   "settings.routing.listConfiguration": "List configuration",
   "settings.routing.listConfiguration.description": "Description",
   "settings.routing.listConfiguration.generalInformation": "General information",

@@ -20,6 +20,7 @@ import LoanType from './LoanType';
 import InstanceMatching from './InstanceMatching';
 import CustomFieldsSettings from './CustomFieldsSettings';
 import RoutingListConfiguration from './RoutingListConfiguration';
+import { RoutingAddress } from './RoutingAddress';
 
 const sections = [
   {
@@ -136,6 +137,12 @@ const sections = [
   {
     label: <FormattedMessage id="ui-orders.settings.routing.label" />,
     pages: [
+      {
+        component: RoutingAddress,
+        label: <FormattedMessage id="ui-orders.settings.routing.address" />,
+        route: 'routing-address',
+        perm: 'ui-orders.settings.view',
+      },
       {
         component: RoutingListConfiguration,
         label: <FormattedMessage id="ui-orders.settings.routing.listConfiguration" />,

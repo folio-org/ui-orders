@@ -8,6 +8,7 @@
 * *BREAKING* Apply changes in the fund schema for the locations field. Refs UIOR-1251.
 * *BREAKING* Align the `finance.*` interfaces versions in accordance with the changes in the descriptor. Refs UIOR-1260.
 * Add additional order filters to support reporting requirements. Refs UIOR-1256.
+* Settings - implement Routing address configuration. Refs UIOR-1261.
 
 ## [6.0.2](https://github.com/folio-org/ui-orders/tree/v6.0.2) (2024-04-01)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.1...v6.0.2)
