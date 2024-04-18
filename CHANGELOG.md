@@ -1,5 +1,8 @@
 # Change history for ui-orders
 
+## [6.0.3](https://github.com/folio-org/ui-orders/tree/v6.0.3) (2024-04-18)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.2...v6.0.3)
+
 * Add additional order filters to support reporting requirements. Refs UIOR-
 
 ## [6.0.2](https://github.com/folio-org/ui-orders/tree/v6.0.2) (2024-04-01)
