@@ -12,8 +12,6 @@ export const EXPORT_ORDER_FIELDS = {
   shipTo: 'Ship to',
   manualPo: 'Manual',
   reEncumber: 'Re-encumber',
-  createdByUserId: 'Created by',
-  createdDate: 'Created on',
   note: 'Note',
   workflowStatus: 'Workflow status',
   approved: 'Approved',
@@ -26,9 +24,9 @@ export const EXPORT_ORDER_FIELDS = {
   reviewDate: 'Review date',
   poTags: 'PO tags',
   createdBy: 'Created by',
-  dateCreated: 'Date created',
+  dateCreated: 'Created on',
   updatedBy: 'Updated by',
-  dateUpdated: 'Date updated',
+  dateUpdated: 'Updated on',
 };
 
 export const EXPORT_LINE_FIELDS = {
@@ -47,7 +45,6 @@ export const EXPORT_LINE_FIELDS = {
   description: 'Internal note',
   acquisitionMethod: 'Acquisition method',
   orderFormat: 'Order format',
-  createdDateLine: 'Created on (PO Line)',
   receiptDate: 'Receipt date',
   receiptStatus: 'Receipt status',
   paymentStatus: 'Payment status',
@@ -90,10 +87,10 @@ export const EXPORT_LINE_FIELDS = {
   poLineTags: 'POLine tags',
   renewalNote: 'Renewal note',
   exchangeRate: 'Exchange rate',
-  poLineCreatedBy: 'Created by (POL)',
-  poLineDateCreated: 'Date created (POL)',
-  poLineUpdatedBy: 'Updated by (POL)',
-  poLineDateUpdated: 'Date updated (POL)',
+  poLineCreatedBy: 'Created by (PO Line)',
+  poLineDateCreated: 'Created on (PO Line)',
+  poLineUpdatedBy: 'Updated by (PO Line)',
+  poLineDateUpdated: 'Updated on (PO Line)',
 };
 
 export const EXPORT_ORDER_FIELDS_OPTIONS = Object.keys(EXPORT_ORDER_FIELDS).map(field => ({

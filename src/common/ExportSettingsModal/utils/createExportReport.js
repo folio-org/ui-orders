@@ -105,8 +105,6 @@ const getOrderExportData = ({
     shipToRecord: addressMap[shipTo],
     manualPo: !!order.manualPo,
     reEncumber: order.reEncumber,
-    createdByUserId: userMap[order.metadata?.createdByUserId]?.username ?? invalidReference,
-    createdDate: formatDateTime(order.metadata?.createdDate, intl),
     note: order.notes?.join('|'),
     workflowStatus: order.workflowStatus,
     approved: order.approved,
@@ -119,9 +117,9 @@ const getOrderExportData = ({
     reviewDate: formatDate(order.ongoing?.reviewDate, intl),
     poTags: order.tags?.tagList?.join('|'),
     createdBy: userMap[order.metadata?.createdByUserId]?.username ?? invalidReference,
-    dateCreated: formatDate(order.metadata?.createdDate, intl),
+    dateCreated: formatDateTime(order.metadata?.createdDate, intl),
     updatedBy: userMap[order.metadata?.updatedByUserId]?.username ?? invalidReference,
-    dateUpdated: formatDate(order.metadata?.updatedDate, intl),
+    dateUpdated: formatDateTime(order.metadata?.updatedDate, intl),
   };
 };
 
@@ -163,7 +161,6 @@ const getOrderLineExportData = ({
     description: lineRecord.description,
     acquisitionMethod: acquisitionMethodsMap[lineRecord.acquisitionMethod]?.value,
     orderFormat: lineRecord.orderFormat,
-    createdDateLine: formatDate(lineRecord.metadata?.createdDate, intl),
     receiptDate: formatDate(lineRecord.receiptDate, intl),
     receiptStatus: lineRecord.receiptStatus,
     paymentStatus: lineRecord.paymentStatus,
@@ -206,9 +203,9 @@ const getOrderLineExportData = ({
     poLineTags: lineRecord.tags?.tagList?.join('|'),
     exchangeRate: lineRecord.cost?.exchangeRate,
     poLineCreatedBy: userMap[lineRecord.metadata?.createdByUserId]?.username ?? invalidReference,
-    poLineDateCreated: formatDate(lineRecord.metadata?.createdDate, intl),
+    poLineDateCreated: formatDateTime(lineRecord.metadata?.createdDate, intl),
     poLineUpdatedBy: userMap[lineRecord.metadata?.updatedByUserId]?.username ?? invalidReference,
-    poLineDateUpdated: formatDate(lineRecord.metadata?.updatedDate, intl),
+    poLineDateUpdated: formatDateTime(lineRecord.metadata?.updatedDate, intl),
   };
 };
 
