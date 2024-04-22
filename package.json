@@ -150,6 +150,7 @@
         "visible": true,
         "subPermissions": [
           "module.orders.enabled",
+          "addresstypes.collection.get",
           "acquisition.order.events.get",
           "acquisition.order-line.events.get",
           "finance.calculate-exchange.item.get",

@@ -1,18 +1,18 @@
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { LoadingPane } from '@folio/stripes/components';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
-import { useMemo } from 'react';
-import css from '../ConfigManagerForm.css';
-
+import { useConfigurationSettingsMutation } from '../hooks';
 import { ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY } from './constants';
 import {
   useRoutingAddressSettings,
   useUserAddressTypes,
 } from './hooks';
 import RoutingAddressForm from './RoutingAddressForm';
-import { useConfigurationSettingsMutation } from '../hooks';
+
+import css from '../ConfigManagerForm.css';
 
 export const RoutingAddress = ({ label }) => {
   const showCallout = useShowCallout();
