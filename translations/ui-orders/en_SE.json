@@ -887,5 +887,8 @@
     "settings.centralOrdering.receivingSearch.activeAffiliationDefault": "Active affiliation default",
     "settings.centralOrdering.submit.success": "Central ordering setting was successfully updated",
     "settings.centralOrdering.submit.error.generic": "Central ordering setting update failed",
-    "settings.networkInteraction.label": "Network ordering"
+    "settings.networkInteraction.label": "Network ordering",
+    "filter.createdBy": "Created by",
+    "filter.updatedBy": "Updated by",
+    "filter.dateUpdated": "Date updated"
 }
