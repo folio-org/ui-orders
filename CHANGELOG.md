@@ -12,6 +12,7 @@
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.2...v6.0.3)
 
 * Add additional order filters to support reporting requirements. Refs UIOR-1256.
+* Eliminate shadowing when passing an undefined prop to the receipt status field. Refs UIOR-1257.
 
 ## [6.0.2](https://github.com/folio-org/ui-orders/tree/v6.0.2) (2024-04-01)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.1...v6.0.2)
