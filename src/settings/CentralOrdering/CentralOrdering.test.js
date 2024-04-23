@@ -2,11 +2,9 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { useOkapiKy } from '@folio/stripes/core';
-import { ORDERS_STORAGE_SETTINGS_API } from '@folio/stripes-acq-components';
 
 import { CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH } from '../../common/constants';
-import { useDefaultReceivingSearchSettings } from '../hooks';
+import { useConfigurationSettingsMutation, useDefaultReceivingSearchSettings } from '../hooks';
 import { CentralOrdering } from './CentralOrdering';
 
 jest.mock('@folio/stripes/components', () => ({
@@ -15,8 +13,8 @@ jest.mock('@folio/stripes/components', () => ({
 }));
 
 jest.mock('../hooks', () => ({
-  ...jest.requireActual('../hooks'),
   useDefaultReceivingSearchSettings: jest.fn(),
+  useConfigurationSettingsMutation: jest.fn(),
 }));
 
 const renderCentralOrderingSettings = () => render(
@@ -25,13 +23,7 @@ const renderCentralOrderingSettings = () => render(
 );
 
 const mockRefetch = jest.fn();
-const mockKy = {
-  put: jest.fn((_url, { data }) => ({
-    json() {
-      return Promise.resolve(data);
-    },
-  })),
-};
+const mockUpdateConfigSettings = jest.fn();
 const mockData = {
   id: 'setting-id',
   value: CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.centralOnly,
@@ -39,16 +31,18 @@ const mockData = {
 
 describe('CentralOrdering component', () => {
   beforeEach(() => {
-    mockKy.put.mockClear();
+    useConfigurationSettingsMutation
+      .mockClear()
+      .mockReturnValue({
+        createConfigSettings: jest.fn(),
+        updateConfigSettings: mockUpdateConfigSettings,
+      });
     useDefaultReceivingSearchSettings
       .mockClear()
       .mockReturnValue({
         isFetching: false,
         refetch: mockRefetch,
       });
-    useOkapiKy
-      .mockClear()
-      .mockReturnValue(mockKy);
   });
 
   it('should display pane headings', () => {
@@ -86,10 +80,8 @@ describe('CentralOrdering component', () => {
     );
     await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
 
-    expect(mockKy.put).toHaveBeenCalledWith(`${ORDERS_STORAGE_SETTINGS_API}/${mockData.id}`, expect.objectContaining({
-      json: expect.objectContaining({
-        value: CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.empty,
-      }),
+    expect(mockUpdateConfigSettings).toHaveBeenCalledWith(expect.objectContaining({
+      value: CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.empty,
     }));
   });
 });

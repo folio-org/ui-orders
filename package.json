@@ -150,6 +150,7 @@
         "visible": true,
         "subPermissions": [
           "module.orders.enabled",
+          "addresstypes.collection.get",
           "acquisition.order.events.get",
           "acquisition.order-line.events.get",
           "finance.calculate-exchange.item.get",
@@ -396,6 +397,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "addresstypes.collection.get",
           "settings.orders.enabled",
           "ui-orders.settings.order-templates.view",
           "configuration.entries.collection.get",

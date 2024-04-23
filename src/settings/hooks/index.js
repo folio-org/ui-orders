@@ -1,3 +1,4 @@
+export { useConfigurationSettingsMutation } from './useConfigurationSettingsMutation';
 export { useDefaultReceivingSearchSettings } from './useDefaultReceivingSearchSettings';
 export {
   SETTINGS_SECTION_KEY_FIELD_NAME,
