@@ -15,6 +15,7 @@ import OrderNumber from './OrderNumber';
 import OrderTemplates from './OrderTemplates';
 import POLinesLimit from './POLinesLimit';
 import Prefixes from './Prefixes';
+import { RoutingAddress } from './RoutingAddress';
 import RoutingListConfiguration from './RoutingListConfiguration';
 import Suffixes from './Suffixes';
 import { SECTION_KEYS } from './constants';
@@ -156,6 +157,12 @@ export const SECTIONS = [
   {
     label: <FormattedMessage id="ui-orders.settings.routing.label" />,
     pages: [
+      {
+        component: RoutingAddress,
+        label: <FormattedMessage id="ui-orders.settings.routing.address" />,
+        route: 'routing-address',
+        perm: 'ui-orders.settings.view',
+      },
       {
         component: RoutingListConfiguration,
         label: <FormattedMessage id="ui-orders.settings.routing.listConfiguration" />,
