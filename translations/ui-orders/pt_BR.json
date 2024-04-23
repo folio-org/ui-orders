@@ -887,5 +887,8 @@
     "settings.centralOrdering.receivingSearch.activeAffiliationDefault": "Padrão de afiliação ativa",
     "settings.centralOrdering.submit.success": "A configuração de pedido central foi atualizada com sucesso",
     "settings.centralOrdering.submit.error.generic": "Falha na atualização da configuração de pedido central",
-    "settings.networkInteraction.label": "Pedido de rede"
+    "settings.networkInteraction.label": "Pedido de rede",
+    "filter.createdBy": "Criado por",
+    "filter.updatedBy": "Atualizado por",
+    "filter.dateUpdated": "Data de atualização"
 }
