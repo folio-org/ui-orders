@@ -173,6 +173,8 @@
           "orders.pieces.collection.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
+          "orders.routing-lists.collection.get",
+          "orders.routing-lists.item.get",
           "orders.titles.collection.get",
           "organizations.organizations.collection.get",
           "organizations-storage.organization-types.collection.get",
@@ -196,6 +198,7 @@
           "orders.po-lines.item.put",
           "orders.po-number.item.get",
           "orders.po-number.item.post",
+          "orders.routing-lists.item.put",
           "orders.titles.item.post",
           "ui-orders.orders.view"
         ]
@@ -214,6 +217,7 @@
           "orders.po-lines.item.post",
           "orders.po-number.item.get",
           "orders.po-number.item.post",
+          "orders.routing-lists.item.post",
           "orders.titles.item.put",
           "ui-orders.orders.view"
         ]
@@ -225,7 +229,8 @@
         "visible": true,
         "subPermissions": [
           "orders.item.delete",
-          "orders.po-lines.item.delete"
+          "orders.po-lines.item.delete",
+          "orders.routing-lists.item.delete"
         ]
       },
       {
