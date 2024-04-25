@@ -689,7 +689,7 @@
   "settings": "Orders settings",
   "settings.centralOrdering.label": "Central ordering",
   "settings.centralOrdering.receivingSearch.label": "Set default for receiving search",
-  "settings.centralOrdering.receivingSearch.empty": "Empty",
+  "settings.centralOrdering.receivingSearch.activeAffiliationOnly": "Active affiliation only",
   "settings.centralOrdering.receivingSearch.centralOnly": "Central only",
   "settings.centralOrdering.receivingSearch.centralDefault": "Central default",
   "settings.centralOrdering.receivingSearch.activeAffiliationDefault": "Active affiliation default",

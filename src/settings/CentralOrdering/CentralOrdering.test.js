@@ -76,12 +76,12 @@ describe('CentralOrdering component', () => {
 
     await user.selectOptions(
       await screen.findByRole('combobox', { name: 'ui-orders.settings.centralOrdering.receivingSearch.label' }),
-      [CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.empty],
+      [CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.activeAffiliationDefault],
     );
     await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
 
     expect(mockUpdateConfigSettings).toHaveBeenCalledWith(expect.objectContaining({
-      value: CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.empty,
+      value: CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH.activeAffiliationDefault,
     }));
   });
 });
