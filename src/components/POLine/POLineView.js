@@ -39,6 +39,7 @@ import {
   FundDistributionView,
   handleKeyCommand,
   ORDER_FORMATS,
+  RoutingList,
   TagsBadge,
   useAcqRestrictions,
   useModalToggle,
@@ -306,6 +307,7 @@ const POLineView = ({
   const poLineNumber = line.poLineNumber;
   const showEresources = ERESOURCES.includes(orderFormat);
   const showPhresources = PHRESOURCES.includes(orderFormat);
+  const showRoutingList = orderFormat === ORDER_FORMATS.PEMix || orderFormat === ORDER_FORMATS.physicalResource;
   const showOther = orderFormat === ORDER_FORMATS.other;
   const estimatedPrice = get(line, ['cost', 'poLineEstimatedPrice'], 0);
   const fundDistributions = get(line, 'fundDistribution');
@@ -472,6 +474,9 @@ const POLineView = ({
                       hiddenFields={hiddenFields}
                     />
                   </Accordion>
+                )}
+                {showRoutingList && (
+                  <RoutingList poLineId={line?.id} />
                 )}
                 {showOther && (
                   <Accordion

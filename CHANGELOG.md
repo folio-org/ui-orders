@@ -8,6 +8,7 @@
 * *BREAKING* Apply changes in the fund schema for the locations field. Refs UIOR-1251.
 * *BREAKING* Align the `finance.*` interfaces versions in accordance with the changes in the descriptor. Refs UIOR-1260.
 * Settings - implement Routing address configuration. Refs UIOR-1261.
+* Implement Routing lists accordion. Refs UIOR-1109.
 
 ## [6.0.3](https://github.com/folio-org/ui-orders/tree/v6.0.3) (2024-04-18)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.2...v6.0.3)

@@ -39,6 +39,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
   }),
   DonorsListContainer: jest.fn().mockReturnValue('DonorsListContainer'),
   FundDistributionView: jest.fn(() => 'FundDistributionView'),
+  RoutingList: jest.fn().mockReturnValue('RoutingList'),
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
@@ -120,6 +121,7 @@ describe('POLineView', () => {
     expect(screen.getByText(/NotesSmartAccordion/i)).toBeInTheDocument();
     expect(screen.getByText(/ViewMetaData/i)).toBeInTheDocument();
     expect(screen.getByText(/ViewCustomFieldsRecord/i)).toBeInTheDocument();
+    expect(screen.getByText(/RoutingList/i)).toBeInTheDocument();
   });
 
   it('should render Ongoing order information accordion', async () => {
