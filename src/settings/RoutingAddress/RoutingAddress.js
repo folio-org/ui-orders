@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { LoadingPane } from '@folio/stripes/components';
@@ -17,7 +17,21 @@ import css from '../ConfigManagerForm.css';
 export const RoutingAddress = ({ label }) => {
   const showCallout = useShowCallout();
   const { addressTypes } = useUserAddressTypes();
-  const { data, isFetching, refetch } = useRoutingAddressSettings();
+  const { data, isFetching, refetch, error } = useRoutingAddressSettings();
+
+  useEffect(() => {
+    if (error?.response.status === 403) {
+      showCallout({
+        messageId: 'ui-orders.permission.settings.errors.permissionsRequired',
+        type: 'error',
+      });
+    } else if (error) {
+      showCallout({
+        messageId: 'ui-orders.errors.generic',
+        type: 'error',
+      });
+    }
+  }, [error, showCallout]);
 
   const { createConfigSettings, updateConfigSettings } = useConfigurationSettingsMutation();
 

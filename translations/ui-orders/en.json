@@ -253,6 +253,7 @@
   "errors.instanceWasNotChanged": "Instance was not changed.",
   "errors.poLineHasLocationRestrictedFund": "Location-restricted fund applied to invalid location",
   "errors.templateNameNotUnique": "The order template could not be saved because this template name already exists.",
+  "errors.generic": "Something went wrong. Please try again later.",
   "export.exportDate": "Export date",
   "export.fileName": "File name",
   "export.jobId": "Job ID",
@@ -921,5 +922,6 @@
   "permission.settings.order-templates.delete": "Settings (Orders): Can view, edit, delete Order Templates",
   "permission.settings.order-templates.edit": "Settings (Orders): Can view, edit Order Templates",
   "permission.settings.order-templates.view": "Settings (Orders): Can view Order Templates",
-  "permission.settings.view": "Settings (Orders): Can view all settings"
+  "permission.settings.view": "Settings (Orders): Can view all settings",
+  "permission.settings.errors.permissionsRequired": "User does not have required permissions."
 }

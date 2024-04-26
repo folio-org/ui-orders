@@ -346,7 +346,8 @@
         "visible": true,
         "subPermissions": [
           "ui-orders.settings.order-templates.edit",
-          "orders.order-templates.item.post"
+          "orders.order-templates.item.post",
+          "templates.item.post"
         ]
       },
       {
@@ -415,7 +416,8 @@
           "orders-storage.settings.item.get",
           "ui-orders.third-party-services",
           "orders.acquisition-methods.collection.get",
-          "ui-orders.settings.custom-fields.view"
+          "ui-orders.settings.custom-fields.view",
+          "orders-storage.settings.collection.get"
         ]
       },
       {

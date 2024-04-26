@@ -22,10 +22,11 @@ export const useRoutingAddressSettings = (options = {}) => {
     isFetching,
     isLoading,
     refetch,
+    error,
   } = useQuery({
     queryKey: [namespace],
     queryFn: async () => {
-      const response = await ky.get(ORDERS_STORAGE_SETTINGS_API, { searchParams }).json();
+      const response = await ky.get(ORDERS_STORAGE_SETTINGS_API, { searchParams }).json().catch(() => {});
 
       return response?.settings?.[0];
     },
@@ -37,5 +38,6 @@ export const useRoutingAddressSettings = (options = {}) => {
     isFetching,
     isLoading,
     refetch,
+    error,
   });
 };
