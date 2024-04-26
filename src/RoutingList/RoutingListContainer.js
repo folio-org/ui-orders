@@ -1,0 +1,104 @@
+import { useCallback, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useHistory, useParams } from 'react-router';
+
+import { ConfirmationModal, LoadingPane } from '@folio/stripes/components';
+import { useShowCallout } from '@folio/stripes-acq-components';
+
+import {
+  useRoutingListById,
+  useRoutingListMutation,
+} from './hooks';
+
+import css from './RoutingList.css';
+import RoutingListEdit from './RoutingListEdit';
+import { omit } from 'lodash';
+
+export const RoutingListContainer = () => {
+  const showCallout = useShowCallout();
+  const history = useHistory();
+  const { id, poLineId } = useParams();
+  const { routingList, isLoading, refetch } = useRoutingListById(id);
+  const { deleteListing, createListing, updateListing } = useRoutingListMutation();
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const showConfirmDelete = useCallback(() => setConfirmDelete(true), []);
+  const hideConfirmDelete = useCallback(() => setConfirmDelete(false), []);
+
+  const onClose = useCallback(() => {
+    history.goBack();
+  }, [history]);
+
+  const onMutationSuccess = useCallback((messageId = 'ui-orders.routing.list.update.success') => {
+    onClose();
+    showCallout({ messageId });
+  }, [onClose, showCallout]);
+
+  const onMutationError = useCallback((messageId = 'ui-orders.routing.list.update.error') => {
+    showCallout({
+      messageId,
+      type: 'error',
+    });
+  }, [showCallout]);
+
+  const onDelete = async () => {
+    hideConfirmDelete();
+    await deleteListing(
+      routingList.id,
+      {
+        onSuccess: () => onMutationSuccess('ui-orders.routing.list.delete.success'),
+        onError: () => onMutationError('ui-orders.routing.list.delete.error'),
+      },
+    );
+  };
+
+  const onSubmit = async (values) => {
+    const dataToSave = omit(values, ['users']);
+
+    if (routingList?.id) {
+      await updateListing(dataToSave, {
+        onSuccess: () => onMutationSuccess('ui-orders.routing.list.update.success'),
+        onError: () => onMutationError('ui-orders.routing.list.update.error'),
+      });
+    } else {
+      await createListing({ ...dataToSave, poLineId, id: poLineId }, {
+        onSuccess: () => onMutationSuccess('ui-orders.routing.list.create.success'),
+        onError: () => onMutationError('ui-orders.routing.list.create.error'),
+      });
+    }
+  };
+
+  const paneTitle = routingList?.id ? routingList?.name : <FormattedMessage id="ui-orders.routing.list.create.label" />;
+
+  if (isLoading) {
+    return <LoadingPane />;
+  }
+
+  return (
+    <>
+      <div
+        data-test-order-settings-routing-address
+        className={css.formWrapper}
+      >
+        <RoutingListEdit
+          onCancel={onClose}
+          onDelete={showConfirmDelete}
+          onSubmit={onSubmit}
+          initialValues={routingList}
+          paneTitle={paneTitle}
+        />
+      </div>
+      {confirmDelete && (
+        <ConfirmationModal
+          id="delete-routing-list-confirmation"
+          confirmLabel={<FormattedMessage id="ui-orders.routing.list.delete.confirm.label" />}
+          heading={<FormattedMessage id="ui-orders.routing.list.delete.confirm.title" />}
+          message={<FormattedMessage id="ui-orders.routing.list.delete.confirm" />}
+          onCancel={hideConfirmDelete}
+          onConfirm={onDelete}
+          open
+        />
+      )}
+    </>
+  );
+};

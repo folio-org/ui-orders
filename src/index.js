@@ -38,8 +38,15 @@ import {
   ORDER_LINE_CREATE_ROUTE,
   ORDER_LINE_EDIT_ROUTE,
   ORDER_LINES_ROUTE,
+  ROUTING_LIST_CREATE_ROUTE,
+  ROUTING_LIST_EDIT_ROUTE,
+  ROUTING_LIST_VIEW_ROUTE,
 } from './common/constants';
 import { Notes } from './common/Notes';
+import {
+  RoutingList,
+  RoutingListContainer,
+} from './RoutingList';
 
 const Orders = ({ match, location, showSettings }) => {
   const [isOpen, toggleModal] = useModalToggle();
@@ -122,6 +129,18 @@ const Orders = ({ match, location, showSettings }) => {
               )}
             </AppContextMenu>
             <Switch>
+              <Route
+                path={ROUTING_LIST_CREATE_ROUTE}
+                component={RoutingListContainer}
+              />
+              <Route
+                path={ROUTING_LIST_VIEW_ROUTE}
+                component={RoutingList}
+              />
+              <Route
+                path={ROUTING_LIST_EDIT_ROUTE}
+                component={RoutingListContainer}
+              />
               <Route
                 path={ORDER_LINE_CREATE_ROUTE}
                 component={LayerPOLine}

@@ -9,6 +9,9 @@ export const ORDER_LINE_VIEW_VERSIONS_ROUTE = `${ORDER_LINE_VIEW_ROUTE}/versions
 export const ORDER_CREATE_ROUTE = `${ORDERS_ROUTE}/create`;
 export const ORDER_EDIT_ROUTE = `${ORDERS_ROUTE}/edit/:id`;
 export const NOTES_ROUTE = `${ORDERS_ROUTE}/notes`;
+export const ROUTING_LIST_CREATE_ROUTE = `${ORDERS_ROUTE}/routing-lists/create/:poLineId`;
+export const ROUTING_LIST_VIEW_ROUTE = `${ORDERS_ROUTE}/routing-lists/view/:id`;
+export const ROUTING_LIST_EDIT_ROUTE = `${ORDERS_ROUTE}/routing-lists/edit/:id`;
 
 export const EXPORT_MANAGER_ROUTE = '/export-manager';
 export const EXPORT_MANAGER_EDI_JOBS_ROUTE = `${EXPORT_MANAGER_ROUTE}/edi-jobs`;
