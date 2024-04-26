@@ -416,8 +416,7 @@
           "orders-storage.settings.item.get",
           "ui-orders.third-party-services",
           "orders.acquisition-methods.collection.get",
-          "ui-orders.settings.custom-fields.view",
-          "orders-storage.settings.collection.get"
+          "ui-orders.settings.custom-fields.view"
         ]
       },
       {
