@@ -13,7 +13,13 @@ import {
   MATERIAL_TYPES,
 } from '../components/Utils/resources';
 
-const OrderLinesFiltersContainer = ({ resources, activeFilters, applyFilters, disabled }) => {
+const OrderLinesFiltersContainer = ({
+  resources,
+  activeFilters,
+  applyFilters,
+  customFields,
+  disabled,
+}) => {
   const funds = get(resources, `${DICT_FUNDS}.records`);
   const materialTypes = get(resources, 'materialTypes.records', []);
 
@@ -27,6 +33,7 @@ const OrderLinesFiltersContainer = ({ resources, activeFilters, applyFilters, di
       applyFilters={applyFilters}
       disabled={disabled}
       crossTenant={isCentralOrderingEnabled}
+      customFields={customFields}
     />
   );
 };
@@ -39,6 +46,7 @@ OrderLinesFiltersContainer.manifest = Object.freeze({
 OrderLinesFiltersContainer.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   applyFilters: PropTypes.func.isRequired,
+  customFields: PropTypes.arrayOf(PropTypes.object),
   disabled: PropTypes.bool.isRequired,
   resources: PropTypes.object.isRequired,
 };
