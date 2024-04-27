@@ -22,7 +22,7 @@ export const RoutingAddress = ({ label }) => {
     onError: ({ response }) => {
       if (response?.status === 403) {
         return showCallout({
-          messageId: 'ui-orders.permission.settings.errors.permissionsRequired',
+          messageId: 'ui-orders.settings.routing.address.errors.permissionsRequired"',
           type: 'error',
         });
       }

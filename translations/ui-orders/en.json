@@ -742,6 +742,7 @@
   "settings.newBtn": "New",
   "settings.routing.label": "Routing",
   "settings.routing.address": "Routing address",
+  "settings.routing.address.errors.permissionsRequired": "User does not have required permissions.",
   "settings.routingAddress.submit.success": "Routing address setting was successfully updated",
   "settings.routingAddress.submit.error.generic": "Routing address setting update failed",
   "settings.addressTypes.select.label": "Select address type",
@@ -922,6 +923,5 @@
   "permission.settings.order-templates.delete": "Settings (Orders): Can view, edit, delete Order Templates",
   "permission.settings.order-templates.edit": "Settings (Orders): Can view, edit Order Templates",
   "permission.settings.order-templates.view": "Settings (Orders): Can view Order Templates",
-  "permission.settings.view": "Settings (Orders): Can view all settings",
-  "permission.settings.errors.permissionsRequired": "User does not have required permissions."
+  "permission.settings.view": "Settings (Orders): Can view all settings"
 }
