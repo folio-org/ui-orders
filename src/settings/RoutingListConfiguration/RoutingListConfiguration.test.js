@@ -14,6 +14,11 @@ import { LIST_CONFIGURATION_BASE_PATH } from './constants';
 import { useListConfiguration, useListConfigurationMutation } from './hooks';
 import RoutingListConfiguration from './RoutingListConfiguration';
 
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  LoadingPane: () => <div>LoadingPane</div>,
+}));
+
 jest.mock('./hooks', () => ({
   useListConfiguration: jest.fn(() => ({
     listConfig: {},
@@ -72,6 +77,14 @@ describe('RoutingListConfiguration', () => {
     const listConfigurationTitle = await screen.findByText('ui-orders.settings.routing.listConfiguration');
 
     expect(listConfigurationTitle).toBeInTheDocument();
+  });
+
+  it('should render "LoadingPane" component when settings are loading', () => {
+    useListConfiguration.mockReturnValue({ isLoading: true });
+
+    renderComponent();
+
+    expect(screen.getByText('LoadingPane')).toBeInTheDocument();
   });
 
   it('should display email preview content', async () => {

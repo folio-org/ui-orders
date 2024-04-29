@@ -12,13 +12,13 @@ export const useListConfiguration = () => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace();
 
-  const { isLoading, data, refetch } = useQuery(
+  const { isFetching, data, refetch } = useQuery(
     [namespace, LIST_CONFIGURATION_TEMPLATE_ID],
     () => ky.get(`${TEMPLATES_API}/${LIST_CONFIGURATION_TEMPLATE_ID}`).json(),
   );
 
   return ({
-    isLoading,
+    isLoading: isFetching,
     listConfig: data,
     refetch,
   });

@@ -18,21 +18,7 @@ export const RoutingAddress = ({ label }) => {
   const showCallout = useShowCallout();
   const { addressTypes } = useUserAddressTypes();
 
-  const { data, isLoading, refetch } = useRoutingAddressSettings({
-    onError: ({ response }) => {
-      if (response?.status === 403) {
-        return showCallout({
-          messageId: 'ui-orders.settings.routing.address.errors.permissionsRequired"',
-          type: 'error',
-        });
-      }
-
-      return showCallout({
-        messageId: 'ui-orders.errors.generic',
-        type: 'error',
-      });
-    },
-  });
+  const { data, isLoading, refetch } = useRoutingAddressSettings();
 
   const { createConfigSettings, updateConfigSettings } = useConfigurationSettingsMutation();
 
