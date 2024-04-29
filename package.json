@@ -397,16 +397,6 @@
         ]
       },
       {
-        "permissionName": "ui-orders.settings.custom-fields.delete",
-        "displayName": "Settings (Orders): Can create, edit, view and delete custom fields",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "ui-orders.settings.custom-fields.edit",
-          "orders-storage.custom-fields.item.delete"
-        ]
-      },
-      {
         "permissionName": "ui-orders.settings.view",
         "displayName": "Settings (Orders): Can view all settings",
         "description": "",
