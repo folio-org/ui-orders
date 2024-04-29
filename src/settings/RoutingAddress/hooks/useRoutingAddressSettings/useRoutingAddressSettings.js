@@ -20,8 +20,8 @@ export const useRoutingAddressSettings = (options = {}) => {
   const {
     data,
     isFetching,
-    isLoading,
     refetch,
+    error,
   } = useQuery({
     queryKey: [namespace],
     queryFn: async () => {
@@ -34,8 +34,8 @@ export const useRoutingAddressSettings = (options = {}) => {
 
   return ({
     data,
-    isFetching,
-    isLoading,
+    error,
+    isLoading: isFetching,
     refetch,
   });
 };

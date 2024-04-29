@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import {
   Switch,
   Route,
 } from 'react-router-dom';
 
+import { LoadingPane } from '@folio/stripes/components';
 import { useStripes } from '@folio/stripes/core';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
@@ -19,12 +21,12 @@ import {
 } from './hooks';
 import RoutingListConfigurationView from './RoutingListConfigurationView';
 
-const RoutingListConfiguration = () => {
+const RoutingListConfiguration = ({ label }) => {
   const history = useHistory();
   const showCallout = useShowCallout();
   const stripes = useStripes();
 
-  const { listConfig, refetch } = useListConfiguration();
+  const { listConfig, refetch, isLoading } = useListConfiguration();
   const { createListConfig, updateListConfig } = useListConfigurationMutation();
 
   const onCancel = useCallback(async () => {
@@ -57,6 +59,10 @@ const RoutingListConfiguration = () => {
     }
   }, [onMutationSuccess, onMutationError, listConfig?.id, updateListConfig, createListConfig]);
 
+  if (isLoading) {
+    return <LoadingPane paneTitle={label} />;
+  }
+
   return (
     <Switch>
       <Route exact path={LIST_CONFIGURATION_BASE_PATH}>
@@ -72,6 +78,10 @@ const RoutingListConfiguration = () => {
       </Route>
     </Switch>
   );
+};
+
+RoutingListConfiguration.propTypes = {
+  label: PropTypes.object.isRequired,
 };
 
 export default RoutingListConfiguration;

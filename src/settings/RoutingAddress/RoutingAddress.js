@@ -17,7 +17,8 @@ import css from '../ConfigManagerForm.css';
 export const RoutingAddress = ({ label }) => {
   const showCallout = useShowCallout();
   const { addressTypes } = useUserAddressTypes();
-  const { data, isFetching, refetch } = useRoutingAddressSettings();
+
+  const { data, isLoading, refetch } = useRoutingAddressSettings();
 
   const { createConfigSettings, updateConfigSettings } = useConfigurationSettingsMutation();
 
@@ -60,7 +61,7 @@ export const RoutingAddress = ({ label }) => {
       });
   };
 
-  if (isFetching) {
+  if (isLoading) {
     return <LoadingPane paneTitle={label} />;
   }
 

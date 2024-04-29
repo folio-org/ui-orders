@@ -91,7 +91,7 @@ describe('RoutingAddress', () => {
   });
 
   it('should render "LoadingPane" component when settings are loading', () => {
-    useRoutingAddressSettings.mockReturnValue({ isFetching: true });
+    useRoutingAddressSettings.mockReturnValue({ isLoading: true });
 
     renderComponent();
 
