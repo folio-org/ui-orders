@@ -1,7 +1,16 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
@@ -321,6 +330,9 @@ const POLineView = ({
     { orderNumber: poLineNumber },
   );
   const customFieldsValues = get(line, 'customFields', {});
+  const numberOfPhysicalItems = useMemo(() => {
+    return line?.locations?.reduce((acc, { quantityPhysical }) => acc + quantityPhysical, 0);
+  }, [line?.locations]);
 
   return (
     <HasCommand
@@ -476,7 +488,10 @@ const POLineView = ({
                   </Accordion>
                 )}
                 {showRoutingList && (
-                  <RoutingList poLineId={line?.id} />
+                  <RoutingList
+                    poLineId={line?.id}
+                    allowedNumberOfRoutingLists={numberOfPhysicalItems}
+                  />
                 )}
                 {showOther && (
                   <Accordion

@@ -83,8 +83,6 @@ export const RoutingListUsers = ({
 
   const selectedUsersMap = useMemo(() => keyBy(users, 'id'), [users]);
 
-  const isUserModalEnabled = canEdit && openAddUsersModal;
-
   if (isLoading) {
     return <Loading />;
   }
@@ -104,47 +102,48 @@ export const RoutingListUsers = ({
             })}
           />
         </Col>
-        <Col xs={12}>
-          <br />
-          <Button
-            type="button"
-            align="end"
-            bottomMargin0
-            id="clickable-add-permission"
-            onClick={() => setOpenAddUsersModal(true)}
-          >
-            <FormattedMessage id="ui-orders.routing.list.addUsers" />
-          </Button>
-          <Button
-            type="button"
-            align="end"
-            bottomMargin0
-            disabled={!users.length}
-            id="clickable-remove-all-permissions"
-            onClick={setOpenUnAssignUsersModal}
-          >
-            <FormattedMessage id="ui-orders.routing.list.removeUsers" />
-          </Button>
-        </Col>
       </Row>
-
       {
-        isUserModalEnabled && (
-          <Pluggable
-            aria-haspopup="true"
-            openWhen={openAddUsersModal}
-            dataKey="users"
-            renderTrigger={() => null}
-            searchButtonStyle="default"
-            searchLabel={<FormattedMessage id="ui-orders.routing.list.addUsers" />}
-            stripes={stripes}
-            type="find-user"
-            selectUsers={onSelectUsers}
-            closeCB={onCloseAddUsersModal}
-            initialSelectedUsers={selectedUsersMap}
-          >
-            <FormattedMessage id="ui-users.routing.list.addUsers.plugin.notAvailable" />
-          </Pluggable>
+        canEdit && (
+          <Row>
+            <Col xs={12}>
+              <br />
+              <Button
+                type="button"
+                align="end"
+                bottomMargin0
+                id="clickable-add-permission"
+                onClick={() => setOpenAddUsersModal(true)}
+              >
+                <FormattedMessage id="ui-orders.routing.list.addUsers" />
+              </Button>
+              <Button
+                type="button"
+                align="end"
+                bottomMargin0
+                disabled={!users.length}
+                id="clickable-remove-all-permissions"
+                onClick={setOpenUnAssignUsersModal}
+              >
+                <FormattedMessage id="ui-orders.routing.list.removeUsers" />
+              </Button>
+            </Col>
+            <Pluggable
+              aria-haspopup="true"
+              openWhen={openAddUsersModal}
+              dataKey="users"
+              renderTrigger={() => null}
+              searchButtonStyle="default"
+              searchLabel={<FormattedMessage id="ui-orders.routing.list.addUsers" />}
+              stripes={stripes}
+              type="find-user"
+              selectUsers={onSelectUsers}
+              closeCB={onCloseAddUsersModal}
+              initialSelectedUsers={selectedUsersMap}
+            >
+              <FormattedMessage id="ui-users.routing.list.addUsers.plugin.notAvailable" />
+            </Pluggable>
+          </Row>
         )
       }
 
