@@ -20,7 +20,6 @@ export const useRoutingListMutation = () => {
   };
 
   const deleteMutationFn = (listId) => {
-    console.log('listId:', listId);
     return ky.delete(`${ROUTING_LIST_API}/${listId}`).json();
   };
 

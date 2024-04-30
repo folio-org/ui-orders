@@ -11,7 +11,6 @@ import {
   ExpandAllButton,
   Icon,
   KeyValue,
-  List,
   LoadingView,
   Pane,
   Row,
@@ -23,6 +22,7 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useRoutingListById, useRoutingListMutation } from './hooks';
+import { RoutingListUsers } from './RoutingListUsers';
 
 export const RoutingList = () => {
   const history = useHistory();
@@ -63,10 +63,6 @@ export const RoutingList = () => {
       },
     );
   };
-
-  const sortedUsers = useMemo(() => {
-    return routingList.users?.sort((a, b) => a.name.localeCompare(b.name));
-  }, [routingList]);
 
   const getActionMenu = () => {
     return (
@@ -135,14 +131,7 @@ export const RoutingList = () => {
               </Row>
             </Accordion>
             <Accordion label={intl.formatMessage({ id: 'ui-orders.routing.list.users' })}>
-              <List
-                items={sortedUsers}
-                listStyle="default"
-                marginBottom0
-                itemFormatter={user => {
-                  return (<li>{user.name}</li>);
-                }}
-              />
+              <RoutingListUsers userIds={routingList.userIds} />
             </Accordion>
           </AccordionSet>
         </AccordionStatus>

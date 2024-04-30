@@ -1,24 +1,33 @@
-import { useCallback, useState } from 'react';
+import {
+  useCallback,
+  useState,
+} from 'react';
+import { omit } from 'lodash';
 import { FormattedMessage } from 'react-intl';
-import { useHistory, useParams } from 'react-router';
+import {
+  useHistory,
+  useParams,
+} from 'react-router';
 
-import { ConfirmationModal, LoadingPane } from '@folio/stripes/components';
 import { useShowCallout } from '@folio/stripes-acq-components';
+import {
+  ConfirmationModal,
+  LoadingPane,
+} from '@folio/stripes/components';
 
 import {
   useRoutingListById,
   useRoutingListMutation,
 } from './hooks';
+import RoutingListEdit from './RoutingListEdit';
 
 import css from './RoutingList.css';
-import RoutingListEdit from './RoutingListEdit';
-import { omit } from 'lodash';
 
 export const RoutingListContainer = () => {
   const showCallout = useShowCallout();
   const history = useHistory();
   const { id, poLineId } = useParams();
-  const { routingList, isLoading, refetch } = useRoutingListById(id);
+  const { routingList, isLoading } = useRoutingListById(id);
   const { deleteListing, createListing, updateListing } = useRoutingListMutation();
 
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -61,7 +70,7 @@ export const RoutingListContainer = () => {
         onError: () => onMutationError('ui-orders.routing.list.update.error'),
       });
     } else {
-      await createListing({ ...dataToSave, poLineId, id: poLineId }, {
+      await createListing({ ...dataToSave, poLineId }, {
         onSuccess: () => onMutationSuccess('ui-orders.routing.list.create.success'),
         onError: () => onMutationError('ui-orders.routing.list.create.error'),
       });

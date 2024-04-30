@@ -22,21 +22,23 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import { AppIcon } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import { AppIcon, Pluggable, useStripes } from '@folio/stripes/core';
-import { map, uniq } from 'lodash';
+
+import { RoutingListUsers } from './RoutingListUsers';
 
 const RoutingListEdit = (props) => {
-  const stripes = useStripes();
   const {
     handleSubmit,
     initialValues: {
       metadata,
-      userIds,
     },
     intl: {
       formatMessage,
+    },
+    form: {
+      change,
     },
     onCancel,
     paneTitle,
@@ -45,22 +47,12 @@ const RoutingListEdit = (props) => {
     values,
   } = props;
 
-  console.log('RoutingListEdit props', props);
-
   const onSave = () => {
     handleSubmit(values);
   };
 
-  const onAddUsers = (users = []) => {
-    const addedDonorIds = uniq(users.map(({ id }) => id));
-    const newDonorsIds = values.filter((id) => !addedDonorIds.has(id));
-
-    console.log('onAddUsers', users, addedDonorIds, newDonorsIds);
-
-    if (newDonorsIds.length) {
-      // setDonorIds([...addedDonorIds, ...newDonorsIds]);
-      // newDonorsIds.forEach(contactId => fields.push(contactId));
-    }
+  const onAddUsers = (selectedUserIds = []) => {
+    change('userIds', selectedUserIds);
   };
 
   const renderHeader = (paneHeaderProps) => {
@@ -84,7 +76,7 @@ const RoutingListEdit = (props) => {
         onClick={onSave}
         type="submit"
       >
-        <FormattedMessage id="stripes-core.button.save" />
+        <FormattedMessage id="ui-orders.routing.list.create.paneMenu.save" />
       </Button>
     );
 
@@ -135,6 +127,7 @@ const RoutingListEdit = (props) => {
                           name="name"
                           id="input-routing-list-name"
                           component={TextField}
+                          required
                         />
                       </Col>
                       <Col xs={12}>
@@ -148,34 +141,13 @@ const RoutingListEdit = (props) => {
                     </Row>
                   </Accordion>
                   <Accordion label={formatMessage({ id: 'ui-orders.routing.list.users' })}>
-                    <Pluggable
-                      aria-haspopup="true"
-                      dataKey="assignUsers"
-                      searchButtonStyle="default"
-                      searchLabel={<FormattedMessage id="ui-orders.routing.list.addUsers" />}
-                      stripes={stripes}
-                      type="find-user"
-                      selectUsers={onAddUsers}
-                      initialSelectedUsers={{}}
-                      // tenantId={tenantId}
-                    >
-                      <FormattedMessage id="ui-users.permissions.assignUsers.actions.assign.notAvailable" />
-                    </Pluggable>
-                    {/* <Row>
-                      <Col xs={12}>
-                        <Field
-                          data-testid="routingListConfigurationBody"
-                          label={<strong><FormattedMessage id="ui-orders.settings.routing.listConfiguration.body" /></strong>}
-                          required
-                          name="localizedTemplates.en.body"
-                          id="input-routing-list-template-body"
-                          component={TemplateEditor}
-                          tokens={ROUTING_LIST_TOKEN}
-                          tokensList={TokensList}
-                          previewModalHeader={<FormattedMessage id="ui-orders.settings.routing.listConfiguration.previewHeader" />}
-                        />
-                      </Col>
-                    </Row> */}
+                    <Field
+                      component={RoutingListUsers}
+                      name="userIds"
+                      onAddUsers={onAddUsers}
+                      userIds={values.userIds}
+                      canEdit
+                    />
                   </Accordion>
                 </AccordionSet>
               </AccordionStatus>
@@ -197,7 +169,6 @@ RoutingListEdit.propTypes = {
   submitting: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onDelete: PropTypes.func,
   values: PropTypes.object,
 };
 
@@ -206,6 +177,8 @@ RoutingListEdit.defaultProps = {
 };
 
 export default stripesFinalForm({
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
   navigationCheck: true,
   subscription: { values: true },
 })(injectIntl(RoutingListEdit));
