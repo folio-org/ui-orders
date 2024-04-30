@@ -11,17 +11,11 @@ import { useOkapiKy } from '@folio/stripes/core';
 
 import { useRoutingListById } from './useRoutingListById';
 
-const listConfig = {
+const routingList = {
   id: '9465105a-e8a1-470c-9817-142d33bc4fcd',
-  description: 'List config description edit',
-  localizedTemplates: {
-    en: {
-      header: 'List configuration',
-      body: '<div>Hello {{routing.userLastName}} {{routing.userFirstName}}</div>',
-    },
-  },
-  name: 'ROUTING_LISTS_TEMPLATE_ID',
-  active: true,
+  notes: 'test',
+  name: 'test',
+  userIds: ['test'],
 };
 
 const queryClient = new QueryClient();
@@ -38,14 +32,14 @@ describe('useRoutingListById', () => {
       .mockClear()
       .mockReturnValue({
         get: () => ({
-          json: () => listConfig,
+          json: () => routingList,
         }),
       });
 
-    const { result } = renderHook(() => useRoutingListById(), { wrapper });
+    const { result } = renderHook(() => useRoutingListById(routingList.userIds), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
-    expect(result.current.listConfig).toEqual(listConfig);
+    expect(result.current.routingList).toEqual(routingList);
   });
 });

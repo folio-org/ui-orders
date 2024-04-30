@@ -20,7 +20,7 @@ export const useRoutingListMutation = () => {
   };
 
   const deleteMutationFn = (listId) => {
-    return ky.delete(`${ROUTING_LIST_API}/${listId}`).json();
+    return ky.delete(`${ROUTING_LIST_API}/${listId}`);
   };
 
   const { mutateAsync: createListing, isCreating } = useMutation({ mutationFn: createMutationFn });

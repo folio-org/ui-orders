@@ -2,8 +2,16 @@ import {
   useCallback,
   useState,
 } from 'react';
-import { useHistory, useParams } from 'react-router';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
+import {
+  useHistory,
+  useParams,
+} from 'react-router';
 
+import { useShowCallout } from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
@@ -19,12 +27,12 @@ import {
   Row,
 } from '@folio/stripes/components';
 import { AppIcon, IfPermission } from '@folio/stripes/core';
-import { useShowCallout } from '@folio/stripes-acq-components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
-import { FormattedMessage, useIntl } from 'react-intl';
-
-import { useRoutingListById, useRoutingListMutation } from './hooks';
+import {
+  useRoutingListById,
+  useRoutingListMutation,
+} from './hooks';
 import { RoutingListUsers } from './RoutingListUsers';
 
 export const RoutingList = () => {
