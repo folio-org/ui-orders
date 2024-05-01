@@ -52,25 +52,23 @@ export const RoutingList = () => {
     history.goBack();
   }, [history]);
 
-  const onMutationSuccess = useCallback((messageId = 'ui-orders.routing.list.update.success') => {
-    onClose();
-    showCallout({ messageId });
-  }, [onClose, showCallout]);
-
-  const onMutationError = useCallback((messageId = 'ui-orders.routing.list.update.error') => {
-    showCallout({
-      messageId,
-      type: 'error',
-    });
-  }, [showCallout]);
-
   const onDelete = async () => {
     hideConfirmDelete();
     await deleteListing(
       routingList.id,
       {
-        onSuccess: () => onMutationSuccess('ui-orders.routing.list.delete.success'),
-        onError: () => onMutationError('ui-orders.routing.list.delete.error'),
+        onSuccess: () => {
+          onClose();
+          showCallout({
+            messageId: 'ui-orders.routing.list.delete.success',
+          });
+        },
+        onError: () => {
+          showCallout({
+            messageId: 'ui-orders.routing.list.delete.error',
+            type: 'error',
+          });
+        },
       },
     );
   };
