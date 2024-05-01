@@ -1,13 +1,22 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
-import { useRoutingListById } from './hooks';
+import { useRoutingListById, useRoutingListMutation } from './hooks';
 import { RoutingList } from './RoutingList';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   LoadingView: jest.fn(() => 'Loading'),
+}));
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useUsersBatch: jest.fn().mockReturnValue({
+    users: [{ id: '1', personal: { firstName: 'firstName', lastName: 'lastName' } }],
+    isLoading: false,
+  }),
 }));
 
 jest.mock('./hooks', () => ({
@@ -23,10 +32,6 @@ jest.mock('./hooks', () => ({
     isDeleting: false,
     isUpdating: false,
   }),
-}));
-
-jest.mock('./RoutingListUsers', () => ({
-  RoutingListUsers: jest.fn(() => 'RoutingListUsers'),
 }));
 
 const wrapper = ({ children }) => (
@@ -79,5 +84,29 @@ describe('RoutingList', () => {
     renderComponent();
 
     expect(screen.getByText('ui-orders.routing.list.users')).toBeDefined();
+  });
+
+  it('should close modal', async () => {
+    const mockDeleteListing = jest.fn();
+
+    useRoutingListMutation.mockClear().mockReturnValue({
+      deleteListing: mockDeleteListing,
+    });
+    useRoutingListById.mockClear().mockReturnValue({
+      isLoading: false,
+      routingList: mockRoutingList,
+    });
+
+    renderComponent();
+
+    await user.click(screen.getByTestId('delete-routing-list'));
+    await waitFor(() => screen.getByText('ui-orders.routing.list.delete.confirm'));
+
+    const confirmDelete = await screen.findByText('ui-orders.routing.list.delete.confirm.label');
+
+    expect(confirmDelete).toBeInTheDocument();
+    await user.click(confirmDelete);
+
+    expect(mockDeleteListing).toHaveBeenCalled();
   });
 });

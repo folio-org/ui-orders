@@ -90,6 +90,7 @@ export const RoutingList = () => {
         </IfPermission>
         <IfPermission perm="orders.routing-lists.item.delete">
           <Button
+            data-testid="delete-routing-list"
             buttonStyle="dropdownItem"
             onClick={showConfirmDelete}
           >

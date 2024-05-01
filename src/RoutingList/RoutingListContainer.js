@@ -19,7 +19,7 @@ import {
   useRoutingListById,
   useRoutingListMutation,
 } from './hooks';
-import RoutingListEdit from './RoutingListEdit';
+import RoutingListEdit from './RoutingListForm';
 
 import css from './RoutingList.css';
 
