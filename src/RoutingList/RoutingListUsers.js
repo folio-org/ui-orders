@@ -58,7 +58,7 @@ export const RoutingListUsers = ({
   const [openAddUsersModal, setOpenAddUsersModal] = useState(false);
   const [openUnAssignUsersModal, setOpenUnAssignUsersModal] = useState(false);
 
-  const { isLoading, users } = useUsersBatch(userIds);
+  const { isLoading, users } = useUsersBatch(userIds, { keepPreviousData: true });
 
   const onCloseAddUsersModal = useCallback(() => setOpenAddUsersModal(false), []);
 
@@ -91,7 +91,7 @@ export const RoutingListUsers = ({
       <Row>
         <Col xs={12}>
           <List
-            items={users}
+            items={userIds.length ? users : []}
             listStyle="default"
             marginBottom0
             itemFormatter={user => renderItem({
