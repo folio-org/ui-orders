@@ -685,6 +685,7 @@
   "routing.list.actions.delete": "Delete",
   "routing.list.create.success": "The Routing list was successfully created.",
   "routing.list.create.error": "Something went wrong. The Routing list was not created.",
+  "routing.list.create.error.nameMustBeUnique": "Name must be unique",
   "routing.list.update.success": "The Routing list was successfully updated.",
   "routing.list.update.error": "Something went wrong. The Routing list was not updated.",
   "routing.list.delete.success": "The Routing list was successfully deleted.",

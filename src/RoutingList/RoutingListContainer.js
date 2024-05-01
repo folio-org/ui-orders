@@ -15,6 +15,7 @@ import {
   LoadingView,
 } from '@folio/stripes/components';
 
+import { UNIQUE_NAME_ERROR_CODE } from './constants';
 import {
   useRoutingListById,
   useRoutingListMutation,
@@ -72,7 +73,17 @@ export const RoutingListContainer = () => {
     } else {
       await createListing({ ...dataToSave, poLineId }, {
         onSuccess: () => onMutationSuccess('ui-orders.routing.list.create.success'),
-        onError: () => onMutationError('ui-orders.routing.list.create.error'),
+        onError: async (error) => {
+          const errorResponse = await error.response.json();
+          const errorCode = errorResponse.errors[0]?.code;
+          let errorMessage = 'ui-orders.routing.list.create.error';
+
+          if (errorCode === UNIQUE_NAME_ERROR_CODE) {
+            errorMessage = 'ui-orders.routing.list.create.error.nameMustBeUnique';
+          }
+
+          onMutationError(errorMessage);
+        },
       });
     }
   };

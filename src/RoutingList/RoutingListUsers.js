@@ -71,7 +71,6 @@ export const RoutingListUsers = ({
     }
   }, [onAddUsers, onCloseAddUsersModal, userIds]);
 
-  // TODO: optimize onremove function clearing users array on click the x button
   const onRemoveUser = useCallback((userId) => {
     onAddUsers(userIds.filter((id) => id !== userId));
   }, [onAddUsers, userIds]);
