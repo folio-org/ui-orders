@@ -17,7 +17,10 @@ import {
   PaneHeader,
   Row,
 } from '@folio/stripes/components';
-import { TitleManager } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
@@ -33,6 +36,7 @@ const CentralOrderingForm = ({
 }) => {
   const intl = useIntl();
   const paneTitleRef = useRef();
+  const stripes = useStripes();
 
   const handlePaneFocus = useCallback(() => {
     return paneTitleRef.current?.focus();
@@ -90,6 +94,7 @@ const CentralOrderingForm = ({
             fullWidth
             label={<FormattedMessage id="ui-orders.settings.centralOrdering.receivingSearch.label" />}
             name={CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY}
+            disabled={!stripes.hasPerm('ui-orders.settings.all')}
             required
           />
         </Col>
