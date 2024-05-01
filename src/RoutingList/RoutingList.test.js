@@ -1,9 +1,16 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 
-import { useRoutingListById, useRoutingListMutation } from './hooks';
+import {
+  useRoutingListById,
+  useRoutingListMutation,
+} from './hooks';
 import { RoutingList } from './RoutingList';
 
 jest.mock('@folio/stripes/components', () => ({
@@ -86,7 +93,7 @@ describe('RoutingList', () => {
     expect(screen.getByText('ui-orders.routing.list.users')).toBeDefined();
   });
 
-  it('should close modal', async () => {
+  it('should delete a routing list data', async () => {
     const mockDeleteListing = jest.fn();
 
     useRoutingListMutation.mockClear().mockReturnValue({

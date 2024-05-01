@@ -12,14 +12,14 @@ import {
 import { useShowCallout } from '@folio/stripes-acq-components';
 import {
   ConfirmationModal,
-  LoadingPane,
+  LoadingView,
 } from '@folio/stripes/components';
 
 import {
   useRoutingListById,
   useRoutingListMutation,
 } from './hooks';
-import RoutingListEdit from './RoutingListForm';
+import RoutingListForm from './RoutingListForm';
 
 import css from './RoutingList.css';
 
@@ -79,9 +79,7 @@ export const RoutingListContainer = () => {
 
   const paneTitle = routingList?.id ? routingList?.name : <FormattedMessage id="ui-orders.routing.list.create.label" />;
 
-  if (isLoading) {
-    return <LoadingPane />;
-  }
+  if (isLoading) return <LoadingView dismissible onClose={onClose} />;
 
   return (
     <>
@@ -89,7 +87,7 @@ export const RoutingListContainer = () => {
         data-test-order-settings-routing-address
         className={css.formWrapper}
       >
-        <RoutingListEdit
+        <RoutingListForm
           onCancel={onClose}
           onDelete={showConfirmDelete}
           onSubmit={onSubmit}

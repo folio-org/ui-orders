@@ -28,7 +28,7 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import { RoutingListUsers } from './RoutingListUsers';
 
-const RoutingListEdit = (props) => {
+const RoutingListForm = (props) => {
   const {
     handleSubmit,
     initialValues: {
@@ -159,7 +159,7 @@ const RoutingListEdit = (props) => {
   );
 };
 
-RoutingListEdit.propTypes = {
+RoutingListForm.propTypes = {
   intl: PropTypes.object.isRequired,
   initialValues: PropTypes.object,
   form: PropTypes.object.isRequired,
@@ -172,7 +172,7 @@ RoutingListEdit.propTypes = {
   values: PropTypes.object,
 };
 
-RoutingListEdit.defaultProps = {
+RoutingListForm.defaultProps = {
   initialValues: {},
 };
 
@@ -181,4 +181,4 @@ export default stripesFinalForm({
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
   subscription: { values: true },
-})(injectIntl(RoutingListEdit));
+})(injectIntl(RoutingListForm));
