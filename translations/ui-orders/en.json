@@ -674,6 +674,7 @@
   "routing.list.notes": "Notes",
   "routing.list.users": "Users",
   "routing.list.users.empty": "No users found",
+  "routing.list.accordion.create.button": "Add routing list",
   "routing.list.create.label": "Create routing list",
   "routing.list.create.paneMenu.save": "Save & close",
   "routing.list.create.unassign.confirm-heading": "Unassign all users",

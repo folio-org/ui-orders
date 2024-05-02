@@ -491,6 +491,7 @@ const POLineView = ({
                   <RoutingList
                     poLineId={line?.id}
                     allowedNumberOfRoutingLists={numberOfPhysicalItems}
+                    createButtonLabel={<FormattedMessage id="ui-orders.routing.list.accordion.create.button" />}
                   />
                 )}
                 {showOther && (
