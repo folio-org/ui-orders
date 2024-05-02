@@ -4,6 +4,7 @@ import {
   useState,
 } from 'react';
 import {
+  get,
   keyBy,
   map,
 } from 'lodash';
@@ -27,11 +28,12 @@ import {
 import { getFullName } from '@folio/stripes/util';
 
 const renderItem = ({ canRemove, user, onRemoveUser }) => {
-  const { id } = user;
+  const { id, personal } = user;
+  const address = get(personal, 'addresses[0].addressLine1', '');
 
   return (
     <li key={id}>
-      {getFullName(user)}
+      {getFullName(user)} - {address}
       {
         canRemove && (
           <Button

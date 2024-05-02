@@ -26,6 +26,7 @@ import { AppIcon } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
+import { validateRoutingListForm } from './utils';
 import { RoutingListUsers } from './RoutingListUsers';
 
 const RoutingListForm = (props) => {
@@ -181,4 +182,5 @@ export default stripesFinalForm({
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
   subscription: { values: true },
+  validate: validateRoutingListForm,
 })(injectIntl(RoutingListForm));

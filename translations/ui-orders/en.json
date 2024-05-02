@@ -671,6 +671,7 @@
   
   "routing.list.generalInformation": "General information",
   "routing.list.name": "Name",
+  "routing.list.name.validation.required": "Required!",
   "routing.list.notes": "Notes",
   "routing.list.users": "Users",
   "routing.list.users.empty": "No users found",
