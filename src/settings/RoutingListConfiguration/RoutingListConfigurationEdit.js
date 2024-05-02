@@ -26,6 +26,7 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import { TemplateEditor } from '@folio/stripes-template-editor';
 
 import { ROUTING_LIST_TOKEN } from './constants';
+import { validateRoutingListConfigurationForm } from './utils';
 import TokensList from './TokensList';
 
 const EditRoutingListConfiguration = (props) => {
@@ -169,4 +170,5 @@ EditRoutingListConfiguration.defaultProps = {
 export default stripesFinalForm({
   navigationCheck: true,
   subscription: { values: true },
+  validate: validateRoutingListConfigurationForm,
 })(injectIntl(EditRoutingListConfiguration));
