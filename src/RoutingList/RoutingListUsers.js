@@ -140,6 +140,7 @@ export const RoutingListUsers = ({
               selectUsers={onSelectUsers}
               closeCB={onCloseAddUsersModal}
               initialSelectedUsers={selectedUsersMap}
+              showCreateUserButton
             >
               <FormattedMessage id="ui-users.routing.list.addUsers.plugin.notAvailable" />
             </Pluggable>
