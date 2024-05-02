@@ -20,6 +20,7 @@ import {
   Pane,
   Row,
 } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import RoutingListConfigurationEmailTemplate from './RoutingListConfigurationEmailTemplate';
@@ -27,6 +28,7 @@ import RoutingListConfigurationEmailTemplate from './RoutingListConfigurationEma
 const RoutingListConfigurationView = (props) => {
   const location = useLocation();
   const history = useHistory();
+  const stripes = useStripes();
   const {
     listConfig,
     intl: {
@@ -35,13 +37,14 @@ const RoutingListConfigurationView = (props) => {
   } = props;
 
   const emailTemplate = get(listConfig, 'localizedTemplates.en.body', '');
-
+  const canEdit = stripes.hasPerm('ui-orders.settings.all');
   const onEdit = () => history.push(`${location.pathname}/edit`);
 
   const editIcon = (
     <Button
       buttonStyle="primary"
       onClick={onEdit}
+      disabled={!canEdit}
       marginBottom0
     >
       <FormattedMessage id="stripes-core.button.edit" />
