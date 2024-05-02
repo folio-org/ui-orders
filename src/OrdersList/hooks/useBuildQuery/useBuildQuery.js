@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 
 import {
-  ORDER_STATUSES,
   buildArrayFieldQuery,
   buildDateRangeQuery,
   buildDateTimeRangeQuery,
   getCustomFieldsFilterMap,
   makeQueryBuilder,
+  ORDER_STATUSES,
   useLocaleDateFormat,
 } from '@folio/stripes-acq-components';
 
