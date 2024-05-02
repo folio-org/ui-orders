@@ -103,7 +103,13 @@ describe('RoutingListConfiguration', () => {
 
   it('should create template configs data on click save button', async () => {
     useListConfiguration.mockClear().mockReturnValue({
-      listConfig: {},
+      listConfig: {
+        localizedTemplates: {
+          en: {
+            body: 'email body',
+          },
+        },
+      },
       refetch: jest.fn(),
     });
 
