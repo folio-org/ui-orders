@@ -80,7 +80,7 @@ export const RoutingListUsers = ({
     setOpenUnAssignUsersModal(false);
   }, [onAddUsers]);
 
-  const selectedUsersMap = useMemo(() => keyBy(users, 'id'), [users]);
+  const selectedUsersMap = useMemo(() => (userIds.length ? keyBy(users, 'id') : {}), [users, userIds]);
 
   if (isLoading) {
     return <Loading />;
