@@ -10,6 +10,7 @@
 * Settings - implement Routing address configuration. Refs UIOR-1261.
 * Implement Routing lists accordion. Refs UIOR-1109.
 * Create routing list modal. Refs UIOR-1191.
+* Add Users to routing list. Refs UIOR-1111.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

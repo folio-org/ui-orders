@@ -99,6 +99,7 @@ export const RoutingListUsers = ({
               onRemoveUser,
               canRemove: canEdit,
             })}
+            isEmptyMessage={<FormattedMessage id="ui-orders.routing.list.users.empty" />}
           />
         </Col>
       </Row>
