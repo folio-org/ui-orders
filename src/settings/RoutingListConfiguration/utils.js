@@ -4,8 +4,9 @@ import { FormattedMessage } from 'react-intl';
 export const validateRoutingListConfigurationForm = (values) => {
   const { localizedTemplates } = values;
   const body = get(localizedTemplates, 'en.body', '');
+  const EMPTY_TEMPLATE_CONTENT = '<div><br></div>';
 
-  if (!body.replace(/<(.|\n)*?>/g, '').trim().length) {
+  if (body === EMPTY_TEMPLATE_CONTENT) {
     return {
       localizedTemplates: {
         en: {
