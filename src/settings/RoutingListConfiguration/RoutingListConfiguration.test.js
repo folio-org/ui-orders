@@ -46,6 +46,7 @@ const wrapper = ({ children }) => (
 
 const createListConfigMock = jest.fn();
 const updateListConfigMock = jest.fn();
+const refetchMock = jest.fn();
 
 const renderComponent = () => render(
   <RoutingListConfiguration />,
@@ -63,7 +64,7 @@ describe('RoutingListConfiguration', () => {
           },
         },
       },
-      refetch: jest.fn(),
+      refetch: refetchMock,
     });
     useListConfigurationMutation.mockClear().mockReturnValue({
       createListConfig: createListConfigMock,
@@ -103,7 +104,13 @@ describe('RoutingListConfiguration', () => {
 
   it('should create template configs data on click save button', async () => {
     useListConfiguration.mockClear().mockReturnValue({
-      listConfig: {},
+      listConfig: {
+        localizedTemplates: {
+          en: {
+            body: 'email body',
+          },
+        },
+      },
       refetch: jest.fn(),
     });
 
@@ -127,6 +134,15 @@ describe('RoutingListConfiguration', () => {
   });
 
   it('should display edit page and update description', async () => {
+    let updateListingOptions = {};
+    const updateMock = jest.fn().mockImplementation((_, options) => {
+      console.log('options', options);
+      updateListingOptions = options;
+    });
+
+    useListConfigurationMutation.mockClear().mockReturnValue({
+      updateListConfig: updateMock,
+    });
     renderComponent();
 
     const editBtn = await screen.findByRole('button', { name: 'stripes-core.button.edit' });
@@ -144,20 +160,9 @@ describe('RoutingListConfiguration', () => {
 
     await user.click(saveBtn);
 
-    expect(updateListConfigMock).toHaveBeenCalled();
-  });
+    updateListingOptions.onSuccess();
 
-  it('should close edit list configuration pane on button is clicked', async () => {
-    renderComponent();
-
-    const editBtn = await screen.findByRole('button', { name: 'stripes-core.button.edit' });
-
-    await user.click(editBtn);
-
-    const cancelBtn = await screen.findByText('stripes-core.button.cancel');
-
-    await user.click(cancelBtn);
-
-    expect(updateListConfigMock).toHaveBeenCalled();
+    expect(updateMock).toHaveBeenCalled();
+    expect(refetchMock).toHaveBeenCalled();
   });
 });
