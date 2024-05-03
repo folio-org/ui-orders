@@ -37,13 +37,13 @@ const renderComponent = (props = {}) => (render(
 ));
 
 describe('RoutingListUsers', () => {
-  it('should render component', () => {
+  it('should render component when `useUsersBatch` hook `isLoading` is false', () => {
     renderComponent();
 
     expect(screen.getByText('ui-orders.routing.list.addUsers')).toBeDefined();
   });
 
-  it('should render Loading', () => {
+  it('should render Loading component when `useUsersBatch` hook `isLoading` is true', () => {
     useUsersBatch.mockClear().mockReturnValue({ isLoading: true, users: [] });
 
     renderComponent();
@@ -66,7 +66,7 @@ describe('RoutingListUsers', () => {
     expect(mockOnAddUsers).toHaveBeenCalled();
   });
 
-  it('should not render add users button if canEdit is false', () => {
+  it('should not render add users button if `canEdit` is false', () => {
     renderComponent({ canEdit: false });
 
     expect(screen.queryByText('ui-orders.routing.list.addUsers')).toBeNull();

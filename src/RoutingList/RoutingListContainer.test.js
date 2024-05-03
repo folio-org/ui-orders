@@ -72,13 +72,13 @@ describe('RoutingListContainer', () => {
     useShowCallout.mockClear().mockReturnValue(showCalloutMock);
   });
 
-  it('should render component', () => {
+  it('should render component when `useRoutingListById` hook `isLoading` is false', () => {
     renderComponent();
 
     expect(screen.getByText('ui-orders.routing.list.name')).toBeDefined();
   });
 
-  it('should render Loading', () => {
+  it('should render Loading component when `useRoutingListById` hook `isLoading` is true', () => {
     useRoutingListById.mockClear().mockReturnValue({ isLoading: true, routingList: {} });
 
     renderComponent();
