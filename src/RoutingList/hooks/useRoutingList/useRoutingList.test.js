@@ -9,7 +9,7 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { useRoutingListById } from './useRoutingListById';
+import { useRoutingList } from './useRoutingList';
 
 const routingList = {
   id: '9465105a-e8a1-470c-9817-142d33bc4fcd',
@@ -26,7 +26,7 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-describe('useRoutingListById', () => {
+describe('useRoutingList', () => {
   it('should fetch routing list configuration', async () => {
     useOkapiKy
       .mockClear()
@@ -36,7 +36,7 @@ describe('useRoutingListById', () => {
         }),
       });
 
-    const { result } = renderHook(() => useRoutingListById(routingList.userIds), { wrapper });
+    const { result } = renderHook(() => useRoutingList(routingList.userIds), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 

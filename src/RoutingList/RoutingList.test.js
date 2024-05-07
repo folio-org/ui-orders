@@ -8,7 +8,7 @@ import {
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import {
-  useRoutingListById,
+  useRoutingList,
   useRoutingListMutation,
 } from './hooks';
 import { RoutingList } from './RoutingList';
@@ -27,7 +27,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
 }));
 
 jest.mock('./hooks', () => ({
-  useRoutingListById: jest.fn().mockReturnValue({
+  useRoutingList: jest.fn().mockReturnValue({
     routingList: {},
     isLoading: false,
   }),
@@ -57,12 +57,12 @@ const mockRoutingList = {
   notes: 'notes',
   poLineId: '1',
   name: 'name',
-  userIds: ['firstName lastName'],
+  userIds: ['1', '2'],
 };
 
 describe('RoutingList', () => {
   beforeEach(() => {
-    useRoutingListById.mockClear().mockReturnValue({
+    useRoutingList.mockClear().mockReturnValue({
       routingList: mockRoutingList,
       isLoading: false,
     });
@@ -74,8 +74,8 @@ describe('RoutingList', () => {
     expect(screen.getByText('ui-orders.routing.list.name')).toBeDefined();
   });
 
-  it('should render Loading component when `useRoutingListById` hook `isLoading` is true', () => {
-    useRoutingListById.mockClear().mockReturnValue({ isLoading: true, routingList: {} });
+  it('should render Loading when `useRoutingList` hook is `isLoading`', () => {
+    useRoutingList.mockClear().mockReturnValue({ isLoading: true, routingList: {} });
 
     renderComponent();
 
@@ -83,7 +83,7 @@ describe('RoutingList', () => {
   });
 
   it('should render routingList data', () => {
-    useRoutingListById.mockClear().mockReturnValue({
+    useRoutingList.mockClear().mockReturnValue({
       isLoading: false,
       routingList: mockRoutingList,
     });
@@ -99,7 +99,7 @@ describe('RoutingList', () => {
     useRoutingListMutation.mockClear().mockReturnValue({
       deleteListing: mockDeleteListing,
     });
-    useRoutingListById.mockClear().mockReturnValue({
+    useRoutingList.mockClear().mockReturnValue({
       isLoading: false,
       routingList: mockRoutingList,
     });

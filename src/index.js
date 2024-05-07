@@ -44,8 +44,9 @@ import {
 } from './common/constants';
 import { Notes } from './common/Notes';
 import {
+  CreateRoutingList,
+  EditRoutingList,
   RoutingList,
-  RoutingListContainer,
 } from './RoutingList';
 
 const Orders = ({ match, location, showSettings }) => {
@@ -131,7 +132,7 @@ const Orders = ({ match, location, showSettings }) => {
             <Switch>
               <Route
                 path={ROUTING_LIST_CREATE_ROUTE}
-                component={RoutingListContainer}
+                component={CreateRoutingList}
               />
               <Route
                 path={ROUTING_LIST_VIEW_ROUTE}
@@ -139,7 +140,7 @@ const Orders = ({ match, location, showSettings }) => {
               />
               <Route
                 path={ROUTING_LIST_EDIT_ROUTE}
-                component={RoutingListContainer}
+                component={EditRoutingList}
               />
               <Route
                 path={ORDER_LINE_CREATE_ROUTE}

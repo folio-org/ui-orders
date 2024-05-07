@@ -7,31 +7,25 @@ import {
 
 import { ROUTING_LIST_API } from '../../../common/constants';
 
-const DEFAULT_ROUTING_LIST = {
-  name: '',
-  notes: '',
-  userIds: [],
-  users: [],
-};
+const DEFAULT_ROUTING_LIST = {};
 
-export const useRoutingListById = (listingId) => {
+export const useRoutingList = (routingListId) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace();
 
   const {
     data = DEFAULT_ROUTING_LIST,
-    isFetching,
     isLoading,
   } = useQuery(
-    [namespace, listingId],
-    async () => ky.get(`${ROUTING_LIST_API}/${listingId}`).json(),
+    [namespace, routingListId],
+    async () => ky.get(`${ROUTING_LIST_API}/${routingListId}`).json(),
     {
-      enabled: Boolean(listingId),
+      enabled: Boolean(routingListId),
     },
   );
 
   return ({
-    isLoading: isLoading || isFetching,
+    isLoading,
     routingList: data,
   });
 };

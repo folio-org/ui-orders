@@ -165,10 +165,9 @@ export const RoutingListUsers = ({
 RoutingListUsers.propTypes = {
   canEdit: PropTypes.bool,
   onAddUsers: PropTypes.func.isRequired,
-  userIds: PropTypes.arrayOf(PropTypes.string),
+  userIds: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 RoutingListUsers.defaultProps = {
   canEdit: false,
-  userIds: [],
 };

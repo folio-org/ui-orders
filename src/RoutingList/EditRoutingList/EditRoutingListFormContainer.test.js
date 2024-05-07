@@ -5,12 +5,12 @@ import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { useShowCallout } from '@folio/stripes-acq-components';
 
-import { UNIQUE_NAME_ERROR_CODE } from './constants';
+import { UNIQUE_NAME_ERROR_CODE } from '../constants';
 import {
-  useRoutingListById,
+  useRoutingList,
   useRoutingListMutation,
-} from './hooks';
-import { RoutingListContainer } from './RoutingListContainer';
+} from '../hooks';
+import { EditRoutingListFormContainer } from './EditRoutingListFormContainer';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -29,8 +29,8 @@ jest.mock('@folio/stripes-acq-components', () => ({
 const mockUpdateListing = jest.fn();
 const mockDeleteListing = jest.fn();
 
-jest.mock('./hooks', () => ({
-  useRoutingListById: jest.fn().mockReturnValue({
+jest.mock('../hooks', () => ({
+  useRoutingList: jest.fn().mockReturnValue({
     routingList: {},
     isLoading: false,
   }),
@@ -43,16 +43,16 @@ const wrapper = ({ children }) => (
   </MemoryRouter>
 );
 
-const renderComponent = () => (render(
-  <RoutingListContainer />,
+const renderComponent = () => render(
+  <EditRoutingListFormContainer />,
   { wrapper },
-));
+);
 
-describe('RoutingListContainer', () => {
+describe('EditRoutingListFormContainer', () => {
   const showCalloutMock = jest.fn();
 
   beforeEach(() => {
-    useRoutingListById.mockClear().mockReturnValue({
+    useRoutingList.mockClear().mockReturnValue({
       routingList: {
         id: '1',
         name: 'test',
@@ -61,10 +61,8 @@ describe('RoutingListContainer', () => {
       isLoading: false,
     });
     useRoutingListMutation.mockClear().mockReturnValue({
-      createListing: jest.fn(),
       deleteListing: mockDeleteListing,
       updateListing: mockUpdateListing,
-      isCreating: false,
       isDeleting: false,
       isUpdating: false,
     });
@@ -72,14 +70,14 @@ describe('RoutingListContainer', () => {
     useShowCallout.mockClear().mockReturnValue(showCalloutMock);
   });
 
-  it('should render component when `useRoutingListById` hook `isLoading` is false', () => {
+  it('should render component when `useRoutingList` hook `isLoading` is false', () => {
     renderComponent();
 
     expect(screen.getByText('ui-orders.routing.list.name')).toBeDefined();
   });
 
-  it('should render Loading component when `useRoutingListById` hook `isLoading` is true', () => {
-    useRoutingListById.mockClear().mockReturnValue({ isLoading: true, routingList: {} });
+  it('should render Loading component when `useRoutingList` hook `isLoading` is true', () => {
+    useRoutingList.mockClear().mockReturnValue({ isLoading: true, routingList: {} });
 
     renderComponent();
 
@@ -91,23 +89,7 @@ describe('RoutingListContainer', () => {
 
     const nameInput = screen.getByRole('textbox', { name: 'ui-orders.routing.list.name' });
 
-    await user.type(nameInput, 'test 2');
-
-    const saveBtn = screen.getByRole('button', { name: 'ui-orders.routing.list.create.paneMenu.save' });
-
-    expect(saveBtn).toBeEnabled();
-
-    await user.click(saveBtn);
-
-    expect(mockUpdateListing).toHaveBeenCalled();
-  });
-
-  it('should update routing list name', async () => {
-    renderComponent();
-
-    const nameInput = screen.getByRole('textbox', { name: 'ui-orders.routing.list.name' });
-
-    await user.type(nameInput, 'test 2');
+    await user.type(nameInput, 'edit');
 
     const saveBtn = screen.getByRole('button', { name: 'ui-orders.routing.list.create.paneMenu.save' });
 
@@ -119,16 +101,16 @@ describe('RoutingListContainer', () => {
   });
 
   it('should return error message when create routing list failed', async () => {
-    let createListingOptions = {};
-    const createListing = jest.fn().mockImplementation((_, options) => {
-      createListingOptions = options;
+    let updateListingOptions = {};
+    const updateListing = jest.fn().mockImplementation((_, options) => {
+      updateListingOptions = options;
     });
 
     useRoutingListMutation.mockClear().mockReturnValue({
-      createListing,
+      updateListing,
     });
 
-    useRoutingListById.mockClear().mockReturnValue({
+    useRoutingList.mockClear().mockReturnValue({
       routingList: {},
       isLoading: false,
     });
@@ -145,7 +127,7 @@ describe('RoutingListContainer', () => {
 
     await user.click(saveBtn);
 
-    createListingOptions.onError({
+    updateListingOptions.onError({
       response: {
         json: jest.fn().mockResolvedValue({
           errors: [{ code: UNIQUE_NAME_ERROR_CODE }],
@@ -153,6 +135,6 @@ describe('RoutingListContainer', () => {
       },
     });
 
-    expect(createListing).toHaveBeenCalled();
+    expect(updateListing).toHaveBeenCalled();
   });
 });

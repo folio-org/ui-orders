@@ -1,6 +1,6 @@
 import {
   useCallback,
-  useState,
+  useRef,
 } from 'react';
 import {
   FormattedMessage,
@@ -11,15 +11,22 @@ import {
   useParams,
 } from 'react-router';
 
-import { useShowCallout } from '@folio/stripes-acq-components';
+import {
+  useShowCallout,
+  useToggle,
+} from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
   AccordionStatus,
   Button,
+  checkScope,
   Col,
+  collapseAllSections,
   ConfirmationModal,
   ExpandAllButton,
+  expandAllSections,
+  HasCommand,
   Icon,
   KeyValue,
   LoadingView,
@@ -30,22 +37,21 @@ import { AppIcon, IfPermission } from '@folio/stripes/core';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import {
-  useRoutingListById,
+  useRoutingList,
   useRoutingListMutation,
 } from './hooks';
-import { RoutingListUsers } from './RoutingListUsers';
+import { RoutingListUsers } from './RoutingListUsers/RoutingListUsers';
 
 export const RoutingList = () => {
+  const accordionStatusRef = useRef();
   const history = useHistory();
   const showCallout = useShowCallout();
   const intl = useIntl();
   const { id } = useParams();
 
-  const [confirmDelete, setConfirmDelete] = useState(false);
-  const showConfirmDelete = useCallback(() => setConfirmDelete(true), []);
-  const hideConfirmDelete = useCallback(() => setConfirmDelete(false), []);
+  const [isDeleteConfirmationVisible, toggleDeleteConfirmation] = useToggle(false);
 
-  const { routingList, isLoading } = useRoutingListById(id);
+  const { routingList, isLoading } = useRoutingList(id);
   const { deleteListing } = useRoutingListMutation();
 
   const onClose = useCallback(() => {
@@ -53,7 +59,7 @@ export const RoutingList = () => {
   }, [history]);
 
   const onDelete = async () => {
-    hideConfirmDelete();
+    toggleDeleteConfirmation();
     await deleteListing(
       routingList.id,
       {
@@ -90,7 +96,7 @@ export const RoutingList = () => {
           <Button
             data-testid="delete-routing-list"
             buttonStyle="dropdownItem"
-            onClick={showConfirmDelete}
+            onClick={toggleDeleteConfirmation}
           >
             <Icon icon="trash">
               <FormattedMessage id="ui-orders.routing.list.actions.delete" />
@@ -101,10 +107,32 @@ export const RoutingList = () => {
     );
   };
 
-  if (isLoading) return <LoadingView dismissible onClose={onClose} />;
+  const shortcuts = [
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+  ];
+
+  if (isLoading) {
+    return (
+      <LoadingView
+        dismissible
+        onClose={onClose}
+      />
+    );
+  }
 
   return (
-    <>
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
       <Pane
         id="routing-list-pane"
         appIcon={<AppIcon app="orders" appIconKey="orders" />}
@@ -123,7 +151,7 @@ export const RoutingList = () => {
           <AccordionSet>
             <Accordion label={intl.formatMessage({ id: 'ui-orders.routing.list.generalInformation' })}>
               <AccordionSet>
-                <ViewMetaData metadata={routingList.metadata} />
+                {routingList.metadata && <ViewMetaData metadata={routingList.metadata} />}
               </AccordionSet>
               <Row>
                 <Col xs={12}>
@@ -146,17 +174,17 @@ export const RoutingList = () => {
           </AccordionSet>
         </AccordionStatus>
       </Pane>
-      {confirmDelete && (
+      {isDeleteConfirmationVisible && (
         <ConfirmationModal
           id="delete-routing-list-confirmation"
           confirmLabel={<FormattedMessage id="ui-orders.routing.list.delete.confirm.label" />}
           heading={<FormattedMessage id="ui-orders.routing.list.delete.confirm.title" />}
           message={<FormattedMessage id="ui-orders.routing.list.delete.confirm" />}
-          onCancel={hideConfirmDelete}
+          onCancel={toggleDeleteConfirmation}
           onConfirm={onDelete}
           open
         />
       )}
-    </>
+    </HasCommand>
   );
 };

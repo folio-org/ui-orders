@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import { Field } from 'react-final-form';
 import {
   FormattedMessage,
@@ -6,6 +7,7 @@ import {
 } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { validateRequired } from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
@@ -13,6 +15,7 @@ import {
   Button,
   Col,
   ExpandAllButton,
+  HasCommand,
   Layer,
   Pane,
   PaneFooter,
@@ -21,15 +24,18 @@ import {
   Row,
   TextArea,
   TextField,
+  checkScope,
+  collapseAllSections,
+  expandAllSections,
 } from '@folio/stripes/components';
 import { AppIcon } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
-import { validateRoutingListForm } from './utils';
-import { RoutingListUsers } from './RoutingListUsers';
+import { RoutingListUsers } from './RoutingListUsers/RoutingListUsers';
 
 const RoutingListForm = (props) => {
+  const accordionStatusRef = useRef();
   const {
     handleSubmit,
     initialValues: {
@@ -98,65 +104,83 @@ const RoutingListForm = (props) => {
     );
   };
 
+  const shortcuts = [
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+  ];
+
   return (
-    <Paneset>
-      <Layer isOpen>
-        <Paneset isRoot>
-          <Pane
-            id="routing-list-pane"
-            appIcon={<AppIcon app="orders" appIconKey="orders" />}
-            defaultWidth="fill"
-            renderHeader={renderHeader}
-            footer={renderFooter()}
-          >
-            <form id="routing-list-form">
-              <AccordionStatus>
-                <Row end="xs">
-                  <Col data-test-expand-all>
-                    <ExpandAllButton />
-                  </Col>
-                </Row>
-                <AccordionSet>
-                  <Accordion label={formatMessage({ id: 'ui-orders.routing.list.generalInformation' })}>
-                    <AccordionSet>
-                      <ViewMetaData metadata={metadata} />
-                    </AccordionSet>
-                    <Row>
-                      <Col xs={12}>
-                        <Field
-                          label={formatMessage({ id: 'ui-orders.routing.list.name' })}
-                          name="name"
-                          id="input-routing-list-name"
-                          component={TextField}
-                          required
-                        />
-                      </Col>
-                      <Col xs={12}>
-                        <Field
-                          label={formatMessage({ id: 'ui-orders.routing.list.notes' })}
-                          name="notes"
-                          id="input-routing-list-notes"
-                          component={TextArea}
-                        />
-                      </Col>
-                    </Row>
-                  </Accordion>
-                  <Accordion label={formatMessage({ id: 'ui-orders.routing.list.users' })}>
-                    <Field
-                      component={RoutingListUsers}
-                      name="userIds"
-                      onAddUsers={onAddUsers}
-                      userIds={values.userIds}
-                      canEdit
-                    />
-                  </Accordion>
-                </AccordionSet>
-              </AccordionStatus>
-            </form>
-          </Pane>
-        </Paneset>
-      </Layer>
-    </Paneset>
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset>
+        <Layer isOpen>
+          <Paneset isRoot>
+            <Pane
+              id="routing-list-pane"
+              appIcon={<AppIcon app="orders" appIconKey="orders" />}
+              defaultWidth="fill"
+              renderHeader={renderHeader}
+              footer={renderFooter()}
+            >
+              <form id="routing-list-form">
+                <AccordionStatus>
+                  <Row end="xs">
+                    <Col data-test-expand-all>
+                      <ExpandAllButton />
+                    </Col>
+                  </Row>
+                  <AccordionSet>
+                    <Accordion label={formatMessage({ id: 'ui-orders.routing.list.generalInformation' })}>
+                      <AccordionSet>
+                        {metadata && <ViewMetaData metadata={metadata} />}
+                      </AccordionSet>
+                      <Row>
+                        <Col xs={12}>
+                          <Field
+                            label={formatMessage({ id: 'ui-orders.routing.list.name' })}
+                            name="name"
+                            id="input-routing-list-name"
+                            component={TextField}
+                            required
+                            validate={validateRequired}
+                          />
+                        </Col>
+                        <Col xs={12}>
+                          <Field
+                            label={formatMessage({ id: 'ui-orders.routing.list.notes' })}
+                            name="notes"
+                            id="input-routing-list-notes"
+                            component={TextArea}
+                          />
+                        </Col>
+                      </Row>
+                    </Accordion>
+                    <Accordion label={formatMessage({ id: 'ui-orders.routing.list.users' })}>
+                      <Field
+                        component={RoutingListUsers}
+                        name="userIds"
+                        onAddUsers={onAddUsers}
+                        userIds={values.userIds}
+                        canEdit
+                      />
+                    </Accordion>
+                  </AccordionSet>
+                </AccordionStatus>
+              </form>
+            </Pane>
+          </Paneset>
+        </Layer>
+      </Paneset>
+    </HasCommand>
   );
 };
 
@@ -182,5 +206,4 @@ export default stripesFinalForm({
   keepDirtyOnReinitialize: true,
   navigationCheck: true,
   subscription: { values: true },
-  validate: validateRoutingListForm,
 })(injectIntl(RoutingListForm));

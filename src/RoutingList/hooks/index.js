@@ -1,2 +1,2 @@
-export * from './useRoutingListById';
+export * from './useRoutingList';
 export * from './useRoutingListMutation';

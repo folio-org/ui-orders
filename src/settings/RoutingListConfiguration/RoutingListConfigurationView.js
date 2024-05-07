@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import {
   FormattedMessage,
   injectIntl,
@@ -16,9 +17,13 @@ import {
   Button,
   Col,
   ExpandAllButton,
+  HasCommand,
   KeyValue,
   Pane,
   Row,
+  checkScope,
+  collapseAllSections,
+  expandAllSections,
 } from '@folio/stripes/components';
 import { useStripes } from '@folio/stripes/core';
 import { ViewMetaData } from '@folio/stripes/smart-components';
@@ -26,6 +31,7 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 import RoutingListConfigurationEmailTemplate from './RoutingListConfigurationEmailTemplate';
 
 const RoutingListConfigurationView = (props) => {
+  const accordionStatusRef = useRef();
   const location = useLocation();
   const history = useHistory();
   const stripes = useStripes();
@@ -51,46 +57,63 @@ const RoutingListConfigurationView = (props) => {
     </Button>
   );
 
+  const shortcuts = [
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+  ];
+
   return (
-    <Pane
-      data-testid="routingListConfigurationTemplatePane"
-      id="routing-list-configuration-template-pane"
-      defaultWidth="fill"
-      paneTitle={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration' })}
-      lastMenu={editIcon}
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
     >
-      <AccordionStatus>
-        <Row end="xs">
-          <Col data-test-expand-all>
-            <ExpandAllButton />
-          </Col>
-        </Row>
-        <AccordionSet>
-          <Accordion label={formatMessage({ id: 'ui-circulation.settings.patronNotices.generalInformation' })}>
-            <AccordionSet>
-              <ViewMetaData metadata={listConfig.metadata} />
-            </AccordionSet>
-            <Row>
-              <Col
-                xs={12}
-                data-testid="routingListConfigurationDescription"
-              >
-                <KeyValue
-                  label={<FormattedMessage id="ui-orders.settings.routing.listConfiguration.description" />}
-                  value={listConfig.description}
-                />
-              </Col>
-            </Row>
-          </Accordion>
-          <Accordion label={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration.templateContent' })}>
-            <RoutingListConfigurationEmailTemplate
-              listConfig={listConfig}
-              emailTemplate={emailTemplate}
-            />
-          </Accordion>
-        </AccordionSet>
-      </AccordionStatus>
-    </Pane>
+      <Pane
+        data-testid="routingListConfigurationTemplatePane"
+        id="routing-list-configuration-template-pane"
+        defaultWidth="fill"
+        paneTitle={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration' })}
+        lastMenu={editIcon}
+      >
+        <AccordionStatus>
+          <Row end="xs">
+            <Col data-test-expand-all>
+              <ExpandAllButton />
+            </Col>
+          </Row>
+          <AccordionSet>
+            <Accordion label={formatMessage({ id: 'ui-circulation.settings.patronNotices.generalInformation' })}>
+              <AccordionSet>
+                {listConfig.metadata && <ViewMetaData metadata={listConfig.metadata} />}
+              </AccordionSet>
+              <Row>
+                <Col
+                  xs={12}
+                  data-testid="routingListConfigurationDescription"
+                >
+                  <KeyValue
+                    label={<FormattedMessage id="ui-orders.settings.routing.listConfiguration.description" />}
+                    value={listConfig.description}
+                  />
+                </Col>
+              </Row>
+            </Accordion>
+            <Accordion label={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration.templateContent' })}>
+              <RoutingListConfigurationEmailTemplate
+                listConfig={listConfig}
+                emailTemplate={emailTemplate}
+              />
+            </Accordion>
+          </AccordionSet>
+        </AccordionStatus>
+      </Pane>
+    </HasCommand>
   );
 };
 
