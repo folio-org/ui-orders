@@ -30,14 +30,14 @@ const RoutingListConfiguration = ({ label }) => {
   const { createListConfig, updateListConfig } = useListConfigurationMutation();
 
   const onCancel = useCallback(async () => {
-    refetch();
     history.push(LIST_CONFIGURATION_BASE_PATH);
-  }, [history, refetch]);
+  }, [history]);
 
   const onMutationSuccess = useCallback(() => {
     onCancel();
+    refetch();
     showCallout({ messageId: 'ui-orders.settings.routing.listConfiguration.update.success' });
-  }, [onCancel, showCallout]);
+  }, [onCancel, refetch, showCallout]);
 
   const onMutationError = useCallback(() => {
     showCallout({

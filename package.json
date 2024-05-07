@@ -415,7 +415,8 @@
           "orders-storage.settings.item.get",
           "ui-orders.third-party-services",
           "orders.acquisition-methods.collection.get",
-          "ui-orders.settings.custom-fields.view"
+          "ui-orders.settings.custom-fields.view",
+          "templates.item.get"
         ]
       },
       {
@@ -450,7 +451,9 @@
           "orders-storage.settings.item.put",
           "ui-orders.settings.custom-fields.view",
           "ui-orders.settings.custom-fields.edit",
-          "ui-orders.settings.custom-fields.delete"
+          "ui-orders.settings.custom-fields.delete",
+          "templates.item.post",
+          "templates.item.put"
         ]
       },
       {
