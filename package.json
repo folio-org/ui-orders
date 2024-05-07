@@ -185,8 +185,7 @@
           "ui-orders.custom-fields.view",
           "consortia.publications.item.get",
           "consortia.publications.item.post",
-          "consortia.publications-results.item.get",
-          "consortia.user-tenants.collection.get"
+          "consortia.publications-results.item.get"
         ]
       },
       {
