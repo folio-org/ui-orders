@@ -1,6 +1,7 @@
 import {
   flatten,
   groupBy,
+  merge,
 } from 'lodash';
 
 import {
@@ -75,9 +76,82 @@ const getOrganizationTypeData = (orgTypeIds, orgTypeMap) => (
     ?.join(' | ')
 );
 
+/**
+ * Creates a mapping of custom field select options to their corresponding label.
+ *
+ * @param {Array} customFields - The array of custom fields definitions.
+ * @returns {Object} - The mapping of custom fields select options to their label.
+ * @example
+ * {
+ *   "multiselect": {
+ *     "opt_0": "A",
+ *     "opt_1": "B"
+ *   },
+ *   "singleselect": {
+ *     "opt_0": "1",
+ *     "opt_1": "2"
+ *   },
+ * }
+ */
+const createCustomFieldsOptionsMapping = (customFields = []) => {
+  return customFields.reduce((acc, cf) => {
+    const opts = cf.selectField?.options?.values?.reduce((a, v) => {
+      a[v.id] = v.value;
+
+      return a;
+    }, {});
+
+    acc[cf.refId] = opts;
+
+    return acc;
+  }, {});
+};
+
+/**
+ * Resolves custom fields select options to their corresponding label.
+ * In case there are multiple select options present the corresponding labels are sorted and joined by '|'.
+ * If there is no mapping available it keeps the value as is.
+ *
+ * @param {Object} values - Custom fields with unresolved select options.
+ * @param {Array} customFields - The array of custom fields definitions.
+ * @returns {Object} - Custom fields with their select options resolved to labels.
+ * @example
+ * // unresolved:
+ * {
+ *   "multiselect": ["opt_1", "opt_0"],
+ *   "singleselect": "opt_0",
+ *   "textarea": "abc123",
+ * };
+ * // resolved:
+ * {
+ *   "multiselect": "A|B",
+ *   "singleselect": "1",
+ *   "textarea": "abc123",
+ * }
+ */
+const resolveCustomFields = (values = {}, customFields = []) => {
+  const mapping = createCustomFieldsOptionsMapping(customFields);
+
+  return Object.keys(values).reduce((acc, key) => {
+    if (mapping[key]) {
+      const valueArray = Array.isArray(values[key]) ? values[key] : [values[key]];
+
+      acc[key] = valueArray
+        .map((c) => mapping[key][c] || c)
+        .sort()
+        .join('|');
+    } else {
+      acc[key] = values[key];
+    }
+
+    return acc;
+  }, {});
+};
+
 const getOrderExportData = ({
   acqUnitMap,
   addressMap,
+  customFields,
   intl,
   order,
   organizationTypeMap,
@@ -116,6 +190,7 @@ const getOrderExportData = ({
     renewalDate: formatDate(order.ongoing?.renewalDate, intl),
     reviewDate: formatDate(order.ongoing?.reviewDate, intl),
     poTags: order.tags?.tagList?.join('|'),
+    customFields: resolveCustomFields(order.customFields, customFields),
     createdBy: userMap[order.metadata?.createdByUserId]?.username ?? invalidReference,
     dateCreated: formatDateTime(order.metadata?.createdDate, intl),
     updatedBy: userMap[order.metadata?.updatedByUserId]?.username ?? invalidReference,
@@ -125,6 +200,7 @@ const getOrderExportData = ({
 
 const getOrderLineExportData = ({
   acquisitionMethodsMap,
+  customFields,
   expenseClassMap,
   contributorNameTypeMap,
   holdingMap,
@@ -202,6 +278,7 @@ const getOrderLineExportData = ({
     resourceUrl: lineRecord.eresource?.resourceUrl,
     poLineTags: lineRecord.tags?.tagList?.join('|'),
     exchangeRate: lineRecord.cost?.exchangeRate,
+    customFields: resolveCustomFields(lineRecord.customFields, customFields),
     poLineCreatedBy: userMap[lineRecord.metadata?.createdByUserId]?.username ?? invalidReference,
     poLineDateCreated: formatDateTime(lineRecord.metadata?.createdDate, intl),
     poLineUpdatedBy: userMap[lineRecord.metadata?.updatedByUserId]?.username ?? invalidReference,
@@ -217,6 +294,7 @@ const getExportRow = ({
   acqUnitMap,
   addressMap,
   contributorNameTypeMap,
+  customFields,
   expenseClassMap,
   holdingMap,
   identifierTypeMap,
@@ -230,6 +308,7 @@ const getExportRow = ({
   const orderExportData = getOrderExportData({
     acqUnitMap,
     addressMap,
+    customFields,
     intl,
     order,
     organizationTypeMap,
@@ -240,6 +319,7 @@ const getExportRow = ({
   const orderLineExportData = lineRecord
     ? getOrderLineExportData({
       acquisitionMethodsMap,
+      customFields,
       expenseClassMap,
       contributorNameTypeMap,
       holdingMap,
@@ -254,10 +334,8 @@ const getExportRow = ({
     })
     : {};
 
-  return {
-    ...orderExportData,
-    ...orderLineExportData,
-  };
+  // merge by merging same keys ('customFields' may be present in both objects)
+  return merge(orderExportData, orderLineExportData);
 };
 
 const buildExportRows = ({
@@ -276,6 +354,7 @@ export const createExportReport = (
   intl,
   poLines = [],
   orders = [],
+  customFields = [],
   vendors = [],
   users = [],
   acqUnits = [],
@@ -321,6 +400,7 @@ export const createExportReport = (
     poLinesMap,
     userMap,
     vendorMap,
+    customFields,
   }));
 
   return flatten(exportRows);

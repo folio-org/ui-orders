@@ -16,6 +16,7 @@ export const exportReport = [
     },
     'cancellationRestriction': false,
     'cancellationRestrictionNote': '',
+    'customFields': {},
     'collection': false,
     'contributor': '"contributor""Personal name"',
     'createInventory': 'Instance, Holding, Item',

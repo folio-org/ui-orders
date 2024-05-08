@@ -1,7 +1,34 @@
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { exportToCsv } from '@folio/stripes/components';
 
 import ExportSettingsModalContainer from './ExportSettingsModalContainer';
+
+jest.mock('@folio/stripes/smart-components', () => {
+  return {
+    ...jest.requireActual('@folio/stripes/smart-components'),
+    useCustomFields: () => [],
+  };
+});
+
+jest.mock('@folio/stripes/components', () => {
+  return {
+    ...jest.requireActual('@folio/stripes/components'),
+    exportToCsv: jest.fn(),
+  };
+});
+
+jest.mock('./utils', () => {
+  return {
+    ...jest.requireActual('./utils'),
+    getExportData: jest.fn().mockResolvedValue([{ field1: 'value1', field2: 'value2' }]),
+    getExportLineFields: () => ({ field1: 'field1 name' }),
+    getExportOrderFields: () => ({ field2: 'field2 name' }),
+  };
+});
 
 const mockMutator = {
   exportVendors: {
@@ -34,7 +61,7 @@ const mockMutator = {
 };
 
 const defaultProps = {
-  fetchOrdersAndLines: jest.fn(),
+  fetchOrdersAndLines: jest.fn().mockResolvedValue({}),
   onCancel: jest.fn(),
   mutator: mockMutator,
 };
@@ -49,11 +76,23 @@ describe('ExportSettingsModalContainer:', () => {
   });
 
   describe('when export button in Export Settings Modal is clicked:', () => {
-    it('should fetch orders and lines', async () => {
+    beforeEach(async () => {
       renderExportSettingsModalContainer();
       await user.click(screen.getByText('ui-orders.exportSettings.export'));
+    });
 
+    it('should fetch orders and lines', async () => {
       expect(defaultProps.fetchOrdersAndLines).toHaveBeenCalled();
+    });
+
+    it('should call exportToCsv with correct parameters', () => {
+      expect(exportToCsv).toHaveBeenCalledWith(
+        [
+          { field1: 'field1 name', field2: 'field2 name' },
+          { field1: 'value1', field2: 'value2' },
+        ],
+        expect.any(Object),
+      );
     });
   });
 

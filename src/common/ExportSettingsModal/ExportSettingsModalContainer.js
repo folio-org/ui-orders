@@ -5,16 +5,19 @@ import moment from 'moment';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { exportToCsv } from '@folio/stripes/components';
+import { useCustomFields } from '@folio/stripes/smart-components';
 import {
+  CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { getExportData, exportManifest } from './utils';
 import ExportSettingsModal from './ExportSettingsModal';
 import {
-  EXPORT_LINE_FIELDS,
-  EXPORT_ORDER_FIELDS,
-} from './constants';
+  exportManifest,
+  getExportData,
+  getExportLineFields,
+  getExportOrderFields,
+} from './utils';
 
 const ExportSettingsModalContainer = ({
   onCancel,
@@ -22,6 +25,10 @@ const ExportSettingsModalContainer = ({
   fetchOrdersAndLines,
 }) => {
   const [isExporting, setIsExporting] = useState(false);
+  const [customFieldsPO, isLoadingPO] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, 'purchase_order');
+  const [customFieldsPOL, isLoadingPOL] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, 'po_line');
+  const customFields = [...customFieldsPO || [], ...customFieldsPOL || []];
+  const isLoadingCustomFields = isLoadingPO || isLoadingPOL;
   const showCallout = useShowCallout();
   const intl = useIntl();
 
@@ -32,7 +39,7 @@ const ExportSettingsModalContainer = ({
 
       const { lines, orders } = await fetchOrdersAndLines();
 
-      const exportData = await getExportData(mutator, lines, orders, intl);
+      const exportData = await getExportData(mutator, lines, orders, customFields, intl);
 
       setIsExporting(false);
 
@@ -41,7 +48,7 @@ const ExportSettingsModalContainer = ({
       const filename = `order-export-${moment().format('YYYY-MM-DD-hh:mm')}`;
 
       return exportToCsv(
-        [{ ...EXPORT_ORDER_FIELDS, ...EXPORT_LINE_FIELDS }, ...exportData],
+        [{ ...getExportOrderFields(customFields), ...getExportLineFields(customFields) }, ...exportData],
         {
           onlyFields: exportFields,
           header: false,
@@ -58,11 +65,13 @@ const ExportSettingsModalContainer = ({
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [fetchOrdersAndLines, showCallout, onCancel]);
+  [customFields, fetchOrdersAndLines, showCallout, onCancel]);
 
   return (
     <ExportSettingsModal
+      customFields={customFields}
       isExporting={isExporting}
+      isLoading={isLoadingCustomFields}
       onExportCSV={onExportCSV}
       onCancel={onCancel}
     />
