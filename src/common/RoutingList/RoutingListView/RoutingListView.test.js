@@ -8,6 +8,7 @@ import {
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import {
+  useGoBack,
   useRoutingList,
   useRoutingListMutation,
 } from '../hooks';
@@ -27,6 +28,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
 }));
 
 jest.mock('../hooks', () => ({
+  useGoBack: jest.fn().mockReturnValue(jest.fn()),
   useRoutingList: jest.fn().mockReturnValue({
     routingList: {},
     isLoading: false,
@@ -115,5 +117,24 @@ describe('RoutingListView', () => {
     await user.click(confirmDelete);
 
     expect(mockDeleteListing).toHaveBeenCalled();
+  });
+
+  it('should call `useGoBack` when click close icon', async () => {
+    const mockGoBack = jest.fn();
+
+    useRoutingList.mockClear().mockReturnValue({
+      isLoading: false,
+      routingList: mockRoutingList,
+    });
+
+    useGoBack.mockClear().mockReturnValue(mockGoBack);
+
+    renderComponent();
+
+    screen.debug(undefined, 400000);
+
+    await user.click(screen.getByLabelText('stripes-components.closeItem'));
+
+    expect(mockGoBack).toHaveBeenCalled();
   });
 });
