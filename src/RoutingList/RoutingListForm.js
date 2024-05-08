@@ -7,7 +7,10 @@ import {
 } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { validateRequired } from '@folio/stripes-acq-components';
+import {
+  handleKeyCommand,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 import {
   Accordion,
   AccordionSet,
@@ -105,6 +108,15 @@ const RoutingListForm = (props) => {
   };
 
   const shortcuts = [
+    {
+      name: 'cancel',
+      shortcut: 'esc',
+      handler: handleKeyCommand(onCancel),
+    },
+    {
+      name: 'save',
+      handler: handleKeyCommand(handleSubmit, { disabled: pristine || submitting }),
+    },
     {
       name: 'expandAllSections',
       handler: (e) => expandAllSections(e, accordionStatusRef),

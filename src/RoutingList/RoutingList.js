@@ -12,6 +12,7 @@ import {
 } from 'react-router';
 
 import {
+  handleKeyCommand,
   useShowCallout,
   useToggle,
 } from '@folio/stripes-acq-components';
@@ -108,6 +109,11 @@ export const RoutingList = () => {
   };
 
   const shortcuts = [
+    {
+      name: 'cancel',
+      shortcut: 'esc',
+      handler: handleKeyCommand(onClose),
+    },
     {
       name: 'expandAllSections',
       handler: (e) => expandAllSections(e, accordionStatusRef),
