@@ -1,7 +1,6 @@
 import {
   useCallback,
   useMemo,
-  useState,
 } from 'react';
 import {
   get,
@@ -11,7 +10,10 @@ import {
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { useUsersBatch } from '@folio/stripes-acq-components';
+import {
+  useToggle,
+  useUsersBatch,
+} from '@folio/stripes-acq-components';
 import {
   Pluggable,
   useStripes,
@@ -57,21 +59,19 @@ export const RoutingListUsers = ({
   userIds,
 }) => {
   const stripes = useStripes();
-  const [openAddUsersModal, setOpenAddUsersModal] = useState(false);
-  const [openUnAssignUsersModal, setOpenUnAssignUsersModal] = useState(false);
+  const [isAddUserModalVisible, toggleAddUsersModal] = useToggle(false);
+  const [isUnAssignUsersModalVisible, toggleUnAssignUsersModal] = useToggle(false);
 
   const { isLoading, users } = useUsersBatch(userIds, { keepPreviousData: true });
 
-  const onCloseAddUsersModal = useCallback(() => setOpenAddUsersModal(false), []);
-
   const onSelectUsers = useCallback((selectedUsers) => {
-    onCloseAddUsersModal();
+    toggleAddUsersModal();
     const newUserIds = map(selectedUsers.filter(({ id }) => !userIds.includes(id)), 'id');
 
     if (newUserIds.length) {
       onAddUsers([...userIds, ...newUserIds]);
     }
-  }, [onAddUsers, onCloseAddUsersModal, userIds]);
+  }, [onAddUsers, toggleAddUsersModal, userIds]);
 
   const onRemoveUser = useCallback((userId) => {
     onAddUsers(userIds.filter((id) => id !== userId));
@@ -79,10 +79,10 @@ export const RoutingListUsers = ({
 
   const onUnassignAllUsers = useCallback(() => {
     onAddUsers([]);
-    setOpenUnAssignUsersModal(false);
-  }, [onAddUsers]);
+    toggleUnAssignUsersModal();
+  }, [onAddUsers, toggleUnAssignUsersModal]);
 
-  const selectedUsersMap = useMemo(() => (userIds.length ? keyBy(users, 'id') : {}), [users, userIds]);
+  const selectedUsersMap = useMemo(() => (userIds?.length ? keyBy(users, 'id') : {}), [users, userIds]);
 
   if (isLoading) {
     return <Loading />;
@@ -93,7 +93,7 @@ export const RoutingListUsers = ({
       <Row>
         <Col xs={12}>
           <List
-            items={userIds.length ? users : []}
+            items={userIds?.length ? users : []}
             listStyle="default"
             marginBottom0
             itemFormatter={user => renderItem({
@@ -115,7 +115,7 @@ export const RoutingListUsers = ({
                 align="end"
                 bottomMargin0
                 id="clickable-add-permission"
-                onClick={() => setOpenAddUsersModal(true)}
+                onClick={toggleAddUsersModal}
               >
                 <FormattedMessage id="ui-orders.routing.list.addUsers" />
               </Button>
@@ -123,16 +123,16 @@ export const RoutingListUsers = ({
                 type="button"
                 align="end"
                 bottomMargin0
-                disabled={!users.length}
+                disabled={!users?.length}
                 id="clickable-remove-all-permissions"
-                onClick={setOpenUnAssignUsersModal}
+                onClick={toggleUnAssignUsersModal}
               >
                 <FormattedMessage id="ui-orders.routing.list.removeUsers" />
               </Button>
             </Col>
             <Pluggable
               aria-haspopup="true"
-              openWhen={openAddUsersModal}
+              openWhen={isAddUserModalVisible}
               dataKey="users"
               renderTrigger={() => null}
               searchButtonStyle="default"
@@ -140,7 +140,7 @@ export const RoutingListUsers = ({
               stripes={stripes}
               type="find-user"
               selectUsers={onSelectUsers}
-              closeCB={onCloseAddUsersModal}
+              closeCB={toggleAddUsersModal}
               initialSelectedUsers={selectedUsersMap}
               showCreateUserButton
             >
@@ -151,12 +151,12 @@ export const RoutingListUsers = ({
       }
 
       <ConfirmationModal
-        open={openUnAssignUsersModal}
+        open={isUnAssignUsersModalVisible}
         heading={<FormattedMessage id="ui-orders.routing.list.create.unassign.confirm-heading" />}
         message={<FormattedMessage id="ui-orders.routing.list.create.unassign.confirm-message" />}
         onConfirm={onUnassignAllUsers}
         confirmLabel={<FormattedMessage id="ui-orders.routing.list.create.unassign.confirm-continue" />}
-        onCancel={() => setOpenUnAssignUsersModal(false)}
+        onCancel={toggleUnAssignUsersModal}
       />
     </>
   );

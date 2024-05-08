@@ -24,7 +24,12 @@ const wrapper = ({ children }) => (
 );
 
 const renderComponent = () => (render(
-  <RoutingListForm onSubmit={jest.fn()} />,
+  <RoutingListForm
+    initialValues={{
+      userIds: ['1'],
+    }}
+    onSubmit={jest.fn()}
+  />,
   { wrapper },
 ));
 

@@ -26,10 +26,6 @@ jest.mock('@folio/stripes-acq-components', () => ({
 const mockCreateMocking = jest.fn();
 
 jest.mock('../hooks', () => ({
-  useRoutingList: jest.fn().mockReturnValue({
-    routingList: {},
-    isLoading: false,
-  }),
   useRoutingListMutation: jest.fn(),
 }));
 
