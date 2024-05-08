@@ -5,7 +5,7 @@ import {
   useOkapiKy,
 } from '@folio/stripes/core';
 
-import { ROUTING_LIST_API } from '../../../common/constants';
+import { ROUTING_LIST_API } from '../../../constants';
 
 const DEFAULT_ROUTING_LIST = {};
 

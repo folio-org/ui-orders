@@ -10,7 +10,7 @@ import {
   useRoutingList,
   useRoutingListMutation,
 } from '../hooks';
-import { EditRoutingListFormContainer } from './EditRoutingListFormContainer';
+import { RoutingListEdit } from './RoutingListEdit';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -30,6 +30,7 @@ const mockUpdateListing = jest.fn();
 const mockDeleteListing = jest.fn();
 
 jest.mock('../hooks', () => ({
+  useGoBack: jest.fn(),
   useRoutingList: jest.fn().mockReturnValue({
     routingList: {},
     isLoading: false,
@@ -44,11 +45,11 @@ const wrapper = ({ children }) => (
 );
 
 const renderComponent = () => render(
-  <EditRoutingListFormContainer />,
+  <RoutingListEdit />,
   { wrapper },
 );
 
-describe('EditRoutingListFormContainer', () => {
+describe('RoutingListEdit', () => {
   const showCalloutMock = jest.fn();
 
   beforeEach(() => {
@@ -61,8 +62,8 @@ describe('EditRoutingListFormContainer', () => {
       isLoading: false,
     });
     useRoutingListMutation.mockClear().mockReturnValue({
-      deleteListing: mockDeleteListing,
-      updateListing: mockUpdateListing,
+      deleteRoutingList: mockDeleteListing,
+      updateRoutingList: mockUpdateListing,
       isDeleting: false,
       isUpdating: false,
     });
@@ -101,13 +102,13 @@ describe('EditRoutingListFormContainer', () => {
   });
 
   it('should return error message when create routing list failed', async () => {
-    let updateListingOptions = {};
-    const updateListing = jest.fn().mockImplementation((_, options) => {
-      updateListingOptions = options;
+    let updateRoutingListOptions = {};
+    const updateRoutingList = jest.fn().mockImplementation((_, options) => {
+      updateRoutingListOptions = options;
     });
 
     useRoutingListMutation.mockClear().mockReturnValue({
-      updateListing,
+      updateRoutingList,
     });
 
     useRoutingList.mockClear().mockReturnValue({
@@ -127,7 +128,7 @@ describe('EditRoutingListFormContainer', () => {
 
     await user.click(saveBtn);
 
-    updateListingOptions.onError({
+    updateRoutingListOptions.onError({
       response: {
         json: jest.fn().mockResolvedValue({
           errors: [{ code: UNIQUE_NAME_ERROR_CODE }],
@@ -135,6 +136,6 @@ describe('EditRoutingListFormContainer', () => {
       },
     });
 
-    expect(updateListing).toHaveBeenCalled();
+    expect(updateRoutingList).toHaveBeenCalled();
   });
 });

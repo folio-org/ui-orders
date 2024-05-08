@@ -19,7 +19,6 @@ import {
   Col,
   ExpandAllButton,
   HasCommand,
-  Layer,
   Pane,
   PaneFooter,
   PaneHeader,
@@ -35,7 +34,7 @@ import { AppIcon } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
-import { RoutingListUsers } from './RoutingListUsers/RoutingListUsers';
+import { RoutingListUsers } from '../RoutingListUsers';
 
 const RoutingListForm = (props) => {
   const accordionStatusRef = useRef();
@@ -133,64 +132,60 @@ const RoutingListForm = (props) => {
       isWithinScope={checkScope}
       scope={document.body}
     >
-      <Paneset>
-        <Layer isOpen>
-          <Paneset isRoot>
-            <Pane
-              id="routing-list-pane"
-              appIcon={<AppIcon app="orders" appIconKey="orders" />}
-              defaultWidth="fill"
-              renderHeader={renderHeader}
-              footer={renderFooter()}
-            >
-              <form id="routing-list-form">
-                <AccordionStatus>
-                  <Row end="xs">
-                    <Col data-test-expand-all>
-                      <ExpandAllButton />
+      <Paneset isRoot>
+        <Pane
+          id="routing-list-pane"
+          appIcon={<AppIcon app="orders" appIconKey="orders" />}
+          defaultWidth="fill"
+          renderHeader={renderHeader}
+          footer={renderFooter()}
+        >
+          <form id="routing-list-form">
+            <AccordionStatus>
+              <Row end="xs">
+                <Col data-test-expand-all>
+                  <ExpandAllButton />
+                </Col>
+              </Row>
+              <AccordionSet>
+                <Accordion label={formatMessage({ id: 'ui-orders.routing.list.generalInformation' })}>
+                  <AccordionSet>
+                    {metadata && <ViewMetaData metadata={metadata} />}
+                  </AccordionSet>
+                  <Row>
+                    <Col xs={12}>
+                      <Field
+                        label={formatMessage({ id: 'ui-orders.routing.list.name' })}
+                        name="name"
+                        id="input-routing-list-name"
+                        component={TextField}
+                        required
+                        validate={validateRequired}
+                      />
+                    </Col>
+                    <Col xs={12}>
+                      <Field
+                        label={formatMessage({ id: 'ui-orders.routing.list.notes' })}
+                        name="notes"
+                        id="input-routing-list-notes"
+                        component={TextArea}
+                      />
                     </Col>
                   </Row>
-                  <AccordionSet>
-                    <Accordion label={formatMessage({ id: 'ui-orders.routing.list.generalInformation' })}>
-                      <AccordionSet>
-                        {metadata && <ViewMetaData metadata={metadata} />}
-                      </AccordionSet>
-                      <Row>
-                        <Col xs={12}>
-                          <Field
-                            label={formatMessage({ id: 'ui-orders.routing.list.name' })}
-                            name="name"
-                            id="input-routing-list-name"
-                            component={TextField}
-                            required
-                            validate={validateRequired}
-                          />
-                        </Col>
-                        <Col xs={12}>
-                          <Field
-                            label={formatMessage({ id: 'ui-orders.routing.list.notes' })}
-                            name="notes"
-                            id="input-routing-list-notes"
-                            component={TextArea}
-                          />
-                        </Col>
-                      </Row>
-                    </Accordion>
-                    <Accordion label={formatMessage({ id: 'ui-orders.routing.list.users' })}>
-                      <Field
-                        component={RoutingListUsers}
-                        name="userIds"
-                        onAddUsers={onAddUsers}
-                        userIds={values.userIds}
-                        canEdit
-                      />
-                    </Accordion>
-                  </AccordionSet>
-                </AccordionStatus>
-              </form>
-            </Pane>
-          </Paneset>
-        </Layer>
+                </Accordion>
+                <Accordion label={formatMessage({ id: 'ui-orders.routing.list.users' })}>
+                  <Field
+                    component={RoutingListUsers}
+                    name="userIds"
+                    onAddUsers={onAddUsers}
+                    userIds={values.userIds}
+                    editable
+                  />
+                </Accordion>
+              </AccordionSet>
+            </AccordionStatus>
+          </form>
+        </Pane>
       </Paneset>
     </HasCommand>
   );

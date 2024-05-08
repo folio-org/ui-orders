@@ -10,8 +10,8 @@ import user from '@folio/jest-config-stripes/testing-library/user-event';
 import {
   useRoutingList,
   useRoutingListMutation,
-} from './hooks';
-import { RoutingList } from './RoutingList';
+} from '../hooks';
+import { RoutingListView } from './RoutingListView';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -26,15 +26,15 @@ jest.mock('@folio/stripes-acq-components', () => ({
   }),
 }));
 
-jest.mock('./hooks', () => ({
+jest.mock('../hooks', () => ({
   useRoutingList: jest.fn().mockReturnValue({
     routingList: {},
     isLoading: false,
   }),
   useRoutingListMutation: jest.fn().mockReturnValue({
-    createListing: jest.fn(),
-    deleteListing: jest.fn(),
-    updateListing: jest.fn(),
+    createRoutingList: jest.fn(),
+    deleteRoutingList: jest.fn(),
+    updateRoutingList: jest.fn(),
     isCreating: false,
     isDeleting: false,
     isUpdating: false,
@@ -48,7 +48,7 @@ const wrapper = ({ children }) => (
 );
 
 const renderComponent = () => (render(
-  <RoutingList />,
+  <RoutingListView />,
   { wrapper },
 ));
 
@@ -60,7 +60,7 @@ const mockRoutingList = {
   userIds: ['1', '2'],
 };
 
-describe('RoutingList', () => {
+describe('RoutingListView', () => {
   beforeEach(() => {
     useRoutingList.mockClear().mockReturnValue({
       routingList: mockRoutingList,
@@ -97,7 +97,7 @@ describe('RoutingList', () => {
     const mockDeleteListing = jest.fn();
 
     useRoutingListMutation.mockClear().mockReturnValue({
-      deleteListing: mockDeleteListing,
+      deleteRoutingList: mockDeleteListing,
     });
     useRoutingList.mockClear().mockReturnValue({
       isLoading: false,

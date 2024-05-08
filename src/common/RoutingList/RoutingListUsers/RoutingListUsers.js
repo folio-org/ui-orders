@@ -1,11 +1,12 @@
 import {
   useCallback,
   useMemo,
+  useState,
 } from 'react';
 import {
-  get,
   keyBy,
   map,
+  noop,
 } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -22,56 +23,32 @@ import {
   Button,
   Col,
   ConfirmationModal,
-  Icon,
   List,
   Loading,
   Row,
 } from '@folio/stripes/components';
-import { getFullName } from '@folio/stripes/util';
 
-const renderItem = ({ canRemove, user, onRemoveUser }) => {
-  const { id, personal } = user;
-  const address = get(personal, 'addresses[0].addressLine1', '');
-
-  return (
-    <li key={id}>
-      {getFullName(user)} - {address}
-      {
-        canRemove && (
-          <Button
-            buttonStyle="fieldControl"
-            align="end"
-            type="button"
-            id={`clickable-remove-user-${id}`}
-            onClick={() => onRemoveUser(id)}
-          >
-            <Icon icon="times-circle" />
-          </Button>
-        )
-      }
-    </li>
-  );
-};
+import { RoutingListUserItem } from './RoutingListUserItem';
 
 export const RoutingListUsers = ({
-  canEdit,
+  editable,
   onAddUsers,
   userIds,
 }) => {
   const stripes = useStripes();
-  const [isAddUserModalVisible, toggleAddUsersModal] = useToggle(false);
-  const [isUnAssignUsersModalVisible, toggleUnAssignUsersModal] = useToggle(false);
+  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false);
+  const [isUnassignUsersModalVisible, toggleUnassignUsersModal] = useToggle(false);
 
   const { isLoading, users } = useUsersBatch(userIds, { keepPreviousData: true });
 
   const onSelectUsers = useCallback((selectedUsers) => {
-    toggleAddUsersModal();
-    const newUserIds = map(selectedUsers.filter(({ id }) => !userIds.includes(id)), 'id');
+    setIsAddUserModalVisible(false);
+    const newUserIds = map(selectedUsers.filter(({ id }) => !userIds?.includes(id)), 'id');
 
     if (newUserIds.length) {
       onAddUsers([...userIds, ...newUserIds]);
     }
-  }, [onAddUsers, toggleAddUsersModal, userIds]);
+  }, [onAddUsers, userIds]);
 
   const onRemoveUser = useCallback((userId) => {
     onAddUsers(userIds.filter((id) => id !== userId));
@@ -79,14 +56,20 @@ export const RoutingListUsers = ({
 
   const onUnassignAllUsers = useCallback(() => {
     onAddUsers([]);
-    toggleUnAssignUsersModal();
-  }, [onAddUsers, toggleUnAssignUsersModal]);
+    toggleUnassignUsersModal();
+  }, [onAddUsers, toggleUnassignUsersModal]);
 
   const selectedUsersMap = useMemo(() => (userIds?.length ? keyBy(users, 'id') : {}), [users, userIds]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  const renderItem = useCallback((user) => (
+    <RoutingListUserItem
+      canRemove={editable}
+      onRemove={onRemoveUser}
+      user={user}
+    />
+  ), [editable, onRemoveUser]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
@@ -96,26 +79,21 @@ export const RoutingListUsers = ({
             items={userIds?.length ? users : []}
             listStyle="default"
             marginBottom0
-            itemFormatter={user => renderItem({
-              user,
-              onRemoveUser,
-              canRemove: canEdit,
-            })}
+            itemFormatter={renderItem}
             isEmptyMessage={<FormattedMessage id="ui-orders.routing.list.users.empty" />}
           />
         </Col>
       </Row>
       {
-        canEdit && (
+        editable && (
           <Row>
             <Col xs={12}>
-              <br />
               <Button
                 type="button"
                 align="end"
                 bottomMargin0
                 id="clickable-add-permission"
-                onClick={toggleAddUsersModal}
+                onClick={() => setIsAddUserModalVisible(true)}
               >
                 <FormattedMessage id="ui-orders.routing.list.addUsers" />
               </Button>
@@ -123,9 +101,9 @@ export const RoutingListUsers = ({
                 type="button"
                 align="end"
                 bottomMargin0
-                disabled={!users?.length}
+                disabled={!userIds?.length}
                 id="clickable-remove-all-permissions"
-                onClick={toggleUnAssignUsersModal}
+                onClick={toggleUnassignUsersModal}
               >
                 <FormattedMessage id="ui-orders.routing.list.removeUsers" />
               </Button>
@@ -134,13 +112,13 @@ export const RoutingListUsers = ({
               aria-haspopup="true"
               openWhen={isAddUserModalVisible}
               dataKey="users"
-              renderTrigger={() => null}
+              renderTrigger={noop}
               searchButtonStyle="default"
               searchLabel={<FormattedMessage id="ui-orders.routing.list.addUsers" />}
               stripes={stripes}
               type="find-user"
               selectUsers={onSelectUsers}
-              closeCB={toggleAddUsersModal}
+              closeCB={() => setIsAddUserModalVisible(false)}
               initialSelectedUsers={selectedUsersMap}
               showCreateUserButton
             >
@@ -151,23 +129,23 @@ export const RoutingListUsers = ({
       }
 
       <ConfirmationModal
-        open={isUnAssignUsersModalVisible}
+        open={isUnassignUsersModalVisible}
         heading={<FormattedMessage id="ui-orders.routing.list.create.unassign.confirm-heading" />}
         message={<FormattedMessage id="ui-orders.routing.list.create.unassign.confirm-message" />}
         onConfirm={onUnassignAllUsers}
         confirmLabel={<FormattedMessage id="ui-orders.routing.list.create.unassign.confirm-continue" />}
-        onCancel={toggleUnAssignUsersModal}
+        onCancel={toggleUnassignUsersModal}
       />
     </>
   );
 };
 
 RoutingListUsers.propTypes = {
-  canEdit: PropTypes.bool,
-  onAddUsers: PropTypes.func.isRequired,
+  editable: PropTypes.bool,
+  onAddUsers: PropTypes.func,
   userIds: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 RoutingListUsers.defaultProps = {
-  canEdit: false,
+  editable: false,
 };

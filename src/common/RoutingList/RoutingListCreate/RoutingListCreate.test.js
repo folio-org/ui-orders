@@ -7,7 +7,7 @@ import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { UNIQUE_NAME_ERROR_CODE } from '../constants';
 import { useRoutingListMutation } from '../hooks';
-import { CreateRoutingListFormContainer } from './CreateRoutingListFormContainer';
+import { RoutingListCreate } from './RoutingListCreate';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -27,6 +27,7 @@ const mockCreateMocking = jest.fn();
 
 jest.mock('../hooks', () => ({
   useRoutingListMutation: jest.fn(),
+  useGoBack: jest.fn(),
 }));
 
 const wrapper = ({ children }) => (
@@ -36,16 +37,16 @@ const wrapper = ({ children }) => (
 );
 
 const renderComponent = () => render(
-  <CreateRoutingListFormContainer />,
+  <RoutingListCreate />,
   { wrapper },
 );
 
-describe('CreateRoutingListFormContainer', () => {
+describe('RoutingListCreate', () => {
   const showCalloutMock = jest.fn();
 
   beforeEach(() => {
     useRoutingListMutation.mockClear().mockReturnValue({
-      createListing: mockCreateMocking,
+      createRoutingList: mockCreateMocking,
       isCreating: false,
     });
     showCalloutMock.mockClear();
@@ -75,13 +76,13 @@ describe('CreateRoutingListFormContainer', () => {
   });
 
   it('should return error message when create routing list failed', async () => {
-    let createListingOptions = {};
-    const createListing = jest.fn().mockImplementation((_, options) => {
-      createListingOptions = options;
+    let createRoutingListOptions = {};
+    const createRoutingList = jest.fn().mockImplementation((_, options) => {
+      createRoutingListOptions = options;
     });
 
     useRoutingListMutation.mockClear().mockReturnValue({
-      createListing,
+      createRoutingList,
     });
 
     renderComponent();
@@ -96,7 +97,7 @@ describe('CreateRoutingListFormContainer', () => {
 
     await user.click(saveBtn);
 
-    createListingOptions.onError({
+    createRoutingListOptions.onError({
       response: {
         json: jest.fn().mockResolvedValue({
           errors: [{ code: UNIQUE_NAME_ERROR_CODE }],
@@ -104,6 +105,6 @@ describe('CreateRoutingListFormContainer', () => {
       },
     });
 
-    expect(createListing).toHaveBeenCalled();
+    expect(createRoutingList).toHaveBeenCalled();
   });
 });

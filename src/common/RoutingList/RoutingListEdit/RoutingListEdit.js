@@ -1,9 +1,5 @@
-import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  useHistory,
-  useParams,
-} from 'react-router';
+import { useParams } from 'react-router';
 
 import {
   useShowCallout,
@@ -14,61 +10,51 @@ import {
   LoadingView,
 } from '@folio/stripes/components';
 
-import { UNIQUE_NAME_ERROR_CODE } from '../constants';
 import {
+  useGoBack,
   useRoutingList,
   useRoutingListMutation,
 } from '../hooks';
-import RoutingListForm from '../RoutingListForm';
+import { RoutingListForm } from '../RoutingListForm';
+import { handleRoutingListError } from '../utils';
 
-export const EditRoutingListFormContainer = () => {
+export const RoutingListEdit = () => {
   const showCallout = useShowCallout();
-  const history = useHistory();
   const { id } = useParams();
   const { routingList, isLoading } = useRoutingList(id);
-  const { deleteListing, updateListing } = useRoutingListMutation();
+  const onClose = useGoBack(routingList?.poLineId);
+  const { deleteRoutingList, updateRoutingList } = useRoutingListMutation();
 
   const [isDeleteConfirmationVisible, toggleDeleteConfirmation] = useToggle(false);
 
-  const onClose = useCallback(() => {
-    history.goBack();
-  }, [history]);
-
-  const onMutationSuccess = useCallback((messageId = 'ui-orders.routing.list.update.success') => {
+  const onMutationSuccess = (messageId = 'ui-orders.routing.list.update.success') => {
     onClose();
     showCallout({ messageId });
-  }, [onClose, showCallout]);
-
-  const onMutationError = useCallback(async (error, messageId) => {
-    const errorResponse = await error.response.json();
-    const errorCode = errorResponse.errors[0]?.code;
-    let errorMessage = messageId;
-
-    if (errorCode === UNIQUE_NAME_ERROR_CODE) {
-      errorMessage = 'ui-orders.routing.list.create.error.nameMustBeUnique';
-    }
-
-    showCallout({
-      messageId: errorMessage,
-      type: 'error',
-    });
-  }, [showCallout]);
+  };
 
   const onDelete = async () => {
     toggleDeleteConfirmation();
-    await deleteListing(
+    await deleteRoutingList(
       routingList.id,
       {
         onSuccess: () => onMutationSuccess('ui-orders.routing.list.delete.success'),
-        onError: () => onMutationError('ui-orders.routing.list.delete.error'),
+        onError: (error) => handleRoutingListError({
+          error,
+          showCallout,
+          messageId: 'ui-orders.routing.list.delete.error',
+        }),
       },
     );
   };
 
   const onSubmit = (values) => {
-    return updateListing(values, {
+    return updateRoutingList(values, {
       onSuccess: () => onMutationSuccess('ui-orders.routing.list.update.success'),
-      onError: (error) => onMutationError(error, 'ui-orders.routing.list.update.error'),
+      onError: (error) => handleRoutingListError({
+        error,
+        showCallout,
+        messageId: 'ui-orders.routing.list.update.error',
+      }),
     });
   };
 

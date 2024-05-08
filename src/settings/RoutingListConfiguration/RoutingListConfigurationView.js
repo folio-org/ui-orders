@@ -43,14 +43,14 @@ const RoutingListConfigurationView = (props) => {
   } = props;
 
   const emailTemplate = get(listConfig, 'localizedTemplates.en.body', '');
-  const canEdit = stripes.hasPerm('ui-orders.settings.all');
+  const editable = stripes.hasPerm('ui-orders.settings.all');
   const onEdit = () => history.push(`${location.pathname}/edit`);
 
   const editIcon = (
     <Button
       buttonStyle="primary"
       onClick={onEdit}
-      disabled={!canEdit}
+      disabled={!editable}
       marginBottom0
     >
       <FormattedMessage id="stripes-core.button.edit" />

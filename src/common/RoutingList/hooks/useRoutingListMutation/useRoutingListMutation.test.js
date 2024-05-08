@@ -9,7 +9,7 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { ROUTING_LIST_API } from '../../../common/constants';
+import { ROUTING_LIST_API } from '../../../constants';
 import { useRoutingListMutation } from './useRoutingListMutation';
 
 jest.mock('@folio/stripes/core', () => ({
@@ -46,19 +46,19 @@ describe('useRoutingListMutation', () => {
       });
   });
 
-  it('should call `createListing` mutation', async () => {
+  it('should call `createRoutingList` mutation', async () => {
     const { result } = renderHook(() => useRoutingListMutation(), { wrapper });
 
-    await result.current.createListing(values);
+    await result.current.createRoutingList(values);
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(postMock).toHaveBeenCalledWith(ROUTING_LIST_API, expect.objectContaining({}));
   });
 
-  it('should call `updateListing` mutation', async () => {
+  it('should call `updateRoutingList` mutation', async () => {
     const { result } = renderHook(() => useRoutingListMutation(), { wrapper });
 
-    await result.current.updateListing(values);
+    await result.current.updateRoutingList(values);
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(putMock).toHaveBeenCalledWith(`${ROUTING_LIST_API}/${values.id}`, expect.objectContaining({
@@ -66,10 +66,10 @@ describe('useRoutingListMutation', () => {
     }));
   });
 
-  it('should call `deleteListing` mutation', async () => {
+  it('should call `deleteRoutingList` mutation', async () => {
     const { result } = renderHook(() => useRoutingListMutation(), { wrapper });
 
-    await result.current.deleteListing(values.id);
+    await result.current.deleteRoutingList(values.id);
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
     expect(deleteMock).toHaveBeenCalledWith(`${ROUTING_LIST_API}/${values.id}`);

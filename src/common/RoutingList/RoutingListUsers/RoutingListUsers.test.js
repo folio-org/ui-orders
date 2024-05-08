@@ -28,7 +28,7 @@ const wrapper = ({ children }) => (
 
 const renderComponent = (props = {}) => (render(
   <RoutingListUsers
-    canEdit
+    editable
     onAddUsers={() => {}}
     userIds={['1']}
     {...props}
@@ -66,8 +66,8 @@ describe('RoutingListUsers', () => {
     expect(mockOnAddUsers).toHaveBeenCalled();
   });
 
-  it('should not render add users button if `canEdit` is false', () => {
-    renderComponent({ canEdit: false });
+  it('should not render add users button if `editable` is false', () => {
+    renderComponent({ editable: false });
 
     expect(screen.queryByText('ui-orders.routing.list.addUsers')).toBeNull();
   });

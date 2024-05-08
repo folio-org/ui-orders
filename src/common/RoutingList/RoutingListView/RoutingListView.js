@@ -1,15 +1,6 @@
-import {
-  useCallback,
-  useRef,
-} from 'react';
-import {
-  FormattedMessage,
-  useIntl,
-} from 'react-intl';
-import {
-  useHistory,
-  useParams,
-} from 'react-router';
+import { useRef } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useParams } from 'react-router';
 
 import {
   handleKeyCommand,
@@ -38,30 +29,26 @@ import { AppIcon, IfPermission } from '@folio/stripes/core';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import {
+  useGoBack,
   useRoutingList,
   useRoutingListMutation,
-} from './hooks';
-import { RoutingListUsers } from './RoutingListUsers/RoutingListUsers';
+} from '../hooks';
+import { RoutingListUsers } from '../RoutingListUsers';
 
-export const RoutingList = () => {
+export const RoutingListView = () => {
   const accordionStatusRef = useRef();
-  const history = useHistory();
   const showCallout = useShowCallout();
-  const intl = useIntl();
   const { id } = useParams();
 
   const [isDeleteConfirmationVisible, toggleDeleteConfirmation] = useToggle(false);
 
   const { routingList, isLoading } = useRoutingList(id);
-  const { deleteListing } = useRoutingListMutation();
-
-  const onClose = useCallback(() => {
-    history.goBack();
-  }, [history]);
+  const { deleteRoutingList } = useRoutingListMutation();
+  const onClose = useGoBack(routingList?.poLineId);
 
   const onDelete = async () => {
     toggleDeleteConfirmation();
-    await deleteListing(
+    await deleteRoutingList(
       routingList.id,
       {
         onSuccess: () => {
@@ -155,7 +142,7 @@ export const RoutingList = () => {
             </Col>
           </Row>
           <AccordionSet>
-            <Accordion label={intl.formatMessage({ id: 'ui-orders.routing.list.generalInformation' })}>
+            <Accordion label={<FormattedMessage id="ui-orders.routing.list.generalInformation" />}>
               <AccordionSet>
                 {routingList.metadata && <ViewMetaData metadata={routingList.metadata} />}
               </AccordionSet>
@@ -174,7 +161,7 @@ export const RoutingList = () => {
                 </Col>
               </Row>
             </Accordion>
-            <Accordion label={intl.formatMessage({ id: 'ui-orders.routing.list.users' })}>
+            <Accordion label={<FormattedMessage id="ui-orders.routing.list.users" />}>
               <RoutingListUsers userIds={routingList.userIds} />
             </Accordion>
           </AccordionSet>
