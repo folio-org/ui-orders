@@ -60,6 +60,9 @@
       "titles": "1.2",
       "users": "15.0 16.0"
     },
+    "optionalOkapiInterfaces": {
+      "consortia": "1.0"
+    },
     "queryResource": "query",
     "icons": [
       {
@@ -179,7 +182,10 @@
           "organizations.organizations.collection.get",
           "organizations-storage.organization-types.collection.get",
           "ui-orders.third-party-services",
-          "ui-orders.custom-fields.view"
+          "ui-orders.custom-fields.view",
+          "consortia.publications.item.get",
+          "consortia.publications.item.post",
+          "consortia.publications-results.item.get"
         ]
       },
       {

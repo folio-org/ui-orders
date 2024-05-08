@@ -3,6 +3,11 @@ import { OrderLinesFilters } from '@folio/plugin-find-po-line';
 
 import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingSettings: jest.fn(() => ({ enabled: true })),
+}));
+
 jest.mock('@folio/plugin-find-po-line/FindPOLine/OrderLinesFilters', () => ({
   OrderLinesFilters: jest.fn().mockReturnValue('OrderLinesFilters'),
 }));
