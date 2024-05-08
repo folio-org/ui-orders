@@ -131,8 +131,6 @@ describe('RoutingListView', () => {
 
     renderComponent();
 
-    screen.debug(undefined, 400000);
-
     await user.click(screen.getByLabelText('stripes-components.closeItem'));
 
     expect(mockGoBack).toHaveBeenCalled();
