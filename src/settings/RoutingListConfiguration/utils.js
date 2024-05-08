@@ -1,4 +1,7 @@
-import { get } from 'lodash';
+import {
+  get,
+  isEmpty,
+} from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 export const validateRoutingListConfigurationForm = (values) => {
@@ -6,7 +9,7 @@ export const validateRoutingListConfigurationForm = (values) => {
   const body = get(localizedTemplates, 'en.body', '');
   const EMPTY_TEMPLATE_CONTENT = '<div><br></div>';
 
-  if (body === EMPTY_TEMPLATE_CONTENT) {
+  if (isEmpty(body) || body === EMPTY_TEMPLATE_CONTENT) {
     return {
       localizedTemplates: {
         en: {

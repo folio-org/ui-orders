@@ -10,6 +10,7 @@
 * Settings - implement Routing address configuration. Refs UIOR-1261.
 * Implement Routing lists accordion. Refs UIOR-1109.
 * Apply code refactoring for custom fields. Refs UIOR-1265.
+* Filter order lines by location or holding when central ordering is enabled. Refs UIOR-1267.
 * Create routing list modal. Refs UIOR-1191.
 * Add Users to routing list. Refs UIOR-1111.
 

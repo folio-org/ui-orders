@@ -780,7 +780,7 @@
   "settings.routing.listConfiguration.templateContent": "Template content",
   "settings.routing.listConfiguration.previewHeader": "Preview of routing list configuration",
   "settings.routing.listConfiguration.body": "Body",
-  "settings.routing.listConfiguration.body.required": "Required!",
+  "settings.routing.listConfiguration.body.required": "Body is required",
   "settings.routing.listConfiguration.tokens.routing": "Routing",
   "settings.routing.listConfiguration.preview.button": "Preview",
   "settings.routing.listConfiguration.preview.display": "Display",
