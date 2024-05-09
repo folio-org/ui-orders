@@ -41,7 +41,7 @@ import {
   ROUTING_LIST_ROUTE,
 } from './common/constants';
 import { Notes } from './common/Notes';
-import { RoutingList } from './common/RoutingList';
+import { RoutingList } from './components/POLine';
 
 const Orders = ({ match, location, showSettings }) => {
   const [isOpen, toggleModal] = useModalToggle();

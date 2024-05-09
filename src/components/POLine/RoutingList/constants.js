@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl';
-import { ROUTING_LIST_ROUTE } from '../constants';
+import { ROUTING_LIST_ROUTE } from '../../../common/constants';
 
 export const VISIBLE_COLUMNS = ['name'];
 
