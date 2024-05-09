@@ -9,7 +9,7 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { ROUTING_LIST_API } from '../../../constants';
+import { ROUTING_LIST_API } from '../../../../../common/constants';
 import { useRoutingListMutation } from './useRoutingListMutation';
 
 jest.mock('@folio/stripes/core', () => ({

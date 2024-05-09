@@ -1,6 +1,7 @@
 import { useMutation } from 'react-query';
 
 import { useOkapiKy } from '@folio/stripes/core';
+
 import { ROUTING_LIST_API } from '../../../../../common/constants';
 
 export const useRoutingListMutation = () => {
