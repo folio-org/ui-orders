@@ -162,7 +162,7 @@ export const RoutingListView = () => {
               </Row>
             </Accordion>
             <Accordion label={<FormattedMessage id="ui-orders.routing.list.users" />}>
-              <RoutingListUsers userIds={routingList.userIds} />
+              <RoutingListUsers ids={routingList.userIds} />
             </Accordion>
           </AccordionSet>
         </AccordionStatus>

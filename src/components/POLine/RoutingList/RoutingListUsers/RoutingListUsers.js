@@ -33,33 +33,33 @@ import { RoutingListUserItem } from './RoutingListUserItem';
 export const RoutingListUsers = ({
   editable,
   onAddUsers,
-  userIds,
+  ids,
 }) => {
   const stripes = useStripes();
   const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false);
   const [isUnassignUsersModalVisible, toggleUnassignUsersModal] = useToggle(false);
 
-  const { isLoading, users } = useUsersBatch(userIds, { keepPreviousData: true });
+  const { isLoading, users } = useUsersBatch(ids, { keepPreviousData: true });
 
   const onSelectUsers = useCallback((selectedUsers) => {
     setIsAddUserModalVisible(false);
-    const newUserIds = map(selectedUsers.filter(({ id }) => !userIds?.includes(id)), 'id');
+    const newUserIds = map(selectedUsers.filter(({ id }) => !ids?.includes(id)), 'id');
 
     if (newUserIds.length) {
-      onAddUsers([...userIds, ...newUserIds]);
+      onAddUsers([...ids, ...newUserIds]);
     }
-  }, [onAddUsers, userIds]);
+  }, [onAddUsers, ids]);
 
   const onRemoveUser = useCallback((userId) => {
-    onAddUsers(userIds.filter((id) => id !== userId));
-  }, [onAddUsers, userIds]);
+    onAddUsers(ids.filter((id) => id !== userId));
+  }, [onAddUsers, ids]);
 
   const onUnassignAllUsers = useCallback(() => {
     onAddUsers([]);
     toggleUnassignUsersModal();
   }, [onAddUsers, toggleUnassignUsersModal]);
 
-  const selectedUsersMap = useMemo(() => (userIds?.length ? keyBy(users, 'id') : {}), [users, userIds]);
+  const selectedUsersMap = useMemo(() => (ids?.length ? keyBy(users, 'id') : {}), [users, ids]);
 
   const renderItem = useCallback((user) => (
     <RoutingListUserItem
@@ -76,7 +76,7 @@ export const RoutingListUsers = ({
       <Row>
         <Col xs={12}>
           <List
-            items={userIds?.length ? users : []}
+            items={ids?.length ? users : []}
             listStyle="default"
             marginBottom0
             itemFormatter={renderItem}
@@ -101,7 +101,7 @@ export const RoutingListUsers = ({
                 type="button"
                 align="end"
                 bottomMargin0
-                disabled={!userIds?.length}
+                disabled={!ids?.length}
                 id="clickable-remove-all-permissions"
                 onClick={toggleUnassignUsersModal}
               >
@@ -143,7 +143,7 @@ export const RoutingListUsers = ({
 RoutingListUsers.propTypes = {
   editable: PropTypes.bool,
   onAddUsers: PropTypes.func,
-  userIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ids: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 RoutingListUsers.defaultProps = {

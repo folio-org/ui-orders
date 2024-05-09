@@ -30,7 +30,7 @@ const renderComponent = (props = {}) => (render(
   <RoutingListUsers
     editable
     onAddUsers={() => {}}
-    userIds={['1']}
+    ids={['1']}
     {...props}
   />,
   { wrapper },

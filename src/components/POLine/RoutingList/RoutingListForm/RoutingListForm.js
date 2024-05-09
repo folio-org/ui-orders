@@ -178,7 +178,7 @@ const RoutingListForm = (props) => {
                     component={RoutingListUsers}
                     name="userIds"
                     onAddUsers={onAddUsers}
-                    userIds={values.userIds}
+                    ids={values.userIds}
                     editable
                   />
                 </Accordion>
