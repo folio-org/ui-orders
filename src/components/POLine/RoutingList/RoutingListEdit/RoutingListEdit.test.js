@@ -26,8 +26,8 @@ jest.mock('@folio/stripes-acq-components', () => ({
   }),
 }));
 
-const mockUpdateListing = jest.fn();
-const mockDeleteListing = jest.fn();
+const mockUpdateList = jest.fn();
+const mockDeleteList = jest.fn();
 
 jest.mock('../hooks', () => ({
   useGoBack: jest.fn(),
@@ -62,8 +62,8 @@ describe('RoutingListEdit', () => {
       isLoading: false,
     });
     useRoutingListMutation.mockClear().mockReturnValue({
-      deleteRoutingList: mockDeleteListing,
-      updateRoutingList: mockUpdateListing,
+      deleteRoutingList: mockDeleteList,
+      updateRoutingList: mockUpdateList,
       isDeleting: false,
       isUpdating: false,
     });
@@ -98,7 +98,7 @@ describe('RoutingListEdit', () => {
 
     await user.click(saveBtn);
 
-    expect(mockUpdateListing).toHaveBeenCalled();
+    expect(mockUpdateList).toHaveBeenCalled();
   });
 
   it('should return error message when create routing list failed', async () => {

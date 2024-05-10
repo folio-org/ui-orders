@@ -73,7 +73,7 @@ describe('RoutingListView', () => {
   it('should render component when `useRoutingListById` hook `isLoading` is false', () => {
     renderComponent();
 
-    expect(screen.getByText('ui-orders.routing.list.name')).toBeDefined();
+    expect(screen.getByText('ui-orders.routing.list.name')).toBeInTheDocument();
   });
 
   it('should render Loading when `useRoutingList` hook is `isLoading`', () => {
@@ -81,7 +81,7 @@ describe('RoutingListView', () => {
 
     renderComponent();
 
-    expect(screen.getByText('Loading')).toBeDefined();
+    expect(screen.getByText('Loading')).toBeInTheDocument();
   });
 
   it('should render routingList data', () => {
@@ -92,7 +92,7 @@ describe('RoutingListView', () => {
 
     renderComponent();
 
-    expect(screen.getByText('ui-orders.routing.list.users')).toBeDefined();
+    expect(screen.getByText('ui-orders.routing.list.users')).toBeInTheDocument();
   });
 
   it('should delete a routing list data', async () => {

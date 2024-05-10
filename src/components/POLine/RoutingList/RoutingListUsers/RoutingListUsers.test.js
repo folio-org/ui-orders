@@ -26,21 +26,21 @@ const wrapper = ({ children }) => (
   </MemoryRouter>
 );
 
-const renderComponent = (props = {}) => (render(
+const renderComponent = (props = {}) => render(
   <RoutingListUsers
     editable
-    onAddUsers={() => {}}
+    onAddUsers={jest.fn()}
     ids={['1']}
     {...props}
   />,
   { wrapper },
-));
+);
 
 describe('RoutingListUsers', () => {
   it('should render component when `useUsersBatch` hook `isLoading` is false', () => {
     renderComponent();
 
-    expect(screen.getByText('ui-orders.routing.list.addUsers')).toBeDefined();
+    expect(screen.getByText('ui-orders.routing.list.addUsers')).toBeInTheDocument();
   });
 
   it('should render Loading component when `useUsersBatch` hook `isLoading` is true', () => {
@@ -48,7 +48,7 @@ describe('RoutingListUsers', () => {
 
     renderComponent();
 
-    expect(screen.getByText('Loading')).toBeDefined();
+    expect(screen.getByText('Loading')).toBeInTheDocument();
   });
 
   it('should delete the user on click `x` icon', async () => {
@@ -69,6 +69,6 @@ describe('RoutingListUsers', () => {
   it('should not render add users button if `editable` is false', () => {
     renderComponent({ editable: false });
 
-    expect(screen.queryByText('ui-orders.routing.list.addUsers')).toBeNull();
+    expect(screen.queryByText('ui-orders.routing.list.addUsers')).not.toBeInTheDocument();
   });
 });

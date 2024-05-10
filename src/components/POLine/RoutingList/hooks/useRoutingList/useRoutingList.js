@@ -9,7 +9,8 @@ import { ROUTING_LIST_API } from '../../../../../common/constants';
 
 const DEFAULT_ROUTING_LIST = {};
 
-export const useRoutingList = (routingListId) => {
+export const useRoutingList = (routingListId, options = {}) => {
+  const { enabled = true, ...otherOptions } = options;
   const ky = useOkapiKy();
   const [namespace] = useNamespace();
 
@@ -20,7 +21,8 @@ export const useRoutingList = (routingListId) => {
     [namespace, routingListId],
     async () => ky.get(`${ROUTING_LIST_API}/${routingListId}`).json(),
     {
-      enabled: Boolean(routingListId),
+      enabled: Boolean(enabled && routingListId),
+      ...otherOptions,
     },
   );
 

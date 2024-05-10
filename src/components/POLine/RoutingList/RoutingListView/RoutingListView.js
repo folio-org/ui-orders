@@ -28,6 +28,7 @@ import {
 import { AppIcon, IfPermission } from '@folio/stripes/core';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
+import { ROUTING_LIST_ROUTE } from '../../../../common/constants';
 import {
   useGoBack,
   useRoutingList,
@@ -69,11 +70,11 @@ export const RoutingListView = () => {
 
   const getActionMenu = () => {
     return (
-      <div>
+      <>
         <IfPermission perm="orders.routing-lists.item.put">
           <Button
             buttonStyle="dropdownItem"
-            to={`/orders/routing-lists/edit/${routingList.id}`}
+            to={`${ROUTING_LIST_ROUTE}/edit/${routingList.id}`}
           >
             <Icon icon="edit">
               <FormattedMessage id="ui-orders.routing.list.actions.edit" />
@@ -91,7 +92,7 @@ export const RoutingListView = () => {
             </Icon>
           </Button>
         </IfPermission>
-      </div>
+      </>
     );
   };
 

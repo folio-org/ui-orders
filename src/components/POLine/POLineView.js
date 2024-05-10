@@ -330,7 +330,7 @@ const POLineView = ({
     { orderNumber: poLineNumber },
   );
   const customFieldsValues = get(line, 'customFields', {});
-  const numberOfPhysicalItems = useMemo(() => {
+  const numberOfPhysicalUnits = useMemo(() => {
     return line?.locations?.reduce((acc, { quantityPhysical }) => acc + quantityPhysical, 0);
   }, [line?.locations]);
 
@@ -490,7 +490,7 @@ const POLineView = ({
                 {showRoutingList && (
                   <RoutingList
                     poLineId={line?.id}
-                    allowedNumberOfRoutingLists={numberOfPhysicalItems}
+                    allowedNumberOfRoutingLists={numberOfPhysicalUnits}
                     createButtonLabel={<FormattedMessage id="ui-orders.routing.list.accordion.create.button" />}
                   />
                 )}

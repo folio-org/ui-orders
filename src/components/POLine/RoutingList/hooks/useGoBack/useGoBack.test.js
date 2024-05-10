@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import {
   useHistory,
   useLocation,
@@ -22,8 +22,6 @@ describe('useGoBack', () => {
 
     const { result } = renderHook(() => useGoBack('test'));
 
-    await waitFor(() => expect(result.current).toBeDefined());
-
     result.current();
 
     expect(history.goBack).toHaveBeenCalled();
@@ -37,8 +35,6 @@ describe('useGoBack', () => {
     useLocation.mockReturnValue(location);
 
     const { result } = renderHook(() => useGoBack('test'));
-
-    await waitFor(() => expect(result.current).toBeDefined());
 
     result.current();
 

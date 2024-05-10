@@ -43,7 +43,8 @@ export const RoutingListUsers = ({
 
   const onSelectUsers = useCallback((selectedUsers) => {
     setIsAddUserModalVisible(false);
-    const newUserIds = map(selectedUsers.filter(({ id }) => !ids?.includes(id)), 'id');
+    const addedUserIds = new Set(ids);
+    const newUserIds = map(selectedUsers.filter(({ id }) => !addedUserIds?.has(id)), 'id');
 
     if (newUserIds.length) {
       onAddUsers([...ids, ...newUserIds]);
@@ -87,6 +88,22 @@ export const RoutingListUsers = ({
       {
         editable && (
           <Row>
+            <Pluggable
+              aria-haspopup="true"
+              openWhen={isAddUserModalVisible}
+              dataKey="users"
+              renderTrigger={noop}
+              searchButtonStyle="default"
+              searchLabel={<FormattedMessage id="ui-orders.routing.list.addUsers" />}
+              stripes={stripes}
+              type="find-user"
+              selectUsers={onSelectUsers}
+              closeCB={() => setIsAddUserModalVisible(false)}
+              initialSelectedUsers={selectedUsersMap}
+              showCreateUserButton
+            >
+              <FormattedMessage id="ui-users.routing.list.addUsers.plugin.notAvailable" />
+            </Pluggable>
             <Col xs={12}>
               <Button
                 type="button"
@@ -108,22 +125,6 @@ export const RoutingListUsers = ({
                 <FormattedMessage id="ui-orders.routing.list.removeUsers" />
               </Button>
             </Col>
-            <Pluggable
-              aria-haspopup="true"
-              openWhen={isAddUserModalVisible}
-              dataKey="users"
-              renderTrigger={noop}
-              searchButtonStyle="default"
-              searchLabel={<FormattedMessage id="ui-orders.routing.list.addUsers" />}
-              stripes={stripes}
-              type="find-user"
-              selectUsers={onSelectUsers}
-              closeCB={() => setIsAddUserModalVisible(false)}
-              initialSelectedUsers={selectedUsersMap}
-              showCreateUserButton
-            >
-              <FormattedMessage id="ui-users.routing.list.addUsers.plugin.notAvailable" />
-            </Pluggable>
           </Row>
         )
       }
