@@ -57,6 +57,7 @@ import {
   ViewMetaData,
 } from '@folio/stripes/smart-components';
 
+import { ENTITY_TYPE_PO_LINE } from '../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
@@ -684,7 +685,7 @@ function POLineForm({
                           accordionId="customFieldsPOLine"
                           backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                           changeFinalFormField={change}
-                          entityType="po_line"
+                          entityType={ENTITY_TYPE_PO_LINE}
                           fieldComponent={Field}
                           finalFormCustomFieldsValues={customFieldsValues}
                           onComponentLoad={handleCustomFieldsLoaded}

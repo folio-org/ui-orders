@@ -18,6 +18,10 @@ import {
   getExportLineFields,
   getExportOrderFields,
 } from './utils';
+import {
+  ENTITY_TYPE_ORDER,
+  ENTITY_TYPE_PO_LINE,
+} from '../constants';
 
 const ExportSettingsModalContainer = ({
   onCancel,
@@ -25,8 +29,8 @@ const ExportSettingsModalContainer = ({
   fetchOrdersAndLines,
 }) => {
   const [isExporting, setIsExporting] = useState(false);
-  const [customFieldsPO, isLoadingPO] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, 'purchase_order');
-  const [customFieldsPOL, isLoadingPOL] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, 'po_line');
+  const [customFieldsPO, isLoadingPO] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_ORDER);
+  const [customFieldsPOL, isLoadingPOL] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_PO_LINE);
   const customFields = [...customFieldsPO || [], ...customFieldsPOL || []];
   const isLoadingCustomFields = isLoadingPO || isLoadingPOL;
   const showCallout = useShowCallout();

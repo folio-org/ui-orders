@@ -56,6 +56,7 @@ import {
   ReexportModal,
 } from '../../common';
 import {
+  ENTITY_TYPE_PO_LINE,
   NOTE_TYPES,
   NOTES_ROUTE,
   ORDERS_DOMAIN,
@@ -533,7 +534,7 @@ const POLineView = ({
                   accordionId="customFieldsPOLine"
                   backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                   customFieldsValues={customFieldsValues}
-                  entityType="po_line"
+                  entityType={ENTITY_TYPE_PO_LINE}
                 />
               </AccordionSet>
             </>

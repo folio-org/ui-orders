@@ -10,6 +10,7 @@ import {
 } from '@folio/stripes-acq-components';
 import { useCustomFields } from '@folio/stripes/smart-components';
 
+import { ENTITY_TYPE_ORDER } from '../common/constants';
 import {
   ACQUISITIONS_UNITS,
   ORDERS,
@@ -60,7 +61,7 @@ const OrdersListContainer = ({ mutator }) => {
   }, []);
 
   const { pagination, changePage, refreshPage } = usePagination({ limit: RESULT_COUNT_INCREMENT, offset: 0 });
-  const [customFields, isLoadingCustomFields] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, 'purchase_order');
+  const [customFields, isLoadingCustomFields] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_ORDER);
   const { query, orders, isLoading, ordersCount } = useOrders({ pagination, fetchReferences, customFields });
 
   return (
