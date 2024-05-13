@@ -134,10 +134,10 @@ describe('RoutingListConfiguration', () => {
   });
 
   it('should display edit page and update description', async () => {
-    let updateListingOptions = {};
+    let updateRoutingListOptions = {};
     const updateMock = jest.fn().mockImplementation((_, options) => {
       console.log('options', options);
-      updateListingOptions = options;
+      updateRoutingListOptions = options;
     });
 
     useListConfigurationMutation.mockClear().mockReturnValue({
@@ -160,7 +160,7 @@ describe('RoutingListConfiguration', () => {
 
     await user.click(saveBtn);
 
-    updateListingOptions.onSuccess();
+    updateRoutingListOptions.onSuccess();
 
     expect(updateMock).toHaveBeenCalled();
     expect(refetchMock).toHaveBeenCalled();
