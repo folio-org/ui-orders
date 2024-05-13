@@ -1,10 +1,14 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
+import { useIntl } from 'react-intl';
 
-import { stripesConnect } from '@folio/stripes/core';
 import { exportToCsv } from '@folio/stripes/components';
+import { stripesConnect } from '@folio/stripes/core';
 import { useCustomFields } from '@folio/stripes/smart-components';
 import {
   CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
@@ -31,7 +35,10 @@ const ExportSettingsModalContainer = ({
   const [isExporting, setIsExporting] = useState(false);
   const [customFieldsPO, isLoadingPO] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_ORDER);
   const [customFieldsPOL, isLoadingPOL] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_PO_LINE);
-  const customFields = [...customFieldsPO || [], ...customFieldsPOL || []];
+  const customFields = useMemo(
+    () => [...(customFieldsPO || []), ...(customFieldsPOL || [])],
+    [customFieldsPO, customFieldsPOL],
+  );
   const isLoadingCustomFields = isLoadingPO || isLoadingPOL;
   const showCallout = useShowCallout();
   const intl = useIntl();
