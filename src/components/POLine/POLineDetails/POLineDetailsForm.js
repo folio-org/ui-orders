@@ -35,6 +35,8 @@ import {
   FieldPOLineDescription,
   FieldClaimingActive,
   FieldClaimingInterval,
+  FieldBinderyActive,
+  isBindaryActiveDisabled,
 } from '../../../common/POLFields';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
@@ -58,6 +60,7 @@ function POLineDetailsForm({
   const isPackage = get(formValues, 'isPackage');
 
   const isClaimingActive = Boolean(formValues?.claimingActive);
+  const orderFormat = formValues?.orderFormat;
 
   const checkinItemsFieldDisabled = (
     isPostPendingOrder
@@ -236,6 +239,14 @@ function POLineDetailsForm({
             />
           </Col>
         </IfFieldVisible>
+        <IfFieldVisible visible={!hiddenFields.details?.isBindaryActive} name="details.isBindaryActive">
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldBinderyActive disabled={isBindaryActiveDisabled(orderFormat)} />
+          </Col>
+        </IfFieldVisible>
       </Row>
 
       <Row>
@@ -271,7 +282,11 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldCheckInItems disabled={checkinItemsFieldDisabled} required />
+            <FieldCheckInItems
+              isBindaryActive={formValues?.details?.isBindaryActive}
+              disabled={checkinItemsFieldDisabled}
+              required
+            />
           </Col>
         </IfFieldVisible>
       </Row>

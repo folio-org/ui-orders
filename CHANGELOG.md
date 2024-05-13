@@ -11,6 +11,7 @@
 * Implement Routing lists accordion. Refs UIOR-1109.
 * Apply code refactoring for custom fields. Refs UIOR-1265.
 * Filter order lines by location or holding when central ordering is enabled. Refs UIOR-1267.
+* Create "Bindery active" flag in POL and order templates. Refs UIOR-1211.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

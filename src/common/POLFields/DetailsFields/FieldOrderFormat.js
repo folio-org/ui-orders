@@ -9,14 +9,16 @@ import {
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
-import {
-  ERESOURCES,
-} from '../../../components/POLine/const';
+import { ERESOURCES } from '../../../components/POLine/const';
 
 const ORDER_FORMAT_OPTIONS = Object.keys(ORDER_FORMATS).map((key) => ({
   labelId: `ui-orders.order_format.${key}`,
   value: ORDER_FORMATS[key],
 }));
+
+const OPTIONS_WITH_BINDARY_ACTIVE = ORDER_FORMAT_OPTIONS.filter(({ value }) => {
+  return value === ORDER_FORMATS.PEMix || value === ORDER_FORMATS.physicalResource;
+});
 
 function FieldOrderFormat({
   createInventorySetting,
@@ -47,7 +49,7 @@ function FieldOrderFormat({
       if (ERESOURCES.includes(value)) {
         const activationDue = get(formValues, 'eresource.activationDue');
 
-        if (activationDue === undefined && vendor && vendor.expectedActivationInterval) {
+        if (activationDue === undefined && vendor?.expectedActivationInterval) {
           change('eresource.activationDue', vendor.expectedActivationInterval);
         }
       }
@@ -60,9 +62,12 @@ function FieldOrderFormat({
     });
   };
 
+  const isBindaryActive = get(formValues, 'details.isBindaryActive', false);
+  const dataOptions = isBindaryActive ? OPTIONS_WITH_BINDARY_ACTIVE : ORDER_FORMAT_OPTIONS;
+
   return (
     <FieldSelectFinal
-      dataOptions={ORDER_FORMAT_OPTIONS}
+      dataOptions={dataOptions}
       label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
       name="orderFormat"
       onChange={onChangeSelect}

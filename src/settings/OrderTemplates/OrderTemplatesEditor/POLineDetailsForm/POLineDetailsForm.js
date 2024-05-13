@@ -24,9 +24,13 @@ import {
   FieldRequester,
   FieldCancellationRestrictionNote,
   FieldPOLineDescription,
+  FieldBinderyActive,
+  isBindaryActiveDisabled,
 } from '../../../../common/POLFields';
 
 const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
+  const orderFormat = formValues?.orderFormat;
+
   return (
     <>
       <Row>
@@ -156,7 +160,10 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-check-in
         >
           <VisibilityControl name="hiddenFields.checkinItems">
-            <FieldCheckInItems disabled={formValues.isPackage} />
+            <FieldCheckInItems
+              disabled={formValues.isPackage}
+              isBindaryActive={formValues?.details?.isBindaryActive}
+            />
           </VisibilityControl>
         </Col>
       </Row>
@@ -177,6 +184,14 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
         >
           <VisibilityControl name="hiddenFields.poLineDescription">
             <FieldPOLineDescription />
+          </VisibilityControl>
+        </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-is-bindary-active
+        >
+          <VisibilityControl name="hiddenFields.details.isBindaryActive">
+            <FieldBinderyActive disabled={isBindaryActiveDisabled(orderFormat)} />
           </VisibilityControl>
         </Col>
       </Row>

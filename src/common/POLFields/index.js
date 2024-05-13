@@ -2,6 +2,7 @@ export { default as FieldsLocation } from './FieldsLocation';
 export { default as FieldMaterialType } from './FieldMaterialType';
 
 // details
+export { FieldBinderyActive } from './DetailsFields/FieldBinderyActive';
 export { FieldClaimingActive } from './DetailsFields/FieldClaimingActive';
 export { FieldClaimingInterval } from './DetailsFields/FieldClaimingInterval';
 export { default as FieldPOLineNumber } from './DetailsFields/FieldPOLineNumber';

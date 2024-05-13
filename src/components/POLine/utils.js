@@ -102,6 +102,7 @@ export const getPoLineFieldsLabelMap = ({
     'details.subscriptionFrom': 'ui-orders.itemDetails.subscriptionFrom',
     'details.subscriptionTo': 'ui-orders.itemDetails.subscriptionTo',
     'details.subscriptionInterval': 'ui-orders.itemDetails.subscriptionInterval',
+    'details.isBindaryActive': 'ui-orders.poLine.isBindaryActive',
     'publicationDate': 'ui-orders.itemDetails.publicationDate',
     'publisher': 'ui-orders.itemDetails.publisher',
     'edition': 'ui-orders.itemDetails.edition',

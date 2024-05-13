@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useForm } from 'react-final-form';
@@ -12,7 +12,7 @@ const options = [
   { labelId: 'ui-orders.poLine.receivingWorkflow.independent', value: true },
 ];
 
-const FieldCheckInItems = ({ disabled, required }) => {
+const FieldCheckInItems = ({ disabled, isBindaryActive, required }) => {
   const { change } = useForm();
   const label = (
     <>
@@ -31,12 +31,18 @@ const FieldCheckInItems = ({ disabled, required }) => {
     isBoolean(value) ? undefined : <FormattedMessage id="stripes-acq-components.validation.required" />
   );
 
+  useEffect(() => {
+    if (isBindaryActive) {
+      change('checkinItems', true);
+    }
+  }, [change, isBindaryActive]);
+
   return (
     <FieldSelectFinal
       dataOptions={options}
       label={label}
       name="checkinItems"
-      disabled={disabled}
+      disabled={disabled || isBindaryActive}
       onChange={onChange}
       required={required}
       validate={required ? validate : undefined}
@@ -46,11 +52,13 @@ const FieldCheckInItems = ({ disabled, required }) => {
 
 FieldCheckInItems.propTypes = {
   disabled: PropTypes.bool,
+  isBindaryActive: PropTypes.bool,
   required: PropTypes.bool,
 };
 
 FieldCheckInItems.defaultProps = {
   disabled: false,
+  isBindaryActive: false,
   required: false,
 };
 
