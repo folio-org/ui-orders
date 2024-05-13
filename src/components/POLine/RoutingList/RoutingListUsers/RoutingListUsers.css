@@ -1,0 +1,9 @@
+.actions {
+  display: flex;
+  align-items: center;
+  
+  & .unassignAll {
+    margin-top: 8px;
+    margin-left: var(--gutter);
+  }
+}

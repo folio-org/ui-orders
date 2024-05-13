@@ -1,12 +1,10 @@
 import {
   useCallback,
   useMemo,
-  useState,
 } from 'react';
 import {
   keyBy,
   map,
-  noop,
 } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -30,19 +28,19 @@ import {
 
 import { RoutingListUserItem } from './RoutingListUserItem';
 
+import css from './RoutingListUsers.css';
+
 export const RoutingListUsers = ({
   editable,
   onAddUsers,
   ids,
 }) => {
   const stripes = useStripes();
-  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false);
   const [isUnassignUsersModalVisible, toggleUnassignUsersModal] = useToggle(false);
 
   const { isLoading, users } = useUsersBatch(ids, { keepPreviousData: true });
 
   const onSelectUsers = useCallback((selectedUsers) => {
-    setIsAddUserModalVisible(false);
     const addedUserIds = new Set(ids);
     const newUserIds = map(selectedUsers.filter(({ id }) => !addedUserIds?.has(id)), 'id');
 
@@ -87,45 +85,30 @@ export const RoutingListUsers = ({
       </Row>
       {
         editable && (
-          <Row>
+          <div className={css.actions}>
             <Pluggable
               aria-haspopup="true"
-              openWhen={isAddUserModalVisible}
               dataKey="users"
-              renderTrigger={noop}
               searchButtonStyle="default"
               searchLabel={<FormattedMessage id="ui-orders.routing.list.addUsers" />}
               stripes={stripes}
               type="find-user"
               selectUsers={onSelectUsers}
-              closeCB={() => setIsAddUserModalVisible(false)}
               initialSelectedUsers={selectedUsersMap}
               showCreateUserButton
             >
               <FormattedMessage id="ui-users.routing.list.addUsers.plugin.notAvailable" />
             </Pluggable>
-            <Col xs={12}>
-              <Button
-                type="button"
-                align="end"
-                bottomMargin0
-                id="clickable-add-permission"
-                onClick={() => setIsAddUserModalVisible(true)}
-              >
-                <FormattedMessage id="ui-orders.routing.list.addUsers" />
-              </Button>
-              <Button
-                type="button"
-                align="end"
-                bottomMargin0
-                disabled={!ids?.length}
-                id="clickable-remove-all-permissions"
-                onClick={toggleUnassignUsersModal}
-              >
-                <FormattedMessage id="ui-orders.routing.list.removeUsers" />
-              </Button>
-            </Col>
-          </Row>
+            <Button
+              type="button"
+              buttonClass={css.unassignAll}
+              disabled={!ids?.length}
+              id="clickable-remove-all-permissions"
+              onClick={toggleUnassignUsersModal}
+            >
+              <FormattedMessage id="ui-orders.routing.list.removeUsers" />
+            </Button>
+          </div>
         )
       }
 
