@@ -40,7 +40,7 @@ describe('RoutingListUsers', () => {
   it('should render component when `useUsersBatch` hook `isLoading` is false', () => {
     renderComponent();
 
-    expect(screen.getByText('ui-orders.routing.list.addUsers')).toBeInTheDocument();
+    expect(screen.getByText('ui-users.routing.list.addUsers.plugin.notAvailable')).toBeInTheDocument();
   });
 
   it('should render Loading component when `useUsersBatch` hook `isLoading` is true', () => {
