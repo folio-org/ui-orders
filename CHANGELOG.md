@@ -13,6 +13,7 @@
 * Filter order lines by location or holding when central ordering is enabled. Refs UIOR-1267.
 * Create routing list modal. Refs UIOR-1191.
 * Add Users to routing list. Refs UIOR-1111.
+* Prioritize users in a routing list by drag and drop list. Refs UIOR-1112.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

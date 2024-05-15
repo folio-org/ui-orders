@@ -204,7 +204,9 @@
           "orders.po-lines.item.put",
           "orders.po-number.item.get",
           "orders.po-number.item.post",
+          "orders.routing-lists.item.delete",
           "orders.routing-lists.item.put",
+          "orders.routing-lists.item.post",
           "orders.titles.item.post",
           "ui-orders.orders.view"
         ]
