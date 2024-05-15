@@ -17,7 +17,7 @@ export const isBindaryActiveDisabled = (orderFormat) => {
   }
 
   return (
-    orderFormat !== ORDER_FORMATS.PEMix &&
-    orderFormat !== ORDER_FORMATS.physicalResource
+    orderFormat !== ORDER_FORMATS.PEMix
+    && orderFormat !== ORDER_FORMATS.physicalResource
   );
 };
