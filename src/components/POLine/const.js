@@ -68,10 +68,7 @@ export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [
   },
 ];
 
-export const OPTION_WITH_BINDARY_ACTIVE = [{
-  labelId: 'ui-orders.settings.createInventory.recordType.all',
-  value: INVENTORY_RECORDS_TYPE.all,
-}];
+export const OPTION_VALUE_WITH_BINDARY_ACTIVE = INVENTORY_RECORDS_TYPE.all;
 
 export const POL_TEMPLATE_FIELDS_MAP = {
   'tags.tagList': 'polTags.tagList',

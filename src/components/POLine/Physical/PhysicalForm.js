@@ -70,6 +70,7 @@ const PhysicalForm = ({ order, materialTypes, formValues, change, hiddenFields =
               isNonInteractive={isPostPendingOrder}
               required
               isBindaryActive={formValues?.details?.isBindaryActive}
+              onChange={change}
             />
           </Col>
         </IfFieldVisible>
