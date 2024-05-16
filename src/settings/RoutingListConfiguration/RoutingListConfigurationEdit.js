@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import { Field } from 'react-final-form';
 import {
   FormattedMessage,
@@ -11,8 +12,12 @@ import {
   AccordionSet,
   AccordionStatus,
   Button,
+  checkScope,
   Col,
+  collapseAllSections,
   ExpandAllButton,
+  expandAllSections,
+  HasCommand,
   Layer,
   Pane,
   PaneFooter,
@@ -30,6 +35,7 @@ import { validateRoutingListConfigurationForm } from './utils';
 import TokensList from './TokensList';
 
 const EditRoutingListConfiguration = (props) => {
+  const accordionStatusRef = useRef();
   const {
     handleSubmit,
     initialValues: {
@@ -90,64 +96,81 @@ const EditRoutingListConfiguration = (props) => {
     );
   };
 
+  const shortcuts = [
+    {
+      name: 'expandAllSections',
+      handler: (e) => expandAllSections(e, accordionStatusRef),
+    },
+    {
+      name: 'collapseAllSections',
+      handler: (e) => collapseAllSections(e, accordionStatusRef),
+    },
+  ];
+
   return (
-    <Paneset>
-      <Layer isOpen>
-        <Paneset isRoot>
-          <Pane
-            id="routing-list-configuration-pane"
-            defaultWidth="fill"
-            renderHeader={renderHeader}
-            footer={renderFooter()}
-          >
-            <form id="routing-list-configuration-form">
-              <AccordionStatus>
-                <Row end="xs">
-                  <Col data-test-expand-all>
-                    <ExpandAllButton />
-                  </Col>
-                </Row>
-                <AccordionSet>
-                  <Accordion label={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration.generalInformation' })}>
-                    <AccordionSet>
-                      <ViewMetaData metadata={metadata} />
-                    </AccordionSet>
-                    <Row>
-                      <Col xs={12}>
-                        <Field
-                          data-testid="routingListConfigurationDescription"
-                          label={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration.description' })}
-                          name="description"
-                          id="input-listing-configuration-description"
-                          component={TextArea}
-                        />
-                      </Col>
-                    </Row>
-                  </Accordion>
-                  <Accordion label={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration.templateContent' })}>
-                    <Row>
-                      <Col xs={12}>
-                        <Field
-                          data-testid="routingListConfigurationBody"
-                          label={<strong><FormattedMessage id="ui-orders.settings.routing.listConfiguration.body" /></strong>}
-                          required
-                          name="localizedTemplates.en.body"
-                          id="input-routing-list-template-body"
-                          component={TemplateEditor}
-                          tokens={ROUTING_LIST_TOKEN}
-                          tokensList={TokensList}
-                          previewModalHeader={<FormattedMessage id="ui-orders.settings.routing.listConfiguration.previewHeader" />}
-                        />
-                      </Col>
-                    </Row>
-                  </Accordion>
-                </AccordionSet>
-              </AccordionStatus>
-            </form>
-          </Pane>
-        </Paneset>
-      </Layer>
-    </Paneset>
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset>
+        <Layer isOpen>
+          <Paneset isRoot>
+            <Pane
+              id="routing-list-configuration-pane"
+              defaultWidth="fill"
+              renderHeader={renderHeader}
+              footer={renderFooter()}
+            >
+              <form id="routing-list-configuration-form">
+                <AccordionStatus>
+                  <Row end="xs">
+                    <Col data-test-expand-all>
+                      <ExpandAllButton />
+                    </Col>
+                  </Row>
+                  <AccordionSet>
+                    <Accordion label={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration.generalInformation' })}>
+                      <AccordionSet>
+                        {metadata && <ViewMetaData metadata={metadata} />}
+                      </AccordionSet>
+                      <Row>
+                        <Col xs={12}>
+                          <Field
+                            data-testid="routingListConfigurationDescription"
+                            label={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration.description' })}
+                            name="description"
+                            id="input-listing-configuration-description"
+                            component={TextArea}
+                          />
+                        </Col>
+                      </Row>
+                    </Accordion>
+                    <Accordion label={formatMessage({ id: 'ui-orders.settings.routing.listConfiguration.templateContent' })}>
+                      <Row>
+                        <Col xs={12}>
+                          <Field
+                            data-testid="routingListConfigurationBody"
+                            label={<strong><FormattedMessage id="ui-orders.settings.routing.listConfiguration.body" /></strong>}
+                            required
+                            name="localizedTemplates.en.body"
+                            id="input-routing-list-template-body"
+                            component={TemplateEditor}
+                            tokens={ROUTING_LIST_TOKEN}
+                            tokensList={TokensList}
+                            previewModalHeader={<FormattedMessage id="ui-orders.settings.routing.listConfiguration.previewHeader" />}
+                          />
+                        </Col>
+                      </Row>
+                    </Accordion>
+                  </AccordionSet>
+                </AccordionStatus>
+              </form>
+            </Pane>
+          </Paneset>
+        </Layer>
+      </Paneset>
+    </HasCommand>
   );
 };
 
