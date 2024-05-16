@@ -51,7 +51,6 @@ import {
   useFundDistributionValidation,
 } from '../../../common/hooks';
 import { omitFieldArraysAsyncErrors } from '../../../common/utils';
-import { OPTION_VALUE_WITH_BINDERY_ACTIVE } from '../../../components/POLine/const';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import { OngoingOrderForm } from '../../../components/POLine/OngoingOrder';
