@@ -11,7 +11,7 @@ export const isPhresource = (format) => PHRESOURCES.includes(format);
 
 export const isOtherResource = (format) => format === ORDER_FORMATS.other;
 
-export const isBindaryActiveDisabled = (orderFormat) => {
+export const isBinderyActiveDisabled = (orderFormat) => {
   if (!orderFormat) {
     return false;
   }

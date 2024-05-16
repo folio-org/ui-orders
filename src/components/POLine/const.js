@@ -68,7 +68,7 @@ export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [
   },
 ];
 
-export const OPTION_VALUE_WITH_BINDARY_ACTIVE = INVENTORY_RECORDS_TYPE.all;
+export const OPTION_VALUE_WITH_BINDERY_ACTIVE = INVENTORY_RECORDS_TYPE.all;
 
 export const POL_TEMPLATE_FIELDS_MAP = {
   'tags.tagList': 'polTags.tagList',

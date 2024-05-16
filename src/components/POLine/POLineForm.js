@@ -87,7 +87,6 @@ import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
-  OPTION_VALUE_WITH_BINDARY_ACTIVE,
   POL_TEMPLATE_FIELDS_MAP,
 } from './const';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
@@ -97,9 +96,10 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
-import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
 import { useManageDonorOrganizationIds } from './hooks';
+
+import styles from './POLineForm.css';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 const GAME_CHANGER_TIMEOUT = 50;
@@ -140,7 +140,6 @@ function POLineForm({
   const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
   const fundDistribution = get(formValues, 'fundDistribution', []);
   const lineLocations = get(formValues, 'locations', []);
-  const isBindaryActive = get(formValues, 'details.isBindaryActive', false);
   const instanceId = formValues.instanceId;
 
   const {
@@ -246,15 +245,6 @@ function POLineForm({
   useEffect(() => {
     setHiddenFields(templateValue?.hiddenFields || {});
   }, [templateValue?.hiddenFields]);
-
-  useEffect(() => {
-    if (isBindaryActive) {
-      batch(() => {
-        change('physical.createInventory', OPTION_VALUE_WITH_BINDARY_ACTIVE);
-        change('checkinItems', true);
-      });
-    }
-  }, [batch, change, isBindaryActive]);
 
   const getAddFirstMenu = () => {
     return (

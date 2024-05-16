@@ -1,7 +1,5 @@
-import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import {
-  useEffect,
   useMemo,
   useRef,
 } from 'react';
@@ -53,7 +51,7 @@ import {
   useFundDistributionValidation,
 } from '../../../common/hooks';
 import { omitFieldArraysAsyncErrors } from '../../../common/utils';
-import { OPTION_VALUE_WITH_BINDARY_ACTIVE } from '../../../components/POLine/const';
+import { OPTION_VALUE_WITH_BINDERY_ACTIVE } from '../../../components/POLine/const';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import { OngoingOrderForm } from '../../../components/POLine/OngoingOrder';
@@ -105,7 +103,6 @@ const OrderTemplatesEditor = ({
   const formErrors = getState()?.errors;
   const errors = useMemo(() => omitFieldArraysAsyncErrors(formErrors, ['fundDistribution']), [formErrors]);
   const errorAccordionStatus = useErrorAccordionStatus({ errors, fieldsMap: MAP_FIELD_ACCORDION });
-  const isBindaryActive = get(formValues, 'details.isBindaryActive', false);
 
   const changeLocation = (location, locationFieldName, holdingFieldName, holdingId) => {
     const locationId = holdingId ? undefined : location?.id || location;
@@ -116,15 +113,6 @@ const OrderTemplatesEditor = ({
       change(holdingFieldName, holdingId);
     }
   };
-
-  useEffect(() => {
-    if (isBindaryActive) {
-      batch(() => {
-        change('physical.createInventory', OPTION_VALUE_WITH_BINDARY_ACTIVE);
-        change('checkinItems', true);
-      });
-    }
-  }, [batch, change, isBindaryActive]);
 
   const getLastMenu = () => {
     return (

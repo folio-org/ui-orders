@@ -16,7 +16,7 @@ const ORDER_FORMAT_OPTIONS = Object.keys(ORDER_FORMATS).map((key) => ({
   value: ORDER_FORMATS[key],
 }));
 
-const OPTIONS_WITH_BINDARY_ACTIVE = ORDER_FORMAT_OPTIONS.filter(({ value }) => {
+const OPTIONS_WITH_BINDERY_ACTIVE = ORDER_FORMAT_OPTIONS.filter(({ value }) => {
   return value === ORDER_FORMATS.PEMix || value === ORDER_FORMATS.physicalResource;
 });
 
@@ -62,8 +62,8 @@ function FieldOrderFormat({
     });
   };
 
-  const isBindaryActive = get(formValues, 'details.isBindaryActive', false);
-  const dataOptions = isBindaryActive ? OPTIONS_WITH_BINDARY_ACTIVE : ORDER_FORMAT_OPTIONS;
+  const isBinderyActive = get(formValues, 'details.isBinderyActive', false);
+  const dataOptions = isBinderyActive ? OPTIONS_WITH_BINDERY_ACTIVE : ORDER_FORMAT_OPTIONS;
 
   return (
     <FieldSelectFinal

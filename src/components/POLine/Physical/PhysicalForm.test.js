@@ -48,13 +48,13 @@ describe('PhysicalForm', () => {
     expect(screen.getByText('ui-orders.physical.addVolume')).toBeInTheDocument();
   });
 
-  it('should `Create inventory` field be `disabled` when `isBindaryActive` value is `true`', () => {
+  it('should `Create inventory` field be `disabled` when `isBinderyActive` value is `true`', () => {
     renderPhysicalForm({
       ...defaultProps,
       formValues: {
         ...defaultProps.formValues,
         details: {
-          isBindaryActive: true,
+          isBinderyActive: true,
         },
       },
     });
