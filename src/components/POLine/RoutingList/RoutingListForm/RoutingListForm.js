@@ -92,6 +92,7 @@ const RoutingListForm = (props) => {
     const cancelButton = (
       <Button
         marginBottom0
+        buttonStyle="default mega"
         onClick={onCancel}
       >
         <FormattedMessage id="stripes-core.button.cancel" />

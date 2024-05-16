@@ -2,30 +2,36 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import {
-  keyBy,
-  map,
-} from 'lodash';
+import keyBy from 'lodash/keyBy';
+import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  DragDropMCL,
   useToggle,
   useUsersBatch,
 } from '@folio/stripes-acq-components';
 import {
-  Pluggable,
-  useStripes,
-} from '@folio/stripes/core';
-import {
   Button,
   Col,
   ConfirmationModal,
+  Layout,
   List,
   Loading,
   Row,
 } from '@folio/stripes/components';
+import {
+  Pluggable,
+  useStripes,
+} from '@folio/stripes/core';
 
+import {
+  ROUTING_LIST_USERS_COLUMN_MAPPING,
+  VISIBLE_COLUMNS,
+  columnWidths,
+} from './constants';
+import { getRoutingListUsersFormatter } from './utils';
 import { RoutingListUserItem } from './RoutingListUserItem';
 
 import css from './RoutingListUsers.css';
@@ -59,14 +65,15 @@ export const RoutingListUsers = ({
   }, [onAddUsers, toggleUnassignUsersModal]);
 
   const selectedUsersMap = useMemo(() => (ids?.length ? keyBy(users, 'id') : {}), [users, ids]);
+  const orderedUsersList = useMemo(() => {
+    return ids?.map((id) => selectedUsersMap[id]);
+  }, [ids, selectedUsersMap]);
 
-  const renderItem = useCallback((user) => (
-    <RoutingListUserItem
-      canRemove={editable}
-      onRemove={onRemoveUser}
-      user={user}
-    />
-  ), [editable, onRemoveUser]);
+  const onUpdate = (newLinesList) => {
+    const updatedLinesList = newLinesList.map(({ id }) => id);
+
+    onAddUsers(updatedLinesList);
+  };
 
   if (isLoading) return <Loading />;
 
@@ -74,18 +81,35 @@ export const RoutingListUsers = ({
     <>
       <Row>
         <Col xs={12}>
-          <List
-            items={ids?.length ? users : []}
-            listStyle="default"
-            marginBottom0
-            itemFormatter={renderItem}
-            isEmptyMessage={<FormattedMessage id="ui-orders.routing.list.users.empty" />}
-          />
+          {
+            editable ? (
+              <DragDropMCL
+                contentData={orderedUsersList}
+                columnMapping={ROUTING_LIST_USERS_COLUMN_MAPPING}
+                formatter={getRoutingListUsersFormatter({ onRemoveUser, editable })}
+                id="users-draggable-list"
+                loading={isLoading}
+                onUpdate={onUpdate}
+                isEmptyMessage={<FormattedMessage id="ui-orders.routing.list.users.empty" />}
+                visibleColumns={VISIBLE_COLUMNS}
+                isRowDraggable={() => editable}
+                columnWidths={columnWidths}
+              />
+            ) : (
+              <List
+                items={ids?.length ? users : []}
+                listStyle="default"
+                marginBottom0
+                itemFormatter={RoutingListUserItem}
+                isEmptyMessage={<FormattedMessage id="ui-orders.routing.list.users.empty" />}
+              />
+            )
+          }
         </Col>
       </Row>
       {
         editable && (
-          <div className={css.actions}>
+          <Layout className={`flex full ${css.actions}`}>
             <Pluggable
               aria-haspopup="true"
               dataKey="users"
@@ -108,7 +132,7 @@ export const RoutingListUsers = ({
             >
               <FormattedMessage id="ui-orders.routing.list.removeUsers" />
             </Button>
-          </div>
+          </Layout>
         )
       }
 
