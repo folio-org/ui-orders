@@ -69,8 +69,7 @@ const PhysicalForm = ({ order, materialTypes, formValues, change, hiddenFields =
               name="physical.createInventory"
               isNonInteractive={isPostPendingOrder}
               required
-              isBindaryActive={formValues?.details?.isBindaryActive}
-              onChange={change}
+              disabled={formValues?.details?.isBindaryActive}
             />
           </Col>
         </IfFieldVisible>

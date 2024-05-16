@@ -87,6 +87,7 @@ import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
+  OPTION_VALUE_WITH_BINDARY_ACTIVE,
   POL_TEMPLATE_FIELDS_MAP,
 } from './const';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
@@ -139,6 +140,7 @@ function POLineForm({
   const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
   const fundDistribution = get(formValues, 'fundDistribution', []);
   const lineLocations = get(formValues, 'locations', []);
+  const isBindaryActive = get(formValues, 'details.isBindaryActive', false);
   const instanceId = formValues.instanceId;
 
   const {
@@ -244,6 +246,15 @@ function POLineForm({
   useEffect(() => {
     setHiddenFields(templateValue?.hiddenFields || {});
   }, [templateValue?.hiddenFields]);
+
+  useEffect(() => {
+    if (isBindaryActive) {
+      batch(() => {
+        change('physical.createInventory', OPTION_VALUE_WITH_BINDARY_ACTIVE);
+        change('checkinItems', true);
+      });
+    }
+  }, [batch, change, isBindaryActive]);
 
   const getAddFirstMenu = () => {
     return (

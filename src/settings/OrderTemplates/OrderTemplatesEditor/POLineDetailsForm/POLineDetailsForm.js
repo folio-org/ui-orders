@@ -30,6 +30,7 @@ import {
 
 const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
   const orderFormat = formValues?.orderFormat;
+  const isBindaryActive = formValues?.details?.isBindaryActive;
 
   return (
     <>
@@ -160,10 +161,7 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-check-in
         >
           <VisibilityControl name="hiddenFields.checkinItems">
-            <FieldCheckInItems
-              disabled={formValues.isPackage}
-              isBindaryActive={formValues?.details?.isBindaryActive}
-            />
+            <FieldCheckInItems disabled={formValues.isPackage || isBindaryActive} />
           </VisibilityControl>
         </Col>
       </Row>

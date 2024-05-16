@@ -58,6 +58,7 @@ function POLineDetailsForm({
   const isManualOrder = Boolean(order?.manualPo);
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isPackage = get(formValues, 'isPackage');
+  const isBindaryActive = get(formValues, 'details.isBindaryActive', false);
 
   const isClaimingActive = Boolean(formValues?.claimingActive);
   const orderFormat = formValues?.orderFormat;
@@ -283,8 +284,7 @@ function POLineDetailsForm({
             md={3}
           >
             <FieldCheckInItems
-              isBindaryActive={formValues?.details?.isBindaryActive}
-              disabled={checkinItemsFieldDisabled}
+              disabled={checkinItemsFieldDisabled || isBindaryActive}
               required
             />
           </Col>

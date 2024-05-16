@@ -55,8 +55,7 @@ const POLinePhysicalForm = ({ materialTypes, change, formValues }) => {
             <InventoryRecordTypeSelectField
               label="ui-orders.physical.createInventory"
               name="physical.createInventory"
-              isBindaryActive={formValues?.details?.isBindaryActive}
-              onChange={change}
+              disabled={formValues?.details?.isBindaryActive}
             />
           </VisibilityControl>
         </Col>
