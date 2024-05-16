@@ -141,7 +141,7 @@ describe('POLineDetailsForm', () => {
   it('should `Bindary Active` field be disabled if "orderFormat" is not `physicalResource` nor `PEMix`', async () => {
     renderPOLineDetailsForm(null, { orderFormat: 'Electronic' });
 
-    const binderyActiveField = screen.getByRole('checkbox', { name: 'ui-orders.poLine.isBindaryActive' });
+    const binderyActiveField = screen.getByRole('checkbox', { name: 'ui-orders.poLine.isBinderyActive' });
 
     expect(binderyActiveField).toBeDisabled();
   });

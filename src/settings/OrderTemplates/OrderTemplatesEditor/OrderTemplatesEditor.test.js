@@ -139,7 +139,7 @@ describe('OrderTemplatesEditor', () => {
       },
     });
 
-    const binderyActiveField = screen.getByRole('checkbox', { name: 'ui-orders.poLine.isBindaryActive' });
+    const binderyActiveField = screen.getByRole('checkbox', { name: 'ui-orders.poLine.isBinderyActive' });
 
     expect(binderyActiveField).toBeInTheDocument();
 
