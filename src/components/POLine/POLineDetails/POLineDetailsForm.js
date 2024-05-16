@@ -66,6 +66,7 @@ function POLineDetailsForm({
   const checkinItemsFieldDisabled = (
     isPostPendingOrder
     || isPackage
+    || isBindaryActive
     || (!isPostPendingOrder && isReceiptNotRequired(formValues?.receiptStatus))
   );
 
@@ -284,7 +285,7 @@ function POLineDetailsForm({
             md={3}
           >
             <FieldCheckInItems
-              disabled={checkinItemsFieldDisabled || isBindaryActive}
+              disabled={checkinItemsFieldDisabled}
               required
             />
           </Col>

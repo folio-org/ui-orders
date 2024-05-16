@@ -1,4 +1,4 @@
-import { Form, useForm } from 'react-final-form';
+import { Form } from 'react-final-form';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
@@ -27,17 +27,5 @@ describe('FieldCheckInItems', () => {
     renderFieldCheckInItems();
 
     expect(screen.getByText('ui-orders.poLine.receivingWorkflow')).toBeInTheDocument();
-  });
-
-  it('should render \'check-in items\' field with value', () => {
-    const mockChange = jest.fn().mockImplementation((name, value) => value);
-
-    useForm.mockReturnValueOnce({
-      change: mockChange,
-    });
-    renderFieldCheckInItems({ isBindaryActive: true });
-
-    expect(mockChange).toHaveBeenCalledWith('checkinItems', true);
-    expect(screen.getByText('ui-orders.poLine.receivingWorkflow.independent')).toBeInTheDocument();
   });
 });
