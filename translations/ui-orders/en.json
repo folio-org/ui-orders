@@ -675,6 +675,8 @@
   "routing.list.name.validation.required": "Required!",
   "routing.list.notes": "Notes",
   "routing.list.users": "Users",
+  "routing.list.column.user": "User",
+  "routing.list.orderNumber": "#",
   "routing.list.users.empty": "No users found",
   "routing.list.accordion.create.button": "Add routing list",
   "routing.list.create.label": "Create routing list",
