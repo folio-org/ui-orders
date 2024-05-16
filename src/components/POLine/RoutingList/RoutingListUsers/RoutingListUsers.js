@@ -17,6 +17,7 @@ import {
   Col,
   ConfirmationModal,
   Layout,
+  List,
   Loading,
   Row,
 } from '@folio/stripes/components';
@@ -31,6 +32,7 @@ import {
   columnWidths,
 } from './constants';
 import { getRoutingListUsersFormatter } from './utils';
+import { RoutingListUserItem } from './RoutingListUserItem';
 
 import css from './RoutingListUsers.css';
 
@@ -73,26 +75,36 @@ export const RoutingListUsers = ({
     onAddUsers(updatedLinesList);
   };
 
-  const formatter = getRoutingListUsersFormatter({ onRemoveUser, editable });
-
   if (isLoading) return <Loading />;
 
   return (
     <>
       <Row>
         <Col xs={12}>
-          <DragDropMCL
-            contentData={orderedUsersList}
-            columnMapping={ROUTING_LIST_USERS_COLUMN_MAPPING}
-            formatter={formatter}
-            id="users-draggable-list"
-            loading={isLoading}
-            onUpdate={onUpdate}
-            isEmptyMessage={<FormattedMessage id="ui-orders.routing.list.users.empty" />}
-            visibleColumns={VISIBLE_COLUMNS}
-            isRowDraggable={() => editable}
-            columnWidths={columnWidths}
-          />
+          {
+            editable ? (
+              <DragDropMCL
+                contentData={orderedUsersList}
+                columnMapping={ROUTING_LIST_USERS_COLUMN_MAPPING}
+                formatter={getRoutingListUsersFormatter({ onRemoveUser, editable })}
+                id="users-draggable-list"
+                loading={isLoading}
+                onUpdate={onUpdate}
+                isEmptyMessage={<FormattedMessage id="ui-orders.routing.list.users.empty" />}
+                visibleColumns={VISIBLE_COLUMNS}
+                isRowDraggable={() => editable}
+                columnWidths={columnWidths}
+              />
+            ) : (
+              <List
+                items={ids?.length ? users : []}
+                listStyle="default"
+                marginBottom0
+                itemFormatter={RoutingListUserItem}
+                isEmptyMessage={<FormattedMessage id="ui-orders.routing.list.users.empty" />}
+              />
+            )
+          }
         </Col>
       </Row>
       {
