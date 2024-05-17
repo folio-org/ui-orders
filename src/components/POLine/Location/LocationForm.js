@@ -8,6 +8,7 @@ import {
 } from '../../PurchaseOrder/util';
 
 const LocationForm = ({
+  centralOrdering,
   changeLocation,
   filterHoldings,
   filterLocations,
@@ -22,6 +23,7 @@ const LocationForm = ({
 
   return (
     <FieldsLocation
+      centralOrdering={centralOrdering}
       changeLocation={changeLocation}
       isDisabledToChangePaymentInfo={isDisabledToChangePaymentInfo}
       isPostPendingOrder={isPostPendingOrder}
@@ -38,6 +40,7 @@ const LocationForm = ({
 };
 
 LocationForm.propTypes = {
+  centralOrdering: PropTypes.bool,
   changeLocation: PropTypes.func.isRequired,
   formValues: PropTypes.object.isRequired,
   filterHoldings: PropTypes.func,

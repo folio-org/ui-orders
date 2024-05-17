@@ -1,6 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import {
   cloneDeep,
   get,
@@ -9,6 +18,7 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
+  checkIfUserInCentralTenant,
   stripesConnect,
   stripesShape,
 } from '@folio/stripes/core';
@@ -18,14 +28,16 @@ import {
 } from '@folio/stripes/components';
 import {
   baseManifest,
+  ConsortiumLocationsContext,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getConfigSetting,
   LIMIT_MAX,
-  locationsManifest,
+  LocationsContext,
   materialTypesManifest,
   ORDER_FORMATS,
   sourceValues,
+  useCentralOrderingSettings,
   useIntegrationConfigs,
   useModalToggle,
   useShowCallout,
@@ -127,6 +139,15 @@ function LayerPOLine({
     },
   );
   const { mutateTitle } = useTitleMutation();
+
+  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+  });
+
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useContext(isCentralOrderingEnabled ? ConsortiumLocationsContext : LocationsContext);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -555,14 +576,14 @@ function LayerPOLine({
     get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
     vendor &&
     get(resources, 'orderTemplates.hasLoaded') &&
-    get(resources, 'locations.hasLoaded') &&
     get(resources, `${DICT_IDENTIFIER_TYPES}.hasLoaded`) &&
     get(resources, 'materialTypes.hasLoaded') &&
     get(order, 'id') === id &&
     !isLinesLimitLoading &&
     !isConfigsFetching &&
     !isOpenOrderSettingsFetching &&
-    !isInstanceLoading
+    !isInstanceLoading &&
+    !isLocationsLoading
   );
 
   if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
@@ -586,12 +607,14 @@ function LayerPOLine({
         isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
         enableSaveBtn={Boolean(savingValues)}
         linesLimit={linesLimit}
+        locations={locations}
         isCreateAnotherChecked={isCreateAnotherChecked}
         toggleCreateAnother={setCreateAnotherChecked}
         integrationConfigs={integrationConfigs}
         isCreateFromInstance={Boolean(locationState?.instanceId)}
         instance={instance}
         fieldArraysToHydrate={FIELD_ARRAYS_TO_HYDRATE}
+        centralOrdering={isCentralOrderingEnabled}
       />
       {isLinesLimitExceededModalOpened && (
         <LinesLimit
@@ -656,11 +679,6 @@ LayerPOLine.manifest = Object.freeze({
   orderTemplates: {
     ...ORDER_TEMPLATES,
     shouldRefresh: () => false,
-  },
-  locations: {
-    ...locationsManifest,
-    accumulate: false,
-    fetch: true,
   },
   materialTypes: {
     ...materialTypesManifest,
