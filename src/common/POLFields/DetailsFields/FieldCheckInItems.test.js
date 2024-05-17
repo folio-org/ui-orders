@@ -4,6 +4,13 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 
 import FieldCheckInItems from './FieldCheckInItems';
 
+jest.mock('react-final-form', () => ({
+  ...jest.requireActual('react-final-form'),
+  useForm: jest.fn().mockReturnValue({
+    change: jest.fn(),
+  }),
+}));
+
 const renderFieldCheckInItems = (props = {}) => render(
   <Form
     onSubmit={() => jest.fn()}

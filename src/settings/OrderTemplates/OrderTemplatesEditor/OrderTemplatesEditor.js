@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { useMemo, useRef } from 'react';
+import {
+  useMemo,
+  useRef,
+} from 'react';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 

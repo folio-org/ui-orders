@@ -96,9 +96,10 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
-import styles from './POLineForm.css';
 import { createPOLDataFromInstance } from './Item/util';
 import { useManageDonorOrganizationIds } from './hooks';
+
+import styles from './POLineForm.css';
 
 const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
 const GAME_CHANGER_TIMEOUT = 50;

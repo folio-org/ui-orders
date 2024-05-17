@@ -50,11 +50,25 @@ export const DISCOUNT_TYPE = {
 };
 
 export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [
-  { labelId: 'ui-orders.settings.createInventory.recordType.all', value: INVENTORY_RECORDS_TYPE.all },
-  { labelId: 'ui-orders.settings.createInventory.recordType.instance', value: INVENTORY_RECORDS_TYPE.instance },
-  { labelId: 'ui-orders.settings.createInventory.recordType.instanceAndHolding', value: INVENTORY_RECORDS_TYPE.instanceAndHolding },
-  { labelId: 'ui-orders.settings.createInventory.recordType.none', value: INVENTORY_RECORDS_TYPE.none },
+  {
+    labelId: 'ui-orders.settings.createInventory.recordType.all',
+    value: INVENTORY_RECORDS_TYPE.all,
+  },
+  {
+    labelId: 'ui-orders.settings.createInventory.recordType.instance',
+    value: INVENTORY_RECORDS_TYPE.instance,
+  },
+  {
+    labelId: 'ui-orders.settings.createInventory.recordType.instanceAndHolding',
+    value: INVENTORY_RECORDS_TYPE.instanceAndHolding,
+  },
+  {
+    labelId: 'ui-orders.settings.createInventory.recordType.none',
+    value: INVENTORY_RECORDS_TYPE.none,
+  },
 ];
+
+export const OPTION_VALUE_WITH_BINDERY_ACTIVE = INVENTORY_RECORDS_TYPE.all;
 
 export const POL_TEMPLATE_FIELDS_MAP = {
   'tags.tagList': 'polTags.tagList',

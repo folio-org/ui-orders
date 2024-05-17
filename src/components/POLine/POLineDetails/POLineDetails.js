@@ -259,6 +259,20 @@ const POLineDetails = ({ line, hiddenFields }) => {
             />
           </Col>
         </IfVisible>
+
+        <IfVisible visible={!hiddenFields.details?.isBinderyActive}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <Checkbox
+              checked={line?.details?.isBinderyActive}
+              disabled
+              label={<FormattedMessage id="ui-orders.poLine.isBinderyActive" />}
+              vertical
+            />
+          </Col>
+        </IfVisible>
       </Row>
 
       <Row start="xs">
