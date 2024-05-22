@@ -1,4 +1,7 @@
-import { useMemo } from 'react';
+import {
+  useContext,
+  useMemo,
+} from 'react';
 import { useQuery } from 'react-query';
 import { useIntl } from 'react-intl';
 import {
@@ -10,12 +13,18 @@ import {
 } from 'lodash/fp';
 
 import {
+  checkIfUserInCentralTenant,
   useNamespace,
   useOkapiKy,
+  useStripes,
 } from '@folio/stripes/core';
+import {
+  ConsortiumLocationsContext,
+  LocationsContext,
+  useCentralOrderingSettings,
+} from '@folio/stripes-acq-components';
 
 import {
-  getLocations,
   getMaterialTypes,
   getOrganizationsByIds,
   getVersionMetadata,
@@ -29,6 +38,7 @@ import {
 export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, options = {}) => {
   const intl = useIntl();
   const ky = useOkapiKy();
+  const stripes = useStripes();
   const [namespace] = useNamespace({ key: 'order-line-version-data' });
 
   const deletedRecordLabel = intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
@@ -43,6 +53,12 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
 
   const linkedPackagePoLineId = versionSnapshot?.packagePoLineId;
 
+  const {
+    enabled: isCentralOrderingEnabled,
+    isLoading: isCentralOrderingSettingsLoading,
+  } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+  });
   const {
     order,
     isLoading: isOrderLoading,
@@ -59,6 +75,10 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
     acqMethods,
     isLoading: isAcqMethodsLoading,
   } = useAcqMethods();
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useContext(isCentralOrderingEnabled ? ConsortiumLocationsContext : LocationsContext);
 
   const {
     isLoading: isVersionDataLoading,
@@ -91,13 +111,11 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
       const [
         organizationsMap,
         materialTypesMap,
-        locationsList,
       ] = await Promise.all([
         getOrganizationsByIds(ky)(organizationIds).then(keyBy('id')),
         getMaterialTypes(ky)()
           .then(({ mtypes }) => mtypes)
           .then(keyBy('id')),
-        getLocations(ky)().then(({ locations }) => locations),
       ]);
 
       const vendor = organizationsMap[order?.vendor];
@@ -106,7 +124,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
       return {
         ...versionSnapshot,
         order,
-        locationsList,
+        locationsList: locations,
         acquisitionMethod: (
           acqMethods.find(({ id }) => id === versionSnapshot?.acquisitionMethod)?.value || deletedRecordLabel
         ),
@@ -141,7 +159,9 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
         && !isOrderLoading
         && !isOrderLineLoading
         && !isLinkedOrderLineLoading
-        && !isAcqMethodsLoading,
+        && !isAcqMethodsLoading
+        && !isCentralOrderingSettingsLoading
+        && !isLocationsLoading,
       ),
       ...options,
     },
@@ -153,6 +173,8 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
     || isLinkedOrderLineLoading
     || isAcqMethodsLoading
     || isVersionDataLoading
+    || isCentralOrderingSettingsLoading
+    || isLocationsLoading
   );
 
   return {

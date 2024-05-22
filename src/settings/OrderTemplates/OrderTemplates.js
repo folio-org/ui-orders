@@ -94,6 +94,7 @@ function OrderTemplates({
           returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
         >
           <OrderTemplateViewContainer
+            centralOrdering={isCentralOrderingEnabled}
             close={closePane}
             rootPath={path}
             showSuccessDeleteMessage={showSuccessDeleteMessage}

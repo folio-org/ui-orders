@@ -1,13 +1,18 @@
-import React, { useCallback } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router-dom';
+import {
+  useCallback,
+  useContext,
+} from 'react';
 import { useIntl } from 'react-intl';
-import { get } from 'lodash';
+import { withRouter } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
+  ConsortiumLocationsContext,
   getErrorCodeFromResponse,
+  LocationsContext,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -17,7 +22,6 @@ import {
 } from '../../../common/utils';
 import {
   ADDRESSES,
-  LOCATIONS,
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
 } from '../../../components/Utils/resources';
@@ -39,6 +43,7 @@ const getNewTemplateName = ({ intl, templateName }) => {
 };
 
 function OrderTemplateViewContainer({
+  centralOrdering,
   close,
   match: { params: { id } },
   mutator,
@@ -95,10 +100,14 @@ function OrderTemplateViewContainer({
     [close, id, sendCallout, showSuccessDeleteMessage],
   );
 
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useContext(centralOrdering ? ConsortiumLocationsContext : LocationsContext);
+
   const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
   const addresses = getAddresses(get(resources, 'addresses.records', []));
   const funds = get(resources, 'funds.records', []);
-  const locations = get(resources, 'locations.records', []);
   const materialTypes = get(resources, 'materialTypes.records', []);
 
   return (
@@ -120,12 +129,12 @@ function OrderTemplateViewContainer({
 
 OrderTemplateViewContainer.manifest = Object.freeze({
   addresses: ADDRESSES,
-  locations: LOCATIONS,
   materialTypes: MATERIAL_TYPES,
   orderTemplate: ORDER_TEMPLATE,
 });
 
 OrderTemplateViewContainer.propTypes = {
+  centralOrdering: PropTypes.bool,
   close: PropTypes.func.isRequired,
   mutator: PropTypes.object.isRequired,
   match: ReactRouterPropTypes.match.isRequired,

@@ -1,13 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { get } from 'lodash';
 
 import { LoadingPane } from '@folio/stripes/components';
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  checkIfUserInCentralTenant,
+  stripesConnect,
+  stripesShape,
+} from '@folio/stripes/core';
 import {
   baseManifest,
+  ConsortiumLocationsContext,
+  LocationsContext,
   Tags,
+  useCentralOrderingSettings,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -17,7 +29,6 @@ import {
 } from '../../components/Utils/api';
 import {
   FUND,
-  LOCATIONS,
   MATERIAL_TYPES,
 } from '../../components/Utils/resources';
 import { getCancelledLine } from '../../components/POLine/utils';
@@ -32,13 +43,27 @@ const OrderLineDetails = ({
   mutator,
   refreshList,
   resources,
+  stripes,
 }) => {
   const lineId = match.params.id;
   const [isLoading, setIsLoading] = useState(true);
   const [line, setLine] = useState({});
   const [order, setOrder] = useState({});
   const showToast = useShowCallout();
-  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
+
+  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+  });
+
+  const {
+    isLoading: isOrderTemplateLoading,
+    orderTemplate,
+  } = useOrderTemplate(order?.template);
+
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useContext(isCentralOrderingEnabled ? ConsortiumLocationsContext : LocationsContext);
 
   const fetchLineDetails = useCallback(
     () => {
@@ -131,7 +156,7 @@ const OrderLineDetails = ({
         })
         .finally(setIsLoading);
     },
-    [fetchLineDetails, line, showToast],
+    [fetchLineDetails, line, mutator.orderLine, showToast],
   );
 
   const updateLineTagList = async (orderLine) => {
@@ -143,7 +168,6 @@ const OrderLineDetails = ({
 
   const toggleTagsPane = () => setIsTagsPaneOpened(!isTagsPaneOpened);
 
-  const locations = get(resources, 'locations.records', []);
   const materialTypes = get(resources, 'materialTypes.records', []);
   const funds = get(resources, 'funds.records', []);
 
@@ -164,7 +188,14 @@ const OrderLineDetails = ({
     setIsLoading(false);
   }, [fetchLineDetails]);
 
-  if (isLoading || line?.id !== lineId || isOrderTemplateLoading) {
+  const isDataLoading = (
+    isLoading
+    || line?.id !== lineId
+    || isOrderTemplateLoading
+    || isLocationsLoading
+  );
+
+  if (isDataLoading) {
     return (
       <LoadingPane
         id="order-lines-details"
@@ -214,7 +245,6 @@ OrderLineDetails.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
-  locations: LOCATIONS,
   materialTypes: MATERIAL_TYPES,
   funds: FUND,
 });
@@ -226,6 +256,7 @@ OrderLineDetails.propTypes = {
   mutator: PropTypes.object.isRequired,
   refreshList: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,
+  stripes: stripesShape.isRequired,
 };
 
 export default stripesConnect(OrderLineDetails);

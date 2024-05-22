@@ -1,17 +1,30 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import { LoadingPane } from '@folio/stripes/components';
 import {
+  checkIfUserInCentralTenant,
   stripesConnect,
+  stripesShape,
 } from '@folio/stripes/core';
 import {
+  ConsortiumLocationsContext,
   DICT_CONTRIBUTOR_NAME_TYPES,
   getErrorCodeFromResponse,
   LINES_API,
+  LocationsContext,
   Tags,
+  useCentralOrderingSettings,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -24,7 +37,6 @@ import { getCommonErrorMessage } from '../../common/utils';
 import {
   CONTRIBUTOR_NAME_TYPES,
   FUND,
-  LOCATIONS,
   MATERIAL_TYPES,
   ORDERS,
 } from '../Utils/resources';
@@ -38,6 +50,7 @@ function POLine({
   mutator,
   poURL,
   resources,
+  stripes,
 }) {
   const intl = useIntl();
   const sendCallout = useShowCallout();
@@ -45,7 +58,20 @@ function POLine({
   const { isLoading: isLoadingOrder, order } = useOrder(orderId);
   const [line, setLine] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
+
+  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+  });
+
+  const {
+    isLoading: isOrderTemplateLoading,
+    orderTemplate,
+  } = useOrderTemplate(order?.template);
+
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useContext(isCentralOrderingEnabled ? ConsortiumLocationsContext : LocationsContext);
 
   const fetchOrderLine = useCallback(
     () => mutator.poLine.GET({ params: { query: `id==${lineId}` } })
@@ -162,7 +188,15 @@ function POLine({
     setIsLoading(false);
   }, [fetchOrderLine]);
 
-  if (isLoading || isLoadingOrder || line?.id !== lineId || isOrderTemplateLoading) {
+  const isDataLoading = (
+    isLoading
+    || isLoadingOrder
+    || line?.id !== lineId
+    || isOrderTemplateLoading
+    || isLocationsLoading
+  );
+
+  if (isDataLoading) {
     return (
       <LoadingPane
         id="order-lines-details"
@@ -174,7 +208,6 @@ function POLine({
   }
 
   const materialTypes = get(resources, ['materialTypes', 'records'], []);
-  const locations = get(resources, 'locations.records', []);
   const funds = get(resources, 'fund.records', []);
 
   return (
@@ -222,10 +255,6 @@ POLine.manifest = Object.freeze({
   },
   fund: FUND,
   materialTypes: MATERIAL_TYPES,
-  locations: {
-    ...LOCATIONS,
-    fetch: true,
-  },
 });
 
 POLine.propTypes = {
@@ -240,6 +269,7 @@ POLine.propTypes = {
   mutator: PropTypes.object.isRequired,
   poURL: PropTypes.string,
   resources: PropTypes.object.isRequired,
+  stripes: stripesShape.isRequired,
 };
 
 export default stripesConnect(POLine);
