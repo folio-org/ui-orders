@@ -1,12 +1,19 @@
-import React, { useCallback } from 'react';
-import { Switch } from 'react-router-dom';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
+import { Switch } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
+  checkIfUserInCentralTenant,
+  stripesShape,
+} from '@folio/stripes/core';
+import {
+  ConsortiumLocationsContextProvider,
+  LocationsContextProvider as TenantLocationsContextProvider,
   PermissionedRoute,
+  useCentralOrderingSettings,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -19,11 +26,22 @@ import {
   TEMPLATES_RETURN_LINK_LABEL_ID,
 } from './constants';
 
-function OrderTemplates({ history, label, match: { path }, resources }) {
+function OrderTemplates({
+  history,
+  label,
+  match: { path },
+  resources,
+  stripes,
+}) {
   const sendCallout = useShowCallout();
   const closePane = useCallback(() => {
     history.push(path);
   }, [history, path]);
+
+  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+    queryKey: 'orders-templates',
+  });
 
   const showSuccessDeleteMessage = useCallback(() => {
     sendCallout({
@@ -34,56 +52,68 @@ function OrderTemplates({ history, label, match: { path }, resources }) {
 
   const orderTemplatesList = get(resources, ['orderTemplates', 'records'], []);
 
+  const LocationsContextProvider = isCentralOrderingEnabled
+    ? ConsortiumLocationsContextProvider
+    : TenantLocationsContextProvider;
+
   return (
-    <Switch>
-      <PermissionedRoute
-        exact
-        path={path}
-        perm="ui-orders.settings.order-templates.view"
-        returnLink={TEMPLATES_RETURN_LINK}
-        returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
-      >
-        <OrderTemplatesList
-          label={label}
-          rootPath={path}
-          orderTemplatesList={orderTemplatesList}
-        />
-      </PermissionedRoute>
+    <LocationsContextProvider>
+      <Switch>
+        <PermissionedRoute
+          exact
+          path={path}
+          perm="ui-orders.settings.order-templates.view"
+          returnLink={TEMPLATES_RETURN_LINK}
+          returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
+        >
+          <OrderTemplatesList
+            label={label}
+            rootPath={path}
+            orderTemplatesList={orderTemplatesList}
+          />
+        </PermissionedRoute>
 
-      <PermissionedRoute
-        exact
-        path={`${path}/create`}
-        perm="ui-orders.settings.order-templates.create"
-        returnLink={TEMPLATES_RETURN_LINK}
-        returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
-      >
-        <OrderTemplatesEditorContainer close={closePane} />
-      </PermissionedRoute>
+        <PermissionedRoute
+          exact
+          path={`${path}/create`}
+          perm="ui-orders.settings.order-templates.create"
+          returnLink={TEMPLATES_RETURN_LINK}
+          returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
+        >
+          <OrderTemplatesEditorContainer
+            centralOrdering={isCentralOrderingEnabled}
+            close={closePane}
+          />
+        </PermissionedRoute>
 
-      <PermissionedRoute
-        exact
-        path={`${path}/:id/view`}
-        perm="ui-orders.settings.order-templates.view"
-        returnLink={TEMPLATES_RETURN_LINK}
-        returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
-      >
-        <OrderTemplateViewContainer
-          close={closePane}
-          rootPath={path}
-          showSuccessDeleteMessage={showSuccessDeleteMessage}
-        />
-      </PermissionedRoute>
+        <PermissionedRoute
+          exact
+          path={`${path}/:id/view`}
+          perm="ui-orders.settings.order-templates.view"
+          returnLink={TEMPLATES_RETURN_LINK}
+          returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
+        >
+          <OrderTemplateViewContainer
+            close={closePane}
+            rootPath={path}
+            showSuccessDeleteMessage={showSuccessDeleteMessage}
+          />
+        </PermissionedRoute>
 
-      <PermissionedRoute
-        exact
-        path={`${path}/:id/edit`}
-        perm="ui-orders.settings.order-templates.edit"
-        returnLink={TEMPLATES_RETURN_LINK}
-        returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
-      >
-        <OrderTemplatesEditorContainer close={closePane} />
-      </PermissionedRoute>
-    </Switch>
+        <PermissionedRoute
+          exact
+          path={`${path}/:id/edit`}
+          perm="ui-orders.settings.order-templates.edit"
+          returnLink={TEMPLATES_RETURN_LINK}
+          returnLinkLabelId={TEMPLATES_RETURN_LINK_LABEL_ID}
+        >
+          <OrderTemplatesEditorContainer
+            centralOrdering={isCentralOrderingEnabled}
+            close={closePane}
+          />
+        </PermissionedRoute>
+      </Switch>
+    </LocationsContextProvider>
   );
 }
 
@@ -96,6 +126,7 @@ OrderTemplates.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   resources: PropTypes.object.isRequired,
+  stripes: stripesShape.isRequired,
 };
 
 export default OrderTemplates;
