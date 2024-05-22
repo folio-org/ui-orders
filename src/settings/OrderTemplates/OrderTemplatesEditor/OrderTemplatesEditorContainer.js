@@ -1,17 +1,24 @@
-import React, { useCallback, useMemo } from 'react';
+import {
+  useCallback,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { get } from 'lodash';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  checkIfUserInCentralTenant,
+  stripesConnect,
+} from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getErrorCodeFromResponse,
   prefixesResource,
   suffixesResource,
+  useCentralOrderingSettings,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -43,9 +50,21 @@ import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 const INITIAL_VALUES = { isPackage: false, hideAll: false };
 
-function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
+function OrderTemplatesEditorContainer({
+  match: { params: { id } },
+  close,
+  resources,
+  stripes,
+  mutator,
+}) {
   const intl = useIntl();
   const showToast = useShowCallout();
+
+  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+    queryKey: 'orders-templates',
+  });
+
   const saveOrderTemplate = useCallback((values) => {
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplate.POST;
     const templateName = values.templateName?.trim();
@@ -111,6 +130,7 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
       vendors={vendors}
       contributorNameTypes={contributorNameTypes}
       stripes={stripes}
+      centralOrdering={isCentralOrderingEnabled}
     />
   );
 }
