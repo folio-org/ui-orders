@@ -2,7 +2,12 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
+import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import {
   HasCommand,
   collapseAllSections,
@@ -125,6 +130,24 @@ describe('OrderTemplatesEditor', () => {
       expect(screen.getByText('EditCustomFieldsRecord_PO')).toBeInTheDocument();
       expect(screen.getByText('EditCustomFieldsRecord_POL')).toBeInTheDocument();
     });
+  });
+
+  it('should set `physical.createInventory` and `checkinItems` fields when isBindaryActive is true', async () => {
+    renderOrderTemplatesEditor({
+      initialValues: {
+        orderFormat: 'Physical Resource',
+      },
+    });
+
+    const binderyActiveField = screen.getByRole('checkbox', { name: 'ui-orders.poLine.isBinderyActive' });
+
+    expect(binderyActiveField).toBeInTheDocument();
+
+    await user.click(binderyActiveField);
+
+    expect(binderyActiveField).toBeChecked();
+    expect(screen.getByLabelText(/physical.createInventory/)).toBeDisabled();
+    expect(screen.getByLabelText(/workflow/i)).toBeDisabled();
   });
 
   describe('OrderTemplatesEditor shortcuts', () => {

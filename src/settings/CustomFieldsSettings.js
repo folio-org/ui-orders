@@ -23,7 +23,7 @@ const CustomFieldsSettings = () => {
 
   const permissions = {
     canView: stripes.hasPerm('ui-orders.settings.custom-fields.view'),
-    canEdit: stripes.hasPerm('ui-orders.settings.custom-fields.edit'),
+    editable: stripes.hasPerm('ui-orders.settings.custom-fields.edit'),
     canDelete: stripes.hasPerm('ui-orders.settings.custom-fields.delete'),
   };
 
