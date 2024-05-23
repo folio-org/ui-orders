@@ -2,7 +2,6 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import {
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -16,10 +15,9 @@ import {
 } from '@folio/stripes/core';
 import {
   baseManifest,
-  ConsortiumLocationsContext,
-  LocationsContext,
   Tags,
   useCentralOrderingSettings,
+  useLocationsQuery,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -63,7 +61,7 @@ const OrderLineDetails = ({
   const {
     isLoading: isLocationsLoading,
     locations,
-  } = useContext(isCentralOrderingEnabled ? ConsortiumLocationsContext : LocationsContext);
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
   const fetchLineDetails = useCallback(
     () => {

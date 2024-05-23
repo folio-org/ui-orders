@@ -2,7 +2,6 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import {
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -18,13 +17,12 @@ import {
   stripesShape,
 } from '@folio/stripes/core';
 import {
-  ConsortiumLocationsContext,
   DICT_CONTRIBUTOR_NAME_TYPES,
   getErrorCodeFromResponse,
   LINES_API,
-  LocationsContext,
   Tags,
   useCentralOrderingSettings,
+  useLocationsQuery,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -71,7 +69,7 @@ function POLine({
   const {
     isLoading: isLocationsLoading,
     locations,
-  } = useContext(isCentralOrderingEnabled ? ConsortiumLocationsContext : LocationsContext);
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
   const fetchOrderLine = useCallback(
     () => mutator.poLine.GET({ params: { query: `id==${lineId}` } })

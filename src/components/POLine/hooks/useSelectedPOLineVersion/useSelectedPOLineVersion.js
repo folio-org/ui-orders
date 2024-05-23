@@ -1,7 +1,4 @@
-import {
-  useContext,
-  useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useIntl } from 'react-intl';
 import {
@@ -17,8 +14,7 @@ import {
   useOkapiKy,
 } from '@folio/stripes/core';
 import {
-  ConsortiumLocationsContext,
-  LocationsContext,
+  useLocationsQuery,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -68,7 +64,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath, ce
   const {
     isLoading: isLocationsLoading,
     locations,
-  } = useContext(centralOrdering ? ConsortiumLocationsContext : LocationsContext);
+  } = useLocationsQuery({ consortium: centralOrdering });
 
   const {
     isLoading: isVersionDataLoading,

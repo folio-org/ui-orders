@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import {
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -28,17 +27,16 @@ import {
 } from '@folio/stripes/components';
 import {
   baseManifest,
-  ConsortiumLocationsContext,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getConfigSetting,
   LIMIT_MAX,
-  LocationsContext,
   materialTypesManifest,
   ORDER_FORMATS,
   sourceValues,
   useCentralOrderingSettings,
   useIntegrationConfigs,
+  useLocationsQuery,
   useModalToggle,
   useShowCallout,
   VENDORS_API,
@@ -147,7 +145,7 @@ function LayerPOLine({
   const {
     isLoading: isLocationsLoading,
     locations,
-  } = useContext(isCentralOrderingEnabled ? ConsortiumLocationsContext : LocationsContext);
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);

@@ -2,22 +2,24 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import {
   useCallback,
-  useContext,
   useMemo,
 } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
-  ConsortiumLocationsContext,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getErrorCodeFromResponse,
-  LocationsContext,
   prefixesResource,
   suffixesResource,
+  useCentralOrderingContext,
+  useLocationsQuery,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -49,7 +51,6 @@ import OrderTemplatesEditor from './OrderTemplatesEditor';
 const INITIAL_VALUES = { isPackage: false, hideAll: false };
 
 function OrderTemplatesEditorContainer({
-  centralOrdering = false,
   match: { params: { id } },
   close,
   resources,
@@ -58,6 +59,7 @@ function OrderTemplatesEditorContainer({
 }) {
   const intl = useIntl();
   const showToast = useShowCallout();
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const saveOrderTemplate = useCallback((values) => {
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplate.POST;
@@ -89,7 +91,7 @@ function OrderTemplatesEditorContainer({
   const {
     isLoading: isLocationsLoading,
     locations,
-  } = useContext(centralOrdering ? ConsortiumLocationsContext : LocationsContext);
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
   const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
@@ -133,7 +135,7 @@ function OrderTemplatesEditorContainer({
       vendors={vendors}
       contributorNameTypes={contributorNameTypes}
       stripes={stripes}
-      centralOrdering={centralOrdering}
+      centralOrdering={isCentralOrderingEnabled}
     />
   );
 }
@@ -155,7 +157,6 @@ OrderTemplatesEditorContainer.manifest = Object.freeze({
 });
 
 OrderTemplatesEditorContainer.propTypes = {
-  centralOrdering: PropTypes.bool,
   close: PropTypes.func.isRequired,
   mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
