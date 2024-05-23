@@ -49,7 +49,7 @@ import {
   FundDistributionView,
   handleKeyCommand,
   ORDER_FORMATS,
-  RoutingList,
+  RoutingListAccordion,
   TagsBadge,
   useAcqRestrictions,
   useModalToggle,
@@ -72,6 +72,7 @@ import {
   ORDERS_ROUTE,
   REEXPORT_SOURCES,
   ORDER_LINES_ROUTE,
+  ROUTING_LIST_ROUTE,
 } from '../../common/constants';
 import { useExportHistory } from '../../common/hooks';
 import { isOngoing } from '../../common/POFields';
@@ -489,9 +490,10 @@ const POLineView = ({
                   </Accordion>
                 )}
                 {showRoutingList && (
-                  <RoutingList
+                  <RoutingListAccordion
                     poLineId={line?.id}
                     allowedNumberOfRoutingLists={numberOfPhysicalUnits}
+                    routingListUrl={ROUTING_LIST_ROUTE}
                     createButtonLabel={<FormattedMessage id="ui-orders.routing.list.accordion.create.button" />}
                   />
                 )}

@@ -4,13 +4,17 @@ import {
 } from 'react-router-dom';
 
 import {
+  RoutingListCreate,
+  RoutingListEdit,
+  RoutingListView,
+} from '@folio/stripes-acq-components';
+
+import { ROUTING_LIST_ROUTE } from '../../../common/constants';
+import {
   ROUTING_LIST_CREATE_ROUTE,
   ROUTING_LIST_EDIT_ROUTE,
   ROUTING_LIST_VIEW_ROUTE,
 } from './constants';
-import { RoutingListCreate } from './RoutingListCreate';
-import { RoutingListEdit } from './RoutingListEdit';
-import { RoutingListView } from './RoutingListView';
 
 export function RoutingList() {
   return (
@@ -21,7 +25,7 @@ export function RoutingList() {
       />
       <Route
         path={ROUTING_LIST_VIEW_ROUTE}
-        component={RoutingListView}
+        render={() => <RoutingListView routingListUrl={ROUTING_LIST_ROUTE} />}
       />
       <Route
         path={ROUTING_LIST_EDIT_ROUTE}

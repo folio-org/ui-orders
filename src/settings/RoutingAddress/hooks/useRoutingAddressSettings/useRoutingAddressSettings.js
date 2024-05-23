@@ -6,7 +6,7 @@ import {
 } from '@folio/stripes/core';
 import { ORDERS_STORAGE_SETTINGS_API } from '@folio/stripes-acq-components';
 
-import { ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY } from '../../constants';
+import { ROUTING_USER_ADDRESS_TYPE_ID } from '../../constants';
 
 export const useRoutingAddressSettings = (options = {}) => {
   const ky = useOkapiKy();
@@ -14,7 +14,7 @@ export const useRoutingAddressSettings = (options = {}) => {
 
   const searchParams = {
     limit: 1,
-    query: `key=${ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY}`,
+    query: `key=${ROUTING_USER_ADDRESS_TYPE_ID}`,
   };
 
   const {

@@ -5,7 +5,7 @@ import { LoadingPane } from '@folio/stripes/components';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
 import { useConfigurationSettingsMutation } from '../hooks';
-import { ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY } from './constants';
+import { ROUTING_USER_ADDRESS_TYPE_ID } from './constants';
 import {
   useRoutingAddressSettings,
   useUserAddressTypes,
@@ -28,16 +28,16 @@ export const RoutingAddress = ({ label }) => {
   })), [addressTypes]);
 
   const createSetting = (values) => {
-    const value = values[ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY];
+    const value = values[ROUTING_USER_ADDRESS_TYPE_ID];
 
     return createConfigSettings({
-      key: ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY,
+      key: ROUTING_USER_ADDRESS_TYPE_ID,
       value,
     });
   };
 
   const updateSetting = (values) => {
-    const value = values[ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY];
+    const value = values[ROUTING_USER_ADDRESS_TYPE_ID];
 
     return updateConfigSettings({
       ...data,
@@ -73,7 +73,7 @@ export const RoutingAddress = ({ label }) => {
       <RoutingAddressForm
         addressTypeOptions={addressTypeOptions}
         onSubmit={onSubmit}
-        initialValues={{ [ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY]: data?.value }}
+        initialValues={{ [ROUTING_USER_ADDRESS_TYPE_ID]: data?.value }}
       />
     </div>
   );
