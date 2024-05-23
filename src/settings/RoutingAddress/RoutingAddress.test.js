@@ -31,6 +31,7 @@ const renderComponent = () => render(
 );
 
 const mockRefetch = jest.fn();
+const mockCreateConfigSettings = jest.fn();
 const mockUpdateConfigSettings = jest.fn();
 const mockKy = {
   put: jest.fn((_url, { data }) => ({
@@ -61,7 +62,7 @@ describe('RoutingAddress', () => {
     useConfigurationSettingsMutation
       .mockClear()
       .mockReturnValue({
-        createConfigSettings: jest.fn(),
+        createConfigSettings: mockCreateConfigSettings,
         updateConfigSettings: mockUpdateConfigSettings,
       });
     useUserAddressTypes.mockClear().mockReturnValue({
@@ -96,6 +97,28 @@ describe('RoutingAddress', () => {
     renderComponent();
 
     expect(screen.getByText('LoadingPane')).toBeInTheDocument();
+  });
+
+  it('should handle create routing address settings', async () => {
+    useRoutingAddressSettings
+      .mockClear()
+      .mockReturnValue({
+        data: {},
+        isFetching: false,
+        refetch: mockRefetch,
+      });
+
+    renderComponent();
+
+    await user.selectOptions(
+      await screen.findByRole('combobox', { name: 'ui-orders.settings.addressTypes.select.label' }),
+      [mockAddressTypes[1].addressType],
+    );
+    await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
+
+    expect(mockCreateConfigSettings).toHaveBeenCalledWith(expect.objectContaining({
+      value: mockAddressTypes[1].addressType,
+    }));
   });
 
   it('should handle routing address settings submit', async () => {
