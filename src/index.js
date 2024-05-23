@@ -176,7 +176,7 @@ const Orders = ({
     );
 
   return (
-    <CentralOrderingContextProvider>
+    <CentralOrderingContextProvider centralTenantOnly>
       {content}
     </CentralOrderingContextProvider>
   );

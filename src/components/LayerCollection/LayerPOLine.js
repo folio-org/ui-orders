@@ -17,7 +17,6 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
-  checkIfUserInCentralTenant,
   stripesConnect,
   stripesShape,
 } from '@folio/stripes/core';
@@ -34,7 +33,7 @@ import {
   materialTypesManifest,
   ORDER_FORMATS,
   sourceValues,
-  useCentralOrderingSettings,
+  useCentralOrderingContext,
   useIntegrationConfigs,
   useLocationsQuery,
   useModalToggle,
@@ -138,9 +137,7 @@ function LayerPOLine({
   );
   const { mutateTitle } = useTitleMutation();
 
-  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
-    enabled: checkIfUserInCentralTenant(stripes),
-  });
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const {
     isLoading: isLocationsLoading,

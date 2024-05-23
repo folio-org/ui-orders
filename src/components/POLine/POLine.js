@@ -11,17 +11,13 @@ import {
 } from 'react-intl';
 
 import { LoadingPane } from '@folio/stripes/components';
-import {
-  checkIfUserInCentralTenant,
-  stripesConnect,
-  stripesShape,
-} from '@folio/stripes/core';
+import { stripesConnect } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   getErrorCodeFromResponse,
   LINES_API,
   Tags,
-  useCentralOrderingSettings,
+  useCentralOrderingContext,
   useLocationsQuery,
   useModalToggle,
   useShowCallout,
@@ -48,7 +44,6 @@ function POLine({
   mutator,
   poURL,
   resources,
-  stripes,
 }) {
   const intl = useIntl();
   const sendCallout = useShowCallout();
@@ -57,9 +52,7 @@ function POLine({
   const [line, setLine] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
-    enabled: checkIfUserInCentralTenant(stripes),
-  });
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const {
     isLoading: isOrderTemplateLoading,
@@ -267,7 +260,6 @@ POLine.propTypes = {
   mutator: PropTypes.object.isRequired,
   poURL: PropTypes.string,
   resources: PropTypes.object.isRequired,
-  stripes: stripesShape.isRequired,
 };
 
 export default stripesConnect(POLine);

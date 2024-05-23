@@ -10,13 +10,9 @@ import {
   IconButton,
   PaneMenu,
 } from '@folio/stripes/components';
+import { TitleManager } from '@folio/stripes/core';
 import {
-  checkIfUserInCentralTenant,
-  TitleManager,
-  useStripes,
-} from '@folio/stripes/core';
-import {
-  useCentralOrderingSettings,
+  useCentralOrderingContext,
   VersionHistoryPane,
   VersionViewContextProvider,
 } from '@folio/stripes-acq-components';
@@ -40,8 +36,6 @@ const POLineVersionView = ({
   location,
   match,
 }) => {
-  const stripes = useStripes();
-
   const { id, lineId, versionId } = match.params;
   const orderLineId = lineId || id;
   const orderId = lineId && id;
@@ -70,12 +64,7 @@ const POLineVersionView = ({
     });
   }, [history, location.search, orderLinePathname]);
 
-  const {
-    enabled: isCentralOrderingEnabled,
-    isLoading: isCentralOrderingSettingsLoading,
-  } = useCentralOrderingSettings({
-    enabled: checkIfUserInCentralTenant(stripes),
-  });
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const {
     versions,
@@ -109,7 +98,6 @@ const POLineVersionView = ({
     isOrderLineLoading
     || isHistoryLoading
     || isPOLineVersionLoading
-    || isCentralOrderingSettingsLoading
   );
 
   return (

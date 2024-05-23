@@ -8,15 +8,11 @@ import {
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { LoadingPane } from '@folio/stripes/components';
-import {
-  checkIfUserInCentralTenant,
-  stripesConnect,
-  stripesShape,
-} from '@folio/stripes/core';
+import { stripesConnect } from '@folio/stripes/core';
 import {
   baseManifest,
   Tags,
-  useCentralOrderingSettings,
+  useCentralOrderingContext,
   useLocationsQuery,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -41,7 +37,6 @@ const OrderLineDetails = ({
   mutator,
   refreshList,
   resources,
-  stripes,
 }) => {
   const lineId = match.params.id;
   const [isLoading, setIsLoading] = useState(true);
@@ -49,9 +44,7 @@ const OrderLineDetails = ({
   const [order, setOrder] = useState({});
   const showToast = useShowCallout();
 
-  const { enabled: isCentralOrderingEnabled } = useCentralOrderingSettings({
-    enabled: checkIfUserInCentralTenant(stripes),
-  });
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const {
     isLoading: isOrderTemplateLoading,
@@ -254,7 +247,6 @@ OrderLineDetails.propTypes = {
   mutator: PropTypes.object.isRequired,
   refreshList: PropTypes.func.isRequired,
   resources: PropTypes.object.isRequired,
-  stripes: stripesShape.isRequired,
 };
 
 export default stripesConnect(OrderLineDetails);
