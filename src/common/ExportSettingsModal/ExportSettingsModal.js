@@ -18,18 +18,16 @@ import {
 } from '@folio/stripes/components';
 
 import {
-  EXPORT_LINE_FIELDS,
-  EXPORT_ORDER_FIELDS,
-  EXPORT_LINE_FIELDS_OPTIONS,
-  EXPORT_ORDER_FIELDS_OPTIONS,
-} from './constants';
+  getExportLineFields,
+  getExportLineFieldsOptions,
+  getExportOrderFields,
+  getExportOrderFieldsOptions,
+} from './utils';
 
 const MODAL_CONFIG_DEFAULT = {
   actionLabel: <FormattedMessage id="ui-orders.exportSettings.export" />,
-  lineDataOptions: EXPORT_LINE_FIELDS_OPTIONS,
   lineFieldsLabel: <FormattedMessage id="ui-orders.exportSettings.lineFieldsLabel" />,
   message: <FormattedMessage id="ui-orders.exportSettings.message" />,
-  orderDataOptions: EXPORT_ORDER_FIELDS_OPTIONS,
   orderFieldsLabel: <FormattedMessage id="ui-orders.exportSettings.orderFieldsLabel" />,
 };
 
@@ -37,16 +35,16 @@ const SELECTED_PO_FIELDS_ID = 'selected-po-fields';
 const SELECTED_POL_FIELDS_ID = 'selected-pol-fields';
 
 const ExportSettingsModal = ({
+  customFields,
+  isLoading,
   onCancel,
   isExporting,
   onExportCSV,
   modalConfig: {
     actionLabel,
-    lineDataOptions,
     lineFieldsLabel,
     message,
     modalLabel: modalLabelProp,
-    orderDataOptions,
     orderFieldsLabel,
   },
 }) => {
@@ -57,17 +55,21 @@ const ExportSettingsModal = ({
   const [lineFieldsToExport, setLineFieldsToExport] = useState([]);
 
   const modalLabel = modalLabelProp || intl.formatMessage({ id: 'ui-orders.exportSettings.label' });
+  const customFieldsLabelPrefix = intl.formatMessage({ id: 'stripes-smart-components.customFields' }) + ' - ';
 
   const isExportBtnDisabled = isExporting ||
     (!isOrderExportAll && !orderFieldsToExport.length) ||
     (!isLineExportAll && !lineFieldsToExport.length);
 
+  const lineDataOptions = getExportLineFieldsOptions(customFieldsLabelPrefix, customFields);
+  const orderDataOptions = getExportOrderFieldsOptions(customFieldsLabelPrefix, customFields);
+
   const onExport = useCallback(() => {
     const orderFields = isOrderExportAll
-      ? Object.keys(EXPORT_ORDER_FIELDS)
+      ? Object.keys(getExportOrderFields(customFields))
       : orderFieldsToExport.map(({ value }) => value);
     const lineFields = isLineExportAll
-      ? Object.keys(EXPORT_LINE_FIELDS)
+      ? Object.keys(getExportLineFields(customFields))
       : lineFieldsToExport.map(({ value }) => value);
 
     return onExportCSV([...orderFields, ...lineFields]);
@@ -103,7 +105,7 @@ const ExportSettingsModal = ({
 
       <p>{message}</p>
 
-      {isExporting
+      {isExporting || isLoading
         ? <Loading size="large" />
         : (
           <>
@@ -198,6 +200,8 @@ const ExportSettingsModal = ({
 };
 
 ExportSettingsModal.propTypes = {
+  customFields: PropTypes.arrayOf(PropTypes.object),
+  isLoading: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   isExporting: PropTypes.bool.isRequired,
   onExportCSV: PropTypes.func.isRequired,

@@ -28,6 +28,9 @@ export const NOTE_TYPES = {
   poLine: 'poLine',
 };
 
+export const ENTITY_TYPE_ORDER = 'purchase_order';
+export const ENTITY_TYPE_PO_LINE = 'po_line';
+
 export const CONFIG_INSTANCE_STATUS = 'inventory-instanceStatusCode';
 export const CONFIG_INSTANCE_TYPE = 'inventory-instanceTypeCode';
 export const CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY = 'CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH';

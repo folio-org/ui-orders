@@ -33,6 +33,11 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  ENTITY_TYPE_ORDER,
+  ENTITY_TYPE_PO_LINE,
+  WORKFLOW_STATUS,
+} from '../../../common/constants';
+import {
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
   ORDER_TEMPLATES_ACCORDION,
@@ -45,7 +50,6 @@ import {
   isPhresource,
   isOtherResource,
 } from '../../../common/POLFields';
-import { WORKFLOW_STATUS } from '../../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
@@ -416,7 +420,7 @@ const OrderTemplatesEditor = ({
                         accordionId={ORDER_TEMPLATES_ACCORDION.PO_CUSTOM_FIELDS}
                         backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                         changeFinalFormField={change}
-                        entityType="purchase_order"
+                        entityType={ENTITY_TYPE_ORDER}
                         fieldComponent={Field}
                         finalFormCustomFieldsValues={customFieldsValues}
                       />
@@ -424,7 +428,7 @@ const OrderTemplatesEditor = ({
                         accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
                         backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                         changeFinalFormField={change}
-                        entityType="po_line"
+                        entityType={ENTITY_TYPE_PO_LINE}
                         fieldComponent={Field}
                         finalFormCustomFieldsValues={customFieldsValues}
                       />

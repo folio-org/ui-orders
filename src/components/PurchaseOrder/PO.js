@@ -56,6 +56,7 @@ import {
   ReexportModal,
 } from '../../common';
 import {
+  ENTITY_TYPE_ORDER,
   ERROR_CODES,
   INVOICES_ROUTE,
   ORDERS_ROUTE,
@@ -848,7 +849,7 @@ const PO = ({
               accordionId="customFieldsPO"
               backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
               customFieldsValues={customFieldsValues}
-              entityType="purchase_order"
+              entityType={ENTITY_TYPE_ORDER}
             />
             {Boolean(exportHistory?.length) && (
               <ExportDetailsAccordion

@@ -34,6 +34,7 @@ import {
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
 
+import { ENTITY_TYPE_ORDER } from '../../common/constants';
 import { useErrorAccordionStatus } from '../../common/hooks';
 import {
   getAddresses,
@@ -381,7 +382,7 @@ const POForm = ({
                               accordionId="customFieldsPO"
                               backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                               changeFinalFormField={change}
-                              entityType="purchase_order"
+                              entityType={ENTITY_TYPE_ORDER}
                               fieldComponent={Field}
                               finalFormCustomFieldsValues={customFieldsValues}
                             />

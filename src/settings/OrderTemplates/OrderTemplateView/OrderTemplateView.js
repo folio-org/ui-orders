@@ -31,6 +31,10 @@ import {
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
 
+import {
+  ENTITY_TYPE_ORDER,
+  ENTITY_TYPE_PO_LINE,
+} from '../../../common/constants';
 import { isOngoing } from '../../../common/POFields';
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
 import { SummaryView } from '../../../components/PurchaseOrder/Summary';
@@ -418,14 +422,14 @@ class OrderTemplateView extends Component {
                       accordionId={ORDER_TEMPLATES_ACCORDION.PO_CUSTOM_FIELDS}
                       backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                       customFieldsValues={customFieldsValues}
-                      entityType="purchase_order"
+                      entityType={ENTITY_TYPE_ORDER}
                     />
 
                     <ViewCustomFieldsRecord
                       accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
                       backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                       customFieldsValues={customFieldsValues}
-                      entityType="po_line"
+                      entityType={ENTITY_TYPE_PO_LINE}
                     />
                   </AccordionSet>
                 </Col>

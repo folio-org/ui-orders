@@ -22,7 +22,7 @@ const getExportUseIds = (lines = [], orders = []) => {
   return uniq(flatten([...lineUserIds, ...orderUserIds])).filter(Boolean);
 };
 
-export const getExportData = async (mutator, lines, orders, intl) => {
+export const getExportData = async (mutator, lines, orders, customFields, intl) => {
   const orderVendorIds = uniq(orders.map(({ vendor }) => vendor));
   const lineVendorIds = uniq(flatten((lines.map(({ physical, eresource }) => ([
     physical?.materialSupplier, eresource?.accessProvider,
@@ -79,6 +79,7 @@ export const getExportData = async (mutator, lines, orders, intl) => {
     intl,
     lines,
     orders,
+    customFields,
     vendors,
     users,
     acqUnits,
