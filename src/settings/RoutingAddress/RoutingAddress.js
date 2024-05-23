@@ -22,9 +22,9 @@ export const RoutingAddress = ({ label }) => {
 
   const { createConfigSettings, updateConfigSettings } = useConfigurationSettingsMutation();
 
-  const addressTypeOptions = useMemo(() => addressTypes.map(({ addressType }) => ({
+  const addressTypeOptions = useMemo(() => addressTypes.map(({ addressType, id }) => ({
     label: addressType,
-    value: addressType,
+    value: id,
   })), [addressTypes]);
 
   const createSetting = (values) => {
