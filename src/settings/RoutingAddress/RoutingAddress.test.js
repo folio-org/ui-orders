@@ -53,7 +53,7 @@ const mockAddressTypes = [
 ];
 const mockData = {
   id: 'setting-id',
-  value: mockAddressTypes[0].addressType,
+  value: mockAddressTypes[0].id,
 };
 
 describe('RoutingAddress', () => {
@@ -117,7 +117,7 @@ describe('RoutingAddress', () => {
     await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
 
     expect(mockCreateConfigSettings).toHaveBeenCalledWith(expect.objectContaining({
-      value: mockAddressTypes[1].addressType,
+      value: mockAddressTypes[1].id,
     }));
   });
 
@@ -139,7 +139,7 @@ describe('RoutingAddress', () => {
     await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
 
     expect(mockUpdateConfigSettings).toHaveBeenCalledWith(expect.objectContaining({
-      value: mockAddressTypes[1].addressType,
+      value: mockAddressTypes[1].id,
     }));
   });
 });
