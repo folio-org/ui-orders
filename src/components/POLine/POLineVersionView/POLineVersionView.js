@@ -1,14 +1,22 @@
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { memo, useCallback } from 'react';
+import get from 'lodash/get';
+import {
+  memo,
+  useCallback,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   IconButton,
   PaneMenu,
 } from '@folio/stripes/components';
-import { TitleManager } from '@folio/stripes/core';
 import {
+  checkIfUserInCentralTenant,
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
+import {
+  useCentralOrderingSettings,
   VersionHistoryPane,
   VersionViewContextProvider,
 } from '@folio/stripes-acq-components';
@@ -32,6 +40,8 @@ const POLineVersionView = ({
   location,
   match,
 }) => {
+  const stripes = useStripes();
+
   const { id, lineId, versionId } = match.params;
   const orderLineId = lineId || id;
   const orderId = lineId && id;
@@ -61,6 +71,13 @@ const POLineVersionView = ({
   }, [history, location.search, orderLinePathname]);
 
   const {
+    enabled: isCentralOrderingEnabled,
+    isLoading: isCentralOrderingSettingsLoading,
+  } = useCentralOrderingSettings({
+    enabled: checkIfUserInCentralTenant(stripes),
+  });
+
+  const {
     versions,
     isLoading: isHistoryLoading,
   } = usePOLineVersions(orderLineId, {
@@ -72,7 +89,12 @@ const POLineVersionView = ({
   const {
     selectedVersion,
     isLoading: isPOLineVersionLoading,
-  } = useSelectedPOLineVersion({ versionId, versions, snapshotPath });
+  } = useSelectedPOLineVersion({
+    versionId,
+    versions,
+    snapshotPath,
+    centralOrdering: isCentralOrderingEnabled,
+  });
 
   const firstMenu = (
     <PaneMenu>
@@ -83,7 +105,12 @@ const POLineVersionView = ({
       />
     </PaneMenu>);
 
-  const isVersionLoading = isOrderLineLoading || isHistoryLoading || isPOLineVersionLoading;
+  const isVersionLoading = (
+    isOrderLineLoading
+    || isHistoryLoading
+    || isPOLineVersionLoading
+    || isCentralOrderingSettingsLoading
+  );
 
   return (
     <VersionViewContextProvider
@@ -102,7 +129,10 @@ const POLineVersionView = ({
         paneSub={orderLine?.titleOrPackage}
         tags={get(orderLine, 'tags.tagList', [])}
       >
-        <POLineVersion version={selectedVersion} />
+        <POLineVersion
+          version={selectedVersion}
+          centralOrdering={isCentralOrderingEnabled}
+        />
       </VersionView>
 
       <VersionHistoryPane

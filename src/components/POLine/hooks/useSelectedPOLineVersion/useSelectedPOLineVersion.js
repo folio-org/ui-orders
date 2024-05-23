@@ -13,15 +13,12 @@ import {
 } from 'lodash/fp';
 
 import {
-  checkIfUserInCentralTenant,
   useNamespace,
   useOkapiKy,
-  useStripes,
 } from '@folio/stripes/core';
 import {
   ConsortiumLocationsContext,
   LocationsContext,
-  useCentralOrderingSettings,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -35,10 +32,9 @@ import {
   useOrderLine,
 } from '../../../../common/hooks';
 
-export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, options = {}) => {
+export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath, centralOrdering }, options = {}) => {
   const intl = useIntl();
   const ky = useOkapiKy();
-  const stripes = useStripes();
   const [namespace] = useNamespace({ key: 'order-line-version-data' });
 
   const deletedRecordLabel = intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
@@ -53,12 +49,6 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
 
   const linkedPackagePoLineId = versionSnapshot?.packagePoLineId;
 
-  const {
-    enabled: isCentralOrderingEnabled,
-    isLoading: isCentralOrderingSettingsLoading,
-  } = useCentralOrderingSettings({
-    enabled: checkIfUserInCentralTenant(stripes),
-  });
   const {
     order,
     isLoading: isOrderLoading,
@@ -78,7 +68,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
   const {
     isLoading: isLocationsLoading,
     locations,
-  } = useContext(isCentralOrderingEnabled ? ConsortiumLocationsContext : LocationsContext);
+  } = useContext(centralOrdering ? ConsortiumLocationsContext : LocationsContext);
 
   const {
     isLoading: isVersionDataLoading,
@@ -160,7 +150,6 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
         && !isOrderLineLoading
         && !isLinkedOrderLineLoading
         && !isAcqMethodsLoading
-        && !isCentralOrderingSettingsLoading
         && !isLocationsLoading,
       ),
       ...options,
@@ -173,7 +162,6 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
     || isLinkedOrderLineLoading
     || isAcqMethodsLoading
     || isVersionDataLoading
-    || isCentralOrderingSettingsLoading
     || isLocationsLoading
   );
 
