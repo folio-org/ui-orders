@@ -13,9 +13,7 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import {
-  useLocationsQuery,
-} from '@folio/stripes-acq-components';
+import { useLocationsQuery } from '@folio/stripes-acq-components';
 
 import {
   getMaterialTypes,

@@ -25,7 +25,6 @@ const getLocationFieldName = (fieldName, holdingId) => {
 };
 
 const Location = ({
-  centralOrdering,
   component,
   holdings,
   location,
@@ -111,7 +110,6 @@ const LocationView = ({
 };
 
 Location.propTypes = {
-  centralOrdering: PropTypes.bool,
   component: PropTypes.node,
   location: PropTypes.object,
   locationsMap: PropTypes.object,
@@ -120,7 +118,6 @@ Location.propTypes = {
 };
 
 LocationView.propTypes = {
-  centralOrdering: PropTypes.bool,
   lineLocations: PropTypes.arrayOf(PropTypes.object),
   locations: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,

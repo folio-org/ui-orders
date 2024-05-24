@@ -50,8 +50,6 @@ const Orders = ({
 }) => {
   const [isOpen, toggleModal] = useModalToggle();
 
-  // TODO: wrap in central ordering context
-
   const focusSearchField = () => {
     const el = document.getElementById('input-record-search');
 
