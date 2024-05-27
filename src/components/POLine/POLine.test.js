@@ -1,10 +1,21 @@
 import { MemoryRouter } from 'react-router';
-import { QueryClient, QueryClientProvider } from 'react-query';
-
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
-import { Tags } from '@folio/stripes-acq-components';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
 import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import {
+  Tags,
+  useLocationsQuery,
+} from '@folio/stripes-acq-components';
+
+import {
+  location,
   orderLine,
   order,
 } from 'fixtures';
@@ -15,6 +26,8 @@ import POLineView from './POLineView';
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   Tags: jest.fn().mockReturnValue('Tags'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+  useLocationsQuery: jest.fn(() => ({ locations: [] })),
 }));
 jest.mock('../../common/hooks', () => ({
   useOrderTemplate: jest.fn().mockResolvedValue({
@@ -55,9 +68,6 @@ const defaultProps = {
       GET: jest.fn().mockResolvedValue(),
     },
     materialTypes: {
-      GET: jest.fn().mockResolvedValue(),
-    },
-    locations: {
       GET: jest.fn().mockResolvedValue(),
     },
   },
@@ -102,6 +112,9 @@ describe('POLine actions', () => {
     defaultProps.mutator.poLine.GET.mockClear().mockResolvedValue([orderLine]);
     defaultProps.mutator.poLine.PUT.mockClear();
     defaultProps.mutator.poLine.DELETE.mockClear();
+    useLocationsQuery
+      .mockClear()
+      .mockReturnValue({ locations: [location] });
   });
 
   it('should close POLineView and back to order', async () => {

@@ -1,8 +1,16 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import { useLocationsQuery } from '@folio/stripes-acq-components';
 
 import {
   order,
@@ -21,7 +29,9 @@ import LayerPOLine from './LayerPOLine';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
   useIntegrationConfigs: jest.fn().mockReturnValue({ integrationConfigs: [], isLoading: false }),
+  useLocationsQuery: jest.fn(),
 }));
 jest.mock('../../common/hooks', () => ({
   useOpenOrderSettings: jest.fn().mockReturnValue({ isFetching: false, openOrderSettings: {} }),
@@ -66,9 +76,6 @@ const defaultProps = {
     orderTemplates: {
       GET: jest.fn().mockResolvedValue(),
     },
-    locations: {
-      GET: jest.fn().mockResolvedValue(),
-    },
     materialTypes: {
       GET: jest.fn().mockResolvedValue(),
     },
@@ -97,9 +104,6 @@ const defaultProps = {
       hasLoaded: true,
     },
     orderTemplates: {
-      hasLoaded: true,
-    },
-    locations: {
       hasLoaded: true,
     },
     identifierTypes: {
@@ -143,7 +147,12 @@ describe('LayerPOLine', () => {
     history.push.mockClear();
     defaultProps.mutator.poLines.PUT.mockClear();
     defaultProps.mutator.poLines.POST.mockClear();
-    useOrder.mockClear().mockReturnValue({ isLoading: false, order });
+    useOrder
+      .mockClear()
+      .mockReturnValue({ isLoading: false, order });
+    useLocationsQuery
+      .mockClear()
+      .mockReturnValue({ locations: [location] });
   });
 
   it('should render POLineForm', async () => {

@@ -1,17 +1,36 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router';
 
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
-import { Tags } from '@folio/stripes-acq-components';
+import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import {
+  Tags,
+  useLocationsQuery,
+} from '@folio/stripes-acq-components';
 
-import { orderLine, order } from 'fixtures';
-import { match, history, location } from 'fixtures/routerMocks';
+import {
+  orderLine,
+  order,
+} from 'fixtures';
+import {
+  match,
+  history,
+  location,
+} from 'fixtures/routerMocks';
 import { POLineView } from '../../components/POLine';
 import OrderLineDetails from './OrderLineDetails';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   Tags: jest.fn().mockReturnValue('Tags'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+  useLocationsQuery: jest.fn(() => ({ locations: [] })),
 }));
 jest.mock('../../components/POLine/POLineView', () => jest.fn().mockReturnValue('POLineView'));
 
@@ -23,9 +42,6 @@ const mutator = {
   },
   order: {
     GET: jest.fn().mockResolvedValue(order),
-  },
-  locations: {
-    GET: jest.fn(),
   },
   materialTypes: {
     GET: jest.fn(),
@@ -69,6 +85,12 @@ const renderOrderLineDetails = (props = {}) => render(
 );
 
 describe('OrderLineDetails', () => {
+  beforeEach(() => {
+    useLocationsQuery
+      .mockClear()
+      .mockReturnValue({ locations: [location] });
+  });
+
   it('should render POLineView', async () => {
     renderOrderLineDetails();
 
