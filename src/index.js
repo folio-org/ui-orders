@@ -183,7 +183,6 @@ const Orders = ({
 Orders.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   showSettings: PropTypes.bool,
-  stripes: stripesShape.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
 };
 
