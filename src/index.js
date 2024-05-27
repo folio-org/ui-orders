@@ -7,10 +7,7 @@ import {
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import {
-  AppContextMenu,
-  stripesShape,
-} from '@folio/stripes/core';
+import { AppContextMenu } from '@folio/stripes/core';
 import {
   checkScope,
   CommandList,
