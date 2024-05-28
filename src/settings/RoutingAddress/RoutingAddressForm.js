@@ -21,7 +21,7 @@ import { TitleManager } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
-import { ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY } from './constants';
+import { ROUTING_USER_ADDRESS_TYPE_ID } from './constants';
 
 const RoutingAddressForm = ({
   handleSubmit,
@@ -79,7 +79,7 @@ const RoutingAddressForm = ({
             dataOptions={addressTypeOptions}
             fullWidth
             label={<FormattedMessage id="ui-orders.settings.addressTypes.select.label" />}
-            name={ROUTING_CONFIGURATION_USER_ADDRESS_TYPE_KEY}
+            name={ROUTING_USER_ADDRESS_TYPE_ID}
             required
           />
         </Col>

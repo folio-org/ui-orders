@@ -4,28 +4,38 @@ import {
 } from 'react-router-dom';
 
 import {
+  RoutingListCreate,
+  RoutingListEdit,
+  RoutingListView,
+} from '@folio/stripes-acq-components';
+
+import { ROUTING_LIST_ROUTE } from '../../../common/constants';
+import {
+  FALLBACK_ROUTE,
   ROUTING_LIST_CREATE_ROUTE,
   ROUTING_LIST_EDIT_ROUTE,
   ROUTING_LIST_VIEW_ROUTE,
 } from './constants';
-import { RoutingListCreate } from './RoutingListCreate';
-import { RoutingListEdit } from './RoutingListEdit';
-import { RoutingListView } from './RoutingListView';
 
 export function RoutingList() {
   return (
     <Switch>
       <Route
         path={ROUTING_LIST_CREATE_ROUTE}
-        component={RoutingListCreate}
+        render={() => <RoutingListCreate fallbackPath={FALLBACK_ROUTE} />}
       />
       <Route
         path={ROUTING_LIST_VIEW_ROUTE}
-        component={RoutingListView}
+        render={() => (
+          <RoutingListView
+            fallbackPath={FALLBACK_ROUTE}
+            routingListUrl={ROUTING_LIST_ROUTE}
+          />
+        )}
       />
       <Route
         path={ROUTING_LIST_EDIT_ROUTE}
-        component={RoutingListEdit}
+        render={() => <RoutingListEdit fallbackPath={FALLBACK_ROUTE} />}
       />
     </Switch>
   );

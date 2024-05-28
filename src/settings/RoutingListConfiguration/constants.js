@@ -15,24 +15,32 @@ export const CONFIG_NAMES = {
 export const ROUTING_LIST_TOKEN = {
   routing: [
     {
-      token: 'routing.userLastName',
-      previewValue: 'John',
-    },
-    {
-      token: 'routing.userFirstName',
-      previewValue: 'Doe',
-    },
-    {
-      token: 'routing.name',
+      token: 'routingList.name',
       previewValue: 'Routing Name',
     },
     {
-      token: 'routing.note',
+      token: 'routingList.note',
       previewValue: 'Routing description',
     },
     {
-      token: 'routing.userRoutingAddress',
-      previewValue: 'USA',
+      token: '#users',
+      previewValue: '',
+    },
+    {
+      token: 'lastName',
+      previewValue: 'John',
+    },
+    {
+      token: 'firstName',
+      previewValue: 'Doe',
+    },
+    {
+      token: 'routingAddress',
+      previewValue: '123 Main street',
+    },
+    {
+      token: '/users',
+      previewValue: '',
     },
   ],
 };

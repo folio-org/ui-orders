@@ -31,6 +31,7 @@ const renderComponent = () => render(
 );
 
 const mockRefetch = jest.fn();
+const mockCreateConfigSettings = jest.fn();
 const mockUpdateConfigSettings = jest.fn();
 const mockKy = {
   put: jest.fn((_url, { data }) => ({
@@ -52,7 +53,7 @@ const mockAddressTypes = [
 ];
 const mockData = {
   id: 'setting-id',
-  value: mockAddressTypes[0].addressType,
+  value: mockAddressTypes[0].id,
 };
 
 describe('RoutingAddress', () => {
@@ -61,7 +62,7 @@ describe('RoutingAddress', () => {
     useConfigurationSettingsMutation
       .mockClear()
       .mockReturnValue({
-        createConfigSettings: jest.fn(),
+        createConfigSettings: mockCreateConfigSettings,
         updateConfigSettings: mockUpdateConfigSettings,
       });
     useUserAddressTypes.mockClear().mockReturnValue({
@@ -98,6 +99,28 @@ describe('RoutingAddress', () => {
     expect(screen.getByText('LoadingPane')).toBeInTheDocument();
   });
 
+  it('should handle create routing address settings', async () => {
+    useRoutingAddressSettings
+      .mockClear()
+      .mockReturnValue({
+        data: {},
+        isFetching: false,
+        refetch: mockRefetch,
+      });
+
+    renderComponent();
+
+    await user.selectOptions(
+      await screen.findByRole('combobox', { name: 'ui-orders.settings.addressTypes.select.label' }),
+      [mockAddressTypes[1].addressType],
+    );
+    await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
+
+    expect(mockCreateConfigSettings).toHaveBeenCalledWith(expect.objectContaining({
+      value: mockAddressTypes[1].id,
+    }));
+  });
+
   it('should handle routing address settings submit', async () => {
     useRoutingAddressSettings
       .mockClear()
@@ -116,7 +139,7 @@ describe('RoutingAddress', () => {
     await user.click(await screen.findByRole('button', { name: 'stripes-core.button.save' }));
 
     expect(mockUpdateConfigSettings).toHaveBeenCalledWith(expect.objectContaining({
-      value: mockAddressTypes[1].addressType,
+      value: mockAddressTypes[1].id,
     }));
   });
 });
