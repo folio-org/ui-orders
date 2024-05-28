@@ -1,8 +1,8 @@
-import { MemoryRouter } from 'react-router';
 import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
+import { MemoryRouter } from 'react-router';
 
 import {
   render,

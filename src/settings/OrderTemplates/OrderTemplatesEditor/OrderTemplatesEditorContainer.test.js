@@ -1,8 +1,8 @@
+import { Form } from 'react-final-form';
 import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
-import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
 import {
