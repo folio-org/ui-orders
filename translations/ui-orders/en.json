@@ -23,7 +23,6 @@
   "button.reexport": "Re-export",
   "buttons.line.cancel": "Cancel",
   "buttons.line.close": "Close",
-  "buttons.line.saveAndClose": "Save & close",
   "buttons.line.save": "Save",
   "buttons.line.saveAndOpen": "Save & open order",
   "buttons.line.createAnother": "Create another",
@@ -669,7 +668,7 @@
   "relatedInvoiceLines.vendorName": "Vendor name",
   "relatedInvoiceLines.comment": "Comment",
   "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
-  
+
   "routing.list.accordion.create.button": "Add routing list",
   "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
 

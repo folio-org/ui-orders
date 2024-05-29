@@ -16,6 +16,7 @@
 * Prioritize users in a routing list by drag and drop list. Refs UIOR-1112.
 * Create "Bindery active" flag in POL and order templates. Refs UIOR-1211.
 * Add custom fields to CSV export. Refs UIOR-1231.
+* Use Save & close button label  stripes-component translation key. Reffs UIOR-1240.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

@@ -137,7 +137,7 @@ function POLineForm({
   const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const locations = parentResources?.locations?.records;
   const lineId = get(initialValues, 'id');
-  const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
+  const saveBtnLabelId = isCreateAnotherChecked ? 'ui-orders.buttons.line.save' : 'stripes-components.saveAndClose';
   const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
   const fundDistribution = get(formValues, 'fundDistribution', []);
   const lineLocations = get(formValues, 'locations', []);
@@ -341,7 +341,7 @@ function POLineForm({
           disabled={!enableSaveBtn && (pristine || submitting)}
           onClick={submit}
         >
-          <FormattedMessage id={`ui-orders.buttons.line.${saveBtnLabelId}`} />
+          <FormattedMessage id={saveBtnLabelId} />
         </Button>
         {isSaveAndOpenButtonVisible && (
           <Button
