@@ -4,19 +4,22 @@
 
 * UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIOR-1202.
 * *BREAKING* Settings - implement Routing list configuration. Refs UIOR-1249.
-* *BREAKING* Implement central ordering settings for receiving search configuration. Refs UIOR-1232.
+* *BREAKING* ECS - Implement central ordering settings for receiving search configuration. Refs UIOR-1232.
 * *BREAKING* Apply changes in the fund schema for the locations field. Refs UIOR-1251.
 * *BREAKING* Align the `finance.*` interfaces versions in accordance with the changes in the descriptor. Refs UIOR-1260.
 * Settings - implement Routing address configuration. Refs UIOR-1261.
 * Implement Routing lists accordion. Refs UIOR-1109.
 * Apply code refactoring for custom fields. Refs UIOR-1265.
-* Filter order lines by location or holding when central ordering is enabled. Refs UIOR-1267.
+* ECS - Filter order lines by location or holding when central ordering is enabled. Refs UIOR-1267.
 * Create routing list modal. Refs UIOR-1191.
 * Add Users to routing list. Refs UIOR-1111.
 * Prioritize users in a routing list by drag and drop list. Refs UIOR-1112.
 * Create "Bindery active" flag in POL and order templates. Refs UIOR-1211.
 * Add custom fields to CSV export. Refs UIOR-1231.
+* ECS - Add affiliation dropdown to the PO line location form. Refs UIOR-1233.
+* ECS - Adjust restrict fund by location validation to accommodate central ordering. Refs UIOR-1235.
 * Use Save & close button label  stripes-component translation key. Reffs UIOR-1240.
+
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

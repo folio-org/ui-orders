@@ -1,9 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import {
+  useCallback,
+  useMemo,
+} from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { withRouter } from 'react-router-dom';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { get } from 'lodash';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -12,13 +18,14 @@ import {
   getErrorCodeFromResponse,
   prefixesResource,
   suffixesResource,
+  useCentralOrderingContext,
+  useLocationsQuery,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import {
   IDENTIFIER_TYPES,
   ADDRESSES,
-  LOCATIONS,
   FUND,
   CREATE_INVENTORY,
   VENDORS,
@@ -43,9 +50,17 @@ import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 const INITIAL_VALUES = { isPackage: false, hideAll: false };
 
-function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resources, stripes, mutator }) {
+function OrderTemplatesEditorContainer({
+  match: { params: { id } },
+  close,
+  resources,
+  stripes,
+  mutator,
+}) {
   const intl = useIntl();
   const showToast = useShowCallout();
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+
   const saveOrderTemplate = useCallback((values) => {
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplate.POST;
     const templateName = values.templateName?.trim();
@@ -68,9 +83,16 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, id, intl, showToast]);
 
-  const { isFetching, orderTemplate } = useOrderTemplate(id);
+  const {
+    isFetching: isOrderTemplateFetching,
+    orderTemplate,
+  } = useOrderTemplate(id);
 
-  const locations = resources?.locations?.records;
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
+
   const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
   const identifierTypes = getIdentifierTypesForSelect(resources);
@@ -92,9 +114,11 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
     : INITIAL_VALUES;
   const title = get(initialValues, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
+  const isLoading = isOrderTemplateFetching || isLocationsLoading;
+
   return (
     <OrderTemplatesEditor
-      isLoading={isFetching}
+      isLoading={isLoading}
       title={title}
       onSubmit={saveOrderTemplate}
       close={close}
@@ -111,13 +135,13 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
       vendors={vendors}
       contributorNameTypes={contributorNameTypes}
       stripes={stripes}
+      centralOrdering={isCentralOrderingEnabled}
     />
   );
 }
 
 OrderTemplatesEditorContainer.manifest = Object.freeze({
   [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
-  locations: LOCATIONS,
   fund: FUND,
   createInventory: CREATE_INVENTORY,
   prefixesSetting: prefixesResource,

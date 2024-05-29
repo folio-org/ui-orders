@@ -8,11 +8,18 @@ import {
 
 import { FieldsLocation } from '../../../../common/POLFields';
 
-const POLineLocationsForm = ({ locations, locationIds, changeLocation, formValues }) => {
+const POLineLocationsForm = ({
+  centralOrdering,
+  changeLocation,
+  formValues,
+  locations,
+  locationIds,
+}) => {
   return (
     <Row start="xs">
       <Col xs={12}>
         <FieldsLocation
+          centralOrdering={centralOrdering}
           changeLocation={changeLocation}
           locationIds={locationIds}
           locations={locations}
@@ -25,10 +32,11 @@ const POLineLocationsForm = ({ locations, locationIds, changeLocation, formValue
 };
 
 POLineLocationsForm.propTypes = {
-  locationIds: PropTypes.arrayOf(PropTypes.string),
-  locations: PropTypes.arrayOf(PropTypes.object),
+  centralOrdering: PropTypes.bool,
   changeLocation: PropTypes.func.isRequired,
   formValues: PropTypes.object.isRequired,
+  locationIds: PropTypes.arrayOf(PropTypes.string),
+  locations: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default POLineLocationsForm;

@@ -10,6 +10,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import {
+  ConsortiumFieldInventory,
   FieldInventory,
   RepeatableFieldWithValidation,
   TextField,
@@ -33,6 +34,7 @@ import {
 const NO_VALIDATE = undefined;
 
 const FieldsLocation = ({
+  centralOrdering = false,
   changeLocation,
   filterHoldings,
   filterLocations,
@@ -66,6 +68,10 @@ const FieldsLocation = ({
     return NO_VALIDATE;
   };
 
+  const FieldInventoryComponent = centralOrdering
+    ? ConsortiumFieldInventory
+    : FieldInventory;
+
   return (
     <>
       {isQuantityDisabled && (
@@ -91,13 +97,14 @@ const FieldsLocation = ({
         renderField={(field) => (
           <Row>
             <Col xs={6}>
-              <FieldInventory
+              <FieldInventoryComponent
+                affiliationName={`${field}.tenantId`}
                 locationIds={locationIds}
                 locations={locations}
                 holdingName={`${field}.holdingId`}
                 locationName={`${field}.locationId`}
                 onChange={changeLocation}
-                disabled={isPostPendingOrder}
+                isNonInteractive={isPostPendingOrder}
                 required={withValidation}
                 filterHoldings={filterHoldings}
                 filterLocations={filterLocations}
@@ -143,6 +150,7 @@ const FieldsLocation = ({
 };
 
 FieldsLocation.propTypes = {
+  centralOrdering: PropTypes.bool,
   changeLocation: PropTypes.func.isRequired,
   filterHoldings: PropTypes.func,
   filterLocations: PropTypes.func,

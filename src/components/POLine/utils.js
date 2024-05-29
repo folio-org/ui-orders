@@ -184,6 +184,7 @@ export const getPoLineFieldsLabelMap = ({
     'locations[\\d]': 'ui-orders.line.accordion.location',
     'locations[\\d].holdingId': 'ui-orders.location.holding',
     'locations[\\d].locationId': 'ui-orders.location.nameCode',
+    'locations[\\d].tenantId': 'stripes-acq-components.consortia.affiliations.select.label',
     'locations[\\d].quantity': 'ui-orders.cost.quantity',
     'locations[\\d].quantityPhysical': 'ui-orders.location.quantityPhysical',
     'locations[\\d].quantityElectronic': 'ui-orders.location.quantityElectronic',

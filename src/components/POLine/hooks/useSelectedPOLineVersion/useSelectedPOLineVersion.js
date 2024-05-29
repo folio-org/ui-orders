@@ -13,9 +13,9 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
+import { useLocationsQuery } from '@folio/stripes-acq-components';
 
 import {
-  getLocations,
   getMaterialTypes,
   getOrganizationsByIds,
   getVersionMetadata,
@@ -26,7 +26,7 @@ import {
   useOrderLine,
 } from '../../../../common/hooks';
 
-export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, options = {}) => {
+export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath, centralOrdering }, options = {}) => {
   const intl = useIntl();
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'order-line-version-data' });
@@ -59,6 +59,10 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
     acqMethods,
     isLoading: isAcqMethodsLoading,
   } = useAcqMethods();
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useLocationsQuery({ consortium: centralOrdering });
 
   const {
     isLoading: isVersionDataLoading,
@@ -91,13 +95,11 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
       const [
         organizationsMap,
         materialTypesMap,
-        locationsList,
       ] = await Promise.all([
         getOrganizationsByIds(ky)(organizationIds).then(keyBy('id')),
         getMaterialTypes(ky)()
           .then(({ mtypes }) => mtypes)
           .then(keyBy('id')),
-        getLocations(ky)().then(({ locations }) => locations),
       ]);
 
       const vendor = organizationsMap[order?.vendor];
@@ -106,7 +108,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
       return {
         ...versionSnapshot,
         order,
-        locationsList,
+        locationsList: locations,
         acquisitionMethod: (
           acqMethods.find(({ id }) => id === versionSnapshot?.acquisitionMethod)?.value || deletedRecordLabel
         ),
@@ -141,7 +143,8 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
         && !isOrderLoading
         && !isOrderLineLoading
         && !isLinkedOrderLineLoading
-        && !isAcqMethodsLoading,
+        && !isAcqMethodsLoading
+        && !isLocationsLoading,
       ),
       ...options,
     },
@@ -153,6 +156,7 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath }, 
     || isLinkedOrderLineLoading
     || isAcqMethodsLoading
     || isVersionDataLoading
+    || isLocationsLoading
   );
 
   return {

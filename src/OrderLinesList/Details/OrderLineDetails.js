@@ -1,13 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { get } from 'lodash';
 
 import { LoadingPane } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   baseManifest,
   Tags,
+  useCentralOrderingContext,
+  useLocationsQuery,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -17,7 +23,6 @@ import {
 } from '../../components/Utils/api';
 import {
   FUND,
-  LOCATIONS,
   MATERIAL_TYPES,
 } from '../../components/Utils/resources';
 import { getCancelledLine } from '../../components/POLine/utils';
@@ -38,7 +43,18 @@ const OrderLineDetails = ({
   const [line, setLine] = useState({});
   const [order, setOrder] = useState({});
   const showToast = useShowCallout();
-  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
+
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+
+  const {
+    isLoading: isOrderTemplateLoading,
+    orderTemplate,
+  } = useOrderTemplate(order?.template);
+
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
   const fetchLineDetails = useCallback(
     () => {
@@ -131,7 +147,7 @@ const OrderLineDetails = ({
         })
         .finally(setIsLoading);
     },
-    [fetchLineDetails, line, showToast],
+    [fetchLineDetails, line, mutator.orderLine, showToast],
   );
 
   const updateLineTagList = async (orderLine) => {
@@ -143,7 +159,6 @@ const OrderLineDetails = ({
 
   const toggleTagsPane = () => setIsTagsPaneOpened(!isTagsPaneOpened);
 
-  const locations = get(resources, 'locations.records', []);
   const materialTypes = get(resources, 'materialTypes.records', []);
   const funds = get(resources, 'funds.records', []);
 
@@ -164,7 +179,14 @@ const OrderLineDetails = ({
     setIsLoading(false);
   }, [fetchLineDetails]);
 
-  if (isLoading || line?.id !== lineId || isOrderTemplateLoading) {
+  const isDataLoading = (
+    isLoading
+    || line?.id !== lineId
+    || isOrderTemplateLoading
+    || isLocationsLoading
+  );
+
+  if (isDataLoading) {
     return (
       <LoadingPane
         id="order-lines-details"
@@ -214,7 +236,6 @@ OrderLineDetails.manifest = Object.freeze({
     accumulate: true,
     fetch: false,
   },
-  locations: LOCATIONS,
   materialTypes: MATERIAL_TYPES,
   funds: FUND,
 });

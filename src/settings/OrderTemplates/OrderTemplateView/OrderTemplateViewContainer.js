@@ -1,13 +1,15 @@
-import React, { useCallback } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router-dom';
+import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { get } from 'lodash';
+import { withRouter } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
   getErrorCodeFromResponse,
+  useCentralOrderingContext,
+  useLocationsQuery,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -17,7 +19,6 @@ import {
 } from '../../../common/utils';
 import {
   ADDRESSES,
-  LOCATIONS,
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
 } from '../../../components/Utils/resources';
@@ -50,6 +51,7 @@ function OrderTemplateViewContainer({
 }) {
   const intl = useIntl();
   const sendCallout = useShowCallout();
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const onDuplicateOrderTemplate = useCallback(async ({ id: _, templateName, ...template }) => {
     try {
@@ -95,10 +97,11 @@ function OrderTemplateViewContainer({
     [close, id, sendCallout, showSuccessDeleteMessage],
   );
 
+  const { locations } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
+
   const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
   const addresses = getAddresses(get(resources, 'addresses.records', []));
   const funds = get(resources, 'funds.records', []);
-  const locations = get(resources, 'locations.records', []);
   const materialTypes = get(resources, 'materialTypes.records', []);
 
   return (
@@ -120,7 +123,6 @@ function OrderTemplateViewContainer({
 
 OrderTemplateViewContainer.manifest = Object.freeze({
   addresses: ADDRESSES,
-  locations: LOCATIONS,
   materialTypes: MATERIAL_TYPES,
   orderTemplate: ORDER_TEMPLATE,
 });

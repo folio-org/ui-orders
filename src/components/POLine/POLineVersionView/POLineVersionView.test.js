@@ -31,6 +31,7 @@ import POLineVersionView from './POLineVersionView';
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   ExchangeRateValue: jest.fn(() => 'ExchangeRateValue'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
   useLineHoldings: jest.fn(() => ({ isLoading: false, holdings: [] })),
 }));
 jest.mock('@folio/stripes-acq-components/lib/hooks/useUsersBatch', () => ({

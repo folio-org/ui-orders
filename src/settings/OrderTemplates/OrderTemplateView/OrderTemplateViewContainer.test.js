@@ -1,7 +1,13 @@
 import { MemoryRouter } from 'react-router';
 
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import { useLocationsQuery } from '@folio/stripes-acq-components';
 
+import { location } from 'fixtures';
 import { getCommonErrorMessage } from '../../../common/utils';
 import OrderTemplateViewContainer from './OrderTemplateViewContainer';
 import OrderTemplateView from './OrderTemplateView';
@@ -12,6 +18,11 @@ jest.mock('react-intl', () => ({
     formatMessage: (v) => v,
     formatDate: (v) => v,
   })),
+}));
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+  useLocationsQuery: jest.fn(),
 }));
 jest.mock('../../../common/utils', () => ({
   ...jest.requireActual('../../../common/utils'),
@@ -47,6 +58,12 @@ const template = {
 };
 
 describe('OrderTemplateViewContainer', () => {
+  beforeEach(() => {
+    useLocationsQuery
+      .mockClear()
+      .mockReturnValue({ locations: [location] });
+  });
+
   it('should render order template view', () => {
     renderOrderTemplateViewContainer();
 

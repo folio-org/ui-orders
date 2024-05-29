@@ -34,7 +34,10 @@ import { PhysicalVersionView } from './PhysicalVersionView';
 import { POLineDetailsVersionView } from './POLineDetailsVersionView';
 import { VendorVersionView } from './VendorVersionView';
 
-const POLineVersion = ({ version }) => {
+const POLineVersion = ({
+  version,
+  centralOrdering = false,
+}) => {
   const accordionStatusRef = useRef();
 
   const orderFormat = version?.orderFormat;
@@ -130,7 +133,10 @@ const POLineVersion = ({ version }) => {
             label={<FormattedMessage id="ui-orders.line.accordion.location" />}
             id={ACCORDION_ID.location}
           >
-            <LocationVersionView version={version} />
+            <LocationVersionView
+              version={version}
+              centralOrdering={centralOrdering}
+            />
           </Accordion>
 
           {showPhresources && (
@@ -166,6 +172,7 @@ const POLineVersion = ({ version }) => {
 };
 
 POLineVersion.propTypes = {
+  centralOrdering: PropTypes.bool,
   version: PropTypes.object.isRequired,
 };
 

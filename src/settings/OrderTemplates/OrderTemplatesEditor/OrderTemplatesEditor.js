@@ -78,6 +78,7 @@ const ORDER = {
 };
 
 const OrderTemplatesEditor = ({
+  centralOrdering,
   initialValues,
   identifierTypes,
   isLoading,
@@ -349,6 +350,7 @@ const OrderTemplatesEditor = ({
                         id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
                       >
                         <POLineLocationsForm
+                          centralOrdering={centralOrdering}
                           changeLocation={changeLocation}
                           locationIds={locationIds}
                           locations={locations}
@@ -445,6 +447,7 @@ const OrderTemplatesEditor = ({
 };
 
 OrderTemplatesEditor.propTypes = {
+  centralOrdering: PropTypes.bool,
   isLoading: PropTypes.bool,
   values: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,

@@ -13,7 +13,10 @@ import LocationView from '../../Location/LocationView';
 
 const LOCATIONS_NAME = 'locations';
 
-export const LocationVersionView = ({ version }) => {
+export const LocationVersionView = ({
+  version,
+  centralOrdering = false,
+}) => {
   const versionContext = useContext(VersionViewContext);
 
   const locations = version?.locations;
@@ -37,10 +40,12 @@ export const LocationVersionView = ({ version }) => {
       lineLocations={locations}
       locations={locationsList}
       name={LOCATIONS_NAME}
+      centralOrdering={centralOrdering}
     />
   );
 };
 
 LocationVersionView.propTypes = {
+  centralOrdering: PropTypes.bool,
   version: PropTypes.object.isRequired,
 };
