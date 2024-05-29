@@ -881,7 +881,6 @@
     "document.settings.title": "Orders settings",
     "settings.centralOrdering.label": "Central ordering",
     "settings.centralOrdering.receivingSearch.label": "Set default for receiving search",
-    "settings.centralOrdering.receivingSearch.empty": "Empty",
     "settings.centralOrdering.receivingSearch.centralOnly": "Central only",
     "settings.centralOrdering.receivingSearch.centralDefault": "Central default",
     "settings.centralOrdering.receivingSearch.activeAffiliationDefault": "Active affiliation default",
@@ -890,5 +889,14 @@
     "settings.networkInteraction.label": "Network ordering",
     "filter.createdBy": "Created by",
     "filter.updatedBy": "Updated by",
-    "filter.dateUpdated": "Date updated"
+    "filter.dateUpdated": "Date updated",
+    "settings.routing.address": "Routing address",
+    "settings.routingAddress.submit.success": "Routing address setting was successfully updated",
+    "settings.routingAddress.submit.error.generic": "Routing address setting update failed",
+    "settings.addressTypes.select.label": "Select address type",
+    "settings.centralOrdering.receivingSearch.activeAffiliationOnly": "Active affiliation only",
+    "settings.routing.listConfiguration.body.required": "Body is required",
+    "routing.list.accordion.create.button": "Add routing list",
+    "poLine.isBinderyActive": "Bindery active",
+    "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>"
 }

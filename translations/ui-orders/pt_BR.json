@@ -881,7 +881,6 @@
     "document.settings.title": "Configurações de pedidos",
     "settings.centralOrdering.label": "Pedido central",
     "settings.centralOrdering.receivingSearch.label": "Definir padrão para receber pesquisa",
-    "settings.centralOrdering.receivingSearch.empty": "Vazio",
     "settings.centralOrdering.receivingSearch.centralOnly": "Apenas central",
     "settings.centralOrdering.receivingSearch.centralDefault": "Padrão central",
     "settings.centralOrdering.receivingSearch.activeAffiliationDefault": "Padrão de afiliação ativa",
@@ -890,5 +889,14 @@
     "settings.networkInteraction.label": "Pedido de rede",
     "filter.createdBy": "Criado por",
     "filter.updatedBy": "Atualizado por",
-    "filter.dateUpdated": "Data de atualização"
+    "filter.dateUpdated": "Data de atualização",
+    "settings.routing.address": "Endereço de roteamento",
+    "settings.routingAddress.submit.success": "A configuração do endereço de roteamento foi atualizada com sucesso",
+    "settings.routingAddress.submit.error.generic": "Falha na atualização da configuração do endereço de roteamento",
+    "settings.addressTypes.select.label": "Selecione o tipo de endereço",
+    "settings.centralOrdering.receivingSearch.activeAffiliationOnly": "Somente afiliação ativa",
+    "settings.routing.listConfiguration.body.required": "Conteúdo é obrigatório!",
+    "routing.list.accordion.create.button": "Adicionar lista de roteamento",
+    "poLine.isBinderyActive": "Encadernação ativa",
+    "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>"
 }
