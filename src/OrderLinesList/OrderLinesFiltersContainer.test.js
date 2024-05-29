@@ -5,7 +5,7 @@ import OrderLinesFiltersContainer from './OrderLinesFiltersContainer';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
-  useCentralOrderingSettings: jest.fn(() => ({ enabled: true })),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
 }));
 
 jest.mock('@folio/plugin-find-po-line/FindPOLine/OrderLinesFilters', () => ({

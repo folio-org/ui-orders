@@ -106,6 +106,7 @@ const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packag
 const GAME_CHANGER_TIMEOUT = 50;
 
 function POLineForm({
+  centralOrdering,
   form: { change, batch, getRegisteredFields },
   form,
   initialValues,
@@ -121,6 +122,7 @@ function POLineForm({
   values: formValues,
   enableSaveBtn,
   linesLimit,
+  locations,
   isCreateAnotherChecked = false,
   toggleCreateAnother,
   integrationConfigs = [],
@@ -135,7 +137,6 @@ function POLineForm({
   const accordionStatusRef = useRef();
 
   const identifierTypes = getIdentifierTypesForSelect(parentResources);
-  const locations = parentResources?.locations?.records;
   const lineId = get(initialValues, 'id');
   const saveBtnLabelId = isCreateAnotherChecked ? 'save' : 'saveAndClose';
   const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
@@ -630,6 +631,7 @@ function POLineForm({
                           id={ACCORDION_ID.location}
                         >
                           <LocationForm
+                            centralOrdering={centralOrdering}
                             changeLocation={changeLocation}
                             formValues={formValues}
                             filterHoldings={filterHoldings}
@@ -705,6 +707,7 @@ function POLineForm({
 }
 
 POLineForm.propTypes = {
+  centralOrdering: PropTypes.bool,
   initialValues: PropTypes.object,
   handleSubmit: PropTypes.func.isRequired,
   stripes: stripesShape.isRequired,
@@ -719,6 +722,15 @@ POLineForm.propTypes = {
   values: PropTypes.object.isRequired,
   enableSaveBtn: PropTypes.bool,
   linesLimit: PropTypes.number.isRequired,
+  locations: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
+    institutionId: PropTypes.string.isRequired,
+    campusId: PropTypes.string.isRequired,
+    libraryId: PropTypes.string.isRequired,
+    tenantId: PropTypes.string,
+  })).isRequired,
   isCreateAnotherChecked: PropTypes.bool,
   toggleCreateAnother: PropTypes.func.isRequired,
   integrationConfigs: PropTypes.arrayOf(PropTypes.object),

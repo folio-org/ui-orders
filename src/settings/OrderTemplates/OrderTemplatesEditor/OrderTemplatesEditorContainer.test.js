@@ -1,13 +1,27 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { Form } from 'react-final-form';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import { useLocationsQuery } from '@folio/stripes-acq-components';
 
+import { location } from 'fixtures';
 import { getCommonErrorMessage } from '../../../common/utils';
 import OrderTemplatesEditorContainer from './OrderTemplatesEditorContainer';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+  useLocationsQuery: jest.fn(),
+}));
 jest.mock('../../../common/utils', () => ({
   ...jest.requireActual('../../../common/utils'),
   getCommonErrorMessage: jest.fn(),
@@ -17,11 +31,6 @@ jest.mock('./OrderTemplatesEditor', () => jest.fn().mockReturnValue('OrderTempla
 const defaultProps = {
   close: jest.fn(),
   resources: {
-    locations: {
-      records: [{
-        id: 'locationId',
-      }],
-    },
     identifierTypes: {
       records: [{
         id: 'typeId',
@@ -100,6 +109,12 @@ const renderOrderTemplatesEditorContainer = (props = {}) => render(
 );
 
 describe('OrderTemplatesEditorContainer', () => {
+  beforeEach(() => {
+    useLocationsQuery
+      .mockClear()
+      .mockReturnValue({ locations: [location] });
+  });
+
   it('should render order templates editor', async () => {
     renderOrderTemplatesEditorContainer();
 

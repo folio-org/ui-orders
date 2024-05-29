@@ -1,17 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import { LoadingPane } from '@folio/stripes/components';
-import {
-  stripesConnect,
-} from '@folio/stripes/core';
+import { stripesConnect } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   getErrorCodeFromResponse,
   LINES_API,
   Tags,
+  useCentralOrderingContext,
+  useLocationsQuery,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -24,7 +31,6 @@ import { getCommonErrorMessage } from '../../common/utils';
 import {
   CONTRIBUTOR_NAME_TYPES,
   FUND,
-  LOCATIONS,
   MATERIAL_TYPES,
   ORDERS,
 } from '../Utils/resources';
@@ -45,7 +51,18 @@ function POLine({
   const { isLoading: isLoadingOrder, order } = useOrder(orderId);
   const [line, setLine] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const { isLoading: isOrderTemplateLoading, orderTemplate } = useOrderTemplate(order?.template);
+
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+
+  const {
+    isLoading: isOrderTemplateLoading,
+    orderTemplate,
+  } = useOrderTemplate(order?.template);
+
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
   const fetchOrderLine = useCallback(
     () => mutator.poLine.GET({ params: { query: `id==${lineId}` } })
@@ -162,7 +179,15 @@ function POLine({
     setIsLoading(false);
   }, [fetchOrderLine]);
 
-  if (isLoading || isLoadingOrder || line?.id !== lineId || isOrderTemplateLoading) {
+  const isDataLoading = (
+    isLoading
+    || isLoadingOrder
+    || line?.id !== lineId
+    || isOrderTemplateLoading
+    || isLocationsLoading
+  );
+
+  if (isDataLoading) {
     return (
       <LoadingPane
         id="order-lines-details"
@@ -174,7 +199,6 @@ function POLine({
   }
 
   const materialTypes = get(resources, ['materialTypes', 'records'], []);
-  const locations = get(resources, 'locations.records', []);
   const funds = get(resources, 'fund.records', []);
 
   return (
@@ -222,10 +246,6 @@ POLine.manifest = Object.freeze({
   },
   fund: FUND,
   materialTypes: MATERIAL_TYPES,
-  locations: {
-    ...LOCATIONS,
-    fetch: true,
-  },
 });
 
 POLine.propTypes = {

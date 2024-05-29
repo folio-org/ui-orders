@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
-import { Switch } from 'react-router-dom';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
+import { Switch } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   PermissionedRoute,
@@ -19,7 +19,12 @@ import {
   TEMPLATES_RETURN_LINK_LABEL_ID,
 } from './constants';
 
-function OrderTemplates({ history, label, match: { path }, resources }) {
+function OrderTemplates({
+  history,
+  label,
+  match: { path },
+  resources,
+}) {
   const sendCallout = useShowCallout();
   const closePane = useCallback(() => {
     history.push(path);

@@ -8,6 +8,7 @@ import { useOkapiKy } from '@folio/stripes/core';
 import {
   LOCATIONS_API,
   MATERIAL_TYPE_API,
+  useLocationsQuery,
   VENDORS_API,
 } from '@folio/stripes-acq-components';
 import {
@@ -26,6 +27,11 @@ import {
   useOrderLine,
 } from '../../../../common/hooks';
 import { useSelectedPOLineVersion } from './useSelectedPOLineVersion';
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useLocationsQuery: jest.fn(() => ({ locations: [] })),
+}));
 
 jest.mock('../../../../common/hooks', () => ({
   ...jest.requireActual('../../../../common/hooks'),
@@ -88,6 +94,9 @@ describe('useSelectedPOLineVersion', () => {
         value: 'Purchase',
       }],
     });
+    useLocationsQuery
+      .mockClear()
+      .mockReturnValue({ locations: [location] });
     useOrder.mockClear().mockReturnValue({ isLoading: false, order: { ...order, vendor: vendor.id } });
     useOrderLine.mockClear().mockReturnValue({ isLoading: false, orderLine });
   });

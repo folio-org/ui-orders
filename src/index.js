@@ -1,17 +1,13 @@
 /* eslint-disable filenames/match-exported */
-import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import {
   Route,
   Switch,
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { FormattedMessage } from 'react-intl';
 
-import {
-  AppContextMenu,
-  stripesShape,
-} from '@folio/stripes/core';
+import { AppContextMenu } from '@folio/stripes/core';
 import {
   checkScope,
   CommandList,
@@ -23,6 +19,7 @@ import {
 } from '@folio/stripes/components';
 import {
   AcqKeyboardShortcutsModal,
+  CentralOrderingContextProvider,
   handleKeyCommand,
   useModalToggle,
 } from '@folio/stripes-acq-components';
@@ -43,8 +40,13 @@ import {
 import { Notes } from './common/Notes';
 import { RoutingList } from './components/POLine';
 
-const Orders = ({ match, location, showSettings }) => {
+const Orders = ({
+  match,
+  location,
+  showSettings,
+}) => {
   const [isOpen, toggleModal] = useModalToggle();
+
   const focusSearchField = () => {
     const el = document.getElementById('input-record-search');
 
@@ -168,13 +170,16 @@ const Orders = ({ match, location, showSettings }) => {
       </>
     );
 
-  return content;
+  return (
+    <CentralOrderingContextProvider centralTenantOnly>
+      {content}
+    </CentralOrderingContextProvider>
+  );
 };
 
 Orders.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   showSettings: PropTypes.bool,
-  stripes: stripesShape.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
 };
 
