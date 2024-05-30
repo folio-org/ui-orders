@@ -333,7 +333,7 @@ const POLineView = ({
   );
   const customFieldsValues = get(line, 'customFields', {});
   const numberOfPhysicalUnits = useMemo(() => {
-    return line?.locations?.reduce((acc, { quantityPhysical }) => acc + quantityPhysical, 0);
+    return line?.locations?.reduce((acc, { quantityPhysical = 0 }) => acc + quantityPhysical, 0);
   }, [line?.locations]);
 
   return (
