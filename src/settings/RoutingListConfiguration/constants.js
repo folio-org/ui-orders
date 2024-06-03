@@ -19,8 +19,8 @@ export const ROUTING_LIST_TOKEN = {
       previewValue: 'Routing Name',
     },
     {
-      token: 'routingList.note',
-      previewValue: 'Routing description',
+      token: 'routingList.notes',
+      previewValue: 'Routing notes',
     },
     {
       token: '#users',
