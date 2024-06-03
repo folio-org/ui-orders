@@ -5,9 +5,7 @@ import {
   KeyValue,
   NoValue,
 } from '@folio/stripes/components';
-import {
-  VersionViewContext,
-} from '@folio/stripes-acq-components';
+import { VersionViewContext } from '@folio/stripes-acq-components';
 
 import LocationView from '../../Location/LocationView';
 
@@ -37,6 +35,7 @@ export const LocationVersionView = ({
   return (
     <LocationView
       component={renderKeyValueComponent}
+      instanceId={version.instanceId}
       lineLocations={locations}
       locations={locationsList}
       name={LOCATIONS_NAME}

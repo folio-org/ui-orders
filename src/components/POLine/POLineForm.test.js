@@ -13,7 +13,7 @@ import {
 import {
   ORDER_TYPES,
   useFunds,
-  useInstanceHoldings,
+  useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -29,7 +29,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   Donors: jest.fn(() => 'Donors'),
   useFunds: jest.fn(),
-  useInstanceHoldings: jest.fn(),
+  useInstanceHoldingsQuery: jest.fn(),
 }));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -181,7 +181,7 @@ describe('POLineForm', () => {
     useFunds
       .mockClear()
       .mockReturnValue({ funds });
-    useInstanceHoldings
+    useInstanceHoldingsQuery
       .mockClear()
       .mockReturnValue({ holdings });
   });

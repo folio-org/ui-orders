@@ -460,6 +460,7 @@ const POLineView = ({
                   id={ACCORDION_ID.location}
                 >
                   <LocationView
+                    instanceId={line.instanceId}
                     lineLocations={line.locations}
                     locations={locations}
                   />

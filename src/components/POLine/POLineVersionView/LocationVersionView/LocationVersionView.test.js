@@ -10,7 +10,8 @@ import { LocationVersionView } from './LocationVersionView';
 jest.mock('@folio/stripes-acq-components', () => {
   return {
     ...jest.requireActual('@folio/stripes-acq-components'),
-    useLineHoldings: jest.fn().mockReturnValue({
+    useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+    useInstanceHoldingsQuery: jest.fn().mockReturnValue({
       isLoading: false,
       holdings: [{ id: 'holdingId' }],
     }),
