@@ -5,9 +5,7 @@ import {
   KeyValue,
   NoValue,
 } from '@folio/stripes/components';
-import {
-  VersionViewContext,
-} from '@folio/stripes-acq-components';
+import { VersionViewContext } from '@folio/stripes-acq-components';
 
 import LocationView from '../../Location/LocationView';
 

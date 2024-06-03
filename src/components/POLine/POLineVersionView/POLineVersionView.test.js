@@ -23,16 +23,14 @@ import {
   ORDER_LINES_ROUTE,
 } from '../../../common/constants';
 import { useOrderLine } from '../../../common/hooks';
-import {
-  useSelectedPOLineVersion,
-} from '../hooks';
+import { useSelectedPOLineVersion } from '../hooks';
 import POLineVersionView from './POLineVersionView';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   ExchangeRateValue: jest.fn(() => 'ExchangeRateValue'),
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
-  useLineHoldings: jest.fn(() => ({ isLoading: false, holdings: [] })),
+  useInstanceHoldingsQuery: jest.fn(() => ({ isLoading: false, holdings: [] })),
 }));
 jest.mock('@folio/stripes-acq-components/lib/hooks/useUsersBatch', () => ({
   useUsersBatch: jest.fn(() => ({ users: [], isLoading: false })),
