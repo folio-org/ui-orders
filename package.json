@@ -61,7 +61,8 @@
       "users": "15.0 16.0"
     },
     "optionalOkapiInterfaces": {
-      "consortia": "1.0"
+      "consortia": "1.0",
+      "consortium-search": "1.0"
     },
     "queryResource": "query",
     "icons": [
@@ -97,6 +98,7 @@
           "acquisitions-units.memberships.collection.get",
           "acquisitions-units.units.collection.get",
           "configuration.entries.collection.get",
+          "consortium-search.holdings.collection.get",
           "erm.entitlements.collection.get",
           "finance.funds.collection.get",
           "finance.transactions.collection.get",

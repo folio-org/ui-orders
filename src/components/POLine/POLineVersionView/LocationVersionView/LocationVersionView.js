@@ -37,6 +37,7 @@ export const LocationVersionView = ({
   return (
     <LocationView
       component={renderKeyValueComponent}
+      instanceId={version.instanceId}
       lineLocations={locations}
       locations={locationsList}
       name={LOCATIONS_NAME}

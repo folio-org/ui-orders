@@ -11,7 +11,8 @@ import {
 } from '@folio/stripes/components';
 import {
   getHoldingLocationName,
-  useLineHoldings,
+  useCentralOrderingContext,
+  useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
 
 const getLocationFieldName = (fieldName, holdingId) => {
@@ -80,13 +81,14 @@ const Location = ({
 };
 
 const LocationView = ({
+  instanceId,
   locations = [],
   lineLocations = [],
   name,
   ...props
 }) => {
-  const lineHoldingIds = lineLocations.map(({ holdingId }) => holdingId).filter(Boolean);
-  const { isLoading, holdings } = useLineHoldings(lineHoldingIds);
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+  const { isLoading, holdings } = useInstanceHoldingsQuery(instanceId, { consortium: isCentralOrderingEnabled });
   const locationsMap = useMemo(() => keyBy(locations, 'id'), [locations]);
 
   if (isLoading) return <Loading />;
@@ -118,6 +120,7 @@ Location.propTypes = {
 };
 
 LocationView.propTypes = {
+  instanceId: PropTypes.string,
   lineLocations: PropTypes.arrayOf(PropTypes.object),
   locations: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,

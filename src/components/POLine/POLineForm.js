@@ -23,7 +23,7 @@ import {
   FundDistributionFieldsFinal,
   handleKeyCommand,
   useFunds,
-  useInstanceHoldings,
+  useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
 import {
   Accordion,
@@ -157,7 +157,10 @@ function POLineForm({
     initialDonorOrganizationIds,
   });
 
-  const { holdings: instanceHoldings } = useInstanceHoldings(instanceId);
+  const {
+    holdings: instanceHoldings,
+    isLoading: isHoldingsLoading,
+  } = useInstanceHoldingsQuery(instanceId, { consortium: centralOrdering });
 
   const shouldUpdateDonorOrganizationIds = useMemo(() => {
     const hasChanged = !isEqual(donorOrganizationIds, formValues?.donorOrganizationIds);
@@ -461,7 +464,13 @@ function POLineForm({
     },
   ];
 
-  if (isFundsLoading || !initialValues) {
+  const isLoading = (
+    !initialValues
+    || isFundsLoading
+    || isHoldingsLoading
+  );
+
+  if (isLoading) {
     return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
   }
 
