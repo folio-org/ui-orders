@@ -59,7 +59,7 @@ describe('LocationView', () => {
     it('should render affiliation value for the location when central ordering is enabled', () => {
       useCentralOrderingContext.mockReturnValue({ isCentralOrderingEnabled: true });
 
-      renderLocationView();
+      renderLocationView({ name: 'consortium.location' });
 
       expect(screen.getByText('stripes-acq-components.consortia.affiliations.select.label')).toBeInTheDocument();
     });
