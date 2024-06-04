@@ -39,6 +39,7 @@ import {
   HasCommand,
   Icon,
   IconButton,
+  Loading,
   LoadingPane,
   MenuSection,
   Pane,
@@ -464,11 +465,7 @@ function POLineForm({
     },
   ];
 
-  const isLoading = (
-    !initialValues
-    || isFundsLoading
-    || isHoldingsLoading
-  );
+  const isLoading = !initialValues || isFundsLoading;
 
   if (isLoading) {
     return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
@@ -640,6 +637,7 @@ function POLineForm({
                           id={ACCORDION_ID.location}
                         >
                           <LocationForm
+                            isLoading={isHoldingsLoading}
                             centralOrdering={centralOrdering}
                             changeLocation={changeLocation}
                             formValues={formValues}
