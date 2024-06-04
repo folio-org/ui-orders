@@ -370,6 +370,7 @@ class OrderTemplateView extends Component {
                       id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
                     >
                       <LocationView
+                        instanceId={orderTemplate.instanceId}
                         lineLocations={orderTemplate.locations}
                         locations={locations}
                       />

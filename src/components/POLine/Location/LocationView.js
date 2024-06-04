@@ -12,6 +12,7 @@ import {
 import {
   getHoldingLocationName,
   useCentralOrderingContext,
+  useCurrentUserTenants,
   useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
 
@@ -26,6 +27,8 @@ const getLocationFieldName = (fieldName, holdingId) => {
 };
 
 const Location = ({
+  affiliationsMap,
+  centralOrdering = false,
   component,
   holdings,
   location,
@@ -41,11 +44,25 @@ const Location = ({
     ? getHoldingLocationName(holding, locationsMap)
     : locationNameCode;
   const locationName = getLocationFieldName(fieldName, location.holdingId);
+  const affiliationValue = affiliationsMap?.[location.tenantId]?.name || <FormattedMessage id="stripes-acq-components.invalidReference" />;
 
   const KeyValueComponent = component || KeyValue;
 
   return (
     <Row start="xs">
+      {centralOrdering && (
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValueComponent
+            name={fieldName && `${fieldName}.tenantId`}
+            label={<FormattedMessage id="stripes-acq-components.consortia.affiliations.select.label" />}
+            value={affiliationValue}
+          />
+        </Col>
+      )}
+
       <Col
         xs={6}
         lg={3}
@@ -88,7 +105,9 @@ const LocationView = ({
   ...props
 }) => {
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
+  const userAffiliations = useCurrentUserTenants();
   const { isLoading, holdings } = useInstanceHoldingsQuery(instanceId, { consortium: isCentralOrderingEnabled });
+  const affiliationsMap = useMemo(() => keyBy(userAffiliations, 'id'), [userAffiliations]);
   const locationsMap = useMemo(() => keyBy(locations, 'id'), [locations]);
 
   if (isLoading) return <Loading />;
@@ -99,6 +118,8 @@ const LocationView = ({
         lineLocations.map((location, i) => (
           <Location
             key={location.id || i}  // i is required when new row of Location is added by User
+            centralOrdering={isCentralOrderingEnabled}
+            affiliationsMap={affiliationsMap}
             location={location}
             locationsMap={locationsMap}
             holdings={holdings}
@@ -112,6 +133,8 @@ const LocationView = ({
 };
 
 Location.propTypes = {
+  affiliationsMap: PropTypes.object,
+  centralOrdering: PropTypes.bool,
   component: PropTypes.node,
   location: PropTypes.object,
   locationsMap: PropTypes.object,

@@ -18,8 +18,8 @@
 * Add custom fields to CSV export. Refs UIOR-1231.
 * ECS - Add affiliation dropdown to the PO line location form. Refs UIOR-1233.
 * ECS - Adjust restrict fund by location validation to accommodate central ordering. Refs UIOR-1235.
-* Use Save & close button label  stripes-component translation key. Reffs UIOR-1240.
-
+* Use Save & close button label  stripes-component translation key. Refs UIOR-1240.
+* ECS - Add fields indicating the affiliation of locations and holdings for views. Refs UIOR-1276.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)
