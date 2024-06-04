@@ -39,7 +39,6 @@ import {
   HasCommand,
   Icon,
   IconButton,
-  Loading,
   LoadingPane,
   MenuSection,
   Pane,
