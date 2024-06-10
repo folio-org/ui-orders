@@ -188,6 +188,7 @@ export const getPoLineFieldsLabelMap = ({
     'locations[\\d].quantity': 'ui-orders.cost.quantity',
     'locations[\\d].quantityPhysical': 'ui-orders.location.quantityPhysical',
     'locations[\\d].quantityElectronic': 'ui-orders.location.quantityElectronic',
+    'searchLocationIds[\\d]': 'searchLocationIds',
 
     // Physical resources fields
     'physical': 'ui-orders.line.accordion.physical',
