@@ -5,6 +5,10 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 import { order } from 'fixtures';
 import LocationForm from './LocationForm';
 
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  Loading: () => 'Loading',
+}));
 jest.mock('../../../common/POLFields/FieldsLocation', () => jest.fn().mockReturnValue('FieldsLocation'));
 
 const defaultProps = {
@@ -30,7 +34,13 @@ const renderLocationForm = (props = {}) => render(
   />,
 );
 
-describe('EresourcesForm', () => {
+describe('LocationForm', () => {
+  it('should render loader when data is loading', () => {
+    renderLocationForm({ isLoading: true });
+
+    expect(screen.getByText('Loading')).toBeInTheDocument();
+  });
+
   it('should render \'location form\' fields', () => {
     renderLocationForm();
 
