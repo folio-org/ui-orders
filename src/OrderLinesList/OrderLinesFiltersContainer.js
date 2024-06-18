@@ -17,7 +17,7 @@ const OrderLinesFiltersContainer = ({
   resources,
   activeFilters,
   applyFilters,
-  customFields,
+  customFields = [],
   disabled,
 }) => {
   const funds = get(resources, `${DICT_FUNDS}.records`);
