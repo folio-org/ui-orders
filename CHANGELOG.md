@@ -22,6 +22,7 @@
 * ECS - Add fields indicating the affiliation of locations and holdings for views. Refs UIOR-1276.
 * Remove searchLocationIds[] field from PO line Version history. Refs UISACQCOMP-193.
 * Bump up `holdings-storage` interface. Refs UIOR-1277.
+* Custom Fields - Add filter components for purchase order lines. Refs UIOR-1237.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)
