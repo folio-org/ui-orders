@@ -640,7 +640,6 @@
     "search.vendorDetail.referenceNumbers": "Número de referencia del vendedor",
     "payment_status.ongoing": "Continúa",
     "receipt_status.ongoing": "Continúa",
-    "buttons.line.saveAndClose": "Guardar y cerrar",
     "buttons.line.createAnother": "Crear otro/a",
     "errors.renewalIntervalIsNotSet": "El intervalo de renovación no está configurado",
     "errors.renewalDateIsNotSet": "La fecha de renovación no está configurada",
@@ -896,7 +895,7 @@
     "settings.addressTypes.select.label": "Seleccione el tipo de dirección",
     "settings.centralOrdering.receivingSearch.activeAffiliationOnly": "Sólo afiliación activa",
     "settings.routing.listConfiguration.body.required": "Body is required",
-    "routing.list.accordion.create.button": "Add routing list",
+    "routing.list.accordion.create.button": "Agregar lista de enrutamiento",
     "poLine.isBinderyActive": "Encuadernación activa",
-    "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>"
+    "routing.list.accordion.tokens.description": "Para garantizar que el editor de texto enriquecido analiza correctamente los datos relacionados con los usuarios, utilice <b>'{{#users}}'</b> al principio y <b>'{{/users}}'</b> al final, insertando <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> entre dichos tokens. {br} Ej: <i><b> '{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>"
 }

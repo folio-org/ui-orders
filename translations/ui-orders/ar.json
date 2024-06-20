@@ -640,7 +640,6 @@
     "search.vendorDetail.referenceNumbers": "رقم المورّد المرجعي",
     "payment_status.ongoing": "جاري",
     "receipt_status.ongoing": "جاري",
-    "buttons.line.saveAndClose": "حفظ وإغلاق",
     "buttons.line.createAnother": "إنشاء آخر",
     "errors.renewalIntervalIsNotSet": "لم يتم تعيين الفاصل الزمني للتجديد",
     "errors.renewalDateIsNotSet": "لم يتم تعيين تاريخ التجديد",

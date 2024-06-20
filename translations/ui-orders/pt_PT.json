@@ -640,7 +640,6 @@
     "search.vendorDetail.referenceNumbers": "Vendor reference number",
     "payment_status.ongoing": "Ongoing",
     "receipt_status.ongoing": "Ongoing",
-    "buttons.line.saveAndClose": "Save & close",
     "buttons.line.createAnother": "Create another",
     "errors.renewalIntervalIsNotSet": "Renewal interval is not set",
     "errors.renewalDateIsNotSet": "Renewal date is not set",
