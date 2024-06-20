@@ -640,7 +640,6 @@
     "search.vendorDetail.referenceNumbers": "供應商參考號",
     "payment_status.ongoing": "進行中",
     "receipt_status.ongoing": "進行中",
-    "buttons.line.saveAndClose": "儲存並關閉",
     "buttons.line.createAnother": "新增另一筆",
     "errors.renewalIntervalIsNotSet": "續訂間隔未設定",
     "errors.renewalDateIsNotSet": "續訂日期未設定",

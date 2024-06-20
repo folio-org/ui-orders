@@ -640,7 +640,6 @@
     "search.vendorDetail.referenceNumbers": "Numero di riferimento del fornitore",
     "payment_status.ongoing": "Continuativo",
     "receipt_status.ongoing": "Continuativo",
-    "buttons.line.saveAndClose": "Salva e chiudi",
     "buttons.line.createAnother": "Creane un altro",
     "errors.renewalIntervalIsNotSet": "L'intervallo di rinnovo non è impostato",
     "errors.renewalDateIsNotSet": "La data di rinnovo non è stata impostata",

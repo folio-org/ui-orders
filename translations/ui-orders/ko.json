@@ -640,7 +640,6 @@
     "search.vendorDetail.referenceNumbers": "벤더 참조 번호",
     "payment_status.ongoing": "지속지불",
     "receipt_status.ongoing": "지속수령",
-    "buttons.line.saveAndClose": "저장 후 닫기",
     "buttons.line.createAnother": "다른 만들기",
     "errors.renewalIntervalIsNotSet": "갱신 간격이 설정되지 않았습니다.",
     "errors.renewalDateIsNotSet": "갱신 날짜가 설정되지 않았습니다.",

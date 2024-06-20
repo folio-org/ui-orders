@@ -640,7 +640,6 @@
     "search.vendorDetail.referenceNumbers": "供应商参考号",
     "payment_status.ongoing": "进行中",
     "receipt_status.ongoing": "进行中",
-    "buttons.line.saveAndClose": "保存并关闭",
     "buttons.line.createAnother": "创建另一个",
     "errors.renewalIntervalIsNotSet": "续借间隔未设置",
     "errors.renewalDateIsNotSet": "续借日期未设置",

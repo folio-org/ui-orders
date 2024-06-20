@@ -640,7 +640,6 @@
     "search.vendorDetail.referenceNumbers": "Lieferanten-Referenznummer",
     "payment_status.ongoing": "Laufend",
     "receipt_status.ongoing": "Laufend",
-    "buttons.line.saveAndClose": "Speichern & schließen",
     "buttons.line.createAnother": "Weitere erstellen",
     "errors.renewalIntervalIsNotSet": "Verlängerungsintervall ist nicht belegt",
     "errors.renewalDateIsNotSet": "Verlängerungsdatum ist nicht belegt",
