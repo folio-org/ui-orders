@@ -24,7 +24,7 @@ const defaultProps = {
   onChange: jest.fn(() => {}),
 };
 
-const emptyListMessage = /stripes-components.selection.emptyList/i;
+const emptyListMessage = /--/i;
 
 describe('AddressFilter', () => {
   it('should return an empty item when no options are passed', () => {

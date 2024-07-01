@@ -34,12 +34,12 @@ describe('ClosingReasonFilter', () => {
   it('should not return any item when no options are passed', async () => {
     const { baseElement } = renderClosingReasonFilter();
 
-    expect(baseElement.querySelectorAll('li.option')).toHaveLength(0);
+    expect(baseElement.querySelectorAll('li.groupLabel')).toHaveLength(0);
   });
 
   it('should return list of options', async () => {
     const { baseElement } = renderClosingReasonFilter({ ...defaultProps, closingReasons: options });
 
-    expect(baseElement.querySelectorAll('li.option')).toHaveLength(3);
+    expect(baseElement.querySelectorAll('li.groupLabel')).toHaveLength(3);
   });
 });

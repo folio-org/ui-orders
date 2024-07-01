@@ -137,9 +137,10 @@ describe('POForm', () => {
   });
 
   it('should change template when another selected and show hidden fields when \'Show hidden fields\' btn was clicked', async () => {
-    renderPOForm();
+    const { baseElement } = renderPOForm();
 
-    const select = await screen.findByLabelText('ui-orders.settings.orderTemplates.editor.template.name');
+    const selects = await screen.findAllByLabelText('ui-orders.settings.orderTemplates.editor.template.name');
+    const select = selects[0];
 
     await act(async () => user.click(select));
 
