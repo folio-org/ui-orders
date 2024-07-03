@@ -1,4 +1,8 @@
 import { Form } from 'react-final-form';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
@@ -13,6 +17,15 @@ const defaultProps = {
   change: jest.fn(),
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
+
 const renderPurchaseOrderInformationForm = (props = {}) => render(
   <Form
     onSubmit={() => jest.fn()}
@@ -23,6 +36,7 @@ const renderPurchaseOrderInformationForm = (props = {}) => render(
       />
     )}
   />,
+  { wrapper },
 );
 
 describe('PurchaseOrderInformationForm', () => {
