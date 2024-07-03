@@ -1,4 +1,8 @@
 import { Form } from 'react-final-form';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
 import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
@@ -29,6 +33,15 @@ const defaultProps = {
   validateNumber: jest.fn(),
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
+
 const renderPODetailsForm = (props = {}) => render(
   <Form
     onSubmit={() => jest.fn()}
@@ -42,6 +55,7 @@ const renderPODetailsForm = (props = {}) => render(
       />
     )}
   />,
+  { wrapper },
 );
 
 describe('PODetailsForm', () => {

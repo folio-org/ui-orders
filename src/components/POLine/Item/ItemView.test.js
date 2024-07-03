@@ -1,11 +1,26 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import ItemView from './ItemView';
+
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
 
 const renderItemView = (props = {}) => render(
   <ItemView
     {...props}
   />,
+  { wrapper },
 );
 
 describe('ItemView', () => {

@@ -1,6 +1,16 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+
 import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import OrdersListFilters from './OrdersListFilters';
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  AcqTagsFilter: () => <span>stripes-acq-components.filter.tags</span>,
+}));
 
 const defaultProps = {
   activeFilters: {},
@@ -8,11 +18,21 @@ const defaultProps = {
   disabled: false,
 };
 
+const queryClient = new QueryClient();
+
+// eslint-disable-next-line react/prop-types
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
+
 const renderOrdersListFilters = (props) => render(
   <OrdersListFilters
     {...defaultProps}
     {...props}
   />,
+  { wrapper },
 );
 
 describe('OrdersListFilters', () => {
