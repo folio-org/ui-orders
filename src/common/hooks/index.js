@@ -5,7 +5,6 @@ export { default as useCloseReasonOptions } from './useCloseReasonOptions';
 export * from './useExportHistory';
 export * from './useFundDistributionValidation';
 export * from './useHandleOrderUpdateError';
-export * from './useHoldingsByIds';
 export * from './useInstance';
 export * from './useIsRowSelected';
 export * from './useLinesLimit';

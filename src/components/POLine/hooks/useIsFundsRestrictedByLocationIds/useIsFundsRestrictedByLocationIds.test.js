@@ -2,15 +2,15 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 
-import { useHoldingsByIds } from '../../../../common/hooks';
 import { useFundsById } from '../useFundsById';
 import { useIsFundsRestrictedByLocationIds } from './useIsFundsRestrictedByLocationIds';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useInstanceHoldingsQuery: jest.fn(),
+}));
 jest.mock('../useFundsById', () => ({
   useFundsById: jest.fn(),
-}));
-jest.mock('../../../../common/hooks', () => ({
-  useHoldingsByIds: jest.fn(),
 }));
 
 const queryClient = new QueryClient();
@@ -46,7 +46,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
         funds: [restrictedFund],
         isLoading: false,
       });
-    useHoldingsByIds
+    useInstanceHoldingsQuery
       .mockClear()
       .mockReturnValue({
         isLoading: false,
@@ -79,7 +79,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   });
 
   it('should return hasLocationRestrictedFund as false with holdingIds', async () => {
-    useHoldingsByIds.mockClear().mockReturnValue({
+    useInstanceHoldingsQuery.mockClear().mockReturnValue({
       isLoading: false,
       holdings: [holdingData],
     });
@@ -96,7 +96,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   });
 
   it('should return hasLocationRestrictedFund as true with holdingIds', async () => {
-    useHoldingsByIds.mockClear().mockReturnValue({
+    useInstanceHoldingsQuery.mockClear().mockReturnValue({
       isLoading: false,
       holdings: [{ ...holdingData, permanentLocationId: 'wrongId' }],
     });
