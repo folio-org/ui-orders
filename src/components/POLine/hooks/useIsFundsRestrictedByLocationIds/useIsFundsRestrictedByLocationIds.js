@@ -38,7 +38,7 @@ export const useIsFundsRestrictedByLocationIds = (line) => {
       .map(({ permanentLocationId }) => permanentLocationId);
 
     return new Set([...locationIdsProp, ...permanentLocationIds]);
-  }, [holdings, locationIdsProp]);
+  }, [holdingIds, holdings, locationIdsProp]);
 
   const { funds, isLoading: isFundsLoading } = useFundsById(fundIds, {
     enabled: !isHoldingsLoading,

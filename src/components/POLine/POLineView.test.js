@@ -66,7 +66,7 @@ jest.mock('./LineLinkedInstances', () => ({
 }));
 jest.mock('./hooks', () => ({
   ...jest.requireActual('./hooks'),
-  useIsFundsRestrictedByLocationIds: jest.fn(() => ({ hasLocationRestrictedFund: false }))
+  useIsFundsRestrictedByLocationIds: jest.fn(() => ({ hasLocationRestrictedFund: false })),
 }));
 
 const defaultProps = {

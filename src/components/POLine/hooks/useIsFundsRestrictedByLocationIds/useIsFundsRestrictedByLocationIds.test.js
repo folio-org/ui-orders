@@ -74,7 +74,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
       fundDistribution,
       locations: restrictedFund.locations.map(({ id, ...rest }) => ({
         locationId: id,
-        ...rest
+        ...rest,
       })),
     };
 
@@ -94,7 +94,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
     const line = {
       fundDistribution,
       locations: [{ holdingId: holdingData.id, ...holdingData }],
-    }
+    };
 
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds(line), { wrapper });
 
@@ -111,7 +111,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
 
     const line = {
       fundDistribution,
-      locations: [{ holdingId: holdingData.id, ...holdingData }]
+      locations: [{ holdingId: holdingData.id, ...holdingData }],
     };
 
     const { result } = renderHook(() => useIsFundsRestrictedByLocationIds(line), { wrapper });
