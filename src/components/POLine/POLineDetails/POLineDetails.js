@@ -1,8 +1,8 @@
+import get from 'lodash/get';
+import isNil from 'lodash/isNil';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import get from 'lodash/get';
-import isNil from 'lodash/isNil';
 
 import { ClipCopy } from '@folio/stripes/smart-components';
 import {
