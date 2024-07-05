@@ -1,16 +1,18 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import { useInstanceHoldingsQuery } from '@folio/stripes-acq-components';
 
-import { useHoldingsByIds } from '../../../../common/hooks';
 import { useFundsById } from '../useFundsById';
 import { useIsFundsRestrictedByLocationIds } from './useIsFundsRestrictedByLocationIds';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({})),
+  useInstanceHoldingsQuery: jest.fn(),
+}));
 jest.mock('../useFundsById', () => ({
   useFundsById: jest.fn(),
-}));
-jest.mock('../../../../common/hooks', () => ({
-  useHoldingsByIds: jest.fn(),
 }));
 
 const queryClient = new QueryClient();
@@ -31,7 +33,7 @@ const restrictedFund = {
   ],
 };
 
-const fundIds = [restrictedFund.id];
+const fundDistribution = [{ fundId: restrictedFund.id, ...restrictedFund }];
 
 const holdingData = {
   'id': '53cf956f-c1df-410b-8bea-27f712cca7c0',
@@ -46,7 +48,7 @@ describe('useIsFundsRestrictedByLocationIds', () => {
         funds: [restrictedFund],
         isLoading: false,
       });
-    useHoldingsByIds
+    useInstanceHoldingsQuery
       .mockClear()
       .mockReturnValue({
         isLoading: false,
@@ -55,11 +57,12 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   });
 
   it('should return hasLocationRestrictedFund as true', async () => {
-    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
-      fundIds,
-      locations: ['testId'],
-      holdingIds: [],
-    }), { wrapper });
+    const line = {
+      fundDistribution,
+      locations: [{ locationId: 'testId' }],
+    };
+
+    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds(line), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
@@ -67,11 +70,15 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   });
 
   it('should return hasLocationRestrictedFund as false', async () => {
-    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
-      fundIds,
-      locationIds: restrictedFund.locations.map(({ locationId }) => locationId),
-      holdingIds: [],
-    }), { wrapper });
+    const line = {
+      fundDistribution,
+      locations: restrictedFund.locations.map(({ id, ...rest }) => ({
+        locationId: id,
+        ...rest,
+      })),
+    };
+
+    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds(line), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
@@ -79,16 +86,17 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   });
 
   it('should return hasLocationRestrictedFund as false with holdingIds', async () => {
-    useHoldingsByIds.mockClear().mockReturnValue({
+    useInstanceHoldingsQuery.mockClear().mockReturnValue({
       isLoading: false,
       holdings: [holdingData],
     });
 
-    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
-      fundIds,
-      locationIds: [],
-      holdingIds: [holdingData.id],
-    }), { wrapper });
+    const line = {
+      fundDistribution,
+      locations: [{ holdingId: holdingData.id, ...holdingData }],
+    };
+
+    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds(line), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 
@@ -96,16 +104,17 @@ describe('useIsFundsRestrictedByLocationIds', () => {
   });
 
   it('should return hasLocationRestrictedFund as true with holdingIds', async () => {
-    useHoldingsByIds.mockClear().mockReturnValue({
+    useInstanceHoldingsQuery.mockClear().mockReturnValue({
       isLoading: false,
       holdings: [{ ...holdingData, permanentLocationId: 'wrongId' }],
     });
 
-    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds({
-      fundIds,
-      locationIds: [],
-      holdingIds: [holdingData.id],
-    }), { wrapper });
+    const line = {
+      fundDistribution,
+      locations: [{ holdingId: holdingData.id, ...holdingData }],
+    };
+
+    const { result } = renderHook(() => useIsFundsRestrictedByLocationIds(line), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
 

@@ -1,50 +1,68 @@
-import { uniq } from 'lodash';
+import get from 'lodash/get';
 import {
   useCallback,
   useMemo,
 } from 'react';
 
-import { useHoldingsByIds } from '../../../../common/hooks';
+import {
+  useCentralOrderingContext,
+  useInstanceHoldingsQuery,
+} from '@folio/stripes-acq-components';
+
 import { useFundsById } from '../useFundsById';
 
-export const useIsFundsRestrictedByLocationIds = ({
-  fundIds = [],
-  locationIds: locationIdsProp = [],
-  holdingIds = [],
-}) => {
+export const useIsFundsRestrictedByLocationIds = (line) => {
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+
+  const {
+    fundIds,
+    holdingIds,
+    locationIds: locationIdsProp,
+  } = useMemo(() => {
+    return {
+      fundIds: get(line, 'fundDistribution', []).map(({ fundId }) => fundId),
+      holdingIds: get(line, 'locations', []).map(({ holdingId }) => holdingId).filter(Boolean),
+      locationIds: get(line, 'locations', []).map(({ locationId }) => locationId).filter(Boolean),
+    };
+  }, [line]);
+
   const {
     isLoading: isHoldingsLoading,
     holdings,
-  } = useHoldingsByIds(holdingIds);
+  } = useInstanceHoldingsQuery(line?.instanceId, { consortium: isCentralOrderingEnabled });
 
-  const listOfLocationIds = useMemo(() => {
-    const permanentLocationIds = holdings.map(({ permanentLocationId }) => permanentLocationId);
+  const locationIdsSet = useMemo(() => {
+    const holdingIdsSet = new Set(holdingIds);
+    const permanentLocationIds = holdings
+      .filter(({ id }) => holdingIdsSet.has(id))
+      .map(({ permanentLocationId }) => permanentLocationId);
 
-    return uniq([...locationIdsProp, ...permanentLocationIds]);
-  }, [holdings, locationIdsProp]);
+    return new Set([...locationIdsProp, ...permanentLocationIds]);
+  }, [holdingIds, holdings, locationIdsProp]);
 
   const { funds, isLoading: isFundsLoading } = useFundsById(fundIds, {
     enabled: !isHoldingsLoading,
   });
 
-  const fundsWithRestrictedLocations = useMemo(() => {
+  const locationsRestrictedByFunds = useMemo(() => {
     return funds
       .filter(({ restrictByLocations }) => restrictByLocations)
       .map(({ locations }) => locations.map(({ locationId }) => locationId));
   }, [funds]);
 
   const isFundNotRestricted = useCallback(() => {
-    return fundsWithRestrictedLocations
-      .every((locationIds) => locationIds.some((locationId) => listOfLocationIds.includes(locationId)));
-  }, [fundsWithRestrictedLocations, listOfLocationIds]);
+    return locationsRestrictedByFunds.every((locationIds) => {
+      return locationIds.some((locationId) => locationIdsSet.has(locationId));
+    });
+  }, [locationsRestrictedByFunds, locationIdsSet]);
 
   const hasLocationRestrictedFund = useMemo(() => {
-    if (!isHoldingsLoading && !isFundsLoading && fundsWithRestrictedLocations.length) {
+    if (!isHoldingsLoading && !isFundsLoading && locationsRestrictedByFunds.length) {
       return !isFundNotRestricted();
     }
 
     return false;
-  }, [fundsWithRestrictedLocations, isFundNotRestricted, isFundsLoading, isHoldingsLoading]);
+  }, [locationsRestrictedByFunds, isFundNotRestricted, isFundsLoading, isHoldingsLoading]);
 
   return ({
     isLoading: isHoldingsLoading || isFundsLoading,

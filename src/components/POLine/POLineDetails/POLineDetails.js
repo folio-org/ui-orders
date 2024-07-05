@@ -1,12 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import get from 'lodash/get';
+import isNil from 'lodash/isNil';
 import PropTypes from 'prop-types';
-import {
-  FormattedMessage,
-} from 'react-intl';
-import {
-  get,
-  isNil,
-} from 'lodash';
+import { useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { ClipCopy } from '@folio/stripes/smart-components';
 import {
@@ -54,15 +50,7 @@ const POLineDetails = ({ line, hiddenFields }) => {
   const receiptDate = get(line, 'receiptDate');
   const { acqMethod, isLoading } = useAcqMethod(line.acquisitionMethod);
 
-  const memoizedIds = useMemo(() => {
-    return {
-      fundIds: get(line, 'fundDistribution', []).map(({ fundId }) => fundId),
-      holdingIds: get(line, 'locations', []).map(({ holdingId }) => holdingId).filter(Boolean),
-      locationIds: get(line, 'locations', []).map(({ locationId }) => locationId).filter(Boolean),
-    };
-  }, [line]);
-
-  const { hasLocationRestrictedFund } = useIsFundsRestrictedByLocationIds(memoizedIds);
+  const { hasLocationRestrictedFund } = useIsFundsRestrictedByLocationIds(line);
 
   useEffect(() => {
     if (hasLocationRestrictedFund) {

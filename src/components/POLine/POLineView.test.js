@@ -64,6 +64,10 @@ jest.mock('./POLineAgreementLines', () => ({
 jest.mock('./LineLinkedInstances', () => ({
   LineLinkedInstances: jest.fn().mockReturnValue('LineLinkedInstances'),
 }));
+jest.mock('./hooks', () => ({
+  ...jest.requireActual('./hooks'),
+  useIsFundsRestrictedByLocationIds: jest.fn(() => ({ hasLocationRestrictedFund: false })),
+}));
 
 const defaultProps = {
   line: orderLine,
