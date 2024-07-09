@@ -38,7 +38,7 @@ export const useRelatedItemsMCL = () => {
       [ITEMS_COLUMN_NAMES.copyNumber]: item => item.copyNumber || <NoValue />,
       [ITEMS_COLUMN_NAMES.materialType]: item => item.materialType?.name || <NoValue />,
       [ITEMS_COLUMN_NAMES.loanType]: item => item.temporaryLoanType?.name || <NoValue />,
-      [ITEMS_COLUMN_NAMES.tenantId]: item => tenantsMap[item.tenantId] || <NoValue />,
+      [ITEMS_COLUMN_NAMES.tenantId]: item => tenantsMap[item.tenantId]?.name || <NoValue />,
       [ITEMS_COLUMN_NAMES.effectiveLocation]: item => item.effectiveLocation?.name || <NoValue />,
       [ITEMS_COLUMN_NAMES.enumeration]: item => item.enumeration || <NoValue />,
       [ITEMS_COLUMN_NAMES.chronology]: item => item.chronology || <NoValue />,

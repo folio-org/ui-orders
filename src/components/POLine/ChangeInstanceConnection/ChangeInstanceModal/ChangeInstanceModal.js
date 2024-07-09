@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
+import { useStripes } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/final-form';
 import {
   Button,
@@ -15,9 +16,12 @@ import {
 } from '@folio/stripes/components';
 import {
   FieldSelectFinal,
+  useCentralOrderingContext,
 } from '@folio/stripes-acq-components';
 
+import { ConsortiumRelatedItemsList } from '../ConsortiumRelatedItemsList';
 import { RelatedItemsList } from '../RelatedItemsList';
+import { checkIfSubmitActionProhibited } from '../utils';
 
 const ChangeInstanceModal = ({
   detailed,
@@ -31,10 +35,12 @@ const ChangeInstanceModal = ({
   updateHoldingsOptions,
 }) => {
   const intl = useIntl();
+  const stripes = useStripes();
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
-  const isConfirmDisabled = isLoading || (
-    detailed && (pristine || submitting)
-  );
+  const isConfirmDisabled = isLoading
+    || (detailed && (pristine || submitting))
+    || checkIfSubmitActionProhibited(stripes, poLine);
 
   const modalLabel = intl.formatMessage({ id: 'ui-orders.line.changeInstance.heading' });
 
@@ -76,6 +82,10 @@ const ChangeInstanceModal = ({
     </ModalFooter>
   );
 
+  const RelatedItemsListComponent = isCentralOrderingEnabled
+    ? ConsortiumRelatedItemsList
+    : RelatedItemsList;
+
   const modalContent = useMemo(() => (
     <>
       <span>{message}</span>
@@ -102,7 +112,7 @@ const ChangeInstanceModal = ({
 
           <Row>
             <Col xs>
-              <RelatedItemsList poLine={poLine} />
+              <RelatedItemsListComponent poLine={poLine} />
             </Col>
           </Row>
         </>

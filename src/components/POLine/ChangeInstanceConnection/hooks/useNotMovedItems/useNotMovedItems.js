@@ -14,9 +14,9 @@ export const useNotMovedItems = (itemIds) => {
   const [namespace] = useNamespace({ key: 'not-moved-items' });
 
   const queryKey = [namespace, itemIds];
-  const queryFn = () => batchFetch(
+  const queryFn = ({ signal }) => batchFetch(
     {
-      GET: ({ params: searchParams }) => ky.get(ITEMS_API, { searchParams }).json().then(({ items }) => items),
+      GET: ({ params: searchParams }) => ky.get(ITEMS_API, { searchParams, signal }).json().then(({ items }) => items),
     },
     itemIds,
   );
