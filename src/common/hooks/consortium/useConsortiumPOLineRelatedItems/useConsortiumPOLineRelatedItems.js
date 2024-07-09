@@ -21,7 +21,7 @@ export const useConsortiumPOLineRelatedItems = (poLine, options = {}) => {
 
   const tenants = useMemo(() => {
     return [...get(poLine, 'locations', []).reduce((acc, { holdingId, tenantId }) => {
-      return Boolean(holdingId && tenantId) ? acc.add(tenantId) : acc;
+      return holdingId && tenantId ? acc.add(tenantId) : acc;
     }, new Set())];
   }, [poLine]);
 
@@ -39,12 +39,12 @@ export const useConsortiumPOLineRelatedItems = (poLine, options = {}) => {
         method: 'GET',
         tenants,
       };
-      
+
       const {
         publicationErrors: errors,
         publicationResults,
       } = await initPublicationRequest(publication);
-      
+
       const items = publicationResults.flatMap(({ tenantId, response }) => (
         response?.items?.map((item) => {
           const additive = {

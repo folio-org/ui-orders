@@ -1,13 +1,31 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
+import {
+  act,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import { ERROR_CODES, UPDATE_HOLDINGS_OPERATIONS_MAP } from '../constants';
-import { useChangeInstanceModalConfigs, useNotMovedItems } from '../hooks';
+import {
+  ERROR_CODES,
+  UPDATE_HOLDINGS_OPERATIONS_MAP,
+} from '../constants';
+import {
+  useChangeInstanceModalConfigs,
+  useNotMovedItems,
+} from '../hooks';
 import { ChangeInstanceModalContainer } from './ChangeInstanceModalContainer';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+  useCurrentUserTenants: jest.fn(() => (['central', 'member'])),
+}));
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useChangeInstanceModalConfigs: jest.fn(() => ({})),

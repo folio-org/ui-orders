@@ -10,30 +10,26 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import { orderLine } from 'fixtures/orderLine';
-import { RelatedItemsList } from './RelatedItemsList';
+import { ConsortiumRelatedItemsList } from './ConsortiumRelatedItemsList';
+import { useConsortiumPOLineRelatedItems } from '../../../../common/hooks';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
-
+  useCurrentUserTenants: jest.fn(() => (['central', 'member'])),
 }));
 jest.mock('../../../../common/hooks', () => ({
   ...jest.requireActual('../../../../common/hooks'),
-  usePOLineRelatedItems: jest.fn(() => ({
-    items: [{}],
-    itemsCount: 1,
-    isLoading: false,
-    isFetching: false,
-  })),
+  useConsortiumPOLineRelatedItems: jest.fn(),
 }));
 
 const defaultProps = {
   poLine: orderLine,
 };
 
-const queryClient = new QueryClient();
+const items = [{ id: 'item-id' }];
 
-// eslint-disable-next-line react/prop-types
+const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
   <MemoryRouter>
     <QueryClientProvider client={queryClient}>
@@ -42,17 +38,23 @@ const wrapper = ({ children }) => (
   </MemoryRouter>
 );
 
-const renderRelatedItemsList = (props = {}) => render(
-  <RelatedItemsList
+const renderConsortiumRelatedItemsList = (props = {}) => render(
+  <ConsortiumRelatedItemsList
     {...defaultProps}
     {...props}
   />,
   { wrapper },
 );
 
-describe('RelatedItemsList', () => {
+describe('ConsortiumRelatedItemsList', () => {
+  beforeEach(() => {
+    useConsortiumPOLineRelatedItems
+      .mockClear()
+      .mockReturnValue({ items });
+  });
+
   it('should render MCL with related to POL items', () => {
-    renderRelatedItemsList();
+    renderConsortiumRelatedItemsList();
 
     expect(screen.getByText('ui-inventory.item.barcode')).toBeInTheDocument();
     expect(screen.getByText('ui-inventory.status')).toBeInTheDocument();

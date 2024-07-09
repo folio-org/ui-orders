@@ -45,7 +45,7 @@ export const useRelatedItemsMCL = () => {
       [ITEMS_COLUMN_NAMES.volume]: item => item.volume || <NoValue />,
       [ITEMS_COLUMN_NAMES.yearCaption]: item => item.yearCaption?.join(', ') || <NoValue />,
     };
-  }, []);
+  }, [tenantsMap]);
 
   const visibleColumns = useMemo(() => {
     return [
