@@ -10,12 +10,8 @@ import {
   RESULT_COUNT_INCREMENT,
 } from '@folio/stripes-acq-components';
 
-import {
-  ITEMS_COLUMN_MAPPING,
-  ITEMS_ROW_FORMATTER,
-  ITEMS_VISIBLE_COLUMNS,
-} from '../constants';
 import { usePOLineRelatedItems } from '../../../../common/hooks';
+import { useRelatedItemsMCL } from '../hooks';
 
 export const RelatedItemsList = ({ poLine }) => {
   const [pagination, setPagination] = useState({ offset: 0, limit: RESULT_COUNT_INCREMENT });
@@ -28,6 +24,12 @@ export const RelatedItemsList = ({ poLine }) => {
     ...pagination,
   });
 
+  const {
+    columnMapping,
+    formatter,
+    visibleColumns,
+  } = useRelatedItemsMCL();
+
   if (isLoading) return <Loading />;
 
   return (
@@ -36,12 +38,12 @@ export const RelatedItemsList = ({ poLine }) => {
         id="po-line-related-items"
         interactive={false}
         columnIdPrefix="related-items"
-        columnMapping={ITEMS_COLUMN_MAPPING}
+        columnMapping={columnMapping}
         contentData={items}
-        formatter={ITEMS_ROW_FORMATTER}
+        formatter={formatter}
         loading={isFetching}
         totalCount={itemsCount}
-        visibleColumns={ITEMS_VISIBLE_COLUMNS}
+        visibleColumns={visibleColumns}
       />
       {items.length > 0 && (
         <PrevNextPagination
