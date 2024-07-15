@@ -1,10 +1,21 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import ChangeInstanceModal from './ChangeInstanceModal';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+}));
+jest.mock('../ConsortiumRelatedItemsList', () => ({ ConsortiumRelatedItemsList: jest.fn(() => 'ConsortiumRelatedItemsList') }));
 jest.mock('../RelatedItemsList', () => ({ RelatedItemsList: jest.fn(() => 'RelatedItemsList') }));
 
 const defaultProps = {

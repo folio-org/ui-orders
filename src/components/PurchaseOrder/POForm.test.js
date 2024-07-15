@@ -121,11 +121,11 @@ describe('POForm', () => {
   it('should not render Ongoing accordion for non-ongoing order', () => {
     renderPOForm();
 
-    expect(screen.queryByText(/OngoingInfoForm/i)).toBeNull();
+    expect(screen.queryByText(/OngoingInfoForm/i)).not.toBeInTheDocument();
   });
 
   it('should render Ongoing accordion for ongoing order', () => {
-    renderPOForm({ initialValues: { orderType: ORDER_TYPE.ongoing } });
+    renderPOForm({ initialValues: { ...defaultProps.initialValues, orderType: ORDER_TYPE.ongoing } });
 
     expect(screen.getByText(/OngoingInfoForm/i)).toBeInTheDocument();
   });
@@ -137,7 +137,7 @@ describe('POForm', () => {
   });
 
   it('should change template when another selected and show hidden fields when \'Show hidden fields\' btn was clicked', async () => {
-    const { baseElement } = renderPOForm();
+    renderPOForm();
 
     const selects = await screen.findAllByLabelText('ui-orders.settings.orderTemplates.editor.template.name');
     const select = selects[0];

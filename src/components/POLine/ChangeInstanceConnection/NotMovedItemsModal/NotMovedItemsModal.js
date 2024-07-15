@@ -8,11 +8,9 @@ import {
 } from '@folio/stripes/components';
 
 import {
-  ITEMS_COLUMN_MAPPING,
-  ITEMS_ROW_FORMATTER,
-  ITEMS_VISIBLE_COLUMNS,
-} from '../constants';
-import { useNotMovedItems } from '../hooks';
+  useNotMovedItems,
+  useRelatedItemsMCL,
+} from '../hooks';
 
 export const NotMovedItemsModal = ({ itemIds = [], onClose }) => {
   const intl = useIntl();
@@ -21,6 +19,12 @@ export const NotMovedItemsModal = ({ itemIds = [], onClose }) => {
     itemsCount,
     isLoading,
   } = useNotMovedItems(itemIds);
+
+  const {
+    columnMapping,
+    formatter,
+    visibleColumns,
+  } = useRelatedItemsMCL();
 
   const modalLabel = intl.formatMessage({ id: 'ui-orders.line.changeInstance.notMovedItems' });
 
@@ -40,11 +44,11 @@ export const NotMovedItemsModal = ({ itemIds = [], onClose }) => {
               id="po-line-related-items"
               interactive={false}
               columnIdPrefix="related-items"
-              columnMapping={ITEMS_COLUMN_MAPPING}
+              columnMapping={columnMapping}
               contentData={items}
-              formatter={ITEMS_ROW_FORMATTER}
+              formatter={formatter}
               totalCount={itemsCount}
-              visibleColumns={ITEMS_VISIBLE_COLUMNS}
+              visibleColumns={visibleColumns}
             />
           )
       }

@@ -1,0 +1,1 @@
+export { ConsortiumRelatedItemsList } from './ConsortiumRelatedItemsList';

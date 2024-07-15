@@ -25,6 +25,7 @@
 * Custom Fields - Add filter components for purchase order lines. Refs UIOR-1237.
 * Fix grammar and spelling errors on Settings > Orders > Instance. Refs UIOR-1289.
 * ECS - Adapt the validation of funds restricted by locations in the context of central ordering. Refs UIOR-1283.
+* ECS - "Change instance" modal adaptation for central ordering enabled. Refs UIOR-1290.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

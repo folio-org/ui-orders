@@ -1,0 +1,1 @@
+export { useRelatedItemsMCL } from './useRelatedItemsMCL';

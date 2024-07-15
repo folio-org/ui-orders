@@ -1,3 +1,4 @@
+export * from './consortium';
 export * from './useAcqMethod';
 export * from './useAcqMethods';
 export * from './useErrorAccordionStatus';
