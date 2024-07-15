@@ -100,7 +100,7 @@
           "configuration.entries.collection.get",
           "consortium-search.campuses.collection.get",
           "consortium-search.holdings.collection.get",
-          "consortium-search.institutions.collectio.get",
+          "consortium-search.institutions.collection.get",
           "consortium-search.libraries.collection.get",
           "consortium-search.locations.collection.get",
           "erm.entitlements.collection.get",
