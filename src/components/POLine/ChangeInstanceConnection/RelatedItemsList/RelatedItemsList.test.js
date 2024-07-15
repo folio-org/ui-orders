@@ -15,7 +15,6 @@ import { RelatedItemsList } from './RelatedItemsList';
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
-
 }));
 jest.mock('../../../../common/hooks', () => ({
   ...jest.requireActual('../../../../common/hooks'),

@@ -10,8 +10,8 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import { orderLine } from 'fixtures/orderLine';
-import { ConsortiumRelatedItemsList } from './ConsortiumRelatedItemsList';
 import { useConsortiumPOLineRelatedItems } from '../../../../common/hooks';
+import { ConsortiumRelatedItemsList } from './ConsortiumRelatedItemsList';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
