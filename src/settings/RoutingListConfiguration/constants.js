@@ -23,6 +23,10 @@ export const ROUTING_LIST_TOKEN = {
       previewValue: 'Routing notes',
     },
     {
+      token: 'title',
+      previewValue: 'ABA Journal',
+    },
+    {
       token: '#users',
       previewValue: '',
     },
