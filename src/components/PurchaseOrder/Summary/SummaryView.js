@@ -17,6 +17,7 @@ import TotalEncumberedValue from './TotalEncumberedValue';
 import TotalExpendedValue from './TotalExpendedValue';
 import WorkflowStatus from './WorkflowStatus';
 import TotalUnits from './TotalUnits';
+import { VersionKeyValue } from '../../../common/VersionView';
 
 const SummaryView = ({ order, hiddenFields }) => (
   <>
@@ -81,6 +82,18 @@ const SummaryView = ({ order, hiddenFields }) => (
         <TotalExpendedValue
           totalExpended={order.totalExpended}
           label={<FormattedMessage id="ui-orders.orderSummary.totalExpended" />}
+        />
+      </Col>
+
+      <Col
+        data-test-total-credited
+        xs={6}
+        lg={3}
+      >
+        <VersionKeyValue
+          name="totalCredited"
+          label={<FormattedMessage id="ui-orders.orderSummary.totalCredited" />}
+          value={<AmountWithCurrencyField amount={order?.totalCredited} />}
         />
       </Col>
     </Row>

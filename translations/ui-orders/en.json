@@ -471,6 +471,7 @@
   "orderSummary.totalEncumbered": "Total encumbered",
   "orderSummary.totalEstimatedPrice": "Total estimated price",
   "orderSummary.totalExpended": "Total expended",
+  "orderSummary.totalCredited": "Total credited",
   "orderSummary.totalUnits": "Total units",
   "orderSummary.workflowStatus": "Workflow status",
   "paneBlock.checkInBtn": "Check-in",
