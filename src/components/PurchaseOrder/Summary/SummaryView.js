@@ -83,6 +83,17 @@ const SummaryView = ({ order, hiddenFields }) => (
           label={<FormattedMessage id="ui-orders.orderSummary.totalExpended" />}
         />
       </Col>
+
+      <Col
+        data-test-total-credited
+        xs={6}
+        lg={3}
+      >
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.orderSummary.totalCredited" />}
+          value={<AmountWithCurrencyField amount={order?.totalCredited} />}
+        />
+      </Col>
     </Row>
 
     {(order.workflowStatus === ORDER_STATUSES.closed) && (

@@ -105,6 +105,18 @@ export const SummaryVersionView = ({ version }) => {
             value={<AmountWithCurrencyField amount={version?.totalExpended} />}
           />
         </Col>
+
+        <Col
+          data-test-total-credited
+          xs={6}
+          lg={3}
+        >
+          <VersionKeyValue
+            name="totalCredited"
+            label={<FormattedMessage id="ui-orders.orderSummary.totalCredited" />}
+            value={<AmountWithCurrencyField amount={version?.totalCredited} />}
+          />
+        </Col>
       </Row>
 
       {(version.workflowStatus === ORDER_STATUSES.closed) && (
