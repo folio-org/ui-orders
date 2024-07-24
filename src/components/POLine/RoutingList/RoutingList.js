@@ -35,7 +35,7 @@ export function RoutingList() {
       />
       <Route
         path={ROUTING_LIST_EDIT_ROUTE}
-        render={() => <RoutingListEdit fallbackPath={FALLBACK_ROUTE} />}
+        render={() => <RoutingListEdit routingListUrl={ROUTING_LIST_ROUTE} />}
       />
     </Switch>
   );
