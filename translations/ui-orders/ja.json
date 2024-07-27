@@ -897,5 +897,7 @@
     "settings.routing.listConfiguration.body.required": "Body is required",
     "routing.list.accordion.create.button": "ルーティングリストの追加",
     "poLine.isBinderyActive": "Bindery active",
-    "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>"
+    "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
+    "line.changeInstance.relatedItems.error": "Failed to load items for tenant(s): <b>{tenants}</b>",
+    "orderSummary.totalCredited": "Total credited"
 }

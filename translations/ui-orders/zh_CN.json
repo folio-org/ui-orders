@@ -897,5 +897,7 @@
     "settings.routing.listConfiguration.body.required": "正文为必填项",
     "routing.list.accordion.create.button": "添加路由列表",
     "poLine.isBinderyActive": "装订激活",
-    "routing.list.accordion.tokens.description": "为确保富文本编辑器正确解析与用户相关的数据，请在开头使用<b>'{{#users}}'</b> ，在结尾使用<b>'{{/users}}'</b> ，并在这些标记之间插入<i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> 。 {br} 例如：<i><b> '{{#users}}'</b> '{{firstName}}''{{lastName}}' - '{{routingAddress}}'<b>'{{/users}}'</b></i>"
+    "routing.list.accordion.tokens.description": "为确保富文本编辑器正确解析与用户相关的数据，请在开头使用<b>'{{#users}}'</b> ，在结尾使用<b>'{{/users}}'</b> ，并在这些标记之间插入<i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> 。 {br} 例如：<i><b> '{{#users}}'</b> '{{firstName}}''{{lastName}}' - '{{routingAddress}}'<b>'{{/users}}'</b></i>",
+    "line.changeInstance.relatedItems.error": "Failed to load items for tenant(s): <b>{tenants}</b>",
+    "orderSummary.totalCredited": "Total credited"
 }

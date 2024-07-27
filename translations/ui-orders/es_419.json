@@ -897,5 +897,7 @@
     "settings.routing.listConfiguration.body.required": "Body is required",
     "routing.list.accordion.create.button": "Agregar lista de enrutamiento",
     "poLine.isBinderyActive": "Encuadernación activa",
-    "routing.list.accordion.tokens.description": "Para garantizar que el editor de texto enriquecido analiza correctamente los datos relacionados con los usuarios, utilice <b>'{{#users}}'</b> al principio y <b>'{{/users}}'</b> al final, insertando <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> entre dichos tokens. {br} Ej: <i><b> '{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>"
+    "routing.list.accordion.tokens.description": "Para garantizar que el editor de texto enriquecido analiza correctamente los datos relacionados con los usuarios, utilice <b>'{{#users}}'</b> al principio y <b>'{{/users}}'</b> al final, insertando <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> entre dichos tokens. {br} Ej: <i><b> '{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
+    "line.changeInstance.relatedItems.error": "Failed to load items for tenant(s): <b>{tenants}</b>",
+    "orderSummary.totalCredited": "Total credited"
 }
