@@ -20,7 +20,7 @@ const calculateRecordsCount = (results) => results.reduce((sum, { publicationRes
   return publicationResults.reduce((acc, { response }) => acc + response?.totalRecords || 0, sum);
 }, 0);
 
-export const getConsortiumPiecesAndItemsCountByHoldingIds = (initPublicationRequest, { signal }) => {
+export const getConsortiumPiecesAndItemsCountByHoldingIds = (initPublicationRequest, { signal } = {}) => {
   return async (holdingIds, poLine) => {
     const tenants = getConsortiumPOLineLocationTenants(poLine);
 
