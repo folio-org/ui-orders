@@ -11,6 +11,12 @@ import {
 import { UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES } from '../../constants';
 import { useOrderLinesAbandonedHoldingsCheck } from './useOrderLinesAbandonedHoldingsCheck';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+  useConsortiumTenants: jest.fn(() => ({ tenants: [] })),
+  usePublishCoordinator: jest.fn(() => ({ initPublicationRequest: jest.fn() })),
+}));
 jest.mock('../../utils', () => ({
   ...jest.requireActual('../../utils'),
   checkIndependentPOLinesAbandonedHoldings: jest.fn(() => () => ({})),
@@ -27,8 +33,6 @@ const poLines = [
 ];
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}
