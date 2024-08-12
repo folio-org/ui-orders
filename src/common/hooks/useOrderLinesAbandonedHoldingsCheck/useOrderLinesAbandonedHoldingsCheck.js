@@ -5,6 +5,11 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
+import {
+  useCentralOrderingContext,
+  useConsortiumTenants,
+  usePublishCoordinator,
+} from '@folio/stripes-acq-components';
 
 import { UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES } from '../../constants';
 import {
@@ -35,6 +40,10 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'order-lines-abandoned-holdings' });
 
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+  const { initPublicationRequest } = usePublishCoordinator();
+  const { tenants, isLoading: isTenantsLoading } = useConsortiumTenants({ enabled: isCentralOrderingEnabled });
+
   const {
     synchronized: synchronizedPOLines,
     independent: independentPOLines,
@@ -54,12 +63,19 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
     async ({ signal }) => {
       ky.extend({ signal });
 
+      const requestHandlerOptions = {
+        isCentralOrderingEnabled,
+        initPublicationRequest,
+        signal,
+        tenants,
+      };
+
       const [
         synchronizedPOLinesCheckResult,
         independentPOLinesCheckResult,
       ] = await Promise.all([
-        checkSynchronizedPOLinesAbandonedHoldings(ky)(synchronizedPOLines),
-        checkIndependentPOLinesAbandonedHoldings(ky)(independentPOLines),
+        checkSynchronizedPOLinesAbandonedHoldings(ky, requestHandlerOptions)(synchronizedPOLines),
+        checkIndependentPOLinesAbandonedHoldings(ky, requestHandlerOptions)(independentPOLines),
       ]);
 
       const isSynchronizedWillAbandoned = !!synchronizedPOLines.length && synchronizedPOLinesCheckResult.willAbandoned;
@@ -74,7 +90,7 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
       };
     },
     {
-      enabled: Boolean(poLines.length),
+      enabled: Boolean(poLines.length && !isTenantsLoading),
       ...options,
     },
   );

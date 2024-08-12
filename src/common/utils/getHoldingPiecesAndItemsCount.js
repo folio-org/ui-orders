@@ -14,6 +14,18 @@ export const getHoldingPiecesCount = (ky) => async (holdingId) => {
     .then(({ totalRecords }) => totalRecords);
 };
 
+export const getConsortiumHoldingPiecesCount = (initPublicationRequest, { signal, tenants }) => async (holdingId) => {
+  const publication = {
+    url: `${ORDER_PIECES_API}?query=holdingId==${holdingId}&limit=${1}`,
+    method: 'GET',
+    tenants: tenants.map(({ id }) => id),
+  };
+
+  const { publicationResults } = await initPublicationRequest(publication, { signal });
+
+  return publicationResults.reduce((acc, { response }) => acc + response?.totalRecords, 0);
+};
+
 export const getHoldingItemsCount = (ky) => async (holdingId) => {
   const searchParams = {
     query: `holdingsRecordId==${holdingId}`,
@@ -25,11 +37,36 @@ export const getHoldingItemsCount = (ky) => async (holdingId) => {
     .then(({ totalRecords }) => totalRecords);
 };
 
-export const getHoldingPiecesAndItemsCount = (ky) => async (holdingId) => {
-  const [piecesCount, itemsCount] = await Promise.all([
-    getHoldingPiecesCount(ky)(holdingId),
-    getHoldingItemsCount(ky)(holdingId),
-  ]);
+export const getConsortiumHoldingItemsCount = (initPublicationRequest, { signal, tenants }) => async (holdingId) => {
+  const publication = {
+    url: `${ITEMS_API}?query=holdingsRecordId==${holdingId}&limit=${1}`,
+    method: 'GET',
+    tenants: tenants.map(({ id }) => id),
+  };
+
+  const { publicationResults } = await initPublicationRequest(publication, { signal });
+
+  return publicationResults.reduce((acc, { response }) => acc + response?.totalRecords, 0);
+};
+
+export const getHoldingPiecesAndItemsCount = (ky, options = {}) => async (holdingId) => {
+  const {
+    isCentralOrderingEnabled,
+    initPublicationRequest,
+    ...restOptions
+  } = options;
+
+  const [piecesCount, itemsCount] = await Promise.all(
+    isCentralOrderingEnabled
+      ? [
+        getConsortiumHoldingPiecesCount(initPublicationRequest, restOptions)(holdingId),
+        getConsortiumHoldingItemsCount(initPublicationRequest, restOptions)(holdingId),
+      ]
+      : [
+        getHoldingPiecesCount(ky)(holdingId),
+        getHoldingItemsCount(ky)(holdingId),
+      ],
+  );
 
   return {
     piecesCount,

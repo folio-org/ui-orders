@@ -30,6 +30,7 @@
 * Add title token to printed routing list configuration. Refs UIOR-1287.
 * Display total credited in composite orders. Refs UIOR-1282.
 * Orders app closes after closing Routing list page. Refs UIOR-1299.
+* ECS - Check abandoned holdings when unopen order in all dependent tenants. Refs UIOR-1291.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

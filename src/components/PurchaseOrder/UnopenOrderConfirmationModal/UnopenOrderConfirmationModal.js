@@ -95,9 +95,9 @@ export const UnopenOrderConfirmationModal = ({
       aria-label={modalLabel}
     >
       {
-      isFetching
-        ? <Loading />
-        : <FormattedMessage id={`ui-orders.unopenOrderModal.message.${modalType}`} />
+        isFetching
+          ? <Loading />
+          : <FormattedMessage id={`ui-orders.unopenOrderModal.message.${modalType}`} />
       }
     </Modal>
   );
