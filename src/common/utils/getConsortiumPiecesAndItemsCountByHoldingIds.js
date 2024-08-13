@@ -11,8 +11,10 @@ const PIECE = 'piece';
 const ITEM = 'item';
 
 const buildQueryByHoldingIds = (key) => (itemsChunk) => {
+  const qIndex = key === ITEM ? 'holdingsRecordId' : 'holdingId';
+
   return itemsChunk.length
-    ? `${key === ITEM ? 'holdingsRecordId' : 'holdingId'}==(${itemsChunk.join(' or ')})`
+    ? `${qIndex}==(${itemsChunk.join(' or ')})`
     : '';
 };
 
