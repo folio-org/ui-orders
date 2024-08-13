@@ -23,7 +23,7 @@ export const getConsortiumHoldingPiecesCount = (initPublicationRequest, { signal
 
   const { publicationResults } = await initPublicationRequest(publication, { signal });
 
-  return publicationResults.reduce((acc, { response }) => acc + response?.totalRecords, 0);
+  return publicationResults.reduce((acc, { response }) => acc + response?.totalRecords || 0, 0);
 };
 
 export const getHoldingItemsCount = (ky) => async (holdingId) => {
@@ -46,7 +46,7 @@ export const getConsortiumHoldingItemsCount = (initPublicationRequest, { signal,
 
   const { publicationResults } = await initPublicationRequest(publication, { signal });
 
-  return publicationResults.reduce((acc, { response }) => acc + response?.totalRecords, 0);
+  return publicationResults.reduce((acc, { response }) => acc + response?.totalRecords || 0, 0);
 };
 
 export const getHoldingPiecesAndItemsCount = (ky, options = {}) => async (holdingId) => {
