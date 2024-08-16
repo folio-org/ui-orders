@@ -1,40 +1,27 @@
 import get from 'lodash/get';
 import uniq from 'lodash/uniq';
 
-import {
-  fetchAllRecords,
-  ITEMS_API,
-  ORDER_PIECES_API,
-} from '@folio/stripes-acq-components';
-
+import { getConsortiumPiecesAndItemsCountByHoldingIds } from './getConsortiumPiecesAndItemsCountByHoldingIds';
+import { getConsortiumPOLineItems } from './getConsortiumPOLineItems';
 import { getPiecesAndItemsCountByHoldingIds } from './getPiecesAndItemsCountByHoldingIds';
+import { getPOLineItems } from './getPOLineItems';
+import { getPOLinePieces } from './getPOLinePieces';
 
 /*
   Checks if holdings contain other pieces and items
   that are not related to the given purchase order line.
 */
-export const checkRelatedHoldings = (ky) => async (poLine) => {
-  const poLinePieces = await fetchAllRecords(
-    {
-      GET: async ({ params: searchParams }) => {
-        const { pieces } = await ky.get(ORDER_PIECES_API, { searchParams }).json();
+export const checkRelatedHoldings = (ky, options = {}) => async (poLine) => {
+  const {
+    isCentralOrderingEnabled,
+    initPublicationRequest,
+    signal,
+  } = options;
 
-        return pieces;
-      },
-    },
-    `poLineId==${poLine.id}`,
-  );
-
-  const poLineItems = await fetchAllRecords(
-    {
-      GET: async ({ params: searchParams }) => {
-        const { items } = await ky.get(ITEMS_API, { searchParams }).json();
-
-        return items;
-      },
-    },
-    `purchaseOrderLineIdentifier==${poLine.id}`,
-  );
+  const poLinePieces = await getPOLinePieces(ky)(poLine);
+  const poLineItems = isCentralOrderingEnabled
+    ? await getConsortiumPOLineItems(initPublicationRequest, { signal })(poLine)
+    : await getPOLineItems(ky)(poLine);
 
   const holdingIds = uniq([
     ...get(poLine, 'locations', []).map(({ holdingId }) => holdingId),
@@ -45,7 +32,10 @@ export const checkRelatedHoldings = (ky) => async (poLine) => {
   const {
     holdingsPiecesCount,
     holdingsItemsCount,
-  } = await getPiecesAndItemsCountByHoldingIds(ky)(holdingIds);
+    errors,
+  } = isCentralOrderingEnabled
+    ? await getConsortiumPiecesAndItemsCountByHoldingIds(initPublicationRequest, { signal })(holdingIds, poLine)
+    : await getPiecesAndItemsCountByHoldingIds(ky)(holdingIds);
 
   const relatedToAnother = (
     (holdingsPiecesCount - poLinePieces.length) > 0 || (holdingsItemsCount - poLineItems.length) > 0
@@ -55,6 +45,11 @@ export const checkRelatedHoldings = (ky) => async (poLine) => {
     holdingIds,
     holdingsItemsCount,
     relatedToAnother,
-    willAbandoned: Boolean(holdingIds.length && !relatedToAnother),
+    willAbandoned: Boolean(
+      holdingIds.length
+        && !relatedToAnother
+        && !errors?.pieces?.length
+        && !errors?.items?.length,
+    ),
   };
 };

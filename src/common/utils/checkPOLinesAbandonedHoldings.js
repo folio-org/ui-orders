@@ -6,13 +6,13 @@ import { getHoldingPiecesAndItemsCount } from './getHoldingPiecesAndItemsCount';
 
 const REQUEST_CHUNK_SIZE = 5;
 
-export const checkSynchronizedPOLinesAbandonedHoldings = (ky) => async (poLines) => {
+export const checkSynchronizedPOLinesAbandonedHoldings = (ky, options) => async (poLines) => {
   const poLinesChunks = chunk(poLines, REQUEST_CHUNK_SIZE);
 
   const results = await poLinesChunks.reduce(async (acc, poLinesChunk) => {
     const resolvedAcc = await acc;
 
-    const responses = await Promise.all(poLinesChunk.map(checkRelatedHoldings(ky)));
+    const responses = await Promise.all(poLinesChunk.map(checkRelatedHoldings(ky, options)));
 
     return [...resolvedAcc, ...responses];
   }, Promise.resolve([]));
@@ -23,7 +23,7 @@ export const checkSynchronizedPOLinesAbandonedHoldings = (ky) => async (poLines)
   };
 };
 
-export const checkIndependentPOLinesAbandonedHoldings = (ky) => async (poLines) => {
+export const checkIndependentPOLinesAbandonedHoldings = (ky, options) => async (poLines) => {
   const holdingIds = uniq(
     poLines
       .flatMap(({ locations }) => locations)
@@ -36,7 +36,7 @@ export const checkIndependentPOLinesAbandonedHoldings = (ky) => async (poLines) 
   const results = await holdingIdsChunks.reduce(async (acc, holdingIdsChunk) => {
     const resolvedAcc = await acc;
 
-    const responses = await Promise.all(holdingIdsChunk.map(getHoldingPiecesAndItemsCount(ky)));
+    const responses = await Promise.all(holdingIdsChunk.map(getHoldingPiecesAndItemsCount(ky, options)));
 
     return [...resolvedAcc, ...responses];
   }, Promise.resolve([]));

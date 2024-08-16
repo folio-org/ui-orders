@@ -12,6 +12,7 @@ export { default as getCreateInventorySetting } from './getCreateInventorySettin
 export * from './getHoldingPiecesAndItemsCount';
 export * from './getOrganizationsByIds';
 export * from './getLocations';
+export * from './getPOLinePieces';
 export * from './getMaterialTypes';
 export * from './getUserNameById';
 export * from './getVersionMetadata';
