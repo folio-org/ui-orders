@@ -3,7 +3,7 @@ import {
   ITEMS_API,
 } from '@folio/stripes-acq-components';
 
-export const getPOLineItems = (ky) => (poLineId) => {
+export const getPOLineItems = (ky) => (poLine) => {
   return fetchAllRecords(
     {
       GET: async ({ params: searchParams }) => {
@@ -12,6 +12,6 @@ export const getPOLineItems = (ky) => (poLineId) => {
         return items;
       },
     },
-    `purchaseOrderLineIdentifier==${poLineId}`,
+    `purchaseOrderLineIdentifier==${poLine.id}`,
   );
 };
