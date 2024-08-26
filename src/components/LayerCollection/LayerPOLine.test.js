@@ -10,7 +10,10 @@ import {
   screen,
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
-import { useLocationsQuery } from '@folio/stripes-acq-components';
+import {
+  useLocationsQuery,
+  useShowCallout,
+} from '@folio/stripes-acq-components';
 
 import {
   order,
@@ -32,6 +35,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
   useIntegrationConfigs: jest.fn().mockReturnValue({ integrationConfigs: [], isLoading: false }),
   useLocationsQuery: jest.fn(),
+  useShowCallout: jest.fn(),
 }));
 jest.mock('../../common/hooks', () => ({
   useOpenOrderSettings: jest.fn().mockReturnValue({ isFetching: false, openOrderSettings: {} }),
@@ -141,6 +145,8 @@ const renderLayerPOLine = (props = {}) => render(
   { wrapper },
 );
 
+const mockShowCallout = jest.fn();
+
 describe('LayerPOLine', () => {
   beforeEach(() => {
     POLineForm.mockClear();
@@ -153,6 +159,9 @@ describe('LayerPOLine', () => {
     useLocationsQuery
       .mockClear()
       .mockReturnValue({ locations: [location] });
+    useShowCallout
+      .mockClear()
+      .mockReturnValue(mockShowCallout);
   });
 
   it('should render POLineForm', async () => {
@@ -297,11 +306,15 @@ describe('LayerPOLine', () => {
     });
   });
 
-  it('should handle another errors', async () => {
+  it.each([
+    ['someError', 'error message'],
+    ['genericError', 'Invalid token'],
+  ])('should handle \'%s\' error', async (code, message) => {
     // eslint-disable-next-line prefer-promise-reject-errors
     defaultProps.mutator.poLines.PUT.mockImplementation(() => Promise.reject({
       errors: [{
-        code: 'someError',
+        code,
+        message,
       }],
     }));
 
@@ -310,5 +323,6 @@ describe('LayerPOLine', () => {
     await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({}));
 
     expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled();
+    expect(mockShowCallout).toHaveBeenCalled();
   });
 });
