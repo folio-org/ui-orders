@@ -96,6 +96,7 @@ const parseErrorMessage = (code) => {
 
 const FIELD_ARRAYS_TO_HYDRATE = ['locations'];
 const MISSING_AFFILIATION_ERROR_CODE = 'missingAffiliation';
+const INVALID_TOKEN_MESSAGE = 'Invalid token';
 
 function LayerPOLine({
   history,
@@ -194,9 +195,9 @@ function LayerPOLine({
           if (!messageCode) {
             const message = response.errors[0].message;
 
-            messageCode = parseErrorMessage(message);
-
-            messageCode = message?.includes('Invalid token') ? MISSING_AFFILIATION_ERROR_CODE : messageCode;
+            messageCode = message?.includes(INVALID_TOKEN_MESSAGE)
+              ? MISSING_AFFILIATION_ERROR_CODE
+              : parseErrorMessage(message);
           }
 
           sendCallout({
