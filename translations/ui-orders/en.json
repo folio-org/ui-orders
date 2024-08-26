@@ -185,6 +185,7 @@
   "errors.locQtyPhysicalExceedsCost": "Locations physical quantity exceeds cost physical quantity",
   "errors.materialTypeRequired": "The material type is required but not available in PO line",
   "errors.mayBeLinkToEitherHoldingOrLocationError": "There is a holdingsId and locationId presented already",
+  "errors.missingAffiliation": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
   "errors.missingContributorNameType": "The specified contributor-name-types were not found in inventory-storage",
   "errors.missingHoldingsSourceId": "Holdings not found in inventory",
   "errors.missingInstanceStatus": "Order can not be opened as the status of {value} is undefined",

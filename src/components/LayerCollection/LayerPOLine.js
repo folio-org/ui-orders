@@ -95,6 +95,7 @@ const parseErrorMessage = (code) => {
 };
 
 const FIELD_ARRAYS_TO_HYDRATE = ['locations'];
+const MISSING_AFFILIATION_ERROR_CODE = 'missingAffiliation';
 
 function LayerPOLine({
   history,
@@ -188,10 +189,14 @@ function LayerPOLine({
         } else if (response.errors.find(el => el.code === ERROR_CODES.piecesNeedToBeDeleted)) {
           toggleDeletePieces();
         } else {
-          let messageCode = get(ERROR_CODES, response.errors[0].code);
+          let messageCode = get(ERROR_CODES, response.errors[0]);
 
           if (!messageCode) {
-            messageCode = parseErrorMessage(response.errors[0].message);
+            const message = response.errors[0].message;
+
+            messageCode = parseErrorMessage(message);
+
+            messageCode = message?.includes('Invalid token') ? MISSING_AFFILIATION_ERROR_CODE : messageCode;
           }
 
           sendCallout({
