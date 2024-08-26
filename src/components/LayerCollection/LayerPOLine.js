@@ -189,7 +189,7 @@ function LayerPOLine({
         } else if (response.errors.find(el => el.code === ERROR_CODES.piecesNeedToBeDeleted)) {
           toggleDeletePieces();
         } else {
-          let messageCode = get(ERROR_CODES, response.errors[0]);
+          let messageCode = get(ERROR_CODES, response.errors[0].code);
 
           if (!messageCode) {
             const message = response.errors[0].message;
