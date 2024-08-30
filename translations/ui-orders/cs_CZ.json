@@ -899,5 +899,6 @@
     "poLine.isBinderyActive": "Vazba aktivní",
     "routing.list.accordion.tokens.description": "Chcete-li zajistit správnou analýzu dat souvisejících s uživateli pomocí editoru formátovaného textu, použijte <b>'{{#uživatelů}}'</b> na začátku a <b>'{{/uživatelů}}'</b> na konci, vložením <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> mezi tyto tokeny. {br} Př.: <i><b>'{{#uživatelů}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/uživatelů}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Nepodařilo se načíst jednotky pro nájemce: <b>{tenants}</b>",
-    "orderSummary.totalCredited": "Celkem připsáno"
+    "orderSummary.totalCredited": "Celkem připsáno",
+    "errors.missingAffiliation": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
 }
