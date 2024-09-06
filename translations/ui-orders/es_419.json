@@ -899,5 +899,6 @@
     "poLine.isBinderyActive": "Encuadernación activa",
     "routing.list.accordion.tokens.description": "Para garantizar que el editor de texto enriquecido analiza correctamente los datos relacionados con los usuarios, utilice <b>'{{#users}}'</b> al principio y <b>'{{/users}}'</b> al final, insertando <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> entre dichos tokens. {br} Ej: <i><b> '{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Failed to load items for tenant(s): <b>{tenants}</b>",
-    "orderSummary.totalCredited": "Total credited"
+    "orderSummary.totalCredited": "Total credited",
+    "errors.missingAffiliation": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
 }

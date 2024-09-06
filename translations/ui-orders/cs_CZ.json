@@ -899,5 +899,6 @@
     "poLine.isBinderyActive": "Vazba aktivní",
     "routing.list.accordion.tokens.description": "Chcete-li zajistit správnou analýzu dat souvisejících s uživateli pomocí editoru formátovaného textu, použijte <b>'{{#uživatelů}}'</b> na začátku a <b>'{{/uživatelů}}'</b> na konci, vložením <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> mezi tyto tokeny. {br} Př.: <i><b>'{{#uživatelů}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/uživatelů}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Nepodařilo se načíst jednotky pro nájemce: <b>{tenants}</b>",
-    "orderSummary.totalCredited": "Celkem připsáno"
+    "orderSummary.totalCredited": "Celkem připsáno",
+    "errors.missingAffiliation": "Operace se nezdařila. Tento záznam má lokaci pobočky, kterou Váš uživatel nemá. Tato pobočka musí být odstraněna nebo operaci musí provést uživatel, který má stejnou pobočku jako záznam."
 }
