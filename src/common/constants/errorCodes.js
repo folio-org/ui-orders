@@ -1,3 +1,6 @@
+export const MISSING_AFFILIATION_ERROR_CODE = 'missingAffiliation';
+export const INVALID_TOKEN_MESSAGE = 'Invalid token';
+
 export const ERROR_CODES = {
   accessProviderIsInactive: 'accessProviderIsInactive',
   accessProviderNotFound: 'accessProviderNotFound',

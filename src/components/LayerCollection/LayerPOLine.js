@@ -45,6 +45,8 @@ import {
   ERROR_CODES,
   WORKFLOW_STATUS,
   VALIDATION_ERRORS,
+  INVALID_TOKEN_MESSAGE,
+  MISSING_AFFILIATION_ERROR_CODE,
 } from '../../common/constants';
 import {
   useInstance,
@@ -95,8 +97,6 @@ const parseErrorMessage = (code) => {
 };
 
 const FIELD_ARRAYS_TO_HYDRATE = ['locations'];
-const MISSING_AFFILIATION_ERROR_CODE = 'missingAffiliation';
-const INVALID_TOKEN_MESSAGE = 'Invalid token';
 
 function LayerPOLine({
   history,
