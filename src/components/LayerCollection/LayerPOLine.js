@@ -45,8 +45,6 @@ import {
   ERROR_CODES,
   WORKFLOW_STATUS,
   VALIDATION_ERRORS,
-  INVALID_TOKEN_MESSAGE,
-  MISSING_AFFILIATION_ERROR_CODE,
 } from '../../common/constants';
 import {
   useInstance,
@@ -193,11 +191,7 @@ function LayerPOLine({
           let messageCode = get(ERROR_CODES, response.errors[0].code);
 
           if (!messageCode) {
-            const message = response.errors[0].message;
-
-            messageCode = message?.includes(INVALID_TOKEN_MESSAGE)
-              ? MISSING_AFFILIATION_ERROR_CODE
-              : parseErrorMessage(message);
+            messageCode = parseErrorMessage(response.errors[0].message);
           }
 
           sendCallout({
