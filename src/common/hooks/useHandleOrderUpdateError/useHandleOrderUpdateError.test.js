@@ -1,8 +1,13 @@
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
 import showUpdateOrderError from '../../../components/Utils/order/showUpdateOrderError';
 import useHandleOrderUpdateError from './useHandleOrderUpdateError';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useShowCallout: jest.fn(),
+}));
 jest.mock('../../../components/Utils/order/showUpdateOrderError', () => jest.fn());
 
 const mutator = {
@@ -24,9 +29,12 @@ const getMockResponse = (code = 'inactiveExpenseClass', key = 'expenseClassId') 
 });
 
 describe('useHandleOrderUpdateError', () => {
+  const sendCallout = jest.fn();
+
   beforeEach(() => {
     mutator.GET.mockClear();
     showUpdateOrderError.mockClear();
+    useShowCallout.mockReturnValue(sendCallout);
   });
 
   it('should return order update error handler', () => {

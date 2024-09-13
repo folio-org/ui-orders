@@ -83,6 +83,7 @@ export const ERROR_CODES = {
   suffixIsUsed: 'suffixIsUsed',
   suffixNotFound: 'suffixNotFound',
   titleNotFound: 'titleNotFound',
+  userHasMissedAffiliations: 'userHasMissedAffiliations',
   userHasNoAcqUnitsPermission: 'userHasNoAcqUnitsPermission',
   userHasNoApprovalPermission: 'userHasNoApprovalPermission',
   userHasNoOrderUnopenPermission: 'userHasNoOrderUnopenPermission',
