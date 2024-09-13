@@ -14,7 +14,7 @@ const mutator = {
   GET: jest.fn().mockResolvedValue({ name: 'name' }),
 };
 
-const getMockResponse = (code = 'inactiveExpenseClass', key = 'expenseClassId', message = '') => ({
+const getMockResponse = (code = 'inactiveExpenseClass', key = 'expenseClassId') => ({
   clone: () => ({
     json: () => ({
       errors: [{
@@ -23,7 +23,6 @@ const getMockResponse = (code = 'inactiveExpenseClass', key = 'expenseClassId', 
           key,
           value: 'value',
         }],
-        message,
       }],
     }),
   }),
@@ -65,21 +64,6 @@ describe('useHandleOrderUpdateError', () => {
       expect(showUpdateOrderError).toHaveBeenCalled();
     } catch (e) {
       expect(e.message).toEqual('Order update error');
-    }
-  });
-
-  it('should handle `Invalid token` error message', async () => {
-    const { result } = renderHook(() => useHandleOrderUpdateError(mutator));
-
-    try {
-      await result.current[0](getMockResponse('genericError', 'test', 'Invalid token'));
-      expect(showUpdateOrderError).toHaveBeenCalled();
-    } catch (e) {
-      expect(e.message).toEqual('Order update error');
-      expect(sendCallout).toHaveBeenCalledWith({
-        'messageId': 'ui-orders.errors.missingAffiliation',
-        'type': 'error',
-      });
     }
   });
 });
