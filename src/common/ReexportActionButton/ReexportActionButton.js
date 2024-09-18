@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { Button } from '@folio/stripes/components';
+import { Button, Icon } from '@folio/stripes/components';
 import { IfPermission } from '@folio/stripes/core';
 
 export const ReexportActionButton = ({
@@ -18,7 +18,9 @@ export const ReexportActionButton = ({
         disabled={disabled}
         onClick={onClick}
       >
-        <FormattedMessage id="ui-orders.button.reexport" />
+        <Icon icon="refresh" size="small">
+          <FormattedMessage id="ui-orders.button.reexport" />
+        </Icon>
       </Button>
     </IfPermission>
   );
