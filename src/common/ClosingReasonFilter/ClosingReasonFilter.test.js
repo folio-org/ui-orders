@@ -1,4 +1,5 @@
 import { render } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import ClosingReasonFilter from './ClosingReasonFilter';
 
@@ -38,7 +39,9 @@ describe('ClosingReasonFilter', () => {
   });
 
   it('should return list of options', async () => {
-    const { baseElement } = renderClosingReasonFilter({ ...defaultProps, closingReasons: options });
+    const { baseElement, getByText } = renderClosingReasonFilter({ ...defaultProps, closingReasons: options });
+
+    await user.click(getByText('stripes-components.selection.controlLabel'));
 
     expect(baseElement.querySelectorAll('li.groupLabel')).toHaveLength(3);
   });

@@ -32,6 +32,7 @@
 * Orders app closes after closing Routing list page. Refs UIOR-1299.
 * ECS - Check abandoned holdings when unopen order in all dependent tenants. Refs UIOR-1291.
 * ECS - handle error message appears when user without appropriate affiliation is trying to edit/open POL with location in such affiliation. Refs UIOR-1307.
+* UX: Removal of hyphen in Reexport and add refresh icon. UIOR-1246.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

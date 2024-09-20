@@ -1,4 +1,5 @@
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 
 import AddressFilter from './AddressFilter';
 
@@ -27,9 +28,10 @@ const defaultProps = {
 const emptyListMessage = /--/i;
 
 describe('AddressFilter', () => {
-  it('should return an empty item when no options are passed', () => {
+  it('should return an empty item when no options are passed', async () => {
     render(<AddressFilter {...defaultProps} />);
 
+    await user.click(screen.getByText('stripes-components.selection.controlLabel'));
     expect(screen.getByText(emptyListMessage)).toBeInTheDocument();
   });
 
