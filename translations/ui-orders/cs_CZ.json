@@ -544,7 +544,7 @@
     "closeOrder.success": "Objednávka byla uzavřena",
     "paneBlock.reopenBtn": "Znovu otevřít",
     "order.clone.confirmLabel": "Duplikovat",
-    "order.clone.heading": "Duplicitní objednávka?",
+    "order.clone.heading": "Duplikovat objednávku?",
     "order.clone.message": "Opravdu chcete klonovat tuto nákupní objednávku a všechny její řádky nákupní objednávky?",
     "order.clone.success": "Nákupní objednávka byla úspěšně duplikována",
     "order.reopen.success": "<b>Nákupní objednávka – {orderNumber}</b> byla úspěšně <b>znovu otevřena</b>",
@@ -662,8 +662,8 @@
     "shortcut.duplicateRecord": "Duplikovat záznam",
     "cost.listPriceOfPhysical": "Cena fyzické jednotky",
     "cost.quantityPopover": "Tato objednávka má záznamy o příjmu. Tato množství lze upravovat pouze prací se záznamy v aplikaci příjmu.",
-    "cost.rolloverAdjustment": "Úprava při převrácení",
-    "cost.rolloverAdjustment.info": "Tato hodnota byla přidána při přeúčtování, aby se vyrovnaly náklady na objednávku s vyžadovaným věcným břemenem pro nový rok. Pokud upravíte náklady, tato hodnota bude odstraněna a hodnota zatížení bude aktualizována na základě nové odhadované ceny.",
+    "cost.rolloverAdjustment": "Úprava převedení",
+    "cost.rolloverAdjustment.info": "Tato hodnota byla přidána při převedení, aby se vyrovnaly náklady na objednávku s vyžadovaným věcným břemenem pro nový rok. Pokud upravíte náklady, tato hodnota bude odstraněna a hodnota zatížení bude aktualizována na základě nové odhadované ceny.",
     "location.createHolding": "Vytvoření nových holdingů pro lokaci",
     "location.holding": "Holding",
     "location.selectHoldings": "Vybrat holdingy",
@@ -845,7 +845,7 @@
     "relatedInvoices.subscriptionStart": "Začátek předplatného",
     "relatedInvoices.subscriptionEnd": "Konec předplatného",
     "relatedInvoices.subscriptionDescription": "Informace o předplatném",
-    "errors.encumbrancesForReEncumberNotFound": "Věcná břemena byly správně vytvořeny během převodu nebo již byly aktualizovány.",
+    "errors.encumbrancesForReEncumberNotFound": "Věcná břemena byly správně vytvořeny během převedení nebo již byly aktualizovány.",
     "versionHistory.noVersion": "Žádná historie verzí k zobrazení.",
     "errors.invalidProductId": "ID produktu je neplatné na základě typu ID produktu. Můžete použít \"Změnit připojení titulu\" k obnovení ID produktů ze záznamu titulu před úpravou řádku NO.",
     "relatedInvoiceLines.vendorCode": "Kód prodejce",
@@ -899,5 +899,6 @@
     "poLine.isBinderyActive": "Vazba aktivní",
     "routing.list.accordion.tokens.description": "Chcete-li zajistit správnou analýzu dat souvisejících s uživateli pomocí editoru formátovaného textu, použijte <b>'{{#uživatelů}}'</b> na začátku a <b>'{{/uživatelů}}'</b> na konci, vložením <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> mezi tyto tokeny. {br} Př.: <i><b>'{{#uživatelů}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/uživatelů}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Nepodařilo se načíst jednotky pro nájemce: <b>{tenants}</b>",
-    "orderSummary.totalCredited": "Celkem připsáno"
+    "orderSummary.totalCredited": "Celkem připsáno",
+    "errors.userHasMissedAffiliations": "Operace se nezdařila. Tento záznam má lokaci pobočky, kterou Váš uživatel nemá. Tato pobočka musí být odstraněna nebo operaci musí provést uživatel, který má stejnou pobočku jako záznam."
 }

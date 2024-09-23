@@ -899,5 +899,6 @@
     "poLine.isBinderyActive": "Encadernação ativa",
     "routing.list.accordion.tokens.description": "Para garantir que os dados relacionados ao usuário sejam analisados corretamente pelo editor de rich text, use <b>'{{#users}}'</b> no início e <b>'{{/users}}'</b> no final, inserindo <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> entre esses tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Falha ao carregar itens para locatário(s): <b>{tenants}</b>",
-    "orderSummary.totalCredited": "Total creditado"
+    "orderSummary.totalCredited": "Total creditado",
+    "errors.userHasMissedAffiliations": "A operação falhou. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações que o registro."
 }
