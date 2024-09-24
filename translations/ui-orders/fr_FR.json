@@ -765,7 +765,7 @@
     "createInvoice.confirmationModal.order.message": "Voulez-vous créer une facture à partir de cette commande ?",
     "paneBlock.createInvoice": "Nouvelle facture",
     "button.confirm": "Confirm",
-    "button.reexport": "Re-export",
+    "button.reexport": "Reexport",
     "reexport.order.confirmModal.heading": "Re-export order",
     "reexport.order.success": "Order re-export was successfully completed",
     "reexport.order.fail": "Order re-export was failed",
@@ -802,7 +802,7 @@
     "breakInstanceConnection.modal.heading": "Supprimer la connexion avec la notice",
     "breakInstanceConnection.modal.message": "Cette modification supprimera le lien entre la ligne de commande et la notice de catalogue sélectionnée. Voulez-vous vraiment continuer avec cette modification et dissocier cette ligne de commande de la notice de catalogue \"<b>{titleOrPackage}</b>\" ?",
     "orderDetails.approvedBy": "Approuvé par",
-    "versionHistory.updatedByUserId": "Updated by",
+    "versionHistory.updatedByUserId": "Mis à jour par",
     "errors.currentFYearIdNotFound": "Current fiscal year not found for PO line",
     "errors.errorRemovingInvoiceLineEncumbrances": "Error removing invoice line encumbrance links after deleting the encumbrances",
     "errors.errorRetrievingPoLines": "Error retrieving purchase order lines from storage",
@@ -824,8 +824,8 @@
     "errors.suffixIsUsed": "The suffix cannot be deleted as it is used by one or more orders",
     "errors.suffixNotFound": "The suffix is not available",
     "errors.titleNotFound": "The receiving title(s) could not be found",
-    "errors.userHasNoOrderReopenPermission": "User does not have permissions to reopen order - operation is restricted",
-    "errors.userHasNoOrderUnopenPermission": "User does not have permissions to unopen order - operation is restricted",
+    "errors.userHasNoOrderReopenPermission": "L'utilisateur n'est pas autorisé à rouvrir la commande - cette opération est restreinte",
+    "errors.userHasNoOrderUnopenPermission": "L'utilisateur n'est pas autorisé à repasser la commande en attente - cette opération est restreinte",
     "unopenOrderModal.confirmLabel.keepHoldings.synchronized": "Delete items",
     "unopenOrderModal.confirmLabel.deleteHoldings.synchronized": "Delete Holdings and items",
     "unopenOrderModal.confirmLabel.keepHoldings.independent": "Keep Holdings",
@@ -899,5 +899,6 @@
     "poLine.isBinderyActive": "Bindery active",
     "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Failed to load items for tenant(s): <b>{tenants}</b>",
-    "orderSummary.totalCredited": "Total crédité"
+    "orderSummary.totalCredited": "Total crédité",
+    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
 }
