@@ -21,7 +21,7 @@ describe('ReexportActionButton', () => {
     defaultProps.onClick.mockClear();
   });
 
-  it('should render button for re-export action', () => {
+  it('should render button for reexport action', () => {
     renderReexportActionButton();
 
     expect(screen.getByTestId(defaultProps.id)).toBeInTheDocument();

@@ -275,7 +275,7 @@ describe('PO actions', () => {
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
 
-    it('should update order details after re-export', async () => {
+    it('should update order details after reexport', async () => {
       renderComponent();
 
       const reexportBtn = await screen.findByTestId('reexport-order-button');

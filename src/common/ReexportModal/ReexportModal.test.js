@@ -51,7 +51,7 @@ const renderReexportModal = (props = {}) => render(
 );
 
 describe('ReexportModal', () => {
-  it('should render \'Re-export\' modal', () => {
+  it('should render \'Reexport\' modal', () => {
     renderReexportModal();
 
     expect(screen.getByText(`ui-orders.reexport.${defaultProps.source}.confirmModal.message`)).toBeInTheDocument();

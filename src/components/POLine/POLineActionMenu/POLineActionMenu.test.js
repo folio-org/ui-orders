@@ -75,7 +75,7 @@ describe('POLineActionMenu', () => {
       expect(defaultProps.onChangeInstance).toHaveBeenCalled();
     });
 
-    it('should call \'onReexport\' when \'Re-export\' action was triggered', async () => {
+    it('should call \'onReexport\' when \'Reexport\' action was triggered', async () => {
       renderPOLineActionMenu({
         order: {
           ...order,
