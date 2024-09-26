@@ -100,7 +100,6 @@ const showUpdateOrderError = async (
       });
       break;
     }
-    case ERROR_CODES.currentFYearNotFound:
     case ERROR_CODES.budgetNotFoundForFiscalYear: {
       const fundCodes = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'fundCodes')?.value;
 
