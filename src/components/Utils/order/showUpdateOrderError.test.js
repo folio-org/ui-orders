@@ -13,7 +13,7 @@ const params = {
 };
 
 describe('showUpdateOrderError', () => {
-  it('should handle error and open modal', async () => {
+  it('should handle error and open modal', () => {
     const response = {
       errors: [{
         code: 'vendorIsInactive',
@@ -25,7 +25,7 @@ describe('showUpdateOrderError', () => {
     expect(params.openModal).toHaveBeenCalled();
   });
 
-  it('should handle error and show message', async () => {
+  it('should handle error and show message', () => {
     const response = {
       errors: [{
         code: 'missingInstanceStatus',
@@ -37,7 +37,7 @@ describe('showUpdateOrderError', () => {
     expect(params.callout.sendCallout).toHaveBeenCalled();
   });
 
-  it('should handle `fundLocationRestrictionViolation` error and show message', async () => {
+  it('should handle `fundLocationRestrictionViolation` error and show message', () => {
     const response = {
       errors: [{
         code: 'fundLocationRestrictionViolation',
@@ -53,7 +53,7 @@ describe('showUpdateOrderError', () => {
     expect(params.callout.sendCallout).toHaveBeenCalled();
   });
 
-  it('should handle `budgetExpenseClassNotFound` error and show message', async () => {
+  it('should handle `budgetExpenseClassNotFound` error and show message', () => {
     const response = {
       errors: [{
         code: 'budgetExpenseClassNotFound',
@@ -72,7 +72,23 @@ describe('showUpdateOrderError', () => {
     expect(params.callout.sendCallout).toHaveBeenCalled();
   });
 
-  it('should handle default error case', async () => {
+  it('should handle `budgetNotFoundForFiscalYear` error and show message', () => {
+    const response = {
+      errors: [{
+        code: 'budgetNotFoundForFiscalYear',
+        parameters: [{
+          key: 'fundCodes',
+          value: '[1,2]',
+        }],
+      }],
+    };
+
+    showUpdateOrderError(response, params.callout, params.openModal);
+
+    expect(params.callout.sendCallout).toHaveBeenCalled();
+  });
+
+  it('should handle default error case', () => {
     showUpdateOrderError(...Object.values(params));
 
     expect(params.callout.sendCallout).toHaveBeenCalled();
