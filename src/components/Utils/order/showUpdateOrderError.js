@@ -100,6 +100,17 @@ const showUpdateOrderError = async (
       });
       break;
     }
+    case ERROR_CODES.currentFYearNotFound:
+    case ERROR_CODES.budgetNotFoundForFiscalYear: {
+      const fundCodes = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'fundCodes')?.value;
+
+      callout.sendCallout({
+        messageId: `ui-orders.errors.${ERROR_CODES[code]}`,
+        type: 'error',
+        values: { fundCodes: JSON.parse(fundCodes)?.join(', ') },
+      });
+      break;
+    }
     default: {
       callout.sendCallout({
         message: <FormattedMessage id={`ui-orders.errors.${code}`} />,

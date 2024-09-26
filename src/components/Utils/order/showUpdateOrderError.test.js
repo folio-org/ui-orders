@@ -72,6 +72,22 @@ describe('showUpdateOrderError', () => {
     expect(params.callout.sendCallout).toHaveBeenCalled();
   });
 
+  it('should handle `budgetNotFoundForFiscalYear` error and show message', async () => {
+    const response = {
+      errors: [{
+        code: 'budgetNotFoundForFiscalYear',
+        parameters: [{
+          key: 'fundCodes',
+          value: '[1,2]',
+        }],
+      }],
+    };
+
+    showUpdateOrderError(response, params.callout, params.openModal);
+
+    expect(params.callout.sendCallout).toHaveBeenCalled();
+  });
+
   it('should handle default error case', async () => {
     showUpdateOrderError(...Object.values(params));
 

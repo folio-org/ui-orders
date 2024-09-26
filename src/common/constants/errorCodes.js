@@ -3,6 +3,7 @@ export const ERROR_CODES = {
   accessProviderNotFound: 'accessProviderNotFound',
   budgetExpenseClassNotFound: 'budgetExpenseClassNotFound',
   budgetIsInactive: 'budgetIsInactive',
+  budgetNotFoundForFiscalYear: 'budgetNotFoundForFiscalYear',
   budgetNotFoundForTransaction: 'budgetNotFoundForTransaction',
   conversionError: 'conversionError',
   costAdditionalCostInvalid: 'costAdditionalCostInvalid',
