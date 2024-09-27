@@ -106,7 +106,7 @@ const showUpdateOrderError = async (
       callout.sendCallout({
         messageId: `ui-orders.errors.${ERROR_CODES[code]}`,
         type: 'error',
-        values: { fundCodes: JSON.parse(fundCodes)?.join(', ') },
+        values: { fundCodes: fundCodes?.replace(/\[|\]/g, '') },
       });
       break;
     }
