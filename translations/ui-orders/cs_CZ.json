@@ -502,7 +502,7 @@
     "receiving.callNumber": "Signatura",
     "errors.budgetIsInactive": "Nelze vytvořit věcné břemeno z neaktivního rozpočtu.",
     "errors.budgetNotFoundForTransaction": "Jedno nebo více rozdělení prostředků na této objednávce nelze zatížit, protože neexistuje žádný aktuální rozpočet",
-    "errors.currentFYearNotFound": "Aktuální fiskální rok nebyl nalezen pro účetní knihu",
+    "errors.currentFYearNotFound": "Pro účetní knihu nebyl nalezen aktuální fiskální rok.",
     "errors.ledgerNotFoundForTransaction": "Účetní kniha nebyla pro transakci nalezena",
     "errors.organizationNotAVendor": "Objednávku nelze otevřít, protože přiřazené vendorId patří organizaci, která není prodejcem.",
     "errors.vendorIssue": "Objednávku nelze aktualizovat kvůli problémům souvisejícím s přidruženým prodejcem/poskytovatelem přístupu",
@@ -900,5 +900,6 @@
     "routing.list.accordion.tokens.description": "Chcete-li zajistit správnou analýzu dat souvisejících s uživateli pomocí editoru formátovaného textu, použijte <b>'{{#uživatelů}}'</b> na začátku a <b>'{{/uživatelů}}'</b> na konci, vložením <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> mezi tyto tokeny. {br} Př.: <i><b>'{{#uživatelů}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/uživatelů}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Nepodařilo se načíst jednotky pro nájemce: <b>{tenants}</b>",
     "orderSummary.totalCredited": "Celkem připsáno",
-    "errors.userHasMissedAffiliations": "Operace se nezdařila. Tento záznam má lokaci pobočky, kterou Váš uživatel nemá. Tato pobočka musí být odstraněna nebo operaci musí provést uživatel, který má stejnou pobočku jako záznam."
+    "errors.userHasMissedAffiliations": "Operace se nezdařila. Tento záznam má lokaci pobočky, kterou Váš uživatel nemá. Tato pobočka musí být odstraněna nebo operaci musí provést uživatel, který má stejnou pobočku jako záznam.",
+    "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund <b>{fundCodes}</b>."
 }

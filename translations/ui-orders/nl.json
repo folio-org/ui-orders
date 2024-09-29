@@ -900,5 +900,6 @@
     "routing.list.accordion.tokens.description": "Gebruik <b>'{{#users}}'</b> aan het begin en <b>'{{/users}}'</b> aan het einde, en voeg <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> toe tussen deze token om ervoor te zorgen dat de rich text editor de gegevens over gebruikers correct verwerkt. {br} Voorbeeld: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Laden van items voor tenant(s) mislukt: <b>{tenants}</b>",
     "orderSummary.totalCredited": "Totaal gecrediteerd",
-    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
+    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
+    "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund <b>{fundCodes}</b>."
 }

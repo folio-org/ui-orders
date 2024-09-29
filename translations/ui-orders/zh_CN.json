@@ -900,5 +900,6 @@
     "routing.list.accordion.tokens.description": "为确保富文本编辑器正确解析与用户相关的数据，请在开头使用<b>'{{#users}}'</b> ，在结尾使用<b>'{{/users}}'</b> ，并在这些标记之间插入<i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> 。 {br} 例如：<i><b> '{{#users}}'</b> '{{firstName}}''{{lastName}}' - '{{routingAddress}}'<b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "无法为租户加载单件： <b> {tenants} </b>",
     "orderSummary.totalCredited": "总入账",
-    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
+    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
+    "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund <b>{fundCodes}</b>."
 }

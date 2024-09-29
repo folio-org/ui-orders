@@ -766,14 +766,14 @@
     "paneBlock.createInvoice": "新規請求書",
     "button.confirm": "確認",
     "button.reexport": "再エクスポート",
-    "reexport.order.confirmModal.heading": "Re-export order",
+    "reexport.order.confirmModal.heading": "Reexport order",
     "reexport.order.success": "発注の再エクスポートが正常に完了しました",
-    "reexport.order.fail": "Order re-export was failed",
+    "reexport.order.fail": "Order reexport was failed",
     "reexport.order.confirmModal.message": "This order was previously sent to <b>{vendorFromExport}</b> via <b>{exportMethod}</b>. Would you like this order to be sent to <b>{vendorFromOrder}</b> with the next export?",
     "reexport.orderLine.confirmModal.heading": "発注明細の再エクスポート",
     "reexport.orderLine.confirmModal.message": "This order line was previously sent to <b>{vendorFromExport}</b> via <b>{exportMethod}</b>. Would you like this order line to be sent to <b>{vendorFromOrder}</b> with the next export?",
     "reexport.orderLine.success": "発注明細の再エクスポートが正常に完了しました",
-    "reexport.orderLine.fail": "Order line re-export was failed",
+    "reexport.orderLine.fail": "Order line reexport was failed",
     "export.fileName": "ファイル名",
     "export.jobId": "Job ID",
     "export.method": "エクスポート方法",
@@ -900,5 +900,6 @@
     "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "テナントの資料を読み込めませんでした: <b> {tenants} </b>",
     "orderSummary.totalCredited": "Total credited",
-    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
+    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
+    "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund <b>{fundCodes}</b>."
 }
