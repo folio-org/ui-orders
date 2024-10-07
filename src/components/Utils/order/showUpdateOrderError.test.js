@@ -78,7 +78,7 @@ describe('showUpdateOrderError', () => {
         code: 'budgetNotFoundForFiscalYear',
         parameters: [{
           key: 'fundCodes',
-          value: '[1,2]',
+          value: '[AB,CD]',
         }],
       }],
     };

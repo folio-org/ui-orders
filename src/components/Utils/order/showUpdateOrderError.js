@@ -110,7 +110,7 @@ const showUpdateOrderError = async (
       try {
         callout.sendCallout({
           ...messageOptions,
-          values: { fundCodes: JSON.parse(fundCodes).join(', ') },
+          values: { fundCodes: JSON.parse(fundCodes)?.join(', ') },
         });
       } catch {
         callout.sendCallout(messageOptions);
