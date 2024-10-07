@@ -1,13 +1,20 @@
+import get from 'lodash/get';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
+
+import { ResponseErrorsContainer } from '@folio/stripes-acq-components';
 
 import { ERROR_CODES } from '../../../common/constants';
+import {
+  noBudgetForFiscalYearStrategy,
+  noExpenseClassesStrategy,
+  restrictedLocationViolationStrategy,
+} from './handleErrorsStrategies';
 
 const POL_NUMBER_KEY = 'poLineNumber';
 
-const showMessage = (callout, code, error, path) => {
-  const title = get(error, 'errors.0.parameters.0.value', '');
+const showMessage = (callout, code, errors, path) => {
+  const title = get(errors.getError().parameters, '0.value', '');
 
   callout.sendCallout({
     type: 'error',
@@ -28,15 +35,9 @@ const showUpdateOrderError = async (
   genericCode = ERROR_CODES.orderGenericError1,
   toggleDeletePieces = null,
 ) => {
-  let error;
+  const { handler } = await ResponseErrorsContainer.create(response);
 
-  try {
-    error = await response.clone().json();
-  } catch (parsingException) {
-    error = response;
-  }
-
-  const errorCode = get(error, 'errors.0.code');
+  const errorCode = handler.getError().code;
   const code = get(ERROR_CODES, errorCode, genericCode);
 
   switch (code) {
@@ -49,7 +50,7 @@ const showUpdateOrderError = async (
     case ERROR_CODES.accessProviderIsInactive:
     case ERROR_CODES.accessProviderNotFound: {
       let errors =
-        get(error, 'errors.0.parameters', [])
+        handler.getError().parameters
           .filter(({ key }) => key === POL_NUMBER_KEY)
           .map(({ value }) => ({ code, poLineNumber: value }));
 
@@ -62,52 +63,33 @@ const showUpdateOrderError = async (
       break;
     }
     case ERROR_CODES.missingInstanceStatus: {
-      showMessage(callout, code, error, 'instanceStatusTypes');
+      showMessage(callout, code, handler, 'instanceStatusTypes');
       break;
     }
     case ERROR_CODES.missingInstanceType: {
-      showMessage(callout, code, error, 'resourcetypes');
+      showMessage(callout, code, handler, 'resourcetypes');
       break;
     }
     case ERROR_CODES.missingLoanType: {
-      showMessage(callout, code, error, 'loantypes');
+      showMessage(callout, code, handler, 'loantypes');
       break;
     }
     case ERROR_CODES.budgetExpenseClassNotFound: {
-      const fundCode = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'fundCode')?.value;
-      const expenseClassName = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'expenseClassName')?.value;
-
-      callout.sendCallout({
-        messageId: `ui-orders.errors.${code}`,
-        type: 'error',
-        values: { fundCode, expenseClassName },
-      });
+      handler.handle(noExpenseClassesStrategy({ callout }));
       break;
     }
     case ERROR_CODES.fundCannotBePaid: {
-      const fundCodes = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'finance.funds')?.value;
+      const fundCodes = handler.getError().getParameter('finance.funds');
 
       callout.sendCallout({ messageId: `ui-orders.errors.${ERROR_CODES[code]}`, type: 'error', values: { fundCodes } });
       break;
     }
     case ERROR_CODES.fundLocationRestrictionViolation: {
-      const polNumber = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'poLineNumber')?.value;
-
-      callout.sendCallout({
-        messageId: 'ui-orders.errors.openOrder.fundLocationRestrictionViolation',
-        type: 'error',
-        values: { polNumber },
-      });
+      handler.handle(restrictedLocationViolationStrategy({ callout }));
       break;
     }
     case ERROR_CODES.budgetNotFoundForFiscalYear: {
-      const fundCodes = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'fundCodes')?.value;
-
-      callout.sendCallout({
-        messageId: `ui-orders.errors.${ERROR_CODES[code]}`,
-        type: 'error',
-        values: { fundCodes: JSON.parse(fundCodes)?.join(', ') },
-      });
+      handler.handle(noBudgetForFiscalYearStrategy({ callout }));
       break;
     }
     default: {
