@@ -34,6 +34,7 @@
 * ECS - handle error message appears when user without appropriate affiliation is trying to edit/open POL with location in such affiliation. Refs UIOR-1307.
 * UX: Removal of hyphen in Reexport and add refresh icon. UIOR-1246.
 * Improve the error message when attempting to open an order when no budget for the fiscal year exists for the fund specified in "Fund distribution". Refs UIOR-1313.
+* Applied "Strategies" approach for error handling of order updates. Refs UIOR-1281.
 * Update notes permission. Refs UIOR-1316.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)

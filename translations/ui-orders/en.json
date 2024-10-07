@@ -145,7 +145,7 @@
   "errors.accessProviderNotFound": "POL {poLineNumber} is using an Access Provider that is inactive or has been removed, please select an active Access Provider to continue.",
   "errors.budgetExpenseClassNotFound": "<b>{expenseClassName}</b> expense class not found on <b>{fundCode}</b> Fund",
   "errors.budgetIsInactive": "Cannot create encumbrance from the not active budget",
-  "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund <b>{fundCodes}</b>.",
+  "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
   "errors.budgetNotFoundForTransaction": "One or more fund distribution(s) on this order can not be encumbered, because there is no current budget",
   "errors.clone.error": "The purchase order was not cloned",
   "errors.costAdditionalCostInvalid": "Cost's additional cost must be positive number",
