@@ -1,6 +1,5 @@
-import React from 'react';
+import get from 'lodash/get';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
 
 import { ERROR_CODES } from '../../../common/constants';
 
@@ -102,12 +101,21 @@ const showUpdateOrderError = async (
     }
     case ERROR_CODES.budgetNotFoundForFiscalYear: {
       const fundCodes = error?.errors?.[0]?.parameters?.find(({ key }) => key === 'fundCodes')?.value;
-
-      callout.sendCallout({
+      const messageOptions = {
         messageId: `ui-orders.errors.${ERROR_CODES[code]}`,
         type: 'error',
-        values: { fundCodes: fundCodes?.replace(/\[|\]/g, '') },
-      });
+        values: { fundCodes },
+      };
+
+      try {
+        callout.sendCallout({
+          ...messageOptions,
+          values: { fundCodes: JSON.parse(fundCodes).join(', ') },
+        });
+      } catch {
+        callout.sendCallout(messageOptions);
+      }
+
       break;
     }
     default: {
