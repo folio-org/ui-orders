@@ -185,6 +185,7 @@
           "orders.routing-lists.collection.get",
           "orders.routing-lists.item.get",
           "orders.titles.collection.get",
+          "orders-storage.settings.collection.get",
           "organizations.organizations.collection.get",
           "organizations-storage.organization-types.collection.get",
           "ui-orders.third-party-services",
