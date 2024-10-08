@@ -12,7 +12,7 @@ import {
 import {
   getHoldingLocationName,
   useCentralOrderingContext,
-  useCurrentUserTenants,
+  useConsortiumTenants,
   useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
 
@@ -105,9 +105,9 @@ const LocationView = ({
   ...props
 }) => {
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
-  const userAffiliations = useCurrentUserTenants();
+  const { tenants: consortiumTenants } = useConsortiumTenants();
   const { isLoading, holdings } = useInstanceHoldingsQuery(instanceId, { consortium: isCentralOrderingEnabled });
-  const affiliationsMap = useMemo(() => keyBy(userAffiliations, 'id'), [userAffiliations]);
+  const affiliationsMap = useMemo(() => keyBy(consortiumTenants, 'id'), [consortiumTenants]);
   const locationsMap = useMemo(() => keyBy(locations, 'id'), [locations]);
 
   if (isLoading) return <Loading />;
