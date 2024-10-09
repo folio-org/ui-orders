@@ -502,7 +502,7 @@
     "receiving.callNumber": "Número de chamada",
     "errors.budgetIsInactive": "Não é possível criar encargo a partir do orçamento não ativo",
     "errors.budgetNotFoundForTransaction": "Uma ou mais distribuições de fundos nesse pedido não podem ser oneradas, porque não há orçamento atual",
-    "errors.currentFYearNotFound": "Ano fiscal atual não encontrado para o livro razão",
+    "errors.currentFYearNotFound": "Ano fiscal atual não encontrado para o livro-razão.",
     "errors.ledgerNotFoundForTransaction": "Livro razão não foi encontrado para transação",
     "errors.organizationNotAVendor": "O pedido não pode ser aberto, pois o ID do fornecedor associado pertence à organização que não é do fornecedor",
     "errors.vendorIssue": "O pedido não pode ser atualizado devido a problemas relacionados ao fornecedor / provedor de acesso associado",
@@ -770,10 +770,10 @@
     "reexport.order.success": "A reexportação do pedido foi concluída com sucesso",
     "reexport.order.fail": "A reexportação do pedido falhou",
     "reexport.order.confirmModal.message": "Este pedido foi enviado anteriormente para <b> {vendorFromExport} </b> via <b> {exportMethod} </b> . Você gostaria que este pedido fosse enviado para <b> {vendorFromOrder} </b> com a próxima exportação?",
-    "reexport.orderLine.confirmModal.heading": "Reexportar pedido",
+    "reexport.orderLine.confirmModal.heading": "Reexportar linha do pedido",
     "reexport.orderLine.confirmModal.message": "Esta linha de pedido foi enviada anteriormente para <b> {vendorFromExport} </b> via <b> {exportMethod} </b> . Você gostaria que esta linha de pedido fosse enviada para <b> {vendorFromOrder} </b> com a próxima exportação?",
-    "reexport.orderLine.success": "A reexportação do pedido foi concluída com sucesso",
-    "reexport.orderLine.fail": "A reexportação do pedido falhou",
+    "reexport.orderLine.success": "A reexportação da linha de pedido foi concluída com sucesso",
+    "reexport.orderLine.fail": "A reexportação da linha de pedido falhou",
     "export.fileName": "Nome do arquivo",
     "export.jobId": "ID do trabalho",
     "export.method": "Método de exportação",
@@ -900,5 +900,6 @@
     "routing.list.accordion.tokens.description": "Para garantir que os dados relacionados ao usuário sejam analisados corretamente pelo editor de rich text, use <b>'{{#users}}'</b> no início e <b>'{{/users}}'</b> no final, inserindo <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> entre esses tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Falha ao carregar itens para locatário(s): <b>{tenants}</b>",
     "orderSummary.totalCredited": "Total creditado",
-    "errors.userHasMissedAffiliations": "A operação falhou. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações que o registro."
+    "errors.userHasMissedAffiliations": "A operação falhou. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações que o registro.",
+    "errors.budgetNotFoundForFiscalYear": "O pedido não pode ser aberto porque não há orçamento atual para o(s) fundo(s) <b>{fundCodes}</b> para o ano fiscal <b>{fiscalYearCode}</b>."
 }

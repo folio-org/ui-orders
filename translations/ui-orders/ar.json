@@ -766,14 +766,14 @@
     "paneBlock.createInvoice": "فاتورة جديدة",
     "button.confirm": "Confirm",
     "button.reexport": "Reexport",
-    "reexport.order.confirmModal.heading": "Re-export order",
-    "reexport.order.success": "Order re-export was successfully completed",
-    "reexport.order.fail": "Order re-export was failed",
+    "reexport.order.confirmModal.heading": "Reexport order",
+    "reexport.order.success": "Order reexport was successfully completed",
+    "reexport.order.fail": "Order reexport was failed",
     "reexport.order.confirmModal.message": "This order was previously sent to <b>{vendorFromExport}</b> via <b>{exportMethod}</b>. Would you like this order to be sent to <b>{vendorFromOrder}</b> with the next export?",
-    "reexport.orderLine.confirmModal.heading": "Re-export order line",
+    "reexport.orderLine.confirmModal.heading": "Reexport order line",
     "reexport.orderLine.confirmModal.message": "This order line was previously sent to <b>{vendorFromExport}</b> via <b>{exportMethod}</b>. Would you like this order line to be sent to <b>{vendorFromOrder}</b> with the next export?",
-    "reexport.orderLine.success": "Order line re-export was successfully completed",
-    "reexport.orderLine.fail": "Order line re-export was failed",
+    "reexport.orderLine.success": "Order line reexport was successfully completed",
+    "reexport.orderLine.fail": "Order line reexport was failed",
     "export.fileName": "File name",
     "export.jobId": "Job ID",
     "export.method": "Export method",
@@ -900,5 +900,6 @@
     "routing.list.accordion.tokens.description": "To ensure user-related data is parsed correctly by the rich text editor, use <b>'{{#users}}'</b> at the beginning and <b>'{{/users}}'</b> at the end, inserting <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> between those tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Failed to load items for tenant(s): <b>{tenants}</b>",
     "orderSummary.totalCredited": "Total credited",
-    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
+    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
+    "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>."
 }
