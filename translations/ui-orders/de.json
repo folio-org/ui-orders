@@ -900,5 +900,6 @@
     "routing.list.accordion.tokens.description": "Damit personenbezogene Daten richtig durch den Rich-Text-Editor geparst werden können, bitte <b>'{{#users}}'</b> am Anfang und <b>'{{/users}}'</b> am Ende benutzen und <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> zwischen diesen Token einfügen. {br} Bsp.: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "Exemplare für Mandant(en): <b>{tenants}</b> konnten nicht geladen werden",
     "orderSummary.totalCredited": "Insgesamt gutgeschrieben",
-    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
+    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
+    "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>."
 }

@@ -502,7 +502,7 @@
     "receiving.callNumber": "索书号",
     "errors.budgetIsInactive": "无法从未激活的预算中创建预支",
     "errors.budgetNotFoundForTransaction": "因为目前没有预算，无法预支此订单的一项或多项经费分配",
-    "errors.currentFYearNotFound": "找不到总账的当前财务年度",
+    "errors.currentFYearNotFound": "未找到总账的当前财务年度。",
     "errors.ledgerNotFoundForTransaction": "找不到总账进行交易",
     "errors.organizationNotAVendor": "由于关联的供应商Id属于非供应商组织，因此无法打开订单",
     "errors.vendorIssue": "由于与关联供应商/访问提供商有关的问题，无法更新订单",
@@ -837,7 +837,7 @@
     "settings.orderTemplates.confirmDuplicate.message": "确定要复制模板吗？",
     "settings.orderTemplates.duplicate.suffix": "（复制）",
     "settings.orderTemplates.duplicate.success": "模板复制成功",
-    "settings.orderTemplates.duplicate.error": "模板未被复制",
+    "settings.orderTemplates.duplicate.error": "模板未复制",
     "exportSettings.load.start": "导出已成功启动",
     "errors.multipleFiscalYears": "订单行经费分配在多个财务年度都有激活预算。",
     "relatedInvoices.vendorCode": "供应商代码",
@@ -900,5 +900,6 @@
     "routing.list.accordion.tokens.description": "为确保富文本编辑器正确解析与用户相关的数据，请在开头使用<b>'{{#users}}'</b> ，在结尾使用<b>'{{/users}}'</b> ，并在这些标记之间插入<i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> 。 {br} 例如：<i><b> '{{#users}}'</b> '{{firstName}}''{{lastName}}' - '{{routingAddress}}'<b>'{{/users}}'</b></i>",
     "line.changeInstance.relatedItems.error": "无法为租户加载单件： <b> {tenants} </b>",
     "orderSummary.totalCredited": "总入账",
-    "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record."
+    "errors.userHasMissedAffiliations": "操作失败。此记录具有您的用户没有的位置附属关系。必须移除这些附属关系，或者必须由具有与该记录相同附属关系的用户执行此操作。",
+    "errors.budgetNotFoundForFiscalYear": "无法打开订单，因为经费<b> {fundCodes} </b>目前没有预算。"
 }
