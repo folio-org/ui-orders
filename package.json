@@ -130,7 +130,7 @@
           "isbn-utils.convert-to-13.get",
           "isbn-utils.validator.get",
           "note.types.collection.get",
-          "notes.collection.get.by.status",
+          "note.links.collection.get",
           "organizations.organizations.collection.get",
           "organizations.organizations.item.get",
           "search.instances.collection.get",
