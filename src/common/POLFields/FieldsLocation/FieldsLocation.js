@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -44,6 +45,7 @@ const FieldsLocation = ({
   locationIds,
   locations,
   pOLineFormValues: { orderFormat, physical, eresource, instanceId, isPackage } = {},
+  pOLineFormValues,
   poNumber,
   withValidation,
 }) => {
@@ -94,56 +96,61 @@ const FieldsLocation = ({
         validate={validateLocations}
         canAdd={!(isDisabledToChangePaymentInfo || isQuantityDisabled)}
         canRemove={!(isDisabledToChangePaymentInfo || isQuantityDisabled)}
-        renderField={(field) => (
-          <Row>
-            <Col xs={6}>
-              <FieldInventoryComponent
-                affiliationName={`${field}.tenantId`}
-                locationIds={locationIds}
-                locations={locations}
-                holdingName={`${field}.holdingId`}
-                locationName={`${field}.locationId`}
-                onChange={changeLocation}
-                isNonInteractive={isPostPendingOrder}
-                required={withValidation}
-                filterHoldings={filterHoldings}
-                filterLocations={filterLocations}
-                validate={validate}
-                {...instanceIdProp}
-              />
-            </Col>
-            {isPhysicalQuantityVisible && (
-              <Col xs={3}>
-                <Field
-                  component={TextField}
-                  disabled={isQuantityDisabled}
-                  label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
-                  name={`${field}.quantityPhysical`}
-                  parse={parseQuantity}
-                  required={withValidation && isPhysicalQuantityRequired}
-                  type="number"
-                  validate={withValidation ? validateQuantityPhysical : NO_VALIDATE}
-                  isNonInteractive={isDisabledToChangePaymentInfo}
+        renderField={(field) => {
+          const receivingTenantId = get(pOLineFormValues, field, {})?.tenantId;
+
+          return (
+            <Row>
+              <Col xs={6}>
+                <FieldInventoryComponent
+                  additionalAffiliationIds={receivingTenantId ? [receivingTenantId] : []}
+                  affiliationName={`${field}.tenantId`}
+                  locationIds={locationIds}
+                  locations={locations}
+                  holdingName={`${field}.holdingId`}
+                  locationName={`${field}.locationId`}
+                  onChange={changeLocation}
+                  isNonInteractive={isPostPendingOrder}
+                  required={withValidation}
+                  filterHoldings={filterHoldings}
+                  filterLocations={filterLocations}
+                  validate={validate}
+                  {...instanceIdProp}
                 />
               </Col>
-            )}
-            {isElectronicQuantityVisible && (
-              <Col xs={3}>
-                <Field
-                  component={TextField}
-                  disabled={isQuantityDisabled}
-                  label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
-                  name={`${field}.quantityElectronic`}
-                  parse={parseQuantity}
-                  required={withValidation && isElectronicQuantityRequired}
-                  type="number"
-                  validate={withValidation ? validateQuantityElectronic : NO_VALIDATE}
-                  isNonInteractive={isDisabledToChangePaymentInfo}
-                />
-              </Col>
-            )}
-          </Row>
-        )}
+              {isPhysicalQuantityVisible && (
+                <Col xs={3}>
+                  <Field
+                    component={TextField}
+                    disabled={isQuantityDisabled}
+                    label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
+                    name={`${field}.quantityPhysical`}
+                    parse={parseQuantity}
+                    required={withValidation && isPhysicalQuantityRequired}
+                    type="number"
+                    validate={withValidation ? validateQuantityPhysical : NO_VALIDATE}
+                    isNonInteractive={isDisabledToChangePaymentInfo}
+                  />
+                </Col>
+              )}
+              {isElectronicQuantityVisible && (
+                <Col xs={3}>
+                  <Field
+                    component={TextField}
+                    disabled={isQuantityDisabled}
+                    label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
+                    name={`${field}.quantityElectronic`}
+                    parse={parseQuantity}
+                    required={withValidation && isElectronicQuantityRequired}
+                    type="number"
+                    validate={withValidation ? validateQuantityElectronic : NO_VALIDATE}
+                    isNonInteractive={isDisabledToChangePaymentInfo}
+                  />
+                </Col>
+              )}
+            </Row>
+          );
+        }}
       />
     </>
   );
