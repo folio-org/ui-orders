@@ -4,7 +4,7 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import {
   useCentralOrderingContext,
-  useCurrentUserTenants,
+  useConsortiumTenants,
 } from '@folio/stripes-acq-components';
 import { affiliations } from '@folio/stripes-acq-components/test/jest/fixtures';
 
@@ -14,7 +14,7 @@ jest.mock('@folio/stripes-acq-components', () => {
   return {
     ...jest.requireActual('@folio/stripes-acq-components'),
     useCentralOrderingContext: jest.fn(),
-    useCurrentUserTenants: jest.fn(),
+    useConsortiumTenants: jest.fn(),
     useInstanceHoldingsQuery: jest.fn().mockReturnValue({
       isLoading: false,
       holdings: [{ id: 'holdingId' }],
@@ -43,7 +43,7 @@ describe('LocationView', () => {
     useCentralOrderingContext
       .mockClear()
       .mockReturnValue(({ isCentralOrderingEnabled: false }));
-    useCurrentUserTenants
+    useConsortiumTenants
       .mockClear()
       .mockReturnValue(affiliations);
   });

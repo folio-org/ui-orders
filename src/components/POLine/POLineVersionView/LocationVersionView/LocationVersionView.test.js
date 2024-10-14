@@ -1,3 +1,7 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
@@ -52,16 +56,19 @@ const contextValues = {
   versions,
 };
 
-// eslint-disable-next-line react/prop-types
+const queryClient = new QueryClient();
+
 const wrapper = ({ children }) => (
   <VersionViewContextProvider {...contextValues}>
-    <MemoryRouter
-      initialEntries={[{
-        pathname: `${ORDER_LINES_ROUTE}/view/${orderLine.id}/versions/${versions[0].id}`,
-      }]}
-    >
-      {children}
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter
+        initialEntries={[{
+          pathname: `${ORDER_LINES_ROUTE}/view/${orderLine.id}/versions/${versions[0].id}`,
+        }]}
+      >
+        {children}
+      </MemoryRouter>
+    </QueryClientProvider>
   </VersionViewContextProvider>
 );
 

@@ -35,6 +35,7 @@
 * UX: Removal of hyphen in Reexport and add refresh icon. UIOR-1246.
 * Improve the error message when attempting to open an order when no budget for the fiscal year exists for the fund specified in "Fund distribution". Refs UIOR-1313.
 * Applied "Strategies" approach for error handling of order updates. Refs UIOR-1281.
+* ECS - User without affiliation in specific tenant should be able to see its name in "Location" accordion on POL details. Refs UIOR-1311.
 * Update `notes` permission. Refs UIOR-1316.
 * Update `consortium-search` interface. Refs UIOR-1314.
 
