@@ -38,6 +38,7 @@
 * ECS - User without affiliation in specific tenant should be able to see its name in "Location" accordion on POL details. Refs UIOR-1311.
 * Update `notes` permission. Refs UIOR-1316.
 * Update `consortium-search` interface. Refs UIOR-1314.
+* Clean up ui-orders permissions. Refs UIOR-1312.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)
