@@ -91,9 +91,10 @@
         "visible": false
       },
       {
-        "permissionName": "ui-orders.third-party-services",
+        "permissionName": "ui-orders.third-party-services.execute",
         "displayName": "Orders: Permissions required to call services apart from mod-orders",
         "description": "",
+        "replaces": ["ui-orders.third-party-services"],
         "subPermissions": [
           "acquisitions-units.memberships.collection.get",
           "acquisitions-units.units.collection.get",
@@ -189,7 +190,7 @@
           "orders-storage.settings.collection.get",
           "organizations.organizations.collection.get",
           "organizations-storage.organization-types.collection.get",
-          "ui-orders.third-party-services",
+          "ui-orders.third-party-services.execute",
           "ui-orders.custom-fields.view",
           "consortia.publications.item.get",
           "consortia.publications.item.post",
@@ -337,7 +338,7 @@
           "inventory.instances.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
-          "ui-orders.third-party-services",
+          "ui-orders.third-party-services.execute",
           "orders.acquisition-methods.collection.get",
           "ui-orders.custom-fields.view"
         ]
@@ -429,7 +430,7 @@
           "orders.configuration.suffixes.collection.get",
           "orders-storage.settings.collection.get",
           "orders-storage.settings.item.get",
-          "ui-orders.third-party-services",
+          "ui-orders.third-party-services.execute",
           "orders.acquisition-methods.collection.get",
           "ui-orders.settings.custom-fields.view",
           "templates.item.get"
