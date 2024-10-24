@@ -9,11 +9,13 @@ import {
   Loading,
   Row,
 } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 import {
   getHoldingLocationName,
   useCentralOrderingContext,
   useConsortiumTenants,
-  useInstanceHoldingsQuery,
+  useHoldingsAndLocations,
+  useReceivingTenantIdsAndLocations,
 } from '@folio/stripes-acq-components';
 
 const getLocationFieldName = (fieldName, holdingId) => {
@@ -37,6 +39,7 @@ const Location = ({
 }) => {
   const filteredLocation = locationsMap[location.locationId] || {};
   const holding = find(holdings, ['id', location.holdingId]);
+
   const { name, code } = filteredLocation;
   const locationNameCode = name ? `${name} (${code})` : '';
   const labelId = location.holdingId ? 'ui-orders.location.holding' : 'ui-orders.location.nameCode';
@@ -99,15 +102,35 @@ const Location = ({
 
 const LocationView = ({
   instanceId,
-  locations = [],
   lineLocations = [],
   name,
   ...props
 }) => {
+  const stripes = useStripes();
+  const currentTenantId = stripes?.okapi?.tenant;
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
   const { tenants: consortiumTenants } = useConsortiumTenants();
-  const { isLoading, holdings } = useInstanceHoldingsQuery(instanceId, { consortium: isCentralOrderingEnabled });
   const affiliationsMap = useMemo(() => keyBy(consortiumTenants, 'id'), [consortiumTenants]);
+
+  const receivingTenants = useMemo(() => {
+    if (lineLocations?.length) {
+      return lineLocations.map(({ tenantId }) => tenantId);
+    }
+
+    return [];
+  }, [lineLocations]);
+
+  const { receivingTenantIds } = useReceivingTenantIdsAndLocations({
+    receivingTenantIds: receivingTenants,
+    currentReceivingTenantId: currentTenantId,
+  });
+
+  const { locations, isLoading, holdings } = useHoldingsAndLocations({
+    instanceId,
+    receivingTenantIds,
+    tenantId: currentTenantId,
+  });
+
   const locationsMap = useMemo(() => keyBy(locations, 'id'), [locations]);
 
   if (isLoading) return <Loading />;
@@ -117,7 +140,7 @@ const LocationView = ({
       {
         lineLocations.map((location, i) => (
           <Location
-            key={location.id || i}  // i is required when new row of Location is added by User
+            key={location.holdingId || i}  // i is required when new row of Location is added by User
             centralOrdering={isCentralOrderingEnabled}
             affiliationsMap={affiliationsMap}
             location={location}

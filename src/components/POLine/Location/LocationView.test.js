@@ -19,6 +19,8 @@ jest.mock('@folio/stripes-acq-components', () => {
       isLoading: false,
       holdings: [{ id: 'holdingId' }],
     }),
+    useHoldingsAndLocations: jest.fn().mockReturnValue({ locations: [] }),
+    useReceivingTenantIdsAndLocations: jest.fn().mockReturnValue({}),
   };
 });
 
