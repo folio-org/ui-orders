@@ -12,6 +12,7 @@ import {
   BooleanFilter,
   CUSTOM_FIELDS_FILTER,
   CustomFieldsFilters,
+  FundFilter,
   PluggableOrganizationFilter,
   PluggableUserFilter,
 } from '@folio/stripes-acq-components';
@@ -41,11 +42,9 @@ function OrdersListFilters({
   applyFilters,
   disabled,
   addresses,
+  funds,
 }) {
-  const onChange = useCallback(
-    applyFiltersAdapter(applyFilters),
-    [applyFilters],
-  );
+  const onChange = useCallback((filter) => applyFiltersAdapter(applyFilters)(filter), [applyFilters]);
 
   return (
     <AccordionSet>
@@ -122,6 +121,14 @@ function OrdersListFilters({
         name={FILTERS.VENDOR}
         onChange={onChange}
         disabled={disabled}
+      />
+      <FundFilter
+        activeFilters={activeFilters[FILTERS.FUND_CODE]}
+        disabled={disabled}
+        id={FILTERS.FUND_CODE}
+        name={FILTERS.FUND_CODE}
+        onChange={onChange}
+        funds={funds}
       />
       <AcqTagsFilter
         activeFilters={activeFilters[FILTERS.TAGS]}
@@ -249,6 +256,7 @@ OrdersListFilters.propTypes = {
   customFields: PropTypes.arrayOf(PropTypes.object),
   disabled: PropTypes.bool.isRequired,
   addresses: PropTypes.arrayOf(PropTypes.object),
+  funds: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default OrdersListFilters;

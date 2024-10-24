@@ -1,3 +1,4 @@
+export { buildRelationModifierQuery } from './buildRelationModifierQuery';
 export * from './checkPOLinesAbandonedHoldings';
 export * from './checkRelatedHoldings';
 export * from './createClearFilterHandler';

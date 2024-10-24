@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
+import { useFunds } from '@folio/stripes-acq-components';
 
 import { getAddresses } from '../common/utils';
 import { ADDRESSES } from '../components/Utils/resources';
@@ -18,6 +19,8 @@ const OrdersListFiltersContainer = ({
   const closingReasons = resources?.closingReasons?.records;
   const addresses = getAddresses(resources?.addresses?.records);
 
+  const { funds } = useFunds();
+
   return (
     <OrdersListFilters
       addresses={addresses}
@@ -26,6 +29,7 @@ const OrdersListFiltersContainer = ({
       closingReasons={closingReasons}
       customFields={customFields}
       disabled={disabled}
+      funds={funds}
     />
   );
 };

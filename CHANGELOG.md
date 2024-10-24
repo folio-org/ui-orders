@@ -39,6 +39,7 @@
 * Update `notes` permission. Refs UIOR-1316.
 * Update `consortium-search` interface. Refs UIOR-1314.
 * Clean up ui-orders permissions. Refs UIOR-1312.
+* Add filter for orders list to search by multiple funds. Refs UIOR-1269.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)

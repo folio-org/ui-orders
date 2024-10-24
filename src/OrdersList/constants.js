@@ -27,6 +27,7 @@ export const FILTERS = {
   STATUS: 'workflowStatus',
   SUFFIX: 'poNumberSuffix',
   VENDOR: 'vendor',
+  FUND_CODE: 'poLine.fundDistribution',
   TAGS: 'tags.tagList',
   DATE_UPDATED: 'metadata.updatedDate',
   UPDATED_BY: 'metadata.updatedByUserId',
