@@ -8,6 +8,7 @@ import {
 } from '@folio/stripes-acq-components';
 import { affiliations } from '@folio/stripes-acq-components/test/jest/fixtures';
 
+import { useOrderLineLocations } from '../../../common/hooks';
 import LocationView from './LocationView';
 
 jest.mock('@folio/stripes-acq-components', () => {
@@ -19,10 +20,16 @@ jest.mock('@folio/stripes-acq-components', () => {
       isLoading: false,
       holdings: [{ id: 'holdingId' }],
     }),
-    useHoldingsAndLocations: jest.fn().mockReturnValue({ locations: [] }),
-    useReceivingTenantIdsAndLocations: jest.fn().mockReturnValue({}),
   };
 });
+jest.mock('../../../common/hooks', () => ({
+  ...jest.requireActual('../../../common/hooks'),
+  useOrderLineLocations: jest.fn().mockReturnValue({
+    holdings: [{ id: 'holdingId' }],
+    locations: [{ id: 'locationId' }],
+    isLoading: false,
+  }),
+}));
 
 const defaultProps = {
   locations: [{

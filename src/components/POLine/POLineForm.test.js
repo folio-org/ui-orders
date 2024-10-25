@@ -30,6 +30,12 @@ jest.mock('@folio/stripes-acq-components', () => ({
   Donors: jest.fn(() => 'Donors'),
   useFunds: jest.fn(),
   useInstanceHoldingsQuery: jest.fn(),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+  useReceivingTenantIdsAndLocations: jest.fn().mockReturnValue({
+    receivingTenantIds: ['central', 'college'],
+    additionalLocationIds: ['1', '2'],
+    additionalTenantLocationIdsMap: {},
+  }),
 }));
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -48,6 +54,14 @@ jest.mock('@folio/stripes/smart-components', () => ({
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useHistory: jest.fn(),
+}));
+jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
+  useOrderLineLocations: jest.fn().mockReturnValue({
+    holdings: [],
+    locations: [],
+    isLoading: false,
+  }),
 }));
 jest.mock('./Location/LocationForm', () => jest.fn().mockReturnValue('LocationForm'));
 jest.mock('./hooks', () => ({
