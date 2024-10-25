@@ -35,7 +35,6 @@ import {
   sourceValues,
   useCentralOrderingContext,
   useIntegrationConfigs,
-  useLocationsQuery,
   useModalToggle,
   useShowCallout,
   VENDORS_API,
@@ -51,6 +50,7 @@ import {
   useLinesLimit,
   useOpenOrderSettings,
   useOrder,
+  useOrderLineLocations,
   useTitleMutation,
 } from '../../common/hooks';
 import {
@@ -124,7 +124,7 @@ function LayerPOLine({
     [createInventory],
   );
   const [poLines, setPoLines] = useState();
-  const poLine = poLines?.find((u) => u.id === lineId);
+  const poLine = poLines?.find((u) => u.id === lineId) || {};
   const [vendor, setVendor] = useState();
   const { isLoading: isLinesLimitLoading, linesLimit } = useLinesLimit(!(lineId || poLine));
   const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(locationState?.isCreateAnotherChecked);
@@ -140,9 +140,12 @@ function LayerPOLine({
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const {
-    isLoading: isLocationsLoading,
     locations,
-  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
+    isLoading: isLocationsLoading,
+  } = useOrderLineLocations({
+    poLineLocations: poLine?.locations,
+    instanceId: poLine?.instanceId,
+  });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -581,7 +584,7 @@ function LayerPOLine({
     !isLocationsLoading
   );
 
-  if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
+  if (isLoading || isLocationsLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
 
   const initialValues = lineId ? poLine : getCreatePOLIneInitialValues;
   const onSubmit = lineId ? updatePOLine : submitPOLine;

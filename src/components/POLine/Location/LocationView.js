@@ -9,14 +9,13 @@ import {
   Loading,
   Row,
 } from '@folio/stripes/components';
-import { useStripes } from '@folio/stripes/core';
 import {
   getHoldingLocationName,
   useCentralOrderingContext,
   useConsortiumTenants,
-  useHoldingsAndLocations,
-  useReceivingTenantIdsAndLocations,
 } from '@folio/stripes-acq-components';
+
+import { useOrderLineLocations } from '../../../common/hooks';
 
 const getLocationFieldName = (fieldName, holdingId) => {
   if (fieldName) {
@@ -106,29 +105,17 @@ const LocationView = ({
   name,
   ...props
 }) => {
-  const stripes = useStripes();
-  const currentTenantId = stripes?.okapi?.tenant;
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
   const { tenants: consortiumTenants } = useConsortiumTenants();
   const affiliationsMap = useMemo(() => keyBy(consortiumTenants, 'id'), [consortiumTenants]);
 
-  const receivingTenants = useMemo(() => {
-    if (lineLocations?.length) {
-      return lineLocations.map(({ tenantId }) => tenantId);
-    }
-
-    return [];
-  }, [lineLocations]);
-
-  const { receivingTenantIds } = useReceivingTenantIdsAndLocations({
-    receivingTenantIds: receivingTenants,
-    currentReceivingTenantId: currentTenantId,
-  });
-
-  const { locations, isLoading, holdings } = useHoldingsAndLocations({
+  const {
+    locations,
+    isLoading,
+    holdings,
+  } = useOrderLineLocations({
+    poLineLocations: lineLocations,
     instanceId,
-    receivingTenantIds,
-    tenantId: currentTenantId,
   });
 
   const locationsMap = useMemo(() => keyBy(locations, 'id'), [locations]);
