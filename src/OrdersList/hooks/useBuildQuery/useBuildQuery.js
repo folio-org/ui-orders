@@ -10,6 +10,7 @@ import {
   useLocaleDateFormat,
 } from '@folio/stripes-acq-components';
 
+import { buildRelationModifierQuery } from '../../../common/utils';
 import { makeSearchQuery } from '../../OrdersListSearchConfig';
 import {
   FILTERS,
@@ -33,6 +34,7 @@ export function useBuildQuery(customFields) {
       },
       [FILTERS.TAGS]: buildArrayFieldQuery.bind(null, [FILTERS.TAGS]),
       [FILTERS.ACQUISITIONS_UNIT]: buildArrayFieldQuery.bind(null, [FILTERS.ACQUISITIONS_UNIT]),
+      [FILTERS.FUND_CODE]: buildRelationModifierQuery.bind(null, FILTERS.FUND_CODE, 'fundId'),
       ...customFieldsFilterMap,
     },
   ),
