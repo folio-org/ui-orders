@@ -50,7 +50,6 @@ import {
   useLinesLimit,
   useOpenOrderSettings,
   useOrder,
-  useOrderLineLocations,
   useTitleMutation,
 } from '../../common/hooks';
 import {
@@ -138,14 +137,6 @@ function LayerPOLine({
   const { mutateTitle } = useTitleMutation();
 
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
-
-  const {
-    locations,
-    isLoading: isLocationsLoading,
-  } = useOrderLineLocations({
-    poLineLocations: poLine?.locations,
-    instanceId: poLine?.instanceId,
-  });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoizedMutator = useMemo(() => mutator, []);
@@ -580,11 +571,10 @@ function LayerPOLine({
     !isLinesLimitLoading &&
     !isConfigsFetching &&
     !isOpenOrderSettingsFetching &&
-    !isInstanceLoading &&
-    !isLocationsLoading
+    !isInstanceLoading
   );
 
-  if (isLoading || isLocationsLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
+  if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
 
   const initialValues = lineId ? poLine : getCreatePOLIneInitialValues;
   const onSubmit = lineId ? updatePOLine : submitPOLine;
@@ -605,7 +595,6 @@ function LayerPOLine({
         isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
         enableSaveBtn={Boolean(savingValues)}
         linesLimit={linesLimit}
-        locations={locations}
         isCreateAnotherChecked={isCreateAnotherChecked}
         toggleCreateAnother={setCreateAnotherChecked}
         integrationConfigs={integrationConfigs}

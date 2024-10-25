@@ -8,7 +8,9 @@ import {
 } from '@folio/stripes-acq-components';
 import { useStripes } from '@folio/stripes/core';
 
-export const useOrderLineLocations = ({ poLineLocations = [], instanceId }) => {
+const DEFAULT_DATA = [];
+
+export const useOrderLineLocations = ({ poLineLocations = DEFAULT_DATA, instanceId }) => {
   const stripes = useStripes();
   const currentTenantId = stripes?.okapi?.tenant;
 
@@ -16,7 +18,7 @@ export const useOrderLineLocations = ({ poLineLocations = [], instanceId }) => {
 
   const {
     isLoading: isLocationsLoading,
-    locations,
+    locations = DEFAULT_DATA,
   } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
   const receivingTenants = useMemo(() => {
@@ -34,7 +36,7 @@ export const useOrderLineLocations = ({ poLineLocations = [], instanceId }) => {
 
   const {
     holdings,
-    locations: holdingLocations,
+    locations: holdingLocations = DEFAULT_DATA,
     isLoading: isHoldingLocationsLoading,
   } = useHoldingsAndLocations({
     instanceId,

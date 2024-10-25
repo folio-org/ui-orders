@@ -61,6 +61,7 @@ import { ENTITY_TYPE_PO_LINE } from '../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
+  useOrderLineLocations,
 } from '../../common/hooks';
 import {
   isEresource,
@@ -122,7 +123,6 @@ function POLineForm({
   values: formValues,
   enableSaveBtn,
   linesLimit,
-  locations,
   isCreateAnotherChecked = false,
   toggleCreateAnother,
   integrationConfigs = [],
@@ -161,6 +161,11 @@ function POLineForm({
     holdings: instanceHoldings,
     isLoading: isHoldingsLoading,
   } = useInstanceHoldingsQuery(instanceId, { consortium: centralOrdering });
+
+  const { locations } = useOrderLineLocations({
+    poLineLocations: lineLocations,
+    instanceId,
+  });
 
   const shouldUpdateDonorOrganizationIds = useMemo(() => {
     const hasChanged = !isEqual(donorOrganizationIds, formValues?.donorOrganizationIds);
@@ -728,15 +733,6 @@ POLineForm.propTypes = {
   values: PropTypes.object.isRequired,
   enableSaveBtn: PropTypes.bool,
   linesLimit: PropTypes.number.isRequired,
-  locations: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    code: PropTypes.string.isRequired,
-    institutionId: PropTypes.string.isRequired,
-    campusId: PropTypes.string.isRequired,
-    libraryId: PropTypes.string.isRequired,
-    tenantId: PropTypes.string,
-  })).isRequired,
   isCreateAnotherChecked: PropTypes.bool,
   toggleCreateAnother: PropTypes.func.isRequired,
   integrationConfigs: PropTypes.arrayOf(PropTypes.object),
