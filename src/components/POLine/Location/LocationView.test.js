@@ -8,7 +8,6 @@ import {
 } from '@folio/stripes-acq-components';
 import { affiliations } from '@folio/stripes-acq-components/test/jest/fixtures';
 
-import { useOrderLineLocations } from '../../../common/hooks';
 import LocationView from './LocationView';
 
 jest.mock('@folio/stripes-acq-components', () => {
