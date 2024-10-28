@@ -1,8 +1,6 @@
-import { useMemo } from 'react';
-
 import {
   useCentralOrderingContext,
-  useHoldingsAndLocations,
+  useTenantHoldingsAndLocations,
   useLocationsQuery,
   useReceivingTenantIdsAndLocations,
 } from '@folio/stripes-acq-components';
@@ -10,7 +8,7 @@ import { useStripes } from '@folio/stripes/core';
 
 const DEFAULT_DATA = [];
 
-export const useOrderLineLocations = ({ poLineLocations = DEFAULT_DATA, instanceId }) => {
+export const useOrderLineLocationsByTenants = ({ receivingTenantIdsByLocations = DEFAULT_DATA, instanceId }) => {
   const stripes = useStripes();
   const currentTenantId = stripes?.okapi?.tenant;
 
@@ -21,16 +19,16 @@ export const useOrderLineLocations = ({ poLineLocations = DEFAULT_DATA, instance
     locations = DEFAULT_DATA,
   } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
-  const receivingTenants = useMemo(() => {
-    if (poLineLocations.length) {
-      return poLineLocations.map(({ tenantId }) => tenantId);
-    }
+  // const receivingTenants = useMemo(() => {
+  //   if (poLineLocations.length) {
+  //     return poLineLocations.map(({ tenantId }) => tenantId);
+  //   }
 
-    return [];
-  }, [poLineLocations]);
+  //   return [];
+  // }, [poLineLocations]);
 
   const { receivingTenantIds } = useReceivingTenantIdsAndLocations({
-    receivingTenantIds: receivingTenants,
+    receivingTenantIds: receivingTenantIdsByLocations,
     currentReceivingTenantId: currentTenantId,
   });
 
@@ -38,7 +36,7 @@ export const useOrderLineLocations = ({ poLineLocations = DEFAULT_DATA, instance
     holdings,
     locations: holdingLocations = DEFAULT_DATA,
     isLoading: isHoldingLocationsLoading,
-  } = useHoldingsAndLocations({
+  } = useTenantHoldingsAndLocations({
     instanceId,
     receivingTenantIds,
     tenantId: currentTenantId,

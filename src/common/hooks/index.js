@@ -12,7 +12,7 @@ export * from './useLinesLimit';
 export * from './useOpenOrderSettings';
 export * from './useOrder/useOrder';
 export * from './useOrderLine';
-export * from './useOrderLineLocations';
+export * from './useOrderLineLocationsByTenants';
 export * from './useOrderLinesAbandonedHoldingsCheck';
 export * from './useOrderTemplate';
 export * from './usePOLineRelatedItems';

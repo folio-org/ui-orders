@@ -1,14 +1,14 @@
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import {
-  useHoldingsAndLocations,
+  useTenantHoldingsAndLocations,
   useLocationsQuery,
 } from '@folio/stripes-acq-components';
 
-import { useOrderLineLocations } from './useOrderLineLocations';
+import { useOrderLineLocationsByTenants } from './useOrderLineLocationsByTenants';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
-  useHoldingsAndLocations: jest.fn().mockReturnValue({
+  useTenantHoldingsAndLocations: jest.fn().mockReturnValue({
     holdings: [],
     locations: [],
     isLoading: false,
@@ -25,7 +25,7 @@ jest.mock('@folio/stripes/core', () => ({
 
 describe('useOrderLineLocations', () => {
   it('should return holdings, locations and isLoading', () => {
-    const { result } = renderHook(() => useOrderLineLocations({ poLineLocations: [{ tenantId: 'tenantId' }] }));
+    const { result } = renderHook(() => useOrderLineLocationsByTenants({ poLineLocations: [{ tenantId: 'tenantId' }] }));
 
     expect(result.current).toEqual({
       holdings: [],
@@ -35,13 +35,13 @@ describe('useOrderLineLocations', () => {
   });
 
   it('should return locations from holding if instanceId is provided', () => {
-    useHoldingsAndLocations.mockReturnValue({
+    useTenantHoldingsAndLocations.mockReturnValue({
       holdings: [{ id: 'holdingId' }],
       locations: [{ id: 'locationId' }],
       isLoading: false,
     });
 
-    const { result } = renderHook(() => useOrderLineLocations({ instanceId: 'instanceId' }));
+    const { result } = renderHook(() => useOrderLineLocationsByTenants({ instanceId: 'instanceId' }));
 
     expect(result.current).toEqual({
       holdings: [{ id: 'holdingId' }],
@@ -56,7 +56,7 @@ describe('useOrderLineLocations', () => {
       isLoading: false,
     });
 
-    const { result } = renderHook(() => useOrderLineLocations({}));
+    const { result } = renderHook(() => useOrderLineLocationsByTenants({}));
 
     expect(result.current).toEqual({
       holdings: [{ 'id': 'holdingId' }],

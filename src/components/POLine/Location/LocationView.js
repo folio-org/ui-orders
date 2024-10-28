@@ -15,7 +15,7 @@ import {
   useConsortiumTenants,
 } from '@folio/stripes-acq-components';
 
-import { useOrderLineLocations } from '../../../common/hooks';
+import { useOrderLineLocationsByTenants } from '../../../common/hooks';
 
 const getLocationFieldName = (fieldName, holdingId) => {
   if (fieldName) {
@@ -108,13 +108,16 @@ const LocationView = ({
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
   const { tenants: consortiumTenants } = useConsortiumTenants();
   const affiliationsMap = useMemo(() => keyBy(consortiumTenants, 'id'), [consortiumTenants]);
+  const receivingTenantIds = useMemo(() => {
+    return lineLocations.map(({ tenantId }) => tenantId).filter(Boolean);
+  }, [lineLocations]);
 
   const {
     locations,
     isLoading,
     holdings,
-  } = useOrderLineLocations({
-    poLineLocations: lineLocations,
+  } = useOrderLineLocationsByTenants({
+    receivingTenantIdsByLocations: receivingTenantIds,
     instanceId,
   });
 

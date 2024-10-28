@@ -61,7 +61,7 @@ import { ENTITY_TYPE_PO_LINE } from '../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
-  useOrderLineLocations,
+  useOrderLineLocationsByTenants,
 } from '../../common/hooks';
 import {
   isEresource,
@@ -150,6 +150,9 @@ function POLineForm({
   } = useFunds();
 
   const fundsMap = useMemo(() => keyBy(fundsRecords, 'id'), [fundsRecords]);
+  const receivingTenantIds = useMemo(() => {
+    return lineLocations.map(({ tenantId }) => tenantId).filter(Boolean);
+  }, [lineLocations]);
 
   const { donorOrganizationIds, onDonorRemove, setDonorIds } = useManageDonorOrganizationIds({
     funds: fundsRecords,
@@ -162,8 +165,8 @@ function POLineForm({
     isLoading: isHoldingsLoading,
   } = useInstanceHoldingsQuery(instanceId, { consortium: centralOrdering });
 
-  const { locations } = useOrderLineLocations({
-    poLineLocations: lineLocations,
+  const { locations } = useOrderLineLocationsByTenants({
+    receivingTenantIdsByLocations: receivingTenantIds,
     instanceId,
   });
 
