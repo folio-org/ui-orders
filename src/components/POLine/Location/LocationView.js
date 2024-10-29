@@ -117,7 +117,7 @@ const LocationView = ({
     isLoading,
     holdings,
   } = useLocationsAndHoldingsByTenants({
-    receivingTenantIdsByLocations: receivingTenantIds,
+    tenantIds: receivingTenantIds,
     instanceId,
   });
 
@@ -128,18 +128,22 @@ const LocationView = ({
   return (
     <>
       {
-        lineLocations.map((location, i) => (
-          <Location
-            key={location.id || i}  // i is required when new row of Location is added by User
-            centralOrdering={isCentralOrderingEnabled}
-            affiliationsMap={affiliationsMap}
-            location={location}
-            locationsMap={locationsMap}
-            holdings={holdings}
-            name={name && `${name}[${i}]`}
-            {...props}
-          />
-        ))
+        lineLocations.map((location, i) => {
+          const { holdingId, locationId } = location;
+
+          return (
+            <Location
+              key={holdingId || locationId || i}  // i is required when new row of Location is added by User
+              centralOrdering={isCentralOrderingEnabled}
+              affiliationsMap={affiliationsMap}
+              location={location}
+              locationsMap={locationsMap}
+              holdings={holdings}
+              name={name && `${name}[${i}]`}
+              {...props}
+            />
+          );
+        })
       }
     </>
   );

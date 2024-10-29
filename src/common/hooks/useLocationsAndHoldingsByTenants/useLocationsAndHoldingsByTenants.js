@@ -8,7 +8,7 @@ import { useStripes } from '@folio/stripes/core';
 
 const DEFAULT_DATA = [];
 
-export const useLocationsAndHoldingsByTenants = ({ receivingTenantIdsByLocations = DEFAULT_DATA, instanceId }) => {
+export const useLocationsAndHoldingsByTenants = ({ tenantIds = DEFAULT_DATA, instanceId }) => {
   const stripes = useStripes();
   const currentTenantId = stripes?.okapi?.tenant;
 
@@ -20,7 +20,7 @@ export const useLocationsAndHoldingsByTenants = ({ receivingTenantIdsByLocations
   } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
   const { receivingTenantIds } = useReceivingTenantIdsAndLocations({
-    receivingTenantIds: receivingTenantIdsByLocations,
+    receivingTenantIds: tenantIds,
     currentReceivingTenantId: currentTenantId,
   });
 
@@ -34,11 +34,9 @@ export const useLocationsAndHoldingsByTenants = ({ receivingTenantIdsByLocations
     tenantId: currentTenantId,
   });
 
-  const _poLineLocations = instanceId ? holdingLocations : locations;
-
   return {
     holdings,
-    locations: _poLineLocations,
+    locations: instanceId ? holdingLocations : locations,
     isLoading: isLocationsLoading || isHoldingLocationsLoading,
   };
 };

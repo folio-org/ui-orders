@@ -166,7 +166,7 @@ function POLineForm({
   } = useInstanceHoldingsQuery(instanceId, { consortium: centralOrdering });
 
   const { locations } = useLocationsAndHoldingsByTenants({
-    receivingTenantIdsByLocations: receivingTenantIds,
+    tenantIds: receivingTenantIds,
     instanceId,
   });
 

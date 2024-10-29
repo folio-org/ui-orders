@@ -25,7 +25,7 @@ jest.mock('@folio/stripes/core', () => ({
 
 describe('useOrderLineLocations', () => {
   it('should return holdings, locations and isLoading', () => {
-    const { result } = renderHook(() => useLocationsAndHoldingsByTenants({ poLineLocations: [{ tenantId: 'tenantId' }] }));
+    const { result } = renderHook(() => useLocationsAndHoldingsByTenants({ tenantIds: ['tenantId'] }));
 
     expect(result.current).toEqual({
       holdings: [],
