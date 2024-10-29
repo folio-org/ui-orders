@@ -57,7 +57,7 @@ jest.mock('react-router', () => ({
 }));
 jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
-  useOrderLineLocationsByTenants: jest.fn().mockReturnValue({
+  useLocationsAndHoldingsByTenants: jest.fn().mockReturnValue({
     holdings: [],
     locations: [],
     isLoading: false,

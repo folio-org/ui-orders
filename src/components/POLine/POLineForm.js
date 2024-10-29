@@ -61,7 +61,7 @@ import { ENTITY_TYPE_PO_LINE } from '../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
-  useOrderLineLocationsByTenants,
+  useLocationsAndHoldingsByTenants,
 } from '../../common/hooks';
 import {
   isEresource,
@@ -165,7 +165,7 @@ function POLineForm({
     isLoading: isHoldingsLoading,
   } = useInstanceHoldingsQuery(instanceId, { consortium: centralOrdering });
 
-  const { locations } = useOrderLineLocationsByTenants({
+  const { locations } = useLocationsAndHoldingsByTenants({
     receivingTenantIdsByLocations: receivingTenantIds,
     instanceId,
   });

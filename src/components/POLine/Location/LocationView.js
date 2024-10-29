@@ -15,7 +15,7 @@ import {
   useConsortiumTenants,
 } from '@folio/stripes-acq-components';
 
-import { useOrderLineLocationsByTenants } from '../../../common/hooks';
+import { useLocationsAndHoldingsByTenants } from '../../../common/hooks';
 
 const getLocationFieldName = (fieldName, holdingId) => {
   if (fieldName) {
@@ -116,7 +116,7 @@ const LocationView = ({
     locations,
     isLoading,
     holdings,
-  } = useOrderLineLocationsByTenants({
+  } = useLocationsAndHoldingsByTenants({
     receivingTenantIdsByLocations: receivingTenantIds,
     instanceId,
   });
@@ -130,7 +130,7 @@ const LocationView = ({
       {
         lineLocations.map((location, i) => (
           <Location
-            key={location.holdingId || i}  // i is required when new row of Location is added by User
+            key={location.id || i}  // i is required when new row of Location is added by User
             centralOrdering={isCentralOrderingEnabled}
             affiliationsMap={affiliationsMap}
             location={location}

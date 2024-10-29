@@ -1,0 +1,1 @@
+export { useLocationsAndHoldingsByTenants } from './useLocationsAndHoldingsByTenants';

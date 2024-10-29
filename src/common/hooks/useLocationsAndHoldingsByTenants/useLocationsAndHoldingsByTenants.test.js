@@ -4,7 +4,7 @@ import {
   useLocationsQuery,
 } from '@folio/stripes-acq-components';
 
-import { useOrderLineLocationsByTenants } from './useOrderLineLocationsByTenants';
+import { useLocationsAndHoldingsByTenants } from './useLocationsAndHoldingsByTenants';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
@@ -25,7 +25,7 @@ jest.mock('@folio/stripes/core', () => ({
 
 describe('useOrderLineLocations', () => {
   it('should return holdings, locations and isLoading', () => {
-    const { result } = renderHook(() => useOrderLineLocationsByTenants({ poLineLocations: [{ tenantId: 'tenantId' }] }));
+    const { result } = renderHook(() => useLocationsAndHoldingsByTenants({ poLineLocations: [{ tenantId: 'tenantId' }] }));
 
     expect(result.current).toEqual({
       holdings: [],
@@ -41,7 +41,7 @@ describe('useOrderLineLocations', () => {
       isLoading: false,
     });
 
-    const { result } = renderHook(() => useOrderLineLocationsByTenants({ instanceId: 'instanceId' }));
+    const { result } = renderHook(() => useLocationsAndHoldingsByTenants({ instanceId: 'instanceId' }));
 
     expect(result.current).toEqual({
       holdings: [{ id: 'holdingId' }],
@@ -56,7 +56,7 @@ describe('useOrderLineLocations', () => {
       isLoading: false,
     });
 
-    const { result } = renderHook(() => useOrderLineLocationsByTenants({}));
+    const { result } = renderHook(() => useLocationsAndHoldingsByTenants({}));
 
     expect(result.current).toEqual({
       holdings: [{ 'id': 'holdingId' }],

@@ -23,7 +23,7 @@ jest.mock('@folio/stripes-acq-components', () => {
 });
 jest.mock('../../../common/hooks', () => ({
   ...jest.requireActual('../../../common/hooks'),
-  useOrderLineLocationsByTenants: jest.fn().mockReturnValue({
+  useLocationsAndHoldingsByTenants: jest.fn().mockReturnValue({
     holdings: [{ id: 'holdingId' }],
     locations: [{ id: 'locationId' }],
     isLoading: false,
