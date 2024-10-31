@@ -38,6 +38,7 @@ export const ERROR_CODES = {
   itemUpdateFailed: 'itemUpdateFailed',
   ledgerNotFoundForTransaction: 'ledgerNotFoundForTransaction',
   locationIdAndHoldingIdAbsentError: 'locationIdAndHoldingIdAbsentError',
+  locationUpdateWithoutAffiliation: 'locationUpdateWithoutAffiliation',
   locNotProvided: 'locNotProvided',
   locQtyElectronicExceedsCost: 'locQtyElectronicExceedsCost',
   locQtyPhysicalExceedsCost: 'locQtyPhysicalExceedsCost',

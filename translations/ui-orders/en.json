@@ -181,6 +181,7 @@
   "errors.lineWasNotDeleted": "Error while deleting PO Line",
   "errors.lineWasNotCancelled": "Error while canceling PO Line",
   "errors.locationIdAndHoldingIdAbsentError": "A holdings or location reference must present",
+  "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record.",
   "errors.locNotProvided": "Location not provided",
   "errors.locQtyElectronicExceedsCost": "Locations electronic quantity exceeds cost electronic quantity",
   "errors.locQtyPhysicalExceedsCost": "Locations physical quantity exceeds cost physical quantity",
