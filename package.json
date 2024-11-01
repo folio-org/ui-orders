@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "6.0.4",
+  "version": "7.0.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -540,7 +540,7 @@
   },
   "dependencies": {
     "@folio/plugin-find-po-line": "^5.0.0",
-    "@folio/stripes-acq-components": "~5.1.0",
+    "@folio/stripes-acq-components": "~6.0.0",
     "@folio/stripes-template-editor": "^3.2.0",
     "classnames": "^2.2.5",
     "dompurify": "^3.0.9",
@@ -567,7 +567,7 @@
     "redux": "*"
   },
   "optionalDependencies": {
-    "@folio/plugin-find-instance": "^7.0.0",
+    "@folio/plugin-find-instance": "^8.0.0",
     "@folio/plugin-find-organization": "^5.0.0",
     "@folio/plugin-find-user": "^7.0.0"
   }

@@ -1,6 +1,9 @@
 # Change history for ui-orders
 
-## 7.0.0 (IN PROGRESS)
+## 7.1.0 (IN PROGRESS)
+
+## [7.0.0](https://github.com/folio-org/ui-orders/tree/v7.0.0) (2024-11-01)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.4...v7.0.0)
 
 * UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIOR-1202.
 * *BREAKING* Settings - implement Routing list configuration. Refs UIOR-1249.
@@ -20,7 +23,7 @@
 * ECS - Adjust restrict fund by location validation to accommodate central ordering. Refs UIOR-1235.
 * Use Save & close button label  stripes-component translation key. Refs UIOR-1240.
 * ECS - Add fields indicating the affiliation of locations and holdings for views. Refs UIOR-1276.
-* Remove searchLocationIds[] field from PO line Version history. Refs UISACQCOMP-193.
+* Remove searchLocationIds[] field from PO line Version history. Refs UIOR-1284.
 * Bump up `holdings-storage` interface. Refs UIOR-1277.
 * Custom Fields - Add filter components for purchase order lines. Refs UIOR-1237.
 * Fix grammar and spelling errors on Settings > Orders > Instance. Refs UIOR-1289.
