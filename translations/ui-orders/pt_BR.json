@@ -901,5 +901,6 @@
     "line.changeInstance.relatedItems.error": "Falha ao carregar itens para locatário(s): <b>{tenants}</b>",
     "orderSummary.totalCredited": "Total creditado",
     "errors.userHasMissedAffiliations": "A operação falhou. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações que o registro.",
-    "errors.budgetNotFoundForFiscalYear": "O pedido não pode ser aberto porque não há orçamento atual para o(s) fundo(s) <b>{fundCodes}</b> para o ano fiscal <b>{fiscalYearCode}</b>."
+    "errors.budgetNotFoundForFiscalYear": "O pedido não pode ser aberto porque não há orçamento atual para o(s) fundo(s) <b>{fundCodes}</b> para o ano fiscal <b>{fiscalYearCode}</b>.",
+    "errors.locationUpdateWithoutAffiliation": "Linha do Pedido de Compra não pôde ser salvo. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações do registro."
 }

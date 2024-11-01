@@ -901,5 +901,6 @@
     "line.changeInstance.relatedItems.error": "Nepodařilo se načíst jednotky pro nájemce: <b>{tenants}</b>",
     "orderSummary.totalCredited": "Celkem připsáno",
     "errors.userHasMissedAffiliations": "Operace se nezdařila. Tento záznam má lokaci pobočky, kterou Váš uživatel nemá. Tato pobočka musí být odstraněna nebo operaci musí provést uživatel, který má stejnou pobočku jako záznam.",
-    "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>."
+    "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
+    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record."
 }
