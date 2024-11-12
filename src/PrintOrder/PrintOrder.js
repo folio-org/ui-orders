@@ -37,7 +37,7 @@ export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => 
       const { compositePoLines } = order;
       const linesToPrint = orderLine ? [orderLine] : compositePoLines;
       const printData = compositePoLines?.length
-        ? { lines: await getExportData(mutator, linesToPrint, [order], intl) }
+        ? { lines: await getExportData(mutator, linesToPrint, [order], [], intl) }
         : await getOrderPrintData(ky, order);
 
       let poLineTotals = {};
