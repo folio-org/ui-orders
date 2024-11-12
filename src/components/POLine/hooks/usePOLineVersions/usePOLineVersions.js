@@ -11,9 +11,14 @@ export const usePOLineVersions = (poLineId, options = {}) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'order-line-versions' });
 
+  const searchParams = {
+    sortBy: 'event_date',
+    sortOrder: 'desc',
+  };
+
   const { isLoading, data } = useQuery(
     [namespace, poLineId],
-    () => ky.get(`${AUDIT_ACQ_EVENTS_API}/order-line/${poLineId}`).json(),
+    ({ signal }) => ky.get(`${AUDIT_ACQ_EVENTS_API}/order-line/${poLineId}`, { signal, searchParams }).json(),
     {
       enabled: Boolean(poLineId),
       ...options,

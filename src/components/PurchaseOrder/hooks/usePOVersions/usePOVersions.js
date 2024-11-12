@@ -11,9 +11,14 @@ export const usePOVersions = (orderId, options = {}) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'order-versions' });
 
+  const searchParams = {
+    sortBy: 'event_date',
+    sortOrder: 'desc',
+  };
+
   const { isLoading, data } = useQuery(
     [namespace, orderId],
-    () => ky.get(`${AUDIT_ACQ_EVENTS_API}/order/${orderId}`).json(),
+    ({ signal }) => ky.get(`${AUDIT_ACQ_EVENTS_API}/order/${orderId}`, { signal, searchParams }).json(),
     {
       enabled: Boolean(orderId),
       ...options,
