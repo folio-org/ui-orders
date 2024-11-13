@@ -3,6 +3,7 @@
 ## 7.1.0 (IN PROGRESS)
 
 * import DOMPurify in right way. Refs UIOR-1340.
+* Fix print order action. Refs UIOR-1339.
 
 ## [7.0.0](https://github.com/folio-org/ui-orders/tree/v7.0.0) (2024-11-01)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.4...v7.0.0)
