@@ -115,7 +115,7 @@
     "paneBlock.closeBtn": "Bestellung abschließen",
     "closeOrderModal.reason": "Grund",
     "closeOrderModal.notes": "Notizen",
-    "closeOrderModal.cancel": "Stornieren",
+    "closeOrderModal.cancel": "Abbrechen",
     "closeOrderModal.submit": "Absenden",
     "closeOrderModal.title": "Abschließen - Bestellung - {orderNumber}",
     "settings.setPOLInesLimit.validation": "Bitte ganze Zahl größer als Null und kleiner als 1000 eingeben, um fortzufahren",
