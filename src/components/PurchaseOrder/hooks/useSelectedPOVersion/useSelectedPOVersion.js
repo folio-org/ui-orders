@@ -15,16 +15,16 @@ import {
 } from '@folio/stripes/core';
 import { getFullName } from '@folio/stripes/util';
 import {
+  fetchAcqUnitsByIds,
   getAddresses,
+  getVersionMetadata,
   useUsersBatch,
 } from '@folio/stripes-acq-components';
 
 import { useOrder } from '../../../../common/hooks';
 import {
-  getAcqUnitsByIds,
   getOrganizationsByIds,
   getTenantAddresses,
-  getVersionMetadata,
 } from '../../../../common/utils';
 
 const getUniqItems = (arr) => (
@@ -81,7 +81,7 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
         addressesMap,
       ] = await Promise.all([
         getOrganizationsByIds(ky)(organizationIds).then(keyBy('id')),
-        getAcqUnitsByIds(ky)(acqUnitsIds).then(keyBy('id')),
+        fetchAcqUnitsByIds(ky)(acqUnitsIds).then(keyBy('id')),
         getTenantAddresses(ky)()
           .then(({ configs }) => getAddresses(configs))
           .then(keyBy('id')),

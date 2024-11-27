@@ -13,12 +13,14 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import { useLocationsQuery } from '@folio/stripes-acq-components';
+import {
+  useLocationsQuery,
+  getVersionMetadata,
+} from '@folio/stripes-acq-components';
 
 import {
   getMaterialTypes,
   getOrganizationsByIds,
-  getVersionMetadata,
 } from '../../../../common/utils';
 import {
   useAcqMethods,

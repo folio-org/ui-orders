@@ -120,5 +120,8 @@ export const getPoFieldsLabelMap = () => {
     'closeReason': 'ui-orders.orderSummary.closingReason',
     'closeReason.reason': 'ui-orders.orderSummary.closingReason',
     'closeReason.note': 'ui-orders.orderSummary.closingNote',
+
+    //  Custom fields
+    'customFields.externalOrderNumber': 'ui-orders.orderDetails.externalOrderNumber',
   };
 };
