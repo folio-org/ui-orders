@@ -63,7 +63,7 @@ export const UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES = {
 export const FIELD_ARRAY_ITEM_IDENTIFIER_KEY = '__key__';
 export const OKAPI_TENANT_HEADER = 'X-Okapi-Tenant';
 
-export const HIDDEN_ORDER_FIELDS_FOR_VERSION_HISTORY = ['nextPolNumber', 'searchLocationIds'];
+export const HIDDEN_ORDER_FIELDS_FOR_VERSION_HISTORY = ['nextPolNumber'];
 
 export const CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH = {
   activeAffiliationOnly: 'Active affiliation only',
@@ -71,3 +71,5 @@ export const CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH = {
   centralDefault: 'Central default',
   activeAffiliationDefault: 'Active affiliation default',
 };
+
+export const SYSTEM_UPDATED_FIELDS = ['searchLocationIds'];

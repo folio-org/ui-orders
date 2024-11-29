@@ -22,6 +22,7 @@ import {
   HIDDEN_ORDER_FIELDS_FOR_VERSION_HISTORY,
   ORDERS_ROUTE,
   ORDER_LINES_ROUTE,
+  SYSTEM_UPDATED_FIELDS,
 } from '../../../common/constants';
 import { useOrderLine } from '../../../common/hooks';
 import {
@@ -133,6 +134,7 @@ const POLineVersionView = ({
         labelsMap={getPoLineFieldsLabelMap(selectedVersion)}
         versions={versions}
         hiddenFields={HIDDEN_ORDER_FIELDS_FOR_VERSION_HISTORY}
+        systemUpdatedFields={SYSTEM_UPDATED_FIELDS}
       />
     </VersionViewContextProvider>
   );
