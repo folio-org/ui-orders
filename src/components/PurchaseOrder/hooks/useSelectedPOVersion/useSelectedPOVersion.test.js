@@ -102,7 +102,7 @@ describe('useSelectedPOVersion', () => {
 
     expect(id).toEqual(order.id);
     expect(vendorField).toEqual(vendor.name);
-    expect(billTo).toEqual('stripes-acq-components.versionHistory.deletedRecord');
+    expect(billTo).toBeNull();
     expect(shipTo).toEqual('stripes-acq-components.versionHistory.deletedRecord');
     expect(createdByUser).toEqual(getFullName(user));
   });
