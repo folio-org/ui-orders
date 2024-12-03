@@ -2,7 +2,10 @@
 
 ## 7.1.0 (IN PROGRESS)
 
+## 7.0.2 (IN PROGRESS)
+
 * Add "Donor (Deprecated)" label for PO line search by Donor filed. Refs UIOR-1348.
+* Respect the `tenantId` property when resolving holdings in central tenant mode. Refs UIOR-1330.
 
 ## [7.0.1](https://github.com/folio-org/ui-orders/tree/v7.0.1) (2024-11-14)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.0...v7.0.1)

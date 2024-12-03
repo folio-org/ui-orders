@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import find from 'lodash/find';
+import keyBy from 'lodash/keyBy';
 import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { find, keyBy } from 'lodash';
 
 import {
   Col,
@@ -36,7 +37,14 @@ const Location = ({
   name: fieldName,
 }) => {
   const filteredLocation = locationsMap[location.locationId] || {};
-  const holding = find(holdings, ['id', location.holdingId]);
+  const holding = find(
+    holdings,
+    {
+      id: location.holdingId,
+      ...(centralOrdering ? { tenantId: location.tenantId } : {}),
+    },
+  );
+
   const { name, code } = filteredLocation;
   const locationNameCode = name ? `${name} (${code})` : '';
   const labelId = location.holdingId ? 'ui-orders.location.holding' : 'ui-orders.location.nameCode';
