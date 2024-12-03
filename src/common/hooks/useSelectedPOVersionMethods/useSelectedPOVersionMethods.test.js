@@ -33,7 +33,7 @@ describe('useSelectedPOVersionMethods', () => {
       id2: { property1: 'value3' },
     };
 
-    const value = result.current.getObjectPropertyById('id1', obj, 'property1');
+    const value = result.current.getObjectPropertyById('id1', 'property1', obj);
 
     expect(value).toBe('value1');
   });
@@ -42,7 +42,7 @@ describe('useSelectedPOVersionMethods', () => {
     const { result } = renderHook(() => useSelectedPOVersionMethods());
     const obj = { id1: { property1: 'value1' } };
 
-    const value = result.current.getObjectPropertyById(null, obj, 'property1');
+    const value = result.current.getObjectPropertyById(null, 'property1', obj);
 
     expect(value).toBeNull();
   });
@@ -51,7 +51,7 @@ describe('useSelectedPOVersionMethods', () => {
     const { result } = renderHook(() => useSelectedPOVersionMethods());
 
     const obj = { id1: { property1: 'value1' } };
-    const value = result.current.getObjectPropertyById('id2', obj, 'property1');
+    const value = result.current.getObjectPropertyById('id2', 'property1', obj);
 
     expect(value).toBe('stripes-acq-components.versionHistory.deletedRecord');
   });

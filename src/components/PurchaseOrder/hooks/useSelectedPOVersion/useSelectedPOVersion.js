@@ -89,12 +89,12 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
 
       return {
         ...versionSnapshot,
-        acqUnits: acqUnitsIds.map((id) => getObjectPropertyById(id, acqUnitsMap, 'name')).join(', '),
+        acqUnits: acqUnitsIds.map((id) => getObjectPropertyById(id, 'name', acqUnitsMap)).join(', '),
         assignedTo: getUserFullnameById(assignedToId, versionUsersMap),
         createdByUser: getUserFullnameById(createdByUserId, versionUsersMap),
-        vendor: getObjectPropertyById(vendorId, organizationsMap, 'name'),
-        billTo: getObjectPropertyById(billToId, addressesMap, 'address'),
-        shipTo: getObjectPropertyById(shipToId, addressesMap, 'address'),
+        vendor: getObjectPropertyById(vendorId, 'name', organizationsMap),
+        billTo: getObjectPropertyById(billToId, 'address', addressesMap),
+        shipTo: getObjectPropertyById(shipToId, 'address', addressesMap),
         metadata,
       };
     },
