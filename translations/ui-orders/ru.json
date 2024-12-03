@@ -397,7 +397,7 @@
     "order.lastUpdated": "Last updated",
     "order.acquisitionsUnit": "Единица комплектования",
     "search.contributors": "Автор",
-    "search.donor": "Donor",
+    "search.donor": "Donor (Deprecated)",
     "search.details.productIds": "Product ID",
     "search.publisher": "Издатель",
     "search.selector": "Selector",

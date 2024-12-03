@@ -397,7 +397,7 @@
     "order.lastUpdated": "Last updated",
     "order.acquisitionsUnit": "Acquisition unit",
     "search.contributors": "Contributor",
-    "search.donor": "Donor",
+    "search.donor": "Donor (Deprecated)",
     "search.details.productIds": "Product ID",
     "search.publisher": "Publisher",
     "search.selector": "Selector",

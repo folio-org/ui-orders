@@ -397,7 +397,7 @@
     "order.lastUpdated": "Poslední aktualizace",
     "order.acquisitionsUnit": "Akviziční jednotka",
     "search.contributors": "Autor",
-    "search.donor": "Dárce",
+    "search.donor": "Dárce (zastaralé)",
     "search.details.productIds": "ID produktu",
     "search.publisher": "Vydavatel",
     "search.selector": "Selektor",
