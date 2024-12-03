@@ -13,7 +13,7 @@ export const usePOLineVersions = (poLineId, options = {}) => {
 
   const { isLoading, data } = useQuery(
     [namespace, poLineId],
-    () => ky.get(`${AUDIT_ACQ_EVENTS_API}/order-line/${poLineId}`).json(),
+    ({ signal }) => ky.get(`${AUDIT_ACQ_EVENTS_API}/order-line/${poLineId}`, { signal }).json(),
     {
       enabled: Boolean(poLineId),
       ...options,

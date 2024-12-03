@@ -29,7 +29,7 @@ export const useOpenOrderSettings = (options = {}) => {
 
   const { isFetching, data = {} } = useQuery(
     [namespace],
-    () => ky.get(CONFIG_API, { searchParams }).json(),
+    ({ signal }) => ky.get(CONFIG_API, { searchParams, signal }).json(),
     options,
   );
 

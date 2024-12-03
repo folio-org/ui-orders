@@ -25,7 +25,7 @@ export const useAcqMethods = (options = {}) => {
     data = DEFAULT_DATA,
   } = useQuery(
     [namespace, 'acq-methods'],
-    () => ky.get(ACQUISITION_METHODS_API, { searchParams }).json(),
+    ({ signal }) => ky.get(ACQUISITION_METHODS_API, { searchParams, signal }).json(),
     options,
   );
 

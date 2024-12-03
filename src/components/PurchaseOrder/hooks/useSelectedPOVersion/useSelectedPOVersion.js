@@ -71,7 +71,9 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
     data: selectedVersion = {},
   } = useQuery(
     [namespace, versionId, versionSnapshot?.id],
-    async () => {
+    async ({ signal }) => {
+      const kyExtended = ky.extend({ signal });
+
       const organizationIds = [vendorId];
       const acqUnitsIds = versionSnapshot?.acqUnitIds || [];
 
@@ -80,9 +82,9 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
         acqUnitsMap,
         addressesMap,
       ] = await Promise.all([
-        getOrganizationsByIds(ky)(organizationIds).then(keyBy('id')),
-        getAcqUnitsByIds(ky)(acqUnitsIds).then(keyBy('id')),
-        getTenantAddresses(ky)()
+        getOrganizationsByIds(kyExtended)(organizationIds).then(keyBy('id')),
+        getAcqUnitsByIds(kyExtended)(acqUnitsIds).then(keyBy('id')),
+        getTenantAddresses(kyExtended)()
           .then(({ configs }) => getAddresses(configs))
           .then(keyBy('id')),
       ]);

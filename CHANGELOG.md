@@ -2,6 +2,8 @@
 
 ## 7.1.0 (IN PROGRESS)
 
+* Provide `signal` from `useQuery` function to the http client (ky). Refs UIOR-1363.
+
 ## 7.0.2 (IN PROGRESS)
 
 * Add "Donor (Deprecated)" label for PO line search by Donor filed. Refs UIOR-1348.

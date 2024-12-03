@@ -12,7 +12,7 @@ export const useAcqMethod = (methodId, options = {}) => {
 
   const { isLoading, data } = useQuery(
     [namespace, methodId],
-    () => ky.get(`${ACQUISITION_METHODS_API}/${methodId}`).json(),
+    ({ signal }) => ky.get(`${ACQUISITION_METHODS_API}/${methodId}`, { signal }).json(),
     {
       enabled: Boolean(methodId),
       ...options,

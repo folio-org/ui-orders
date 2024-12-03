@@ -1,6 +1,13 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
-import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  renderHook,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import { useOkapiKy } from '@folio/stripes/core';
 
 import { orderLine } from 'fixtures/orderLine';
 import { checkRelatedHoldings } from '../../../../../common/utils';
@@ -28,7 +35,20 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
+const kyMock = {
+  get: jest.fn(() => ({})),
+  extend: jest.fn(() => kyMock),
+};
+
 describe('useChangeInstanceModalConfigs', () => {
+  beforeEach(() => {
+    useOkapiKy.mockReturnValue(kyMock);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   beforeEach(() => {
     checkRelatedHoldings
       .mockClear()

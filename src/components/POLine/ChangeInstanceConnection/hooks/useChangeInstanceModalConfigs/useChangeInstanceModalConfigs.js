@@ -1,6 +1,9 @@
 import { useQuery } from 'react-query';
 
-import { useNamespace, useOkapiKy } from '@folio/stripes/core';
+import {
+  useNamespace,
+  useOkapiKy,
+} from '@folio/stripes/core';
 
 import { checkRelatedHoldings } from '../../../../../common/utils';
 import { getCreateInventory } from '../../../utils';
@@ -18,7 +21,7 @@ export const useChangeInstanceModalConfigs = (poLine) => {
     isLoading,
   } = useQuery({
     queryKey: [namespace, poLine.id],
-    queryFn: () => checkRelatedHoldings(ky)(poLine),
+    queryFn: ({ signal }) => checkRelatedHoldings(ky.extend({ signal }))(poLine),
     queryOptions: {
       enabled: isDetailed,
     },

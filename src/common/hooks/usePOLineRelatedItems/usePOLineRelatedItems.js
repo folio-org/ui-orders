@@ -19,7 +19,7 @@ export const usePOLineRelatedItems = (poLine, { offset, limit } = {}) => {
   };
 
   const queryKey = [namespace, limit, offset, poLine.id];
-  const queryFn = () => ky.get(ITEMS_API, { searchParams }).json();
+  const queryFn = ({ signal }) => ky.get(ITEMS_API, { searchParams, signal }).json();
 
   const {
     data,

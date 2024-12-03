@@ -72,6 +72,7 @@ const kyMock = {
       });
     },
   })),
+  extend: jest.fn(() => kyMock),
 };
 
 const queryClient = new QueryClient();

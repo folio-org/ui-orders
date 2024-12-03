@@ -69,7 +69,9 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath, ce
     data: selectedVersion = {},
   } = useQuery(
     [namespace, versionId, versionSnapshot?.id],
-    async () => {
+    async ({ signal }) => {
+      const kyExtended = ky.extend({ signal });
+
       const accessProviderId = versionSnapshot?.accessProvider;
       const eresource = versionSnapshot?.eresource || {};
       const physical = versionSnapshot?.physical || {};
@@ -96,8 +98,8 @@ export const useSelectedPOLineVersion = ({ versionId, versions, snapshotPath, ce
         organizationsMap,
         materialTypesMap,
       ] = await Promise.all([
-        getOrganizationsByIds(ky)(organizationIds).then(keyBy('id')),
-        getMaterialTypes(ky)()
+        getOrganizationsByIds(kyExtended)(organizationIds).then(keyBy('id')),
+        getMaterialTypes(kyExtended)()
           .then(({ mtypes }) => mtypes)
           .then(keyBy('id')),
       ]);

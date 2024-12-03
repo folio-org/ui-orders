@@ -41,12 +41,12 @@ export const useOrders = ({ pagination, fetchReferences, customFields }) => {
 
   const { isFetching, data = {} } = useQuery(
     [namespace, pagination.timestamp, pagination.limit, pagination.offset],
-    async () => {
+    async ({ signal }) => {
       if (!filtersCount) {
         return { orders: [], ordersCount: 0 };
       }
 
-      const { purchaseOrders, totalRecords } = await ky.get(ORDERS_API, { searchParams }).json();
+      const { purchaseOrders, totalRecords } = await ky.get(ORDERS_API, { searchParams, signal }).json();
       const { usersMap = {}, vendorsMap = {}, acqUnitsMap = {} } = await fetchReferences(purchaseOrders);
       const orders = purchaseOrders.map(order => ({
         ...order,

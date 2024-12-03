@@ -24,8 +24,8 @@ export const useDefaultReceivingSearchSettings = (options = {}) => {
     refetch,
   } = useQuery({
     queryKey: [namespace],
-    queryFn: async () => {
-      const response = await ky.get(ORDERS_STORAGE_SETTINGS_API, { searchParams }).json();
+    queryFn: async ({ signal }) => {
+      const response = await ky.get(ORDERS_STORAGE_SETTINGS_API, { searchParams, signal }).json();
 
       return response?.settings?.[0];
     },

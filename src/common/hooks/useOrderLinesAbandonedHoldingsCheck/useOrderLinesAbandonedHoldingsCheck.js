@@ -61,7 +61,7 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
   const { isFetching, data = {} } = useQuery(
     [namespace],
     async ({ signal }) => {
-      ky.extend({ signal });
+      const kyExtended = ky.extend({ signal });
 
       const requestHandlerOptions = {
         isCentralOrderingEnabled,
@@ -74,8 +74,8 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
         synchronizedPOLinesCheckResult,
         independentPOLinesCheckResult,
       ] = await Promise.all([
-        checkSynchronizedPOLinesAbandonedHoldings(ky, requestHandlerOptions)(synchronizedPOLines),
-        checkIndependentPOLinesAbandonedHoldings(ky, requestHandlerOptions)(independentPOLines),
+        checkSynchronizedPOLinesAbandonedHoldings(kyExtended, requestHandlerOptions)(synchronizedPOLines),
+        checkIndependentPOLinesAbandonedHoldings(kyExtended, requestHandlerOptions)(independentPOLines),
       ]);
 
       const isSynchronizedWillAbandoned = !!synchronizedPOLines.length && synchronizedPOLinesCheckResult.willAbandoned;

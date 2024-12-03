@@ -14,7 +14,7 @@ export const useListConfiguration = () => {
 
   const { isFetching, data, refetch } = useQuery(
     [namespace, LIST_CONFIGURATION_TEMPLATE_ID],
-    () => ky.get(`${TEMPLATES_API}/${LIST_CONFIGURATION_TEMPLATE_ID}`).json(),
+    ({ signal }) => ky.get(`${TEMPLATES_API}/${LIST_CONFIGURATION_TEMPLATE_ID}`, { signal }).json(),
   );
 
   return ({

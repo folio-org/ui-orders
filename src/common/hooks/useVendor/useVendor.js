@@ -9,7 +9,7 @@ export const useVendor = (vendorId) => {
 
   const { isLoading, data } = useQuery(
     ['ui-orders', 'vendor', vendorId],
-    () => ky.get(`${VENDORS_API}/${vendorId}`).json(),
+    ({ signal }) => ky.get(`${VENDORS_API}/${vendorId}`, { signal }).json(),
     { enabled: Boolean(vendorId) },
   );
 

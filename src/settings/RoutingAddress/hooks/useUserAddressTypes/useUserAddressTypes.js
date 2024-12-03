@@ -21,7 +21,7 @@ export const useUserAddressTypes = (options = {}) => {
     data = {},
   } = useQuery(
     [namespace, 'user-address-types'],
-    () => ky.get(USER_ADDRESS_TYPES_API, { searchParams }).json(),
+    ({ signal }) => ky.get(USER_ADDRESS_TYPES_API, { searchParams, signal }).json(),
     options,
   );
 
