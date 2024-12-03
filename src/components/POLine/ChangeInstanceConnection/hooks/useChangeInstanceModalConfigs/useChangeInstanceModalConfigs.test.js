@@ -1,13 +1,19 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
-import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  renderHook,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import { useOkapiKy } from '@folio/stripes/core';
 
 import { orderLine } from 'fixtures/orderLine';
 import { checkRelatedHoldings } from '../../../../../common/utils';
 import { getCreateInventory } from '../../../utils';
 import { SHOW_DETAILED_MODAL_CONFIGS } from '../../constants';
 import { useChangeInstanceModalConfigs } from './useChangeInstanceModalConfigs';
-import { useOkapiKy } from '@folio/stripes/core';
 
 jest.mock('../../../../../common/utils/checkRelatedHoldings');
 
