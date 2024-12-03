@@ -17,7 +17,7 @@ import {
   useUsersBatch,
 } from '@folio/stripes-acq-components';
 
-import { useOrder, useSelectedPOVersionMethods } from '../../../../common/hooks';
+import { useOrder, useVersionHistoryFormatters } from '../../../../common/hooks';
 import {
   getAcqUnitsByIds,
   getOrganizationsByIds,
@@ -50,7 +50,7 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
   const {
     getObjectPropertyById,
     getUserFullnameById,
-  } = useSelectedPOVersionMethods();
+  } = useVersionHistoryFormatters();
 
   const metadata = useMemo(() => getVersionMetadata(currentVersion, order), [currentVersion, order]);
   const assignedToId = versionSnapshot?.assignedTo;

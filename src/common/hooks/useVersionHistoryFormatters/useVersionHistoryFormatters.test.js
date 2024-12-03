@@ -1,7 +1,7 @@
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { useIntl } from 'react-intl';
 import { getFullName } from '@folio/stripes/util';
-import { useSelectedPOVersionMethods } from './useSelectedPOVersionMethods';
+import { useVersionHistoryFormatters } from './useVersionHistoryFormatters';
 
 jest.mock('react-intl', () => ({
   useIntl: jest.fn(),
@@ -11,7 +11,7 @@ jest.mock('@folio/stripes/util', () => ({
   getFullName: jest.fn(),
 }));
 
-describe('useSelectedPOVersionMethods', () => {
+describe('useVersionHistoryFormatters', () => {
   let intlMock;
 
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('useSelectedPOVersionMethods', () => {
   });
 
   test('should return object property by ID if ID and property exist in the map', () => {
-    const { result } = renderHook(() => useSelectedPOVersionMethods());
+    const { result } = renderHook(() => useVersionHistoryFormatters());
 
     const obj = {
       id1: { property1: 'value1', property2: 'value2' },
@@ -39,7 +39,7 @@ describe('useSelectedPOVersionMethods', () => {
   });
 
   test('should return null when ID is not provided', () => {
-    const { result } = renderHook(() => useSelectedPOVersionMethods());
+    const { result } = renderHook(() => useVersionHistoryFormatters());
     const obj = { id1: { property1: 'value1' } };
 
     const value = result.current.getObjectPropertyById(null, 'property1', obj);
@@ -48,7 +48,7 @@ describe('useSelectedPOVersionMethods', () => {
   });
 
   test('should return deletedRecordLabel when ID is not found in the object', () => {
-    const { result } = renderHook(() => useSelectedPOVersionMethods());
+    const { result } = renderHook(() => useVersionHistoryFormatters());
 
     const obj = { id1: { property1: 'value1' } };
     const value = result.current.getObjectPropertyById('id2', 'property1', obj);
@@ -57,7 +57,7 @@ describe('useSelectedPOVersionMethods', () => {
   });
 
   test('should return null when ID is not provided for getUserFullnameById', () => {
-    const { result } = renderHook(() => useSelectedPOVersionMethods());
+    const { result } = renderHook(() => useVersionHistoryFormatters());
     const usersMap = { user1: { firstName: 'John', lastName: 'Doe' } };
 
     const value = result.current.getUserFullnameById(null, usersMap);
@@ -67,7 +67,7 @@ describe('useSelectedPOVersionMethods', () => {
 
   test('should return user full name by ID using the users map', () => {
     getFullName.mockReturnValue('John Doe');
-    const { result } = renderHook(() => useSelectedPOVersionMethods());
+    const { result } = renderHook(() => useVersionHistoryFormatters());
 
     const usersMap = { user1: { firstName: 'John', lastName: 'Doe' } };
     const value = result.current.getUserFullnameById('user1', usersMap);
@@ -77,7 +77,7 @@ describe('useSelectedPOVersionMethods', () => {
   });
 
   test('should return deletedRecordLabel when ID is not found in the users map', () => {
-    const { result } = renderHook(() => useSelectedPOVersionMethods());
+    const { result } = renderHook(() => useVersionHistoryFormatters());
 
     const usersMap = { user1: { firstName: 'John', lastName: 'Doe' } };
     const value = result.current.getUserFullnameById('user2', usersMap);

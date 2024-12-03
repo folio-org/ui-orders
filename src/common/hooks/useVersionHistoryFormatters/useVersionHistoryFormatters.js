@@ -1,7 +1,7 @@
 import { getFullName } from '@folio/stripes/util';
 import { useIntl } from 'react-intl';
 
-export const useSelectedPOVersionMethods = () => {
+export const useVersionHistoryFormatters = () => {
   const intl = useIntl();
   const deletedRecordLabel = intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
 
