@@ -14,7 +14,7 @@ export const useOrderTemplate = (orderTemplateId) => {
     data = {},
   } = useQuery(
     [namespace, orderTemplateId],
-    () => ky.get(`${ORDER_TEMPLATES_API}/${orderTemplateId}`).json(),
+    ({ signal }) => ky.get(`${ORDER_TEMPLATES_API}/${orderTemplateId}`, { signal }).json(),
     { enabled: Boolean(orderTemplateId) },
   );
 

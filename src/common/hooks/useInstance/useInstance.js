@@ -18,7 +18,7 @@ export const useInstance = (instanceId, options = DEFAULT_OPTIONS) => {
     data: instance = DEFAULT_DATA,
   } = useQuery(
     [namespace, instanceId, tenantId],
-    () => ky.get(`inventory/instances/${instanceId}`).json(),
+    ({ signal }) => ky.get(`inventory/instances/${instanceId}`, { signal }).json(),
     { enabled: Boolean(instanceId) },
   );
 

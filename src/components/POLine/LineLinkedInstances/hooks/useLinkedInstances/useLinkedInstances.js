@@ -31,13 +31,13 @@ export const useInstanceRelationTypes = () => {
 
   const { refetch } = useQuery(
     ['ui-orders', 'linked-lines'],
-    () => {
+    ({ signal }) => {
       const searchParams = {
         limit: LIMIT_MAX,
         query: 'cql.allRecords=1',
       };
 
-      return ky.get('instance-relationship-types', { searchParams }).json();
+      return ky.get('instance-relationship-types', { searchParams, signal }).json();
     },
     { enabled: false },
   );

@@ -18,10 +18,10 @@ export const useRelatedInvoices = (invoiceIds = []) => {
 
   const { isLoading, data = [] } = useQuery(
     [namespace, ...invoiceIds],
-    async () => {
+    async ({ signal }) => {
       const invoices = await batchRequest(
         async ({ params: searchParams }) => {
-          const invoicesData = await ky.get(INVOICES_API, { searchParams }).json();
+          const invoicesData = await ky.get(INVOICES_API, { searchParams, signal }).json();
 
           return invoicesData.invoices;
         },
@@ -31,7 +31,7 @@ export const useRelatedInvoices = (invoiceIds = []) => {
       const vendorIds = invoices.map(({ vendorId }) => vendorId);
       const vendors = await batchRequest(
         async ({ params: searchParams }) => {
-          const vendorsData = await ky.get(VENDORS_API, { searchParams }).json();
+          const vendorsData = await ky.get(VENDORS_API, { searchParams, signal }).json();
 
           return vendorsData.organizations;
         },
@@ -42,7 +42,7 @@ export const useRelatedInvoices = (invoiceIds = []) => {
       const fiscalYearIds = invoices.map(({ fiscalYearId }) => fiscalYearId);
       const fiscalYears = await batchRequest(
         async ({ params: searchParams }) => {
-          const fiscalYearData = await ky.get(FISCAL_YEARS_API, { searchParams }).json();
+          const fiscalYearData = await ky.get(FISCAL_YEARS_API, { searchParams, signal }).json();
 
           return fiscalYearData.fiscalYears;
         },

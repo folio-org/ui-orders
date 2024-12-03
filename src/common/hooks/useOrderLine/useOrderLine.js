@@ -13,7 +13,7 @@ export const useOrderLine = (lineId) => {
 
   const { isLoading, data } = useQuery(
     [namespace, lineId],
-    async () => ky.get(`${LINES_API}/${lineId}`).json(),
+    async ({ signal }) => ky.get(`${LINES_API}/${lineId}`, { signal }).json(),
     {
       enabled: Boolean(lineId),
     },

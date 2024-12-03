@@ -28,18 +28,19 @@ export const useConnectedInvoiceLines = (orderLineId) => {
 
   const { isLoading, data = [] } = useQuery(
     [namespace],
-    async () => {
+    async ({ signal }) => {
       const { invoiceLines = [], totalRecords } = await ky.get(INVOICE_LINES_API, {
         searchParams: {
           query: `poLineId==${orderLineId}`,
           limit: LIMIT_MAX,
         },
+        signal,
       }).json();
 
       const invoicesIds = invoiceLines.map(({ invoiceId }) => invoiceId);
       const invoices = await batchRequest(
         async ({ params: searchParams }) => {
-          const invoicesData = await ky.get(INVOICES_API, { searchParams }).json();
+          const invoicesData = await ky.get(INVOICES_API, { searchParams, signal }).json();
 
           return invoicesData.invoices;
         },
@@ -50,7 +51,7 @@ export const useConnectedInvoiceLines = (orderLineId) => {
       const vendorIds = invoices.map(({ vendorId }) => vendorId);
       const vendors = await batchRequest(
         async ({ params: searchParams }) => {
-          const vendorsData = await ky.get(VENDORS_API, { searchParams }).json();
+          const vendorsData = await ky.get(VENDORS_API, { searchParams, signal }).json();
 
           return vendorsData.organizations;
         },
@@ -61,7 +62,7 @@ export const useConnectedInvoiceLines = (orderLineId) => {
       const fiscalYearIds = [...new Set(invoices.map(({ fiscalYearId }) => fiscalYearId))];
       const fiscalYears = await batchRequest(
         async ({ params: searchParams }) => {
-          const fiscalYearData = await ky.get(FISCAL_YEARS_API, { searchParams }).json();
+          const fiscalYearData = await ky.get(FISCAL_YEARS_API, { searchParams, signal }).json();
 
           return fiscalYearData.fiscalYears;
         },
