@@ -1,3 +1,5 @@
+/* Developed collaboratively using AI (Chat GPT) */
+
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { useIntl } from 'react-intl';
 import { getFullName } from '@folio/stripes/util';

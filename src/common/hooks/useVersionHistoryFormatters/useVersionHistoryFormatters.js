@@ -1,3 +1,5 @@
+/* Developed collaboratively using AI (Chat GPT) */
+
 import { getFullName } from '@folio/stripes/util';
 import { useIntl } from 'react-intl';
 
