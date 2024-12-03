@@ -2,6 +2,7 @@
 
 ## 7.1.0 (IN PROGRESS)
 
+* In Version History diplay “Record deleted” only if the UUID no longer exists. Refs UIOR-1355
 * Add "Donor (Deprecated)" label for PO line search by Donor filed. Refs UIOR-1348.
 
 ## [7.0.1](https://github.com/folio-org/ui-orders/tree/v7.0.1) (2024-11-14)
