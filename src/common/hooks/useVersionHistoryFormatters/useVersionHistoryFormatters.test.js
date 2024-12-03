@@ -3,6 +3,7 @@
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { useIntl } from 'react-intl';
 import { getFullName } from '@folio/stripes/util';
+
 import { useVersionHistoryFormatters } from './useVersionHistoryFormatters';
 
 jest.mock('react-intl', () => ({
@@ -27,7 +28,7 @@ describe('useVersionHistoryFormatters', () => {
     jest.clearAllMocks();
   });
 
-  test('should return object property by ID if ID and property exist in the map', () => {
+  it('should return object property by ID if ID and property exist in the map', () => {
     const { result } = renderHook(() => useVersionHistoryFormatters());
 
     const obj = {
@@ -40,7 +41,7 @@ describe('useVersionHistoryFormatters', () => {
     expect(value).toBe('value1');
   });
 
-  test('should return null when ID is not provided', () => {
+  it('should return null when ID is not provided', () => {
     const { result } = renderHook(() => useVersionHistoryFormatters());
     const obj = { id1: { property1: 'value1' } };
 
@@ -49,7 +50,7 @@ describe('useVersionHistoryFormatters', () => {
     expect(value).toBeNull();
   });
 
-  test('should return deletedRecordLabel when ID is not found in the object', () => {
+  it('should return deletedRecordLabel when ID is not found in the object', () => {
     const { result } = renderHook(() => useVersionHistoryFormatters());
 
     const obj = { id1: { property1: 'value1' } };
@@ -58,7 +59,7 @@ describe('useVersionHistoryFormatters', () => {
     expect(value).toBe('stripes-acq-components.versionHistory.deletedRecord');
   });
 
-  test('should return null when ID is not provided for getUserFullnameById', () => {
+  it('should return null when ID is not provided for getUserFullnameById', () => {
     const { result } = renderHook(() => useVersionHistoryFormatters());
     const usersMap = { user1: { firstName: 'John', lastName: 'Doe' } };
 
@@ -67,7 +68,7 @@ describe('useVersionHistoryFormatters', () => {
     expect(value).toBeNull();
   });
 
-  test('should return user full name by ID using the users map', () => {
+  it('should return user full name by ID using the users map', () => {
     getFullName.mockReturnValue('John Doe');
     const { result } = renderHook(() => useVersionHistoryFormatters());
 
@@ -78,7 +79,7 @@ describe('useVersionHistoryFormatters', () => {
     expect(value).toBe('John Doe');
   });
 
-  test('should return deletedRecordLabel when ID is not found in the users map', () => {
+  it('should return deletedRecordLabel when ID is not found in the users map', () => {
     const { result } = renderHook(() => useVersionHistoryFormatters());
 
     const usersMap = { user1: { firstName: 'John', lastName: 'Doe' } };

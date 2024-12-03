@@ -1,7 +1,7 @@
 /* Developed collaboratively using AI (Chat GPT) */
 
-import { getFullName } from '@folio/stripes/util';
 import { useIntl } from 'react-intl';
+import { getFullName } from '@folio/stripes/util';
 
 export const useVersionHistoryFormatters = () => {
   const intl = useIntl();
@@ -29,14 +29,13 @@ export const useVersionHistoryFormatters = () => {
      * @param {Object} usersMap - The map of user objects.
      * @returns {string | null} - Full name of the user or fallback label.
      */
-  const getUserFullnameById =
-     (id, usersMap = {}) => {
-       if (!id) return null;
+  const getUserFullnameById = (id, usersMap = {}) => {
+    if (!id) return null;
 
-       return id in usersMap
-         ? getFullName(usersMap[id])
-         : deletedRecordLabel;
-     };
+    return id in usersMap
+      ? getFullName(usersMap[id])
+      : deletedRecordLabel;
+  };
 
   return { getObjectPropertyById, getUserFullnameById };
 };
