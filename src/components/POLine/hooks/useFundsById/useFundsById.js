@@ -16,8 +16,8 @@ export const useFundsById = (fundIds = DEFAULT_VALUE, options = {}) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'funds-by-id' });
 
-  const fetchFn = ({ params: searchParams }) => (
-    ky.get(FUNDS_API, { searchParams })
+  const fetchFn = ({ signal }) => ({ params: searchParams }) => (
+    ky.get(FUNDS_API, { searchParams, signal })
       .json()
       .then(({ funds }) => funds)
   );
@@ -27,9 +27,9 @@ export const useFundsById = (fundIds = DEFAULT_VALUE, options = {}) => {
     isLoading,
   } = useQuery(
     [namespace, fundIds],
-    async () => {
+    async ({ signal }) => {
       const funds = await batchRequest(
-        fetchFn,
+        fetchFn({ signal }),
         fundIds,
       );
 

@@ -1,7 +1,10 @@
 import { useQuery } from 'react-query';
 import { uniqBy } from 'lodash/fp';
 
-import { useOkapiKy, useNamespace } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useNamespace,
+} from '@folio/stripes/core';
 import { batchRequest } from '@folio/stripes-acq-components';
 
 import { EXPORT_HISTORY_API } from '../../../components/Utils/api';
@@ -16,8 +19,8 @@ export const useExportHistory = (poLineIds = []) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'export-history' });
 
-  const fetchFn = ({ params: searchParams }) => (
-    ky.get(EXPORT_HISTORY_API, { searchParams })
+  const fetchFn = ({ signal }) => ({ params: searchParams }) => (
+    ky.get(EXPORT_HISTORY_API, { searchParams, signal })
       .json()
       .then(({ exportHistories }) => exportHistories)
   );
@@ -27,9 +30,9 @@ export const useExportHistory = (poLineIds = []) => {
     isLoading,
   } = useQuery(
     [namespace, poLineIds],
-    async () => {
+    async ({ signal }) => {
       const exportHistories = await batchRequest(
-        fetchFn,
+        fetchFn({ signal }),
         poLineIds,
         buildQueryByPoLineIds,
       )

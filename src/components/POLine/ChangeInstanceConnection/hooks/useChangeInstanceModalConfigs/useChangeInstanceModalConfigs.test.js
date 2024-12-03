@@ -7,6 +7,7 @@ import { checkRelatedHoldings } from '../../../../../common/utils';
 import { getCreateInventory } from '../../../utils';
 import { SHOW_DETAILED_MODAL_CONFIGS } from '../../constants';
 import { useChangeInstanceModalConfigs } from './useChangeInstanceModalConfigs';
+import { useOkapiKy } from '@folio/stripes/core';
 
 jest.mock('../../../../../common/utils/checkRelatedHoldings');
 
@@ -28,7 +29,20 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
+const kyMock = {
+  get: jest.fn(() => ({})),
+  extend: jest.fn(() => kyMock),
+};
+
 describe('useChangeInstanceModalConfigs', () => {
+  beforeEach(() => {
+    useOkapiKy.mockReturnValue(kyMock);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   beforeEach(() => {
     checkRelatedHoldings
       .mockClear()
