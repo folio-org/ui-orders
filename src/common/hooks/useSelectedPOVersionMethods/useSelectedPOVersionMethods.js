@@ -8,11 +8,11 @@ export const useSelectedPOVersionMethods = () => {
   /**
      * Resolves a value from a map by ID and property.
      * @param {string} id - The ID to resolve.
-     * @param {Object} obj - The map object containing items.
      * @param {string} property - The property to retrieve from the map entry.
+     * @param {Object} obj - The map object containing items.
      * @returns {string | null} - Resolved value or fallback label.
      */
-  const getObjectPropertyById = (id, obj = {}, property) => {
+  const getObjectPropertyById = (id, property, obj = {}) => {
     if (!id) return null;
     if (id in obj) {
       return obj[id]?.[property] || null;
