@@ -2,9 +2,10 @@
 
 ## 7.1.0 (IN PROGRESS)
 
+* Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
+
 ## 7.0.2 (IN PROGRESS)
 
-* Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
 * Add "Donor (Deprecated)" label for PO line search by Donor filed. Refs UIOR-1348.
 * Respect the `tenantId` property when resolving holdings in central tenant mode. Refs UIOR-1330.
 
