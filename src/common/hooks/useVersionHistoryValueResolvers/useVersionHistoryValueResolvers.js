@@ -1,9 +1,10 @@
 /* Developed collaboratively using AI (Chat GPT) */
 
 import { useIntl } from 'react-intl';
+
 import { getFullName } from '@folio/stripes/util';
 
-export const useVersionHistoryFormatters = () => {
+export const useVersionHistoryValueResolvers = () => {
   const intl = useIntl();
   const deletedRecordLabel = intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
 
@@ -29,7 +30,7 @@ export const useVersionHistoryFormatters = () => {
      * @param {Object} usersMap - The map of user objects.
      * @returns {string | null} - Full name of the user or fallback label.
      */
-  const getUserFullnameById = (id, usersMap = {}) => {
+  const getUserFullNameById = (id, usersMap = {}) => {
     if (!id) return null;
 
     return id in usersMap
@@ -37,5 +38,5 @@ export const useVersionHistoryFormatters = () => {
       : deletedRecordLabel;
   };
 
-  return { getObjectPropertyById, getUserFullnameById };
+  return { getObjectPropertyById, getUserFullNameById };
 };

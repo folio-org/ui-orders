@@ -1,10 +1,11 @@
 /* Developed collaboratively using AI (Chat GPT) */
 
-import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { useIntl } from 'react-intl';
+
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import { getFullName } from '@folio/stripes/util';
 
-import { useVersionHistoryFormatters } from './useVersionHistoryFormatters';
+import { useVersionHistoryValueResolvers } from './useVersionHistoryValueResolvers';
 
 jest.mock('react-intl', () => ({
   useIntl: jest.fn(),
@@ -14,7 +15,7 @@ jest.mock('@folio/stripes/util', () => ({
   getFullName: jest.fn(),
 }));
 
-describe('useVersionHistoryFormatters', () => {
+describe('useVersionHistoryValueResolvers', () => {
   let intlMock;
 
   beforeEach(() => {
@@ -29,7 +30,7 @@ describe('useVersionHistoryFormatters', () => {
   });
 
   it('should return object property by ID if ID and property exist in the map', () => {
-    const { result } = renderHook(() => useVersionHistoryFormatters());
+    const { result } = renderHook(() => useVersionHistoryValueResolvers());
 
     const obj = {
       id1: { property1: 'value1', property2: 'value2' },
@@ -42,7 +43,7 @@ describe('useVersionHistoryFormatters', () => {
   });
 
   it('should return null when ID is not provided', () => {
-    const { result } = renderHook(() => useVersionHistoryFormatters());
+    const { result } = renderHook(() => useVersionHistoryValueResolvers());
     const obj = { id1: { property1: 'value1' } };
 
     const value = result.current.getObjectPropertyById(null, 'property1', obj);
@@ -51,7 +52,7 @@ describe('useVersionHistoryFormatters', () => {
   });
 
   it('should return deletedRecordLabel when ID is not found in the object', () => {
-    const { result } = renderHook(() => useVersionHistoryFormatters());
+    const { result } = renderHook(() => useVersionHistoryValueResolvers());
 
     const obj = { id1: { property1: 'value1' } };
     const value = result.current.getObjectPropertyById('id2', 'property1', obj);
@@ -59,31 +60,31 @@ describe('useVersionHistoryFormatters', () => {
     expect(value).toBe('stripes-acq-components.versionHistory.deletedRecord');
   });
 
-  it('should return null when ID is not provided for getUserFullnameById', () => {
-    const { result } = renderHook(() => useVersionHistoryFormatters());
+  it('should return null when ID is not provided for getUserFullNameById', () => {
+    const { result } = renderHook(() => useVersionHistoryValueResolvers());
     const usersMap = { user1: { firstName: 'John', lastName: 'Doe' } };
 
-    const value = result.current.getUserFullnameById(null, usersMap);
+    const value = result.current.getUserFullNameById(null, usersMap);
 
     expect(value).toBeNull();
   });
 
   it('should return user full name by ID using the users map', () => {
     getFullName.mockReturnValue('John Doe');
-    const { result } = renderHook(() => useVersionHistoryFormatters());
+    const { result } = renderHook(() => useVersionHistoryValueResolvers());
 
     const usersMap = { user1: { firstName: 'John', lastName: 'Doe' } };
-    const value = result.current.getUserFullnameById('user1', usersMap);
+    const value = result.current.getUserFullNameById('user1', usersMap);
 
     expect(getFullName).toHaveBeenCalledWith(usersMap.user1);
     expect(value).toBe('John Doe');
   });
 
   it('should return deletedRecordLabel when ID is not found in the users map', () => {
-    const { result } = renderHook(() => useVersionHistoryFormatters());
+    const { result } = renderHook(() => useVersionHistoryValueResolvers());
 
     const usersMap = { user1: { firstName: 'John', lastName: 'Doe' } };
-    const value = result.current.getUserFullnameById('user2', usersMap);
+    const value = result.current.getUserFullNameById('user2', usersMap);
 
     expect(value).toBe('stripes-acq-components.versionHistory.deletedRecord');
   });

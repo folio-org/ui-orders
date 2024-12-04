@@ -17,7 +17,7 @@ import {
   useUsersBatch,
 } from '@folio/stripes-acq-components';
 
-import { useOrder, useVersionHistoryFormatters } from '../../../../common/hooks';
+import { useOrder, useVersionHistoryValueResolvers } from '../../../../common/hooks';
 import {
   getAcqUnitsByIds,
   getOrganizationsByIds,
@@ -49,8 +49,8 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
 
   const {
     getObjectPropertyById,
-    getUserFullnameById,
-  } = useVersionHistoryFormatters();
+    getUserFullNameById,
+  } = useVersionHistoryValueResolvers();
 
   const metadata = useMemo(() => getVersionMetadata(currentVersion, order), [currentVersion, order]);
   const assignedToId = versionSnapshot?.assignedTo;
@@ -90,8 +90,8 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
       return {
         ...versionSnapshot,
         acqUnits: acqUnitsIds.map((id) => getObjectPropertyById(id, 'name', acqUnitsMap)).join(', '),
-        assignedTo: getUserFullnameById(assignedToId, versionUsersMap),
-        createdByUser: getUserFullnameById(createdByUserId, versionUsersMap),
+        assignedTo: getUserFullNameById(assignedToId, versionUsersMap),
+        createdByUser: getUserFullNameById(createdByUserId, versionUsersMap),
         vendor: getObjectPropertyById(vendorId, 'name', organizationsMap),
         billTo: getObjectPropertyById(billToId, 'address', addressesMap),
         shipTo: getObjectPropertyById(shipToId, 'address', addressesMap),
