@@ -4,7 +4,13 @@
 
 * Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
 
-## 7.0.2 (IN PROGRESS)
+## [7.0.3](https://github.com/folio-org/ui-orders/tree/v7.0.3) (2024-12-06)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.2...v7.0.3)
+
+Translations update.
+
+## [7.0.2](https://github.com/folio-org/ui-orders/tree/v7.0.2) (2024-12-04)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.1...v7.0.2)
 
 * Add "Donor (Deprecated)" label for PO line search by Donor filed. Refs UIOR-1348.
 * Respect the `tenantId` property when resolving holdings in central tenant mode. Refs UIOR-1330.
