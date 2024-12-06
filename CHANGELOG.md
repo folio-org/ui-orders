@@ -5,7 +5,7 @@
 ## [7.0.3](https://github.com/folio-org/ui-orders/tree/v7.0.3) (2024-12-06)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.2...v7.0.3)
 
-Update translations.
+Translations update.
 
 ## [7.0.2](https://github.com/folio-org/ui-orders/tree/v7.0.2) (2024-12-04)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.1...v7.0.2)
