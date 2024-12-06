@@ -15,9 +15,10 @@ import {
 import {
   getAddresses,
   useUsersBatch,
+  useVersionHistoryValueResolvers,
 } from '@folio/stripes-acq-components';
 
-import { useOrder, useVersionHistoryValueResolvers } from '../../../../common/hooks';
+import { useOrder } from '../../../../common/hooks';
 import {
   getAcqUnitsByIds,
   getOrganizationsByIds,

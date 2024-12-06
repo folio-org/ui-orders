@@ -20,4 +20,3 @@ export * from './useResultsPageTitle';
 export * from './useTenantKy';
 export * from './useTitleMutation';
 export * from './useVendor';
-export * from './useVersionHistoryValueResolvers';
