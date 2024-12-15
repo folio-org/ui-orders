@@ -397,7 +397,7 @@
     "order.lastUpdated": "Última atualização",
     "order.acquisitionsUnit": "Unidade de aquisição",
     "search.contributors": "Colaborador",
-    "search.donor": "Doador",
+    "search.donor": "Doador (Obsoleto)",
     "search.details.productIds": "ID do produto",
     "search.publisher": "Editora",
     "search.selector": "Seletor",

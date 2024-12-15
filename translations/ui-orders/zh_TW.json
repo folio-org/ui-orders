@@ -856,7 +856,7 @@
     "poLine.donor.info": "此欄位已停用，並將於 2025 年棄用。使用下面的捐贈者資訊摺疊區塊將捐贈者添加到此 POL。請注意，從此欄位刪除的資訊無法恢復。",
     "line.accordion.donor": "捐贈者",
     "poLine.claimingActive": "索賠啟動",
-    "poLine.claimingInterval": "索賠間隔",
+    "poLine.claimingInterval": "催缺間隔",
     "poLine.donorOrganizationIds": "捐贈者資訊",
     "settings.customFields.purchaseOrders": "自訂欄位 - 採購訂單",
     "settings.customFields.purchaseOrderLines": "自訂欄位 - 採購訂單細項",

@@ -298,7 +298,7 @@
     "errors.noCreateItemPlugin": "[brak wtyczki do tworzenia egzemplarzy]",
     "vendor.accountNumber": "Numer konta",
     "receiving.comment": "Komentarze",
-    "buttons.line.save": "Zapisz i zamknij",
+    "buttons.line.save": "Zapisz",
     "paneMenu.saveOrder": "Zapisz i zamknij",
     "order.vendorCode": "Kod dostawcy",
     "order.orderType": "Typ zamówienia",
