@@ -93,6 +93,17 @@ function POLine({
     [orderId],
   );
 
+  const goToReceive = useCallback(
+    () => {
+      history.push({
+        pathname: '/receiving',
+        search: `qindex=poLine.poLineNumber&query=${line.poLineNumber}`,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lineId, line],
+  );
+
   const deleteLine = useCallback(
     () => {
       const lineNumber = line?.poLineNumber;
@@ -211,6 +222,7 @@ function POLine({
         locations={locations}
         poURL={poURL}
         funds={funds}
+        goToReceive={goToReceive}
         deleteLine={deleteLine}
         cancelLine={cancelLine}
         tagsToggle={toggleTagsPane}

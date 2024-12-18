@@ -28,6 +28,7 @@ export const POLineActionMenu = ({
   onDeleteLine,
   onEditLine,
   onNavigateToOrder,
+  onReceive,
   onPrintLine,
   onPrintOrder,
   onReexport,
@@ -55,6 +56,11 @@ export const POLineActionMenu = ({
     onToggle();
     onNavigateToOrder();
   }, [onNavigateToOrder, onToggle]);
+
+  const onClickReceive = useCallback(() => {
+    onToggle();
+    onReceive();
+  }, [onReceive, onToggle]);
 
   const onClickReexport = useCallback(() => {
     onToggle();
@@ -137,7 +143,7 @@ export const POLineActionMenu = ({
             data-testid="line-details-receive-action"
             buttonStyle="dropdownItem"
             data-test-line-receive-button
-            to={`/receiving?qindex=poLine.poLineNumber&query=${line.poLineNumber}`}
+            onClick={onClickReceive}
           >
             <Icon size="small" icon="receive">
               <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
@@ -232,6 +238,7 @@ POLineActionMenu.propTypes = {
   onDeleteLine: PropTypes.func.isRequired,
   onEditLine: PropTypes.func.isRequired,
   onNavigateToOrder: PropTypes.func,
+  onReceive: PropTypes.func,
   onPrintLine: PropTypes.func.isRequired,
   onPrintOrder: PropTypes.func.isRequired,
   onReexport: PropTypes.func.isRequired,
