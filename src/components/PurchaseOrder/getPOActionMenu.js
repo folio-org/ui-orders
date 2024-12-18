@@ -152,7 +152,10 @@ export function getPOActionMenu({
             buttonStyle="dropdownItem"
             data-test-receiving-button
             data-testid="order-receiving-button"
-            onClick={clickReceive}
+            onClick={() => {
+              onToggle();
+              clickReceive();
+            }}
           >
             <Icon size="small" icon="receive">
               <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
