@@ -59,7 +59,7 @@ export const POLineActionMenu = ({
 
   const onClickReceive = useCallback(() => {
     onToggle();
-    onReceive();
+    Promise.resolve().then(() => onReceive());
   }, [onReceive, onToggle]);
 
   const onClickReexport = useCallback(() => {

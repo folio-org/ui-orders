@@ -154,7 +154,7 @@ export function getPOActionMenu({
             data-testid="order-receiving-button"
             onClick={() => {
               onToggle();
-              clickReceive();
+              Promise.resolve().then(() => clickReceive());
             }}
           >
             <Icon size="small" icon="receive">
