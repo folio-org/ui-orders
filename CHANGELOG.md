@@ -3,6 +3,7 @@
 ## 7.1.0 (IN PROGRESS)
 
 * Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
+* Fix the actions dropdown in PO and PO Line details before redirecting to the receiving app. Refs UIREC-424.
 
 ## [7.0.3](https://github.com/folio-org/ui-orders/tree/v7.0.3) (2024-12-06)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.2...v7.0.3)
