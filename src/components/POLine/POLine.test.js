@@ -72,6 +72,10 @@ const defaultProps = {
     },
   },
   poURL: '',
+  receiving: {
+    pathname: '/receiving',
+    search: `qindex=poLine.poLineNumber&query=${orderLine.poLineNumber}`,
+  },
   resources: {},
 };
 
@@ -125,6 +129,17 @@ describe('POLine actions', () => {
     expect(history.push).toHaveBeenCalledWith({
       pathname: defaultProps.poURL,
       search: defaultProps.location.search,
+    });
+  });
+
+  it('should go to receive', async () => {
+    renderPOLine();
+
+    await waitFor(() => POLineView.mock.calls[0][0].goToReceive());
+
+    expect(history.push).toHaveBeenCalledWith({
+      pathname: defaultProps.receiving.pathname,
+      search: defaultProps.receiving.search,
     });
   });
 
