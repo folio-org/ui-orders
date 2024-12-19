@@ -92,16 +92,12 @@ const OrderLineDetails = ({
     [lineId, order],
   );
 
-  const goToReceive = useCallback(
-    () => {
-      history.push({
-        pathname: '/receiving',
-        search: `qindex=poLine.poLineNumber&query=${line?.poLineNumber}`,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [lineId, line],
-  );
+  const goToReceive = useCallback(() => {
+    history.push({
+      pathname: '/receiving',
+      search: `qindex=poLine.poLineNumber&query=${line?.poLineNumber}`,
+    });
+  }, [history, line?.poLineNumber]);
 
   const deleteLine = useCallback(
     () => {
