@@ -97,7 +97,7 @@ function POLine({
     () => {
       history.push({
         pathname: '/receiving',
-        search: `qindex=poLine.poLineNumber&query=${line.poLineNumber}`,
+        search: `qindex=poLine.poLineNumber&query=${line?.poLineNumber}`,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
