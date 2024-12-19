@@ -127,6 +127,7 @@ const POLineView = ({
   deleteLine,
   editable,
   goToOrderDetails,
+  goToReceive,
   history,
   line,
   location,
@@ -265,6 +266,7 @@ const POLineView = ({
         onDeleteLine={toggleConfirmDelete}
         onEditLine={onEditPOLine}
         onNavigateToOrder={goToOrderDetails}
+        onReceive={goToReceive}
         onPrintLine={togglePrintLineModal}
         onPrintOrder={togglePrintOrderModal}
         onReexport={toggleOrderLineReexportModal}
@@ -274,6 +276,7 @@ const POLineView = ({
   }, [
     editable,
     goToOrderDetails,
+    goToReceive,
     hiddenFields,
     isCancelable,
     isRestrictionsLoading,
@@ -646,6 +649,7 @@ POLineView.propTypes = {
   onClose: PropTypes.func,
   editable: PropTypes.bool,
   goToOrderDetails: PropTypes.func,
+  goToReceive: PropTypes.func,
   deleteLine: PropTypes.func,
   cancelLine: PropTypes.func,
   tagsToggle: PropTypes.func.isRequired,

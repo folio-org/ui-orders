@@ -2,6 +2,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { RECEIPT_STATUS } from '@folio/stripes-acq-components';
 
 import { order, orderLine } from 'fixtures';
 import { WORKFLOW_STATUS } from '../../../common/constants';
@@ -21,6 +22,7 @@ const defaultProps = {
   onEditLine: jest.fn(),
   onPrintLine: jest.fn(),
   onPrintOrder: jest.fn(),
+  onReceive: jest.fn(),
   onReexport: jest.fn(),
   onToggle: jest.fn(),
   restrictions: {},
@@ -44,6 +46,7 @@ describe('POLineActionMenu', () => {
       defaultProps.onEditLine.mockClear();
       defaultProps.onPrintLine.mockClear();
       defaultProps.onPrintOrder.mockClear();
+      defaultProps.onReceive.mockClear();
       defaultProps.onReexport.mockClear();
       defaultProps.onToggle.mockClear();
       defaultProps.toggleForceVisibility.mockClear();
@@ -73,6 +76,23 @@ describe('POLineActionMenu', () => {
       await act(async () => user.click(screen.getByTestId('line-details-actions-change-instance')));
 
       expect(defaultProps.onChangeInstance).toHaveBeenCalled();
+    });
+
+    it('should call \'onReceive\' when \'Receive\' action was triggered', async () => {
+      renderPOLineActionMenu({
+        order: {
+          ...order,
+          workflowStatus: WORKFLOW_STATUS.open,
+        },
+        line: {
+          ...orderLine,
+          receiptStatus: RECEIPT_STATUS.fullyReceived,
+        },
+      });
+
+      await act(async () => user.click(screen.getByTestId('line-details-receive-action')));
+
+      expect(defaultProps.onReceive).toHaveBeenCalled();
     });
 
     it('should call \'onReexport\' when \'Reexport\' action was triggered', async () => {

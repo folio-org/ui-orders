@@ -93,6 +93,13 @@ function POLine({
     [orderId],
   );
 
+  const goToReceive = useCallback(() => {
+    history.push({
+      pathname: '/receiving',
+      search: `qindex=poLine.poLineNumber&query=${line?.poLineNumber}`,
+    });
+  }, [history, line?.poLineNumber]);
+
   const deleteLine = useCallback(
     () => {
       const lineNumber = line?.poLineNumber;
@@ -211,6 +218,7 @@ function POLine({
         locations={locations}
         poURL={poURL}
         funds={funds}
+        goToReceive={goToReceive}
         deleteLine={deleteLine}
         cancelLine={cancelLine}
         tagsToggle={toggleTagsPane}
