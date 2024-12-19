@@ -154,7 +154,7 @@ export function getPOActionMenu({
             data-testid="order-receiving-button"
             onClick={() => {
               onToggle();
-              Promise.resolve().then(() => clickReceive());
+              Promise.resolve().then(() => clickReceive()); // Delay to ensure toggle is complete before redirection
             }}
           >
             <Icon size="small" icon="receive">

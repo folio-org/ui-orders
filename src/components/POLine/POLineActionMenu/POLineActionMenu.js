@@ -59,7 +59,7 @@ export const POLineActionMenu = ({
 
   const onClickReceive = useCallback(() => {
     onToggle();
-    Promise.resolve().then(() => onReceive());
+    Promise.resolve().then(() => onReceive()); // Delay to ensure toggle is complete before redirection
   }, [onReceive, onToggle]);
 
   const onClickReexport = useCallback(() => {
