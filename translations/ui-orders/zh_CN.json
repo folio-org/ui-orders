@@ -397,7 +397,7 @@
     "order.lastUpdated": "上次更新",
     "order.acquisitionsUnit": "采购单位",
     "search.contributors": "贡献者",
-    "search.donor": "捐赠者",
+    "search.donor": "捐赠者（已弃用）",
     "search.details.productIds": "产品ID",
     "search.publisher": "出版者",
     "search.selector": "选择者",
@@ -901,6 +901,6 @@
     "line.changeInstance.relatedItems.error": "无法为租户加载单件： <b> {tenants} </b>",
     "orderSummary.totalCredited": "总入账",
     "errors.userHasMissedAffiliations": "操作失败。此记录具有您的用户没有的位置附属关系。必须移除这些附属关系，或者必须由具有与该记录相同附属关系的用户执行此操作。",
-    "errors.budgetNotFoundForFiscalYear": "无法打开订单，因为经费<b> {fundCodes} </b>目前没有预算。",
-    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record."
+    "errors.budgetNotFoundForFiscalYear": "无法打开订单，因为财务年度<b> {fiscalYearCode} </b>的经费<b> {fundCodes} </b>目前没有预算。",
+    "errors.locationUpdateWithoutAffiliation": "无法保存采购订单行。此记录具有您的用户没有的位置关联。必须删除这些关联，或者必须由具有与记录相同关联的用户执行此操作。"
 }
