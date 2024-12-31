@@ -2,6 +2,9 @@
 
 ## 7.1.0 (IN PROGRESS)
 
+## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
+
 * Close actions dropdown before navigation to another page. Refs UIOR-1365.
 
 ## [7.0.3](https://github.com/folio-org/ui-orders/tree/v7.0.3) (2024-12-06)
