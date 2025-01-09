@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { LoadingView } from '@folio/stripes/components';
-import {
-  stripesConnect,
-} from '@folio/stripes/core';
+import { stripesConnect } from '@folio/stripes/core';
 import {
   baseManifest,
   ORDER_STATUSES,
@@ -16,9 +19,15 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
+import { SUBMIT_ACTION_FIELD } from '../../common/constants';
 import {
-  createOrEditOrderResource,
-} from '../Utils/orderResource';
+  useHandleOrderUpdateError,
+  useOrder,
+} from '../../common/hooks';
+import { SUBMIT_ACTION } from '../PurchaseOrder/constants';
+import POForm from '../PurchaseOrder/POForm';
+import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
+import { createOrEditOrderResource } from '../Utils/orderResource';
 import {
   ADDRESSES,
   ORDER,
@@ -27,9 +36,6 @@ import {
   ORDER_TEMPLATES,
   USERS,
 } from '../Utils/resources';
-import { useHandleOrderUpdateError } from '../../common/hooks/useHandleOrderUpdateError';
-import POForm from '../PurchaseOrder/POForm';
-import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 
 const NEW_ORDER = {
   reEncumber: true,
@@ -53,8 +59,17 @@ function LayerPO({
   const [isLoading, setIsLoading] = useState(true);
   const [updateOrderError, setUpdateOrderError] = useState();
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
-  const order = id ? resources?.order?.records[0] : NEW_ORDER;
+
   const instanceId = location.state?.instanceId;
+  const instanceTenantId = location.state?.instanceTenantId;
+
+  const {
+    order: fetchedOrder,
+    isLoading: isOrderLoading,
+    refetch,
+  } = useOrder(id);
+
+  const order = id ? fetchedOrder : NEW_ORDER;
 
   useEffect(() => {
     memoizedMutator.orderNumber.reset();
@@ -73,33 +88,56 @@ function LayerPO({
     setUpdateOrderError(errors);
   }, [toggleErrorsModal]);
 
-  const updatePO = useCallback(values => {
+  const updatePO = useCallback((values) => {
     setIsLoading(true);
-    setSavingValues(values);
 
-    return createOrEditOrderResource(values, memoizedMutator.order)
-      .then(savedOrder => {
+    const { [SUBMIT_ACTION_FIELD]: submitAction, ...data } = values;
+
+    setSavingValues(data);
+
+    return createOrEditOrderResource(data, mutator.order)
+      .then((savedOrder) => {
         sendCallout({
           message: <FormattedMessage id="ui-orders.order.save.success" values={{ orderNumber: savedOrder.poNumber }} />,
         });
-        history.push({
-          pathname: instanceId ? `/orders/view/${savedOrder.id}/po-line/create` : `/orders/view/${savedOrder.id}`,
-          search: location.search,
-          state: instanceId ? { instanceId, instanceTenantId: location.state?.instanceTenantId } : {},
-        });
+
+        return savedOrder;
+      })
+      .then(async (savedOrder) => {
+        setSavingValues(null);
+
+        switch (submitAction) {
+          case SUBMIT_ACTION.saveAndKeepEditing:
+            await refetch();
+
+            history.push({
+              pathname: `/orders/edit/${savedOrder.id}`,
+              search: location.search,
+            });
+            break;
+          case SUBMIT_ACTION.saveAndClose:
+          default:
+            history.push({
+              pathname: instanceId ? `/orders/view/${savedOrder.id}/po-line/create` : `/orders/view/${savedOrder.id}`,
+              search: location.search,
+              state: instanceId ? { instanceId, instanceTenantId } : {},
+            });
+            break;
+        }
       })
       .catch(async e => {
-        setIsLoading(false);
         await handleErrorResponse(e, openOrderErrorModalShow);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, [
     handleErrorResponse,
     history,
     instanceId,
     location.search,
-    location.state?.instanceTenantId,
-    memoizedMutator.order,
+    instanceTenantId,
+    mutator.order,
     openOrderErrorModalShow,
+    refetch,
     sendCallout,
   ]);
 
@@ -116,7 +154,14 @@ function LayerPO({
     [history, id, location.search, instanceId],
   );
 
-  if (isLoading || !order) return <LoadingView dismissible onClose={onCancel} />;
+  if (isLoading || isOrderLoading || !order) {
+    return (
+      <LoadingView
+        dismissible
+        onClose={onCancel}
+      />
+    );
+  }
 
   const { poNumber, poNumberPrefix, poNumberSuffix } = order;
   const generatedNumber = get(resources, 'orderNumber.records.0.poNumber');
@@ -152,7 +197,10 @@ function LayerPO({
 }
 
 LayerPO.manifest = Object.freeze({
-  order: ORDER,
+  order: {
+    ...ORDER,
+    fetch: false,
+  },
   addresses: ADDRESSES,
   users: {
     ...USERS,

@@ -83,9 +83,6 @@ const defaultProps = {
     materialTypes: {
       GET: jest.fn().mockResolvedValue(),
     },
-    validateISBN: {
-      GET: jest.fn().mockResolvedValue(),
-    },
     identifierTypes: {
       GET: jest.fn().mockResolvedValue(),
     },

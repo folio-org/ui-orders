@@ -1,9 +1,18 @@
 /* eslint-disable max-lines */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { get } from 'lodash';
 
 import {
   IfPermission,
@@ -28,22 +37,23 @@ import {
   AccordionSet,
   AccordionStatus,
   Button,
-  Col,
   checkScope,
+  Col,
   collapseAllSections,
   ConfirmationModal,
   Dropdown,
   DropdownMenu,
+  ErrorModal,
   ExpandAllButton,
   expandAllSections,
   HasCommand,
   Icon,
   Loading,
   LoadingPane,
+  MenuSection,
   Pane,
   PaneMenu,
   Row,
-  ErrorModal,
 } from '@folio/stripes/components';
 import {
   ColumnManagerMenu,
@@ -99,15 +109,15 @@ import {
   ORDERS,
 } from '../Utils/resources';
 import CloseOrderModal from './CloseOrder';
-import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
-import LineListing from './LineListing';
-import LinesLimit from './LinesLimit';
-import POInvoicesContainer from './POInvoices';
 import { LINE_LISTING_COLUMN_MAPPING } from './constants';
 import { getPOActionMenu } from './getPOActionMenu';
 import { useOrderMutation } from './hooks';
+import LineListing from './LineListing';
+import LinesLimit from './LinesLimit';
 import { OngoingOrderInfoView } from './OngoingOrderInfo';
+import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 import { PODetailsView } from './PODetails';
+import POInvoicesContainer from './POInvoices';
 import { SummaryView } from './Summary';
 import { UnopenOrderConfirmationModal } from './UnopenOrderConfirmationModal';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
@@ -600,19 +610,22 @@ const PO = ({
       buttonProps={{ buttonStyle: 'primary' }}
     >
       <DropdownMenu>
-        <IfPermission perm="orders.po-lines.item.post">
-          <Button
-            data-test-add-line-button
-            data-testid="add-line-button"
-            buttonStyle="dropdownItem"
-            disabled={!isAbleToAddLines}
-            onClick={onAddPOLine}
-          >
-            <Icon size="small" icon="plus-sign">
-              <FormattedMessage id="ui-orders.button.addLine" />
-            </Icon>
-          </Button>
-        </IfPermission>
+        <MenuSection>
+          <IfPermission perm="orders.po-lines.item.post">
+            <Button
+              data-test-add-line-button
+              data-testid="add-line-button"
+              buttonStyle="dropdownItem"
+              disabled={!isAbleToAddLines}
+              onClick={onAddPOLine}
+            >
+              <Icon size="small" icon="plus-sign">
+                <FormattedMessage id="ui-orders.button.addLine" />
+              </Icon>
+            </Button>
+          </IfPermission>
+        </MenuSection>
+
         <ColumnManagerMenu
           prefix="line-listing"
           columnMapping={LINE_LISTING_COLUMN_MAPPING}
