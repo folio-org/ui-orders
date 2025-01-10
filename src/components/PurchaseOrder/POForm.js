@@ -242,6 +242,7 @@ const POForm = ({
       />
     );
   }, [
+    instanceId,
     onCancel,
     onSaveAndClose,
     onSaveAndKeepEditing,
