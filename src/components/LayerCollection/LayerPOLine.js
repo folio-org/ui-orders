@@ -79,7 +79,6 @@ import {
   ORDER_NUMBER,
   ORDER_TEMPLATES,
   ORDERS,
-  VALIDATE_ISBN,
 } from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';

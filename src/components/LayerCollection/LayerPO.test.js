@@ -12,23 +12,24 @@ import {
   history,
   location,
 } from 'fixtures/routerMocks';
+import { useOrder } from '../../common/hooks';
 import POForm from '../PurchaseOrder/POForm';
 import LayerPO from './LayerPO';
 
+jest.mock('../../common/hooks', () => ({
+  ...jest.requireActual('../../common/hooks'),
+  useOrder: jest.fn(),
+}));
 jest.mock('../PurchaseOrder/POForm', () => jest.fn().mockReturnValue('POForm'));
 
 const defaultProps = {
   resourses: {
-    order: {
-      records: [order],
-    },
     orderNumber: {
       records: [{ poNumber: '10000' }],
     },
   },
   mutator: {
     order: {
-      GET: jest.fn().mockResolvedValue([order]),
       POST: jest.fn().mockResolvedValue([order]),
       PUT: jest.fn().mockResolvedValue([order]),
     },
@@ -73,9 +74,11 @@ const renderLayerPO = (props = {}) => render(
 
 describe('LayerPO', () => {
   beforeEach(() => {
-    defaultProps.mutator.order.POST.mockClear();
-    history.push.mockClear();
-    POForm.mockClear();
+    useOrder.mockReturnValue({ order });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render PO form', async () => {

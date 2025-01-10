@@ -12,6 +12,7 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import {
   useLocationsQuery,
+  useOrganization,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -25,8 +26,13 @@ import {
   location,
   match,
 } from 'fixtures/routerMocks';
-import { useOrder } from '../../common/hooks';
+import { SUBMIT_ACTION_FIELD } from '../../common/constants';
+import {
+  useOrder,
+  useOrderLine,
+} from '../../common/hooks';
 import ModalDeletePieces from '../ModalDeletePieces';
+import { SUBMIT_ACTION } from '../POLine/const';
 import POLineForm from '../POLine/POLineForm';
 import LayerPOLine from './LayerPOLine';
 
@@ -35,12 +41,14 @@ jest.mock('@folio/stripes-acq-components', () => ({
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
   useIntegrationConfigs: jest.fn().mockReturnValue({ integrationConfigs: [], isLoading: false }),
   useLocationsQuery: jest.fn(),
+  useOrganization: jest.fn(),
   useShowCallout: jest.fn(),
 }));
 jest.mock('../../common/hooks', () => ({
   useOpenOrderSettings: jest.fn().mockReturnValue({ isFetching: false, openOrderSettings: {} }),
   useLinesLimit: jest.fn().mockReturnValue({ isLoading: false, linesLimit: 1 }),
   useOrder: jest.fn(),
+  useOrderLine: jest.fn(),
   useInstance: jest.fn().mockReturnValue({ isLoading: false, instance: {} }),
   useTitleMutation: jest.fn().mockReturnValue({ mutateTitle: jest.fn().mockReturnValue(() => Promise.resolve()) }),
 }));
@@ -56,7 +64,6 @@ const queryClient = new QueryClient();
 const defaultProps = {
   mutator: {
     lineOrder: {
-      GET: jest.fn().mockResolvedValue(order),
       POST: jest.fn().mockResolvedValue(order),
       PUT: jest.fn().mockResolvedValue(order),
     },
@@ -70,9 +77,6 @@ const defaultProps = {
       GET: jest.fn().mockResolvedValue([orderLine]),
       PUT: jest.fn().mockResolvedValue(orderLine),
       POST: jest.fn().mockResolvedValue(orderLine),
-    },
-    orderVendor: {
-      GET: jest.fn().mockResolvedValue(vendor),
     },
     createInventory: {
       GET: jest.fn().mockResolvedValue(),
@@ -93,10 +97,6 @@ const defaultProps = {
   resources: {
     createInventory: {
       hasLoaded: true,
-    },
-    lineOrder: {
-      hasLoaded: true,
-      records: [order],
     },
     approvalsSetting: {
       hasLoaded: true,
@@ -125,7 +125,6 @@ const defaultProps = {
   history,
 };
 
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <MemoryRouter>
     <QueryClientProvider client={queryClient}>
@@ -146,19 +145,19 @@ const mockShowCallout = jest.fn();
 
 describe('LayerPOLine', () => {
   beforeEach(() => {
-    POLineForm.mockClear();
-    history.push.mockClear();
-    defaultProps.mutator.poLines.PUT.mockClear();
-    defaultProps.mutator.poLines.POST.mockClear();
-    useOrder
-      .mockClear()
-      .mockReturnValue({ isLoading: false, order });
-    useLocationsQuery
-      .mockClear()
-      .mockReturnValue({ locations: [location] });
-    useShowCallout
-      .mockClear()
-      .mockReturnValue(mockShowCallout);
+    useOrder.mockReturnValue({ isLoading: false, order });
+    useOrderLine.mockReturnValue({
+      isLoading: false,
+      orderLine,
+      refetch: jest.fn(),
+    });
+    useOrganization.mockReturnValue({ organization: vendor });
+    useLocationsQuery.mockReturnValue({ locations: [location] });
+    useShowCallout.mockReturnValue(mockShowCallout);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render POLineForm', async () => {
@@ -177,7 +176,7 @@ describe('LayerPOLine', () => {
       },
     } });
 
-    await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ saveAndOpen: false, isAcknowledged: true }));
+    await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ isAcknowledged: true }));
 
     expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
   });
@@ -187,7 +186,7 @@ describe('LayerPOLine', () => {
 
     await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({
       ...orderLine,
-      saveAndOpen: true,
+      [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen,
     }));
 
     expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled();
@@ -295,7 +294,7 @@ describe('LayerPOLine', () => {
 
       renderLayerPOLine();
 
-      await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ saveAndOpen: true }));
+      await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen }));
 
       const modal = await screen.findByText(/ui-orders.differentAccounts.title/i);
 
