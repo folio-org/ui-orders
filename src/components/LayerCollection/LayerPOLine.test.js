@@ -34,6 +34,7 @@ import {
 import ModalDeletePieces from '../ModalDeletePieces';
 import { SUBMIT_ACTION } from '../POLine/const';
 import POLineForm from '../POLine/POLineForm';
+import { updateOrderResource } from '../Utils/orderResource';
 import LayerPOLine from './LayerPOLine';
 
 jest.mock('@folio/stripes-acq-components', () => ({
@@ -57,6 +58,10 @@ jest.mock('../ModalDeletePieces', () => jest.fn().mockReturnValue('ModalDeletePi
 jest.mock('../../common/utils', () => ({
   ...jest.requireActual('../../common/utils'),
   validateDuplicateLines: jest.fn().mockReturnValue(Promise.resolve()),
+}));
+jest.mock('../Utils/orderResource', () => ({
+  ...jest.requireActual('../Utils/orderResource'),
+  updateOrderResource: jest.fn(() => Promise.resolve()),
 }));
 
 const queryClient = new QueryClient();
@@ -142,14 +147,18 @@ const renderLayerPOLine = (props = {}) => render(
 );
 
 const mockShowCallout = jest.fn();
+const refetchOrderLine = jest.fn();
 
 describe('LayerPOLine', () => {
   beforeEach(() => {
-    useOrder.mockReturnValue({ isLoading: false, order });
+    useOrder.mockReturnValue({
+      isLoading: false,
+      order: { ...order, compositePoLines: [] },
+    });
     useOrderLine.mockReturnValue({
       isLoading: false,
       orderLine,
-      refetch: jest.fn(),
+      refetch: refetchOrderLine,
     });
     useOrganization.mockReturnValue({ organization: vendor });
     useLocationsQuery.mockReturnValue({ locations: [location] });
@@ -190,6 +199,83 @@ describe('LayerPOLine', () => {
     }));
 
     expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled();
+  });
+
+  describe('Alternative submit actions', () => {
+    const submitWithType = (submitAction) => () => {
+      return POLineForm.mock.calls[0][0].onSubmit({
+        ...orderLine,
+        [SUBMIT_ACTION_FIELD]: submitAction,
+      });
+    };
+
+    describe('Add PO Line', () => {
+      it('should create POLine and keep the edit form opened', async () => {
+        renderLayerPOLine({
+          match: {
+            ...match,
+            params: { id: order.id },
+          },
+        });
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndKeepEditing));
+
+        expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
+        expect(history.push).toHaveBeenCalledWith(expect.objectContaining({
+          pathname: expect.stringMatching(/orders\/view\/.*\/po-line\/edit\/.*/),
+        }));
+      });
+
+      it('should create POLine and open the form for another PO Line', async () => {
+        renderLayerPOLine({
+          match: {
+            ...match,
+            params: { id: order.id },
+          },
+        });
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndCreateAnother));
+
+        expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
+        expect(history.push).toHaveBeenCalledWith(expect.objectContaining({
+          pathname: expect.stringMatching(/orders\/view\/.*\/po-line\/create/),
+        }));
+      });
+
+      it('should create POLine and open the order', async () => {
+        renderLayerPOLine({
+          match: {
+            ...match,
+            params: { id: order.id },
+          },
+        });
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndOpen));
+
+        expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
+        expect(updateOrderResource).toHaveBeenCalled();
+      });
+    });
+
+    describe('Update PO Line', () => {
+      it('should update POLine and keep the edit form opened', async () => {
+        renderLayerPOLine();
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndKeepEditing));
+
+        expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled();
+        expect(refetchOrderLine).toHaveBeenCalled();
+      });
+
+      it('should update POLine and open the order', async () => {
+        renderLayerPOLine();
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndOpen));
+
+        expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled();
+        expect(updateOrderResource).toHaveBeenCalled();
+      });
+    });
   });
 
   it('should call onCancel if cancelling', async () => {
@@ -306,6 +392,15 @@ describe('LayerPOLine', () => {
     ['someError', 'error message'],
     ['genericError', 'Invalid token'],
   ])('should handle \'%s\' error', async (code, message) => {
+    useOrganization.mockImplementationOnce(async (_id, { onError }) => {
+      await onError({
+        clone: jest.fn().mockReturnThis(),
+        json: jest.fn().mockResolvedValue({ errors: [{ message: '' }] }),
+      });
+
+      return { organization: null };
+    });
+
     // eslint-disable-next-line prefer-promise-reject-errors
     defaultProps.mutator.poLines.PUT.mockImplementation(() => Promise.reject({
       errors: [{

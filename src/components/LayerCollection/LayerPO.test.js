@@ -1,6 +1,10 @@
 import { MemoryRouter } from 'react-router';
 
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { ORDER_TYPES } from '@folio/stripes-acq-components';
 
 import {
@@ -12,7 +16,9 @@ import {
   history,
   location,
 } from 'fixtures/routerMocks';
+import { SUBMIT_ACTION_FIELD } from '../../common/constants';
 import { useOrder } from '../../common/hooks';
+import { SUBMIT_ACTION } from '../PurchaseOrder/constants';
 import POForm from '../PurchaseOrder/POForm';
 import LayerPO from './LayerPO';
 
@@ -74,7 +80,10 @@ const renderLayerPO = (props = {}) => render(
 
 describe('LayerPO', () => {
   beforeEach(() => {
-    useOrder.mockReturnValue({ order });
+    useOrder.mockReturnValue({
+      order,
+      refetch: jest.fn(),
+    });
   });
 
   afterEach(() => {
@@ -104,7 +113,22 @@ describe('LayerPO', () => {
       orderType: ORDER_TYPES.ongoing,
     }));
 
-    expect(history.push).toHaveBeenCalled();
+    expect(history.push).toHaveBeenCalledWith(expect.objectContaining({
+      pathname: expect.stringMatching(/orders\/view/),
+    }));
+  });
+
+  it('should keep edit form opened if saveAndKeepEditing action was selected', async () => {
+    renderLayerPO();
+
+    await waitFor(() => POForm.mock.calls[0][0].onSubmit({
+      orderType: ORDER_TYPES.ongoing,
+      [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndKeepEditing,
+    }));
+
+    expect(history.push).toHaveBeenCalledWith(expect.objectContaining({
+      pathname: expect.stringMatching(/orders\/edit/),
+    }));
   });
 
   describe('Create from inventory', () => {
@@ -123,6 +147,7 @@ describe('LayerPO', () => {
 
       await waitFor(() => POForm.mock.calls[0][0].onSubmit({
         orderType: ORDER_TYPES.ongoing,
+        [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndClose,
       }));
 
       expect(history.push).toHaveBeenCalledWith(expect.objectContaining({
@@ -133,7 +158,7 @@ describe('LayerPO', () => {
   });
 
   it('should throw an error if the order update was failed ', async () => {
-    defaultProps.mutator.order.POST.mockRejectedValue({});
+    defaultProps.mutator.order.POST.mockRejectedValueOnce({});
 
     renderLayerPO();
 
