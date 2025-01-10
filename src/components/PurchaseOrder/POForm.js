@@ -1,8 +1,14 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-import PropTypes from 'prop-types';
-import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
@@ -34,7 +40,10 @@ import {
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
 
-import { ENTITY_TYPE_ORDER } from '../../common/constants';
+import {
+  ENTITY_TYPE_ORDER,
+  SUBMIT_ACTION_FIELD,
+} from '../../common/constants';
 import { useErrorAccordionStatus } from '../../common/hooks';
 import {
   getAddresses,
@@ -50,6 +59,7 @@ import {
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
   PO_TEMPLATE_FIELDS_MAP,
+  SUBMIT_ACTION,
 } from './constants';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
@@ -121,6 +131,16 @@ const POForm = ({
     setHiddenFields(prev => (prev ? undefined : template?.hiddenFields || {}));
   }, [template]);
 
+  const onSaveAndKeepEditing = useCallback(() => {
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndKeepEditing);
+    handleSubmit();
+  }, [change, handleSubmit]);
+
+  const onSaveAndClose = useCallback(() => {
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndClose);
+    handleSubmit();
+  }, [change, handleSubmit]);
+
   const firstMenu = useMemo(() => {
     return (
       <PaneMenu>
@@ -161,34 +181,58 @@ const POForm = ({
   ), [hiddenFields, template, toggleForceVisibility]);
 
   const getPaneFooter = useCallback((id, label) => {
+    const isSubmitBtnDisabled = pristine || submitting;
+
     const start = (
-      <FormattedMessage id="ui-orders.buttons.line.cancel">
-        {(btnLabel) => (
-          <Button
-            id="clickable-close-new-purchase-order-dialog-footer"
-            buttonStyle="default mega"
-            onClick={onCancel}
-          >
-            {btnLabel}
-          </Button>
-        )}
-      </FormattedMessage>
+      <Row>
+        <Col xs>
+          <FormattedMessage id="ui-orders.buttons.line.cancel">
+            {(btnLabel) => (
+              <Button
+                id="clickable-close-new-purchase-order-dialog-footer"
+                buttonStyle="default mega"
+                onClick={onCancel}
+              >
+                {btnLabel}
+              </Button>
+            )}
+          </FormattedMessage>
+        </Col>
+      </Row>
     );
 
     const end = (
-      <FormattedMessage id={label}>
-        {btnLabel => (
-          <Button
-            id={id}
-            type="submit"
-            buttonStyle="primary mega"
-            disabled={pristine || submitting}
-            onClick={handleSubmit}
-          >
-            {btnLabel}
-          </Button>
+      <Row>
+        {!instanceId && (
+          <Col xs>
+            <Button
+              buttonStyle="default mega"
+              id={`${id}-and-keep-editing`}
+              type="submit"
+              disabled={isSubmitBtnDisabled}
+              onClick={onSaveAndKeepEditing}
+            >
+              <FormattedMessage id="stripes-components.saveAndKeepEditing" />
+            </Button>
+          </Col>
         )}
-      </FormattedMessage>
+
+        <Col xs>
+          <FormattedMessage id={label}>
+            {btnLabel => (
+              <Button
+                id={id}
+                type="submit"
+                buttonStyle="primary mega"
+                disabled={isSubmitBtnDisabled}
+                onClick={onSaveAndClose}
+              >
+                {btnLabel}
+              </Button>
+            )}
+          </FormattedMessage>
+        </Col>
+      </Row>
     );
 
     return (
@@ -197,7 +241,14 @@ const POForm = ({
         renderEnd={end}
       />
     );
-  }, [handleSubmit, onCancel, pristine, submitting]);
+  }, [
+    instanceId,
+    onCancel,
+    onSaveAndClose,
+    onSaveAndKeepEditing,
+    pristine,
+    submitting,
+  ]);
 
   const onChangeTemplate = useCallback((value) => {
     const templateValue = getOrderTemplateValue(parentResources, value);
@@ -246,9 +297,9 @@ const POForm = ({
     ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
     : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
 
-  const buttonLabelId = instanceId ? 'ui-orders.paneMenu.addPOLine' : 'ui-orders.paneMenu.saveOrder';
+  const buttonLabelId = instanceId ? 'ui-orders.paneMenu.addPOLine' : 'stripes-components.saveAndClose';
   const paneFooter = initialValues.id
-    ? getPaneFooter('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder')
+    ? getPaneFooter('clickable-update-purchase-order', 'stripes-components.saveAndClose')
     : getPaneFooter('clickable-create-new-purchase-order', buttonLabelId);
 
   const prefixesSetting = get(parentResources, 'prefixesSetting.records', [])
@@ -296,108 +347,106 @@ const POForm = ({
   }
 
   return (
-    <div style={{ height: '100vh' }}>
-      <HasCommand
-        commands={shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
-      >
-        <Paneset>
-          <Pane
-            defaultWidth="100%"
-            firstMenu={firstMenu}
-            actionMenu={getActionMenu}
-            id="pane-poForm"
-            footer={paneFooter}
-            onClose={onCancel}
-            paneTitle={paneTitle}
-          >
-            <AccordionStatus ref={accordionStatusRef}>
-              {({ status }) => (
-                <form
-                  id="form-po"
-                  data-test-form-page
-                >
-                  <Row>
-                    <Col xs={12}>
-                      <Row center="xs">
-                        <Col xs={12} md={8}>
-                          <Row end="xs">
-                            <Col xs={12}>
-                              <ExpandAllButton />
-                            </Col>
-                          </Row>
-                        </Col>
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset isRoot>
+        <Pane
+          defaultWidth="100%"
+          firstMenu={firstMenu}
+          actionMenu={getActionMenu}
+          id="pane-poForm"
+          footer={paneFooter}
+          onClose={onCancel}
+          paneTitle={paneTitle}
+        >
+          <AccordionStatus ref={accordionStatusRef}>
+            {({ status }) => (
+              <form
+                id="form-po"
+                data-test-form-page
+              >
+                <Row>
+                  <Col xs={12}>
+                    <Row center="xs">
+                      <Col xs={12} md={8}>
+                        <Row end="xs">
+                          <Col xs={12}>
+                            <ExpandAllButton />
+                          </Col>
+                        </Row>
+                      </Col>
 
-                        <Col xs={12} md={8}>
-                          <Row>
-                            <Col xs={4}>
-                              <FieldSelection
-                                dataOptions={orderTemplates}
-                                onChange={onChangeTemplate}
-                                labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                                name="template"
-                                id="order-template"
-                                disabled={Boolean(poLinesLength)}
-                              />
-                            </Col>
-                          </Row>
-                        </Col>
-
-                        <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                          <AccordionSet
-                            initialStatus={INITIAL_SECTIONS}
-                            accordionStatus={{ ...status, ...errorAccordionStatus }}
-                          >
-                            <Accordion
-                              id={ACCORDION_ID.purchaseOrder}
-                              label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
-                            >
-                              <PODetailsForm
-                                addresses={addresses}
-                                change={change}
-                                formValues={formValues}
-                                generatedNumber={generatedNumber}
-                                order={initialValues}
-                                orderNumberSetting={orderNumberSetting}
-                                prefixesSetting={prefixesSetting}
-                                suffixesSetting={suffixesSetting}
-                                validateNumber={validateNumber}
-                                hiddenFields={hiddenFields}
-                              />
-                            </Accordion>
-                            {isOngoing(formValues.orderType) && (
-                              <OngoingInfoForm hiddenFields={hiddenFields} />
-                            )}
-                            <Accordion
-                              id={ACCORDION_ID.poSummary}
-                              label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
-                            >
-                              <SummaryForm
-                                initialValues={initialValues}
-                                hiddenFields={hiddenFields}
-                              />
-                            </Accordion>
-                            <EditCustomFieldsRecord
-                              accordionId="customFieldsPO"
-                              backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-                              changeFinalFormField={change}
-                              entityType={ENTITY_TYPE_ORDER}
-                              fieldComponent={Field}
-                              finalFormCustomFieldsValues={customFieldsValues}
+                      <Col xs={12} md={8}>
+                        <Row>
+                          <Col xs={4}>
+                            <FieldSelection
+                              dataOptions={orderTemplates}
+                              onChange={onChangeTemplate}
+                              labelId="ui-orders.settings.orderTemplates.editor.template.name"
+                              name="template"
+                              id="order-template"
+                              disabled={Boolean(poLinesLength)}
                             />
-                          </AccordionSet>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </form>
-              )}
-            </AccordionStatus>
-          </Pane>
-        </Paneset>
-      </HasCommand>
-    </div>
+                          </Col>
+                        </Row>
+                      </Col>
+
+                      <Col xs={12} md={8} style={{ textAlign: 'left' }}>
+                        <AccordionSet
+                          initialStatus={INITIAL_SECTIONS}
+                          accordionStatus={{ ...status, ...errorAccordionStatus }}
+                        >
+                          <Accordion
+                            id={ACCORDION_ID.purchaseOrder}
+                            label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
+                          >
+                            <PODetailsForm
+                              addresses={addresses}
+                              change={change}
+                              formValues={formValues}
+                              generatedNumber={generatedNumber}
+                              order={initialValues}
+                              orderNumberSetting={orderNumberSetting}
+                              prefixesSetting={prefixesSetting}
+                              suffixesSetting={suffixesSetting}
+                              validateNumber={validateNumber}
+                              hiddenFields={hiddenFields}
+                            />
+                          </Accordion>
+                          {isOngoing(formValues.orderType) && (
+                            <OngoingInfoForm hiddenFields={hiddenFields} />
+                          )}
+                          <Accordion
+                            id={ACCORDION_ID.poSummary}
+                            label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
+                          >
+                            <SummaryForm
+                              initialValues={initialValues}
+                              hiddenFields={hiddenFields}
+                            />
+                          </Accordion>
+                          <EditCustomFieldsRecord
+                            accordionId="customFieldsPO"
+                            backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+                            changeFinalFormField={change}
+                            entityType={ENTITY_TYPE_ORDER}
+                            fieldComponent={Field}
+                            finalFormCustomFieldsValues={customFieldsValues}
+                          />
+                        </AccordionSet>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </form>
+            )}
+          </AccordionStatus>
+        </Pane>
+      </Paneset>
+    </HasCommand>
   );
 };
 

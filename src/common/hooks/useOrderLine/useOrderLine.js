@@ -7,20 +7,32 @@ import {
 
 import { LINES_API } from '@folio/stripes-acq-components';
 
-export const useOrderLine = (lineId) => {
-  const ky = useOkapiKy();
-  const [namespace] = useNamespace({ key: 'order-versions' });
+export const useOrderLine = (lineId, options = {}) => {
+  const {
+    enabled = true,
+    tenantId,
+    ...queryOptions
+  } = options;
 
-  const { isLoading, data } = useQuery(
-    [namespace, lineId],
-    async () => ky.get(`${LINES_API}/${lineId}`).json(),
-    {
-      enabled: Boolean(lineId),
-    },
-  );
+  const [namespace] = useNamespace({ key: 'purchase-order-line' });
+  const ky = useOkapiKy({ tenant: tenantId });
+
+  const {
+    data,
+    isFetching,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: [namespace, lineId, tenantId],
+    queryFn: ({ signal }) => ky.get(`${LINES_API}/${lineId}`, { signal }).json(),
+    enabled: enabled && Boolean(lineId),
+    ...queryOptions,
+  });
 
   return ({
     orderLine: data,
+    isFetching,
     isLoading,
+    refetch,
   });
 };

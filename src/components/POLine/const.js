@@ -87,3 +87,10 @@ export const ACCOUNT_STATUS = {
   INACTIVE: 'Inactive',
   PENDING: 'Pending',
 };
+
+export const SUBMIT_ACTION = {
+  saveAndClose: 'saveAndClose',
+  saveAndCreateAnother: 'saveAndCreateAnother',
+  saveAndKeepEditing: 'saveAndKeepEditing',
+  saveAndOpen: 'saveAndOpen',
+};

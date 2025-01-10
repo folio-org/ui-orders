@@ -123,8 +123,6 @@ const defaultProps = {
       }],
     },
   },
-  toggleCreateAnother: jest.fn(),
-  isCreateAnotherChecked: false,
   linesLimit: 3,
   values: {
     orderFormat: 'P/E Mix',
@@ -221,7 +219,7 @@ describe('POLineForm', () => {
     renderPOLineForm();
 
     await waitFor(() => {
-      expect(screen.getByText('ui-orders.buttons.line.createAnother')).toBeInTheDocument();
+      expect(screen.getByText('ui-orders.buttons.line.saveAndCreateAnother')).toBeInTheDocument();
     });
   });
 
@@ -229,7 +227,7 @@ describe('POLineForm', () => {
     renderPOLineForm({ isCreateFromInstance: true });
 
     await waitFor(() => {
-      expect(screen.queryByText('ui-orders.buttons.line.createAnother')).not.toBeInTheDocument();
+      expect(screen.queryByText('ui-orders.buttons.line.saveAndCreateAnother')).not.toBeInTheDocument();
     });
   });
 });

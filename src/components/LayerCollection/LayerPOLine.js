@@ -25,32 +25,34 @@ import {
   LoadingView,
 } from '@folio/stripes/components';
 import {
-  baseManifest,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getConfigSetting,
   LIMIT_MAX,
   materialTypesManifest,
   ORDER_FORMATS,
+  ResponseErrorsContainer,
   sourceValues,
   useCentralOrderingContext,
   useIntegrationConfigs,
   useLocationsQuery,
   useModalToggle,
+  useOrganization,
   useShowCallout,
-  VENDORS_API,
 } from '@folio/stripes-acq-components';
 
 import {
   ERROR_CODES,
-  WORKFLOW_STATUS,
+  SUBMIT_ACTION_FIELD,
   VALIDATION_ERRORS,
+  WORKFLOW_STATUS,
 } from '../../common/constants';
 import {
   useInstance,
   useLinesLimit,
   useOpenOrderSettings,
   useOrder,
+  useOrderLine,
   useTitleMutation,
 } from '../../common/hooks';
 import {
@@ -61,6 +63,7 @@ import {
 import DuplicateLinesModal from '../../common/DuplicateLinesModal';
 import {
   DISCOUNT_TYPE,
+  SUBMIT_ACTION,
 } from '../POLine/const';
 import {
   cloneOrder,
@@ -76,7 +79,6 @@ import {
   ORDER_NUMBER,
   ORDER_TEMPLATES,
   ORDERS,
-  VALIDATE_ISBN,
 } from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
@@ -96,6 +98,24 @@ const parseErrorMessage = (code) => {
 
 const FIELD_ARRAYS_TO_HYDRATE = ['locations'];
 
+const handleVendorLoadingError = async (response, sendCallout) => {
+  const { handler } = await ResponseErrorsContainer.create(response);
+
+  sendCallout({
+    message: <FormattedMessage id="ui-orders.error.fetching.vendor" />,
+    type: 'error',
+  });
+
+  const message = handler.getError().message;
+
+  if (message) {
+    sendCallout({
+      message: <FormattedMessage id={`ui-orders.${message}`} defaultMessage={message} />,
+      type: 'error',
+    });
+  }
+};
+
 function LayerPOLine({
   history,
   location: { search, state: locationState },
@@ -105,47 +125,88 @@ function LayerPOLine({
   stripes,
 }) {
   const intl = useIntl();
-  const [isLinesLimitExceededModalOpened, setLinesLimitExceededModalOpened] = useState(false);
+  const sendCallout = useShowCallout();
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedMutator = useMemo(() => mutator, []);
+
   const [isDeletePiecesOpened, toggleDeletePieces] = useModalToggle();
   const [isNotUniqueOpen, toggleNotUnique] = useModalToggle();
   const [isDifferentAccountModalOpened, toggleDifferentAccountModal] = useModalToggle();
+
+  const [isLinesLimitExceededModalOpened, setIsLinesLimitExceededModalOpened] = useState(false);
   const [accountNumbers, setAccountNumbers] = useState([]);
   const [savingValues, setSavingValues] = useState();
-  const sendCallout = useShowCallout();
-  const [isLoading, setIsLoading] = useState(false);
-  const { isFetching: isOpenOrderSettingsFetching, openOrderSettings } = useOpenOrderSettings();
-  const { isOpenOrderEnabled, isDuplicateCheckDisabled } = openOrderSettings;
-  const [isValidateDuplicateLines, setValidateDuplicateLines] = useState();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isValidateDuplicateLines, setIsValidateDuplicateLines] = useState();
   const [duplicateLines, setDuplicateLines] = useState();
-  const { isLoading: isOrderLoading, order } = useOrder(id);
-  const createInventory = get(resources, ['createInventory', 'records']);
-  const createInventorySetting = useMemo(
-    () => getCreateInventorySetting(createInventory),
-    [createInventory],
-  );
+
   const [poLines, setPoLines] = useState();
-  const poLine = poLines?.find((u) => u.id === lineId);
-  const [vendor, setVendor] = useState();
-  const { isLoading: isLinesLimitLoading, linesLimit } = useLinesLimit(!(lineId || poLine));
-  const [isCreateAnotherChecked, setCreateAnotherChecked] = useState(locationState?.isCreateAnotherChecked);
-  const { isFetching: isConfigsFetching, integrationConfigs } = useIntegrationConfigs({ organizationId: vendor?.id });
-  const { instance, isLoading: isInstanceLoading } = useInstance(
-    locationState?.instanceId,
-    {
-      tenantId: locationState?.instanceTenantId,
-    },
-  );
+
+  const locationStateInstanceId = locationState?.instanceId;
+  const isCreateFromInstance = Boolean(locationStateInstanceId);
+
   const { mutateTitle } = useTitleMutation();
 
-  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+  /* Queries */
+  const {
+    orderLine: poLine,
+    isLoading: isOrderLineLoading,
+    refetch,
+  } = useOrderLine(lineId);
+
+  const {
+    isFetching: isOpenOrderSettingsFetching,
+    openOrderSettings,
+  } = useOpenOrderSettings();
+
+  const {
+    isLoading: isOrderLoading,
+    order,
+  } = useOrder(id);
+
+  const {
+    organization: vendor,
+    isLoading: isVendorLoading,
+  } = useOrganization(
+    order?.vendor,
+    { onError: ({ response }) => handleVendorLoadingError(response, sendCallout) },
+  );
+
+  const {
+    instance,
+    isLoading: isInstanceLoading,
+  } = useInstance(locationStateInstanceId, { tenantId: locationState?.instanceTenantId });
+
+  const {
+    isLoading: isLinesLimitLoading,
+    linesLimit,
+  } = useLinesLimit(!(lineId || poLine));
+
+  const {
+    isFetching: isConfigsFetching,
+    integrationConfigs,
+  } = useIntegrationConfigs({ organizationId: vendor?.id });
 
   const {
     isLoading: isLocationsLoading,
     locations,
   } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
+  /*  */
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const memoizedMutator = useMemo(() => mutator, []);
+  const { isOpenOrderEnabled, isDuplicateCheckDisabled } = openOrderSettings;
+  const { isApprovalRequired } = getConfigSetting(get(resources, 'approvalsSetting.records', {}));
+  const createInventory = resources?.createInventory?.records;
+  const isOrderApproved = isApprovalRequired ? order?.approved : true;
+  const differentAccountsModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
+  const createInventorySetting = useMemo(() => getCreateInventorySetting(createInventory), [createInventory]);
+
+  const isSaveAndOpenButtonVisible = (
+    isOpenOrderEnabled &&
+    isOrderApproved &&
+    order?.workflowStatus === WORKFLOW_STATUS.pending
+  );
 
   useEffect(() => {
     setPoLines();
@@ -159,16 +220,16 @@ function LayerPOLine({
   }, [id, memoizedMutator.poLines]);
 
   useEffect(() => {
-    setValidateDuplicateLines(!isDuplicateCheckDisabled);
+    setIsValidateDuplicateLines(!isDuplicateCheckDisabled);
   }, [isDuplicateCheckDisabled]);
 
   const openLineLimitExceededModal = useCallback(line => {
-    setLinesLimitExceededModalOpened(true);
+    setIsLinesLimitExceededModalOpened(true);
     setSavingValues(line);
   }, []);
 
   const closeLineLimitExceededModal = useCallback(() => {
-    setLinesLimitExceededModalOpened(false);
+    setIsLinesLimitExceededModalOpened(false);
     setSavingValues();
   }, []);
 
@@ -214,48 +275,43 @@ function LayerPOLine({
     [intl, openLineLimitExceededModal, sendCallout, toggleDeletePieces],
   );
 
-  const openOrder = useCallback(
-    (saveAndOpen, newLine = {}) => {
-      if (saveAndOpen) {
-        const exportAccountNumbers = getExportAccountNumbers([...order.compositePoLines, newLine]);
+  const openOrder = useCallback((newLine = {}) => {
+    const exportAccountNumbers = getExportAccountNumbers([...order.compositePoLines, newLine]);
 
-        if (!order.manualPo && exportAccountNumbers.length > 1) {
-          setAccountNumbers(exportAccountNumbers);
+    if (!order.manualPo && exportAccountNumbers.length > 1) {
+      setAccountNumbers(exportAccountNumbers);
 
-          // eslint-disable-next-line prefer-promise-reject-errors
-          return Promise.reject({ validationError: VALIDATION_ERRORS.differentAccount });
-        }
+      // eslint-disable-next-line prefer-promise-reject-errors
+      return Promise.reject({ validationError: VALIDATION_ERRORS.differentAccount });
+    }
 
-        return updateOrderResource(order, memoizedMutator.lineOrder, {
-          workflowStatus: WORKFLOW_STATUS.open,
-        })
-          .then(() => {
-            sendCallout({
-              message: (
-                <FormattedMessage
-                  id="ui-orders.order.open.success"
-                  values={{ orderNumber: order.poNumber }}
-                />
-              ),
-              type: 'success',
-            });
-          })
-          .catch(errorResponse => {
-            sendCallout({
-              message: (
-                <FormattedMessage
-                  id="ui-orders.errors.openOrder"
-                  values={{ orderNumber: order.poNumber }}
-                />
-              ),
-              type: 'error',
-            });
-            throw errorResponse;
-          });
-      } else return Promise.resolve();
-    },
-    [memoizedMutator.lineOrder, order, sendCallout],
-  );
+    return updateOrderResource(order, mutator.lineOrder, {
+      workflowStatus: WORKFLOW_STATUS.open,
+    })
+      .then(() => {
+        sendCallout({
+          message: (
+            <FormattedMessage
+              id="ui-orders.order.open.success"
+              values={{ orderNumber: order.poNumber }}
+            />
+          ),
+          type: 'success',
+        });
+      })
+      .catch(errorResponse => {
+        sendCallout({
+          message: (
+            <FormattedMessage
+              id="ui-orders.errors.openOrder"
+              values={{ orderNumber: order.poNumber }}
+            />
+          ),
+          type: 'error',
+        });
+        throw errorResponse;
+      });
+  }, [mutator.lineOrder, order, sendCallout]);
 
   const formatPOLineBeforeSaving = (line) => {
     switch (line.orderFormat) {
@@ -267,41 +323,61 @@ function LayerPOLine({
   };
 
   const submitPOLine = useCallback(async (lineValues) => {
-    const { saveAndOpen, isAcknowledged, ...line } = lineValues;
+    const {
+      [SUBMIT_ACTION_FIELD]: submitAction,
+      isAcknowledged,
+      ...line
+    } = lineValues;
+
     let savedLine;
 
-    setIsLoading(true);
-
+    setIsProcessing(true);
     setSavingValues(lineValues);
-    try {
-      setIsLoading(true);
 
+    try {
       if (isValidateDuplicateLines) {
-        setValidateDuplicateLines(false);
+        setIsValidateDuplicateLines(false);
 
         await validateDuplicateLines(line, mutator, resources);
       }
 
       const newLine = formatPOLineBeforeSaving(cloneDeep(line));
 
-      savedLine = await memoizedMutator.poLines.POST(newLine);
+      savedLine = await mutator.poLines.POST(newLine);
 
-      await openOrder(saveAndOpen, savedLine);
+      let pathname = isCreateFromInstance
+        ? `/orders/view/${id}/po-line/view/${savedLine.id}`
+        : `/orders/view/${id}`;
+
+      switch (submitAction) {
+        case SUBMIT_ACTION.saveAndOpen: {
+          await openOrder(savedLine);
+
+          if (isCreateFromInstance) {
+            pathname = `/inventory/view/${locationStateInstanceId}`;
+          }
+
+          break;
+        }
+        case SUBMIT_ACTION.saveAndCreateAnother: {
+          pathname = `/orders/view/${id}/po-line/create`;
+          break;
+        }
+        case SUBMIT_ACTION.saveAndKeepEditing: {
+          await refetch();
+
+          pathname = `/orders/view/${id}/po-line/edit/${savedLine.id}`;
+          break;
+        }
+        case SUBMIT_ACTION.saveAndClose:
+        default:
+          break;
+      }
 
       sendCallout({
         message: <FormattedMessage id="ui-orders.line.create.success" />,
         type: 'success',
       });
-
-      let pathname = isCreateAnotherChecked
-        ? `/orders/view/${id}/po-line/create`
-        : `/orders/view/${id}/po-line/view/${savedLine.id}`;
-
-      if (locationState?.instanceId) {
-        pathname = saveAndOpen ? `/inventory/view/${locationState.instanceId}` : `/orders/view/${id}`;
-      }
-
-      const state = isCreateAnotherChecked ? { isCreateAnotherChecked: true } : {};
 
       setSavingValues();
 
@@ -319,7 +395,6 @@ function LayerPOLine({
       return history.push({
         pathname,
         search,
-        state,
       });
     } catch (e) {
       if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
@@ -327,8 +402,9 @@ function LayerPOLine({
 
         return toggleNotUnique();
       }
-      if (saveAndOpen && savedLine) {
-        await memoizedMutator.poLines.DELETE(savedLine);
+
+      if (submitAction === SUBMIT_ACTION.saveAndOpen && savedLine) {
+        await mutator.poLines.DELETE(savedLine);
       }
 
       if (e?.validationError === VALIDATION_ERRORS.differentAccount) {
@@ -337,21 +413,22 @@ function LayerPOLine({
 
       return handleErrorResponse(e, line);
     } finally {
-      setIsLoading(false);
+      setIsProcessing(false);
     }
-  },
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [
-    handleErrorResponse,
-    history,
-    id,
-    isCreateAnotherChecked,
+  }, [
     isValidateDuplicateLines,
-    memoizedMutator.poLines,
-    openOrder,
-    search,
+    mutator,
+    isCreateFromInstance,
+    id,
     sendCallout,
+    history,
+    search,
+    resources,
+    openOrder,
+    locationStateInstanceId,
+    refetch,
+    mutateTitle,
+    handleErrorResponse,
     toggleNotUnique,
     toggleDifferentAccountModal,
   ]);
@@ -359,12 +436,12 @@ function LayerPOLine({
   const createNewOrder = useCallback(
     async () => {
       closeLineLimitExceededModal();
-      setIsLoading(true);
+      setIsProcessing(true);
 
       try {
         const newOrder = await cloneOrder(
           order,
-          memoizedMutator.lineOrder,
+          mutator.lineOrder,
           memoizedMutator.orderNumber,
           savingValues && [savingValues],
         );
@@ -374,7 +451,7 @@ function LayerPOLine({
           search,
         });
       } catch (e) {
-        setIsLoading(false);
+        setIsProcessing(false);
         sendCallout({
           message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
           type: 'error',
@@ -384,7 +461,7 @@ function LayerPOLine({
     [
       closeLineLimitExceededModal,
       history,
-      memoizedMutator.lineOrder,
+      mutator.lineOrder,
       memoizedMutator.orderNumber,
       order,
       savingValues,
@@ -405,21 +482,21 @@ function LayerPOLine({
   }, [history, id, lineId, search, locationState]);
 
   const updatePOLine = useCallback(async (hydratedLine) => {
-    const { saveAndOpen, ...data } = hydratedLine;
+    const { [SUBMIT_ACTION_FIELD]: submitAction, ...data } = hydratedLine;
 
-    setIsLoading(true);
+    setIsProcessing(true);
     setSavingValues(hydratedLine);
 
     if (isValidateDuplicateLines) {
       try {
-        setValidateDuplicateLines(false);
+        setIsValidateDuplicateLines(false);
 
         await validateDuplicateLines(hydratedLine, mutator, resources);
       } catch (e) {
         if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
           setDuplicateLines(e.duplicateLines);
 
-          setIsLoading(false);
+          setIsProcessing(false);
 
           return toggleNotUnique();
         }
@@ -430,8 +507,7 @@ function LayerPOLine({
 
     delete line.metadata;
 
-    return memoizedMutator.poLines.PUT(line)
-      .then(() => openOrder(saveAndOpen))
+    return mutator.poLines.PUT(line)
       .then(() => {
         sendCallout({
           message: (
@@ -442,10 +518,27 @@ function LayerPOLine({
           ),
           type: 'success',
         });
-        setTimeout(onCancel);
+      })
+      .then(async () => {
+        switch (submitAction) {
+          case SUBMIT_ACTION.saveAndOpen: {
+            await openOrder();
+            onCancel();
+            break;
+          }
+          case SUBMIT_ACTION.saveAndKeepEditing:
+            await refetch();
+            break;
+          case SUBMIT_ACTION.saveAndClose:
+          default:
+            onCancel();
+            break;
+        }
+
+        setIsProcessing(false);
       })
       .catch((e) => {
-        setIsLoading(false);
+        setIsProcessing(false);
 
         if (e?.validationError === VALIDATION_ERRORS.differentAccount) {
           return toggleDifferentAccountModal();
@@ -453,16 +546,16 @@ function LayerPOLine({
 
         return handleErrorResponse(e, line);
       });
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [
-    handleErrorResponse,
+  }, [
     isValidateDuplicateLines,
-    memoizedMutator.poLines,
+    mutator,
+    resources,
+    toggleNotUnique,
+    sendCallout,
+    refetch,
     onCancel,
     openOrder,
-    sendCallout,
-    toggleNotUnique,
+    handleErrorResponse,
     toggleDifferentAccountModal,
   ]);
 
@@ -506,7 +599,7 @@ function LayerPOLine({
       newObj.eresource.accessProvider = vendor.id;
       newObj.physical.materialSupplier = vendor.id;
 
-      if (vendor.discountPercent) {
+      if (vendor?.discountPercent) {
         newObj.cost.discountType = DISCOUNT_TYPE.percentage;
         newObj.cost.discount = vendor.discountPercent;
       }
@@ -515,54 +608,6 @@ function LayerPOLine({
     return newObj;
   }, [createInventorySetting.eresource, createInventorySetting.physical, order, stripes.currency, vendor]);
 
-  const vendorId = order?.vendor;
-
-  useEffect(
-    () => {
-      if (vendorId) {
-        memoizedMutator.orderVendor.GET({ path: `${VENDORS_API}/${vendorId}` })
-          .then(
-            setVendor,
-            errorResponse => {
-              setVendor({});
-
-              let response;
-
-              try {
-                response = JSON.parse(errorResponse?.message);
-              } catch (parsingException) {
-                response = errorResponse;
-              }
-
-              sendCallout({
-                message: <FormattedMessage id="ui-orders.error.fetching.vendor" />,
-                type: 'error',
-              });
-
-              const message = response?.errors?.[0]?.message;
-
-              if (message) {
-                sendCallout({
-                  message: <FormattedMessage id={`ui-orders.${message}`} defaultMessage={message} />,
-                  type: 'error',
-                });
-              }
-            },
-          );
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [memoizedMutator.orderVendor, vendorId],
-  );
-
-  const { isApprovalRequired } = getConfigSetting(
-    get(resources, 'approvalsSetting.records', {}),
-  );
-  const isOrderApproved = isApprovalRequired ? order?.approved : true;
-  const isSaveAndOpenButtonVisible =
-    isOpenOrderEnabled &&
-    isOrderApproved &&
-    order?.workflowStatus === WORKFLOW_STATUS.pending;
   const isntLoaded = !(
     get(resources, 'createInventory.hasLoaded') &&
     !isOrderLoading &&
@@ -578,15 +623,22 @@ function LayerPOLine({
     !isConfigsFetching &&
     !isOpenOrderSettingsFetching &&
     !isInstanceLoading &&
-    !isLocationsLoading
+    !isLocationsLoading &&
+    !isOrderLineLoading &&
+    !isVendorLoading
   );
 
-  if (isLoading || isntLoaded) return <LoadingView dismissible onClose={onCancel} />;
+  if (isProcessing || isntLoaded) {
+    return (
+      <LoadingView
+        dismissible
+        onClose={onCancel}
+      />
+    );
+  }
 
   const initialValues = lineId ? poLine : getCreatePOLIneInitialValues;
   const onSubmit = lineId ? updatePOLine : submitPOLine;
-
-  const differentAccountsModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
 
   return (
     <>
@@ -596,17 +648,14 @@ function LayerPOLine({
         onSubmit={onSubmit}
         order={order}
         vendor={vendor}
-        parentMutator={mutator} // required for async validation, `validateISBN`
         parentResources={resources}
         stripes={stripes}
         isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
         enableSaveBtn={Boolean(savingValues)}
         linesLimit={linesLimit}
         locations={locations}
-        isCreateAnotherChecked={isCreateAnotherChecked}
-        toggleCreateAnother={setCreateAnotherChecked}
         integrationConfigs={integrationConfigs}
-        isCreateFromInstance={Boolean(locationState?.instanceId)}
+        isCreateFromInstance={isCreateFromInstance}
         instance={instance}
         fieldArraysToHydrate={FIELD_ARRAYS_TO_HYDRATE}
         centralOrdering={isCentralOrderingEnabled}
@@ -631,12 +680,12 @@ function LayerPOLine({
             duplicateLines={duplicateLines}
             onSubmit={() => {
               toggleNotUnique();
-              setValidateDuplicateLines(false);
+              setIsValidateDuplicateLines(false);
               onSubmit(savingValues);
             }}
             onCancel={() => {
               toggleNotUnique();
-              setValidateDuplicateLines(true);
+              setIsValidateDuplicateLines(true);
             }}
           />
         )
@@ -665,11 +714,6 @@ LayerPOLine.manifest = Object.freeze({
   approvalsSetting: APPROVALS_SETTING,
   [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
   poLines: ORDER_LINES,
-  orderVendor: {
-    ...baseManifest,
-    accumulate: true,
-    fetch: false,
-  },
   createInventory: CREATE_INVENTORY,
   orderTemplates: {
     ...ORDER_TEMPLATES,
@@ -680,7 +724,6 @@ LayerPOLine.manifest = Object.freeze({
     accumulate: false,
     fetch: true,
   },
-  validateISBN: VALIDATE_ISBN,
   convertToIsbn13: CONVERT_TO_ISBN13,
   [DICT_IDENTIFIER_TYPES]: IDENTIFIER_TYPES,
   orderNumber: ORDER_NUMBER,

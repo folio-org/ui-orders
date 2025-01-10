@@ -32,3 +32,8 @@ export const MAP_FIELD_ACCORDION = {
   orderType: ACCORDION_ID.purchaseOrder,
   notes: ACCORDION_ID.purchaseOrder,
 };
+
+export const SUBMIT_ACTION = {
+  saveAndClose: 'saveAndClose',
+  saveAndKeepEditing: 'saveAndKeepEditing',
+};
