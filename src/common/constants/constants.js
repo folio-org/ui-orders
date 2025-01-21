@@ -71,3 +71,5 @@ export const CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH = {
   centralDefault: 'Central default',
   activeAffiliationDefault: 'Active affiliation default',
 };
+
+export const SUBMIT_ACTION_FIELD = '__submitAction__';
