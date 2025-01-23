@@ -1,5 +1,6 @@
 /* eslint-disable filenames/match-exported */
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   Route,
@@ -40,12 +41,30 @@ import {
 import { Notes } from './common/Notes';
 import { RoutingList } from './components/POLine';
 
+// import ExampleWorker from './example.worker'; /* With webpack-loader */
+
 const Orders = ({
   match,
   location,
   showSettings,
 }) => {
   const [isOpen, toggleModal] = useModalToggle();
+
+  useEffect(() => {
+    const worker = new Worker(new URL('./example.worker.js', import.meta.url)); /* Without webpack-loader */
+    // const worker = new ExampleWorker(); /* With webpack-loader */
+
+    worker.onmessage = (event) => {
+      console.log(event.data);
+      worker.terminate();
+    };
+
+    worker.postMessage('ping');
+
+    return () => {
+      worker.terminate();
+    };
+  }, []);
 
   const focusSearchField = () => {
     const el = document.getElementById('input-record-search');
