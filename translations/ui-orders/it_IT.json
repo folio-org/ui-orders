@@ -298,8 +298,6 @@
     "errors.noCreateItemPlugin": "[nessun plug-in per la creazione di item in inventory]",
     "vendor.accountNumber": "Numero conto",
     "receiving.comment": "Commenti",
-    "buttons.line.save": "Salva e chiudi",
-    "paneMenu.saveOrder": "Salva e chiudi",
     "order.vendorCode": "Codice fornitore",
     "order.orderType": "Tipologia ordine",
     "order.createdDate": "Data di creazione",
@@ -640,7 +638,6 @@
     "search.vendorDetail.referenceNumbers": "Numero di riferimento del fornitore",
     "payment_status.ongoing": "Continuativo",
     "receipt_status.ongoing": "Continuativo",
-    "buttons.line.createAnother": "Creane un altro",
     "errors.renewalIntervalIsNotSet": "L'intervallo di rinnovo non è impostato",
     "errors.renewalDateIsNotSet": "La data di rinnovo non è stata impostata",
     "export.invalidReference": "Riferimento non valido",
@@ -902,5 +899,6 @@
     "orderSummary.totalCredited": "Total credited",
     "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
     "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
-    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record."
+    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record.",
+    "buttons.line.saveAndCreateAnother": "Save & create another"
 }

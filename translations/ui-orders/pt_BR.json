@@ -298,8 +298,6 @@
     "errors.noCreateItemPlugin": "[nenhum plugin de criação de item de inventário]",
     "vendor.accountNumber": "Número da conta",
     "receiving.comment": "Comentários",
-    "buttons.line.save": "Salvar e fechar",
-    "paneMenu.saveOrder": "Salvar e fechar",
     "order.vendorCode": "Código do fornecedor",
     "order.orderType": "Tipo de pedido",
     "order.createdDate": "Data de criação",
@@ -640,7 +638,6 @@
     "search.vendorDetail.referenceNumbers": "Número de referência do fornecedor",
     "payment_status.ongoing": "Em andamento",
     "receipt_status.ongoing": "Em andamento",
-    "buttons.line.createAnother": "Criar outro",
     "errors.renewalIntervalIsNotSet": "O intervalo de renovação não está definido",
     "errors.renewalDateIsNotSet": "A data de renovação não foi definida",
     "export.invalidReference": "Referência inválida",
@@ -902,5 +899,6 @@
     "orderSummary.totalCredited": "Total creditado",
     "errors.userHasMissedAffiliations": "A operação falhou. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações que o registro.",
     "errors.budgetNotFoundForFiscalYear": "O pedido não pode ser aberto porque não há orçamento atual para o(s) fundo(s) <b>{fundCodes}</b> para o ano fiscal <b>{fiscalYearCode}</b>.",
-    "errors.locationUpdateWithoutAffiliation": "Linha do Pedido de Compra não pôde ser salvo. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações do registro."
+    "errors.locationUpdateWithoutAffiliation": "Linha do Pedido de Compra não pôde ser salvo. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações do registro.",
+    "buttons.line.saveAndCreateAnother": "Salvar e criar outro"
 }

@@ -298,8 +298,6 @@
     "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
     "vendor.accountNumber": "Account number",
     "receiving.comment": "Comments",
-    "buttons.line.save": "Gem & luk",
-    "paneMenu.saveOrder": "Gem & luk",
     "order.vendorCode": "Vendor code",
     "order.orderType": "Order type",
     "order.createdDate": "Created date",
@@ -640,7 +638,6 @@
     "search.vendorDetail.referenceNumbers": "Vendor reference number",
     "payment_status.ongoing": "Ongoing",
     "receipt_status.ongoing": "Ongoing",
-    "buttons.line.createAnother": "Create another",
     "errors.renewalIntervalIsNotSet": "Renewal interval is not set",
     "errors.renewalDateIsNotSet": "Renewal date is not set",
     "export.invalidReference": "Invalid reference",
@@ -902,5 +899,6 @@
     "orderSummary.totalCredited": "Total credited",
     "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
     "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
-    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record."
+    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record.",
+    "buttons.line.saveAndCreateAnother": "Save & create another"
 }

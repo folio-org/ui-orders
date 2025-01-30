@@ -298,8 +298,6 @@
     "errors.noCreateItemPlugin": "[没有库存创建单件插件]",
     "vendor.accountNumber": "账号",
     "receiving.comment": "备注",
-    "buttons.line.save": "保存",
-    "paneMenu.saveOrder": "保存并关闭",
     "order.vendorCode": "供应商代码",
     "order.orderType": "订单类型",
     "order.createdDate": "创建日期",
@@ -640,7 +638,6 @@
     "search.vendorDetail.referenceNumbers": "供应商参考号",
     "payment_status.ongoing": "进行中",
     "receipt_status.ongoing": "进行中",
-    "buttons.line.createAnother": "创建另一个",
     "errors.renewalIntervalIsNotSet": "续借间隔未设置",
     "errors.renewalDateIsNotSet": "续借日期未设置",
     "export.invalidReference": "无效参考",
@@ -902,5 +899,6 @@
     "orderSummary.totalCredited": "总入账",
     "errors.userHasMissedAffiliations": "操作失败。此记录具有您的用户没有的位置附属关系。必须移除这些附属关系，或者必须由具有与该记录相同附属关系的用户执行此操作。",
     "errors.budgetNotFoundForFiscalYear": "无法打开订单，因为财务年度<b> {fiscalYearCode} </b>的经费<b> {fundCodes} </b>目前没有预算。",
-    "errors.locationUpdateWithoutAffiliation": "无法保存采购订单行。此记录具有您的用户没有的位置关联。必须删除这些关联，或者必须由具有与记录相同关联的用户执行此操作。"
+    "errors.locationUpdateWithoutAffiliation": "无法保存采购订单行。此记录具有您的用户没有的位置关联。必须删除这些关联，或者必须由具有与记录相同关联的用户执行此操作。",
+    "buttons.line.saveAndCreateAnother": "Save & create another"
 }
