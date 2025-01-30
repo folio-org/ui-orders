@@ -298,8 +298,6 @@
     "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
     "vendor.accountNumber": "계정 번호",
     "receiving.comment": "코멘트",
-    "buttons.line.save": "저장",
-    "paneMenu.saveOrder": "저장 후 닫기",
     "order.vendorCode": "벤더 코드",
     "order.orderType": "주문 유형",
     "order.createdDate": "만든 날짜",
@@ -640,7 +638,6 @@
     "search.vendorDetail.referenceNumbers": "벤더 참조 번호",
     "payment_status.ongoing": "지속지불",
     "receipt_status.ongoing": "지속수령",
-    "buttons.line.createAnother": "다른 만들기",
     "errors.renewalIntervalIsNotSet": "갱신 간격이 설정되지 않았습니다.",
     "errors.renewalDateIsNotSet": "갱신 날짜가 설정되지 않았습니다.",
     "export.invalidReference": "잘못된 참조",
@@ -902,5 +899,6 @@
     "orderSummary.totalCredited": "Total credited",
     "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
     "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
-    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record."
+    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record.",
+    "buttons.line.saveAndCreateAnother": "Save & create another"
 }

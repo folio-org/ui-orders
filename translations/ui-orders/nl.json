@@ -298,8 +298,6 @@
     "errors.noCreateItemPlugin": "[geen 'collectiebezit aanmaken'-plugin].",
     "vendor.accountNumber": "Accountnummer",
     "receiving.comment": "Opmerkingen",
-    "buttons.line.save": "Opslaan",
-    "paneMenu.saveOrder": "Opslaan en sluiten",
     "order.vendorCode": "Leverancierscode",
     "order.orderType": "Soort bestelling",
     "order.createdDate": "Datum aangemaakt",
@@ -640,7 +638,6 @@
     "search.vendorDetail.referenceNumbers": "Referentienummer leverancier",
     "payment_status.ongoing": "Doorlopend",
     "receipt_status.ongoing": "Doorlopend",
-    "buttons.line.createAnother": "Een andere aanmaken",
     "errors.renewalIntervalIsNotSet": "Vernieuwingsinterval is niet ingesteld",
     "errors.renewalDateIsNotSet": "Vernieuwingsdatum is niet ingegesteld",
     "export.invalidReference": "Ongeldige referentie",
@@ -902,5 +899,6 @@
     "orderSummary.totalCredited": "Totaal gecrediteerd",
     "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
     "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
-    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record."
+    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record.",
+    "buttons.line.saveAndCreateAnother": "Save & create another"
 }

@@ -298,8 +298,6 @@
     "errors.noCreateItemPlugin": "[žádný plugin pro vytvoření jednotky katalogu]",
     "vendor.accountNumber": "Číslo účtu",
     "receiving.comment": "Komentáře",
-    "buttons.line.save": "Uložit",
-    "paneMenu.saveOrder": "Uložit a zavřít",
     "order.vendorCode": "Kód prodejce",
     "order.orderType": "Typ objednávky",
     "order.createdDate": "Datum vytvoření",
@@ -640,7 +638,6 @@
     "search.vendorDetail.referenceNumbers": "Referenční číslo prodejce",
     "payment_status.ongoing": "Probíhající",
     "receipt_status.ongoing": "Probíhající",
-    "buttons.line.createAnother": "Vytvořit další",
     "errors.renewalIntervalIsNotSet": "Interval prodloužení není nastaven",
     "errors.renewalDateIsNotSet": "Datum prodloužení není stanoveno",
     "export.invalidReference": "Neplatná reference",
@@ -902,5 +899,6 @@
     "orderSummary.totalCredited": "Celkem připsáno",
     "errors.userHasMissedAffiliations": "Operace se nezdařila. Tento záznam má lokaci pobočky, kterou Váš uživatel nemá. Tato pobočka musí být odstraněna nebo operaci musí provést uživatel, který má stejnou pobočku jako záznam.",
     "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
-    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record."
+    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record.",
+    "buttons.line.saveAndCreateAnother": "Uložit a vytvořit další"
 }
