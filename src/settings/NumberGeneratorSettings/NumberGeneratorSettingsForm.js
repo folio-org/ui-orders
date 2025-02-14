@@ -75,7 +75,7 @@ const NumberGeneratorSettingsForm = ({
   );
 
   return (
-    <form onSubmit={handleSubmit} id="numberGeneratorSettingsForm">
+    <form id="numberGeneratorSettingsForm">
       <Pane defaultWidth="fill" footer={paneFooter} id="number-generator-settings-form" renderHeader={paneHeader}>
         <Row className={css.marginBottomGutterDouble}>
           <Col xs={12}>

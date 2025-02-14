@@ -99,7 +99,7 @@ export const SECTIONS = [
         component: NumberGeneratorSettings,
         label: <FormattedMessage id="ui-orders.settings.numberGenerator.options" />,
         route: 'numberGeneratorOptions',
-        // perm: 'ui-orders.settings.numberGenerator.manage',
+        perm: 'ui-orders.settings.number-generator.manage',
       },
     ],
   },
