@@ -9,7 +9,7 @@ import InstanceMatching from './InstanceMatching';
 import InstanceStatus from './InstanceStatus';
 import InstanceType from './InstanceType';
 import LoanType from './LoanType';
-import NumberGeneratorSettings from './NumberGeneratorSettings';
+import { NumberGeneratorSettings } from './NumberGeneratorSettings';
 import OpenOrder from './OpenOrder';
 import OrderApprovals from './OrderApprovals';
 import OrderNumber from './OrderNumber';

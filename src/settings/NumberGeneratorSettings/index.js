@@ -1,1 +1,1 @@
-export { default } from './NumberGeneratorSettings';
+export { NumberGeneratorSettings } from './NumberGeneratorSettings';
