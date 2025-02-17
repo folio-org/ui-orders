@@ -5,6 +5,7 @@
 * Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
 * Add the "Save & keep editing" button to the PO form. Refs UIOR-1325.
 * Add the "Save & keep editing" button to the PO Line form. Refs UIOR-1351.
+* Migrate to shared GA workflows. Refs UIOR-1380.
 
 ## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
