@@ -32,6 +32,7 @@ describe('Rendering NumberGeneratorSettingsForm', () => {
   it('should show headline and info text', () => {
     expect(screen.getByText('ui-orders.settings.numberGenerator.options')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.settings.numberGenerator.info')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.settings.numberGenerator.infoAdditional')).toBeInTheDocument();
   });
 
   it('should show receiving accordion and save button', () => {

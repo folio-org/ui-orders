@@ -7,6 +7,7 @@
 * Add the "Save & keep editing" button to the PO Line form. Refs UIOR-1351.
 * Migrate to shared GA workflows. Refs UIOR-1380.
 * Add setting options for number gernerator - accessing number equals call number. Refs UIOR-1383.
+* Enhancement help text on Settings > Organizations > Number generator options. Refs UIOR-1384.
 
 ## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
