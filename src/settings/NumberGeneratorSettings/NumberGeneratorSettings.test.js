@@ -9,8 +9,8 @@ import {
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { NumberGeneratorSettings } from './NumberGeneratorSettings';
 import { useNumberGeneratorOptions } from '../hooks';
+import { NumberGeneratorSettings } from './NumberGeneratorSettings';
 
 jest.mock('@folio/stripes/core', () => ({
   useOkapiKy: jest.fn(),

@@ -5,8 +5,8 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import { NUMBER_GENERATOR_SETTINGS_KEY } from './constants';
 import { useNumberGeneratorOptions } from '../hooks';
+import { NUMBER_GENERATOR_SETTINGS_KEY } from './constants';
 import NumberGeneratorSettingsForm from './NumberGeneratorSettingsForm';
 
 export const NumberGeneratorSettings = () => {

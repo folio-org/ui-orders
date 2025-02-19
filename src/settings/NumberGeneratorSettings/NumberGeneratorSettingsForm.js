@@ -17,7 +17,6 @@ import {
 } from '@folio/stripes/components';
 import stripesFinalForm from '@folio/stripes/final-form';
 
-import css from './NumberGeneratorSettings.css';
 import {
   ACCESSION_NUMBER_SETTING,
   BARCODE_SETTING,
@@ -26,6 +25,7 @@ import {
   NUMBER_GENERATOR_OPTIONS_OFF,
   USE_SHARED_NUMBER,
 } from './constants';
+import css from './NumberGeneratorSettings.css';
 
 const NumberGeneratorSettingsForm = ({
   handleSubmit,
