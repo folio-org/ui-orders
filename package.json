@@ -414,6 +414,17 @@
         ]
       },
       {
+        "permissionName": "ui-orders.settings.number-generator.manage",
+        "displayName": "Settings (Orders): Manage number generator options",
+        "subPermissions": [
+          "orders-storage.settings.collection.get",
+          "orders-storage.settings.item.get",
+          "orders-storage.settings.item.post",
+          "orders-storage.settings.item.put"
+        ],
+        "visible": true
+      },
+      {
         "permissionName": "ui-orders.settings.view",
         "displayName": "Settings (Orders): Can view all settings",
         "description": "",
