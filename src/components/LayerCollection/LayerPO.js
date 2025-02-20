@@ -72,9 +72,13 @@ function LayerPO({
   const order = id ? fetchedOrder : NEW_ORDER;
 
   useEffect(() => {
-    memoizedMutator.orderNumber.reset();
-    memoizedMutator.orderNumber.GET()
-      .finally(setIsLoading);
+    if (id) {
+      setIsLoading(false);
+    } else {
+      memoizedMutator.orderNumber.reset();
+      memoizedMutator.orderNumber.GET()
+        .finally(setIsLoading);
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
