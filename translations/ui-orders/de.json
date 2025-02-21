@@ -900,5 +900,19 @@
     "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
     "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
     "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record.",
-    "buttons.line.saveAndCreateAnother": "Save & create another"
+    "buttons.line.saveAndCreateAnother": "Save & create another",
+    "settings.numberGenerator.accessionNumber": "Zugangsnummer",
+    "settings.numberGenerator.accessionNumberEqualCallNumber": "Dieselbe generierte Nummer für Zugangsnummer und Signatur verwenden",
+    "settings.numberGenerator.accessionNumberEqualCallNumber.warning": "Warnung: Checkbox ist deaktiviert, da Zugangsnummer und/oder Signatur auf manuelle Bearbeitung eingestellt wurden",
+    "settings.numberGenerator.barcode": "Barcode",
+    "settings.numberGenerator.callNumber": "Signatur",
+    "settings.numberGenerator.info": "Felder, die normalerweise Nummernkreise nutzen, könnten einen Nummerngenerator verwenden. Wenn der Generator aktiviert ist, kann das Feld entweder vor manueller Aktualisierung geschützt werden oder editierbar sein. Wenn der Generator deaktiviert ist, kann das Feld nur manuell verwendet werden.",
+    "settings.numberGenerator.options": "Nummerngenerator-Optionen",
+    "settings.numberGenerator.options.off": "Deaktiviert",
+    "settings.numberGenerator.options.onEditable": "Aktiviert, Feld editierbar",
+    "settings.numberGenerator.options.onNotEditable": "Aktiviert, Feld nicht editierbar",
+    "settings.numberGenerator.receiving": "Inventarisierung",
+    "settings.numberGenerator.submit.error": "Aktualisierung der Nummerngenerator-Einstellung fehlgeschlagen",
+    "settings.numberGenerator.submit.success": "Nummerngenerator-Einstellung wurde erfolgreich aktualisiert",
+    "permission.settings.number-generator.manage": "Einstellungen (Bestellungen): Nummerngenerator-Optionen verwalten"
 }
