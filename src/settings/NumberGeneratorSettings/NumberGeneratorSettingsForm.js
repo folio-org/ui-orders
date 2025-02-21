@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import {
   Accordion,
@@ -23,6 +24,8 @@ import {
   CALL_NUMBER_SETTING,
   NUMBER_GENERATOR_OPTIONS,
   NUMBER_GENERATOR_OPTIONS_OFF,
+  SERVICE_INTERACTION_API,
+  SERVICE_INTERACTION_NUMBER_GENERATOR_SEQUENCES_API,
   USE_SHARED_NUMBER,
 } from './constants';
 import css from './NumberGeneratorSettings.css';
@@ -81,6 +84,26 @@ const NumberGeneratorSettingsForm = ({
           <Col xs={12}>
             <MessageBanner>
               <p><FormattedMessage id="ui-orders.settings.numberGenerator.info" /></p>
+              <p>
+                <FormattedMessage
+                  id="ui-orders.settings.numberGenerator.infoAdditional"
+                  values={{
+                    serviceInteractionLink: (
+                      <Link to={SERVICE_INTERACTION_API}>
+                        <FormattedMessage id="stripes-core.settings" />{' > '}
+                        <FormattedMessage id="ui-orders.settings.numberGenerator.infoAdditional.serviceInteraction" />
+                      </Link>
+                    ),
+                    numberGeneratorSequencesLink: (
+                      <Link to={SERVICE_INTERACTION_NUMBER_GENERATOR_SEQUENCES_API}>
+                        <FormattedMessage id="stripes-core.settings" />{' > '}
+                        <FormattedMessage id="ui-orders.settings.numberGenerator.infoAdditional.serviceInteraction" />{' > '}
+                        <FormattedMessage id="ui-orders.settings.numberGenerator.infoAdditional.numberGeneratorSequences" />
+                      </Link>
+                    ),
+                  }}
+                />
+              </p>
             </MessageBanner>
           </Col>
         </Row>
