@@ -1,6 +1,6 @@
 # Change history for ui-orders
 
-## 7.1.0 (IN PROGRESS)
+## 8.0.0 (IN PROGRESS)
 
 * Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
 * Add the "Save & keep editing" button to the PO form. Refs UIOR-1325.
@@ -8,6 +8,8 @@
 * Migrate to shared GA workflows. Refs UIOR-1380.
 * Add setting options for number gernerator - accessing number equals call number. Refs UIOR-1383.
 * PO numbers increase by 2 instead of 1. Refs UIOR-1374.
+* *BREAKING* Migrate stripes dependencies to their Sunflower versions. Refs UIOR-1381.
+* *BREAKING* Migrate `react-intl` to v7. Refs UIOR-1382.
 
 ## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
