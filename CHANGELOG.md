@@ -10,6 +10,7 @@
 * PO numbers increase by 2 instead of 1. Refs UIOR-1374.
 * *BREAKING* Migrate stripes dependencies to their Sunflower versions. Refs UIOR-1381.
 * *BREAKING* Migrate `react-intl` to v7. Refs UIOR-1382.
+* Enhancement help text on Settings > Organizations > Number generator options. Refs UIOR-1384.
 
 ## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
