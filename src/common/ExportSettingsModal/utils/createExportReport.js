@@ -1,8 +1,6 @@
-import {
-  flatten,
-  groupBy,
-  merge,
-} from 'lodash';
+import flatten from 'lodash/flatten';
+import groupBy from 'lodash/groupBy';
+import merge from 'lodash/merge';
 
 import { getFullName } from '@folio/stripes/util';
 import {
@@ -183,7 +181,7 @@ const getOrderExportData = ({
     note: order.notes?.join('|'),
     workflowStatus: order.workflowStatus,
     approved: order.approved,
-    approvedBy: getFullName(userMap[order.approvedById]),
+    approvedBy: userMap[order.approvedById] ? getFullName(userMap[order.approvedById]) : invalidReference,
     interval: order.ongoing?.interval,
     isSubscription: order.ongoing?.isSubscription,
     manualRenewal: order.ongoing?.manualRenewal,

@@ -74,7 +74,14 @@ const ExportSettingsModal = ({
 
     return onExportCSV([...orderFields, ...lineFields]);
   },
-  [isOrderExportAll, isLineExportAll, orderFieldsToExport, lineFieldsToExport, onExportCSV]);
+  [
+    isOrderExportAll,
+    customFields,
+    orderFieldsToExport,
+    isLineExportAll,
+    lineFieldsToExport,
+    onExportCSV,
+  ]);
 
   const exportModalFooter = (
     <ModalFooter>
