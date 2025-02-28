@@ -15,8 +15,8 @@ const getExportUseIds = (lines = [], orders = []) => {
   const lineUserIds = lines.map(({ metadata }) => {
     return [metadata?.createdByUserId, metadata?.updatedByUserId];
   });
-  const orderUserIds = orders.map(({ metadata, assignedTo, approvedBy }) => ([
-    metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedBy,
+  const orderUserIds = orders.map(({ metadata, assignedTo, approvedById }) => ([
+    metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedById,
   ]));
 
   return uniq(flatten([...lineUserIds, ...orderUserIds])).filter(Boolean);

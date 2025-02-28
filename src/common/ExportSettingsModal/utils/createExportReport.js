@@ -4,6 +4,7 @@ import {
   merge,
 } from 'lodash';
 
+import { getFullName } from '@folio/stripes/util';
 import {
   calculateFundAmount,
   formatDate,
@@ -182,6 +183,7 @@ const getOrderExportData = ({
     note: order.notes?.join('|'),
     workflowStatus: order.workflowStatus,
     approved: order.approved,
+    approvedBy: getFullName(userMap[order.approvedById]),
     interval: order.ongoing?.interval,
     isSubscription: order.ongoing?.isSubscription,
     manualRenewal: order.ongoing?.manualRenewal,
@@ -191,6 +193,7 @@ const getOrderExportData = ({
     reviewDate: formatDate(order.ongoing?.reviewDate, intl),
     poTags: order.tags?.tagList?.join('|'),
     customFields: resolveCustomFields(order.customFields, customFields),
+    dateOrdered: formatDateTime(order?.dateOrdered, intl),
     createdBy: userMap[order.metadata?.createdByUserId]?.username ?? invalidReference,
     dateCreated: formatDateTime(order.metadata?.createdDate, intl),
     updatedBy: userMap[order.metadata?.updatedByUserId]?.username ?? invalidReference,
