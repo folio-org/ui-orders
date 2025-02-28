@@ -11,6 +11,7 @@
 * *BREAKING* Migrate stripes dependencies to their Sunflower versions. Refs UIOR-1381.
 * *BREAKING* Migrate `react-intl` to v7. Refs UIOR-1382.
 * Enhancement help text on Settings > Organizations > Number generator options. Refs UIOR-1384.
+* Add `Approved by` and `Date opened` in export csv. Refs UIOR-1322, UIOR-1379.
 
 ## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
