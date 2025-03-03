@@ -7,6 +7,7 @@ export const exportReport = [
     'activationDue': null,
     'approvalDate': null,
     'approved': false,
+    'approvedBy': 'ui-orders.export.invalidReference',
     'assignedTo': 'ui-orders.export.invalidReference',
     'billTo': '"addressName""address"',
     'billToRecord': {
@@ -335,6 +336,7 @@ export const exportReport = [
     'poLineDateUpdated': '2021-08-15',
     'poLineUpdatedBy': 'ui-orders.export.invalidReference',
     'createdBy': 'ui-orders.export.invalidReference',
+    'dateOrdered': '2021-08-16',
     'dateCreated': '2021-08-15',
     'dateUpdated': '2021-08-15',
     'renewalNote': undefined,

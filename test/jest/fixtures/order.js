@@ -1,6 +1,7 @@
 export const order = {
   id: '0610be6d-0ddd-494b-b867-19f63d8b5d6d',
   approved: false,
+  approvedById: 'userId',
   manualPo: false,
   notes: [
     '2 titles received: Publication and London topographical record',
@@ -14,6 +15,7 @@ export const order = {
   workflowStatus: 'Pending',
   acqUnitIds: ['0ebb1f7d-983f-3026-8a4c-5318e0ebc041'],
   assignedTo: 'userId',
+  dateOrdered: '2021-08-16T09:00:00.765+00:00',
   metadata: {
     createdDate: '2021-08-15T01:52:08.765+00:00',
     updatedDate: '2021-08-15T01:52:08.765+00:00',
