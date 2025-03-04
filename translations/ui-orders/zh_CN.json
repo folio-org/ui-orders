@@ -914,5 +914,8 @@
     "settings.numberGenerator.receiving": "Receiving",
     "settings.numberGenerator.submit.error": "Number generator setting update failed",
     "settings.numberGenerator.submit.success": "Number generator setting was successfully updated",
-    "permission.settings.number-generator.manage": "Settings (Orders): Manage number generator options"
+    "permission.settings.number-generator.manage": "Settings (Orders): Manage number generator options",
+    "settings.numberGenerator.infoAdditional": "Additional number generator settings are available under {serviceInteractionLink}. At {numberGeneratorSequencesLink} sequences can be defined by selecting the appropriate generator via the drop-down menu.",
+    "settings.numberGenerator.infoAdditional.serviceInteraction": "Service interaction",
+    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Number generator sequences"
 }

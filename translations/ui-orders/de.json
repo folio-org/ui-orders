@@ -914,5 +914,8 @@
     "settings.numberGenerator.receiving": "Inventarisierung",
     "settings.numberGenerator.submit.error": "Aktualisierung der Nummerngenerator-Einstellung fehlgeschlagen",
     "settings.numberGenerator.submit.success": "Nummerngenerator-Einstellung wurde erfolgreich aktualisiert",
-    "permission.settings.number-generator.manage": "Einstellungen (Bestellungen): Nummerngenerator-Optionen verwalten"
+    "permission.settings.number-generator.manage": "Einstellungen (Bestellungen): Nummerngenerator-Optionen verwalten",
+    "settings.numberGenerator.infoAdditional": "Weitere Einstellungen für Nummerngeneratoren sind unter {serviceInteractionLink} verfügbar. Unter {numberGeneratorSequencesLink} können Nummernkreise definiert werden, indem der entsprechende Generator über das Dropdown-Menü ausgewählt wird.",
+    "settings.numberGenerator.infoAdditional.serviceInteraction": "Service Interaktion",
+    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Nummernkreise"
 }
