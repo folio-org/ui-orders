@@ -181,7 +181,11 @@ const getOrderExportData = ({
     note: order.notes?.join('|'),
     workflowStatus: order.workflowStatus,
     approved: order.approved,
-    approvedBy: userMap[order.approvedById] ? getFullName(userMap[order.approvedById]) : invalidReference,
+    approvedBy: (
+      order.approvedById && !userMap[order.approvedById]
+        ? invalidReference
+        : getFullName(userMap[order.approvedById])
+    ),
     interval: order.ongoing?.interval,
     isSubscription: order.ongoing?.isSubscription,
     manualRenewal: order.ongoing?.manualRenewal,
