@@ -345,9 +345,7 @@ function LayerPOLine({
 
       savedLine = await mutator.poLines.POST(newLine);
 
-      let pathname = isCreateFromInstance
-        ? `/orders/view/${id}/po-line/view/${savedLine.id}`
-        : `/orders/view/${id}`;
+      let pathname = `/orders/view/${id}/po-line/view/${savedLine.id}`;
 
       switch (submitAction) {
         case SUBMIT_ACTION.saveAndOpen: {
@@ -371,6 +369,10 @@ function LayerPOLine({
         }
         case SUBMIT_ACTION.saveAndClose:
         default:
+          if (isCreateFromInstance) {
+            pathname = `/orders/view/${id}`;
+          }
+
           break;
       }
 
