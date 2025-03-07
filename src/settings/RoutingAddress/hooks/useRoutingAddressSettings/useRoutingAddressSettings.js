@@ -10,7 +10,7 @@ import { ROUTING_USER_ADDRESS_TYPE_ID } from '../../constants';
 
 export const useRoutingAddressSettings = (options = {}) => {
   const ky = useOkapiKy();
-  const [namespace] = useNamespace('routing-address-settings');
+  const [namespace] = useNamespace({ key: 'routing-address-settings' });
 
   const searchParams = {
     limit: 1,

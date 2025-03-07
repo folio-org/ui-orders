@@ -17,7 +17,7 @@ export const useConsortiumPOLineRelatedItems = (poLine, options = {}) => {
   } = options;
 
   const { initPublicationRequest } = usePublishCoordinator();
-  const [namespace] = useNamespace('consortium-items-by-holding-ids');
+  const [namespace] = useNamespace({ key: 'consortium-items-by-holding-ids' });
 
   const tenants = useMemo(() => {
     return [...get(poLine, 'locations', []).reduce((acc, { holdingId, tenantId }) => {
