@@ -10,7 +10,7 @@ import { NUMBER_GENERATOR_SETTINGS_KEY } from '../../NumberGeneratorSettings/con
 
 export const useNumberGeneratorOptions = () => {
   const ky = useOkapiKy();
-  const [namespace] = useNamespace('number-generator-options');
+  const [namespace] = useNamespace({ key: 'number-generator-options' });
 
   const searchParams = {
     limit: 1,

@@ -10,7 +10,7 @@ import { CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH_SETTINGS_KEY } from '../../..
 
 export const useDefaultReceivingSearchSettings = (options = {}) => {
   const ky = useOkapiKy();
-  const [namespace] = useNamespace('central-ordering-settings');
+  const [namespace] = useNamespace({ key: 'central-ordering-settings' });
 
   const searchParams = {
     limit: 1,
