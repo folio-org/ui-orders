@@ -1,6 +1,9 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { useCallback } from 'react';
+import {
+  useCallback,
+  useEffect,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -62,6 +65,12 @@ function POLineDetailsForm({
 
   const isClaimingActive = Boolean(formValues?.claimingActive);
   const orderFormat = formValues?.orderFormat;
+
+  useEffect(() => {
+    if (!isPostPendingOrder && isReceiptNotRequired(formValues?.receiptStatus)) {
+      change('checkinItems', true);
+    }
+  }, []);
 
   const checkinItemsFieldDisabled = (
     isPostPendingOrder

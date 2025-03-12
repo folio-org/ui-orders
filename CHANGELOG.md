@@ -14,6 +14,7 @@
 * Add `Approved by` to results export CSV. Refs UIOR-1322.
 * Add `Date opened` to results export CSV. Refs UIOR-1379.
 * Navigate back into an appropriate location after PO Line submit. Fixes UIOR-1398.
+* Handle Receiving workflow value on mount. Fixes UIOR-1372.
 
 ## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
