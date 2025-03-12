@@ -1,9 +1,6 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import {
-  useCallback,
-  useEffect,
-} from 'react';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
