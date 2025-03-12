@@ -66,12 +66,6 @@ function POLineDetailsForm({
   const isClaimingActive = Boolean(formValues?.claimingActive);
   const orderFormat = formValues?.orderFormat;
 
-  useEffect(() => {
-    if (!isPostPendingOrder && isReceiptNotRequired(formValues?.receiptStatus)) {
-      change('checkinItems', true);
-    }
-  }, []);
-
   const checkinItemsFieldDisabled = (
     isPostPendingOrder
     || isPackage

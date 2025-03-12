@@ -22,6 +22,7 @@ import {
   Donors,
   FundDistributionFieldsFinal,
   handleKeyCommand,
+  RECEIPT_STATUS,
   useFunds,
   useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
@@ -211,6 +212,9 @@ function POLineForm({
         const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
         const templateFieldValue = get(templateValue, templateField);
 
+        if (field === 'receiptStatus' && templateFieldValue === RECEIPT_STATUS.receiptNotRequired) {
+          change('checkinItems', true);
+        }
         if (templateFieldValue !== undefined) change(field, templateFieldValue);
       });
     });
