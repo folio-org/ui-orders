@@ -1,6 +1,9 @@
 # Change history for ui-orders
 
-## 8.0.0 (IN PROGRESS)
+## 8.1.0 (IN PROGRESS)
+
+## [8.0.0](https://github.com/folio-org/ui-orders/tree/v8.0.0) (2025-03-13)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.4...v8.0.0)
 
 * Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
 * Add the "Save & keep editing" button to the PO form. Refs UIOR-1325.
