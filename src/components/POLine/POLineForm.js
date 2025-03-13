@@ -22,6 +22,7 @@ import {
   Donors,
   FundDistributionFieldsFinal,
   handleKeyCommand,
+  RECEIPT_STATUS,
   useFunds,
   useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
@@ -91,6 +92,7 @@ import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
+  POL_FORM_FIELDS,
   POL_TEMPLATE_FIELDS_MAP,
   SUBMIT_ACTION,
 } from './const';
@@ -104,7 +106,13 @@ import calculateEstimatedPrice from './calculateEstimatedPrice';
 import { useManageDonorOrganizationIds } from './hooks';
 import { createPOLDataFromInstance } from './Item/util';
 
-const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
+const GAME_CHANGER_FIELDS = [
+  POL_FORM_FIELDS.isPackage,
+  POL_FORM_FIELDS.orderFormat,
+  POL_FORM_FIELDS.checkinItems,
+  POL_FORM_FIELDS.packagePoLineId,
+  POL_FORM_FIELDS.instanceId,
+];
 const GAME_CHANGER_TIMEOUT = 50;
 
 function POLineForm({
@@ -138,9 +146,9 @@ function POLineForm({
 
   const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const lineId = get(initialValues, 'id');
-  const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
-  const fundDistribution = get(formValues, 'fundDistribution', []);
-  const lineLocations = get(formValues, 'locations', []);
+  const initialDonorOrganizationIds = get(initialValues, POL_FORM_FIELDS.donorOrganizationIds, []);
+  const fundDistribution = get(formValues, POL_FORM_FIELDS.fundDistribution, []);
+  const lineLocations = get(formValues, POL_FORM_FIELDS.locations, []);
   const instanceId = formValues.instanceId;
 
   const {
@@ -175,7 +183,7 @@ function POLineForm({
 
   useEffect(() => {
     if (shouldUpdateDonorOrganizationIds) {
-      change('donorOrganizationIds', donorOrganizationIds);
+      change(POL_FORM_FIELDS.donorOrganizationIds, donorOrganizationIds);
     }
   }, [change, donorOrganizationIds, shouldUpdateDonorOrganizationIds]);
 
@@ -187,13 +195,13 @@ function POLineForm({
     !lineId && templateValue.id
       ? {
         ...pick(templateValue, [
-          'instanceId',
-          'titleOrPackage',
-          'publisher',
-          'publicationDate',
-          'edition',
-          'contributors',
-          'details.productIds',
+          POL_FORM_FIELDS.instanceId,
+          POL_FORM_FIELDS.titleOrPackage,
+          POL_FORM_FIELDS.publisher,
+          POL_FORM_FIELDS.publicationDate,
+          POL_FORM_FIELDS.edition,
+          POL_FORM_FIELDS.contributors,
+          `${POL_FORM_FIELDS.details}.productIds`,
         ]),
       }
       : {}
@@ -211,6 +219,9 @@ function POLineForm({
         const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
         const templateFieldValue = get(templateValue, templateField);
 
+        if (field === POL_FORM_FIELDS.receiptStatus && templateFieldValue === RECEIPT_STATUS.receiptNotRequired) {
+          change(POL_FORM_FIELDS.checkinItems, true);
+        }
         if (templateFieldValue !== undefined) change(field, templateFieldValue);
       });
     });
@@ -218,11 +229,11 @@ function POLineForm({
 
   const applyInitialInventoryData = useCallback(() => {
     batch(() => {
-      change('isPackage', false);
+      change(POL_FORM_FIELDS.isPackage, false);
 
       Object.keys(initialInventoryData).forEach(field => {
         if (field === 'productIds') {
-          change(`details.${field}`, initialInventoryData[field]);
+          change(`${POL_FORM_FIELDS.details}.${field}`, initialInventoryData[field]);
         } else change(field, initialInventoryData[field]);
       });
     });
@@ -402,7 +413,9 @@ function POLineForm({
   };
 
   const formErrors = form.getState()?.errors;
-  const errors = useMemo(() => omitFieldArraysAsyncErrors(formErrors, ['fundDistribution']), [formErrors]);
+  const errors = useMemo(() => (
+    omitFieldArraysAsyncErrors(formErrors, [POL_FORM_FIELDS.fundDistribution])
+  ), [formErrors]);
   const errorAccordionStatus = useErrorAccordionStatus({ errors, fieldsMap: MAP_FIELD_ACCORDION });
 
   const lineNumber = get(initialValues, 'poLineNumber', '');
@@ -501,7 +514,7 @@ function POLineForm({
     return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
   }
 
-  const orderFormat = get(formValues, 'orderFormat');
+  const orderFormat = get(formValues, POL_FORM_FIELDS.orderFormat);
   const showEresources = isEresource(orderFormat);
   const showPhresources = isPhresource(orderFormat);
   const showOther = isOtherResource(orderFormat);

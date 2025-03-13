@@ -94,3 +94,21 @@ export const SUBMIT_ACTION = {
   saveAndKeepEditing: 'saveAndKeepEditing',
   saveAndOpen: 'saveAndOpen',
 };
+
+export const POL_FORM_FIELDS = {
+  checkinItems: 'checkinItems',
+  contributors: 'contributors',
+  details: 'details',
+  donorOrganizationIds: 'donorOrganizationIds',
+  edition: 'edition',
+  fundDistribution: 'fundDistribution',
+  instanceId: 'instanceId',
+  isPackage: 'isPackage',
+  locations: 'locations',
+  orderFormat: 'orderFormat',
+  packagePoLineId: 'packagePoLineId',
+  publicationDate: 'publicationDate',
+  publisher: 'publisher',
+  receiptStatus: 'receiptStatus',
+  titleOrPackage: 'titleOrPackage',
+};
