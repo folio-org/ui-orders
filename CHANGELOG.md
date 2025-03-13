@@ -1,10 +1,38 @@
 # Change history for ui-orders
 
-## 7.1.0 (IN PROGRESS)
+## 8.1.0 (IN PROGRESS)
 
 * Provide `signal` from `useQuery` function to the http client (ky). Refs UIOR-1363.
 
-## 7.0.2 (IN PROGRESS)
+## [8.0.0](https://github.com/folio-org/ui-orders/tree/v8.0.0) (2025-03-13)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.4...v8.0.0)
+
+* Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
+* Add the "Save & keep editing" button to the PO form. Refs UIOR-1325.
+* Add the "Save & keep editing" button to the PO Line form. Refs UIOR-1351.
+* Migrate to shared GA workflows. Refs UIOR-1380.
+* Add setting options for number gernerator - accessing number equals call number. Refs UIOR-1383.
+* PO numbers increase by 2 instead of 1. Refs UIOR-1374.
+* *BREAKING* Migrate stripes dependencies to their Sunflower versions. Refs UIOR-1381.
+* *BREAKING* Migrate `react-intl` to v7. Refs UIOR-1382.
+* Enhancement help text on Settings > Organizations > Number generator options. Refs UIOR-1384.
+* Add `Approved by` to results export CSV. Refs UIOR-1322.
+* Add `Date opened` to results export CSV. Refs UIOR-1379.
+* Navigate back into an appropriate location after PO Line submit. Fixes UIOR-1398.
+* Handle `Receiving workflow` value on `populateFieldsFromTemplate`. Fixes UIOR-1372.
+
+## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
+
+* Close actions dropdown before navigation to another page. Refs UIOR-1365.
+
+## [7.0.3](https://github.com/folio-org/ui-orders/tree/v7.0.3) (2024-12-06)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.2...v7.0.3)
+
+Translations update.
+
+## [7.0.2](https://github.com/folio-org/ui-orders/tree/v7.0.2) (2024-12-04)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.1...v7.0.2)
 
 * Add "Donor (Deprecated)" label for PO line search by Donor filed. Refs UIOR-1348.
 * Respect the `tenantId` property when resolving holdings in central tenant mode. Refs UIOR-1330.

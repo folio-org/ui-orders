@@ -12,7 +12,11 @@ export const useOrder = (orderId) => {
     query: `id==${orderId}`,
   };
 
-  const { isLoading, data } = useQuery(
+  const {
+    data,
+    isLoading,
+    refetch,
+  } = useQuery(
     ['ui-orders', 'order', orderId],
     async ({ signal }) => {
       try {
@@ -29,5 +33,6 @@ export const useOrder = (orderId) => {
   return ({
     order: data,
     isLoading,
+    refetch,
   });
 };

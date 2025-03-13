@@ -22,6 +22,7 @@ import {
   Donors,
   FundDistributionFieldsFinal,
   handleKeyCommand,
+  RECEIPT_STATUS,
   useFunds,
   useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
@@ -30,7 +31,6 @@ import {
   AccordionSet,
   AccordionStatus,
   Button,
-  Checkbox,
   checkScope,
   Col,
   collapseAllSections,
@@ -44,6 +44,7 @@ import {
   Pane,
   PaneFooter,
   PaneMenu,
+  Paneset,
   Row,
   Selection,
 } from '@folio/stripes/components';
@@ -57,7 +58,10 @@ import {
   ViewMetaData,
 } from '@folio/stripes/smart-components';
 
-import { ENTITY_TYPE_PO_LINE } from '../../common/constants';
+import {
+  ENTITY_TYPE_PO_LINE,
+  SUBMIT_ACTION_FIELD,
+} from '../../common/constants';
 import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
@@ -88,7 +92,9 @@ import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
+  POL_FORM_FIELDS,
   POL_TEMPLATE_FIELDS_MAP,
+  SUBMIT_ACTION,
 } from './const';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
@@ -97,12 +103,16 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
-import { createPOLDataFromInstance } from './Item/util';
 import { useManageDonorOrganizationIds } from './hooks';
+import { createPOLDataFromInstance } from './Item/util';
 
-import styles from './POLineForm.css';
-
-const GAME_CHANGER_FIELDS = ['isPackage', 'orderFormat', 'checkinItems', 'packagePoLineId', 'instanceId'];
+const GAME_CHANGER_FIELDS = [
+  POL_FORM_FIELDS.isPackage,
+  POL_FORM_FIELDS.orderFormat,
+  POL_FORM_FIELDS.checkinItems,
+  POL_FORM_FIELDS.packagePoLineId,
+  POL_FORM_FIELDS.instanceId,
+];
 const GAME_CHANGER_TIMEOUT = 50;
 
 function POLineForm({
@@ -123,8 +133,6 @@ function POLineForm({
   enableSaveBtn,
   linesLimit,
   locations,
-  isCreateAnotherChecked = false,
-  toggleCreateAnother,
   integrationConfigs = [],
   instance,
   isCreateFromInstance = false,
@@ -138,10 +146,9 @@ function POLineForm({
 
   const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const lineId = get(initialValues, 'id');
-  const saveBtnLabelId = isCreateAnotherChecked ? 'ui-orders.buttons.line.save' : 'stripes-components.saveAndClose';
-  const initialDonorOrganizationIds = get(initialValues, 'donorOrganizationIds', []);
-  const fundDistribution = get(formValues, 'fundDistribution', []);
-  const lineLocations = get(formValues, 'locations', []);
+  const initialDonorOrganizationIds = get(initialValues, POL_FORM_FIELDS.donorOrganizationIds, []);
+  const fundDistribution = get(formValues, POL_FORM_FIELDS.fundDistribution, []);
+  const lineLocations = get(formValues, POL_FORM_FIELDS.locations, []);
   const instanceId = formValues.instanceId;
 
   const {
@@ -176,7 +183,7 @@ function POLineForm({
 
   useEffect(() => {
     if (shouldUpdateDonorOrganizationIds) {
-      change('donorOrganizationIds', donorOrganizationIds);
+      change(POL_FORM_FIELDS.donorOrganizationIds, donorOrganizationIds);
     }
   }, [change, donorOrganizationIds, shouldUpdateDonorOrganizationIds]);
 
@@ -188,13 +195,13 @@ function POLineForm({
     !lineId && templateValue.id
       ? {
         ...pick(templateValue, [
-          'instanceId',
-          'titleOrPackage',
-          'publisher',
-          'publicationDate',
-          'edition',
-          'contributors',
-          'details.productIds',
+          POL_FORM_FIELDS.instanceId,
+          POL_FORM_FIELDS.titleOrPackage,
+          POL_FORM_FIELDS.publisher,
+          POL_FORM_FIELDS.publicationDate,
+          POL_FORM_FIELDS.edition,
+          POL_FORM_FIELDS.contributors,
+          `${POL_FORM_FIELDS.details}.productIds`,
         ]),
       }
       : {}
@@ -212,6 +219,9 @@ function POLineForm({
         const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
         const templateFieldValue = get(templateValue, templateField);
 
+        if (field === POL_FORM_FIELDS.receiptStatus && templateFieldValue === RECEIPT_STATUS.receiptNotRequired) {
+          change(POL_FORM_FIELDS.checkinItems, true);
+        }
         if (templateFieldValue !== undefined) change(field, templateFieldValue);
       });
     });
@@ -219,11 +229,11 @@ function POLineForm({
 
   const applyInitialInventoryData = useCallback(() => {
     batch(() => {
-      change('isPackage', false);
+      change(POL_FORM_FIELDS.isPackage, false);
 
       Object.keys(initialInventoryData).forEach(field => {
         if (field === 'productIds') {
-          change(`details.${field}`, initialInventoryData[field]);
+          change(`${POL_FORM_FIELDS.details}.${field}`, initialInventoryData[field]);
         } else change(field, initialInventoryData[field]);
       });
     });
@@ -299,67 +309,99 @@ function POLineForm({
     )
   );
 
-  const submitAndOpen = useCallback(() => {
-    change('saveAndOpen', true);
+  const onSaveAndClose = useCallback(() => {
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndClose);
     handleSubmit();
   }, [change, handleSubmit]);
 
-  const submit = useCallback(() => {
-    change('saveAndOpen', false);
+  const onSaveAndCreateAnother = useCallback(() => {
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndCreateAnother);
+    handleSubmit();
+  }, [change, handleSubmit]);
+
+  const onSaveAndOpen = useCallback(() => {
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndOpen);
+    handleSubmit();
+  }, [change, handleSubmit]);
+
+  const onSaveAndKeepEditing = useCallback(() => {
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndKeepEditing);
     handleSubmit();
   }, [change, handleSubmit]);
 
   const getPaneFooter = () => {
+    const isSubmitBtnDisabled = !enableSaveBtn && (pristine || submitting);
+
     const start = (
-      <FormattedMessage id="ui-orders.buttons.line.cancel">
-        {([btnLabel]) => (
+      <Row>
+        <Col xs>
           <Button
             id="clickable-close-new-line-dialog-footer"
             buttonStyle="default mega"
             onClick={onCancel}
           >
-            {btnLabel}
+            <FormattedMessage id="ui-orders.buttons.line.cancel" />
           </Button>
-        )}
-      </FormattedMessage>
+        </Col>
+      </Row>
     );
 
-    const buttonSaveStyle = isSaveAndOpenButtonVisible ? 'default mega' : 'primary mega';
-
     const end = (
-      <>
-        {!isCreateFromInstance && !lineId && (linesLimit > 1) && (
-          <Checkbox
-            label={<FormattedMessage id="ui-orders.buttons.line.createAnother" />}
-            checked={isCreateAnotherChecked}
-            onChange={e => toggleCreateAnother(e.target.checked)}
-            className={styles.createAnotherCheckbox}
-            inline
-          />
-        )}
-        <Button
-          data-test-button-save
-          id="clickable-updatePoLine"
-          type="submit"
-          buttonStyle={buttonSaveStyle}
-          disabled={!enableSaveBtn && (pristine || submitting)}
-          onClick={submit}
-        >
-          <FormattedMessage id={saveBtnLabelId} />
-        </Button>
-        {isSaveAndOpenButtonVisible && (
+      <Row>
+        <Col xs>
           <Button
-            data-test-button-save-and-open
-            data-testid="button-save-and-open"
+            buttonStyle="default mega"
+            id="clickable-save-and-keep-editing"
             type="submit"
-            buttonStyle="primary mega"
-            disabled={submitting || isCreateAnotherChecked}
-            onClick={submitAndOpen}
+            disabled={isSubmitBtnDisabled}
+            onClick={onSaveAndKeepEditing}
           >
-            <FormattedMessage id="ui-orders.buttons.line.saveAndOpen" />
+            <FormattedMessage id="stripes-components.saveAndKeepEditing" />
           </Button>
+        </Col>
+
+        {!isCreateFromInstance && !lineId && (linesLimit > 1) && (
+          <Col xs>
+            <Button
+              buttonStyle="default mega"
+              id="clickable-save-and-create-another"
+              type="submit"
+              disabled={isSubmitBtnDisabled}
+              onClick={onSaveAndCreateAnother}
+            >
+              <FormattedMessage id="ui-orders.buttons.line.saveAndCreateAnother" />
+            </Button>
+          </Col>
         )}
-      </>
+
+        <Col xs>
+          <Button
+            data-test-button-save
+            id="clickable-updatePoLine"
+            type="submit"
+            buttonStyle={isSaveAndOpenButtonVisible ? 'default mega' : 'primary mega'}
+            disabled={isSubmitBtnDisabled}
+            onClick={onSaveAndClose}
+          >
+            <FormattedMessage id="stripes-components.saveAndClose" />
+          </Button>
+        </Col>
+
+        {isSaveAndOpenButtonVisible && (
+          <Col xs>
+            <Button
+              data-test-button-save-and-open
+              data-testid="button-save-and-open"
+              type="submit"
+              buttonStyle="primary mega"
+              disabled={submitting}
+              onClick={onSaveAndOpen}
+            >
+              <FormattedMessage id="ui-orders.buttons.line.saveAndOpen" />
+            </Button>
+          </Col>
+        )}
+      </Row>
     );
 
     return (
@@ -371,7 +413,9 @@ function POLineForm({
   };
 
   const formErrors = form.getState()?.errors;
-  const errors = useMemo(() => omitFieldArraysAsyncErrors(formErrors, ['fundDistribution']), [formErrors]);
+  const errors = useMemo(() => (
+    omitFieldArraysAsyncErrors(formErrors, [POL_FORM_FIELDS.fundDistribution])
+  ), [formErrors]);
   const errorAccordionStatus = useErrorAccordionStatus({ errors, fieldsMap: MAP_FIELD_ACCORDION });
 
   const lineNumber = get(initialValues, 'poLineNumber', '');
@@ -470,7 +514,7 @@ function POLineForm({
     return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
   }
 
-  const orderFormat = get(formValues, 'orderFormat');
+  const orderFormat = get(formValues, POL_FORM_FIELDS.orderFormat);
   const showEresources = isEresource(orderFormat);
   const showPhresources = isPhresource(orderFormat);
   const showOther = isOtherResource(orderFormat);
@@ -491,223 +535,225 @@ function POLineForm({
       isWithinScope={checkScope}
       scope={document.body}
     >
-      <Pane
-        id="pane-poLineForm"
-        data-test-line-edit
-        defaultWidth="fill"
-        paneTitle={paneTitle}
-        footer={paneFooter}
-        onClose={onCancel}
-        firstMenu={firstMenu}
-        actionMenu={getActionMenu}
-      >
-        <AccordionStatus ref={accordionStatusRef}>
-          {({ status }) => (
-            <form id="form-po-line" style={{ height: '100vh' }}>
-              <Row>
-                <Col xs={12}>
-                  <Row center="xs">
-                    <Col xs={12} md={8}>
-                      <Row end="xs">
-                        <Col xs={12}>
-                          <ExpandAllButton />
-                        </Col>
-                      </Row>
-                    </Col>
+      <Paneset isRoot>
+        <Pane
+          id="pane-poLineForm"
+          data-test-line-edit
+          defaultWidth="fill"
+          paneTitle={paneTitle}
+          footer={paneFooter}
+          onClose={onCancel}
+          firstMenu={firstMenu}
+          actionMenu={getActionMenu}
+        >
+          <AccordionStatus ref={accordionStatusRef}>
+            {({ status }) => (
+              <form id="form-po-line" style={{ height: '100vh' }}>
+                <Row>
+                  <Col xs={12}>
+                    <Row center="xs">
+                      <Col xs={12} md={8}>
+                        <Row end="xs">
+                          <Col xs={12}>
+                            <ExpandAllButton />
+                          </Col>
+                        </Row>
+                      </Col>
 
-                    <Col xs={12} md={8}>
-                      <Row>
-                        <Col xs={4}>
-                          <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
-                            {([translatedLabel]) => (
-                              <Selection
-                                dataOptions={orderTemplates}
-                                label={translatedLabel}
-                                value={order.template}
-                                disabled
+                      <Col xs={12} md={8}>
+                        <Row>
+                          <Col xs={4}>
+                            <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
+                              {([translatedLabel]) => (
+                                <Selection
+                                  dataOptions={orderTemplates}
+                                  label={translatedLabel}
+                                  value={order.template}
+                                  disabled
+                                />
+                              )}
+                            </FormattedMessage>
+                          </Col>
+                        </Row>
+                      </Col>
+
+                      <Col xs={12} md={8} style={{ textAlign: 'left' }}>
+                        <AccordionSet
+                          initialStatus={INITIAL_SECTIONS}
+                          accordionStatus={{ ...status, ...errorAccordionStatus }}
+                        >
+                          <Accordion
+                            label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
+                            id={ACCORDION_ID.itemDetails}
+                          >
+                            {metadata && <ViewMetaData metadata={metadata} />}
+
+                            <ItemForm
+                              formValues={formValues}
+                              order={order}
+                              contributorNameTypes={contributorNameTypes}
+                              change={change}
+                              batch={batch}
+                              identifierTypes={identifierTypes}
+                              initialValues={{ ...initialValues, ...initialInventoryData }}
+                              stripes={stripes}
+                              hiddenFields={hiddenFields}
+                              isCreateFromInstance={isCreateFromInstance}
+                              lineId={lineId}
+                            />
+                          </Accordion>
+                          <Accordion
+                            label={<FormattedMessage id="ui-orders.line.accordion.details" />}
+                            id={ACCORDION_ID.lineDetails}
+                          >
+                            <POLineDetailsForm
+                              change={change}
+                              formValues={formValues}
+                              initialValues={initialValues}
+                              order={order}
+                              parentResources={parentResources}
+                              vendor={vendor}
+                              hiddenFields={hiddenFields}
+                              integrationConfigs={integrationConfigs}
+                            />
+                          </Accordion>
+                          <Accordion
+                            id={ACCORDION_ID.donorsInformation}
+                            label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
+                          >
+                            <Donors
+                              name="donorOrganizationIds"
+                              onChange={setDonorIds}
+                              onRemove={onDonorRemove}
+                              donorOrganizationIds={donorOrganizationIds}
+                            />
+                          </Accordion>
+                          {isOngoing(order.orderType) && (
+                            <Accordion
+                              label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
+                              id={ACCORDION_ID.ongoingOrder}
+                            >
+                              <OngoingOrderForm
+                                hiddenFields={hiddenFields}
                               />
-                            )}
-                          </FormattedMessage>
-                        </Col>
-                      </Row>
-                    </Col>
-
-                    <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                      <AccordionSet
-                        initialStatus={INITIAL_SECTIONS}
-                        accordionStatus={{ ...status, ...errorAccordionStatus }}
-                      >
-                        <Accordion
-                          label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
-                          id={ACCORDION_ID.itemDetails}
-                        >
-                          {metadata && <ViewMetaData metadata={metadata} />}
-
-                          <ItemForm
-                            formValues={formValues}
-                            order={order}
-                            contributorNameTypes={contributorNameTypes}
-                            change={change}
-                            batch={batch}
-                            identifierTypes={identifierTypes}
-                            initialValues={{ ...initialValues, ...initialInventoryData }}
-                            stripes={stripes}
-                            hiddenFields={hiddenFields}
-                            isCreateFromInstance={isCreateFromInstance}
-                            lineId={lineId}
-                          />
-                        </Accordion>
-                        <Accordion
-                          label={<FormattedMessage id="ui-orders.line.accordion.details" />}
-                          id={ACCORDION_ID.lineDetails}
-                        >
-                          <POLineDetailsForm
-                            change={change}
-                            formValues={formValues}
-                            initialValues={initialValues}
-                            order={order}
-                            parentResources={parentResources}
-                            vendor={vendor}
-                            hiddenFields={hiddenFields}
-                            integrationConfigs={integrationConfigs}
-                          />
-                        </Accordion>
-                        <Accordion
-                          id={ACCORDION_ID.donorsInformation}
-                          label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
-                        >
-                          <Donors
-                            name="donorOrganizationIds"
-                            onChange={setDonorIds}
-                            onRemove={onDonorRemove}
-                            donorOrganizationIds={donorOrganizationIds}
-                          />
-                        </Accordion>
-                        {isOngoing(order.orderType) && (
+                            </Accordion>
+                          )}
                           <Accordion
-                            label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
-                            id={ACCORDION_ID.ongoingOrder}
+                            label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
+                            id={ACCORDION_ID.vendor}
                           >
-                            <OngoingOrderForm
+                            <VendorForm
+                              accounts={accounts}
+                              order={order}
                               hiddenFields={hiddenFields}
+                              integrationConfigs={integrationConfigs}
                             />
                           </Accordion>
-                        )}
-                        <Accordion
-                          label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
-                          id={ACCORDION_ID.vendor}
-                        >
-                          <VendorForm
-                            accounts={accounts}
-                            order={order}
-                            hiddenFields={hiddenFields}
-                            integrationConfigs={integrationConfigs}
-                          />
-                        </Accordion>
-                        <Accordion
-                          label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
-                          id={ACCORDION_ID.costDetails}
-                        >
-                          <CostForm
-                            formValues={formValues}
-                            order={order}
-                            initialValues={initialValues}
-                            change={change}
-                            hiddenFields={hiddenFields}
-                          />
-                        </Accordion>
-                        <Accordion
-                          label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
-                          id={ACCORDION_ID.fundDistribution}
-                        >
-                          <FundDistributionFieldsFinal
-                            change={change}
-                            currency={currency}
-                            disabled={isDisabledToChangePaymentInfo}
-                            filterFunds={filterFunds}
-                            fundDistribution={fundDistribution}
-                            name="fundDistribution"
-                            totalAmount={estimatedPrice}
-                            validateFundDistributionTotal={validateFundDistributionTotal}
-                          />
-                        </Accordion>
-                        <Accordion
-                          label={<FormattedMessage id="ui-orders.line.accordion.location" />}
-                          id={ACCORDION_ID.location}
-                        >
-                          <LocationForm
-                            isLoading={isHoldingsLoading}
-                            centralOrdering={centralOrdering}
-                            changeLocation={changeLocation}
-                            formValues={formValues}
-                            filterHoldings={filterHoldings}
-                            filterLocations={filterLocations}
-                            locationIds={locationIds}
-                            locations={locations}
-                            order={order}
-                          />
-                        </Accordion>
-                        {showPhresources && (
                           <Accordion
-                            label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
-                            id={ACCORDION_ID.physical}
+                            label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
+                            id={ACCORDION_ID.costDetails}
                           >
-                            <PhysicalForm
-                              materialTypes={materialTypes}
-                              order={order}
+                            <CostForm
                               formValues={formValues}
+                              order={order}
+                              initialValues={initialValues}
                               change={change}
                               hiddenFields={hiddenFields}
                             />
                           </Accordion>
-                        )}
-                        {showEresources && (
                           <Accordion
-                            label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
-                            id={ACCORDION_ID.eresources}
+                            label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
+                            id={ACCORDION_ID.fundDistribution}
                           >
-                            <EresourcesForm
-                              materialTypes={materialTypes}
-                              order={order}
-                              formValues={formValues}
+                            <FundDistributionFieldsFinal
                               change={change}
-                              hiddenFields={hiddenFields}
+                              currency={currency}
+                              disabled={isDisabledToChangePaymentInfo}
+                              filterFunds={filterFunds}
+                              fundDistribution={fundDistribution}
+                              name="fundDistribution"
+                              totalAmount={estimatedPrice}
+                              validateFundDistributionTotal={validateFundDistributionTotal}
                             />
                           </Accordion>
-                        )}
-                        {showOther && (
                           <Accordion
-                            label={<FormattedMessage id="ui-orders.line.accordion.other" />}
-                            id={ACCORDION_ID.other}
+                            label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+                            id={ACCORDION_ID.location}
                           >
-                            <OtherForm
-                              materialTypes={materialTypes}
-                              order={order}
+                            <LocationForm
+                              isLoading={isHoldingsLoading}
+                              centralOrdering={centralOrdering}
+                              changeLocation={changeLocation}
                               formValues={formValues}
-                              change={change}
-                              hiddenFields={hiddenFields}
+                              filterHoldings={filterHoldings}
+                              filterLocations={filterLocations}
+                              locationIds={locationIds}
+                              locations={locations}
+                              order={order}
                             />
                           </Accordion>
-                        )}
+                          {showPhresources && (
+                            <Accordion
+                              label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
+                              id={ACCORDION_ID.physical}
+                            >
+                              <PhysicalForm
+                                materialTypes={materialTypes}
+                                order={order}
+                                formValues={formValues}
+                                change={change}
+                                hiddenFields={hiddenFields}
+                              />
+                            </Accordion>
+                          )}
+                          {showEresources && (
+                            <Accordion
+                              label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
+                              id={ACCORDION_ID.eresources}
+                            >
+                              <EresourcesForm
+                                materialTypes={materialTypes}
+                                order={order}
+                                formValues={formValues}
+                                change={change}
+                                hiddenFields={hiddenFields}
+                              />
+                            </Accordion>
+                          )}
+                          {showOther && (
+                            <Accordion
+                              label={<FormattedMessage id="ui-orders.line.accordion.other" />}
+                              id={ACCORDION_ID.other}
+                            >
+                              <OtherForm
+                                materialTypes={materialTypes}
+                                order={order}
+                                formValues={formValues}
+                                change={change}
+                                hiddenFields={hiddenFields}
+                              />
+                            </Accordion>
+                          )}
 
-                        <EditCustomFieldsRecord
-                          accordionId="customFieldsPOLine"
-                          backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-                          changeFinalFormField={change}
-                          entityType={ENTITY_TYPE_PO_LINE}
-                          fieldComponent={Field}
-                          finalFormCustomFieldsValues={customFieldsValues}
-                          onComponentLoad={handleCustomFieldsLoaded}
-                        />
-                      </AccordionSet>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </form>
-          )}
-        </AccordionStatus>
-      </Pane>
+                          <EditCustomFieldsRecord
+                            accordionId="customFieldsPOLine"
+                            backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+                            changeFinalFormField={change}
+                            entityType={ENTITY_TYPE_PO_LINE}
+                            fieldComponent={Field}
+                            finalFormCustomFieldsValues={customFieldsValues}
+                            onComponentLoad={handleCustomFieldsLoaded}
+                          />
+                        </AccordionSet>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </form>
+            )}
+          </AccordionStatus>
+        </Pane>
+      </Paneset>
     </HasCommand>
   );
 }
@@ -737,8 +783,6 @@ POLineForm.propTypes = {
     libraryId: PropTypes.string.isRequired,
     tenantId: PropTypes.string,
   })).isRequired,
-  isCreateAnotherChecked: PropTypes.bool,
-  toggleCreateAnother: PropTypes.func.isRequired,
   integrationConfigs: PropTypes.arrayOf(PropTypes.object),
   instance: PropTypes.object,
   isCreateFromInstance: PropTypes.bool,

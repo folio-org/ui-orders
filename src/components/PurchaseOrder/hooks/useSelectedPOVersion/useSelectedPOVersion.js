@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { useIntl } from 'react-intl';
 import {
   filter,
   flow,
@@ -13,10 +12,10 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import { getFullName } from '@folio/stripes/util';
 import {
   getAddresses,
   useUsersBatch,
+  useVersionHistoryValueResolvers,
 } from '@folio/stripes-acq-components';
 
 import { useOrder } from '../../../../common/hooks';
@@ -35,11 +34,8 @@ const getUniqItems = (arr) => (
 );
 
 export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, options = {}) => {
-  const intl = useIntl();
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'order-version-data' });
-
-  const deletedRecordLabel = intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
   const currentVersion = useMemo(() => (
     versions?.find(({ id }) => id === versionId)
   ), [versionId, versions]);
@@ -51,6 +47,11 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
     order,
     isLoading: isOrderLoading,
   } = useOrder(currentVersion?.orderId);
+
+  const {
+    getObjectPropertyById,
+    getUserFullNameById,
+  } = useVersionHistoryValueResolvers();
 
   const metadata = useMemo(() => getVersionMetadata(currentVersion, order), [currentVersion, order]);
   const assignedToId = versionSnapshot?.assignedTo;
@@ -89,22 +90,14 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
           .then(keyBy('id')),
       ]);
 
-      const assignedTo = versionUsersMap[assignedToId]
-        ? getFullName(versionUsersMap[assignedToId])
-        : deletedRecordLabel;
-
-      const createdByUser = versionUsersMap[createdByUserId]
-        ? getFullName(versionUsersMap[createdByUserId])
-        : deletedRecordLabel;
-
       return {
         ...versionSnapshot,
-        acqUnits: acqUnitsIds.map(acqUnitsId => acqUnitsMap[acqUnitsId]?.name || deletedRecordLabel).join(', '),
-        assignedTo: assignedToId && assignedTo,
-        vendor: organizationsMap[vendorId]?.name || deletedRecordLabel,
-        createdByUser: createdByUserId && createdByUser,
-        billTo: billToId && (addressesMap[billToId]?.address || deletedRecordLabel),
-        shipTo: shipToId && (addressesMap[shipToId]?.address || deletedRecordLabel),
+        acqUnits: acqUnitsIds.map((id) => getObjectPropertyById(id, 'name', acqUnitsMap)).join(', '),
+        assignedTo: getUserFullNameById(assignedToId, versionUsersMap),
+        createdByUser: getUserFullNameById(createdByUserId, versionUsersMap),
+        vendor: getObjectPropertyById(vendorId, 'name', organizationsMap),
+        billTo: getObjectPropertyById(billToId, 'address', addressesMap),
+        shipTo: getObjectPropertyById(shipToId, 'address', addressesMap),
         metadata,
       };
     },

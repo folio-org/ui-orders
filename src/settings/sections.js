@@ -9,6 +9,7 @@ import InstanceMatching from './InstanceMatching';
 import InstanceStatus from './InstanceStatus';
 import InstanceType from './InstanceType';
 import LoanType from './LoanType';
+import { NumberGeneratorSettings } from './NumberGeneratorSettings';
 import OpenOrder from './OpenOrder';
 import OrderApprovals from './OrderApprovals';
 import OrderNumber from './OrderNumber';
@@ -93,6 +94,12 @@ export const SECTIONS = [
         label: <FormattedMessage id="ui-orders.settings.customFields.purchaseOrderLines" />,
         route: 'custom-fields-pol',
         perm: 'ui-orders.settings.custom-fields.view',
+      },
+      {
+        component: NumberGeneratorSettings,
+        label: <FormattedMessage id="ui-orders.settings.numberGenerator.options" />,
+        route: 'numberGeneratorOptions',
+        perm: 'ui-orders.settings.number-generator.manage',
       },
     ],
   },

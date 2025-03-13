@@ -12,6 +12,7 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import {
   useLocationsQuery,
+  useOrganization,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -25,9 +26,15 @@ import {
   location,
   match,
 } from 'fixtures/routerMocks';
-import { useOrder } from '../../common/hooks';
+import { SUBMIT_ACTION_FIELD } from '../../common/constants';
+import {
+  useOrder,
+  useOrderLine,
+} from '../../common/hooks';
 import ModalDeletePieces from '../ModalDeletePieces';
+import { SUBMIT_ACTION } from '../POLine/const';
 import POLineForm from '../POLine/POLineForm';
+import { updateOrderResource } from '../Utils/orderResource';
 import LayerPOLine from './LayerPOLine';
 
 jest.mock('@folio/stripes-acq-components', () => ({
@@ -35,12 +42,14 @@ jest.mock('@folio/stripes-acq-components', () => ({
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
   useIntegrationConfigs: jest.fn().mockReturnValue({ integrationConfigs: [], isLoading: false }),
   useLocationsQuery: jest.fn(),
+  useOrganization: jest.fn(),
   useShowCallout: jest.fn(),
 }));
 jest.mock('../../common/hooks', () => ({
   useOpenOrderSettings: jest.fn().mockReturnValue({ isFetching: false, openOrderSettings: {} }),
   useLinesLimit: jest.fn().mockReturnValue({ isLoading: false, linesLimit: 1 }),
   useOrder: jest.fn(),
+  useOrderLine: jest.fn(),
   useInstance: jest.fn().mockReturnValue({ isLoading: false, instance: {} }),
   useTitleMutation: jest.fn().mockReturnValue({ mutateTitle: jest.fn().mockReturnValue(() => Promise.resolve()) }),
 }));
@@ -50,13 +59,16 @@ jest.mock('../../common/utils', () => ({
   ...jest.requireActual('../../common/utils'),
   validateDuplicateLines: jest.fn().mockReturnValue(Promise.resolve()),
 }));
+jest.mock('../Utils/orderResource', () => ({
+  ...jest.requireActual('../Utils/orderResource'),
+  updateOrderResource: jest.fn(() => Promise.resolve()),
+}));
 
 const queryClient = new QueryClient();
 
 const defaultProps = {
   mutator: {
     lineOrder: {
-      GET: jest.fn().mockResolvedValue(order),
       POST: jest.fn().mockResolvedValue(order),
       PUT: jest.fn().mockResolvedValue(order),
     },
@@ -71,9 +83,6 @@ const defaultProps = {
       PUT: jest.fn().mockResolvedValue(orderLine),
       POST: jest.fn().mockResolvedValue(orderLine),
     },
-    orderVendor: {
-      GET: jest.fn().mockResolvedValue(vendor),
-    },
     createInventory: {
       GET: jest.fn().mockResolvedValue(),
     },
@@ -81,9 +90,6 @@ const defaultProps = {
       GET: jest.fn().mockResolvedValue(),
     },
     materialTypes: {
-      GET: jest.fn().mockResolvedValue(),
-    },
-    validateISBN: {
       GET: jest.fn().mockResolvedValue(),
     },
     identifierTypes: {
@@ -96,10 +102,6 @@ const defaultProps = {
   resources: {
     createInventory: {
       hasLoaded: true,
-    },
-    lineOrder: {
-      hasLoaded: true,
-      records: [order],
     },
     approvalsSetting: {
       hasLoaded: true,
@@ -128,7 +130,6 @@ const defaultProps = {
   history,
 };
 
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <MemoryRouter>
     <QueryClientProvider client={queryClient}>
@@ -146,22 +147,26 @@ const renderLayerPOLine = (props = {}) => render(
 );
 
 const mockShowCallout = jest.fn();
+const refetchOrderLine = jest.fn();
 
 describe('LayerPOLine', () => {
   beforeEach(() => {
-    POLineForm.mockClear();
-    history.push.mockClear();
-    defaultProps.mutator.poLines.PUT.mockClear();
-    defaultProps.mutator.poLines.POST.mockClear();
-    useOrder
-      .mockClear()
-      .mockReturnValue({ isLoading: false, order });
-    useLocationsQuery
-      .mockClear()
-      .mockReturnValue({ locations: [location] });
-    useShowCallout
-      .mockClear()
-      .mockReturnValue(mockShowCallout);
+    useOrder.mockReturnValue({
+      isLoading: false,
+      order: { ...order, compositePoLines: [] },
+    });
+    useOrderLine.mockReturnValue({
+      isLoading: false,
+      orderLine,
+      refetch: refetchOrderLine,
+    });
+    useOrganization.mockReturnValue({ organization: vendor });
+    useLocationsQuery.mockReturnValue({ locations: [location] });
+    useShowCallout.mockReturnValue(mockShowCallout);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render POLineForm', async () => {
@@ -180,7 +185,7 @@ describe('LayerPOLine', () => {
       },
     } });
 
-    await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ saveAndOpen: false, isAcknowledged: true }));
+    await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ isAcknowledged: true }));
 
     expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
   });
@@ -190,10 +195,87 @@ describe('LayerPOLine', () => {
 
     await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({
       ...orderLine,
-      saveAndOpen: true,
+      [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen,
     }));
 
     expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled();
+  });
+
+  describe('Alternative submit actions', () => {
+    const submitWithType = (submitAction) => () => {
+      return POLineForm.mock.calls[0][0].onSubmit({
+        ...orderLine,
+        [SUBMIT_ACTION_FIELD]: submitAction,
+      });
+    };
+
+    describe('Add PO Line', () => {
+      it('should create POLine and keep the edit form opened', async () => {
+        renderLayerPOLine({
+          match: {
+            ...match,
+            params: { id: order.id },
+          },
+        });
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndKeepEditing));
+
+        expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
+        expect(history.push).toHaveBeenCalledWith(expect.objectContaining({
+          pathname: expect.stringMatching(/orders\/view\/.*\/po-line\/edit\/.*/),
+        }));
+      });
+
+      it('should create POLine and open the form for another PO Line', async () => {
+        renderLayerPOLine({
+          match: {
+            ...match,
+            params: { id: order.id },
+          },
+        });
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndCreateAnother));
+
+        expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
+        expect(history.push).toHaveBeenCalledWith(expect.objectContaining({
+          pathname: expect.stringMatching(/orders\/view\/.*\/po-line\/create/),
+        }));
+      });
+
+      it('should create POLine and open the order', async () => {
+        renderLayerPOLine({
+          match: {
+            ...match,
+            params: { id: order.id },
+          },
+        });
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndOpen));
+
+        expect(defaultProps.mutator.poLines.POST).toHaveBeenCalled();
+        expect(updateOrderResource).toHaveBeenCalled();
+      });
+    });
+
+    describe('Update PO Line', () => {
+      it('should update POLine and keep the edit form opened', async () => {
+        renderLayerPOLine();
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndKeepEditing));
+
+        expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled();
+        expect(refetchOrderLine).toHaveBeenCalled();
+      });
+
+      it('should update POLine and open the order', async () => {
+        renderLayerPOLine();
+
+        await waitFor(submitWithType(SUBMIT_ACTION.saveAndOpen));
+
+        expect(defaultProps.mutator.poLines.PUT).toHaveBeenCalled();
+        expect(updateOrderResource).toHaveBeenCalled();
+      });
+    });
   });
 
   it('should call onCancel if cancelling', async () => {
@@ -298,7 +380,7 @@ describe('LayerPOLine', () => {
 
       renderLayerPOLine();
 
-      await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ saveAndOpen: true }));
+      await waitFor(() => POLineForm.mock.calls[0][0].onSubmit({ [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen }));
 
       const modal = await screen.findByText(/ui-orders.differentAccounts.title/i);
 
@@ -310,6 +392,15 @@ describe('LayerPOLine', () => {
     ['someError', 'error message'],
     ['genericError', 'Invalid token'],
   ])('should handle \'%s\' error', async (code, message) => {
+    useOrganization.mockImplementationOnce(async (_id, { onError }) => {
+      await onError({
+        clone: jest.fn().mockReturnThis(),
+        json: jest.fn().mockResolvedValue({ errors: [{ message: '' }] }),
+      });
+
+      return { organization: null };
+    });
+
     // eslint-disable-next-line prefer-promise-reject-errors
     defaultProps.mutator.poLines.PUT.mockImplementation(() => Promise.reject({
       errors: [{
