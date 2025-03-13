@@ -18,11 +18,11 @@ export const useOrder = (orderId) => {
     refetch,
   } = useQuery(
     ['ui-orders', 'order', orderId],
-    async () => {
+    async ({ signal }) => {
       try {
-        return ky.get(`${ORDERS_API}/${orderId}`).json();
+        return ky.get(`${ORDERS_API}/${orderId}`, { signal }).json();
       } catch {
-        const { purchaseOrders } = await ky.get(`${ORDERS_API}`, { searchParams }).json();
+        const { purchaseOrders } = await ky.get(`${ORDERS_API}`, { searchParams, signal }).json();
 
         return purchaseOrders[0] || {};
       }

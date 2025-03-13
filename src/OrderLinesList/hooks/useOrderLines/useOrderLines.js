@@ -29,7 +29,7 @@ export const useOrderLines = ({ pagination, fetchReferences, customFields }) => 
 
   const { isFetching, data = {} } = useQuery(
     [namespace, pagination.timestamp, pagination.limit, pagination.offset],
-    async () => {
+    async ({ signal }) => {
       moment.tz.setDefault(timezone);
 
       const query = await buildQuery();
@@ -46,7 +46,7 @@ export const useOrderLines = ({ pagination, fetchReferences, customFields }) => 
         query,
       };
 
-      const { poLines, totalRecords } = await ky.get(LINES_API, { searchParams }).json();
+      const { poLines, totalRecords } = await ky.get(LINES_API, { searchParams, signal }).json();
       const { ordersMap = {}, acqUnitsMap = {} } = await fetchReferences(poLines);
       const orderLines = poLines.map(orderLine => ({
         ...orderLine,

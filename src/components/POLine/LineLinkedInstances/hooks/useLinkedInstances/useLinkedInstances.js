@@ -31,13 +31,13 @@ export const useInstanceRelationTypes = () => {
 
   const { refetch } = useQuery(
     ['ui-orders', 'linked-lines'],
-    () => {
+    ({ signal }) => {
       const searchParams = {
         limit: LIMIT_MAX,
         query: 'cql.allRecords=1',
       };
 
-      return ky.get('instance-relationship-types', { searchParams }).json();
+      return ky.get('instance-relationship-types', { searchParams, signal }).json();
     },
     { enabled: false },
   );
@@ -50,13 +50,13 @@ export const useLinkedTitles = line => {
 
   const { isLoading, data, refetch } = useQuery(
     ['ui-orders', 'linked-titles', line.id],
-    () => {
+    ({ signal }) => {
       const searchParams = {
         limit: LIMIT_MAX,
         query: `poLineId==${line.id} sortby title`,
       };
 
-      return ky.get('orders/titles', { searchParams }).json();
+      return ky.get('orders/titles', { searchParams, signal }).json();
     },
   );
 
@@ -84,12 +84,12 @@ export const useLinkedInstances = line => {
 
   const { isLoading, data } = useQuery(
     ['ui-orders', 'linked-instances', line.id, linkedInstanceIds, linkedTitles],
-    async () => {
+    async ({ signal }) => {
       const { data: relationTypesData } = await fetchInstanceRelationTypes();
 
       const hydrateLinkedInstancesMap = await batchRequest(
         async ({ params: searchParams }) => {
-          const { instances = [] } = await ky.get('inventory/instances', { searchParams }).json();
+          const { instances = [] } = await ky.get('inventory/instances', { searchParams, signal }).json();
 
           return instances.map((instance) => ({
             ...instance,
