@@ -564,7 +564,7 @@ function POLineForm({
                         <Row>
                           <Col xs={4}>
                             <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
-                              {([translatedLabel]) => (
+                              {(translatedLabel) => (
                                 <Selection
                                   dataOptions={orderTemplates}
                                   label={translatedLabel}
