@@ -382,6 +382,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "settings.orders.enabled",
           "configuration.entries.collection.get",
           "orders-storage.custom-fields.collection.get",
           "orders-storage.custom-fields.item.get",
@@ -417,6 +418,7 @@
         "permissionName": "ui-orders.settings.number-generator.manage",
         "displayName": "Settings (Orders): Manage number generator options",
         "subPermissions": [
+          "settings.orders.enabled",
           "orders-storage.settings.collection.get",
           "orders-storage.settings.item.get",
           "orders-storage.settings.item.post",
@@ -430,8 +432,8 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "addresstypes.collection.get",
           "settings.orders.enabled",
+          "addresstypes.collection.get",
           "ui-orders.settings.order-templates.view",
           "configuration.entries.collection.get",
           "configuration.entries.item.get",
