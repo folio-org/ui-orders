@@ -1,5 +1,10 @@
 # Change history for ui-orders
 
+## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.3) (2025-04-10)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.2...v8.0.3)
+
+* Add `settings.enabled` as a subpermission to all permission sets so they can be accessed in the UI if enabled individually. Refs UIOR-1405.
+
 ## [8.0.2](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.1...v8.0.2)
 
@@ -10,6 +15,7 @@
 
 * Display empty value instead of "Invalid link" for affiliation field if no value is assigned to it. Fixes UIOR-1369.
 * Provide specific query key to the `useCentralOrderingSettings` in orders settings. Refs UIOR-1411.
+* Provide `signal` from `useQuery` function to the http client (ky). Refs UIOR-1363.
 
 ## [8.0.0](https://github.com/folio-org/ui-orders/tree/v8.0.0) (2025-03-13)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.4...v8.0.0)
