@@ -1,7 +1,7 @@
 import find from 'lodash/find';
 import keyBy from 'lodash/keyBy';
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -52,7 +52,9 @@ const Location = ({
     ? getHoldingLocationName(holding, locationsMap)
     : locationNameCode;
   const locationName = getLocationFieldName(fieldName, location.holdingId);
-  const affiliationValue = affiliationsMap?.[location.tenantId]?.name || <FormattedMessage id="stripes-acq-components.invalidReference" />;
+  const affiliationValue = location.tenantId && (
+    affiliationsMap?.[location.tenantId]?.name || <FormattedMessage id="stripes-acq-components.invalidReference" />
+  );
 
   const KeyValueComponent = component || KeyValue;
 

@@ -2,6 +2,8 @@
 
 ## 8.1.0 (IN PROGRESS)
 
+* Display empty value instead of "Invalid link" for affiliation field if no value is assigned to it. Fixes UIOR-1369.
+
 ## [8.0.0](https://github.com/folio-org/ui-orders/tree/v8.0.0) (2025-03-13)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.4...v8.0.0)
 
