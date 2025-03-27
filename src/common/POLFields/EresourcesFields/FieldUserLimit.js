@@ -11,7 +11,6 @@ const FieldUserLimit = (props) => {
       component={TextField}
       label={<FormattedMessage id="ui-orders.eresource.userLimit" />}
       name="eresource.userLimit"
-      type="number"
       {...props}
     />
   );
