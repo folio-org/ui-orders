@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 
 import { TextArea } from '@folio/stripes/components';
 
-export const FieldNotesOfClosure = ({
+export const FieldNotesOnClosure = ({
   name = 'closeReason.note',
   ...props
 }) => {
@@ -18,6 +18,6 @@ export const FieldNotesOfClosure = ({
   );
 };
 
-FieldNotesOfClosure.propTypes = {
+FieldNotesOnClosure.propTypes = {
   name: PropTypes.string,
 };

@@ -18,7 +18,7 @@ import {
   isWorkflowStatusClosed,
   isWorkflowStatusIsPending,
 } from '../util';
-import { FieldNotesOfClosure } from './FieldNotesOfClosure';
+import { FieldNotesOnClosure } from './FieldNotesOnClosure';
 import FieldWorkflowStatus from './FieldWorkflowStatus';
 import TotalUnits from './TotalUnits';
 
@@ -64,7 +64,7 @@ const SummaryForm = ({ initialValues: order, hiddenFields = {} }) => (
       xs={12}
       md={6}
     >
-      {isWorkflowStatusClosed(order) && <FieldNotesOfClosure />}
+      {isWorkflowStatusClosed(order) && <FieldNotesOnClosure />}
     </Col>
   </Row>
 );
