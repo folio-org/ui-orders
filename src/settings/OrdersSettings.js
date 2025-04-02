@@ -18,7 +18,7 @@ const paneTitle = <FormattedMessage id="ui-orders.settings.index.paneTitle" />;
 
 const OrdersSettings = (props) => {
   const stripes = useStripes();
-  const [namespace] = useNamespace('orders-settings');
+  const [namespace] = useNamespace({ key: 'orders-settings' });
 
   const {
     key,
