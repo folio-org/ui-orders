@@ -906,7 +906,7 @@
     "settings.numberGenerator.accessionNumberEqualCallNumber.warning": "Upozornění: Zaškrtávací políčko bylo deaktivováno, protože přírůstkové číslo a/nebo signatura jsou nastaveny na ruční vyplňování.",
     "settings.numberGenerator.barcode": "Čárový kód",
     "settings.numberGenerator.callNumber": "Signatura",
-    "settings.numberGenerator.info": "Pole, která se obvykle vyplňují pomocí číselné posloupnosti, mohou používat generátor čísel. Po zapnutí generátoru lze pole buď uzamknout, aby se zabránilo ruční aktualizaci, nebo jej lze plně upravovat. Když je generátor vypnutý, je třeba pole vyplnit ručně.",
+    "settings.numberGenerator.info": "Pole, která se obvykle vyplňují pomocí číselné posloupnosti, mohou používat generátor čísel. Po zapnutí generátoru lze pole buď uzamknout, aby se zabránilo ruční aktualizaci, nebo jej lze nechat upravovatelné. Když je generátor vypnutý, je třeba pole vyplnit ručně.",
     "settings.numberGenerator.options": "Možnosti generátoru čísel",
     "settings.numberGenerator.options.off": "Vypnuto",
     "settings.numberGenerator.options.onEditable": "Zapnuto, pole lze upravovat",
