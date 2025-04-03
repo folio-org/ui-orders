@@ -1,7 +1,10 @@
 import { FormattedMessage } from 'react-intl';
 
 import { LoadingPane } from '@folio/stripes/components';
-import { useStripes } from '@folio/stripes/core';
+import {
+  useNamespace,
+  useStripes,
+} from '@folio/stripes/core';
 import { Settings } from '@folio/stripes/smart-components';
 import { useCentralOrderingSettings } from '@folio/stripes-acq-components';
 
@@ -15,6 +18,7 @@ const paneTitle = <FormattedMessage id="ui-orders.settings.index.paneTitle" />;
 
 const OrdersSettings = (props) => {
   const stripes = useStripes();
+  const [namespace] = useNamespace({ key: 'orders-settings' });
 
   const {
     key,
@@ -24,6 +28,7 @@ const OrdersSettings = (props) => {
 
   const { isLoading: isCentralOrderingSettingsLoading } = useCentralOrderingSettings({
     enabled: stripes.hasInterface('consortia'),
+    queryKey: [namespace],
     onSuccess: (d) => {
       if (d?.value === 'true') {
         insertSection(NETWORK_ORDERING_SECTION);
