@@ -101,13 +101,13 @@ const SummaryView = ({ order, hiddenFields }) => (
         data-test-close-reason-block
         start="xs"
       >
-        <Col xs={6}>
+        <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
             value={order.closeReason?.reason}
           />
         </Col>
-        <Col xs={6}>
+        <Col xs={9}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
             value={order.closeReason?.note}
