@@ -4,8 +4,16 @@
 
 * Provide `signal` from `useQuery` function to the http client (ky). Refs UIOR-1363.
 * Add `settings.enabled` as a subpermission to all permission sets so they can be accessed in the UI if enabled individually. Refs UIOR-1405.
-* Display empty value instead of "Invalid link" for affiliation field if no value is assigned to it. Fixes UIOR-1369.
+* Allow editing of location information for PO lines with independent workflow in open order. Refs UIOR-1368.
+* Handle error response on unopen order operation fail. Refs UIOR-1413.
 * Make "User Limit" an alphanumeric value rather than an integer. Refs UIOR-1023.
+
+## [8.0.1](https://github.com/folio-org/ui-orders/tree/v8.0.1) (2025-04-03)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.0...v8.0.1)
+
+* Display empty value instead of "Invalid link" for affiliation field if no value is assigned to it. Fixes UIOR-1369.
+* Provide specific query key to the `useCentralOrderingSettings` in orders settings. Refs UIOR-1411.
+* Allow editing of the "Notes on closure" field for PO in the "Closed" workflow status. Refs UIOR-1105.
 
 ## [8.0.0](https://github.com/folio-org/ui-orders/tree/v8.0.0) (2025-03-13)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.4...v8.0.0)
