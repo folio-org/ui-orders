@@ -520,8 +520,8 @@ const PO = ({
 
           return fetchOrder();
         },
-        e => {
-          return handleErrorResponse(e, orderErrorModalShow);
+        (e) => {
+          return handleErrorResponse(e?.response, orderErrorModalShow);
         },
       )
       .finally(setIsLoading);
