@@ -15,7 +15,7 @@ import {
   HasCommand,
   NavList,
   NavListItem,
-  NavListSection,
+  NavListSection
 } from '@folio/stripes/components';
 import {
   AcqKeyboardShortcutsModal,
