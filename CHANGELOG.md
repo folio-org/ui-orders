@@ -1,6 +1,7 @@
 # Change history for ui-orders
 
-## 8.0.2 (IN PROGRESS)
+## [8.0.2](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.1...v8.0.2)
 
 * Handle error response on unopen order operation fail. Refs UIOR-1413.
 
