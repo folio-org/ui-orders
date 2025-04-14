@@ -1,10 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import get from 'lodash/get';
-import memoize from 'lodash/memoize';
 
 import {
   Col,
@@ -19,78 +17,33 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
-import { PRODUCT_ID_TYPE } from '../../../common/constants';
-import { VALIDATE_ISBN } from '../../Utils/resources';
-import { ErrorMessage } from './ErrorMessage';
-
-const FIELD_PRODUCT_ID_TYPE = 'productIdType';
-
 const DEFAULT_ID_TYPES = [];
 
 function ProductIdDetailsForm({
   disabled,
   identifierTypes,
   isNonInteractive,
-  mutator,
   onChangeField,
   onRemoveField,
   required,
 }) {
   const isEditable = !(disabled || isNonInteractive);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const memoizedMutator = useMemo(() => mutator, []);
-  const [invalidISBNs, setInvalidISBNs] = useState({});
 
-  const callValidationAPI = useCallback(
-    (isbn) => memoizedMutator.validateISBN.GET({ params: { isbn } }),
-    [memoizedMutator.validateISBN],
-  );
-  const memoizedGet = useMemo(() => memoize(callValidationAPI), [callValidationAPI]);
-
-  const validateProductIdCB = useCallback(async (productId, formValues, blurredField) => {
+  const validateProductIdCB = useCallback(async (productId) => {
     const requiredError = required ? validateRequired(productId) : undefined;
 
     if (requiredError) {
       return requiredError;
     }
 
-    const isbnType = identifierTypes?.find(({ label }) => label === PRODUCT_ID_TYPE.isbn);
-    const isbnTypeUUID = isbnType?.value;
-    const productIdTypeUUID = get(formValues, `${blurredField}.${FIELD_PRODUCT_ID_TYPE}`);
-
-    if (isbnTypeUUID && productIdTypeUUID === isbnTypeUUID) {
-      const errorMessage = <FormattedMessage id="ui-orders.errors.invalidProductId" />;
-
-      try {
-        const { isValid } = await memoizedGet(productId);
-
-        if (!isValid) {
-          setInvalidISBNs((prevISBNs) => ({
-            ...prevISBNs,
-            [blurredField]: errorMessage,
-          }));
-
-          return errorMessage;
-        }
-      } catch (e) {
-        setInvalidISBNs((prevISBNs) => ({
-          ...prevISBNs,
-          [blurredField]: errorMessage,
-        }));
-
-        return errorMessage;
-      }
-    }
-
     return undefined;
-  }, [identifierTypes, memoizedGet, required]);
+  }, [required]);
 
   const renderSubForm = (elem) => {
-    const validateProductId = (productId, formValues) => {
-      return validateProductIdCB(productId, formValues, elem);
+    const validateProductId = (productId) => {
+      return validateProductIdCB(productId);
     };
-
-    const showErrorMessage = invalidISBNs[elem] && (isNonInteractive || disabled);
 
     return (
       <Row>
@@ -107,7 +60,6 @@ function ProductIdDetailsForm({
             validate={validateProductId}
             validateFields={[]}
           />
-          {showErrorMessage && <ErrorMessage>{invalidISBNs[elem]}</ErrorMessage>}
         </Col>
         <Col xs>
           <Field
@@ -162,7 +114,6 @@ ProductIdDetailsForm.propTypes = {
   onRemoveField: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
-  mutator: PropTypes.object,
 };
 
 ProductIdDetailsForm.defaultProps = {
@@ -171,9 +122,5 @@ ProductIdDetailsForm.defaultProps = {
   isNonInteractive: false,
   required: true,
 };
-
-ProductIdDetailsForm.manifest = Object.freeze({
-  validateISBN: VALIDATE_ISBN,
-});
 
 export default stripesConnect(ProductIdDetailsForm);
