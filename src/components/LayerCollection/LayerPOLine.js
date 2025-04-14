@@ -338,7 +338,7 @@ function LayerPOLine({
       if (isValidateDuplicateLines) {
         setIsValidateDuplicateLines(false);
 
-        await validateDuplicateLines(line, mutator, resources);
+        await validateDuplicateLines(line, mutator);
       }
 
       const newLine = formatPOLineBeforeSaving(cloneDeep(line));
@@ -493,7 +493,7 @@ function LayerPOLine({
       try {
         setIsValidateDuplicateLines(false);
 
-        await validateDuplicateLines(hydratedLine, mutator, resources);
+        await validateDuplicateLines(hydratedLine, mutator);
       } catch (e) {
         if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
           setDuplicateLines(e.duplicateLines);

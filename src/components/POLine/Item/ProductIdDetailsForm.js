@@ -9,7 +9,6 @@ import {
   NoValue,
   Row,
 } from '@folio/stripes/components';
-import { stripesConnect } from '@folio/stripes/core';
 import {
   FieldSelectFinal,
   RepeatableFieldWithErrorMessage,
@@ -123,4 +122,4 @@ ProductIdDetailsForm.defaultProps = {
   required: true,
 };
 
-export default stripesConnect(ProductIdDetailsForm);
+export default ProductIdDetailsForm;
