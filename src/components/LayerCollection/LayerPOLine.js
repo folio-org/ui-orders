@@ -425,7 +425,6 @@ function LayerPOLine({
     sendCallout,
     history,
     search,
-    resources,
     openOrder,
     locationStateInstanceId,
     refetch,
@@ -551,7 +550,6 @@ function LayerPOLine({
   }, [
     isValidateDuplicateLines,
     mutator,
-    resources,
     toggleNotUnique,
     sendCallout,
     refetch,

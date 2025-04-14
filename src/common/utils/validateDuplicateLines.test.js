@@ -16,12 +16,6 @@ describe('validateDuplicateLines', () => {
     };
   });
 
-  const resources = {
-    identifierTypes: {
-      records: [{ name: PRODUCT_ID_TYPE.isbn, id: 'productIdIsbnType' }],
-    },
-  };
-
   const line = {
     id: 'id',
     titleOrPackage: 'Title',
