@@ -537,6 +537,8 @@
   "poLine.eResourceDetails": "POL e-resource details",
   "poLine.itemDetails": "POL item details",
   "poLine.fundDistribution": "POL fund distribution",
+  "poLine.fundDistribution.expenseClass.modal.title": "Update expense class",
+  "poLine.fundDistribution.expenseClass.modal.description": "Changing this expense class will not update the related invoice line. If you want the invoice approval/payment to release the encumbrance transaction then the related invoices' expense class must be updated as well.",
   "poLine.location": "POL location",
   "poLine.manualPO.info": "This is a Manual PO so all POLs are excluded from automated export workflows",
   "poLine.materialType": "Material type",
