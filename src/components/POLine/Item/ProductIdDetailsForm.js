@@ -29,21 +29,11 @@ function ProductIdDetailsForm({
   const isEditable = !(disabled || isNonInteractive);
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  const validateProductIdCB = useCallback(async (productId) => {
-    const requiredError = required ? validateRequired(productId) : undefined;
-
-    if (requiredError) {
-      return requiredError;
-    }
-
-    return undefined;
+  const validateProductId = useCallback((productId) => {
+    return required ? validateRequired(productId) : undefined;
   }, [required]);
 
   const renderSubForm = (elem) => {
-    const validateProductId = (productId) => {
-      return validateProductIdCB(productId);
-    };
-
     return (
       <Row>
         <Col xs>
