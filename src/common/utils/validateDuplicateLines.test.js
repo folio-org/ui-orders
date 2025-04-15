@@ -1,4 +1,4 @@
-import { VALIDATION_ERRORS, PRODUCT_ID_TYPE } from '../constants';
+import { VALIDATION_ERRORS } from '../constants';
 import { validateDuplicateLines } from './validateDuplicateLines';
 
 describe('validateDuplicateLines', () => {
