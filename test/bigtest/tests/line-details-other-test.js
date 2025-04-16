@@ -31,7 +31,7 @@ describe('Orders List - Line details with other format test', function () {
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
     });
 

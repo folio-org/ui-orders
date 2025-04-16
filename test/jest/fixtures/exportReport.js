@@ -84,7 +84,6 @@ export const exportReport = [
     'sourceRecord': {
       'acquisitionMethod': 'Purchase',
       'agreementId': '800b2f19-7134-4408-8145-3b04697b7de7',
-      'alerts': [],
       'cancellationRestriction': false,
       'cancellationRestrictionNote': '',
       'checkinItems': false,
@@ -180,7 +179,6 @@ export const exportReport = [
       'poLineNumber': '52590-1',
       'purchaseOrderId': '0610be6d-0ddd-494b-b867-19f63d8b5d6d',
       'receiptStatus': 'Pending',
-      'reportingCodes': [],
       'requester': '',
       'rush': false,
       'selector': 'sgw',
