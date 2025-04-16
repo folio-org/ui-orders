@@ -1,6 +1,8 @@
 import get from 'lodash/get';
 import {
   useCallback,
+  useEffect,
+  useMemo,
   useState,
 } from 'react';
 import { useForm } from 'react-final-form';
@@ -45,6 +47,14 @@ export const useExpenseClassChange = (orderLineId) => {
   const ky = useOkapiKy();
   const form = useForm();
 
+  const abortController = useMemo(() => new AbortController(), []);
+
+  useEffect(() => {
+    return () => {
+      abortController.abort();
+    };
+  }, [abortController]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
@@ -68,11 +78,14 @@ export const useExpenseClassChange = (orderLineId) => {
     ) {
       setIsLoading(true);
 
-      await getAffectedInvoiceLines(ky)(encumbranceId, orderLineId)
+      await getAffectedInvoiceLines(ky.extend({ signal: abortController.signal }))(encumbranceId, orderLineId)
         .then((invoiceLines) => setIsConfirmModalOpen(invoiceLines?.length > 0))
+        .catch((error) => {
+          if (error.name !== 'AbortError' || !abortController.signal.aborted) throw error;
+        })
         .finally(() => setIsLoading(false));
     }
-  }, [form, ky, orderLineId]);
+  }, [abortController, form, ky, orderLineId]);
 
   const renderModal = useCallback(() => (
     <Modal
