@@ -1,4 +1,4 @@
-import { VALIDATION_ERRORS, PRODUCT_ID_TYPE } from '../constants';
+import { VALIDATION_ERRORS } from '../constants';
 import { validateDuplicateLines } from './validateDuplicateLines';
 
 describe('validateDuplicateLines', () => {
@@ -6,9 +6,6 @@ describe('validateDuplicateLines', () => {
 
   beforeEach(() => {
     mutator = {
-      convertToIsbn13: {
-        GET: jest.fn(() => Promise.resolve([{ isbn: 'isbn' }])),
-      },
       poLines: {
         GET: jest.fn(),
         reset: jest.fn(),
@@ -18,12 +15,6 @@ describe('validateDuplicateLines', () => {
       },
     };
   });
-
-  const resources = {
-    identifierTypes: {
-      records: [{ name: PRODUCT_ID_TYPE.isbn, id: 'productIdIsbnType' }],
-    },
-  };
 
   const line = {
     id: 'id',
@@ -36,13 +27,12 @@ describe('validateDuplicateLines', () => {
     },
   };
 
-  it('should call only poLines and convertToIsbn13 mutators', async () => {
+  it('should call only poLines mutator', async () => {
     mutator.poLines.GET.mockClear().mockReturnValue(Promise.resolve([]));
 
-    await validateDuplicateLines(line, mutator, resources);
+    await validateDuplicateLines(line, mutator);
 
     expect(mutator.poLines.GET).toHaveBeenCalled();
-    expect(mutator.convertToIsbn13.GET).toHaveBeenCalled();
     expect(mutator.orders.GET).not.toHaveBeenCalled();
   });
 
@@ -53,7 +43,7 @@ describe('validateDuplicateLines', () => {
     let error;
 
     try {
-      await validateDuplicateLines(line, mutator, resources);
+      await validateDuplicateLines(line, mutator);
     } catch (e) {
       error = e.validationError;
     }
