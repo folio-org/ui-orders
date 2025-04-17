@@ -279,7 +279,7 @@ function LayerPOLine({
       if (isValidateDuplicateLines) {
         setValidateDuplicateLines(false);
 
-        await validateDuplicateLines(line, mutator, resources);
+        await validateDuplicateLines(line, mutator);
       }
 
       const newLine = formatPOLineBeforeSaving(cloneDeep(line));
@@ -339,19 +339,19 @@ function LayerPOLine({
     } finally {
       setIsLoading(false);
     }
-  },
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [
-    handleErrorResponse,
-    history,
-    id,
-    isCreateAnotherChecked,
+  }, [
     isValidateDuplicateLines,
     memoizedMutator.poLines,
     openOrder,
-    search,
     sendCallout,
+    isCreateAnotherChecked,
+    id,
+    locationState.instanceId,
+    history,
+    search,
+    mutator,
+    mutateTitle,
+    handleErrorResponse,
     toggleNotUnique,
     toggleDifferentAccountModal,
   ]);
@@ -414,7 +414,7 @@ function LayerPOLine({
       try {
         setValidateDuplicateLines(false);
 
-        await validateDuplicateLines(hydratedLine, mutator, resources);
+        await validateDuplicateLines(hydratedLine, mutator);
       } catch (e) {
         if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
           setDuplicateLines(e.duplicateLines);
@@ -458,7 +458,9 @@ function LayerPOLine({
   [
     handleErrorResponse,
     isValidateDuplicateLines,
-    memoizedMutator.poLines,
+    mutator,
+    toggleNotUnique,
+    sendCallout,
     onCancel,
     openOrder,
     sendCallout,
