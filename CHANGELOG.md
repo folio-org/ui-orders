@@ -5,6 +5,7 @@
 * Provide `signal` from `useQuery` function to the http client (ky). Refs UIOR-1363.
 * Allow editing of the "Notes on closure" field for PO in the "Closed" workflow status. Refs UIOR-1105.
 * Allow editing of location information for PO lines with independent workflow in open order. Refs UIOR-1368.
+* Remove ISBN validation/normalization logic. Refs UIOR-1335.
 
 ## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.2...v8.0.3)
