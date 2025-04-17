@@ -516,7 +516,7 @@
     "errors.itemUpdateFailed": "Záznam jednotky se nepodařilo aktualizovat",
     "errors.lineWasNotDeleted": "Chyba při mazání NO řádku",
     "errors.locNotProvided": "Lokace není uvedena",
-    "errors.missingContributorNameType": "Zadané jména a typy autorů nebyly nalezeny v úložišti katalogu.",
+    "errors.missingContributorNameType": "Zadané jména a autorské role nebyly nalezeny v úložišti katalogu.",
     "errors.nonZeroCostQtyPhysical": "Množství fyzických nákladů nesmí být specifikováno",
     "errors.orderAcqUnitsNotFound": "Akviziční jednotky přiřazené k objednávce nelze nalézt",
     "errors.orderApprovalRequired": "K otevření objednávky je vyžadováno schválení",
