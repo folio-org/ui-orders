@@ -1,6 +1,8 @@
 # Change history for ui-orders
 
-## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.3) (2025-04-10)
+* Remove ISBN validation/normalization logic. Refs UIOR-1335.
+
+## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.2...v8.0.3)
 
 * Add `settings.enabled` as a subpermission to all permission sets so they can be accessed in the UI if enabled individually. Refs UIOR-1405.
