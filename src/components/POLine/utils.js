@@ -4,6 +4,7 @@ import {
   PAYMENT_STATUS,
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
+
 import {
   isWorkflowStatusClosed,
   isWorkflowStatusOpen,

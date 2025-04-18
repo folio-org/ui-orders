@@ -17,12 +17,12 @@
     "payment_status.pending": "В очікуванні",
     "poLine.acquisitionMethod": "Acquisition method",
     "poLine.cancellationRestriction": "Cancellation restriction",
-    "poLine.cancellationRestrictionNote": "Cancellation description",
+    "poLine.cancellationRestrictionNote": "Опис скасування",
     "poLine.createdOn": "Created on",
     "poLine.donor": "Donor",
     "poLine.orderFormat": "Order format",
     "poLine.paymentStatus": "Payment status",
-    "poLine.poLineDescription": "Line description",
+    "poLine.poLineDescription": "Опис рядка",
     "poLine.receiptDate": "Receipt date",
     "poLine.receiptStatus": "Receipt status",
     "poLine.requester": "Requester",
@@ -446,7 +446,7 @@
     "errors.userHasNoPermission": "This purchase order cannot be saved until the acquisition unit is removed or corrected",
     "order.saveError.title": "Purchase order not saved",
     "settings.poNumber.modifier.name": "Name",
-    "settings.poNumber.modifier.description": "Description",
+    "settings.poNumber.modifier.description": "Опис",
     "settings.poNumber.prefix": "Prefix",
     "settings.poNumber.suffix": "Suffix",
     "errors.openOrder": "The <b>Purchase order - {orderNumber}</b> has not been <b>opened</b>",
@@ -916,6 +916,6 @@
     "settings.numberGenerator.submit.success": "Налаштування генератора номерів успішно оновлені",
     "permission.settings.number-generator.manage": "Налаштування (Замовлення): управління параметрами генератора номерів",
     "settings.numberGenerator.infoAdditional": "Additional number generator settings are available under {serviceInteractionLink}. At {numberGeneratorSequencesLink} sequences can be defined by selecting the appropriate generator via the drop-down menu.",
-    "settings.numberGenerator.infoAdditional.serviceInteraction": "Service interaction",
-    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Number generator sequences"
+    "settings.numberGenerator.infoAdditional.serviceInteraction": "Взаємодія сервісів",
+    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Послідовності генератора номерів"
 }
