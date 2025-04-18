@@ -52,10 +52,10 @@ export function getPOActionMenu({
   const isManualOrder = order.manualPo;
   const isUpdateDisabled = isRestrictionsLoading || restrictions.protectUpdate;
   const isNewInvoiceButtonVisible = Boolean(
-    (isOrderInOpenStatus || isOrderInClosedStatus) && order.compositePoLines?.length,
+    (isOrderInOpenStatus || isOrderInClosedStatus) && order.poLines?.length,
   );
 
-  const exportedOrderLines = order.compositePoLines.filter(({ lastEDIExportDate }) => lastEDIExportDate);
+  const exportedOrderLines = order.poLines.filter(({ lastEDIExportDate }) => lastEDIExportDate);
   const isOrderReexportDisabled = !(isOrderInOpenStatus && !isManualOrder && exportedOrderLines.length);
 
   return ({ onToggle }) => (

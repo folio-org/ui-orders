@@ -56,7 +56,7 @@ describe('Order details with Line', function () {
       workflowStatus: WORKFLOW_STATUS.open,
       orderType: ORDER_TYPE.ongoing,
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
     });
 

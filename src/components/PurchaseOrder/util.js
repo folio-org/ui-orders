@@ -47,21 +47,21 @@ export const isCheckInAvailableForLine = (line = {}, order = {}) => {
 };
 
 export const isReceiveAvailableForOrder = (order = {}) => {
-  const { compositePoLines = [] } = order;
-  const hasLineItemsToReceive = some(compositePoLines, isLineAbleToBeReceived);
+  const { poLines = [] } = order;
+  const hasLineItemsToReceive = some(poLines, isLineAbleToBeReceived);
 
   return hasLineItemsToReceive && isWorkflowStatusNotPending(order);
 };
 
 export const isOpenAvailableForOrder = (isApprovalRequired, order = {}) => {
-  const { approved, compositePoLines = [] } = order;
+  const { approved, poLines = [] } = order;
 
-  return isWorkflowStatusIsPending(order) && compositePoLines.length > 0 && (approved || !isApprovalRequired);
+  return isWorkflowStatusIsPending(order) && poLines.length > 0 && (approved || !isApprovalRequired);
 };
 
 export const isReopenAvailableForOrder = (order = {}) => {
-  const { compositePoLines = [] } = order;
-  const hasLineItemsToReceive = some(compositePoLines, isLineAbleToBeReceived);
+  const { poLines = [] } = order;
+  const hasLineItemsToReceive = some(poLines, isLineAbleToBeReceived);
 
   return hasLineItemsToReceive && isWorkflowStatusNotPending(order);
 };

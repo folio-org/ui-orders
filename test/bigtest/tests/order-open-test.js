@@ -49,7 +49,7 @@ describe('Open order action', function () {
 
     const pendingOrder = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.pending,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
     });
 

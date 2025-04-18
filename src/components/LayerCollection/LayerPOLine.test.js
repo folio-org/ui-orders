@@ -153,7 +153,7 @@ describe('LayerPOLine', () => {
   beforeEach(() => {
     useOrder.mockReturnValue({
       isLoading: false,
-      order: { ...order, compositePoLines: [] },
+      order: { ...order, poLines: [] },
     });
     useOrderLine.mockReturnValue({
       isLoading: false,
@@ -370,7 +370,7 @@ describe('LayerPOLine', () => {
         isLoading: false,
         order: {
           ...order,
-          compositePoLines: [
+          poLines: [
             { automaticExport: true, vendorDetail: { vendorAccount: '12345' } },
             { automaticExport: true, vendorDetail: { vendorAccount: '54321' } },
           ],

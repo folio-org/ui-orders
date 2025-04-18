@@ -28,7 +28,7 @@ describe('PO Line details - warning message with closing reason is present', fun
     const order = this.server.create('order', {
       workflowStatus: ORDER_STATUSES.closed,
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
     });
 

@@ -28,7 +28,7 @@ describe('PO line notes', function () {
     });
 
     const order = this.server.create('order', {
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
     });
 

@@ -74,7 +74,7 @@ describe.skip('Line edit test, order is Open, quantity is reduced', function () 
 
     order = this.server.create('order', {
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
       workflowStatus: ORDER_STATUSES.open,
     });

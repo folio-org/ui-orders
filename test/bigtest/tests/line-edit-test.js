@@ -89,7 +89,7 @@ describe('Line edit test', function () {
 
     order = this.server.create('order', {
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
       approved: true,
       workflowStatus: WORKFLOW_STATUS.pending,

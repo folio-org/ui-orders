@@ -21,7 +21,7 @@ describe("Create POL - Empty vendor's fields", function () {
       isVendor: true,
     });
     order = this.server.create('order', {
-      compositePoLines: [],
+      poLines: [],
       vendor: vendor.id,
     });
 

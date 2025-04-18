@@ -161,7 +161,7 @@ const PO = ({
   const [isOrderReexportModalOpened, toggleOrderReexportModal] = useModalToggle();
 
   const orderId = match.params.id;
-  const poLines = order?.compositePoLines;
+  const poLines = order?.poLines;
 
   const {
     isLoading: isRestrictionsLoading,
@@ -263,10 +263,10 @@ const PO = ({
         }),
       mutator.orderDetailsList.GET({ params: { query: `id==${orderId}` } }),
     ])
-      .then(([orderResp, orderInvoicesResp, compositePoLines, orderListResp]) => {
+      .then(([orderResp, orderInvoicesResp, poLines, orderListResp]) => {
         setOrder({
           ...(orderListResp[0] || {}),
-          compositePoLines,
+          poLines,
           ...orderResp,
         });
         const invoicesIds = orderInvoicesResp.map(({ invoiceId }) => invoiceId);
@@ -432,7 +432,7 @@ const PO = ({
 
       if (isOpenOrderModalOpened) toggleOpenOrderModal();
 
-      const exportAccountNumbers = getExportAccountNumbers(order.compositePoLines);
+      const exportAccountNumbers = getExportAccountNumbers(order.poLines);
 
       if (!order.manualPo && exportAccountNumbers.length > 1) {
         setAccountNumbers(exportAccountNumbers);
