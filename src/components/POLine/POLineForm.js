@@ -103,7 +103,10 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
-import { useManageDonorOrganizationIds } from './hooks';
+import {
+  useExpenseClassChange,
+  useManageDonorOrganizationIds,
+} from './hooks';
 import { createPOLDataFromInstance } from './Item/util';
 
 const GAME_CHANGER_FIELDS = [
@@ -138,6 +141,7 @@ function POLineForm({
   isCreateFromInstance = false,
 }) {
   const history = useHistory();
+
   const [hiddenFields, setHiddenFields] = useState({});
   const [isCustomFieldsLoaded, setIsCustomFieldsLoaded] = useState(false);
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
@@ -163,6 +167,12 @@ function POLineForm({
     fundDistribution,
     initialDonorOrganizationIds,
   });
+
+  const {
+    isLoading: isExpenseClassProcessing,
+    renderModal: renderExpenseClassConfirmModal,
+    onExpenseClassChange,
+  } = useExpenseClassChange(lineId);
 
   const {
     holdings: instanceHoldings,
@@ -330,7 +340,11 @@ function POLineForm({
   }, [change, handleSubmit]);
 
   const getPaneFooter = () => {
-    const isSubmitBtnDisabled = !enableSaveBtn && (pristine || submitting);
+    const isSubmitBtnDisabled = !enableSaveBtn && (
+      pristine
+      || submitting
+      || isExpenseClassProcessing
+    );
 
     const start = (
       <Row>
@@ -672,6 +686,7 @@ function POLineForm({
                               filterFunds={filterFunds}
                               fundDistribution={fundDistribution}
                               name="fundDistribution"
+                              onExpenseClassChange={onExpenseClassChange}
                               totalAmount={estimatedPrice}
                               validateFundDistributionTotal={validateFundDistributionTotal}
                             />
@@ -749,6 +764,8 @@ function POLineForm({
                     </Row>
                   </Col>
                 </Row>
+
+                {renderExpenseClassConfirmModal()}
               </form>
             )}
           </AccordionStatus>
