@@ -31,7 +31,7 @@ describe('Order lines list - Line details with other format test', function () {
       id: line.attrs.purchaseOrderId,
       workflowStatus: WORKFLOW_STATUS.open,
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
     });
 
     this.visit(`/orders/lines/view/${line.id}/`);

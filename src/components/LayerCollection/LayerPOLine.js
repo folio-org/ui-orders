@@ -276,7 +276,7 @@ function LayerPOLine({
   );
 
   const openOrder = useCallback((newLine = {}) => {
-    const exportAccountNumbers = getExportAccountNumbers([...order.compositePoLines, newLine]);
+    const exportAccountNumbers = getExportAccountNumbers([...order.poLines, newLine]);
 
     if (!order.manualPo && exportAccountNumbers.length > 1) {
       setAccountNumbers(exportAccountNumbers);
@@ -338,7 +338,7 @@ function LayerPOLine({
       if (isValidateDuplicateLines) {
         setIsValidateDuplicateLines(false);
 
-        await validateDuplicateLines(line, mutator, resources);
+        await validateDuplicateLines(line, mutator);
       }
 
       const newLine = formatPOLineBeforeSaving(cloneDeep(line));
@@ -425,7 +425,6 @@ function LayerPOLine({
     sendCallout,
     history,
     search,
-    resources,
     openOrder,
     locationStateInstanceId,
     refetch,
@@ -493,7 +492,7 @@ function LayerPOLine({
       try {
         setIsValidateDuplicateLines(false);
 
-        await validateDuplicateLines(hydratedLine, mutator, resources);
+        await validateDuplicateLines(hydratedLine, mutator);
       } catch (e) {
         if (e?.validationError === VALIDATION_ERRORS.duplicateLines) {
           setDuplicateLines(e.duplicateLines);
@@ -551,7 +550,6 @@ function LayerPOLine({
   }, [
     isValidateDuplicateLines,
     mutator,
-    resources,
     toggleNotUnique,
     sendCallout,
     refetch,

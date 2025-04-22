@@ -16,7 +16,7 @@ jest.mock('../common/ExportSettingsModal/utils/getExportData', () => ({
 const defaultProps = {
   order: {
     ...order,
-    compositePoLines: [orderLine],
+    poLines: [orderLine],
   },
   onCancel: jest.fn(),
   mutator: {},
