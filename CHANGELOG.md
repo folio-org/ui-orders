@@ -1,6 +1,6 @@
 # Change history for ui-orders
 
-## 8.1.0 (IN PROGRESS)
+## 9.0.0 (IN PROGRESS)
 
 * Provide `signal` from `useQuery` function to the http client (ky). Refs UIOR-1363.
 * Allow editing of the "Notes on closure" field for PO in the "Closed" workflow status. Refs UIOR-1105.
@@ -17,6 +17,7 @@
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.1...v8.0.2)
 
 * Handle error response on unopen order operation fail. Refs UIOR-1413.
+* *BREAKING* Make "User Limit" an alphanumeric value rather than an integer. Refs UIOR-1023.
 
 ## [8.0.1](https://github.com/folio-org/ui-orders/tree/v8.0.1) (2025-04-03)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.0...v8.0.1)
