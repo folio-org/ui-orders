@@ -290,7 +290,7 @@ const POForm = ({
   const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', {}));
   const addresses = getAddresses(get(parentResources, 'addresses.records', []));
   const orderTemplates = getOrderTemplatesForSelect(parentResources);
-  const poLinesLength = get(initialValues, 'compositePoLines', []).length;
+  const poLinesLength = get(initialValues, 'poLines', []).length;
   const customFieldsValues = getState().values.customFields;
 
   const paneTitle = initialValues.id

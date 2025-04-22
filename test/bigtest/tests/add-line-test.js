@@ -44,7 +44,7 @@ describe('clicking on add Line to open LinesLimit Modal', function () {
       workflowStatus: WORKFLOW_STATUS.pending,
       orderType: ORDER_TYPE.ongoing,
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
     });
 

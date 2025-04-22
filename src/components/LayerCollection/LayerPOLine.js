@@ -276,7 +276,7 @@ function LayerPOLine({
   );
 
   const openOrder = useCallback((newLine = {}) => {
-    const exportAccountNumbers = getExportAccountNumbers([...order.compositePoLines, newLine]);
+    const exportAccountNumbers = getExportAccountNumbers([...order.poLines, newLine]);
 
     if (!order.manualPo && exportAccountNumbers.length > 1) {
       setAccountNumbers(exportAccountNumbers);

@@ -9,7 +9,7 @@ const saveOrder = (order, mutator) => {
 
   if (order.id) {
     method = mutator.PUT;
-    delete order.compositePoLines;
+    delete order.poLines;
   }
 
   if (!order.metadata?.createdByUserId) delete order.metadata; // fix sample data
@@ -55,7 +55,7 @@ export const cloneOrder = async (order, mutator, orderNumberMutator, lines) => {
       order,
       [
         'id', 'adjustment', 'metadata', 'poNumber', 'workflowStatus',
-        'compositePoLines', 'approved', 'approvedById', 'approvalDate',
+        'poLines', 'approved', 'approvedById', 'approvalDate',
         'nextPolNumber',
       ],
     ),
@@ -65,7 +65,7 @@ export const cloneOrder = async (order, mutator, orderNumberMutator, lines) => {
   clonedOrder.poNumber = getFullOrderNumber(clonedOrder);
 
   if (lines) {
-    clonedOrder.compositePoLines = lines.map(line => ({
+    clonedOrder.poLines = lines.map(line => ({
       ...omit(line, ['id', 'purchaseOrderId', 'metadata', 'paymentStatus', 'receiptStatus', 'lastEDIExportDate']),
       fundDistribution: line.fundDistribution?.map(fund => omit(fund, ['encumbrance'])),
     }));

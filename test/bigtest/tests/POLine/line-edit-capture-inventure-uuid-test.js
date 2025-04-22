@@ -61,7 +61,7 @@ describe('Line edit test - Capture UUID from inventory', function () {
 
     order = this.server.create('order', {
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
     });
 

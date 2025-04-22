@@ -44,7 +44,7 @@ jest.mock('./hooks', () => ({
 const ORDER = {
   id: '73a9b376-844f-41b5-8b3f-71f2fae63f1f',
   workflowStatus: ORDER_STATUSES.open,
-  compositePoLines: [{
+  poLines: [{
     cost: {
       quantityPhysical: 1,
     },
@@ -333,7 +333,7 @@ describe('PO actions', () => {
       defaultProps.mutator.orderDetails.GET.mockResolvedValue({
         ...ORDER,
         workflowStatus: ORDER_STATUSES.pending,
-        compositePoLines: [],
+        poLines: [],
       });
 
       renderComponent();
@@ -487,7 +487,7 @@ describe('PO shortcuts', () => {
     defaultProps.mutator.orderDetails.GET.mockResolvedValue({
       ...ORDER,
       workflowStatus: ORDER_STATUSES.pending,
-      compositePoLines: [],
+      poLines: [],
     });
 
     renderComponent();

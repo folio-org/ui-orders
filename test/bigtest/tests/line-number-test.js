@@ -33,7 +33,7 @@ describe('Line number generation', function () {
       poNumber: ORDER_NUMBER,
       workflowStatus: WORKFLOW_STATUS.pending,
       vendor: vendor.id,
-      compositePoLines: [line.attrs],
+      poLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
     });
 

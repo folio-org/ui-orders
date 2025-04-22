@@ -34,9 +34,9 @@ export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => 
 
   useEffect(() => {
     (async () => {
-      const { compositePoLines } = order;
-      const linesToPrint = orderLine ? [orderLine] : compositePoLines;
-      const printData = compositePoLines?.length
+      const { poLines } = order;
+      const linesToPrint = orderLine ? [orderLine] : poLines;
+      const printData = poLines?.length
         ? { lines: await getExportData(mutator, linesToPrint, [order], [], intl) }
         : await getOrderPrintData(ky, order);
 
