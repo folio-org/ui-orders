@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
   FormattedMessage,
   useIntl,
@@ -21,6 +22,7 @@ const FIELD_NAMES = {
 };
 
 const ConnectedControlledVocab = stripesConnect(ControlledVocab);
+
 const columnMapping = {
   [FIELD_NAMES.name]: <FormattedMessage id="ui-orders.settings.orderTemplateCategories.field.name" />,
 };
@@ -30,7 +32,7 @@ const translations = {
   termCreated: 'ui-orders.settings.orderTemplateCategories.termCreated',
   termUpdated: 'ui-orders.settings.orderTemplateCategories.termUpdated',
 };
-const validate = validateDuplicates([FIELD_NAMES.name]);
+
 const visibleFields = [FIELD_NAMES.name];
 
 export const OrderTemplateCategories = () => {
@@ -40,6 +42,8 @@ export const OrderTemplateCategories = () => {
   const hasCreatePerms = stripes.hasPerm('orders-storage.order-template-categories.item.post');
   const hasEditPerms = stripes.hasPerm('orders-storage.order-template-categories.item.put');
   const hasDeletePerms = stripes.hasPerm('orders-storage.order-template-categories.item.delete');
+
+  const validate = useCallback(() => validateDuplicates(intl, [FIELD_NAMES.name]), [intl]);
 
   return (
     <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.orderTemplateCategories' })}>
