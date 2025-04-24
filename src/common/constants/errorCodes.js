@@ -31,6 +31,7 @@ export const ERROR_CODES = {
   inactiveExpenseClass: 'inactiveExpenseClass',
   incorrectFundDistributionTotal: 'incorrectFundDistributionTotal',
   InstanceIdNotAllowedForPackagePoLine: 'InstanceIdNotAllowedForPackagePoLine',
+  invalidISBN: 'invalidISBN',
   itemCreationFailed: 'itemCreationFailed',
   itemNotFound: 'itemNotFound',
   itemNotRetrieved: 'itemNotRetrieved',

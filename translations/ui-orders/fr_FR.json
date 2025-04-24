@@ -423,6 +423,7 @@
     "checkIn.pieceFormat.electronic": "Électronique",
     "checkIn.pieceFormat.physical": "Objet",
     "search.productIdISBN": "ID produit ISBN",
+    "errors.invalidISBN": "Le numéro d'identifiant du produit est incorrect à cause du type d'identifiant du produit. Vous pouvez utiliser \"Changer la connexion avec la notice\" pour actualiser l'identifiant du produit depuis la notice avant de modifier la ligne de bon de commande.",
     "itemDetails.qualifier": "Qualificatif",
     "itemDetails.contributors": "Contributeurs",
     "itemDetails.productIds": "Identifiants du produit",

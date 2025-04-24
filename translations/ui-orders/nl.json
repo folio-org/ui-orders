@@ -423,6 +423,7 @@
     "checkIn.pieceFormat.electronic": "Digitaal",
     "checkIn.pieceFormat.physical": "Fysiek",
     "search.productIdISBN": "ISBN product-ID",
+    "errors.invalidISBN": "Nummer product-ID ongeldig op basis van type product-ID. U kunt \"Instance-connectie wijzigen\" gebruiken om de product-ID's van het instance-record te verversen voordat u de PO-regels bewerkt.",
     "itemDetails.qualifier": "Kenmerk",
     "itemDetails.contributors": "Bijdragers",
     "itemDetails.productIds": "Productidentificatiekenmerken",

@@ -423,6 +423,7 @@
     "checkIn.pieceFormat.electronic": "Eletrônico",
     "checkIn.pieceFormat.physical": "Físico",
     "search.productIdISBN": "Identificação do produto ISBN",
+    "errors.invalidISBN": "Número de ID do produto inválido com base no tipo de ID do produto. Você pode usar \"Alterar conexão de instância\" para atualizar IDs de produto do registro de instância antes de editar a Linha do Pedido de Compra.",
     "itemDetails.qualifier": "Qualificador",
     "itemDetails.contributors": "Colaboradores",
     "itemDetails.productIds": "Identificadores do produto",

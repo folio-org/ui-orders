@@ -423,6 +423,7 @@
     "checkIn.pieceFormat.electronic": "전자(Electronic)",
     "checkIn.pieceFormat.physical": "실물(Physical)",
     "search.productIdISBN": "제품 ID ISBN",
+    "errors.invalidISBN": "잘못된 ISBN; 조정 또는 제거",
     "itemDetails.qualifier": "한정자",
     "itemDetails.contributors": "기여자(저자, 단체 등)",
     "itemDetails.productIds": "제품 식별자",
