@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { injectIntl } from 'react-intl';
 
 import { ConfigManager } from '@folio/stripes/smart-components';
-import { stripesShape } from '@folio/stripes/core';
+import { stripesShape, TitleManager } from '@folio/stripes/core';
 import { getConfigSetting } from '@folio/stripes-acq-components';
 
 import {
@@ -13,6 +14,9 @@ import OpenOrderForm from './OpenOrderForm';
 
 class OpenOrder extends Component {
   static propTypes = {
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     label: PropTypes.node.isRequired,
     stripes: stripesShape.isRequired,
   };
@@ -26,22 +30,24 @@ class OpenOrder extends Component {
   beforeSave = (data) => JSON.stringify(data);
 
   render() {
-    const { label } = this.props;
+    const { intl, label } = this.props;
 
     return (
-      <this.configManager
-        configName={CONFIG_OPEN_ORDER}
-        getInitialValues={getConfigSetting}
-        label={label}
-        moduleName={MODULE_ORDERS}
-        onBeforeSave={this.beforeSave}
-      >
-        <div data-test-order-settings-open-order>
-          <OpenOrderForm />
-        </div>
-      </this.configManager>
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.openOrder' })}>
+        <this.configManager
+          configName={CONFIG_OPEN_ORDER}
+          getInitialValues={getConfigSetting}
+          label={label}
+          moduleName={MODULE_ORDERS}
+          onBeforeSave={this.beforeSave}
+        >
+          <div data-test-order-settings-open-order>
+            <OpenOrderForm />
+          </div>
+        </this.configManager>
+      </TitleManager>
     );
   }
 }
 
-export default OpenOrder;
+export default injectIntl(OpenOrder);

@@ -83,10 +83,7 @@ const CentralOrderingForm = ({
       footer={paneFooter}
       onMount={handlePaneFocus}
     >
-      <TitleManager
-        page={intl.formatMessage({ id: 'ui-orders.document.settings.title' })}
-        record={intl.formatMessage({ id: 'ui-orders.settings.centralOrdering.label' })}
-      />
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.centralOrdering.label' })} />
       <Row>
         <Col xs={12}>
           <FieldSelectFinal

@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { injectIntl } from 'react-intl';
+import React, { Component } from 'react';
 
+import { TitleManager } from '@folio/stripes/core';
 import { ConfigManager } from '@folio/stripes/smart-components';
 
 import { CONFIG_INSTANCE_STATUS } from '../common/constants';
 import { INSTANCE_STATUSES } from '../common/resources';
 import { MODULE_ORDERS } from '../components/Utils/const';
+import InstanceStatusForm from './InstanceStatusForm';
 
 import css from './ConfigManagerForm.css';
-import InstanceStatusForm from './InstanceStatusForm';
 
 class InstanceStatus extends Component {
   constructor(props, context) {
@@ -19,25 +21,32 @@ class InstanceStatus extends Component {
   }
 
   render() {
-    const { label, resources } = this.props;
+    const {
+      intl,
+      label,
+      resources,
+    } = this.props;
+
     const instanceStatuses = get(resources, 'instanceStatuses.records', []).map(({ code, name }) => ({
       label: name,
       value: code,
     }));
 
     return (
-      <div
-        data-test-order-settings-instance-status
-        className={css.formWrapper}
-      >
-        <this.configManager
-          configName={CONFIG_INSTANCE_STATUS}
-          label={label}
-          moduleName={MODULE_ORDERS}
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.instanceStatus' })}>
+        <div
+          data-test-order-settings-instance-status
+          className={css.formWrapper}
         >
-          <InstanceStatusForm instanceStatuses={instanceStatuses} />
-        </this.configManager>
-      </div>
+          <this.configManager
+            configName={CONFIG_INSTANCE_STATUS}
+            label={label}
+            moduleName={MODULE_ORDERS}
+          >
+            <InstanceStatusForm instanceStatuses={instanceStatuses} />
+          </this.configManager>
+        </div>
+      </TitleManager>
     );
   }
 }
@@ -47,9 +56,12 @@ InstanceStatus.manifest = Object.freeze({
 });
 
 InstanceStatus.propTypes = {
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   label: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   stripes: PropTypes.object.isRequired,
 };
 
-export default InstanceStatus;
+export default injectIntl(InstanceStatus);

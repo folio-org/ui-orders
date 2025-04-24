@@ -1,4 +1,9 @@
-import { useOkapiKy } from '@folio/stripes/core';
+import { useIntl } from 'react-intl';
+
+import {
+  TitleManager,
+  useOkapiKy,
+} from '@folio/stripes/core';
 import { Loading } from '@folio/stripes/components';
 import {
   ORDERS_STORAGE_SETTINGS_API,
@@ -10,6 +15,7 @@ import { NUMBER_GENERATOR_SETTINGS_KEY } from './constants';
 import NumberGeneratorSettingsForm from './NumberGeneratorSettingsForm';
 
 export const NumberGeneratorSettings = () => {
+  const intl = useIntl();
   const ky = useOkapiKy();
   const showCallout = useShowCallout();
 
@@ -56,13 +62,19 @@ export const NumberGeneratorSettings = () => {
   };
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.numberGenerator.options' })}>
+        <Loading />
+      </TitleManager>
+    );
   }
 
   return (
-    <NumberGeneratorSettingsForm
-      initialValues={numberGeneratorData ? JSON.parse(numberGeneratorData?.value) : {}}
-      onSubmit={onSubmit}
-    />
+    <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.numberGenerator.options' })}>
+      <NumberGeneratorSettingsForm
+        initialValues={numberGeneratorData ? JSON.parse(numberGeneratorData?.value) : {}}
+        onSubmit={onSubmit}
+      />
+    </TitleManager>
   );
 };

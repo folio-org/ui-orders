@@ -5,7 +5,10 @@ import {
 } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { stripesShape } from '@folio/stripes/core';
+import {
+  stripesShape,
+  TitleManager,
+} from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import {
   getControlledVocabTranslations,
@@ -31,22 +34,24 @@ class Suffixes extends Component {
     const { intl, stripes } = this.props;
 
     return (
-      <this.connectedControlledVocab
-        baseUrl={SUFFIXES_API}
-        columnMapping={suffixColumnMapping}
-        editable
-        id="suffixes"
-        label={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}
-        translations={getControlledVocabTranslations('ui-orders.settings.poNumber.suffix')}
-        nameKey="name"
-        objectLabel={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffix' })}
-        records="suffixes"
-        sortby="name"
-        stripes={stripes}
-        hiddenFields={suffixHiddenFields}
-        visibleFields={suffixVisibleFields}
-        validate={validatePrefixSuffixName}
-      />
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}>
+        <this.connectedControlledVocab
+          baseUrl={SUFFIXES_API}
+          columnMapping={suffixColumnMapping}
+          editable
+          id="suffixes"
+          label={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}
+          translations={getControlledVocabTranslations('ui-orders.settings.poNumber.suffix')}
+          nameKey="name"
+          objectLabel={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffix' })}
+          records="suffixes"
+          sortby="name"
+          stripes={stripes}
+          hiddenFields={suffixHiddenFields}
+          visibleFields={suffixVisibleFields}
+          validate={validatePrefixSuffixName}
+        />
+      </TitleManager>
     );
   }
 }

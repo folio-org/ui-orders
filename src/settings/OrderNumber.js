@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { injectIntl } from 'react-intl';
 
+import { TitleManager } from '@folio/stripes/core';
 import { ConfigManager } from '@folio/stripes/smart-components';
 
 import { MODULE_ORDERS } from '../components/Utils/const';
@@ -11,6 +13,9 @@ import css from './ConfigManagerForm.css';
 
 class OrderNumber extends Component {
   static propTypes = {
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     label: PropTypes.object.isRequired,
     stripes: PropTypes.object.isRequired,
   };
@@ -26,25 +31,27 @@ class OrderNumber extends Component {
   )
 
   render() {
-    const { label } = this.props;
+    const { intl, label } = this.props;
 
     return (
-      <div
-        data-test-order-settings-order-number
-        className={css.formWrapper}
-      >
-        <this.configManager
-          configName="orderNumber"
-          getInitialValues={getOrderNumberSetting}
-          label={label}
-          moduleName={MODULE_ORDERS}
-          onBeforeSave={this.beforeSave}
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.edit' })}>
+        <div
+          data-test-order-settings-order-number
+          className={css.formWrapper}
         >
-          <OrderNumberForm />
-        </this.configManager>
-      </div>
+          <this.configManager
+            configName="orderNumber"
+            getInitialValues={getOrderNumberSetting}
+            label={label}
+            moduleName={MODULE_ORDERS}
+            onBeforeSave={this.beforeSave}
+          >
+            <OrderNumberForm />
+          </this.configManager>
+        </div>
+      </TitleManager>
     );
   }
 }
 
-export default OrderNumber;
+export default injectIntl(OrderNumber);

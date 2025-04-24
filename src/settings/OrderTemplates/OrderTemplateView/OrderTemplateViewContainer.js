@@ -5,7 +5,10 @@ import { useIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  TitleManager,
+} from '@folio/stripes/core';
 import {
   getErrorCodeFromResponse,
   useCentralOrderingContext,
@@ -105,19 +108,24 @@ function OrderTemplateViewContainer({
   const materialTypes = get(resources, 'materialTypes.records', []);
 
   return (
-    <OrderTemplateView
-      addresses={addresses}
-      close={close}
-      funds={funds}
-      locations={locations}
-      materialTypes={materialTypes}
-      onDuplicate={onDuplicateOrderTemplate}
-      onDelete={onDeleteOrderTemplate}
-      rootPath={rootPath}
-      orderTemplate={orderTemplate}
-      stripes={stripes}
-      history={history}
-    />
+    <TitleManager
+      page={intl.formatMessage({ id: 'ui-orders.settings.orderTemplates' })}
+      record={orderTemplate?.templateName}
+    >
+      <OrderTemplateView
+        addresses={addresses}
+        close={close}
+        funds={funds}
+        locations={locations}
+        materialTypes={materialTypes}
+        onDuplicate={onDuplicateOrderTemplate}
+        onDelete={onDeleteOrderTemplate}
+        rootPath={rootPath}
+        orderTemplate={orderTemplate}
+        stripes={stripes}
+        history={history}
+      />
+    </TitleManager>
   );
 }
 

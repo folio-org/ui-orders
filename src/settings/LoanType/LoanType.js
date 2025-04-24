@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import React, { Component } from 'react';
+import { injectIntl } from 'react-intl';
 
+import { TitleManager } from '@folio/stripes/core';
 import { ConfigManager } from '@folio/stripes/smart-components';
 import {
   CONFIG_LOAN_TYPE,
@@ -9,9 +11,9 @@ import {
   MODULE_ORDERS,
 } from '@folio/stripes-acq-components';
 
-import css from '../ConfigManagerForm.css';
-
 import LoanTypeForm from './LoanTypeForm';
+
+import css from '../ConfigManagerForm.css';
 
 class LoanType extends Component {
   constructor(props, context) {
@@ -21,25 +23,32 @@ class LoanType extends Component {
   }
 
   render() {
-    const { label, resources } = this.props;
+    const {
+      intl,
+      label,
+      resources,
+    } = this.props;
+
     const loanTypes = get(resources, 'loanTypes.records', []).map(({ name }) => ({
       label: name,
       value: name,
     }));
 
     return (
-      <div
-        data-test-order-settings-loan-type
-        className={css.formWrapper}
-      >
-        <this.configManager
-          configName={CONFIG_LOAN_TYPE}
-          label={label}
-          moduleName={MODULE_ORDERS}
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.loanType' })}>
+        <div
+          data-test-order-settings-loan-type
+          className={css.formWrapper}
         >
-          <LoanTypeForm loanTypes={loanTypes} />
-        </this.configManager>
-      </div>
+          <this.configManager
+            configName={CONFIG_LOAN_TYPE}
+            label={label}
+            moduleName={MODULE_ORDERS}
+          >
+            <LoanTypeForm loanTypes={loanTypes} />
+          </this.configManager>
+        </div>
+      </TitleManager>
     );
   }
 }
@@ -49,9 +58,12 @@ LoanType.manifest = Object.freeze({
 });
 
 LoanType.propTypes = {
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   label: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   stripes: PropTypes.object.isRequired,
 };
 
-export default LoanType;
+export default injectIntl(LoanType);

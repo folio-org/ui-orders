@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 
-import {
-  Layout,
-} from '@folio/stripes/components';
+import { Layout } from '@folio/stripes/components';
+import { TitleManager } from '@folio/stripes/core';
 import {
   CONFIG_API,
   useShowCallout,
@@ -19,7 +19,9 @@ import POLinesLimitForm from './POLinesLimitForm';
 const successMessageId = 'ui-orders.settings.setPOLInesLimit.changed';
 
 function POLinesLimit({ label, resources, mutator }) {
+  const intl = useIntl();
   const sendCallout = useShowCallout();
+
   const onChangePOLinesLimitFormSubmit = useCallback(
     values => {
       const { linesLimit } = mutator;
@@ -57,16 +59,18 @@ function POLinesLimit({ label, resources, mutator }) {
   const initialValues = get(resources, ['linesLimit', 'records', 0], {});
 
   return (
-    <Layout
-      data-test-order-settings-lines-limit
-      className="full"
-    >
-      <POLinesLimitForm
-        initialValues={initialValues}
-        onSubmit={onChangePOLinesLimitFormSubmit}
-        paneTitle={label}
-      />
-    </Layout>
+    <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.polinesLimit' })}>
+      <Layout
+        data-test-order-settings-lines-limit
+        className="full"
+      >
+        <POLinesLimitForm
+          initialValues={initialValues}
+          onSubmit={onChangePOLinesLimitFormSubmit}
+          paneTitle={label}
+        />
+      </Layout>
+    </TitleManager>
   );
 }
 

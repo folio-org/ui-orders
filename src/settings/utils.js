@@ -8,3 +8,18 @@ export const validatePrefixSuffixName = ({ name }) => ({
     ? <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
     : undefined,
 });
+
+export const validateDuplicates = (fieldNames = []) => (item, index, items) => {
+  const results = fieldNames.reduce((acc, fieldName) => {
+    const fieldValue = item[fieldName];
+    const isDuplicates = items.some((i, idx) => i[fieldName] === fieldValue && idx !== index);
+
+    if (isDuplicates) {
+      acc[fieldName] = <FormattedMessage id="ui-orders.settings.orderTemplateCategories.validation.duplicates" />;
+    }
+
+    return acc;
+  }, {});
+
+  return results;
+};

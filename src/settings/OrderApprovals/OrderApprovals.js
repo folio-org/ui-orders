@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { injectIntl } from 'react-intl';
 
+import { TitleManager } from '@folio/stripes/core';
 import { ConfigManager } from '@folio/stripes/smart-components';
 import { getConfigSetting } from '@folio/stripes-acq-components';
 
@@ -20,28 +22,33 @@ class OrderApprovals extends Component {
   beforeSave = (isApprovalRequired) => JSON.stringify(isApprovalRequired);
 
   render() {
-    const { label } = this.props;
+    const { intl, label } = this.props;
 
     return (
-      <this.configManager
-        data-test-order-settings-order-approvals
-        configName={CONFIG_APPROVALS}
-        getInitialValues={getConfigSetting}
-        label={label}
-        moduleName={MODULE_ORDERS}
-        onBeforeSave={this.beforeSave}
-      >
-        <div data-test-order-settings-order-approvals>
-          <OrderApprovalsForm />
-        </div>
-      </this.configManager>
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.approvals' })}>
+        <this.configManager
+          data-test-order-settings-order-approvals
+          configName={CONFIG_APPROVALS}
+          getInitialValues={getConfigSetting}
+          label={label}
+          moduleName={MODULE_ORDERS}
+          onBeforeSave={this.beforeSave}
+        >
+          <div data-test-order-settings-order-approvals>
+            <OrderApprovalsForm />
+          </div>
+        </this.configManager>
+      </TitleManager>
     );
   }
 }
 
 OrderApprovals.propTypes = {
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   label: PropTypes.node.isRequired,
   stripes: PropTypes.object.isRequired,
 };
 
-export default OrderApprovals;
+export default injectIntl(OrderApprovals);
