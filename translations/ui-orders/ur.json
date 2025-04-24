@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "Electronic",
     "checkIn.pieceFormat.physical": "Physical",
     "search.productIdISBN": "مصنوعات کی ID ISBN",
-    "errors.invalidISBN": "Product ID number invalid based on product ID type. You can use \"Change instance connection\" to refresh product IDs from the instance record before editing the POL.",
     "itemDetails.qualifier": "Qualifier",
     "itemDetails.contributors": "Contributors",
     "itemDetails.productIds": "Product identifiers",

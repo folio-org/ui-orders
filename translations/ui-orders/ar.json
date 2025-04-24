@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "إلكتروني",
     "checkIn.pieceFormat.physical": "مادي",
     "search.productIdISBN": "ردمك معرّف المنتج",
-    "errors.invalidISBN": "ردمك غير صالح؛ قم بالضبط أو الإزالة",
     "itemDetails.qualifier": "مؤهل",
     "itemDetails.contributors": "مساهمون",
     "itemDetails.productIds": "معرفات المنتجات",

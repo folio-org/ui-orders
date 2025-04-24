@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "Elektroniczny",
     "checkIn.pieceFormat.physical": "Fizyczny",
     "search.productIdISBN": "ID produktu (ISBN)",
-    "errors.invalidISBN": "Nieprawidłowy ISBN; popraw lub usuń",
     "itemDetails.qualifier": "Kwalifikator",
     "itemDetails.contributors": "Współtwórcy",
     "itemDetails.productIds": "Identyfikatory produktów",

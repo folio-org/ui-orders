@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "Электронный",
     "checkIn.pieceFormat.physical": "Физический",
     "search.productIdISBN": "ISBN",
-    "errors.invalidISBN": "Неверный номер ISBN; скорректировать или удалить",
     "itemDetails.qualifier": "Квалификатор",
     "itemDetails.contributors": "Авторы",
     "itemDetails.productIds": "Идентификаторы продуктов",

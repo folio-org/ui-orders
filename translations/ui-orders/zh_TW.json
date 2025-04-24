@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "電子的",
     "checkIn.pieceFormat.physical": "實體的",
     "search.productIdISBN": "ISBN",
-    "errors.invalidISBN": "因為產品編號類型，產品編號無效。在編輯訂單細項之前，您可以使用「變更實例連線」從實例紀錄中更新產品編號。",
     "itemDetails.qualifier": "限定詞",
     "itemDetails.contributors": "貢獻者",
     "itemDetails.productIds": "產品識別號",

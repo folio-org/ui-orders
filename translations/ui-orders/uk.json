@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "Електронний",
     "checkIn.pieceFormat.physical": "Фізичний",
     "search.productIdISBN": "Product ID ISBN",
-    "errors.invalidISBN": "Номер ІД продукту є недійсним базуючись на ІД типу продукту. Ви можете використати функцію \"Змінити зв'язок біб.запису (інстансу)\", щоб оновити ІД продуктів із біб.запису (інстансу) перед редагуванням рядка замовлення на придбання.",
     "itemDetails.qualifier": "Qualifier",
     "itemDetails.contributors": "Contributors",
     "itemDetails.productIds": "Product identifiers",

@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "电子的",
     "checkIn.pieceFormat.physical": "实体的",
     "search.productIdISBN": "产品ID ISBN",
-    "errors.invalidISBN": "根据产品ID类型，产品ID号无效。在编辑采购订单行之前，可以使用“更改实例连接”从实例记录中刷新产品ID。",
     "itemDetails.qualifier": "限定词",
     "itemDetails.contributors": "贡献者",
     "itemDetails.productIds": "产品标识符",

@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "Elektronický",
     "checkIn.pieceFormat.physical": "Fyzický",
     "search.productIdISBN": "ID produktu ISBN",
-    "errors.invalidISBN": "ID produktu je neplatné na základě typu ID produktu. Můžete použít \"Změnit připojení titulu\" k obnovení ID produktů ze záznamu titulu před úpravou řádku NO.",
     "itemDetails.qualifier": "Kvalifikátor",
     "itemDetails.contributors": "Autoři",
     "itemDetails.productIds": "Identifikátory produktu",
