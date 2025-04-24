@@ -43,7 +43,7 @@ export const OrderTemplateCategories = () => {
   const hasEditPerms = stripes.hasPerm('orders-storage.order-template-categories.item.put');
   const hasDeletePerms = stripes.hasPerm('orders-storage.order-template-categories.item.delete');
 
-  const validate = useCallback(() => validateDuplicates(intl, [FIELD_NAMES.name]), [intl]);
+  const validate = useCallback((...params) => validateDuplicates(intl, [FIELD_NAMES.name])(...params), [intl]);
 
   return (
     <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.orderTemplateCategories' })}>
