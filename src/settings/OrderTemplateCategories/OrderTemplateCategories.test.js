@@ -15,7 +15,12 @@ jest.mock('@folio/stripes/core', () => ({
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
-  ControlledVocab: jest.fn(() => <div>ControlledVocab</div>),
+  ControlledVocab: jest.fn(({ actionSuppressor }) => {
+    actionSuppressor?.edit?.();
+    actionSuppressor?.delete?.();
+
+    return <div>ControlledVocab</div>;
+  }),
 }));
 
 const defaultProps = {};
