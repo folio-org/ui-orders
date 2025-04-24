@@ -22,6 +22,7 @@ const FIELD_NAMES = {
 };
 
 const ConnectedControlledVocab = stripesConnect(ControlledVocab);
+
 const columnMapping = {
   [FIELD_NAMES.name]: <FormattedMessage id="ui-orders.settings.orderTemplateCategories.field.name" />,
 };
