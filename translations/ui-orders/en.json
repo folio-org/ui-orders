@@ -171,7 +171,6 @@
   "errors.idMismatch": "Mismatch between id in path and request body",
   "errors.incorrectFundDistributionTotal": "Fund distribution total must add to 100% or totalPrice",
   "errors.InstanceIdNotAllowedForPackagePoLine": "Instance id not allowed for package poline",
-  "errors.invalidISBN" : "Product ID number invalid based on product ID type. You can use \"Change instance connection\" to refresh product IDs from the instance record before editing the POL.",
   "errors.invalidProductId" : "Product ID number invalid based on product ID type. You can use \"Change instance connection\" to refresh product IDs from the instance record before editing the POL.",
   "errors.itemCreationFailed": "The item record failed to be created",
   "errors.itemNotFound": "The item record is not found",

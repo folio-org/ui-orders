@@ -346,7 +346,7 @@ function LayerPOLine({
     sendCallout,
     isCreateAnotherChecked,
     id,
-    locationState.instanceId,
+    locationState?.instanceId,
     history,
     search,
     mutator,
