@@ -337,11 +337,12 @@
           "finance.exchange-rate.item.get",
           "finance.funds.expense-classes.collection.get",
           "inventory.instances.collection.get",
+          "orders.acquisition-methods.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
-          "ui-orders.third-party-services.execute",
-          "orders.acquisition-methods.collection.get",
-          "ui-orders.custom-fields.view"
+          "orders-storage.settings.collection.get",
+          "ui-orders.custom-fields.view",
+          "ui-orders.third-party-services.execute"
         ]
       },
       {
@@ -388,7 +389,8 @@
           "orders-storage.custom-fields.collection.get",
           "orders-storage.custom-fields.item.get",
           "orders-storage.custom-fields.item.stats.get",
-          "orders-storage.custom-fields.item.option.stats.get"
+          "orders-storage.custom-fields.item.option.stats.get",
+          "orders-storage.settings.collection.get"
         ]
       },
       {
