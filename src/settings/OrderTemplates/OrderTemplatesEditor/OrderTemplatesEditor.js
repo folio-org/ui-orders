@@ -78,27 +78,28 @@ const ORDER = {
 };
 
 const OrderTemplatesEditor = ({
+  addresses,
   centralOrdering,
-  initialValues,
-  identifierTypes,
-  isLoading,
+  close,
   contributorNameTypes,
   createInventorySetting,
-  prefixesSetting,
-  suffixesSetting,
-  addresses,
+  form: { change, batch, getState },
+  handleSubmit,
+  identifierTypes,
+  initialValues,
+  isLoading,
   locationIds,
   locations,
   materialTypes,
-  handleSubmit,
-  close,
-  values: formValues,
-  form: { change, batch, getState },
-  title,
-  vendors,
-  stripes,
+  orderTemplateCategories,
+  prefixesSetting,
   pristine,
+  stripes,
   submitting,
+  suffixesSetting,
+  title,
+  values: formValues,
+  vendors,
 }) => {
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
 
@@ -177,7 +178,12 @@ const OrderTemplatesEditor = ({
   if (isLoading) {
     return (
       <Layer isOpen>
-        <LoadingPane />
+        <LoadingPane
+          defaultWidth="fill"
+          dismissible
+          onClose={close}
+          paneTitle={title}
+        />
       </Layer>
     );
   }
@@ -227,7 +233,7 @@ const OrderTemplatesEditor = ({
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]}
                         id={ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO}
                       >
-                        <TemplateInformationForm />
+                        <TemplateInformationForm orderTemplateCategories={orderTemplateCategories} />
                       </Accordion>
 
                       <Accordion
@@ -447,27 +453,31 @@ const OrderTemplatesEditor = ({
 };
 
 OrderTemplatesEditor.propTypes = {
+  addresses: PropTypes.arrayOf(PropTypes.object),
   centralOrdering: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  values: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
   close: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  pristine: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  identifierTypes: PropTypes.arrayOf(PropTypes.object),
   contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
+  createInventorySetting: PropTypes.object,
+  form: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  identifierTypes: PropTypes.arrayOf(PropTypes.object),
+  initialValues: PropTypes.object,
+  isLoading: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
-  createInventorySetting: PropTypes.object,
-  prefixesSetting: PropTypes.arrayOf(PropTypes.object),
-  suffixesSetting: PropTypes.arrayOf(PropTypes.object),
-  addresses: PropTypes.arrayOf(PropTypes.object),
   materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  title: PropTypes.node,
-  vendors: PropTypes.arrayOf(PropTypes.object),
-  initialValues: PropTypes.object,
+  orderTemplateCategories: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  })).isRequired,
+  prefixesSetting: PropTypes.arrayOf(PropTypes.object),
+  pristine: PropTypes.bool.isRequired,
   stripes: PropTypes.object.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  suffixesSetting: PropTypes.arrayOf(PropTypes.object),
+  title: PropTypes.node,
+  values: PropTypes.object.isRequired,
+  vendors: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default stripesForm({

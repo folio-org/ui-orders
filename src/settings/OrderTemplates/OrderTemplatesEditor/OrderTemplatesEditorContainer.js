@@ -8,7 +8,10 @@ import { useIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { stripesConnect, TitleManager } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  TitleManager,
+} from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
@@ -42,7 +45,7 @@ import {
 } from '../../../common/utils';
 import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
 import { useOrderTemplate } from '../../../common/hooks';
-
+import { useOrderTemplateCategories } from '../../hooks';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 const INITIAL_VALUES = { isPackage: false, hideAll: false };
@@ -90,6 +93,11 @@ function OrderTemplatesEditorContainer({
     locations,
   } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
+  const {
+    orderTemplateCategories,
+    isLoading: isOrderTemplateCategoriesLoading,
+  } = useOrderTemplateCategories();
+
   const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
   const identifierTypes = getIdentifierTypesForSelect(resources);
@@ -111,7 +119,11 @@ function OrderTemplatesEditorContainer({
     : INITIAL_VALUES;
   const title = get(initialValues, ['templateName']) || intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.editor.titleCreate' });
 
-  const isLoading = isOrderTemplateFetching || isLocationsLoading;
+  const isLoading = (
+    isOrderTemplateFetching
+    || isLocationsLoading
+    || isOrderTemplateCategoriesLoading
+  );
 
   return (
     <TitleManager
@@ -137,6 +149,7 @@ function OrderTemplatesEditorContainer({
         contributorNameTypes={contributorNameTypes}
         stripes={stripes}
         centralOrdering={isCentralOrderingEnabled}
+        orderTemplateCategories={orderTemplateCategories}
       />
     </TitleManager>
   );
