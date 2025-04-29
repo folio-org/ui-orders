@@ -307,6 +307,7 @@ const OrderTemplatesEditor = ({
                         id={ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION}
                       >
                         <DonorInformation
+                          formValues={formValues}
                           fundDistribution={fundDistribution}
                         />
                       </Accordion>

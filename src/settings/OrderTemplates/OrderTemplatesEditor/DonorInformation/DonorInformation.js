@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import {
   Donors,
@@ -6,14 +8,16 @@ import {
   useFunds,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../../../components/POLine/const';
 import { useManageDonorOrganizationIds } from '../../../../components/POLine/hooks';
 
-const DonorInformation = ({ fundDistribution }) => {
+const DonorInformation = ({ formValues, fundDistribution }) => {
   const { funds } = useFunds();
+  const initialDonorOrganizationIds = get(formValues, POL_FORM_FIELDS.donorOrganizationIds, []);
   const { donorOrganizationIds, onDonorRemove, setDonorIds } = useManageDonorOrganizationIds({
     funds,
     fundDistribution,
-    initialDonorOrganizationIds: [],
+    initialDonorOrganizationIds,
   });
 
   return (
@@ -27,6 +31,7 @@ const DonorInformation = ({ fundDistribution }) => {
 };
 
 DonorInformation.propTypes = {
+  formValues: PropTypes.object.isRequired,
   fundDistribution: fundDistributionShape,
 };
 
