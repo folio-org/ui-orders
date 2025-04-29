@@ -26,6 +26,7 @@ import {
 import { ViewCustomFieldsRecord } from '@folio/stripes/smart-components';
 import {
   CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
+  DonorsListContainer,
   FundDistributionView,
   ORDER_FORMATS,
   handleKeyCommand,
@@ -185,6 +186,7 @@ class OrderTemplateView extends Component {
     const showOther = orderFormat === ORDER_FORMATS.other;
     const orderType = get(orderTemplate, 'orderType');
     const customFieldsValues = get(orderTemplate, 'customFields', {});
+    const donorOrganizationIds = get(orderTemplate, 'donorOrganizationIds', []);
 
     const estimatedPrice = get(orderTemplate, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(orderTemplate, 'fundDistribution');
@@ -323,6 +325,15 @@ class OrderTemplateView extends Component {
                       id={ORDER_TEMPLATES_ACCORDION.POL_DETAILS}
                     >
                       <POLineDetails line={orderTemplate} />
+                    </Accordion>
+
+                    <Accordion
+                      label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION]}
+                      id={ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION}
+                    >
+                      <DonorsListContainer
+                        donorOrganizationIds={donorOrganizationIds}
+                      />
                     </Accordion>
 
                     {isOngoing(orderType) && (
