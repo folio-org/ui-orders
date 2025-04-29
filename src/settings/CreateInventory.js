@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { injectIntl } from 'react-intl';
 
+import { TitleManager } from '@folio/stripes/core';
 import { ConfigManager } from '@folio/stripes/smart-components';
 
 import {
@@ -14,6 +16,9 @@ import CreateInventoryForm from './CreateInventoryForm';
 
 class CreateInventory extends Component {
   static propTypes = {
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     label: PropTypes.object.isRequired,
     stripes: PropTypes.object.isRequired,
   };
@@ -39,25 +44,27 @@ class CreateInventory extends Component {
   }
 
   render() {
-    const { label } = this.props;
+    const { intl, label } = this.props;
 
     return (
-      <div
-        data-test-order-settings-create-inventory
-        className={css.formWrapper}
-      >
-        <this.configManager
-          configName={CONFIG_CREATE_INVENTORY}
-          getInitialValues={getCreateInventorySetting}
-          label={label}
-          moduleName={MODULE_ORDERS}
-          onBeforeSave={this.beforeSave}
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.inventoryInteractions' })}>
+        <div
+          data-test-order-settings-create-inventory
+          className={css.formWrapper}
         >
-          <CreateInventoryForm />
-        </this.configManager>
-      </div>
+          <this.configManager
+            configName={CONFIG_CREATE_INVENTORY}
+            getInitialValues={getCreateInventorySetting}
+            label={label}
+            moduleName={MODULE_ORDERS}
+            onBeforeSave={this.beforeSave}
+          >
+            <CreateInventoryForm />
+          </this.configManager>
+        </div>
+      </TitleManager>
     );
   }
 }
 
-export default CreateInventory;
+export default injectIntl(CreateInventory);

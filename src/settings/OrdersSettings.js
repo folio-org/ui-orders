@@ -1,7 +1,11 @@
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import { LoadingPane } from '@folio/stripes/components';
 import {
+  TitleManager,
   useNamespace,
   useStripes,
 } from '@folio/stripes/core';
@@ -17,6 +21,7 @@ import {
 const paneTitle = <FormattedMessage id="ui-orders.settings.index.paneTitle" />;
 
 const OrdersSettings = (props) => {
+  const intl = useIntl();
   const stripes = useStripes();
   const [namespace] = useNamespace({ key: 'orders-settings' });
 
@@ -46,12 +51,14 @@ const OrdersSettings = (props) => {
   }
 
   return (
-    <Settings
-      key={key}
-      {...props}
-      sections={sections}
-      paneTitle={paneTitle}
-    />
+    <TitleManager page={intl.formatMessage({ id: 'ui-orders.document.settings.title' })}>
+      <Settings
+        key={key}
+        {...props}
+        sections={sections}
+        paneTitle={paneTitle}
+      />
+    </TitleManager>
   );
 };
 

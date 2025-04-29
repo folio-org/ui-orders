@@ -1,10 +1,14 @@
-import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import React, { useMemo } from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { useHistory } from 'react-router';
 
 import {
   IfPermission,
+  TitleManager,
   useStripes,
 } from '@folio/stripes/core';
 import {
@@ -15,12 +19,17 @@ import {
   HasCommand,
   checkScope,
 } from '@folio/stripes/components';
-import { handleKeyCommand, usePaneFocus } from '@folio/stripes-acq-components';
+import {
+  handleKeyCommand,
+  usePaneFocus,
+} from '@folio/stripes-acq-components';
 
 const OrderTemplatesList = ({ label, rootPath, orderTemplatesList = [] }) => {
+  const intl = useIntl();
   const { paneTitleRef } = usePaneFocus();
   const stripes = useStripes();
   const history = useHistory();
+
   const lastMenu = useMemo(() => (
     <IfPermission perm="ui-orders.settings.order-templates.create">
       <Button
@@ -45,30 +54,32 @@ const OrderTemplatesList = ({ label, rootPath, orderTemplatesList = [] }) => {
   ];
 
   return (
-    <HasCommand
-      commands={shortcuts}
-      isWithinScope={checkScope}
-      scope={document.body}
-    >
-      <Pane
-        id="order-settings-order-templates-list"
-        lastMenu={lastMenu}
-        paneTitle={label}
-        paneTitleRef={paneTitleRef}
-        defaultWidth="fill"
+    <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.orderTemplates' })}>
+      <HasCommand
+        commands={shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
       >
-        <NavList>
-          {orderTemplatesList.map(template => (
-            <NavListItem
-              key={template.id}
-              to={`${rootPath}/${template.id}/view`}
-            >
-              {template.templateName}
-            </NavListItem>
-          ))}
-        </NavList>
-      </Pane>
-    </HasCommand>
+        <Pane
+          id="order-settings-order-templates-list"
+          lastMenu={lastMenu}
+          paneTitle={label}
+          paneTitleRef={paneTitleRef}
+          defaultWidth="fill"
+        >
+          <NavList>
+            {orderTemplatesList.map(template => (
+              <NavListItem
+                key={template.id}
+                to={`${rootPath}/${template.id}/view`}
+              >
+                {template.templateName}
+              </NavListItem>
+            ))}
+          </NavList>
+        </Pane>
+      </HasCommand>
+    </TitleManager>
   );
 };
 

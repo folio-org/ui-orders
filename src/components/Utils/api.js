@@ -16,5 +16,6 @@ export const ORDER_NUMBER_API = 'orders/po-number';
 export const ORDER_NUMBER_VALIDATE_API = `${ORDER_NUMBER_API}/validate`;
 export const ORDER_TEMPLATES_API = 'orders/order-templates';
 export const ORDER_TEMPLATE_DETAIL_API = `${ORDER_TEMPLATES_API}/:{id}`;
+export const ORDER_TEMPLATE_CATEGORIES_API = 'orders-storage/order-template-categories';
 export const ORGANIZATION_TYPES_API = 'organizations-storage/organization-types';
 export const RECEIVING_API = 'orders/receiving-history';

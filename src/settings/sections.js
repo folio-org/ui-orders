@@ -3,8 +3,10 @@ import { FormattedMessage } from 'react-intl';
 import AcquisitionMethods from './AcquisitionMethods';
 import { CentralOrdering } from './CentralOrdering';
 import ClosingReasons from './ClosingReasons';
+import { SECTION_KEYS } from './constants';
 import CreateInventory from './CreateInventory';
 import CustomFieldsSettings from './CustomFieldsSettings';
+import { SETTINGS_SECTION_KEY_FIELD_NAME } from './hooks';
 import InstanceMatching from './InstanceMatching';
 import InstanceStatus from './InstanceStatus';
 import InstanceType from './InstanceType';
@@ -13,14 +15,13 @@ import { NumberGeneratorSettings } from './NumberGeneratorSettings';
 import OpenOrder from './OpenOrder';
 import OrderApprovals from './OrderApprovals';
 import OrderNumber from './OrderNumber';
+import { OrderTemplateCategories } from './OrderTemplateCategories';
 import OrderTemplates from './OrderTemplates';
 import POLinesLimit from './POLinesLimit';
 import Prefixes from './Prefixes';
 import { RoutingAddress } from './RoutingAddress';
 import RoutingListConfiguration from './RoutingListConfiguration';
 import Suffixes from './Suffixes';
-import { SECTION_KEYS } from './constants';
-import { SETTINGS_SECTION_KEY_FIELD_NAME } from './hooks';
 
 /*
   The sections of the order settings can dynamically change depending on other settings.
@@ -64,6 +65,12 @@ export const SECTIONS = [
         label: <FormattedMessage id="ui-orders.settings.orderTemplates" />,
         route: 'order-templates',
         perm: 'ui-orders.settings.order-templates.view',
+      },
+      {
+        component: OrderTemplateCategories,
+        label: <FormattedMessage id="ui-orders.settings.orderTemplateCategories" />,
+        route: 'order-template-categories',
+        perm: 'ui-orders.settings.view',
       },
       {
         component: POLinesLimit,

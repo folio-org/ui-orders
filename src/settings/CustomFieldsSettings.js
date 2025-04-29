@@ -1,10 +1,14 @@
+import { useIntl } from 'react-intl';
 import {
   Route,
   Switch,
 } from 'react-router-dom';
 
 import { CUSTOM_FIELDS_ORDERS_BACKEND_NAME } from '@folio/stripes-acq-components';
-import { useStripes } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   EditCustomFieldsSettings,
   ViewCustomFieldsSettings,
@@ -16,6 +20,7 @@ import {
 } from '../common/constants';
 
 const CustomFieldsSettings = () => {
+  const intl = useIntl();
   const stripes = useStripes();
 
   const basePO = '/settings/orders/custom-fields-po';
@@ -30,36 +35,45 @@ const CustomFieldsSettings = () => {
   return (
     <Switch>
       <Route exact path={basePO}>
-        <ViewCustomFieldsSettings
-          backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-          entityType={ENTITY_TYPE_ORDER}
-          editRoute={`${basePO}/edit`}
-          permissions={permissions}
-        />
+        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrders' })}>
+          <ViewCustomFieldsSettings
+            backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+            entityType={ENTITY_TYPE_ORDER}
+            editRoute={`${basePO}/edit`}
+            permissions={permissions}
+          />
+        </TitleManager>
       </Route>
       <Route exact path={`${basePO}/edit`}>
-        <EditCustomFieldsSettings
-          backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-          entityType={ENTITY_TYPE_ORDER}
-          viewRoute={basePO}
-          permissions={permissions}
-        />
+        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrders' })}>
+          <EditCustomFieldsSettings
+            backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+            entityType={ENTITY_TYPE_ORDER}
+            viewRoute={basePO}
+            permissions={permissions}
+          />
+        </TitleManager>
       </Route>
+
       <Route exact path={basePOL}>
-        <ViewCustomFieldsSettings
-          backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-          entityType={ENTITY_TYPE_PO_LINE}
-          editRoute={`${basePOL}/edit`}
-          permissions={permissions}
-        />
+        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrderLines' })}>
+          <ViewCustomFieldsSettings
+            backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+            entityType={ENTITY_TYPE_PO_LINE}
+            editRoute={`${basePOL}/edit`}
+            permissions={permissions}
+          />
+        </TitleManager>
       </Route>
       <Route exact path={`${basePOL}/edit`}>
-        <EditCustomFieldsSettings
-          backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-          entityType={ENTITY_TYPE_PO_LINE}
-          viewRoute={basePOL}
-          permissions={permissions}
-        />
+        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrderLines' })}>
+          <EditCustomFieldsSettings
+            backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+            entityType={ENTITY_TYPE_PO_LINE}
+            viewRoute={basePOL}
+            permissions={permissions}
+          />
+        </TitleManager>
       </Route>
     </Switch>
   );

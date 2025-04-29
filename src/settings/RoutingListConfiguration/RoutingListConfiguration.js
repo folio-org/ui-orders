@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 import {
   Switch,
@@ -7,7 +8,10 @@ import {
 } from 'react-router-dom';
 
 import { LoadingPane } from '@folio/stripes/components';
-import { useStripes } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import { useShowCallout } from '@folio/stripes-acq-components';
 
 import {
@@ -23,6 +27,7 @@ import RoutingListConfigurationView from './RoutingListConfigurationView';
 
 const RoutingListConfiguration = ({ label }) => {
   const history = useHistory();
+  const intl = useIntl();
   const showCallout = useShowCallout();
   const stripes = useStripes();
 
@@ -64,19 +69,21 @@ const RoutingListConfiguration = ({ label }) => {
   }
 
   return (
-    <Switch>
-      <Route exact path={LIST_CONFIGURATION_BASE_PATH}>
-        <RoutingListConfigurationView listConfig={listConfig} />
-      </Route>
-      <Route exact path={LIST_CONFIGURATION_EDIT_PATH}>
-        <RoutingListConfigurationEdit
-          stripes={stripes}
-          initialValues={listConfig}
-          onCancel={onCancel}
-          onSubmit={onSubmit}
-        />
-      </Route>
-    </Switch>
+    <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.routing.listConfiguration' })}>
+      <Switch>
+        <Route exact path={LIST_CONFIGURATION_BASE_PATH}>
+          <RoutingListConfigurationView listConfig={listConfig} />
+        </Route>
+        <Route exact path={LIST_CONFIGURATION_EDIT_PATH}>
+          <RoutingListConfigurationEdit
+            stripes={stripes}
+            initialValues={listConfig}
+            onCancel={onCancel}
+            onSubmit={onSubmit}
+          />
+        </Route>
+      </Switch>
+    </TitleManager>
   );
 };
 

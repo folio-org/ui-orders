@@ -4,14 +4,11 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import {
-  FormattedMessage,
-  useIntl,
-} from 'react-intl';
+import { useIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { stripesConnect } from '@folio/stripes/core';
+import { stripesConnect, TitleManager } from '@folio/stripes/core';
 import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
@@ -80,7 +77,7 @@ function OrderTemplatesEditorContainer({
           type: 'error',
         });
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, id, intl, showToast]);
 
   const {
@@ -112,31 +109,36 @@ function OrderTemplatesEditorContainer({
       hideAll: false,
     }
     : INITIAL_VALUES;
-  const title = get(initialValues, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
+  const title = get(initialValues, ['templateName']) || intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.editor.titleCreate' });
 
   const isLoading = isOrderTemplateFetching || isLocationsLoading;
 
   return (
-    <OrderTemplatesEditor
-      isLoading={isLoading}
-      title={title}
-      onSubmit={saveOrderTemplate}
-      close={close}
-      funds={funds}
-      initialValues={initialValues}
-      identifierTypes={identifierTypes}
-      locationIds={locationIds}
-      locations={locations}
-      createInventorySetting={createInventorySetting}
-      prefixesSetting={prefixesSetting}
-      suffixesSetting={suffixesSetting}
-      addresses={addresses}
-      materialTypes={materialTypes}
-      vendors={vendors}
-      contributorNameTypes={contributorNameTypes}
-      stripes={stripes}
-      centralOrdering={isCentralOrderingEnabled}
-    />
+    <TitleManager
+      page={intl.formatMessage({ id: 'ui-orders.settings.orderTemplates' })}
+      record={title}
+    >
+      <OrderTemplatesEditor
+        isLoading={isLoading}
+        title={title}
+        onSubmit={saveOrderTemplate}
+        close={close}
+        funds={funds}
+        initialValues={initialValues}
+        identifierTypes={identifierTypes}
+        locationIds={locationIds}
+        locations={locations}
+        createInventorySetting={createInventorySetting}
+        prefixesSetting={prefixesSetting}
+        suffixesSetting={suffixesSetting}
+        addresses={addresses}
+        materialTypes={materialTypes}
+        vendors={vendors}
+        contributorNameTypes={contributorNameTypes}
+        stripes={stripes}
+        centralOrdering={isCentralOrderingEnabled}
+      />
+    </TitleManager>
   );
 }
 

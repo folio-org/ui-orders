@@ -5,7 +5,10 @@ import {
 } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { stripesShape } from '@folio/stripes/core';
+import {
+  stripesShape,
+  TitleManager,
+} from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import { getControlledVocabTranslations } from '@folio/stripes-acq-components';
 
@@ -59,25 +62,27 @@ class ClosingReasons extends Component {
     const { intl, stripes } = this.props;
 
     return (
-      <this.connectedControlledVocab
-        actionSuppressor={actionSuppressor}
-        baseUrl={REASONS_FOR_CLOSURE_API}
-        columnMapping={columnMapping}
-        data-test-closing-reasons-setting
-        editable={stripes.hasPerm('ui-orders.settings.all')}
-        formatter={formatter}
-        hiddenFields={hiddenFields}
-        id="closingReasons"
-        label={intl.formatMessage({ id: 'ui-orders.settings.closingOrderReasons' })}
-        translations={getControlledVocabTranslations('ui-orders.settings.closingReasons')}
-        nameKey="reason"
-        objectLabel={reasonsLabel}
-        readOnlyFields={readOnlyFields}
-        records="reasonsForClosure"
-        sortby="reason"
-        stripes={stripes}
-        visibleFields={visibleFields}
-      />
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.closingOrderReasons' })}>
+        <this.connectedControlledVocab
+          actionSuppressor={actionSuppressor}
+          baseUrl={REASONS_FOR_CLOSURE_API}
+          columnMapping={columnMapping}
+          data-test-closing-reasons-setting
+          editable={stripes.hasPerm('ui-orders.settings.all')}
+          formatter={formatter}
+          hiddenFields={hiddenFields}
+          id="closingReasons"
+          label={intl.formatMessage({ id: 'ui-orders.settings.closingOrderReasons' })}
+          translations={getControlledVocabTranslations('ui-orders.settings.closingReasons')}
+          nameKey="reason"
+          objectLabel={reasonsLabel}
+          readOnlyFields={readOnlyFields}
+          records="reasonsForClosure"
+          sortby="reason"
+          stripes={stripes}
+          visibleFields={visibleFields}
+        />
+      </TitleManager>
     );
   }
 }

@@ -770,7 +770,6 @@
   "settings.openOrder.isOpenOrderEnabled": "Allow save and open purchase order when creating or editing a purchase order line",
 
   "settings.orderTemplates": "Order templates",
-
   "settings.orderTemplates.accordion.template": "Template information",
   "settings.orderTemplates.accordion.poInfo": "PO information",
   "settings.orderTemplates.accordion.poOngoing": "Ongoing PO information",
@@ -788,7 +787,6 @@
   "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
   "settings.orderTemplates.accordion.polLocation": "Location",
   "settings.orderTemplates.accordion.polTags": "POL tags",
-
   "settings.orderTemplates.editor.titleCreate": "New order template",
   "settings.orderTemplates.editor.save": "Save",
   "settings.orderTemplates.editor.template.name": "Template name",
@@ -797,13 +795,11 @@
   "settings.orderTemplates.editor.template.hideAll": "Hide all eligible fields",
   "settings.orderTemplates.editor.template.hideAll.info": "Mark all eligible fields as hidden on Order and Order Line when using this template",
   "settings.orderTemplates.editor.template.tags": "Tags",
-
   "settings.orderTemplates.confirmDuplicate.heading": "Duplicate template",
   "settings.orderTemplates.confirmDuplicate.message": "Are you sure you want to duplicate the template?",
   "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",
   "settings.orderTemplates.confirmDelete.heading": "Delete template",
   "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
-
   "settings.orderTemplates.duplicate.suffix": "(Copy)",
   "settings.orderTemplates.duplicate.success": "The template was successfully duplicated",
   "settings.orderTemplates.duplicate.error": "The template was not duplicated",
@@ -811,6 +807,19 @@
   "settings.orderTemplates.remove.error": "The template was not deleted",
   "settings.orderTemplates.save.success": "The template was saved",
   "settings.orderTemplates.save.error": "The template was not saved",
+
+  "settings.orderTemplateCategories": "Order template categories",
+  "settings.orderTemplateCategories.sub": "Categories",
+  "settings.orderTemplateCategories.field.name": "Name",
+  "settings.orderTemplateCategories.cannotDeleteTermHeader": "Cannot delete the order template category",
+  "settings.orderTemplateCategories.cannotDeleteTermMessage": "This order template category cannot be deleted, as it is in use by one or more records.",
+  "settings.orderTemplateCategories.deleteEntry": "Delete order template category",
+  "settings.orderTemplateCategories.termCreated": "The category <b>{term}</b> was successfully <b>created</b>",
+  "settings.orderTemplateCategories.termUpdated": "The category <b>{term}</b> was successfully <b>updated</b>",
+  "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
+  "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
+  "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique",
+
   "settings.numberGenerator.accessionNumber": "Accession number",
   "settings.numberGenerator.accessionNumberEqualCallNumber": "Use the same generated number for accession number and call number",
   "settings.numberGenerator.accessionNumberEqualCallNumber.warning": "Warning: The checkbox has been disabled because the accession number and/or the call number have been set to manual completion.",

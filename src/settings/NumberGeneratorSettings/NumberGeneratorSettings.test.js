@@ -13,6 +13,8 @@ import { useNumberGeneratorOptions } from '../hooks';
 import { NumberGeneratorSettings } from './NumberGeneratorSettings';
 
 jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  TitleManager: jest.fn(({ children }) => <div>{children}</div>),
   useOkapiKy: jest.fn(),
 }));
 

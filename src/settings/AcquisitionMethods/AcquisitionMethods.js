@@ -5,7 +5,10 @@ import {
 } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { stripesShape } from '@folio/stripes/core';
+import {
+  stripesShape,
+  TitleManager,
+} from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import {
   ACQUISITION_METHODS_API,
@@ -41,23 +44,25 @@ class AcquisitionMethods extends Component {
     const { intl, stripes } = this.props;
 
     return (
-      <this.connectedControlledVocab
-        actionSuppressor={actionSuppressor}
-        id="acquisition-methods"
-        baseUrl={ACQUISITION_METHODS_API}
-        records="acquisitionMethods"
-        sortby="value"
-        nameKey="value"
-        editable={stripes.hasPerm('ui-orders.settings.all')}
-        label={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods' })}
-        translations={getControlledVocabTranslations('ui-orders.settings.acquisitionMethods')}
-        columnMapping={columnMapping}
-        objectLabel={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods.singular' })}
-        formatter={formatter}
-        hiddenFields={hiddenFields}
-        visibleFields={visibleFields}
-        stripes={stripes}
-      />
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods' })}>
+        <this.connectedControlledVocab
+          actionSuppressor={actionSuppressor}
+          id="acquisition-methods"
+          baseUrl={ACQUISITION_METHODS_API}
+          records="acquisitionMethods"
+          sortby="value"
+          nameKey="value"
+          editable={stripes.hasPerm('ui-orders.settings.all')}
+          label={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods' })}
+          translations={getControlledVocabTranslations('ui-orders.settings.acquisitionMethods')}
+          columnMapping={columnMapping}
+          objectLabel={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods.singular' })}
+          formatter={formatter}
+          hiddenFields={hiddenFields}
+          visibleFields={visibleFields}
+          stripes={stripes}
+        />
+      </TitleManager>
     );
   }
 }

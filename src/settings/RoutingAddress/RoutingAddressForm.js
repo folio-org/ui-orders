@@ -69,10 +69,7 @@ const RoutingAddressForm = ({
       footer={paneFooter}
       onMount={handlePaneFocus}
     >
-      <TitleManager
-        page={intl.formatMessage({ id: 'ui-orders.document.settings.title' })}
-        record={intl.formatMessage({ id: 'ui-orders.settings.routing.address' })}
-      />
+      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.routing.address' })} />
       <Row>
         <Col xs={12}>
           <FieldSelectFinal
