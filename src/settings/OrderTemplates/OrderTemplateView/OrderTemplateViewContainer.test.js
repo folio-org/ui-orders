@@ -9,6 +9,7 @@ import { useLocationsQuery } from '@folio/stripes-acq-components';
 
 import { location } from 'fixtures';
 import { getCommonErrorMessage } from '../../../common/utils';
+import { useOrderTemplateCategories } from '../../hooks';
 import OrderTemplateViewContainer from './OrderTemplateViewContainer';
 import OrderTemplateView from './OrderTemplateView';
 
@@ -27,6 +28,10 @@ jest.mock('@folio/stripes-acq-components', () => ({
 jest.mock('../../../common/utils', () => ({
   ...jest.requireActual('../../../common/utils'),
   getCommonErrorMessage: jest.fn(),
+}));
+jest.mock('../../hooks', () => ({
+  ...jest.requireActual('../../hooks'),
+  useOrderTemplateCategories: jest.fn(),
 }));
 jest.mock('./OrderTemplateView', () => jest.fn().mockReturnValue('OrderTemplateView'));
 
@@ -59,9 +64,8 @@ const template = {
 
 describe('OrderTemplateViewContainer', () => {
   beforeEach(() => {
-    useLocationsQuery
-      .mockClear()
-      .mockReturnValue({ locations: [location] });
+    useLocationsQuery.mockReturnValue({ locations: [location] });
+    useOrderTemplateCategories.mockReturnValue({ orderTemplateCategories: [] });
   });
 
   it('should render order template view', () => {
