@@ -11,7 +11,7 @@ import {
 import { POL_FORM_FIELDS } from '../../../../components/POLine/const';
 import { useManageDonorOrganizationIds } from '../../../../components/POLine/hooks';
 
-const DonorInformation = ({ formValues, fundDistribution }) => {
+const DonorInformationForm = ({ formValues, fundDistribution }) => {
   const { funds } = useFunds();
   const initialDonorOrganizationIds = get(formValues, POL_FORM_FIELDS.donorOrganizationIds, []);
   const { donorOrganizationIds, onDonorRemove, setDonorIds } = useManageDonorOrganizationIds({
@@ -30,9 +30,9 @@ const DonorInformation = ({ formValues, fundDistribution }) => {
   );
 };
 
-DonorInformation.propTypes = {
+DonorInformationForm.propTypes = {
   formValues: PropTypes.object.isRequired,
   fundDistribution: fundDistributionShape,
 };
 
-export default DonorInformation;
+export default DonorInformationForm;
