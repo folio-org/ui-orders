@@ -1,8 +1,7 @@
-import React from 'react';
+import get from 'lodash/get';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-
-import { get } from 'lodash';
 
 import {
   Col,
@@ -10,7 +9,16 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-const TemplateInformationView = ({ orderTemplate = {} }) => {
+const TemplateInformationView = ({
+  orderTemplate = {},
+  orderTemplateCategories,
+}) => {
+  const categories = useMemo(() => {
+    return orderTemplate?.categoryIds
+      ?.map((categoryId) => orderTemplateCategories.find(({ id }) => id === categoryId)?.name ?? categoryId)
+      ?.join(', ');
+  }, [orderTemplate, orderTemplateCategories]);
+
   return (
     <Row start="xs">
       <Col xs={3}>
@@ -29,6 +37,13 @@ const TemplateInformationView = ({ orderTemplate = {} }) => {
 
       <Col xs={3}>
         <KeyValue
+          label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.categories" />}
+          value={categories}
+        />
+      </Col>
+
+      <Col xs={3}>
+        <KeyValue
           label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.description" />}
           value={get(orderTemplate, 'templateDescription')}
         />
@@ -39,6 +54,10 @@ const TemplateInformationView = ({ orderTemplate = {} }) => {
 
 TemplateInformationView.propTypes = {
   orderTemplate: PropTypes.object,
+  orderTemplateCategories: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  })),
 };
 
 export default TemplateInformationView;
