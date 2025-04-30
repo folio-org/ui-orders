@@ -1,4 +1,5 @@
-import { MemoryRouter } from 'react-router';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouter } from 'react-router-dom';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
@@ -65,12 +66,22 @@ const defaultProps = {
   stripes: { hasPerm: jest.fn().mockReturnValue(true) },
 };
 
+const queryClient = new QueryClient();
+
+const wrapper = ({ children }) => (
+  <MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  </MemoryRouter>
+);
+
 const renderOrderTemplateView = (props = {}) => render(
   <OrderTemplateView
     {...defaultProps}
     {...props}
   />,
-  { wrapper: MemoryRouter },
+  { wrapper },
 );
 
 describe('OrderTemplateView', () => {
