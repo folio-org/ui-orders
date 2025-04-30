@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "电子的",
     "checkIn.pieceFormat.physical": "实体的",
     "search.productIdISBN": "产品ID ISBN",
-    "errors.invalidISBN": "根据产品ID类型，产品ID号无效。在编辑采购订单行之前，可以使用“更改实例连接”从实例记录中刷新产品ID。",
     "itemDetails.qualifier": "限定词",
     "itemDetails.contributors": "贡献者",
     "itemDetails.productIds": "产品标识符",
@@ -917,5 +916,18 @@
     "permission.settings.number-generator.manage": "设置（订单）：管理数字生成器选项",
     "settings.numberGenerator.infoAdditional": "{serviceInteractionLink}下有其他数字生成器设置。在{numberGeneratorSequencesLink}中，可以通过下拉菜单选择适当的生成器来定义序列。",
     "settings.numberGenerator.infoAdditional.serviceInteraction": "服务交互",
-    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "数字生成器序列"
+    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "数字生成器序列",
+    "poLine.fundDistribution.expenseClass.modal.title": "Update expense class",
+    "poLine.fundDistribution.expenseClass.modal.description": "Changing this expense class will not update the related invoice line. If you want the invoice approval/payment to release the encumbrance transaction then the related invoices' expense class must be updated as well.",
+    "settings.orderTemplateCategories": "Order template categories",
+    "settings.orderTemplateCategories.sub": "Categories",
+    "settings.orderTemplateCategories.field.name": "Name",
+    "settings.orderTemplateCategories.cannotDeleteTermHeader": "Cannot delete the order template category",
+    "settings.orderTemplateCategories.cannotDeleteTermMessage": "This order template category cannot be deleted, as it is in use by one or more records.",
+    "settings.orderTemplateCategories.deleteEntry": "Delete order template category",
+    "settings.orderTemplateCategories.termCreated": "The category <b>{term}</b> was successfully <b>created</b>",
+    "settings.orderTemplateCategories.termUpdated": "The category <b>{term}</b> was successfully <b>updated</b>",
+    "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
+    "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
+    "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique"
 }

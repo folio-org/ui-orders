@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "Eletrônico",
     "checkIn.pieceFormat.physical": "Físico",
     "search.productIdISBN": "Identificação do produto ISBN",
-    "errors.invalidISBN": "Número de ID do produto inválido com base no tipo de ID do produto. Você pode usar \"Alterar conexão de instância\" para atualizar IDs de produto do registro de instância antes de editar a Linha do Pedido de Compra.",
     "itemDetails.qualifier": "Qualificador",
     "itemDetails.contributors": "Colaboradores",
     "itemDetails.productIds": "Identificadores do produto",
@@ -917,5 +916,18 @@
     "permission.settings.number-generator.manage": "Configurações (Pedidos): Gerenciar opções do gerador de números",
     "settings.numberGenerator.infoAdditional": "Configurações adicionais do gerador de números estão disponíveis em {serviceInteractionLink}. Em {numberGeneratorSequencesLink} as sequências podem ser definidas selecionando o gerador apropriado no menu suspenso.",
     "settings.numberGenerator.infoAdditional.serviceInteraction": "Interação de serviço",
-    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Sequências de gerador de números"
+    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Sequências de gerador de números",
+    "poLine.fundDistribution.expenseClass.modal.title": "Atualizar classe de despesa",
+    "poLine.fundDistribution.expenseClass.modal.description": "Alterar esta classe de despesa não atualizará a linha da fatura correspondente. Se você deseja que a aprovação/pagamento da fatura libere a transação de ônus, a classe de despesa da fatura correspondente também deverá ser atualizada.",
+    "settings.orderTemplateCategories": "Order template categories",
+    "settings.orderTemplateCategories.sub": "Categories",
+    "settings.orderTemplateCategories.field.name": "Name",
+    "settings.orderTemplateCategories.cannotDeleteTermHeader": "Cannot delete the order template category",
+    "settings.orderTemplateCategories.cannotDeleteTermMessage": "This order template category cannot be deleted, as it is in use by one or more records.",
+    "settings.orderTemplateCategories.deleteEntry": "Delete order template category",
+    "settings.orderTemplateCategories.termCreated": "The category <b>{term}</b> was successfully <b>created</b>",
+    "settings.orderTemplateCategories.termUpdated": "The category <b>{term}</b> was successfully <b>updated</b>",
+    "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
+    "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
+    "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique"
 }

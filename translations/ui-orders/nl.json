@@ -423,7 +423,6 @@
     "checkIn.pieceFormat.electronic": "Digitaal",
     "checkIn.pieceFormat.physical": "Fysiek",
     "search.productIdISBN": "ISBN product-ID",
-    "errors.invalidISBN": "Nummer product-ID ongeldig op basis van type product-ID. U kunt \"Instance-connectie wijzigen\" gebruiken om de product-ID's van het instance-record te verversen voordat u de PO-regels bewerkt.",
     "itemDetails.qualifier": "Kenmerk",
     "itemDetails.contributors": "Bijdragers",
     "itemDetails.productIds": "Productidentificatiekenmerken",
@@ -917,5 +916,18 @@
     "permission.settings.number-generator.manage": "Instellingen (Orders): Opties voor nummergenerator Beheren",
     "settings.numberGenerator.infoAdditional": "Extra instellingen voor de nummergenerator zijn beschikbaar onder {serviceInteractionLink}. Op {numberGeneratorSequencesLink} sequenties kunnen worden gedefinieerd door de juiste generator via het vervolgkeuzemenu te selecteren.",
     "settings.numberGenerator.infoAdditional.serviceInteraction": "Service-interactie",
-    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Nummergeneratorreeksen"
+    "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Nummergeneratorreeksen",
+    "poLine.fundDistribution.expenseClass.modal.title": "Onkostenklasse updaten",
+    "poLine.fundDistribution.expenseClass.modal.description": "Als u deze Onkostensoort wijzigt, wordt de gerelateerde Factuurregel niet geüpdatet. Als u wilt dat de goedkeuring/betaling van de factuur de vrijgave van de budgetreserveringstransactie tot gevolg heeft, dan moet de Onkostensoort van de gerelateerde facturen ook geüpdatet worden.",
+    "settings.orderTemplateCategories": "Order template categories",
+    "settings.orderTemplateCategories.sub": "Categories",
+    "settings.orderTemplateCategories.field.name": "Name",
+    "settings.orderTemplateCategories.cannotDeleteTermHeader": "Cannot delete the order template category",
+    "settings.orderTemplateCategories.cannotDeleteTermMessage": "This order template category cannot be deleted, as it is in use by one or more records.",
+    "settings.orderTemplateCategories.deleteEntry": "Delete order template category",
+    "settings.orderTemplateCategories.termCreated": "The category <b>{term}</b> was successfully <b>created</b>",
+    "settings.orderTemplateCategories.termUpdated": "The category <b>{term}</b> was successfully <b>updated</b>",
+    "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
+    "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
+    "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique"
 }
