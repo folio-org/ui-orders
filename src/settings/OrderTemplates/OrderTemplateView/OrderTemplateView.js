@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { FormattedMessage, injectIntl } from 'react-intl';
-
-import { get } from 'lodash';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -27,6 +29,7 @@ import { ViewCustomFieldsRecord } from '@folio/stripes/smart-components';
 import {
   CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
   FundDistributionView,
+  LoadingPane,
   ORDER_FORMATS,
   handleKeyCommand,
 } from '@folio/stripes-acq-components';
@@ -61,17 +64,22 @@ import OrderTemplateTagsView from './OrderTemplateTagsView';
 
 class OrderTemplateView extends Component {
   static propTypes = {
+    addresses: PropTypes.arrayOf(PropTypes.object),
     close: PropTypes.func.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    intl: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool,
+    locations: PropTypes.arrayOf(PropTypes.object),
+    materialTypes: PropTypes.arrayOf(PropTypes.object),
     onDelete: PropTypes.func.isRequired,
     onDuplicate: PropTypes.func.isRequired,
     orderTemplate: PropTypes.object,
+    orderTemplateCategories: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })).isRequired,
     rootPath: PropTypes.string,
-    addresses: PropTypes.arrayOf(PropTypes.object),
-    locations: PropTypes.arrayOf(PropTypes.object),
-    materialTypes: PropTypes.arrayOf(PropTypes.object),
     stripes: PropTypes.object.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    intl: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -167,15 +175,17 @@ class OrderTemplateView extends Component {
 
   render() {
     const {
-      close,
-      orderTemplate,
       addresses,
-      locations,
-      materialTypes,
-      stripes,
-      rootPath,
+      close,
       history,
       intl,
+      isLoading,
+      locations,
+      materialTypes,
+      orderTemplate,
+      orderTemplateCategories,
+      rootPath,
+      stripes,
     } = this.props;
     const { showConfirmDelete, showConfirmDuplicate } = this.state;
     const title = get(orderTemplate, 'templateName', '');
@@ -237,6 +247,19 @@ class OrderTemplateView extends Component {
 
     const deleteTemplateModalLabel = intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.confirmDelete.heading' });
 
+    if (isLoading) {
+      return (
+        <Layer isOpen>
+          <LoadingPane
+            defaultWidth="fill"
+            dismissible
+            onClose={close}
+            paneTitle={title}
+          />
+        </Layer>
+      );
+    }
+
     return (
       <Layer
         contentLabel="Order template details"
@@ -275,6 +298,7 @@ class OrderTemplateView extends Component {
                     >
                       <TemplateInformationView
                         orderTemplate={orderTemplate}
+                        orderTemplateCategories={orderTemplateCategories}
                       />
                     </Accordion>
 

@@ -1,4 +1,9 @@
-import React from 'react';
+import find from 'lodash/find';
+import PropTypes from 'prop-types';
+import React, {
+  useCallback,
+  useMemo,
+} from 'react';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
@@ -8,11 +13,34 @@ import {
   TextField,
   TextArea,
 } from '@folio/stripes/components';
-import { validateRequired } from '@folio/stripes-acq-components';
+import {
+  FieldMultiSelectionFinal,
+  validateRequired,
+} from '@folio/stripes-acq-components';
 
 import { FieldHideAll } from './FieldHideAll';
 
-const TemplateInformationForm = () => {
+const parseMultiSelectionValue = (items) => items.map(({ value }) => value);
+
+const TemplateInformationForm = ({ orderTemplateCategories }) => {
+  const orderTemplateCategoriesOptions = useMemo(() => {
+    return orderTemplateCategories.map(({ id, name }) => ({
+      label: name,
+      value: id,
+    }));
+  }, [orderTemplateCategories]);
+
+  const formatCategoriesFieldValue = useCallback((parsedIds) => {
+    return parsedIds?.map(id => {
+      const category = find(orderTemplateCategories, { id });
+
+      return {
+        label: category?.name || id,
+        value: id,
+      };
+    });
+  }, [orderTemplateCategories]);
+
   return (
     <Row>
       <Col xs={3}>
@@ -40,6 +68,18 @@ const TemplateInformationForm = () => {
       </Col>
 
       <Col xs={3}>
+        <FieldMultiSelectionFinal
+          dataOptions={orderTemplateCategoriesOptions}
+          format={formatCategoriesFieldValue}
+          fullWidth
+          label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.categories" />}
+          name="categoryIds"
+          parse={parseMultiSelectionValue}
+          validateFields={[]}
+        />
+      </Col>
+
+      <Col xs={3}>
         <Field
           component={TextArea}
           fullWidth
@@ -54,6 +94,13 @@ const TemplateInformationForm = () => {
       </Col>
     </Row>
   );
+};
+
+TemplateInformationForm.propTypes = {
+  orderTemplateCategories: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  })).isRequired,
 };
 
 export default TemplateInformationForm;

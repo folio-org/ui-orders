@@ -25,6 +25,7 @@ import {
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
 } from '../../../components/Utils/resources';
+import { useOrderTemplateCategories } from '../../hooks';
 import { TEMPLATES_RETURN_LINK } from '../constants';
 import OrderTemplateView from './OrderTemplateView';
 
@@ -100,12 +101,22 @@ function OrderTemplateViewContainer({
     [close, id, sendCallout, showSuccessDeleteMessage],
   );
 
-  const { locations } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
+
+  const {
+    isFetching: isOrderTemplateCategoriesFetching,
+    orderTemplateCategories,
+  } = useOrderTemplateCategories();
 
   const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
   const addresses = getAddresses(get(resources, 'addresses.records', []));
   const funds = get(resources, 'funds.records', []);
   const materialTypes = get(resources, 'materialTypes.records', []);
+
+  const isLoading = isLocationsLoading || isOrderTemplateCategoriesFetching;
 
   return (
     <TitleManager
@@ -116,12 +127,14 @@ function OrderTemplateViewContainer({
         addresses={addresses}
         close={close}
         funds={funds}
+        isLoading={isLoading}
         locations={locations}
         materialTypes={materialTypes}
         onDuplicate={onDuplicateOrderTemplate}
         onDelete={onDeleteOrderTemplate}
         rootPath={rootPath}
         orderTemplate={orderTemplate}
+        orderTemplateCategories={orderTemplateCategories}
         stripes={stripes}
         history={history}
       />
