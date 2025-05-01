@@ -426,7 +426,7 @@ const POLineView = ({
                   label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                   id={ACCORDION_ID.donorsInformation}
                 >
-                  <IfVisible visible={!hiddenFields.donorsInformation}>
+                  <IfVisible visible={!hiddenFields?.donorsInformation}>
                     <DonorsListContainer donorOrganizationIds={line.donorOrganizationIds} />
                   </IfVisible>
                 </Accordion>

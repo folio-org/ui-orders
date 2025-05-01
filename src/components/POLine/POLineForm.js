@@ -636,7 +636,7 @@ function POLineForm({
                             id={ACCORDION_ID.donorsInformation}
                             label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                           >
-                            <IfVisible visible={!hiddenFields.donorsInformation}>
+                            <IfVisible visible={!hiddenFields?.donorsInformation}>
                               <Donors
                                 name="donorOrganizationIds"
                                 onChange={setDonorIds}
