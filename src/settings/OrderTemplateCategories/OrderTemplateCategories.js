@@ -32,7 +32,6 @@ const translations = {
   termCreated: 'ui-orders.settings.orderTemplateCategories.termCreated',
   termUpdated: 'ui-orders.settings.orderTemplateCategories.termUpdated',
 };
-
 const visibleFields = [FIELD_NAMES.name];
 
 export const OrderTemplateCategories = () => {

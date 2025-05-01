@@ -340,6 +340,7 @@
           "orders.acquisition-methods.collection.get",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
+          "orders-storage.order-template-categories.collection.get",
           "orders-storage.settings.collection.get",
           "ui-orders.custom-fields.view",
           "ui-orders.third-party-services.execute"
@@ -446,7 +447,6 @@
           "orders.configuration.suffixes.collection.get",
           "orders-storage.settings.collection.get",
           "orders-storage.settings.item.get",
-          "orders-storage.order-template-categories.collection.get",
           "ui-orders.third-party-services.execute",
           "orders.acquisition-methods.collection.get",
           "ui-orders.settings.custom-fields.view",
