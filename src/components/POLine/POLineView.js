@@ -48,6 +48,7 @@ import {
   DonorsListContainer,
   FundDistributionView,
   handleKeyCommand,
+  IfVisible,
   ORDER_FORMATS,
   RoutingListAccordion,
   TagsBadge,
@@ -425,10 +426,9 @@ const POLineView = ({
                   label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                   id={ACCORDION_ID.donorsInformation}
                 >
-                  <DonorsListContainer
-                    donorOrganizationIds={line.donorOrganizationIds}
-                    hiddenFields={hiddenFields}
-                  />
+                  <IfVisible visible={!hiddenFields.donorsInformation}>
+                    <DonorsListContainer donorOrganizationIds={line.donorOrganizationIds} />
+                  </IfVisible>
                 </Accordion>
                 <Accordion
                   label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}

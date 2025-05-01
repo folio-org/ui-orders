@@ -218,6 +218,7 @@ class OrderTemplateView extends Component {
       [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_CUSTOM_FIELDS]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION]: false,
     };
     const shortcuts = [
       {
