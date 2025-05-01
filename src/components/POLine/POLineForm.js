@@ -636,6 +636,7 @@ function POLineForm({
                             label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                           >
                             <Donors
+                              hiddenFields={hiddenFields}
                               name="donorOrganizationIds"
                               onChange={setDonorIds}
                               onRemove={onDonorRemove}

@@ -425,7 +425,10 @@ const POLineView = ({
                   label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                   id={ACCORDION_ID.donorsInformation}
                 >
-                  <DonorsListContainer donorOrganizationIds={line.donorOrganizationIds} />
+                  <DonorsListContainer
+                    donorOrganizationIds={line.donorOrganizationIds}
+                    hiddenFields={hiddenFields}
+                  />
                 </Accordion>
                 <Accordion
                   label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
