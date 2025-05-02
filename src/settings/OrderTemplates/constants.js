@@ -25,6 +25,7 @@ export const ORDER_TEMPLATES_ACCORDION = {
   POL_FRESOURCES: PO_LINE_ACCORDION.physical,
   POL_OTHER_RESOURCES: PO_LINE_ACCORDION.other,
   POL_LOCATION: PO_LINE_ACCORDION.location,
+  POL_DONORS_INFORMATION: PO_LINE_ACCORDION.donorsInformation,
   POL_TAGS: 'polTags',
   POL_ONGOING_ORDER: 'polOngoingOrder',
   PO_CUSTOM_FIELDS: 'poCustomFields',
@@ -49,6 +50,7 @@ export const ORDER_TEMPLATES_ACCORDION_TITLES = {
   [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polOtherResources" />,
   [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polLocation" />,
   [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polTags" />,
+  [ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION]: <FormattedMessage id="ui-orders.line.accordion.donorInformation" />,
 };
 
 export const TEMPLATES_RETURN_LINK = '/settings/orders';
@@ -74,6 +76,7 @@ export const INITIAL_SECTIONS = {
   [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
   [ORDER_TEMPLATES_ACCORDION.PO_CUSTOM_FIELDS]: false,
   [ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS]: false,
+  [ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION]: false,
 };
 
 export const MAP_FIELD_ACCORDION = {

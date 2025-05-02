@@ -61,6 +61,7 @@ import { OngoingOrderForm } from '../../../components/POLine/OngoingOrder';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import { OngoingInfoForm } from '../../../components/PurchaseOrder/OngoingOrderInfo';
+import DonorInformationForm from './DonorInformationForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
 import POLineDetailsForm from './POLineDetailsForm';
@@ -304,6 +305,16 @@ const OrderTemplatesEditor = ({
                         <POLineDetailsForm
                           formValues={formValues}
                           createInventorySetting={createInventorySetting}
+                        />
+                      </Accordion>
+
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION}
+                      >
+                        <DonorInformationForm
+                          formValues={formValues}
+                          fundDistribution={fundDistribution}
                         />
                       </Accordion>
 

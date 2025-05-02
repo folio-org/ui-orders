@@ -22,6 +22,7 @@ import {
   Donors,
   FundDistributionFieldsFinal,
   handleKeyCommand,
+  IfFieldVisible,
   RECEIPT_STATUS,
   useFunds,
   useInstanceHoldingsQuery,
@@ -635,12 +636,17 @@ function POLineForm({
                             id={ACCORDION_ID.donorsInformation}
                             label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                           >
-                            <Donors
+                            <IfFieldVisible
                               name="donorOrganizationIds"
-                              onChange={setDonorIds}
-                              onRemove={onDonorRemove}
-                              donorOrganizationIds={donorOrganizationIds}
-                            />
+                              visible={!hiddenFields?.donorsInformation}
+                            >
+                              <Donors
+                                name="donorOrganizationIds"
+                                onChange={setDonorIds}
+                                onRemove={onDonorRemove}
+                                donorOrganizationIds={donorOrganizationIds}
+                              />
+                            </IfFieldVisible>
                           </Accordion>
                           {isOngoing(order.orderType) && (
                             <Accordion

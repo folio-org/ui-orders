@@ -9,6 +9,7 @@
 * Notify a user that an encumbrance is not released from a paid invoice when changing an expense class of an order line. Refs UIOR-1406.
 * Implement PO template categories settings. Refs UIOR-1400.
 * Add "Order template categories" field to order template. Refs UIOR-1401.
+* Add Claiming active, Claiming interval fields, Donor information accordion to Template. Refs UIOR-1393.
 
 ## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.2...v8.0.3)

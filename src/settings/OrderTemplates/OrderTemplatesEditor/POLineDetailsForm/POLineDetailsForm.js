@@ -11,6 +11,7 @@ import {
   FieldPOLineNumber,
   FieldAcquisitionMethod,
   FieldAutomaticExport,
+  FieldClaimingInterval,
   FieldOrderFormat,
   FieldReceiptDate,
   FieldDonor,
@@ -27,6 +28,7 @@ import {
   FieldBinderyActive,
   isBinderyActiveDisabled,
 } from '../../../../common/POLFields';
+import POLineClaimingActive from '../POLineClaimingActive';
 
 const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
   const orderFormat = formValues?.orderFormat;
@@ -124,6 +126,26 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
         >
           <VisibilityControl name="hiddenFields.requester">
             <FieldRequester />
+          </VisibilityControl>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col
+          xs={3}
+          data-col-order-template-pol-claiming-active
+        >
+          <VisibilityControl name="hiddenFields.claimingActive">
+            <POLineClaimingActive />
+          </VisibilityControl>
+        </Col>
+
+        <Col
+          xs={3}
+          data-col-order-template-pol-claiming-interval
+        >
+          <VisibilityControl name="hiddenFields.claimingInterval">
+            <FieldClaimingInterval />
           </VisibilityControl>
         </Col>
       </Row>
