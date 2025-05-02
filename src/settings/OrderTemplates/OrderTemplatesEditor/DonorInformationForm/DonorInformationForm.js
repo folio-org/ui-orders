@@ -1,7 +1,8 @@
-import React from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import React from 'react';
 
+import { Loading } from '@folio/stripes/components';
 import {
   Donors,
   fundDistributionShape,
@@ -13,13 +14,26 @@ import { POL_FORM_FIELDS } from '../../../../components/POLine/const';
 import { useManageDonorOrganizationIds } from '../../../../components/POLine/hooks';
 
 const DonorInformationForm = ({ formValues, fundDistribution }) => {
-  const { funds } = useFunds();
   const initialDonorOrganizationIds = get(formValues, POL_FORM_FIELDS.donorOrganizationIds, []);
-  const { donorOrganizationIds, onDonorRemove, setDonorIds } = useManageDonorOrganizationIds({
+
+  const {
+    funds,
+    isLoading: isFundsLoading,
+  } = useFunds();
+
+  const {
+    donorOrganizationIds,
+    onDonorRemove,
+    setDonorIds,
+  } = useManageDonorOrganizationIds({
     funds,
     fundDistribution,
     initialDonorOrganizationIds,
   });
+
+  if (isFundsLoading) {
+    return <Loading />;
+  }
 
   return (
     <VisibilityControl name="hiddenFields.donorsInformation">
