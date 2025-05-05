@@ -79,6 +79,8 @@ const ORDER = {
   workflowStatus: WORKFLOW_STATUS.pending,
 };
 
+const donorsVisibilityControl = <VisibilityControl name="hiddenFields.donorsInformation" detached />;
+
 const OrderTemplatesEditor = ({
   addresses,
   centralOrdering,
@@ -312,8 +314,8 @@ const OrderTemplatesEditor = ({
                       <Accordion
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION]}
                         id={ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION}
-                        displayWhenOpen={<VisibilityControl name="hiddenFields.donorsInformation" />}
-                        displayWhenClosed={<VisibilityControl name="hiddenFields.donorsInformation" />}
+                        displayWhenOpen={donorsVisibilityControl}
+                        displayWhenClosed={donorsVisibilityControl}
                       >
                         <DonorInformationForm
                           formValues={formValues}
