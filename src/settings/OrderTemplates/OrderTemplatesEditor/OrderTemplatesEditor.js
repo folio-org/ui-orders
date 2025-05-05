@@ -30,6 +30,7 @@ import {
   FieldTags,
   FundDistributionFieldsFinal,
   handleKeyCommand,
+  VisibilityControl,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -77,6 +78,8 @@ import css from './OrderTemplatesEditor.css';
 const ORDER = {
   workflowStatus: WORKFLOW_STATUS.pending,
 };
+
+const donorsVisibilityControl = <VisibilityControl name="hiddenFields.donorsInformation" detached />;
 
 const OrderTemplatesEditor = ({
   addresses,
@@ -311,6 +314,8 @@ const OrderTemplatesEditor = ({
                       <Accordion
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION]}
                         id={ORDER_TEMPLATES_ACCORDION.POL_DONORS_INFORMATION}
+                        displayWhenOpen={donorsVisibilityControl}
+                        displayWhenClosed={donorsVisibilityControl}
                       >
                         <DonorInformationForm
                           formValues={formValues}
