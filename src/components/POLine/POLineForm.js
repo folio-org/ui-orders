@@ -632,13 +632,13 @@ function POLineForm({
                               integrationConfigs={integrationConfigs}
                             />
                           </Accordion>
-                          <Accordion
-                            id={ACCORDION_ID.donorsInformation}
-                            label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
+                          <IfFieldVisible
+                            name="donorOrganizationIds"
+                            visible={!hiddenFields?.donorsInformation}
                           >
-                            <IfFieldVisible
-                              name="donorOrganizationIds"
-                              visible={!hiddenFields?.donorsInformation}
+                            <Accordion
+                              id={ACCORDION_ID.donorsInformation}
+                              label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
                             >
                               <Donors
                                 name="donorOrganizationIds"
@@ -646,8 +646,8 @@ function POLineForm({
                                 onRemove={onDonorRemove}
                                 donorOrganizationIds={donorOrganizationIds}
                               />
-                            </IfFieldVisible>
-                          </Accordion>
+                            </Accordion>
+                          </IfFieldVisible>
                           {isOngoing(order.orderType) && (
                             <Accordion
                               label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}

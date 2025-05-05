@@ -7,7 +7,6 @@ import {
   Donors,
   fundDistributionShape,
   useFunds,
-  VisibilityControl,
 } from '@folio/stripes-acq-components';
 
 import { POL_FORM_FIELDS } from '../../../../components/POLine/const';
@@ -36,14 +35,12 @@ const DonorInformationForm = ({ formValues, fundDistribution }) => {
   }
 
   return (
-    <VisibilityControl name="hiddenFields.donorsInformation">
-      <Donors
-        donorOrganizationIds={donorOrganizationIds}
-        name="donorOrganizationIds"
-        onChange={setDonorIds}
-        onRemove={onDonorRemove}
-      />
-    </VisibilityControl>
+    <Donors
+      donorOrganizationIds={donorOrganizationIds}
+      name="donorOrganizationIds"
+      onChange={setDonorIds}
+      onRemove={onDonorRemove}
+    />
   );
 };
 
