@@ -25,6 +25,7 @@ import {
   getErrorCodeFromResponse,
   LIMIT_MAX,
   handleKeyCommand,
+  IfVisible,
   Tags,
   TagsBadge,
   useAcqRestrictions,
@@ -640,7 +641,7 @@ const PO = ({
   const updateOrderCB = useCallback(async (orderWithTags) => {
     await mutator.orderDetails.PUT(orderWithTags);
     await fetchOrder();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchOrder]);
 
   const updateEncumbrances = useCallback(
@@ -858,12 +859,16 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
               orderInvoicesIds={orderInvoicesIds}
             />
-            <ViewCustomFieldsRecord
-              accordionId="customFieldsPO"
-              backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-              customFieldsValues={customFieldsValues}
-              entityType={ENTITY_TYPE_ORDER}
-            />
+
+            <IfVisible visible={!hiddenFields?.customPOFields}>
+              <ViewCustomFieldsRecord
+                accordionId="customFieldsPO"
+                backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+                customFieldsValues={customFieldsValues}
+                entityType={ENTITY_TYPE_ORDER}
+              />
+            </IfVisible>
+
             {Boolean(exportHistory?.length) && (
               <ExportDetailsAccordion
                 id="exportDetails"

@@ -75,30 +75,38 @@ const ItemView = ({ poLineDetails, hiddenFields }) => {
           </Col>
         </IfVisible>
 
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-            value={get(poLineDetails, 'publicationDate')}
-          />
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
-            value={get(poLineDetails, 'publisher')}
-          />
-        </Col>
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <EditionView value={poLineDetails?.edition} />
-        </Col>
+        <IfVisible visible={!hiddenFields.details?.publicationDate}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
+              value={get(poLineDetails, 'publicationDate')}
+            />
+          </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.details?.publisher}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
+              value={get(poLineDetails, 'publisher')}
+            />
+          </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.details?.edition}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <EditionView value={poLineDetails?.edition} />
+          </Col>
+        </IfVisible>
 
         <IfVisible visible={!hiddenFields.linkPackage}>
           <Col
@@ -112,19 +120,25 @@ const ItemView = ({ poLineDetails, hiddenFields }) => {
           </Col>
         </IfVisible>
 
-        <Col xs={12}>
-          <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}>
-            <ContributorDetails contributors={contributors} />
-          </KeyValue>
-        </Col>
+        <IfVisible visible={!hiddenFields.details?.contributors}>
+          <Col xs={12}>
+            <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}>
+              <ContributorDetails contributors={contributors} />
+            </KeyValue>
+          </Col>
+        </IfVisible>
       </Row>
-      <Row start="xs">
-        <Col xs={12}>
-          <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}>
-            <ProductIdDetails productIds={get(poLineDetails, ['details', 'productIds'], [])} />
-          </KeyValue>
-        </Col>
-      </Row>
+
+      <IfVisible visible={!hiddenFields.details?.productIds}>
+        <Row start="xs">
+          <Col xs={12}>
+            <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}>
+              <ProductIdDetails productIds={get(poLineDetails, ['details', 'productIds'], [])} />
+            </KeyValue>
+          </Col>
+        </Row>
+      </IfVisible>
+
       <Row start="xs">
         <IfVisible visible={!hiddenFields.details?.description}>
           <Col xs={12}>

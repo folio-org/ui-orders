@@ -5,6 +5,7 @@ import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Col,
+  Layout,
   NoValue,
   Row,
 } from '@folio/stripes/components';
@@ -12,6 +13,7 @@ import {
   FieldSelectFinal,
   RepeatableFieldWithErrorMessage,
   TextField,
+  VisibilityControl,
 } from '@folio/stripes-acq-components';
 
 const ContributorForm = ({
@@ -61,10 +63,22 @@ const ContributorForm = ({
     );
   };
 
+  const legend = (
+    <Layout className="display-flex">
+      <FormattedMessage id="ui-orders.itemDetails.contributors" />
+      <Layout className="margin-start-gutter">
+        <VisibilityControl
+          name="hiddenFields.details.contributors"
+          detached
+        />
+      </Layout>
+    </Layout>
+  );
+
   return (
     <FieldArray
       component={RepeatableFieldWithErrorMessage}
-      legend={<FormattedMessage id="ui-orders.itemDetails.contributors" />}
+      legend={legend}
       name="contributors"
       addLabel={!isEditable ? null : <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />}
       emptyMessage={!isEditable ? <NoValue /> : <FormattedMessage id="ui-orders.itemDetails.addContributor" />}

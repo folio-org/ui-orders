@@ -117,7 +117,10 @@ function OrderTemplatesEditorContainer({
       hideAll: false,
     }
     : INITIAL_VALUES;
-  const title = get(initialValues, ['templateName']) || intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.editor.titleCreate' });
+
+  const title = id
+    ? get(initialValues, ['templateName'])
+    : intl.formatMessage({ id: 'ui-orders.settings.orderTemplates.editor.titleCreate' });
 
   const isLoading = (
     isOrderTemplateFetching

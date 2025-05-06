@@ -203,15 +203,17 @@ class PODetailsView extends Component {
               </KeyValue>
             </Col>
           )}
-          <Col xs={12}>
-            {get(order, 'notes', []).map((note, index) => (
-              <KeyValue
-                key={index}
-                label={<FormattedMessage id="ui-orders.orderDetails.note" />}
-                value={note}
-              />
-            ))}
-          </Col>
+          <IfVisible visible={!hiddenFields.poNotes}>
+            <Col xs={12}>
+              {get(order, 'notes', []).map((note, index) => (
+                <KeyValue
+                  key={index}
+                  label={<FormattedMessage id="ui-orders.orderDetails.note" />}
+                  value={note}
+                />
+              ))}
+            </Col>
+          </IfVisible>
         </Row>
       </>
     );

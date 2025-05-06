@@ -329,33 +329,47 @@ class ItemForm extends Component {
           </Col>
         </Row>
         <Row>
-          <Col
-            xs={6}
-            md={3}
+          <IfFieldVisible
+            visible={!hiddenFields.details?.receivingNote}
+            name="details.receivingNote"
           >
-            <Field
-              component={TextArea}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-              name="details.receivingNote"
-              validateFields={[]}
-            />
-          </Col>
-          {!lineId && (
             <Col
               xs={6}
               md={3}
             >
-              <Field
-                component={Checkbox}
-                fullWidth
-                label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
-                name="isAcknowledged"
-                type="checkbox"
-                vertical
-                validateFields={[]}
-              />
+              <VisibilityControl name="hiddenFields.details.receivingNote">
+                <Field
+                  component={TextArea}
+                  fullWidth
+                  label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
+                  name="details.receivingNote"
+                  validateFields={[]}
+                />
+              </VisibilityControl>
             </Col>
+          </IfFieldVisible>
+          {!lineId && (
+            <IfFieldVisible
+              visible={!hiddenFields.isAcknowledged}
+              name="isAcknowledged"
+            >
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name="hiddenFields.isAcknowledged">
+                  <Field
+                    component={Checkbox}
+                    fullWidth
+                    label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
+                    name="isAcknowledged"
+                    type="checkbox"
+                    vertical
+                    validateFields={[]}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
           )}
         </Row>
         <Row>
@@ -410,51 +424,72 @@ class ItemForm extends Component {
           </IfFieldVisible>
         </Row>
         <Row>
-          <Col
-            xs={6}
-            md={3}
+          <IfFieldVisible
+            visible={!hiddenFields.details?.publicationDate}
+            name="publicationDate"
           >
-            <Field
-              component={TextField}
-              disabled={isCreateFromInstance}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-              name="publicationDate"
-              onChange={this.setPublicationDate}
-              isNonInteractive={isPostPendingOrder}
-              validateFields={[]}
-            />
-          </Col>
-          <Col
-            xs={6}
-            md={3}
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.details.publicationDate">
+                <Field
+                  component={TextField}
+                  disabled={isCreateFromInstance}
+                  fullWidth
+                  label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
+                  name="publicationDate"
+                  onChange={this.setPublicationDate}
+                  isNonInteractive={isPostPendingOrder}
+                  validateFields={[]}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
+          <IfFieldVisible
+            visible={!hiddenFields.details?.publisher}
+            name="publisher"
           >
-            <Field
-              component={TextField}
-              disabled={isCreateFromInstance}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
-              name="publisher"
-              onChange={this.setPublisher}
-              isNonInteractive={isPostPendingOrder}
-              validateFields={[]}
-            />
-          </Col>
-          <Col
-            xs={6}
-            md={3}
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.details.publisher">
+                <Field
+                  component={TextField}
+                  disabled={isCreateFromInstance}
+                  fullWidth
+                  label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
+                  name="publisher"
+                  onChange={this.setPublisher}
+                  isNonInteractive={isPostPendingOrder}
+                  validateFields={[]}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
+          <IfFieldVisible
+            visible={!hiddenFields.details?.edition}
+            name="edition"
           >
-            <Field
-              component={TextField}
-              fullWidth
-              disabled={isCreateFromInstance}
-              label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
-              onChange={this.setEdition}
-              name="edition"
-              isNonInteractive={isPostPendingOrder}
-              validateFields={[]}
-            />
-          </Col>
+            <Col
+              xs={6}
+              md={3}
+            >
+              <VisibilityControl name="hiddenFields.details.edition">
+                <Field
+                  component={TextField}
+                  fullWidth
+                  disabled={isCreateFromInstance}
+                  label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
+                  onChange={this.setEdition}
+                  name="edition"
+                  isNonInteractive={isPostPendingOrder}
+                  validateFields={[]}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
 
           <IfFieldVisible visible={!hiddenFields.packagePoLineId} name="packagePoLineId">
             <Col
@@ -472,28 +507,38 @@ class ItemForm extends Component {
           </IfFieldVisible>
         </Row>
         <Row>
-          <Col xs={12}>
-            <ContributorForm
-              contributorNameTypes={contributorNameTypes}
-              isNonInteractive={isPostPendingOrder}
-              onChangeField={this.safeChangeField}
-              onRemoveField={this.onRemoveField}
-              disabled={isCreateFromInstance}
-              required={required}
-            />
-          </Col>
+          <IfFieldVisible
+            visible={!hiddenFields.details?.contributors}
+            name="contributors"
+          >
+            <Col xs={12}>
+              <ContributorForm
+                contributorNameTypes={contributorNameTypes}
+                isNonInteractive={isPostPendingOrder}
+                onChangeField={this.safeChangeField}
+                onRemoveField={this.onRemoveField}
+                disabled={isCreateFromInstance}
+                required={required}
+              />
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
-          <Col xs={12}>
-            <ProductIdDetailsForm
-              identifierTypes={identifierTypes}
-              isNonInteractive={isPostPendingOrder}
-              onChangeField={this.safeChangeField}
-              onRemoveField={this.onRemoveField}
-              disabled={isCreateFromInstance}
-              required={required}
-            />
-          </Col>
+          <IfFieldVisible
+            visible={!hiddenFields.details?.productIds}
+            name="details.productIds"
+          >
+            <Col xs={12}>
+              <ProductIdDetailsForm
+                identifierTypes={identifierTypes}
+                isNonInteractive={isPostPendingOrder}
+                onChangeField={this.safeChangeField}
+                onRemoveField={this.onRemoveField}
+                disabled={isCreateFromInstance}
+                required={required}
+              />
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
           <IfFieldVisible visible={!hiddenFields.description} name="description">
