@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import keyBy from 'lodash/keyBy';
 import pick from 'lodash/pick';
+import uniq from 'lodash/uniq';
 
 import PropTypes from 'prop-types';
 import {
@@ -228,6 +229,10 @@ function POLineForm({
   ), [identifierTypes, initialTemplateInventoryData, instance, isCreateFromInstance]);
 
   const populateFieldsFromTemplate = useCallback((fields) => {
+    const setDonorIdsFromTemplate = (donorIds) => {
+      setDonorIds((prev) => uniq([...prev, ...donorIds]));
+    };
+
     batch(() => {
       fields.forEach(field => {
         const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
@@ -237,9 +242,9 @@ function POLineForm({
           change(POL_FORM_FIELDS.checkinItems, true);
         }
 
-        if (field === POL_FORM_FIELDS.donorOrganizationIds) {
+        if (field === POL_FORM_FIELDS.donorOrganizationIds && Array.isArray(templateFieldValue)) {
           change(field, templateFieldValue);
-          setDonorIds(templateFieldValue);
+          setDonorIdsFromTemplate(templateFieldValue);
         }
 
         if (templateFieldValue !== undefined) change(field, templateFieldValue);
