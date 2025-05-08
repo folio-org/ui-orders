@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import keyBy from 'lodash/keyBy';
 import pick from 'lodash/pick';
+import uniq from 'lodash/uniq';
 
 import PropTypes from 'prop-types';
 import {
@@ -228,6 +229,10 @@ function POLineForm({
   ), [identifierTypes, initialTemplateInventoryData, instance, isCreateFromInstance]);
 
   const populateFieldsFromTemplate = useCallback((fields) => {
+    const setDonorIdsFromTemplate = (donorIds) => {
+      setDonorIds((prev) => uniq([...prev, ...donorIds]));
+    };
+
     batch(() => {
       fields.forEach(field => {
         const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
@@ -237,9 +242,9 @@ function POLineForm({
           change(POL_FORM_FIELDS.checkinItems, true);
         }
 
-        if (field === POL_FORM_FIELDS.donorOrganizationIds) {
+        if (field === POL_FORM_FIELDS.donorOrganizationIds && Array.isArray(templateFieldValue)) {
           change(field, templateFieldValue);
-          setDonorIds(templateFieldValue);
+          setDonorIdsFromTemplate(templateFieldValue);
         }
 
         if (templateFieldValue !== undefined) change(field, templateFieldValue);
@@ -690,38 +695,51 @@ function POLineForm({
                               hiddenFields={hiddenFields}
                             />
                           </Accordion>
-                          <Accordion
-                            label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
-                            id={ACCORDION_ID.fundDistribution}
+
+                          <IfFieldVisible
+                            visible={!hiddenFields?.fundDistribution}
+                            name="fundDistribution"
                           >
-                            <FundDistributionFieldsFinal
-                              change={change}
-                              currency={currency}
-                              disabled={isDisabledToChangePaymentInfo}
-                              filterFunds={filterFunds}
-                              fundDistribution={fundDistribution}
-                              name="fundDistribution"
-                              onExpenseClassChange={onExpenseClassChange}
-                              totalAmount={estimatedPrice}
-                              validateFundDistributionTotal={validateFundDistributionTotal}
-                            />
-                          </Accordion>
-                          <Accordion
-                            label={<FormattedMessage id="ui-orders.line.accordion.location" />}
-                            id={ACCORDION_ID.location}
+                            <Accordion
+                              label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
+                              id={ACCORDION_ID.fundDistribution}
+                            >
+                              <FundDistributionFieldsFinal
+                                change={change}
+                                currency={currency}
+                                disabled={isDisabledToChangePaymentInfo}
+                                filterFunds={filterFunds}
+                                fundDistribution={fundDistribution}
+                                name="fundDistribution"
+                                onExpenseClassChange={onExpenseClassChange}
+                                totalAmount={estimatedPrice}
+                                validateFundDistributionTotal={validateFundDistributionTotal}
+                              />
+                            </Accordion>
+                          </IfFieldVisible>
+
+                          <IfFieldVisible
+                            visible={!hiddenFields?.locations}
+                            name="locations"
                           >
-                            <LocationForm
-                              isLoading={isHoldingsLoading}
-                              centralOrdering={centralOrdering}
-                              changeLocation={changeLocation}
-                              formValues={formValues}
-                              filterHoldings={filterHoldings}
-                              filterLocations={filterLocations}
-                              locationIds={locationIds}
-                              locations={locations}
-                              order={order}
-                            />
-                          </Accordion>
+                            <Accordion
+                              label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+                              id={ACCORDION_ID.location}
+                            >
+                              <LocationForm
+                                isLoading={isHoldingsLoading}
+                                centralOrdering={centralOrdering}
+                                changeLocation={changeLocation}
+                                formValues={formValues}
+                                filterHoldings={filterHoldings}
+                                filterLocations={filterLocations}
+                                locationIds={locationIds}
+                                locations={locations}
+                                order={order}
+                              />
+                            </Accordion>
+                          </IfFieldVisible>
+
                           {showPhresources && (
                             <Accordion
                               label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
@@ -765,15 +783,17 @@ function POLineForm({
                             </Accordion>
                           )}
 
-                          <EditCustomFieldsRecord
-                            accordionId="customFieldsPOLine"
-                            backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-                            changeFinalFormField={change}
-                            entityType={ENTITY_TYPE_PO_LINE}
-                            fieldComponent={Field}
-                            finalFormCustomFieldsValues={customFieldsValues}
-                            onComponentLoad={handleCustomFieldsLoaded}
-                          />
+                          <IfFieldVisible visible={!hiddenFields?.customPOLineFields}>
+                            <EditCustomFieldsRecord
+                              accordionId="customFieldsPOLine"
+                              backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+                              changeFinalFormField={change}
+                              entityType={ENTITY_TYPE_PO_LINE}
+                              fieldComponent={Field}
+                              finalFormCustomFieldsValues={customFieldsValues}
+                              onComponentLoad={handleCustomFieldsLoaded}
+                            />
+                          </IfFieldVisible>
                         </AccordionSet>
                       </Col>
                     </Row>

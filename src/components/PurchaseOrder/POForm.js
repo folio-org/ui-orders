@@ -38,6 +38,7 @@ import {
   CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
   FieldSelectionFinal as FieldSelection,
   handleKeyCommand,
+  IfFieldVisible,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -428,14 +429,17 @@ const POForm = ({
                               hiddenFields={hiddenFields}
                             />
                           </Accordion>
-                          <EditCustomFieldsRecord
-                            accordionId="customFieldsPO"
-                            backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-                            changeFinalFormField={change}
-                            entityType={ENTITY_TYPE_ORDER}
-                            fieldComponent={Field}
-                            finalFormCustomFieldsValues={customFieldsValues}
-                          />
+
+                          <IfFieldVisible visible={!hiddenFields?.customPOFields}>
+                            <EditCustomFieldsRecord
+                              accordionId="customFieldsPO"
+                              backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+                              changeFinalFormField={change}
+                              entityType={ENTITY_TYPE_ORDER}
+                              fieldComponent={Field}
+                              finalFormCustomFieldsValues={customFieldsValues}
+                            />
+                          </IfFieldVisible>
                         </AccordionSet>
                       </Col>
                     </Row>

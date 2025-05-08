@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Col,
+  Layout,
   NoValue,
   Row,
 } from '@folio/stripes/components';
@@ -14,6 +15,7 @@ import {
   RepeatableFieldWithErrorMessage,
   TextField,
   validateRequired,
+  VisibilityControl,
 } from '@folio/stripes-acq-components';
 
 const DEFAULT_ID_TYPES = [];
@@ -80,13 +82,25 @@ function ProductIdDetailsForm({
     );
   };
 
+  const legend = (
+    <Layout className="display-flex">
+      <FormattedMessage id="ui-orders.itemDetails.productIds" />
+      <Layout className="margin-start-gutter">
+        <VisibilityControl
+          name="hiddenFields.details.productIds"
+          detached
+        />
+      </Layout>
+    </Layout>
+  );
+
   return (
     <FieldArray
       addLabel={!isEditable ? null : <FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />}
       component={RepeatableFieldWithErrorMessage}
       emptyMessage={!isEditable ? <NoValue /> : <FormattedMessage id="ui-orders.itemDetails.addProductId" />}
       id="productIds"
-      legend={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
+      legend={legend}
       name="details.productIds"
       onRemove={onRemoveField}
       canAdd={isEditable}

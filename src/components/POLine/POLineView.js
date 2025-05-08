@@ -422,14 +422,14 @@ const POLineView = ({
                     />
                   </Accordion>
                 )}
-                <Accordion
-                  label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
-                  id={ACCORDION_ID.donorsInformation}
-                >
-                  <IfVisible visible={!hiddenFields?.donorsInformation}>
+                <IfVisible visible={!hiddenFields?.donorsInformation}>
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
+                    id={ACCORDION_ID.donorsInformation}
+                  >
                     <DonorsListContainer donorOrganizationIds={line.donorOrganizationIds} />
-                  </IfVisible>
-                </Accordion>
+                  </Accordion>
+                </IfVisible>
                 <Accordion
                   label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
                   id="Vendor"
@@ -451,26 +451,32 @@ const POLineView = ({
                     hiddenFields={hiddenFields}
                   />
                 </Accordion>
-                <Accordion
-                  label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
-                  id="FundDistribution"
-                >
-                  <FundDistributionView
-                    currency={currency}
-                    fundDistributions={fundDistributions}
-                    totalAmount={estimatedPrice}
-                  />
-                </Accordion>
-                <Accordion
-                  label={<FormattedMessage id="ui-orders.line.accordion.location" />}
-                  id={ACCORDION_ID.location}
-                >
-                  <LocationView
-                    instanceId={line.instanceId}
-                    lineLocations={line.locations}
-                    locations={locations}
-                  />
-                </Accordion>
+                <IfVisible visible={!hiddenFields?.fundDistribution}>
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
+                    id="FundDistribution"
+                  >
+                    <FundDistributionView
+                      currency={currency}
+                      fundDistributions={fundDistributions}
+                      totalAmount={estimatedPrice}
+                    />
+                  </Accordion>
+                </IfVisible>
+
+                <IfVisible visible={!hiddenFields?.locations}>
+                  <Accordion
+                    label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+                    id={ACCORDION_ID.location}
+                  >
+                    <LocationView
+                      instanceId={line.instanceId}
+                      lineLocations={line.locations}
+                      locations={locations}
+                    />
+                  </Accordion>
+                </IfVisible>
+
                 {showPhresources && (
                   <Accordion
                     label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
@@ -555,12 +561,14 @@ const POLineView = ({
                   />
                 )}
 
-                <ViewCustomFieldsRecord
-                  accordionId="customFieldsPOLine"
-                  backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
-                  customFieldsValues={customFieldsValues}
-                  entityType={ENTITY_TYPE_PO_LINE}
-                />
+                <IfVisible visible={!hiddenFields?.customPOLineFields}>
+                  <ViewCustomFieldsRecord
+                    accordionId="customFieldsPOLine"
+                    backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
+                    customFieldsValues={customFieldsValues}
+                    entityType={ENTITY_TYPE_PO_LINE}
+                  />
+                </IfVisible>
               </AccordionSet>
             </>
           )}

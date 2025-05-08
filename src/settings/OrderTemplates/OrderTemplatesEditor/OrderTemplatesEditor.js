@@ -80,6 +80,11 @@ const ORDER = {
 };
 
 const donorsVisibilityControl = <VisibilityControl name="hiddenFields.donorsInformation" detached />;
+const notesVisibilityControl = <VisibilityControl name="hiddenFields.poNotes" detached />;
+const fundDistributionVisibilityControl = <VisibilityControl name="hiddenFields.fundDistribution" detached />;
+const locationsVisibilityControl = <VisibilityControl name="hiddenFields.locations" detached />;
+const customPOFieldsVisibilityControl = <VisibilityControl name="hiddenFields.customPOFields" detached />;
+const customPOLineFieldsVisibilityControl = <VisibilityControl name="hiddenFields.customPOLineFields" detached />;
 
 const OrderTemplatesEditor = ({
   addresses,
@@ -259,6 +264,8 @@ const OrderTemplatesEditor = ({
                       <Accordion
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_NOTES]}
                         id={ORDER_TEMPLATES_ACCORDION.PO_NOTES}
+                        displayWhenClosed={notesVisibilityControl}
+                        displayWhenOpen={notesVisibilityControl}
                       >
                         <PurchaseOrderNotesForm />
                       </Accordion>
@@ -269,11 +276,13 @@ const OrderTemplatesEditor = ({
                       >
                         <Row>
                           <Col xs={3}>
-                            <FieldTags
-                              change={change}
-                              formValues={formValues}
-                              name="poTags.tagList"
-                            />
+                            <VisibilityControl name="hiddenFields.poTags">
+                              <FieldTags
+                                change={change}
+                                formValues={formValues}
+                                name="poTags.tagList"
+                              />
+                            </VisibilityControl>
                           </Col>
                         </Row>
                       </Accordion>
@@ -355,6 +364,8 @@ const OrderTemplatesEditor = ({
                       <Accordion
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
                         id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
+                        displayWhenClosed={fundDistributionVisibilityControl}
+                        displayWhenOpen={fundDistributionVisibilityControl}
                       >
                         <FundDistributionFieldsFinal
                           change={change}
@@ -370,6 +381,8 @@ const OrderTemplatesEditor = ({
                       <Accordion
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
                         id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
+                        displayWhenClosed={locationsVisibilityControl}
+                        displayWhenOpen={locationsVisibilityControl}
                       >
                         <POLineLocationsForm
                           centralOrdering={centralOrdering}
@@ -431,11 +444,13 @@ const OrderTemplatesEditor = ({
                       >
                         <Row>
                           <Col xs={3}>
-                            <FieldTags
-                              change={change}
-                              formValues={formValues}
-                              name="polTags.tagList"
-                            />
+                            <VisibilityControl name="hiddenFields.polTags">
+                              <FieldTags
+                                change={change}
+                                formValues={formValues}
+                                name="polTags.tagList"
+                              />
+                            </VisibilityControl>
                           </Col>
                         </Row>
                       </Accordion>
@@ -447,6 +462,8 @@ const OrderTemplatesEditor = ({
                         entityType={ENTITY_TYPE_ORDER}
                         fieldComponent={Field}
                         finalFormCustomFieldsValues={customFieldsValues}
+                        displayWhenClosed={customPOFieldsVisibilityControl}
+                        displayWhenOpen={customPOFieldsVisibilityControl}
                       />
                       <EditCustomFieldsRecord
                         accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
@@ -455,6 +472,8 @@ const OrderTemplatesEditor = ({
                         entityType={ENTITY_TYPE_PO_LINE}
                         fieldComponent={Field}
                         finalFormCustomFieldsValues={customFieldsValues}
+                        displayWhenClosed={customPOLineFieldsVisibilityControl}
+                        displayWhenOpen={customPOLineFieldsVisibilityControl}
                       />
                     </AccordionSet>
                   </Col>

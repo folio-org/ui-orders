@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 
@@ -36,6 +36,7 @@ import {
   isWorkflowStatusIsPending,
 } from '../util';
 import UserValue from './UserValue';
+
 import css from './PODetailsForm.css';
 
 const CREATE_UNITS_PERM = 'orders.acquisitions-units-assignments.assign';
@@ -250,21 +251,31 @@ class PODetailsForm extends Component {
           </Col>
         </Row>
         <Row>
-          <Col
-            xs={6}
-            lg={3}
+          <IfFieldVisible
+            visible={!hiddenFields.poTags}
+            name="tags.tagList"
           >
-            <FieldTags
-              change={change}
-              formValues={formValues}
-              name="tags.tagList"
-            />
-          </Col>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <FieldTags
+                change={change}
+                formValues={formValues}
+                name="tags.tagList"
+              />
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
-          <Col xs={12}>
-            <FieldsNotes required />
-          </Col>
+          <IfFieldVisible
+            visible={!hiddenFields.poNotes}
+            name="notes"
+          >
+            <Col xs={12}>
+              <FieldsNotes required />
+            </Col>
+          </IfFieldVisible>
         </Row>
       </>
     );

@@ -310,16 +310,21 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <Col
-          xs={6}
-          md={3}
+        <IfFieldVisible
+          visible={!hiddenFields.polTags}
+          name="tags.tagList"
         >
-          <FieldTags
-            change={change}
-            formValues={formValues}
-            name="tags.tagList"
-          />
-        </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldTags
+              change={change}
+              formValues={formValues}
+              name="tags.tagList"
+            />
+          </Col>
+        </IfFieldVisible>
       </Row>
     </>
   );
