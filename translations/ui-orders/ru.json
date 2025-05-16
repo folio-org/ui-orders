@@ -929,5 +929,6 @@
     "settings.orderTemplateCategories.termUpdated": "The category <b>{term}</b> was successfully <b>updated</b>",
     "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
     "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
-    "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique"
+    "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique",
+    "settings.orderTemplates.editor.template.categories": "Order template categories"
 }
