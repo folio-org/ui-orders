@@ -588,7 +588,7 @@
     "relatedAgreementLines.status.closed": "Zamknięty",
     "relatedAgreementLines.status.draft": "Wersja robocza",
     "relatedAgreementLines.status.in_negotiation": "W negocjacjach",
-    "relatedAgreementLines.status.requested": "Zgłoszony",
+    "relatedAgreementLines.status.requested": "Wymagana",
     "errors.polLimitExceeded": "Twój system FOLIO jest skonfigurowany w taki sposób, że ogranicza liczbę pozycji zamówienia na każdym zamówieniu",
     "line.accordion.linkedAgreementLines": "Powiązane pozycje umowy",
     "errors.incorrectFundDistributionTotal": "Łączna kwota dystrybucji funduszu musi wynosić 100% lub cenę całkowitą",
