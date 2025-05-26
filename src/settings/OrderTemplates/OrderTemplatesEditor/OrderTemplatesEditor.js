@@ -36,6 +36,7 @@ import {
 import {
   ENTITY_TYPE_ORDER,
   ENTITY_TYPE_PO_LINE,
+  PO_LINE_CONFIG_NAME_PREFIX,
   WORKFLOW_STATUS,
 } from '../../../common/constants';
 import {
@@ -474,6 +475,7 @@ const OrderTemplatesEditor = ({
                         finalFormCustomFieldsValues={customFieldsValues}
                         displayWhenClosed={customPOLineFieldsVisibilityControl}
                         displayWhenOpen={customPOLineFieldsVisibilityControl}
+                        configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
                       />
                     </AccordionSet>
                   </Col>

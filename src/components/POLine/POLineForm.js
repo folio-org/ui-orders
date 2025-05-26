@@ -61,6 +61,7 @@ import {
 
 import {
   ENTITY_TYPE_PO_LINE,
+  PO_LINE_CONFIG_NAME_PREFIX,
   SUBMIT_ACTION_FIELD,
 } from '../../common/constants';
 import {
@@ -791,6 +792,7 @@ function POLineForm({
                               entityType={ENTITY_TYPE_PO_LINE}
                               fieldComponent={Field}
                               finalFormCustomFieldsValues={customFieldsValues}
+                              configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
                               onComponentLoad={handleCustomFieldsLoaded}
                             />
                           </IfFieldVisible>

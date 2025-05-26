@@ -74,6 +74,7 @@ import {
   REEXPORT_SOURCES,
   ORDER_LINES_ROUTE,
   ROUTING_LIST_ROUTE,
+  PO_LINE_CONFIG_NAME_PREFIX,
 } from '../../common/constants';
 import { useExportHistory } from '../../common/hooks';
 import { isOngoing } from '../../common/POFields';
@@ -567,6 +568,7 @@ const POLineView = ({
                     backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                     customFieldsValues={customFieldsValues}
                     entityType={ENTITY_TYPE_PO_LINE}
+                    configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
                   />
                 </IfVisible>
               </AccordionSet>
