@@ -26,6 +26,10 @@ const renderOngoingInfoForm = (props = {}) => render(
 );
 
 describe('OngoingInfoForm', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render \'ongoing info form\' fields', () => {
     renderOngoingInfoForm();
 
@@ -38,8 +42,8 @@ describe('OngoingInfoForm', () => {
     expect(screen.getByText('ui-orders.renewals.notes')).toBeInTheDocument();
   });
 
-  it('should subscription and renewalDate fields to be editable when workFlowStatus is Open', () => {
-    useFormState.mockClear().mockReturnValueOnce({
+  it('should renewalDate fields to be editable when workFlowStatus is Open', () => {
+    useFormState.mockReturnValue({
       values: {
         workflowStatus: 'Open',
         orderType: 'Ongoing',
@@ -48,7 +52,19 @@ describe('OngoingInfoForm', () => {
 
     renderOngoingInfoForm();
 
-    expect(screen.getByText('ui-orders.renewals.subscription')).toBeEnabled();
     expect(screen.getByText('ui-orders.renewals.renewalDate')).toBeEnabled();
+  });
+
+  it('should disable "Subscription" checkbox when order workFlow status is Open', () => {
+    useFormState.mockReturnValue({
+      values: {
+        workflowStatus: 'Open',
+        orderType: 'Ongoing',
+      },
+    });
+
+    renderOngoingInfoForm();
+
+    expect(screen.getByRole('checkbox', { name: /ui-orders.renewals.subscription/ })).toBeDisabled();
   });
 });

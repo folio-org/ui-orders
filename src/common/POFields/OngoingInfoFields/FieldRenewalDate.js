@@ -16,6 +16,7 @@ const FieldRenewalDate = ({ required, disabled, isNonInteractive, ...rest }) => 
       label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}
       name="ongoing.renewalDate"
       readOnly={disabled}
+      tooltipText={disabled && <FormattedMessage id="ui-orders.renewals.manualRenewal.tooltip" />}
       required={fieldIsRequired}
       validate={fieldIsRequired ? validateRequired : undefined}
       validateFields={[]}
