@@ -73,3 +73,6 @@ export const CENTRAL_ORDERING_DEFAULT_RECEIVING_SEARCH = {
 };
 
 export const SUBMIT_ACTION_FIELD = '__submitAction__';
+
+export const PO_LINE_CONFIG_NAME_PREFIX = 'po_lines';
+export const PO_CONFIG_NAME_PREFIX = 'purchase_orders';

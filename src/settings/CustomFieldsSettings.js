@@ -17,6 +17,8 @@ import {
 import {
   ENTITY_TYPE_ORDER,
   ENTITY_TYPE_PO_LINE,
+  PO_CONFIG_NAME_PREFIX,
+  PO_LINE_CONFIG_NAME_PREFIX,
 } from '../common/constants';
 
 const CustomFieldsSettings = () => {
@@ -41,6 +43,7 @@ const CustomFieldsSettings = () => {
             entityType={ENTITY_TYPE_ORDER}
             editRoute={`${basePO}/edit`}
             permissions={permissions}
+            configNamePrefix={PO_CONFIG_NAME_PREFIX}
           />
         </TitleManager>
       </Route>
@@ -51,6 +54,7 @@ const CustomFieldsSettings = () => {
             entityType={ENTITY_TYPE_ORDER}
             viewRoute={basePO}
             permissions={permissions}
+            configNamePrefix={PO_CONFIG_NAME_PREFIX}
           />
         </TitleManager>
       </Route>
@@ -62,6 +66,7 @@ const CustomFieldsSettings = () => {
             entityType={ENTITY_TYPE_PO_LINE}
             editRoute={`${basePOL}/edit`}
             permissions={permissions}
+            configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
           />
         </TitleManager>
       </Route>
@@ -72,6 +77,7 @@ const CustomFieldsSettings = () => {
             entityType={ENTITY_TYPE_PO_LINE}
             viewRoute={basePOL}
             permissions={permissions}
+            configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
           />
         </TitleManager>
       </Route>

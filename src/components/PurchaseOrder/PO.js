@@ -71,6 +71,7 @@ import {
   ERROR_CODES,
   INVOICES_ROUTE,
   ORDERS_ROUTE,
+  PO_CONFIG_NAME_PREFIX,
   REEXPORT_SOURCES,
   WORKFLOW_STATUS,
 } from '../../common/constants';
@@ -866,6 +867,7 @@ const PO = ({
                 backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                 customFieldsValues={customFieldsValues}
                 entityType={ENTITY_TYPE_ORDER}
+                configNamePrefix={PO_CONFIG_NAME_PREFIX}
               />
             </IfVisible>
 

@@ -36,6 +36,8 @@ import {
 import {
   ENTITY_TYPE_ORDER,
   ENTITY_TYPE_PO_LINE,
+  PO_CONFIG_NAME_PREFIX,
+  PO_LINE_CONFIG_NAME_PREFIX,
   WORKFLOW_STATUS,
 } from '../../../common/constants';
 import {
@@ -464,6 +466,7 @@ const OrderTemplatesEditor = ({
                         finalFormCustomFieldsValues={customFieldsValues}
                         displayWhenClosed={customPOFieldsVisibilityControl}
                         displayWhenOpen={customPOFieldsVisibilityControl}
+                        configNamePrefix={PO_CONFIG_NAME_PREFIX}
                       />
                       <EditCustomFieldsRecord
                         accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
@@ -474,6 +477,7 @@ const OrderTemplatesEditor = ({
                         finalFormCustomFieldsValues={customFieldsValues}
                         displayWhenClosed={customPOLineFieldsVisibilityControl}
                         displayWhenOpen={customPOLineFieldsVisibilityControl}
+                        configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
                       />
                     </AccordionSet>
                   </Col>
