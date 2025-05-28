@@ -38,6 +38,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
   const isClosedNonInteractive = values.workflowStatus && isWorkflowStatusClosed(values);
   const isNonPendingNonInteractive = values.workflowStatus && !isWorkflowStatusIsPending(values);
   const isOpenNonInteractive = values.workflowStatus && !isWorkflowStatusOpen(values);
+  const isSubscriptionDisabled = disabled || isWorkflowStatusOpen(values);
 
   if (isClosedNonInteractive && disabled) return null;
 
@@ -54,7 +55,7 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
           >
             <VisibilityControl name="hiddenFields.ongoing.isSubscription">
               <FieldRenewalSubscription
-                disabled={disabled}
+                disabled={isSubscriptionDisabled}
                 isNonInteractive={isNonPendingNonInteractive && isOpenNonInteractive}
               />
             </VisibilityControl>
