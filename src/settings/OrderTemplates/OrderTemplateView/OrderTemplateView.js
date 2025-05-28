@@ -38,6 +38,7 @@ import {
 import {
   ENTITY_TYPE_ORDER,
   ENTITY_TYPE_PO_LINE,
+  PO_CONFIG_NAME_PREFIX,
   PO_LINE_CONFIG_NAME_PREFIX,
 } from '../../../common/constants';
 import { isOngoing } from '../../../common/POFields';
@@ -461,6 +462,7 @@ class OrderTemplateView extends Component {
                       backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
                       customFieldsValues={customFieldsValues}
                       entityType={ENTITY_TYPE_ORDER}
+                      configNamePrefix={PO_CONFIG_NAME_PREFIX}
                     />
 
                     <ViewCustomFieldsRecord
