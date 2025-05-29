@@ -903,7 +903,7 @@
     "settings.numberGenerator.accessionNumber": "Accession number",
     "settings.numberGenerator.accessionNumberEqualCallNumber": "Use the same generated number for accession number and call number",
     "settings.numberGenerator.accessionNumberEqualCallNumber.warning": "Warning: The checkbox has been disabled because the accession number and/or the call number have been set to manual completion.",
-    "settings.numberGenerator.barcode": "Barcode",
+    "settings.numberGenerator.barcode": "Code-barres",
     "settings.numberGenerator.callNumber": "Call number",
     "settings.numberGenerator.info": "Fields which are usually filled using a numeric sequence can use the number generator. When the generator is switched on the field can either be fixed to prevent manual update, or made fully editable. When switched off, the field must be filled manually.",
     "settings.numberGenerator.options": "Number generator options",
