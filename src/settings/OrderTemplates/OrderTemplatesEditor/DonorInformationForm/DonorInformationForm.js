@@ -9,8 +9,8 @@ import {
   useFunds,
 } from '@folio/stripes-acq-components';
 
-import { POL_FORM_FIELDS } from '../../../../components/POLine/const';
 import { useManageDonorOrganizationIds } from '../../../../components/POLine/hooks';
+import { POL_FORM_FIELDS } from '../../../../common/constants';
 
 const DonorInformationForm = ({ formValues, fundDistribution }) => {
   const initialDonorOrganizationIds = get(formValues, POL_FORM_FIELDS.donorOrganizationIds, []);
