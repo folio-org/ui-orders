@@ -37,6 +37,7 @@ import {
   shouldSetInstanceId,
 } from './util';
 import {
+  isWorkflowStatusClosed,
   isWorkflowStatusIsPending,
   isWorkflowStatusOpen,
 } from '../../PurchaseOrder/util';
@@ -280,6 +281,7 @@ class ItemForm extends Component {
   render() {
     const isPostPendingOrder = !isWorkflowStatusIsPending(this.props.order);
     const isOrderOpen = isWorkflowStatusOpen(this.props.order);
+    const isOrderClosed = isWorkflowStatusClosed(this.props.order);
     const {
       contributorNameTypes,
       formValues,
@@ -291,6 +293,10 @@ class ItemForm extends Component {
     } = this.props;
     const isPackage = Boolean(formValues?.isPackage);
     const isSelectInstanceVisible = !(isPackage || isPostPendingOrder || isCreateFromInstance);
+
+    const isTitleOrPackageNonInteractive = isPackage
+      ? isOrderClosed
+      : isPostPendingOrder;
 
     return (
       <>
@@ -319,7 +325,7 @@ class ItemForm extends Component {
             <TitleField
               data-testid="titleOrPackage-field"
               label={this.getTitleLabel()}
-              isNonInteractive={isPostPendingOrder}
+              isNonInteractive={isTitleOrPackageNonInteractive}
               onChange={this.setTitleOrPackage}
               poLineDetails={formValues}
               required={required}
