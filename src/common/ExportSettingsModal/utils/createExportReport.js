@@ -15,7 +15,11 @@ import {
 import { getRecordMap } from '../../utils';
 
 const formatActivationDueDate = (activationDue, orderCreationDate, intl) => {
-  const activationDueDate = dayjs(orderCreationDate).add(activationDue, 'day');
+  if (isNil(activationDue) || !orderCreationDate) return null;
+
+  const activationDueDate = dayjs(orderCreationDate)
+    .add(activationDue, 'day')
+    .toDate();
 
   return formatDate(activationDueDate, intl);
 };
@@ -283,12 +287,10 @@ const getOrderLineExportData = ({
     materialType: materialType && (materialTypeMap[materialType]?.name ?? invalidReference),
     accessProvider: accessProvider && (vendorMap[accessProvider]?.code ?? invalidReference),
     activated: lineRecord.eresource?.activated,
-    activationDue: (
-      !isNil(lineRecord.eresource?.activationDue) && formatActivationDueDate(
-        lineRecord.eresource.activationDue,
-        order.metadata.createdDate,
-        intl,
-      )
+    activationDue: formatActivationDueDate(
+      lineRecord.eresource.activationDue,
+      order.metadata.createdDate,
+      intl,
     ),
     createInventoryE: lineRecord.eresource?.createInventory,
     materialTypeE: materialTypeEl && (materialTypeMap[materialTypeEl]?.name ?? invalidReference),
