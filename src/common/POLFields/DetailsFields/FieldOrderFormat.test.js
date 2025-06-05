@@ -1,7 +1,11 @@
 import { Form } from 'react-final-form';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
+import { ORDER_FORMATS } from '@folio/stripes-acq-components';
 
 import { vendor } from 'fixtures';
 import FieldOrderFormat from './FieldOrderFormat';
@@ -41,12 +45,24 @@ describe('FieldOrderFormat', () => {
     const options = screen.getAllByRole('option');
     const select = await screen.findByRole('combobox');
 
-    await user.selectOptions(select, 'Other');
+    await user.selectOptions(select, ORDER_FORMATS.electronicResource);
+
+    expect(options[1].selected).toBeTruthy();
+
+    await user.selectOptions(select, ORDER_FORMATS.physicalResource);
+
+    expect(options[2].selected).toBeTruthy();
+
+    await user.selectOptions(select, ORDER_FORMATS.PEMix);
+
+    expect(options[3].selected).toBeTruthy();
+
+    await user.selectOptions(select, ORDER_FORMATS.other);
 
     expect(options[4].selected).toBeTruthy();
 
-    await user.selectOptions(select, 'Electronic Resource');
+    await user.selectOptions(select, '');
 
-    expect(options[1].selected).toBeTruthy();
+    expect(options[0].selected).toBeTruthy();
   });
 });

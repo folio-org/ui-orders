@@ -1,4 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -63,7 +66,7 @@ export const LineLinkedInstances = ({ line, setStatus, labelId }) => {
     }));
   }, [setStatus, isLoading, linkedInstances, line.isPackage]);
 
-  const onAddInstance = (instance) => {
+  const onAddInstance = useCallback((instance) => {
     const title = createTitleBody(instance, line.id);
 
     return mutateTitle(title)
@@ -93,7 +96,7 @@ export const LineLinkedInstances = ({ line, setStatus, labelId }) => {
           type: 'error',
         });
       });
-  };
+  }, [intl, line.id, line.poLineNumber, mutateTitle, refetch, showCallout]);
 
   const onTitleSelect = (e, { receivingTitle }) => {
     if (e.target.href) return;
