@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { Checkbox } from '@folio/stripes/components';
 
 import { OPTION_VALUE_WITH_BINDERY_ACTIVE } from '../../../components/POLine/const';
-import { PO_LINE_FIELD_NAMES } from '../constants';
+import { POL_FORM_FIELDS } from '../../constants';
 
 export const FieldBinderyActive = ({ disabled = false }) => {
   const { batch, change } = useForm();
@@ -18,12 +18,12 @@ export const FieldBinderyActive = ({ disabled = false }) => {
 
     if (checked) {
       batch(() => {
-        change(PO_LINE_FIELD_NAMES.isBinderyActive, checked);
-        change(PO_LINE_FIELD_NAMES.orderFormat, OPTION_VALUE_WITH_BINDERY_ACTIVE);
-        change(PO_LINE_FIELD_NAMES.receivingWorkflow, true);
+        change(POL_FORM_FIELDS.isBinderyActive, checked);
+        change(POL_FORM_FIELDS.physicalCreateInventory, OPTION_VALUE_WITH_BINDERY_ACTIVE);
+        change(POL_FORM_FIELDS.checkinItems, true);
       });
     } else {
-      change(PO_LINE_FIELD_NAMES.isBinderyActive, false);
+      change(POL_FORM_FIELDS.isBinderyActive, false);
     }
   };
 
@@ -32,7 +32,7 @@ export const FieldBinderyActive = ({ disabled = false }) => {
       component={Checkbox}
       fullWidth
       label={<FormattedMessage id="ui-orders.poLine.isBinderyActive" />}
-      name={PO_LINE_FIELD_NAMES.isBinderyActive}
+      name={POL_FORM_FIELDS.isBinderyActive}
       type="checkbox"
       disabled={disabled}
       onChange={onChange}
