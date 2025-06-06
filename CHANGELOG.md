@@ -13,6 +13,8 @@
 * Add ability to hide optional fields in the order template form. Refs UIOR-1394.
 * Disable the "Subscription" checkbox in the PO form when an order workflow status is "Open". Refs UIOR-1426.
 * Add prefix constants and use them in the custom field components. Fixes UIOR-1435.
+* Store only the relevant values in the form based on the selected order format. Refs UIOR-1434.
+* Memoize the callback used in `useEffect`. Fixes UIOR-1423.
 * Fix "Activation due" date in the export CSV report. Fixes UIOR-1427.
 
 ## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
