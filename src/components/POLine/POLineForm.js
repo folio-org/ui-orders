@@ -62,6 +62,7 @@ import {
 import {
   ENTITY_TYPE_PO_LINE,
   PO_LINE_CONFIG_NAME_PREFIX,
+  POL_FORM_FIELDS,
   SUBMIT_ACTION_FIELD,
 } from '../../common/constants';
 import {
@@ -94,7 +95,6 @@ import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
-  POL_FORM_FIELDS,
   POL_TEMPLATE_FIELDS_MAP,
   SUBMIT_ACTION,
 } from './const';

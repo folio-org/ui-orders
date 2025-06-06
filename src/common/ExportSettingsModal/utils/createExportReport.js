@@ -1,8 +1,10 @@
 import flatten from 'lodash/flatten';
+import isNil from 'lodash/isNil';
 import groupBy from 'lodash/groupBy';
 import merge from 'lodash/merge';
 
 import { getFullName } from '@folio/stripes/util';
+import { dayjs } from '@folio/stripes/components';
 import {
   calculateFundAmount,
   formatDate,
@@ -11,6 +13,16 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { getRecordMap } from '../../utils';
+
+const formatActivationDueDate = (activationDue, orderCreationDate, intl) => {
+  if (isNil(activationDue) || !orderCreationDate) return null;
+
+  const activationDueDate = dayjs(orderCreationDate)
+    .add(activationDue, 'day')
+    .toDate();
+
+  return formatDate(activationDueDate, intl);
+};
 
 const getContributorData = (line, contributorNameTypeMap, invalidReferenceLabel) => (
   line.contributors?.map(({ contributor, contributorNameTypeId }) => (
@@ -214,6 +226,7 @@ const getOrderLineExportData = ({
   lineRecord,
   locationMap,
   materialTypeMap,
+  order,
   poLinesMap,
   userMap,
   vendorMap,
@@ -274,7 +287,11 @@ const getOrderLineExportData = ({
     materialType: materialType && (materialTypeMap[materialType]?.name ?? invalidReference),
     accessProvider: accessProvider && (vendorMap[accessProvider]?.code ?? invalidReference),
     activated: lineRecord.eresource?.activated,
-    activationDue: formatDate(lineRecord.eresource?.activationDue, intl),
+    activationDue: formatActivationDueDate(
+      lineRecord.eresource.activationDue,
+      order.metadata.createdDate,
+      intl,
+    ),
     createInventoryE: lineRecord.eresource?.createInventory,
     materialTypeE: materialTypeEl && (materialTypeMap[materialTypeEl]?.name ?? invalidReference),
     trial: lineRecord.eresource?.trial,
@@ -333,6 +350,7 @@ const getExportRow = ({
       lineRecord,
       locationMap,
       materialTypeMap,
+      order,
       poLinesMap,
       vendorMap,
       userMap,

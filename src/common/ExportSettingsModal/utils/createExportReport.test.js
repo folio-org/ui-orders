@@ -1,8 +1,8 @@
 import { useIntl } from 'react-intl';
 
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
+import { dayjs } from '@folio/stripes/components';
 
-import { createExportReport } from './createExportReport';
 import {
   orderLine,
   order,
@@ -17,6 +17,12 @@ import {
   address,
   exportReport,
 } from '../../../../test/jest/fixtures';
+import { createExportReport } from './createExportReport';
+
+jest.mock('react-intl', () => ({
+  ...jest.requireActual('react-intl'),
+  useIntl: jest.fn(),
+}));
 
 const customFieldsOrder = {
   customFields: {
@@ -83,6 +89,18 @@ const customFields = [
 ];
 
 describe('createExportReport', () => {
+  beforeEach(() => {
+    useIntl.mockReturnValue({
+      formatMessage: ({ id }) => id,
+      formatDate: (date) => (typeof date === 'string' ? date.substring(0, 10) : date.toISOString()),
+      formatNumber: (number) => number,
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should return export report object', () => {
     const { result } = renderHook(() => useIntl());
     const intl = result.current;
@@ -105,6 +123,38 @@ describe('createExportReport', () => {
       [{ id: orderLine.acquisitionMethod, value: 'Purchase' }],
       [{ id: vendor?.organizationTypes?.[0], name: 'Test type' }],
     )).toEqual(expect.objectContaining(exportReport));
+  });
+
+  it('should properly parse activation due date', () => {
+    const { result } = renderHook(() => useIntl());
+    const intl = result.current;
+
+    const report = createExportReport(
+      intl,
+      [{
+        ...orderLine,
+        eresource: {
+          ...orderLine.eresource,
+          activationDue: 3,
+        },
+      }],
+      [order],
+      [],
+      [vendor],
+      [user],
+      [acqUnit],
+      [materialType],
+      [location],
+      [],
+      [contributorNameType],
+      [identifierType],
+      [expenseClass],
+      [address],
+      [{ id: orderLine.acquisitionMethod, value: 'Purchase' }],
+      [{ id: vendor?.organizationTypes?.[0], name: 'Test type' }],
+    );
+
+    expect(dayjs(report[0].activationDue).format('YYYY-MM-DD')).toEqual('2021-08-18');
   });
 
   it('should return export report object with custom fields', () => {
