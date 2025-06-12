@@ -1,5 +1,8 @@
 # Change history for ui-orders
 
+## [7.0.5](https://github.com/folio-org/ui-orders/tree/v7.0.5) (2025-06-12)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.4...v7.0.5)
+
 * Remove ISBN validation/normalization logic. Refs UIOR-1335.
 
 ## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
