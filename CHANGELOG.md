@@ -17,6 +17,7 @@
 * Memoize the callback used in `useEffect`. Fixes UIOR-1423.
 * Fix "Activation due" date in the export CSV report. Fixes UIOR-1427.
 * Allow users to edit package name for an open order. Refs UIOR-1430.
+* Display an error toast only when PO Line locations violate fund restrictions. Fixes UIOR-1420.
 
 ## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.2...v8.0.3)
