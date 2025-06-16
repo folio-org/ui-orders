@@ -17,6 +17,7 @@
 * Memoize the callback used in `useEffect`. Fixes UIOR-1423.
 * Fix "Activation due" date in the export CSV report. Fixes UIOR-1427.
 * Allow users to edit package name for an open order. Refs UIOR-1430.
+* Add `OCLC` number to list of valid product identifier types. Refs UIOR-1440.
 
 ## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.2...v8.0.3)
