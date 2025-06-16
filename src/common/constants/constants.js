@@ -9,6 +9,7 @@ export const PRODUCT_ID_TYPE = {
   ismn: 'ISMN',
   issn: 'ISSN',
   lccn: 'LCCN',
+  oclc: 'OCLC',
   publisherOrDistributorNumber: 'Publisher or distributor number',
   reportNumber: 'Report number',
   standardTechnicalReportNumber: 'Standard technical report number',

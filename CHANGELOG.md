@@ -1,5 +1,7 @@
 # Change history for ui-orders
 
+* Add `OCLC` number to list of valid product identifier types. Refs UIOR-1440.
+
 ## [8.0.4](https://github.com/folio-org/ui-orders/tree/v8.0.4) (2025-06-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.3...v8.0.4)
 

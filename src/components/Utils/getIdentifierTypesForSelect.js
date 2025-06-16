@@ -15,6 +15,7 @@ const ALLOWED_RES_ID_TYPE_NAMES = [
   PRODUCT_ID_TYPE.ismn,
   PRODUCT_ID_TYPE.issn,
   PRODUCT_ID_TYPE.lccn,
+  PRODUCT_ID_TYPE.oclc,
   PRODUCT_ID_TYPE.publisherOrDistributorNumber,
   PRODUCT_ID_TYPE.reportNumber,
   PRODUCT_ID_TYPE.standardTechnicalReportNumber,
