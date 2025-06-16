@@ -2,10 +2,13 @@ export const formatPublishers = (publishers = []) => {
   return publishers
     .filter(Boolean)
     .map(p => {
-      const dateOfPublication = p.dateOfPublication ? ` (${p.dateOfPublication})` : '';
+      const dateOfPublication = p.dateOfPublication && `(${p.dateOfPublication})`;
 
-      return `${p.publisher}${dateOfPublication}`;
+      return [p.publisher, dateOfPublication]
+        .filter(Boolean)
+        .join(' ');
     })
+    .filter(Boolean)
     .join(', ');
 };
 
