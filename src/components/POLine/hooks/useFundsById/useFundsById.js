@@ -24,6 +24,7 @@ export const useFundsById = (fundIds = DEFAULT_VALUE, options = {}) => {
 
   const {
     data = {},
+    isFetching,
     isLoading,
   } = useQuery(
     [namespace, fundIds],
@@ -45,6 +46,7 @@ export const useFundsById = (fundIds = DEFAULT_VALUE, options = {}) => {
   );
 
   return ({
+    isFetching,
     isLoading,
     funds: data?.funds || DEFAULT_VALUE,
     totalRecords: data?.totalRecords,
