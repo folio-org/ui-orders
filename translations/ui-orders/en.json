@@ -465,6 +465,7 @@
   "orderDetails.approvalDate": "Approval date",
   "orderDetails.approvedBy": "Approved by",
   "orderDetails.dateOpened": "Date opened",
+  "orderDetails.yearOpened": "Year opened",
   "orderSummary.adjustments": "Adjustments",
   "orderSummary.approved": "Approved",
   "orderSummary.closingNote": "Notes on closure",

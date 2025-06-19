@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Checkbox,
@@ -21,179 +20,175 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
+import { FiscalYearOpenedView } from '../components';
 import { isWorkflowStatusOpen } from '../util';
 import UserValue from './UserValue';
 
 import css from './PODetailsView.css';
 
-class PODetailsView extends Component {
-  static propTypes = {
-    order: PropTypes.object.isRequired,
-    addresses: PropTypes.arrayOf(PropTypes.object),
-    hiddenFields: PropTypes.object,
-  };
+const defaultProps = {
+  addresses: [],
+  hiddenFields: {},
+};
 
-  static defaultProps = {
-    addresses: [],
-    hiddenFields: {},
-  }
+const PODetailsView = ({
+  addresses = defaultProps.addresses,
+  hiddenFields = defaultProps.hiddenFields,
+  order,
+}) => {
+  const addressBillTo = get(addresses.find(el => el.id === get(order, 'billTo', '')), 'address', '');
+  const addressShipTo = get(addresses.find(el => el.id === get(order, 'shipTo', '')), 'address', '');
 
-  render() {
-    const { order, addresses, hiddenFields } = this.props;
-    const addressBillTo = get(addresses.find(el => el.id === get(order, 'billTo', '')), 'address', '');
-    const addressShipTo = get(addresses.find(el => el.id === get(order, 'shipTo', '')), 'address', '');
+  return (
+    <>
+      <Row>
+        <Col xs={12}>
+          {order?.metadata && <ViewMetaData metadata={order.metadata} />}
+        </Col>
+      </Row>
+      <Row start="xs">
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}>
+            {order?.poNumber
+              ? (
+                <>
+                  {order.poNumber}
+                  <ClipCopy text={order.poNumber} />
+                </>
+              )
+              : <NoValue />
+            }
+          </KeyValue>
+        </Col>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <OrganizationValue
+            id={order.vendor}
+            label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
+          />
+        </Col>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
+            value={get(order, 'orderType')}
+          />
+        </Col>
 
-    const metadata = get(order, 'metadata');
-
-    return (
-      <>
-        <Row>
-          <Col xs={12}>
-            {metadata && <ViewMetaData metadata={metadata} />}
-          </Col>
-        </Row>
-        <Row start="xs">
+        <IfVisible visible={!hiddenFields.acqUnitIds}>
           <Col
             xs={6}
             lg={3}
           >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}>
-              {order?.poNumber
-                ? (
-                  <>
-                    {order.poNumber}
-                    <ClipCopy text={order.poNumber} />
-                  </>
-                )
-                : <NoValue />
-              }
-            </KeyValue>
+            <AcqUnitsView units={order.acqUnitIds} />
           </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <OrganizationValue
-              id={order.vendor}
-              label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
-            />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
-              value={get(order, 'orderType')}
-            />
-          </Col>
+        </IfVisible>
 
-          <IfVisible visible={!hiddenFields.acqUnitIds}>
-            <Col
-              xs={6}
-              lg={3}
-            >
-              <AcqUnitsView units={order.acqUnitIds} />
-            </Col>
-          </IfVisible>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.approvalDate" />}>
+            <FolioFormattedTime dateString={order?.approvalDate} />
+          </KeyValue>
+        </Col>
 
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.approvalDate" />}>
-              <FolioFormattedTime dateString={order?.approvalDate} />
-            </KeyValue>
-          </Col>
-
-          <IfVisible visible={!hiddenFields.assignedTo}>
-            <Col
-              xs={6}
-              lg={3}
-            >
-              <KeyValue
-                label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
-              >
-                <UserValue userId={order.assignedTo} />
-              </KeyValue>
-            </Col>
-          </IfVisible>
-
-          <IfVisible visible={!hiddenFields.billTo}>
-            <Col
-              className={css.addressWrapper}
-              data-test-order-details-bill-to
-              xs={6}
-              lg={3}
-            >
-              <KeyValue
-                label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-                value={addressBillTo}
-              />
-            </Col>
-          </IfVisible>
-
-          <IfVisible visible={!hiddenFields.shipTo}>
-            <Col
-              className={css.addressWrapper}
-              data-test-order-details-ship-to
-              xs={6}
-              lg={3}
-            >
-              <KeyValue
-                label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-                value={addressShipTo}
-              />
-            </Col>
-          </IfVisible>
-
-          <IfVisible visible={!hiddenFields.manualPo}>
-            <Col
-              xs={6}
-              lg={3}
-            >
-              <Checkbox
-                checked={get(order, 'manualPo')}
-                disabled
-                label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
-                vertical
-              />
-            </Col>
-          </IfVisible>
-
-          <IfVisible visible={!hiddenFields.reEncumber}>
-            <Col
-              xs={6}
-              lg={3}
-            >
-              <Checkbox
-                checked={get(order, 'reEncumber')}
-                disabled
-                label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}
-                vertical
-              />
-            </Col>
-          </IfVisible>
-
+        <IfVisible visible={!hiddenFields.assignedTo}>
           <Col
             xs={6}
             lg={3}
           >
             <KeyValue
-              label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
+              label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
             >
-              <UserValue userId={get(order, 'metadata.createdByUserId')} />
+              <UserValue userId={order.assignedTo} />
             </KeyValue>
           </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.billTo}>
+          <Col
+            className={css.addressWrapper}
+            data-test-order-details-bill-to
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
+              value={addressBillTo}
+            />
+          </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.shipTo}>
+          <Col
+            className={css.addressWrapper}
+            data-test-order-details-ship-to
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
+              value={addressShipTo}
+            />
+          </Col>
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.manualPo}>
           <Col
             xs={6}
             lg={3}
           >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
-              <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />
-            </KeyValue>
+            <Checkbox
+              checked={get(order, 'manualPo')}
+              disabled
+              label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
+              vertical
+            />
           </Col>
-          {isWorkflowStatusOpen(order) && (
+        </IfVisible>
+
+        <IfVisible visible={!hiddenFields.reEncumber}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <Checkbox
+              checked={get(order, 'reEncumber')}
+              disabled
+              label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}
+              vertical
+            />
+          </Col>
+        </IfVisible>
+
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
+          >
+            <UserValue userId={get(order, 'metadata.createdByUserId')} />
+          </KeyValue>
+        </Col>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
+            <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />
+          </KeyValue>
+        </Col>
+        {isWorkflowStatusOpen(order) && (
+          <>
             <Col
               xs={6}
               lg={3}
@@ -202,22 +197,37 @@ class PODetailsView extends Component {
                 <FolioFormattedTime dateString={order?.dateOrdered} />
               </KeyValue>
             </Col>
-          )}
-          <IfVisible visible={!hiddenFields.poNotes}>
-            <Col xs={12}>
-              {get(order, 'notes', []).map((note, index) => (
-                <KeyValue
-                  key={index}
-                  label={<FormattedMessage id="ui-orders.orderDetails.note" />}
-                  value={note}
-                />
-              ))}
-            </Col>
-          </IfVisible>
-        </Row>
-      </>
-    );
-  }
-}
+
+            {Boolean(order?.fiscalYearId) && (
+              <Col
+                xs={6}
+                lg={3}
+              >
+                <FiscalYearOpenedView fiscalYearId={order.fiscalYearId} />
+              </Col>
+            )}
+          </>
+        )}
+        <IfVisible visible={!hiddenFields.poNotes}>
+          <Col xs={12}>
+            {get(order, 'notes', []).map((note, index) => (
+              <KeyValue
+                key={index}
+                label={<FormattedMessage id="ui-orders.orderDetails.note" />}
+                value={note}
+              />
+            ))}
+          </Col>
+        </IfVisible>
+      </Row>
+    </>
+  );
+};
+
+PODetailsView.propTypes = {
+  addresses: PropTypes.arrayOf(PropTypes.object),
+  hiddenFields: PropTypes.object,
+  order: PropTypes.object,
+};
 
 export default PODetailsView;

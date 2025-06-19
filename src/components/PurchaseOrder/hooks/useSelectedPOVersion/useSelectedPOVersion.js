@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useIntl } from 'react-intl';
 import { useQuery } from 'react-query';
 import {
   filter,
@@ -13,6 +14,7 @@ import {
   useOkapiKy,
 } from '@folio/stripes/core';
 import {
+  fetchFiscalYearByIds,
   getAddresses,
   useUsersBatch,
   useVersionHistoryValueResolvers,
@@ -33,12 +35,25 @@ const getUniqItems = (arr) => (
   )(arr)
 );
 
+const formatFiscalYear = (fiscalYearId, fiscalYearDict, intl) => {
+  if (!fiscalYearId) return undefined;
+
+  const fiscalYear = fiscalYearDict[fiscalYearId];
+
+  return fiscalYear
+    ? `${fiscalYear.name} (${fiscalYear.code})`
+    : intl.formatMessage({ id: 'stripes-acq-components.versionHistory.deletedRecord' });
+};
+
 export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, options = {}) => {
   const ky = useOkapiKy();
+  const intl = useIntl();
   const [namespace] = useNamespace({ key: 'order-version-data' });
+
   const currentVersion = useMemo(() => (
     versions?.find(({ id }) => id === versionId)
   ), [versionId, versions]);
+
   const versionSnapshot = useMemo(() => (
     get(snapshotPath, currentVersion)
   ), [snapshotPath, currentVersion]);
@@ -56,6 +71,7 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
   const metadata = useMemo(() => getVersionMetadata(currentVersion, order), [currentVersion, order]);
   const assignedToId = versionSnapshot?.assignedTo;
   const createdByUserId = metadata?.createdByUserId;
+  const fiscalYearId = versionSnapshot?.fiscalYearId;
   const vendorId = versionSnapshot?.vendor;
   const billToId = versionSnapshot?.billTo;
   const shipToId = versionSnapshot?.shipTo;
@@ -77,27 +93,31 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
 
       const organizationIds = [vendorId];
       const acqUnitsIds = versionSnapshot?.acqUnitIds || [];
+      const fiscalYearIds = [fiscalYearId].filter(Boolean);
 
       const [
-        organizationsMap,
-        acqUnitsMap,
-        addressesMap,
+        organizationsDict,
+        acqUnitsDict,
+        addressesDict,
+        fiscalYearDict,
       ] = await Promise.all([
         getOrganizationsByIds(kyExtended)(organizationIds).then(keyBy('id')),
         getAcqUnitsByIds(kyExtended)(acqUnitsIds).then(keyBy('id')),
         getTenantAddresses(kyExtended)()
           .then(({ configs }) => getAddresses(configs))
           .then(keyBy('id')),
+        fetchFiscalYearByIds(kyExtended)(fiscalYearIds).then(({ fiscalYears }) => keyBy('id', fiscalYears)),
       ]);
 
       return {
         ...versionSnapshot,
-        acqUnits: acqUnitsIds.map((id) => getObjectPropertyById(id, 'name', acqUnitsMap)).join(', '),
+        acqUnits: acqUnitsIds.map((id) => getObjectPropertyById(id, 'name', acqUnitsDict)).join(', '),
         assignedTo: getUserFullNameById(assignedToId, versionUsersMap),
         createdByUser: getUserFullNameById(createdByUserId, versionUsersMap),
-        vendor: getObjectPropertyById(vendorId, 'name', organizationsMap),
-        billTo: getObjectPropertyById(billToId, 'address', addressesMap),
-        shipTo: getObjectPropertyById(shipToId, 'address', addressesMap),
+        fiscalYear: formatFiscalYear(fiscalYearId, fiscalYearDict, intl),
+        vendor: getObjectPropertyById(vendorId, 'name', organizationsDict),
+        billTo: getObjectPropertyById(billToId, 'address', addressesDict),
+        shipTo: getObjectPropertyById(shipToId, 'address', addressesDict),
         metadata,
       };
     },
