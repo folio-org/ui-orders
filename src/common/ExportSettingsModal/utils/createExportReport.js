@@ -12,7 +12,10 @@ import {
   FUND_DISTR_TYPE,
 } from '@folio/stripes-acq-components';
 
-import { getRecordMap } from '../../utils';
+import {
+  formatOpenedFiscalYear,
+  getRecordMap,
+} from '../../utils';
 
 const formatActivationDueDate = (activationDue, orderCreationDate, intl) => {
   if (isNil(activationDue) || !orderCreationDate) return null;
@@ -163,6 +166,7 @@ const getOrderExportData = ({
   acqUnitMap,
   addressMap,
   customFields,
+  fiscalYearsMap,
   intl,
   order,
   organizationTypeMap,
@@ -208,6 +212,7 @@ const getOrderExportData = ({
     poTags: order.tags?.tagList?.join('|'),
     customFields: resolveCustomFields(order.customFields, customFields),
     dateOrdered: formatDateTime(order?.dateOrdered, intl),
+    yearOpened: order.fiscalYearId && formatOpenedFiscalYear(fiscalYearsMap[order.fiscalYearId]),
     createdBy: userMap[order.metadata?.createdByUserId]?.username ?? invalidReference,
     dateCreated: formatDateTime(order.metadata?.createdDate, intl),
     updatedBy: userMap[order.metadata?.updatedByUserId]?.username ?? invalidReference,
@@ -288,8 +293,8 @@ const getOrderLineExportData = ({
     accessProvider: accessProvider && (vendorMap[accessProvider]?.code ?? invalidReference),
     activated: lineRecord.eresource?.activated,
     activationDue: formatActivationDueDate(
-      lineRecord.eresource.activationDue,
-      order.metadata.createdDate,
+      lineRecord.eresource?.activationDue,
+      order.metadata?.createdDate,
       intl,
     ),
     createInventoryE: lineRecord.eresource?.createInventory,
@@ -318,6 +323,7 @@ const getExportRow = ({
   contributorNameTypeMap,
   customFields,
   expenseClassMap,
+  fiscalYearsMap,
   holdingMap,
   identifierTypeMap,
   locationMap,
@@ -331,6 +337,7 @@ const getExportRow = ({
     acqUnitMap,
     addressMap,
     customFields,
+    fiscalYearsMap,
     intl,
     order,
     organizationTypeMap,
@@ -390,6 +397,7 @@ export const createExportReport = (
   addresses = [],
   acquisitionMethods = [],
   organizationTypes = [],
+  fiscalYears = [],
 ) => {
   const poLinesMap = getRecordMap(poLines);
   const vendorMap = getRecordMap(vendors);
@@ -404,26 +412,28 @@ export const createExportReport = (
   const expenseClassMap = getRecordMap(expenseClasses);
   const addressMap = getRecordMap(addresses);
   const acquisitionMethodsMap = getRecordMap(acquisitionMethods);
+  const fiscalYearsMap = getRecordMap(fiscalYears);
   const groupedOrderLines = groupBy(poLines, 'purchaseOrderId');
 
   const exportRows = orders.map((order) => buildExportRows({
     order,
-    intl,
-    groupedOrderLines,
     acquisitionMethodsMap,
     acqUnitMap,
     addressMap,
     contributorNameTypeMap,
+    customFields,
     expenseClassMap,
+    fiscalYearsMap,
+    groupedOrderLines,
     holdingMap,
     identifierTypeMap,
+    intl,
     locationMap,
     materialTypeMap,
     organizationTypeMap,
     poLinesMap,
     userMap,
     vendorMap,
-    customFields,
   }));
 
   return flatten(exportRows);

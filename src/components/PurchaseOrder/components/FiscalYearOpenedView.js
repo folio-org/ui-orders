@@ -1,4 +1,7 @@
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
   KeyValue,
@@ -6,16 +9,14 @@ import {
 } from '@folio/stripes/components';
 import { useFiscalYear } from '@folio/stripes-acq-components';
 
-const formatFiscalYear = (fiscalYear) => {
-  return fiscalYear
-    ? `${fiscalYear.name} (${fiscalYear.code})`
-    : '-';
-};
+import { formatOpenedFiscalYear } from '../../../common/utils';
 
 export const FiscalYearOpenedView = ({
   fiscalYearId,
   name = 'fiscalYearId',
 }) => {
+  const intl = useIntl();
+
   const {
     fiscalYear,
     isLoading: isFiscalYearLoading,
@@ -27,7 +28,7 @@ export const FiscalYearOpenedView = ({
       <KeyValue
         name={name}
         label={<FormattedMessage id="ui-orders.orderDetails.yearOpened" />}
-        value={formatFiscalYear(fiscalYear)}
+        value={formatOpenedFiscalYear(fiscalYear, intl.formatMessage({ id: 'stripes-acq-components.invalidReference' }))}
       />
     );
 };
