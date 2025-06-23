@@ -1,7 +1,6 @@
 import get from 'lodash/get';
 import isNil from 'lodash/isNil';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { ClipCopy } from '@folio/stripes/smart-components';
@@ -18,12 +17,10 @@ import {
   FolioFormattedTime,
   IfVisible,
   sourceLabels,
-  useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import { useAcqMethod } from '../../../common/hooks';
 import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
-import { useIsFundsRestrictedByLocationIds } from '../hooks';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
 
@@ -46,20 +43,8 @@ export const getAcquisitionMethodValue = (acqMethodId, acqMethod) => {
 };
 
 const POLineDetails = ({ line, hiddenFields }) => {
-  const showCallout = useShowCallout();
   const receiptDate = get(line, 'receiptDate');
   const { acqMethod, isLoading } = useAcqMethod(line.acquisitionMethod);
-
-  const { hasLocationRestrictedFund } = useIsFundsRestrictedByLocationIds(line);
-
-  useEffect(() => {
-    if (hasLocationRestrictedFund) {
-      showCallout({
-        messageId: 'ui-orders.errors.poLineHasLocationRestrictedFund',
-        type: 'error',
-      });
-    }
-  }, [hasLocationRestrictedFund, showCallout]);
 
   return (
     <>
