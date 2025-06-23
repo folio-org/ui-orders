@@ -5,7 +5,6 @@
 * Provide `signal` from `useQuery` function to the http client (ky). Refs UIOR-1363.
 * Allow editing of the "Notes on closure" field for PO in the "Closed" workflow status. Refs UIOR-1105.
 * Allow editing of location information for PO lines with independent workflow in open order. Refs UIOR-1368.
-* Remove ISBN validation/normalization logic. Refs UIOR-1335.
 * Notify a user that an encumbrance is not released from a paid invoice when changing an expense class of an order line. Refs UIOR-1406.
 * Implement PO template categories settings. Refs UIOR-1400.
 * Add "Order template categories" field to order template. Refs UIOR-1401.
@@ -20,8 +19,14 @@
 * Add `OCLC` number to list of valid product identifier types. Refs UIOR-1440.
 * Format the "Publishers" column to avoid displaying nullish values. Fixes UIOR-1436.
 * Display an error toast only when PO Line locations violate fund restrictions. Fixes UIOR-1420.
+* Display the fiscal year in which an order was opened. Fixes UIOR-1403.
 
-## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
+## [8.0.4](https://github.com/folio-org/ui-orders/tree/v8.0.4) (2025-06-12)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.3...v8.0.4)
+
+* Remove ISBN validation/normalization logic. Refs UIOR-1335.
+
+## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.3) (2025-04-10)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.2...v8.0.3)
 
 * Add `settings.enabled` as a subpermission to all permission sets so they can be accessed in the UI if enabled individually. Refs UIOR-1405.
