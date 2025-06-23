@@ -13,8 +13,12 @@ const getExportUserIds = (lines = [], orders = []) => {
   const lineUserIds = lines.map(({ metadata }) => {
     return [metadata?.createdByUserId, metadata?.updatedByUserId];
   });
-  const orderUserIds = orders.map(({ metadata, assignedTo, approvedById }) => ([
-    metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedById,
+  const orderUserIds = orders.map(({ metadata, assignedTo, approvedById, openedById }) => ([
+    approvedById,
+    assignedTo,
+    metadata?.createdByUserId,
+    metadata?.updatedByUserId,
+    openedById,
   ]));
 
   return uniq(flatten([...lineUserIds, ...orderUserIds])).filter(Boolean);
@@ -72,10 +76,6 @@ export const getExportData = async (mutator, lines, orders, customFields, intl) 
     ...lineLocationIds,
     ...lineHoldings.map(({ permanentLocationId }) => permanentLocationId),
   ]);
-
-  // TODO: remove logs
-  console.log('vendorIds', uniq([...orderVendorIds, ...lineVendorIds]));
-  console.log('locationIds', locationIds);
 
   const [
     lineLocations,

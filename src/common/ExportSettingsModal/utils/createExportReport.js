@@ -198,9 +198,11 @@ const getOrderExportData = ({
     workflowStatus: order.workflowStatus,
     approved: order.approved,
     approvedBy: (
-      order.approvedById && !userMap[order.approvedById]
-        ? invalidReference
-        : getFullName(userMap[order.approvedById])
+      order.approvedById && (
+        !userMap[order.approvedById]
+          ? invalidReference
+          : getFullName(userMap[order.approvedById])
+      )
     ),
     interval: order.ongoing?.interval,
     isSubscription: order.ongoing?.isSubscription,
@@ -213,6 +215,13 @@ const getOrderExportData = ({
     customFields: resolveCustomFields(order.customFields, customFields),
     dateOrdered: formatDateTime(order?.dateOrdered, intl),
     yearOpened: order.fiscalYearId && formatOpenedFiscalYear(fiscalYearsMap[order.fiscalYearId]),
+    openedBy: (
+      order.openedById && (
+        !userMap[order.openedById]
+          ? invalidReference
+          : getFullName(userMap[order.openedById])
+      )
+    ),
     createdBy: userMap[order.metadata?.createdByUserId]?.username ?? invalidReference,
     dateCreated: formatDateTime(order.metadata?.createdDate, intl),
     updatedBy: userMap[order.metadata?.updatedByUserId]?.username ?? invalidReference,
