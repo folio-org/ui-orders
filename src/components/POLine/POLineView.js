@@ -54,6 +54,7 @@ import {
   TagsBadge,
   useAcqRestrictions,
   useModalToggle,
+  useShowCallout,
   VersionHistoryButton,
 } from '@folio/stripes-acq-components';
 
@@ -102,9 +103,8 @@ import {
   ERESOURCES,
   PHRESOURCES,
 } from './const';
-import {
-  isCancelableLine,
-} from './utils';
+import { useIsFundsRestrictedByLocationIds } from './hooks';
+import { isCancelableLine } from './utils';
 
 const initialAccordionStatus = {
   CostDetails: true,
@@ -144,6 +144,8 @@ const POLineView = ({
 }) => {
   const intl = useIntl();
   const stripes = useStripes();
+  const showCallout = useShowCallout();
+
   const [showConfirmDelete, toggleConfirmDelete] = useModalToggle();
   const [showConfirmCancel, toggleConfirmCancel] = useModalToggle();
   const [isPrintOrderModalOpened, togglePrintOrderModal] = useModalToggle();
@@ -168,6 +170,17 @@ const POLineView = ({
   } = useExportHistory([line.id]);
 
   const isCancelable = isCancelableLine(line, order);
+
+  const { hasLocationRestrictedFund } = useIsFundsRestrictedByLocationIds(line);
+
+  useEffect(() => {
+    if (hasLocationRestrictedFund) {
+      showCallout({
+        messageId: 'ui-orders.errors.poLineHasLocationRestrictedFund',
+        type: 'error',
+      });
+    }
+  }, [hasLocationRestrictedFund, showCallout]);
 
   useEffect(() => {
     setHiddenFields(orderTemplate.hiddenFields);
