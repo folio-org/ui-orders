@@ -9,6 +9,7 @@ import { getFullName } from '@folio/stripes/util';
 import {
   ACQUISITIONS_UNITS_API,
   CONFIG_API,
+  FISCAL_YEARS_API,
   ORDERS_API,
   useUsersBatch,
   VENDORS_API,
@@ -35,6 +36,12 @@ const user = {
   personal: { firstName: 'Galt', lastName: 'John' },
 };
 
+const fiscalYear = {
+  id: 'fiscal-year-id',
+  name: 'FY 2025',
+  code: 'FY2025',
+};
+
 const kyMock = {
   get: jest.fn((url) => ({
     json: async () => {
@@ -49,6 +56,9 @@ const kyMock = {
       }
       if (url.startsWith(ORDERS_API)) {
         return { ...order };
+      }
+      if (url.startsWith(FISCAL_YEARS_API)) {
+        return { fiscalYears: [fiscalYear] };
       }
 
       return {};
@@ -86,6 +96,7 @@ describe('useSelectedPOVersion', () => {
           acqUnitIds: ['acqUnitId'],
           billTo: address.id,
           vendor: vendor.id,
+          fiscalYearId: fiscalYear.id,
         },
       }],
       snapshotPath: 'orderSnapshot',

@@ -152,16 +152,31 @@ export const PODetailsVersionView = ({ version }) => {
         </Col>
 
         {isWorkflowStatusOpen(version) && (
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <VersionKeyValue
-              name="dateOrdered"
-              label={<FormattedMessage id="ui-orders.orderDetails.dateOpened" />}
-              value={<FolioFormattedTime dateString={version?.dateOrdered} />}
-            />
-          </Col>
+          <>
+            <Col
+              xs={6}
+              lg={3}
+            >
+              <VersionKeyValue
+                name="dateOrdered"
+                label={<FormattedMessage id="ui-orders.orderDetails.dateOpened" />}
+                value={<FolioFormattedTime dateString={version?.dateOrdered} />}
+              />
+            </Col>
+
+            {Boolean(version?.fiscalYearId) && (
+              <Col
+                xs={6}
+                lg={3}
+              >
+                <VersionKeyValue
+                  name="fiscalYearId"
+                  label={<FormattedMessage id="ui-orders.orderDetails.yearOpened" />}
+                  value={version?.fiscalYear}
+                />
+              </Col>
+            )}
+          </>
         )}
 
         <Col xs={12}>
