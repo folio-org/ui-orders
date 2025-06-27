@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -16,6 +17,7 @@ import {
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../../common/constants';
 import {
   FieldPOLineNumber,
   FieldAcquisitionMethod,
@@ -39,8 +41,16 @@ import {
   isBinderyActiveDisabled,
 } from '../../../common/POLFields';
 import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
-import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
+import {
+  isWorkflowStatusClosed,
+  isWorkflowStatusIsPending,
+  isWorkflowStatusOpen,
+} from '../../PurchaseOrder/util';
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
+import {
+  ConfirmReceivingWorkflowChangeModal,
+  useReceivingWorkflowChange,
+} from '../ConfirmReceivingWorkflowChange';
 
 const isReceiptNotRequired = (status) => status === RECEIPT_STATUS.receiptNotRequired;
 
@@ -57,43 +67,80 @@ function POLineDetailsForm({
   const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
   const isManualOrder = Boolean(order?.manualPo);
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
-  const isPackage = get(formValues, 'isPackage');
-  const isBinderyActive = get(formValues, 'details.isBinderyActive', false);
+  const isClosedOrder = isWorkflowStatusClosed(order);
+  const isOpenedOrder = isWorkflowStatusOpen(order);
+  const isPackage = get(formValues, POL_FORM_FIELDS.isPackage);
+  const isCheckInItems = get(formValues, POL_FORM_FIELDS.checkinItems);
+  const isBinderyActive = get(formValues, POL_FORM_FIELDS.isBinderyActive, false);
 
   const isClaimingActive = Boolean(formValues?.claimingActive);
   const orderFormat = formValues?.orderFormat;
 
   const checkinItemsFieldDisabled = (
-    isPostPendingOrder
+    isClosedOrder
     || isPackage
     || isBinderyActive
-    || (!isPostPendingOrder && isReceiptNotRequired(formValues?.receiptStatus))
+    || isReceiptNotRequired(formValues?.receiptStatus)
+    || (isPostPendingOrder && Boolean(formValues?.checkinItems))
   );
+
+  const {
+    cancelReceivingWorkflowChange,
+    confirmReceivingWorkflowChange,
+    initReceivingWorkflowChange,
+    isModalOpen: isReceivingWorkflowChangeModalOpen,
+  } = useReceivingWorkflowChange();
 
   const onAcqMethodChange = useCallback(
     (value) => {
-      change('acquisitionMethod', value);
+      change(POL_FORM_FIELDS.acquisitionMethod, value);
       const vendorAccount = formValues?.vendorDetail?.vendorAccount;
 
       toggleAutomaticExport({ vendorAccount, acquisitionMethod: value, integrationConfigs, change });
     }, [change, formValues, integrationConfigs],
   );
 
-  const onReceiptStatusChange = useCallback(({ target: { value } }) => {
-    change('receiptStatus', value || undefined);
+  const onReceiptStatusChange = useCallback(async ({ target: { value } }) => {
+    const shouldTriggerReceivingWorkflowChange = (
+      !isClosedOrder
+      && !isCheckInItems
+      && isReceiptNotRequired(value)
+    );
 
-    if (!isPostPendingOrder && isReceiptNotRequired(value)) {
-      change('checkinItems', true);
+    if (shouldTriggerReceivingWorkflowChange) {
+      // Trigger the modal to confirm the change in receiving workflow (ConfirmReceivingWorkflowChangeModal)
+      await (
+        isOpenedOrder
+          ? initReceivingWorkflowChange
+          : Promise.resolve.bind(Promise)
+      )()
+        .then(() => {
+          change(POL_FORM_FIELDS.receiptStatus, value || undefined);
+          change(POL_FORM_FIELDS.checkinItems, true);
+        })
+        .catch(noop);
+    } else {
+      change(POL_FORM_FIELDS.receiptStatus, value || undefined);
     }
-  }, [change, isPostPendingOrder]);
+  }, [change, initReceivingWorkflowChange, isClosedOrder, isCheckInItems, isOpenedOrder]);
 
   const onClaimingActiveChange = useCallback((event) => {
     const { target: { checked } } = event;
 
-    change('claimingActive', checked);
+    change(POL_FORM_FIELDS.claimingActive, checked);
 
-    if (!checked) change('claimingInterval', undefined);
+    if (!checked) change(POL_FORM_FIELDS.claimingInterval, undefined);
   }, [change]);
+
+  const onCheckInItemsChange = useCallback(async (value) => {
+    if (isPostPendingOrder) {
+      await initReceivingWorkflowChange()
+        .then(() => { change(POL_FORM_FIELDS.checkinItems, value); })
+        .catch(noop);
+    } else {
+      change(POL_FORM_FIELDS.checkinItems, value);
+    }
+  }, [change, initReceivingWorkflowChange, isPostPendingOrder]);
 
   return (
     <>
@@ -105,7 +152,10 @@ function POLineDetailsForm({
           <FieldPOLineNumber poLineNumber={poLine.poLineNumber} />
         </Col>
 
-        <IfFieldVisible visible={!hiddenFields.acquisitionMethod} name="acquisitionMethod">
+        <IfFieldVisible
+          visible={!hiddenFields.acquisitionMethod}
+          name={POL_FORM_FIELDS.acquisitionMethod}
+        >
           <Col
             xs={6}
             md={3}
@@ -117,7 +167,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.automaticExport} name="automaticExport">
+        <IfFieldVisible
+          visible={!hiddenFields.automaticExport}
+          name={POL_FORM_FIELDS.automaticExport}
+        >
           <Col
             xs={6}
             md={3}
@@ -129,7 +182,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.orderFormat} name="orderFormat">
+        <IfFieldVisible
+          visible={!hiddenFields.orderFormat}
+          name={POL_FORM_FIELDS.orderFormat}
+        >
           <Col
             xs={6}
             md={3}
@@ -152,7 +208,10 @@ function POLineDetailsForm({
           </KeyValue>
         </Col>
 
-        <IfFieldVisible visible={!hiddenFields.receiptDate} name="receiptDate">
+        <IfFieldVisible
+          visible={!hiddenFields.receiptDate}
+          name={POL_FORM_FIELDS.receiptDate}
+        >
           <Col
             xs={6}
             md={3}
@@ -161,7 +220,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.receiptStatus} name="receiptStatus">
+        <IfFieldVisible
+          visible={!hiddenFields.receiptStatus}
+          name={POL_FORM_FIELDS.receiptStatus}
+        >
           <Col
             xs={6}
             md={3}
@@ -173,7 +235,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.paymentStatus} name="paymentStatus">
+        <IfFieldVisible
+          visible={!hiddenFields.paymentStatus}
+          name={POL_FORM_FIELDS.paymentStatus}
+        >
           <Col
             xs={6}
             md={3}
@@ -192,7 +257,10 @@ function POLineDetailsForm({
           />
         </Col>
 
-        <IfFieldVisible visible={!hiddenFields.donor} name="donor">
+        <IfFieldVisible
+          visible={!hiddenFields.donor}
+          name={POL_FORM_FIELDS.donor_DEPRECATED}
+        >
           <Col
             xs={6}
             md={3}
@@ -201,7 +269,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.selector} name="selector">
+        <IfFieldVisible
+          visible={!hiddenFields.selector}
+          name={POL_FORM_FIELDS.selector}
+        >
           <Col
             xs={6}
             md={3}
@@ -210,7 +281,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.requester} name="requester">
+        <IfFieldVisible
+          visible={!hiddenFields.requester}
+          name={POL_FORM_FIELDS.requester}
+        >
           <Col
             xs={6}
             md={3}
@@ -221,7 +295,10 @@ function POLineDetailsForm({
       </Row>
 
       <Row>
-        <IfFieldVisible visible={!hiddenFields.claimingActive} name="claimingActive">
+        <IfFieldVisible
+          visible={!hiddenFields.claimingActive}
+          name={POL_FORM_FIELDS.claimingActive}
+        >
           <Col
             xs={6}
             md={3}
@@ -230,7 +307,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.claimingInterval} name="claimingInterval">
+        <IfFieldVisible
+          visible={!hiddenFields.claimingInterval}
+          name={POL_FORM_FIELDS.claimingInterval}
+        >
           <Col
             xs={6}
             md={3}
@@ -241,7 +321,10 @@ function POLineDetailsForm({
             />
           </Col>
         </IfFieldVisible>
-        <IfFieldVisible visible={!hiddenFields.details?.isBinderyActive} name="details.isBinderyActive">
+        <IfFieldVisible
+          visible={!hiddenFields.details?.isBinderyActive}
+          name={POL_FORM_FIELDS.isBinderyActive}
+        >
           <Col
             xs={6}
             md={3}
@@ -252,7 +335,10 @@ function POLineDetailsForm({
       </Row>
 
       <Row>
-        <IfFieldVisible visible={!hiddenFields.cancellationRestriction} name="cancellationRestriction">
+        <IfFieldVisible
+          visible={!hiddenFields.cancellationRestriction}
+          name={POL_FORM_FIELDS.cancellationRestriction}
+        >
           <Col
             xs={6}
             md={3}
@@ -261,7 +347,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.rush} name="rush">
+        <IfFieldVisible
+          visible={!hiddenFields.rush}
+          name={POL_FORM_FIELDS.rush}
+        >
           <Col
             xs={6}
             md={3}
@@ -270,7 +359,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.collection} name="collection">
+        <IfFieldVisible
+          visible={!hiddenFields.collection}
+          name={POL_FORM_FIELDS.collection}
+        >
           <Col
             xs={6}
             md={3}
@@ -279,20 +371,27 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.checkinItems} name="checkinItems">
+        <IfFieldVisible
+          visible={!hiddenFields.checkinItems}
+          name={POL_FORM_FIELDS.checkinItems}
+        >
           <Col
             xs={6}
             md={3}
           >
             <FieldCheckInItems
               disabled={checkinItemsFieldDisabled}
+              onChange={onCheckInItemsChange}
               required
             />
           </Col>
         </IfFieldVisible>
       </Row>
       <Row>
-        <IfFieldVisible visible={!hiddenFields.cancellationRestrictionNote} name="cancellationRestrictionNote">
+        <IfFieldVisible
+          visible={!hiddenFields.cancellationRestrictionNote}
+          name={POL_FORM_FIELDS.cancellationRestrictionNote}
+        >
           <Col
             xs={6}
             md={3}
@@ -301,7 +400,10 @@ function POLineDetailsForm({
           </Col>
         </IfFieldVisible>
 
-        <IfFieldVisible visible={!hiddenFields.poLineDescription} name="poLineDescription">
+        <IfFieldVisible
+          visible={!hiddenFields.poLineDescription}
+          name={POL_FORM_FIELDS.poLineDescription}
+        >
           <Col
             xs={6}
             md={3}
@@ -312,7 +414,7 @@ function POLineDetailsForm({
 
         <IfFieldVisible
           visible={!hiddenFields.polTags}
-          name="tags.tagList"
+          name={POL_FORM_FIELDS.tagsList}
         >
           <Col
             xs={6}
@@ -321,11 +423,17 @@ function POLineDetailsForm({
             <FieldTags
               change={change}
               formValues={formValues}
-              name="tags.tagList"
+              name={POL_FORM_FIELDS.tagsList}
             />
           </Col>
         </IfFieldVisible>
       </Row>
+
+      <ConfirmReceivingWorkflowChangeModal
+        isOpen={isReceivingWorkflowChangeModalOpen}
+        onConfirm={confirmReceivingWorkflowChange}
+        onCancel={cancelReceivingWorkflowChange}
+      />
     </>
   );
 }
