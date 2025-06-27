@@ -1,4 +1,15 @@
-import { validateDuplicates } from './utils';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { FormattedMessage } from 'react-intl';
+
+import {
+  DeprecatedCheckbox,
+  FormatPrefixDeprecated,
+  FormatSuffixDeprecated,
+  validateDuplicates,
+  validateName,
+  validatePrefixName,
+  validateSuffixName,
+} from './utils';
 
 describe('validateDuplicates', () => {
   const mockIntl = {
@@ -63,5 +74,153 @@ describe('validateDuplicates', () => {
 
       expect(result).toEqual({});
     });
+  });
+});
+
+describe('validateName', () => {
+  it('should return an empty object when the name validates correctly', () => {
+    const name = 'suf';
+
+    expect(validateName(name)).toEqual({});
+  });
+
+  it('should return an error message for name', () => {
+    const name = 'suf0c966bd2';
+    const actual = validateName(name);
+    const expected = (
+      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
+    );
+
+    expect(actual.name).toEqual(expected);
+  });
+});
+
+describe('validateSuffixName', () => {
+  it('should return an empty object when the name validates correctly', () => {
+    const props = {
+      id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
+      name: 'suf',
+      description: 'Suffix for test purposes',
+      deprecated: true,
+    };
+
+    expect(validateSuffixName(props)).toEqual({});
+  });
+
+  it('should return an error message for name', () => {
+    const props = {
+      id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
+      name: 'suf0c966bd2',
+      description: 'Suffix for test purposes',
+      deprecated: true,
+    };
+    const actual = validateSuffixName(props);
+    const expected = (
+      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
+    );
+
+    expect(actual.name).toEqual(expected);
+  });
+});
+
+describe('validatePrefixName', () => {
+  it('should return an empty object when the name validates correctly', () => {
+    const props = {
+      id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
+      name: 'pref',
+      description: 'Prefix for test purposes',
+      deprecated: true,
+    };
+
+    expect(validatePrefixName(props)).toEqual({});
+  });
+
+  it('should return an error message for name', () => {
+    const props = {
+      id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
+      name: 'pref0c966bd2',
+      description: 'Prefix for test purposes',
+      deprecated: true,
+    };
+    const actual = validatePrefixName(props);
+    const expected = (
+      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
+    );
+
+    expect(actual.name).toEqual(expected);
+  });
+});
+
+describe('DeprecatedCheckbox', () => {
+  it('renders a disabled, checked checkbox with correct aria-label with an aria-label', () => {
+    const messageId = 'messageId';
+
+    render(
+      <DeprecatedCheckbox
+        name="Test Field"
+        deprecated
+        messageId={messageId}
+      />,
+    );
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: messageId,
+    });
+
+    expect(checkbox).toBeDisabled();
+    expect(checkbox).toBeChecked();
+  });
+
+  it('renders an unchecked checkbox when deprecated is false with an aria-label', () => {
+    const messageId = 'messageId';
+
+    render(
+      <DeprecatedCheckbox
+        name="Test Field"
+        deprecated={false}
+        messageId={messageId}
+      />,
+    );
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: messageId,
+    });
+
+    expect(checkbox).toBeDisabled();
+    expect(checkbox).not.toBeChecked();
+  });
+});
+
+describe('FormatPrefixDeprecated', () => {
+  it('renders an unchecked checkbox when deprecated is false with an aria-label', () => {
+    const messageId = 'ui-orders.settings.poNumber.prefix.aria-label.deprecated';
+
+    render(
+      <FormatPrefixDeprecated name={'Test Field'} deprecated={false} />,
+    );
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: messageId,
+    });
+
+    expect(checkbox).toBeDisabled();
+    expect(checkbox).not.toBeChecked();
+  });
+});
+
+describe('FormatSuffixDeprecated', () => {
+  it('renders an unchecked checkbox when deprecated is false with an aria-label', () => {
+    const messageId = 'ui-orders.settings.poNumber.suffix.aria-label.deprecated';
+
+    render(
+      <FormatSuffixDeprecated name={'Test Field'} deprecated={false} />,
+    );
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: messageId,
+    });
+
+    expect(checkbox).toBeDisabled();
+    expect(checkbox).not.toBeChecked();
   });
 });

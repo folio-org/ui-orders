@@ -8,7 +8,10 @@ import {
   useState,
 } from 'react';
 import { Field } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
@@ -56,6 +59,10 @@ import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import { getFullOrderNumber } from '../Utils/orderResource';
+import {
+  getPrefixOptions,
+  getSuffixOptions,
+} from './util';
 
 import {
   ACCORDION_ID,
@@ -304,10 +311,22 @@ const POForm = ({
     ? getPaneFooter('clickable-update-purchase-order', 'stripes-components.saveAndClose')
     : getPaneFooter('clickable-create-new-purchase-order', buttonLabelId);
 
-  const prefixesSetting = get(parentResources, 'prefixesSetting.records', [])
-    .map(({ name }) => ({ label: name, value: name }));
-  const suffixesSetting = get(parentResources, 'suffixesSetting.records', [])
-    .map(({ name }) => ({ label: name, value: name }));
+  const intl = useIntl();
+
+  const poNumberPrefixInitial = initialValues?.poNumberPrefix ?? '';
+  const poNumberSuffixInitial = initialValues?.poNumberSuffix ?? '';
+
+  const prefixesSetting = getPrefixOptions(
+    parentResources?.prefixesSetting?.records ?? [],
+    poNumberPrefixInitial,
+    intl,
+  );
+
+  const suffixesSetting = getSuffixOptions(
+    parentResources?.suffixesSetting?.records ?? [],
+    poNumberSuffixInitial,
+    intl,
+  );
 
   const shortcuts = [
     {
