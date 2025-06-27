@@ -47,10 +47,8 @@ import {
   isWorkflowStatusOpen,
 } from '../../PurchaseOrder/util';
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
-import {
-  ConfirmReceivingWorkflowChangeModal,
-  useReceivingWorkflowChange,
-} from '../ConfirmReceivingWorkflowChange';
+import { ConfirmReceivingWorkflowChangeModal } from '../ConfirmReceivingWorkflowChange';
+import { useReceivingWorkflowChange } from '../hooks';
 
 const isReceiptNotRequired = (status) => status === RECEIPT_STATUS.receiptNotRequired;
 
