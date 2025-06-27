@@ -14,15 +14,35 @@ import {
   getControlledVocabTranslations,
   PREFIXES_API,
 } from '@folio/stripes-acq-components';
+import { Checkbox } from "@folio/stripes/components";
 
 import { validatePrefixSuffixName } from '../utils';
 
 const prefixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
-  description: <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />,
+  description: (
+    <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />
+  ),
+  deprecated: (
+    <FormattedMessage id="ui-orders.settings.poNumber.modifier.deprecated" />
+  ),
 };
 const prefixHiddenFields = ['numberOfObjects', 'lastUpdated'];
-const prefixVisibleFields = ['name', 'description'];
+const prefixVisibleFields = ['name', 'description', 'deprecated'];
+
+const checkboxFieldType = ({ fieldProps }) => (
+  <Field
+    {...fieldProps}
+    component={Checkbox}
+    marginBottom0
+    fullWidth
+    usePortal
+  />
+);
+
+const fieldComponents = {
+  deprecated: checkboxFieldType,
+};
 
 class Prefixes extends Component {
   constructor(props) {
@@ -50,6 +70,7 @@ class Prefixes extends Component {
           stripes={stripes}
           visibleFields={prefixVisibleFields}
           validate={validatePrefixSuffixName}
+          fieldComponents={fieldComponents}
         />
       </TitleManager>
     );
