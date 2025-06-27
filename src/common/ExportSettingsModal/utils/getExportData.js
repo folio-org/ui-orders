@@ -1,7 +1,5 @@
-import {
-  flatten,
-  uniq,
-} from 'lodash';
+import flatten from 'lodash/flatten';
+import uniq from 'lodash/uniq';
 
 import {
   CONFIG_ADDRESSES,
@@ -11,71 +9,101 @@ import { fetchExportDataByIds } from '../../utils';
 import { getAddresses } from '../../utils/getAddresses';
 import { createExportReport } from './createExportReport';
 
-const getExportUseIds = (lines = [], orders = []) => {
+const getExportUserIds = (lines = [], orders = []) => {
   const lineUserIds = lines.map(({ metadata }) => {
     return [metadata?.createdByUserId, metadata?.updatedByUserId];
   });
-  const orderUserIds = orders.map(({ metadata, assignedTo, approvedById }) => ([
-    metadata?.createdByUserId, metadata?.updatedByUserId, assignedTo, approvedById,
+  const orderUserIds = orders.map(({ metadata, assignedTo, approvedById, openedById }) => ([
+    approvedById,
+    assignedTo,
+    metadata?.createdByUserId,
+    metadata?.updatedByUserId,
+    openedById,
   ]));
 
   return uniq(flatten([...lineUserIds, ...orderUserIds])).filter(Boolean);
 };
 
+const buildAddressQuery = (itemsChunk) => {
+  const subQuery = itemsChunk
+    .map(id => `id==${id}`)
+    .join(' or ');
+  const query = subQuery ? `(module=${MODULE_TENANT} and configName=${CONFIG_ADDRESSES} and (${subQuery}))` : '';
+
+  return query;
+};
+
+const extractUniqueFlat = (array, extractor) => uniq(array.flatMap(item => extractor(item) || []).filter(Boolean));
+
 export const getExportData = async (mutator, lines, orders, customFields, intl) => {
-  const orderVendorIds = uniq(orders.map(({ vendor }) => vendor));
-  const lineVendorIds = uniq(flatten((lines.map(({ physical, eresource }) => ([
-    physical?.materialSupplier, eresource?.accessProvider,
-  ]))))).filter(Boolean);
-  const vendorIds = uniq(flatten([...orderVendorIds, ...lineVendorIds]));
-  const vendors = await fetchExportDataByIds(mutator.exportVendors, vendorIds);
-  const organizationTypeIds = uniq(flatten(vendors.map(
-    ({ organizationTypes }) => organizationTypes,
-  ))).filter(Boolean);
-  const orgTypes = await fetchExportDataByIds(mutator.organizationTypes, organizationTypeIds);
-  const users = await fetchExportDataByIds(mutator.exportUsers, getExportUseIds(lines, orders));
-  const acqUnitsIds = uniq(flatten((orders.map(({ acqUnitIds }) => acqUnitIds))));
-  const acqUnits = await fetchExportDataByIds(mutator.exportAcqUnits, acqUnitsIds);
-  const mTypeIds = uniq(flatten(lines.map(({ physical, eresource }) => ([
-    physical?.materialType, eresource?.materialType,
-  ])))).filter(Boolean);
-  const mTypes = await fetchExportDataByIds(mutator.exportMaterialTypes, mTypeIds);
-  const holdingIds = uniq(flatten(lines.map(({ locations }) => (
-    locations?.map(({ holdingId }) => holdingId)
-  )))).filter(Boolean);
-  const lineHoldings = await fetchExportDataByIds(mutator.exportHoldings, holdingIds);
-  const holdingLocationIds = lineHoldings.map(({ permanentLocationId }) => permanentLocationId);
-  const locationIds = uniq([...flatten(lines.map(({ locations }) => (
-    locations?.map(({ locationId }) => locationId)
-  ))), ...holdingLocationIds]).filter(Boolean);
-  const lineLocations = await fetchExportDataByIds(mutator.exportLocations, locationIds);
-  const contributorNameTypeIds = uniq(flatten(lines.map(({ contributors }) => (
-    contributors?.map(({ contributorNameTypeId }) => contributorNameTypeId)
-  )))).filter(Boolean);
-  const contributorNameTypes = await fetchExportDataByIds(mutator.exportContributorNameTypes, contributorNameTypeIds);
-  const identifierTypeIds = uniq(flatten(lines.map(({ details }) => (
-    details?.productIds?.map(({ productIdType }) => productIdType)
-  )))).filter(Boolean);
-  const identifierTypes = await fetchExportDataByIds(mutator.exportIdentifierTypes, identifierTypeIds);
-  const expenseClassIds = uniq(flatten(lines.map(({ fundDistribution }) => (
-    fundDistribution?.map(({ expenseClassId }) => expenseClassId)
-  )))).filter(Boolean);
-  const expenseClasses = await fetchExportDataByIds(mutator.exportExpenseClasses, expenseClassIds);
-  const addressIds = uniq(flatten(orders.map(({ billTo, shipTo }) => ([billTo, shipTo])))).filter(Boolean);
-  const buildAddressQuery = (itemsChunk) => {
-    const subQuery = itemsChunk
-      .map(id => `id==${id}`)
-      .join(' or ');
-    const query = subQuery ? `(module=${MODULE_TENANT} and configName=${CONFIG_ADDRESSES} and (${subQuery}))` : '';
+  /* Orders based */
+  const acqUnitsIds = extractUniqueFlat(orders, ({ acqUnitIds }) => acqUnitIds);
+  const addressIds = extractUniqueFlat(orders, ({ billTo, shipTo }) => [billTo, shipTo]);
+  const fiscalYearIds = extractUniqueFlat(orders, ({ fiscalYearId }) => fiscalYearId);
+  const orderVendorIds = extractUniqueFlat(orders, (({ vendor }) => vendor));
 
-    return query;
-  };
-  const addressRecords = await fetchExportDataByIds(mutator.exportAddresses, addressIds, buildAddressQuery);
-  const addresses = getAddresses(addressRecords);
-  const acquisitionMethodsIds = uniq(lines.map(({ acquisitionMethod }) => acquisitionMethod)).filter(Boolean);
-  const acquisitionMethods = await fetchExportDataByIds(mutator.acquisitionMethods, acquisitionMethodsIds);
+  /* Lines based */
+  const acquisitionMethodsIds = extractUniqueFlat(lines, ({ acquisitionMethod }) => acquisitionMethod);
+  const lineHoldingIds = extractUniqueFlat(lines, ({ locations }) => locations?.map(({ holdingId }) => holdingId));
+  const lineLocationIds = extractUniqueFlat(lines, ({ locations }) => locations?.map(({ locationId }) => locationId));
+  const contributorNameTypeIds = extractUniqueFlat(
+    lines,
+    ({ contributors }) => contributors?.map(({ contributorNameTypeId }) => contributorNameTypeId),
+  );
+  const expenseClassIds = extractUniqueFlat(
+    lines,
+    ({ fundDistribution }) => fundDistribution?.map(({ expenseClassId }) => expenseClassId),
+  );
+  const identifierTypeIds = extractUniqueFlat(
+    lines,
+    ({ details }) => details?.productIds?.map(({ productIdType }) => productIdType),
+  );
+  const lineVendorIds = extractUniqueFlat(
+    lines,
+    ({ physical, eresource }) => [physical?.materialSupplier, eresource?.accessProvider],
+  );
+  const mTypeIds = extractUniqueFlat(
+    lines,
+    ({ physical, eresource }) => [physical?.materialType, eresource?.materialType],
+  );
 
-  return (createExportReport(
+  const vendors = await fetchExportDataByIds(mutator.exportVendors, uniq([...orderVendorIds, ...lineVendorIds]));
+  const lineHoldings = await fetchExportDataByIds(mutator.exportHoldings, lineHoldingIds);
+
+  const organizationTypeIds = extractUniqueFlat(vendors, ({ organizationTypes }) => organizationTypes);
+
+  const locationIds = uniq([
+    ...lineLocationIds,
+    ...lineHoldings.map(({ permanentLocationId }) => permanentLocationId),
+  ]);
+
+  const [
+    lineLocations,
+    orgTypes,
+    users,
+    acqUnits,
+    mTypes,
+    contributorNameTypes,
+    identifierTypes,
+    expenseClasses,
+    addresses,
+    acquisitionMethods,
+    fiscalYears,
+  ] = await Promise.all([
+    fetchExportDataByIds(mutator.exportLocations, locationIds),
+    fetchExportDataByIds(mutator.organizationTypes, organizationTypeIds),
+    fetchExportDataByIds(mutator.exportUsers, getExportUserIds(lines, orders)),
+    fetchExportDataByIds(mutator.exportAcqUnits, acqUnitsIds),
+    fetchExportDataByIds(mutator.exportMaterialTypes, mTypeIds),
+    fetchExportDataByIds(mutator.exportContributorNameTypes, contributorNameTypeIds),
+    fetchExportDataByIds(mutator.exportIdentifierTypes, identifierTypeIds),
+    fetchExportDataByIds(mutator.exportExpenseClasses, expenseClassIds),
+    fetchExportDataByIds(mutator.exportAddresses, addressIds, buildAddressQuery).then(getAddresses),
+    fetchExportDataByIds(mutator.acquisitionMethods, acquisitionMethodsIds),
+    fetchExportDataByIds(mutator.fiscalYears, fiscalYearIds),
+  ]);
+
+  return createExportReport(
     intl,
     lines,
     orders,
@@ -92,5 +120,6 @@ export const getExportData = async (mutator, lines, orders, customFields, intl) 
     addresses,
     acquisitionMethods,
     orgTypes,
-  ));
+    fiscalYears,
+  );
 };

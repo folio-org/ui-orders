@@ -25,6 +25,8 @@ export const EXPORT_ORDER_FIELDS = {
   reviewDate: 'Review date',
   poTags: 'PO tags',
   dateOrdered: 'Date opened',
+  yearOpened: 'Year opened',
+  openedBy: 'Opened by',
   createdBy: 'Created by',
   dateCreated: 'Created on',
   updatedBy: 'Updated by',

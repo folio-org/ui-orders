@@ -1,13 +1,15 @@
 import {
   acqUnitsManifest,
+  acquisitionMethodsResource,
+  baseManifest,
   contributorNameTypesManifest,
   expenseClassesManifest,
+  FISCAL_YEARS_API,
   identifierTypesManifest,
   locationsManifest,
   materialTypesManifest,
   organizationsManifest,
   usersManifest,
-  acquisitionMethodsResource,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -66,5 +68,12 @@ export const exportManifest = Object.freeze({
     fetch: false,
   },
   exportHoldings: HOLDINGS,
+  fiscalYears: {
+    ...baseManifest,
+    accumulate: true,
+    fetch: false,
+    path: FISCAL_YEARS_API,
+    records: 'fiscalYears',
+  },
   organizationTypes: ORGANIZATION_TYPES,
 });

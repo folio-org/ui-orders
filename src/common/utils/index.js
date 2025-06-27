@@ -3,6 +3,7 @@ export * from './checkPOLinesAbandonedHoldings';
 export * from './checkRelatedHoldings';
 export * from './createClearFilterHandler';
 export * from './fieldArray';
+export * from './formatOpenedFiscalYear';
 export * from './getAcqUnitsByIds';
 export * from './getFundOptions';
 export * from './getSettingsList';
