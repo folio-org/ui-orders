@@ -43,7 +43,10 @@ import {
   getAddressOptions,
   getCommonErrorMessage,
 } from '../../../common/utils';
-import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
+import {
+  ORGANIZATION_STATUS_ACTIVE,
+  PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE,
+} from '../../../common/constants';
 import { useOrderTemplate } from '../../../common/hooks';
 import { useOrderTemplateCategories } from '../../hooks';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
@@ -134,6 +137,7 @@ function OrderTemplatesEditorContainer({
       record={title}
     >
       <OrderTemplatesEditor
+        fieldArraysToHydrate={PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE}
         isLoading={isLoading}
         title={title}
         onSubmit={saveOrderTemplate}

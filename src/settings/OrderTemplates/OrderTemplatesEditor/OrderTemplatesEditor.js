@@ -1,3 +1,4 @@
+import flow from 'lodash/flow';
 import PropTypes from 'prop-types';
 import {
   useMemo,
@@ -57,7 +58,10 @@ import {
   useErrorAccordionStatus,
   useFundDistributionValidation,
 } from '../../../common/hooks';
-import { omitFieldArraysAsyncErrors } from '../../../common/utils';
+import {
+  omitFieldArraysAsyncErrors,
+  withUniqueFieldArrayItemKeys,
+} from '../../../common/utils';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import { OngoingOrderForm } from '../../../components/POLine/OngoingOrder';
@@ -519,10 +523,13 @@ OrderTemplatesEditor.propTypes = {
   vendors: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default stripesForm({
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-  navigationCheck: true,
-  validateOnBlur: true,
-  subscription: { values: true },
-})(OrderTemplatesEditor);
+export default flow(
+  stripesForm({
+    enableReinitialize: true,
+    keepDirtyOnReinitialize: true,
+    navigationCheck: true,
+    validateOnBlur: true,
+    subscription: { values: true },
+  }),
+  withUniqueFieldArrayItemKeys,
+)(OrderTemplatesEditor);
