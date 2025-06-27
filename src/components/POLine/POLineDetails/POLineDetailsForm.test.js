@@ -1,10 +1,17 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { Form } from 'react-final-form';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { RECEIPT_STATUS } from '@folio/stripes-acq-components';
 
+import { WORKFLOW_STATUS } from '../../../common/constants';
 import POLineDetailsForm from './POLineDetailsForm';
 
 const defaultProps = {
@@ -77,18 +84,119 @@ describe('POLineDetailsForm', () => {
     expect(screen.getByText('ui-orders.poLine.poLineDescription')).toBeInTheDocument();
   });
 
-  it('should set to \'Independent order and receipt quantity\' if a user selects \'Receipt not required\'', async () => {
-    renderPOLineDetailsForm(null, { checkinItems: false });
+  describe('Receipt status change', () => {
+    it('should set to \'Independent order and receipt quantity\' if a user selects \'Receipt not required\'', async () => {
+      renderPOLineDetailsForm(null, { checkinItems: false });
 
-    const receiptStatusField = screen.getByRole('combobox', { name: 'ui-orders.poLine.receiptStatus' });
-    const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
+      const receiptStatusField = screen.getByRole('combobox', { name: 'ui-orders.poLine.receiptStatus' });
+      const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
 
-    expect(receivingWorkflowField).toHaveValue('false');
+      expect(receivingWorkflowField).toHaveValue('false');
 
-    await userEvent.selectOptions(receiptStatusField, RECEIPT_STATUS.receiptNotRequired);
+      await userEvent.selectOptions(receiptStatusField, RECEIPT_STATUS.receiptNotRequired);
 
-    expect(receivingWorkflowField).toHaveValue('true');
-    expect(receivingWorkflowField).toBeDisabled();
+      expect(receivingWorkflowField).toHaveValue('true');
+      expect(receivingWorkflowField).toBeDisabled();
+    });
+
+    it('should confirm modal when a user selects \'Receipt not required\' on open order', async () => {
+      renderPOLineDetailsForm(
+        {
+          order: { workflowStatus: WORKFLOW_STATUS.open },
+        },
+        { checkinItems: false },
+      );
+
+      const receiptStatusField = screen.getByRole('combobox', { name: 'ui-orders.poLine.receiptStatus' });
+      const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
+
+      expect(receivingWorkflowField).toHaveValue('false');
+
+      await userEvent.selectOptions(receiptStatusField, RECEIPT_STATUS.receiptNotRequired);
+
+      expect(receivingWorkflowField).toHaveValue('false');
+      expect(screen.getByText('ui-orders.poLine.receivingWorkflow.confirmModal.heading')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole('button', { name: 'stripes-core.button.confirm' }));
+
+      expect(receiptStatusField).toHaveValue(RECEIPT_STATUS.receiptNotRequired);
+      expect(receivingWorkflowField).toHaveValue('true');
+      expect(receivingWorkflowField).toBeDisabled();
+    });
+
+    it('should cancel modal when a user selects \'Receipt not required\' on open order', async () => {
+      renderPOLineDetailsForm(
+        {
+          order: { workflowStatus: WORKFLOW_STATUS.open },
+        },
+        {
+          checkinItems: false,
+          receiptStatus: RECEIPT_STATUS.awaitingReceipt,
+        },
+      );
+
+      const receiptStatusField = screen.getByRole('combobox', { name: 'ui-orders.poLine.receiptStatus' });
+      const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
+
+      expect(receivingWorkflowField).toHaveValue('false');
+
+      await userEvent.selectOptions(receiptStatusField, RECEIPT_STATUS.receiptNotRequired);
+
+      expect(receivingWorkflowField).toHaveValue('false');
+      expect(screen.getByText('ui-orders.poLine.receivingWorkflow.confirmModal.heading')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole('button', { name: 'stripes-components.cancel' }));
+
+      /* No changes */
+      expect(receiptStatusField).toHaveValue(RECEIPT_STATUS.awaitingReceipt);
+      expect(receivingWorkflowField).toHaveValue('false');
+      expect(receivingWorkflowField).not.toBeDisabled();
+    });
+  });
+
+  describe('Receiving workflow change', () => {
+    it('should confirm modal when a user selects \'Independent order and receipt quantity\' on open order', async () => {
+      renderPOLineDetailsForm(
+        {
+          order: { workflowStatus: WORKFLOW_STATUS.open },
+        },
+        { checkinItems: false },
+      );
+
+      const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
+
+      expect(receivingWorkflowField).toHaveValue('false');
+
+      await userEvent.selectOptions(receivingWorkflowField, 'true');
+
+      expect(screen.getByText('ui-orders.poLine.receivingWorkflow.confirmModal.heading')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole('button', { name: 'stripes-core.button.confirm' }));
+
+      expect(receivingWorkflowField).toHaveValue('true');
+    });
+
+    it('should cancel modal when a user selects \'Independent order and receipt quantity\' on open order', async () => {
+      renderPOLineDetailsForm(
+        {
+          order: { workflowStatus: WORKFLOW_STATUS.open },
+        },
+        { checkinItems: false },
+      );
+
+      const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
+
+      expect(receivingWorkflowField).toHaveValue('false');
+
+      await userEvent.selectOptions(receivingWorkflowField, 'true');
+
+      expect(screen.getByText('ui-orders.poLine.receivingWorkflow.confirmModal.heading')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole('button', { name: 'stripes-components.cancel' }));
+
+      /* No changes */
+      expect(receivingWorkflowField).toHaveValue('false');
+    });
   });
 
   it('should clear the \'Claiming interval\' field when a user unchecked \'Claiming active\' checkbox', async () => {
