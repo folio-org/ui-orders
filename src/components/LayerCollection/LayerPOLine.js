@@ -43,6 +43,7 @@ import {
 
 import {
   ERROR_CODES,
+  PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE,
   SUBMIT_ACTION_FIELD,
   VALIDATION_ERRORS,
   WORKFLOW_STATUS,
@@ -95,8 +96,6 @@ const parseErrorMessage = (code) => {
 
   return messageCode;
 };
-
-const FIELD_ARRAYS_TO_HYDRATE = ['locations'];
 
 const handleVendorLoadingError = async (response, sendCallout) => {
   const { handler } = await ResponseErrorsContainer.create(response);
@@ -657,7 +656,7 @@ function LayerPOLine({
         integrationConfigs={integrationConfigs}
         isCreateFromInstance={isCreateFromInstance}
         instance={instance}
-        fieldArraysToHydrate={FIELD_ARRAYS_TO_HYDRATE}
+        fieldArraysToHydrate={PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE}
         centralOrdering={isCentralOrderingEnabled}
       />
       {isLinesLimitExceededModalOpened && (

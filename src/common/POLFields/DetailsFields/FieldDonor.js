@@ -1,10 +1,18 @@
-import { Field, useForm } from 'react-final-form';
+import {
+  Field,
+  useForm,
+} from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes-acq-components';
-import { IconButton, InfoPopover } from '@folio/stripes/components';
+import {
+  IconButton,
+  InfoPopover,
+} from '@folio/stripes/components';
 
-const FIELD_NAME = 'donor';
+import { POL_FORM_FIELDS } from '../../constants';
+
+const FIELD_NAME = POL_FORM_FIELDS.donor_DEPRECATED;
 
 const FieldDonor = () => {
   const { change, getFieldState } = useForm();
