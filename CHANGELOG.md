@@ -16,10 +16,14 @@
 * Memoize the callback used in `useEffect`. Fixes UIOR-1423.
 * Fix "Activation due" date in the export CSV report. Fixes UIOR-1427.
 * Allow users to edit package name for an open order. Refs UIOR-1430.
-* Add `OCLC` number to list of valid product identifier types. Refs UIOR-1440.
 * Format the "Publishers" column to avoid displaying nullish values. Fixes UIOR-1436.
 * Display an error toast only when PO Line locations violate fund restrictions. Fixes UIOR-1420.
 * Display the fiscal year in which an order was opened. Fixes UIOR-1403.
+
+## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
+
+* Add `OCLC` number to list of valid product identifier types. Refs UIOR-1440.
 
 ## [8.0.4](https://github.com/folio-org/ui-orders/tree/v8.0.4) (2025-06-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.3...v8.0.4)
