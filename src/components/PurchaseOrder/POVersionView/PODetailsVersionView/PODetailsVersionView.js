@@ -12,7 +12,7 @@ import {
   VersionCheckbox,
   VersionKeyValue,
 } from '../../../../common/VersionView';
-import { isWorkflowStatusOpen } from '../../util';
+import { isWorkflowStatusNotPending } from '../../util';
 
 export const PODetailsVersionView = ({ version }) => {
   return (
@@ -151,30 +151,34 @@ export const PODetailsVersionView = ({ version }) => {
           />
         </Col>
 
-        {isWorkflowStatusOpen(version) && (
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <VersionKeyValue
-              name="dateOrdered"
-              label={<FormattedMessage id="ui-orders.orderDetails.dateOpened" />}
-              value={<FolioFormattedTime dateString={version?.dateOrdered} />}
-            />
-          </Col>
-        )}
+        {isWorkflowStatusNotPending(version) && (
+          <>
+            {Boolean(version?.dateOrdered) && (
+              <Col
+                xs={6}
+                lg={3}
+              >
+                <VersionKeyValue
+                  name="dateOrdered"
+                  label={<FormattedMessage id="ui-orders.orderDetails.dateOpened" />}
+                  value={<FolioFormattedTime dateString={version.dateOrdered} />}
+                />
+              </Col>
+            )}
 
-        {Boolean(version?.fiscalYearId) && (
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <VersionKeyValue
-              name="fiscalYearId"
-              label={<FormattedMessage id="ui-orders.orderDetails.yearOpened" />}
-              value={version?.fiscalYear}
-            />
-          </Col>
+            {Boolean(version?.fiscalYearId) && (
+              <Col
+                xs={6}
+                lg={3}
+              >
+                <VersionKeyValue
+                  name="fiscalYearId"
+                  label={<FormattedMessage id="ui-orders.orderDetails.yearOpened" />}
+                  value={version.fiscalYear}
+                />
+              </Col>
+            )}
+          </>
         )}
 
         <Col xs={12}>

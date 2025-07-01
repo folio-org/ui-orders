@@ -16,7 +16,7 @@ const isLineAbleToBeReceived = (line = { cost: {} }) => {
   return isNotCheckin && hasQuantity && hasCorrectReceiptStatus;
 };
 
-const isWorkflowStatusNotPending = (order) => {
+export const isWorkflowStatusNotPending = (order) => {
   const { workflowStatus } = order;
 
   return workflowStatus !== ORDER_STATUSES.pending;
