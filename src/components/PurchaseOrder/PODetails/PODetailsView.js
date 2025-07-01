@@ -21,7 +21,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { FiscalYearOpenedView } from '../components';
-import { isWorkflowStatusOpen } from '../util';
+import { isWorkflowStatusNotPending } from '../util';
 import UserValue from './UserValue';
 
 import css from './PODetailsView.css';
@@ -188,24 +188,28 @@ const PODetailsView = ({
           </KeyValue>
         </Col>
 
-        {isWorkflowStatusOpen(order) && (
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.dateOpened" />}>
-              <FolioFormattedTime dateString={order?.dateOrdered} />
-            </KeyValue>
-          </Col>
-        )}
+        {isWorkflowStatusNotPending(order) && (
+          <>
+            {Boolean(order?.dateOrdered) && (
+              <Col
+                xs={6}
+                lg={3}
+              >
+                <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.dateOpened" />}>
+                  <FolioFormattedTime dateString={order.dateOrdered} />
+                </KeyValue>
+              </Col>
+            )}
 
-        {Boolean(order?.fiscalYearId) && (
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <FiscalYearOpenedView fiscalYearId={order.fiscalYearId} />
-          </Col>
+            {Boolean(order?.fiscalYearId) && (
+              <Col
+                xs={6}
+                lg={3}
+              >
+                <FiscalYearOpenedView fiscalYearId={order.fiscalYearId} />
+              </Col>
+            )}
+          </>
         )}
 
         <IfVisible visible={!hiddenFields.poNotes}>
