@@ -691,7 +691,6 @@
     "orderDetails.manualPO.info": "이 체크박스가 활성화되면 주문이 자동 전송에서 제외됩니다. 주문 라인 또는 관련 공급사에 대해 활성화 상태인 다른 설정은 상관 없습니다.",
     "poLine.automaticExport": "자동 반출",
     "poLine.receivingWorkflow": "수령(Receiving) 워크플로",
-    "poLine.receivingWorkflow.info": "동기화를 선택하면 주문 수량과 받을 조각 수가 동기화됩니다. 이것은 또한 하나를 업데이트하면 다른 하나도 업데이트됨을 의미합니다. 주문이 열리면 시스템은 수량 주문에 따라 조각을 생성합니다.",
     "poLine.receivingWorkflow.independent": "독립적인 주문 및 입고 수량",
     "poLine.receivingWorkflow.synchronized": "동기화된 주문 및 입고 수량",
     "poLine.manualPO.info": "이것은 수동 PO이므로 모든 POL은 자동화된 반출 워크플로에서 제외됩니다.",
@@ -930,5 +929,9 @@
     "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
     "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
     "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique",
-    "settings.orderTemplates.editor.template.categories": "Order template categories"
+    "settings.orderTemplates.editor.template.categories": "Order template categories",
+    "orderDetails.yearOpened": "Year opened",
+    "poLine.receivingWorkflow.infoPopover": "Selecting synchronized will keep the order quantity and the number of pieces to be received, in sync. This also means updating one will update the other. When the order is opened, the system will generate pieces based on the quantity order. Selecting “independent order and receipt quantity” will allow you to manage the number of receiving pieces and their locations independently. You can convert a POL to independent at anytime but you cannot convert back to synchronized when the order is open or closed.",
+    "poLine.receivingWorkflow.confirmModal.heading": "Update receiving workflow",
+    "poLine.receivingWorkflow.confirmModal.message": "You are about to change the receiving workflow to “Independent order and receipt quantity”. This change cannot be undone unless the order is unopened. Are you sure you want to continue?"
 }
