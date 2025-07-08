@@ -3,11 +3,17 @@ import { FormattedMessage } from 'react-intl';
 
 const NAME_REGEXP = new RegExp(/[^a-zA-Z\d]|^.{8,}$/);
 
-export const validatePrefixSuffixName = ({ name }) => ({
-  name: name?.match(NAME_REGEXP)
+export const validatePrefixSuffixName = (props) => {
+  const errors = {};
+  const name = props?.name?.match(NAME_REGEXP)
     ? <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
-    : undefined,
-});
+    : undefined;
+  if(name != undefined) {
+    errors['name'] = name;
+  }
+  return errors;
+};
+
 
 export const validateDuplicates = (intl, fieldNames = []) => (item, index, items) => {
   const results = fieldNames.reduce((acc, fieldName) => {
