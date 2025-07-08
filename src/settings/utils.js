@@ -1,3 +1,4 @@
+import { Checkbox } from '@folio/stripes/components';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -14,6 +15,9 @@ export const validatePrefixSuffixName = (props) => {
   return errors;
 };
 
+export const formatDeprecated = ({deprecated}) => {
+  return <Checkbox disabled checked={deprecated}/>;
+}
 
 export const validateDuplicates = (intl, fieldNames = []) => (item, index, items) => {
   const results = fieldNames.reduce((acc, fieldName) => {

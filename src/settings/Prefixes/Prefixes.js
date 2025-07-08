@@ -17,7 +17,7 @@ import {
 } from '@folio/stripes-acq-components';
 import { Checkbox } from "@folio/stripes/components";
 
-import { validatePrefixSuffixName } from '../utils';
+import { validatePrefixSuffixName, formatDeprecated } from '../utils';
 
 const prefixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
@@ -41,6 +41,10 @@ const checkboxFieldType = ({ fieldProps }) => (
 
 const fieldComponents = {
   deprecated: checkboxFieldType,
+};
+
+const formatter = {
+  deprecated: formatDeprecated
 };
 
 class Prefixes extends Component {
@@ -71,6 +75,7 @@ class Prefixes extends Component {
           visibleFields={prefixVisibleFields}
           validate={validatePrefixSuffixName}
           fieldComponents={fieldComponents}
+          formatter={formatter}
         />
       </TitleManager>
     );
