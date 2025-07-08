@@ -304,10 +304,28 @@ const POForm = ({
     ? getPaneFooter('clickable-update-purchase-order', 'stripes-components.saveAndClose')
     : getPaneFooter('clickable-create-new-purchase-order', buttonLabelId);
 
-  const prefixesSetting = get(parentResources, 'prefixesSetting.records', [])
-    .map(({ name }) => ({ label: name, value: name }));
-  const suffixesSetting = get(parentResources, 'suffixesSetting.records', [])
-    .map(({ name }) => ({ label: name, value: name }));
+  const getPrefixSuffixOptions = useCallback((records, selectedValue) =>
+    records
+      .filter(({ name, deprecated }) => !deprecated || name === selectedValue)
+      .map(({ name, deprecated }) => ({
+        label: deprecated ? `${name} (deprecated)` : name,
+        value: name,
+      }))
+    , []);
+
+  // values are set on once and do not change on formValues changes
+  const poNumberPrefixRef = useRef(get(formValues, 'poNumberPrefix', ''));
+  const poNumberSuffixRef = useRef(get(formValues, 'poNumberSuffix', ''));
+
+  const prefixesSetting = getPrefixSuffixOptions(
+    get(parentResources, 'prefixesSetting.records', []),
+    poNumberPrefixRef.current
+  );
+
+  const suffixesSetting = getPrefixSuffixOptions(
+    get(parentResources, 'suffixesSetting.records', []),
+    poNumberSuffixRef.current
+  );
 
   const shortcuts = [
     {
