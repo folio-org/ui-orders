@@ -4,6 +4,7 @@ import {
   FormattedMessage,
   injectIntl,
 } from 'react-intl';
+import { Field } from 'react-final-form';
 
 import {
   stripesShape,
@@ -34,9 +35,7 @@ const checkboxFieldType = ({ fieldProps }) => (
   <Field
     {...fieldProps}
     component={Checkbox}
-    marginBottom0
-    fullWidth
-    usePortal
+    type="checkbox"
   />
 );
 
@@ -56,6 +55,7 @@ class Prefixes extends Component {
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefixes' })}>
         <this.connectedControlledVocab
+          formType="final-form"
           baseUrl={PREFIXES_API}
           columnMapping={prefixColumnMapping}
           editable
