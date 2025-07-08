@@ -446,6 +446,7 @@
     "order.saveError.title": "Bestellung nicht gespeichert",
     "settings.poNumber.modifier.name": "Name",
     "settings.poNumber.modifier.description": "Beschreibung",
+    "settings.poNumber.modifier.deprecated": "Veraltet",
     "settings.poNumber.prefix": "Präfix",
     "settings.poNumber.suffix": "Suffix",
     "errors.openOrder": "<b>Bestellung - {orderNumber}</b> wurde nicht <b>geöffnet</b>",
