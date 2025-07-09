@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 import { Field } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
@@ -304,11 +304,16 @@ const POForm = ({
     ? getPaneFooter('clickable-update-purchase-order', 'stripes-components.saveAndClose')
     : getPaneFooter('clickable-create-new-purchase-order', buttonLabelId);
 
+  const intl = useIntl();
+  const deprecatedText = intl.formatMessage({
+    id: "ui-orders.orderDetails.deprecated",
+  });
+
   const getPrefixSuffixOptions = useCallback((records, selectedValue) =>
     records
       .filter(({ name, deprecated }) => !deprecated || name === selectedValue)
       .map(({ name, deprecated }) => ({
-        label: deprecated ? `${name} (deprecated)` : name,
+        label: deprecated ? `${name} (${deprecatedText})` : name,
         value: name,
       }))
     , []);

@@ -64,6 +64,7 @@
     "orderDetails.billTo": "Rechnungsadresse",
     "orderDetails.createdBy": "Erstellt von",
     "orderDetails.createdOn": "Erstellt am",
+    "orderDetails.deprecated": "veraltet",
     "orderDetails.orderType": "Bestellungstyp",
     "orderDetails.poNumber": "Bestellnummer",
     "orderDetails.shipTo": "Lieferadresse",

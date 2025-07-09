@@ -451,6 +451,7 @@
   "orderDetails.billTo": "Bill to",
   "orderDetails.createdBy": "Created by",
   "orderDetails.createdOn": "Created on",
+  "orderDetails.deprecated": "deprecated",
   "orderDetails.manualPO": "Manual",
   "orderDetails.manualPO.info": "When this checkbox is active the order will be excluded from any automated transmission. No matter what other settings are active for the order lines or related organization.",
   "orderDetails.note": "Note",
