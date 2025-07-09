@@ -20,6 +20,7 @@
 * Display an error toast only when PO Line locations violate fund restrictions. Fixes UIOR-1420.
 * Display the fiscal year in which an order was opened. Fixes UIOR-1403.
 * Automatically set to `Independent order and receipt quantity` if a user selects `Receipt not required` for opened order. UIOR-1243.
+* *BREAKING* Update for Split Search & Browse APIs. Refs UIOR-1452.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
