@@ -54,7 +54,7 @@
       "pieces": "2.0 3.0",
       "po-number": "1.0",
       "receiving": "1.0 2.0",
-      "search": "0.6 1.0",
+      "search-inventory": "1.0",
       "tags": "1.0",
       "template-engine": "2.0",
       "titles": "1.2",
