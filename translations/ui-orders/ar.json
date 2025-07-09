@@ -691,7 +691,6 @@
     "orderDetails.manualPO.info": "عندما يكون مربع الاختيار هذا نشطاً، سيتم استبعاد الطلبية من أي إرسال مؤتمت. بغض النظر عن الإعدادات الأخرى النشطة لسطور الطلبية أو المؤسسة ذات الصلة.",
     "poLine.automaticExport": "تصدير تلقائي",
     "poLine.receivingWorkflow": "سير عمل الاستلام",
-    "poLine.receivingWorkflow.info": "سيؤدي تحديد متزامن إلى الحفاظ على مزامنة كمية الطلبية وعدد القطع المراد استلامها. مما يعني أيضًا أن تحديث أحدهما سيؤدي إلى تحديث الآخر. عند فتح الطلبية، سيقوم النظام بتوليد قطع بناءً على طلبية الكمية.",
     "poLine.receivingWorkflow.independent": "كمية أوامر الشراء والاستلام المستقل",
     "poLine.receivingWorkflow.synchronized": "كمية أوامر الشراء والاستلام المتزامنة",
     "poLine.manualPO.info": "هذا أمر شراء يدوي، لذا يتم استبعاد كل سطور أمر الشراء من مهام سير عمل التصدير المؤتمتة",
@@ -930,5 +929,9 @@
     "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
     "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
     "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique",
-    "settings.orderTemplates.editor.template.categories": "Order template categories"
+    "settings.orderTemplates.editor.template.categories": "Order template categories",
+    "orderDetails.yearOpened": "Year opened",
+    "poLine.receivingWorkflow.infoPopover": "Selecting synchronized will keep the order quantity and the number of pieces to be received, in sync. This also means updating one will update the other. When the order is opened, the system will generate pieces based on the quantity order. Selecting “independent order and receipt quantity” will allow you to manage the number of receiving pieces and their locations independently. You can convert a POL to independent at anytime but you cannot convert back to synchronized when the order is open or closed.",
+    "poLine.receivingWorkflow.confirmModal.heading": "Update receiving workflow",
+    "poLine.receivingWorkflow.confirmModal.message": "You are about to change the receiving workflow to “Independent order and receipt quantity”. This change cannot be undone unless the order is unopened. Are you sure you want to continue?"
 }

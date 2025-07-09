@@ -691,7 +691,6 @@
     "orderDetails.manualPO.info": "当此复选框被激活时，订单将被排除在任何自动传输之外。无论订单行或相关组织有哪些其他设置处于激活状态。",
     "poLine.automaticExport": "自动导出",
     "poLine.receivingWorkflow": "接收工作流程",
-    "poLine.receivingWorkflow.info": "选择同步将使订单数量和接收件数保持同步。这也意味着更新一个将更新另一个。订单打开后，系统会根据数量订单生成件。",
     "poLine.receivingWorkflow.independent": "独立订单和接收数量",
     "poLine.receivingWorkflow.synchronized": "同步订单和接收数量",
     "poLine.manualPO.info": "这是人工采购订单，因此所有采购订单行都被排除在自动导出工作流程之外",
@@ -930,5 +929,9 @@
     "settings.orderTemplateCategories.termDeleted": "类别<b> {term} </b>已成功<b>删除</b>",
     "settings.orderTemplateCategories.termWillBeDeleted": "订单模板类别<b> {term} </b>将被<b>删除。 </b>",
     "settings.orderTemplateCategories.validation.duplicates": "类别名称必须唯一",
-    "settings.orderTemplates.editor.template.categories": "订单模板类别"
+    "settings.orderTemplates.editor.template.categories": "订单模板类别",
+    "orderDetails.yearOpened": "Year opened",
+    "poLine.receivingWorkflow.infoPopover": "Selecting synchronized will keep the order quantity and the number of pieces to be received, in sync. This also means updating one will update the other. When the order is opened, the system will generate pieces based on the quantity order. Selecting “independent order and receipt quantity” will allow you to manage the number of receiving pieces and their locations independently. You can convert a POL to independent at anytime but you cannot convert back to synchronized when the order is open or closed.",
+    "poLine.receivingWorkflow.confirmModal.heading": "Update receiving workflow",
+    "poLine.receivingWorkflow.confirmModal.message": "You are about to change the receiving workflow to “Independent order and receipt quantity”. This change cannot be undone unless the order is unopened. Are you sure you want to continue?"
 }

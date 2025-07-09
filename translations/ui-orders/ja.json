@@ -691,7 +691,6 @@
     "orderDetails.manualPO.info": "このチェックボックスが有効になっている場合、注文明細行または関連する組織に対して有効な他の設定に関係なく注文は自動送信から除外されます。",
     "poLine.automaticExport": "自動エクスポート",
     "poLine.receivingWorkflow": "受入ワークフロー",
-    "poLine.receivingWorkflow.info": "同期を選択すると、注文数量と受入個数が同期された状態になります。これは、一方を更新すると、もう一方も更新されることを意味します。注文がオープンになると、システムは注文数量に基づいて「個数」を生成します。",
     "poLine.receivingWorkflow.independent": "Independent order and receipt quantity",
     "poLine.receivingWorkflow.synchronized": "Synchronized order and receipt quantity",
     "poLine.manualPO.info": "これは手動発注なので、すべての発注明細は自動エクスポートワークフローから除外されます",
@@ -860,7 +859,7 @@
     "errors.poLineHasLocationRestrictedFund": "Location-restricted fund applied to invalid location",
     "errors.templateNameNotUnique": "このテンプレート名はすでに存在するため、発注テンプレートを保存できませんでした。",
     "document.title.search": "発注 - {query} - 検索",
-    "cost.calculatedTotalExchangeAmount": "Calculated total amount (Exchanged)",
+    "cost.calculatedTotalExchangeAmount": "計算済合計額（Exchanged）",
     "settings.routing.label": "Routing",
     "settings.routing.listConfiguration": "List configuration",
     "settings.routing.listConfiguration.description": "説明",
@@ -930,5 +929,9 @@
     "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
     "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
     "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique",
-    "settings.orderTemplates.editor.template.categories": "Order template categories"
+    "settings.orderTemplates.editor.template.categories": "Order template categories",
+    "orderDetails.yearOpened": "Year opened",
+    "poLine.receivingWorkflow.infoPopover": "Selecting synchronized will keep the order quantity and the number of pieces to be received, in sync. This also means updating one will update the other. When the order is opened, the system will generate pieces based on the quantity order. Selecting “independent order and receipt quantity” will allow you to manage the number of receiving pieces and their locations independently. You can convert a POL to independent at anytime but you cannot convert back to synchronized when the order is open or closed.",
+    "poLine.receivingWorkflow.confirmModal.heading": "Update receiving workflow",
+    "poLine.receivingWorkflow.confirmModal.message": "You are about to change the receiving workflow to “Independent order and receipt quantity”. This change cannot be undone unless the order is unopened. Are you sure you want to continue?"
 }

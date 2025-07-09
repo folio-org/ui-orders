@@ -691,7 +691,6 @@
     "orderDetails.manualPO.info": "Quando esta caixa de seleção estiver ativa, o pedido será excluído de qualquer transmissão automatizada. Não importa quais outras configurações estejam ativas para as linhas de pedido ou organização relacionada.",
     "poLine.automaticExport": "Exportação automática",
     "poLine.receivingWorkflow": "Fluxo de recebimento",
-    "poLine.receivingWorkflow.info": "A seleção sincronizada manterá a quantidade do pedido e o número de partes a serem recebidas, em sincronia. Isto também significa que ao atualizar um, também atualizará o outro. Quando o pedido é aberto, o sistema gerará partes com base na quantidade pedida.",
     "poLine.receivingWorkflow.independent": "Quantidade independente de pedidos e recebimentos",
     "poLine.receivingWorkflow.synchronized": "Quantidade sincronizada de ordem e recebimento",
     "poLine.manualPO.info": "Esta é umo pedido de compra manual, portanto todas as linhas de pedido serão excluídas dos fluxos automatizados de exportação",
@@ -930,5 +929,9 @@
     "settings.orderTemplateCategories.termDeleted": "A categoria <b>{term}</b> foi <b>excluída</b> com sucesso",
     "settings.orderTemplateCategories.termWillBeDeleted": "A categoria de modelo de pedido <b>{term}</b> será <b>excluída.</b>",
     "settings.orderTemplateCategories.validation.duplicates": "O nome da categoria deve ser único",
-    "settings.orderTemplates.editor.template.categories": "Categorias de modelos de pedidos"
+    "settings.orderTemplates.editor.template.categories": "Categorias de modelos de pedidos",
+    "orderDetails.yearOpened": "Ano de abertura",
+    "poLine.receivingWorkflow.infoPopover": "Selecionar \"sincronizado\" manterá a quantidade do pedido e o número de peças a serem recebidas sincronizados. Isso também significa que atualizar um atualizará o outro. Quando o pedido for aberto, o sistema gerará peças com base na quantidade do pedido. Selecionar \"pedido independente e quantidade de recebimento\" permitirá que você gerencie o número de peças recebidas e suas localizações de forma independente. Você pode converter uma linha do pedido de compra para independente a qualquer momento, mas não pode converter novamente para sincronizado quando o pedido estiver aberto ou fechado.",
+    "poLine.receivingWorkflow.confirmModal.heading": "Atualizar fluxo de trabalho de recebimento",
+    "poLine.receivingWorkflow.confirmModal.message": "Você está prestes a alterar o fluxo de trabalho de recebimento para \"Pedido independente e quantidade de recebimento\". Essa alteração não pode ser desfeita, a menos que o pedido não tenha sido aberto. Tem certeza de que deseja continuar?"
 }

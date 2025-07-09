@@ -691,7 +691,6 @@
     "orderDetails.manualPO.info": "當此選項框被勾選時，訂單將被排除在任何自動傳輸之外。無論訂單細項或相關組織有哪些其他設定處於啟用狀態。",
     "poLine.automaticExport": "自動匯出",
     "poLine.receivingWorkflow": "收貨工作流程",
-    "poLine.receivingWorkflow.info": "選擇同步將使訂單數量和收貨件數保持同步。這也意味著更新一個將更新另一個。訂單開啟後，系統會根據訂單數量產生件數。",
     "poLine.receivingWorkflow.independent": "獨立的訂單和收貨數量",
     "poLine.receivingWorkflow.synchronized": "同步訂單和收貨數量",
     "poLine.manualPO.info": "這是一個手動採購訂單，因此所有訂單細項都被排除在自動匯出的工作流程之外",
@@ -930,5 +929,9 @@
     "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
     "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
     "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique",
-    "settings.orderTemplates.editor.template.categories": "Order template categories"
+    "settings.orderTemplates.editor.template.categories": "Order template categories",
+    "orderDetails.yearOpened": "Year opened",
+    "poLine.receivingWorkflow.infoPopover": "Selecting synchronized will keep the order quantity and the number of pieces to be received, in sync. This also means updating one will update the other. When the order is opened, the system will generate pieces based on the quantity order. Selecting “independent order and receipt quantity” will allow you to manage the number of receiving pieces and their locations independently. You can convert a POL to independent at anytime but you cannot convert back to synchronized when the order is open or closed.",
+    "poLine.receivingWorkflow.confirmModal.heading": "Update receiving workflow",
+    "poLine.receivingWorkflow.confirmModal.message": "You are about to change the receiving workflow to “Independent order and receipt quantity”. This change cannot be undone unless the order is unopened. Are you sure you want to continue?"
 }

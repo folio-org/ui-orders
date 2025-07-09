@@ -691,7 +691,6 @@
     "orderDetails.manualPO.info": "Cuando esta casilla de verificación esté activa, el pedido se excluirá de cualquier transmisión automatizada. No importa qué otras configuraciones estén activas para las líneas de pedido u organización relacionada.",
     "poLine.automaticExport": "Exportación automática",
     "poLine.receivingWorkflow": "Flujo de trabajo de recepción",
-    "poLine.receivingWorkflow.info": "Al seleccionar sincronizado, se mantendrá sincronizada la cantidad del pedido y el número de piezas a recibir. Esto también significa que actualizar uno actualizará al otro. Cuando se abre el pedido, el sistema generará piezas basadas en la cantidad del pedido.",
     "poLine.receivingWorkflow.independent": "Cantidad de pedido y recepción independientes",
     "poLine.receivingWorkflow.synchronized": "Sincronización de la cantidad pedida y recibida",
     "poLine.manualPO.info": "Se trata de un pedido manual, por lo que todos los POL están excluidos de los flujos de exportación automatizados.",
@@ -930,5 +929,9 @@
     "settings.orderTemplateCategories.termDeleted": "The category <b>{term}</b> was successfully <b>deleted</b>",
     "settings.orderTemplateCategories.termWillBeDeleted": "The order template category <b>{term}</b> will be <b>deleted.</b>",
     "settings.orderTemplateCategories.validation.duplicates": "Category name must be unique",
-    "settings.orderTemplates.editor.template.categories": "Order template categories"
+    "settings.orderTemplates.editor.template.categories": "Order template categories",
+    "orderDetails.yearOpened": "Year opened",
+    "poLine.receivingWorkflow.infoPopover": "Selecting synchronized will keep the order quantity and the number of pieces to be received, in sync. This also means updating one will update the other. When the order is opened, the system will generate pieces based on the quantity order. Selecting “independent order and receipt quantity” will allow you to manage the number of receiving pieces and their locations independently. You can convert a POL to independent at anytime but you cannot convert back to synchronized when the order is open or closed.",
+    "poLine.receivingWorkflow.confirmModal.heading": "Update receiving workflow",
+    "poLine.receivingWorkflow.confirmModal.message": "You are about to change the receiving workflow to “Independent order and receipt quantity”. This change cannot be undone unless the order is unopened. Are you sure you want to continue?"
 }
