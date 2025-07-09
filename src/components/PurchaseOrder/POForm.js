@@ -55,6 +55,7 @@ import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import { getFullOrderNumber } from '../Utils/orderResource';
+import { getPrefixSuffixOptions } from './util';
 
 import {
   ACCORDION_ID,
@@ -309,27 +310,20 @@ const POForm = ({
     id: "ui-orders.orderDetails.deprecated",
   });
 
-  const getPrefixSuffixOptions = useCallback((records, selectedValue) =>
-    records
-      .filter(({ name, deprecated }) => !deprecated || name === selectedValue)
-      .map(({ name, deprecated }) => ({
-        label: deprecated ? `${name} (${deprecatedText})` : name,
-        value: name,
-      }))
-    , []);
-
   // values are set on once and do not change on formValues changes
   const poNumberPrefixRef = useRef(get(formValues, 'poNumberPrefix', ''));
   const poNumberSuffixRef = useRef(get(formValues, 'poNumberSuffix', ''));
 
   const prefixesSetting = getPrefixSuffixOptions(
     get(parentResources, 'prefixesSetting.records', []),
-    poNumberPrefixRef.current
+    poNumberPrefixRef.current,
+    deprecatedText
   );
 
   const suffixesSetting = getPrefixSuffixOptions(
     get(parentResources, 'suffixesSetting.records', []),
-    poNumberSuffixRef.current
+    poNumberSuffixRef.current,
+    deprecatedText
   );
 
   const shortcuts = [
