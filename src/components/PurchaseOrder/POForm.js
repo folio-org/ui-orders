@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 import { Field } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
@@ -55,6 +55,7 @@ import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import { getFullOrderNumber } from '../Utils/orderResource';
+import { getPrefixSuffixOptions } from './util';
 
 import {
   ACCORDION_ID,
@@ -304,10 +305,26 @@ const POForm = ({
     ? getPaneFooter('clickable-update-purchase-order', 'stripes-components.saveAndClose')
     : getPaneFooter('clickable-create-new-purchase-order', buttonLabelId);
 
-  const prefixesSetting = get(parentResources, 'prefixesSetting.records', [])
-    .map(({ name }) => ({ label: name, value: name }));
-  const suffixesSetting = get(parentResources, 'suffixesSetting.records', [])
-    .map(({ name }) => ({ label: name, value: name }));
+  const intl = useIntl();
+  const deprecatedText = intl.formatMessage({
+    id: "ui-orders.orderDetails.deprecated",
+  });
+
+  // values are set on once and do not change on formValues changes
+  const poNumberPrefixRef = useRef(get(formValues, 'poNumberPrefix', ''));
+  const poNumberSuffixRef = useRef(get(formValues, 'poNumberSuffix', ''));
+
+  const prefixesSetting = getPrefixSuffixOptions(
+    get(parentResources, 'prefixesSetting.records', []),
+    poNumberPrefixRef.current,
+    deprecatedText
+  );
+
+  const suffixesSetting = getPrefixSuffixOptions(
+    get(parentResources, 'suffixesSetting.records', []),
+    poNumberSuffixRef.current,
+    deprecatedText
+  );
 
   const shortcuts = [
     {

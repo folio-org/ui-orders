@@ -122,3 +122,12 @@ export const getPoFieldsLabelMap = () => {
     'closeReason.note': 'ui-orders.orderSummary.closingNote',
   };
 };
+
+
+export const getPrefixSuffixOptions = (records, selectedValue, deprecatedText) =>
+    records
+      .filter(({ name, deprecated }) => !deprecated || name === selectedValue)
+      .map(({ name, deprecated }) => ({
+        label: deprecated ? `${name} (${deprecatedText})` : name,
+        value: name,
+      }));
