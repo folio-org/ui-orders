@@ -1,5 +1,9 @@
-import { validateDuplicates, validatePrefixSuffixName } from './utils';
 import { FormattedMessage } from 'react-intl';
+
+import {
+  validateDuplicates,
+  validatePrefixSuffixName,
+} from './utils';
 
 describe('validateDuplicates', () => {
   const mockIntl = {
