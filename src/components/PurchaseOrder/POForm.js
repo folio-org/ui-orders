@@ -388,7 +388,7 @@ const POForm = ({
                               dataOptions={orderTemplates}
                               onChange={onChangeTemplate}
                               labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                              name="template"
+                              name={PO_FORM_FIELDS.template}
                               id="order-template"
                               disabled={Boolean(poLinesLength)}
                             />

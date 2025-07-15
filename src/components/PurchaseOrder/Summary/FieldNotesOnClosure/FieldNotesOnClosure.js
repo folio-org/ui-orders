@@ -4,8 +4,10 @@ import { Field } from 'react-final-form';
 
 import { TextArea } from '@folio/stripes/components';
 
+import { PO_FORM_FIELDS } from '../../../../common/constants';
+
 export const FieldNotesOnClosure = ({
-  name = 'closeReason.note',
+  name = PO_FORM_FIELDS.closeReasonNote,
   ...props
 }) => {
   return (

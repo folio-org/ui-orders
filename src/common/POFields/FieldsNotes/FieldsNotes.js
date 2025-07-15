@@ -1,13 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FieldArray } from 'react-final-form-arrays';
 
 import NotesForm from '../../../components/NotesForm';
+import { PO_FORM_FIELDS } from '../../constants';
 
-const FieldsNotes = ({ required }) => {
+const FieldsNotes = ({ required = false }) => {
   return (
     <FieldArray
-      name="notes"
+      name={PO_FORM_FIELDS.notes}
       component={NotesForm}
       validateFields={[]}
       required={required}

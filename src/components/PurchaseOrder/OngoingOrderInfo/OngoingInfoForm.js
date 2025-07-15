@@ -13,6 +13,7 @@ import {
   VisibilityControl,
 } from '@folio/stripes-acq-components';
 
+import { PO_FORM_FIELDS } from '../../../common/constants';
 import {
   FieldRenewalInterval,
   FieldRenewalDate,
@@ -45,7 +46,10 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
       label={<FormattedMessage id="ui-orders.paneBlock.ongoingInfo" />}
     >
       <Row>
-        <IfFieldVisible visible={!hiddenFields.ongoing?.isSubscription} name="ongoing.isSubscription">
+        <IfFieldVisible
+          visible={!hiddenFields.ongoing?.isSubscription}
+          name={PO_FORM_FIELDS.isSubscription}
+        >
           <Col
             xs={6}
             md={3}
@@ -60,7 +64,10 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
         </IfFieldVisible>
         {!disabled && (
           <>
-            <IfFieldVisible visible={!hiddenFields.ongoing?.interval} name="ongoing.interval">
+            <IfFieldVisible
+              visible={!hiddenFields.ongoing?.interval}
+              name={PO_FORM_FIELDS.ongoingInterval}
+            >
               <Col
                 xs={6}
                 md={3}
@@ -74,7 +81,10 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
               </Col>
             </IfFieldVisible>
 
-            <IfFieldVisible visible={!hiddenFields.ongoing?.renewalDate} name="ongoing.renewalDate">
+            <IfFieldVisible
+              visible={!hiddenFields.ongoing?.renewalDate}
+              name={PO_FORM_FIELDS.renewalDate}
+            >
               <Col
                 xs={6}
                 md={3}
@@ -88,7 +98,10 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
               </Col>
             </IfFieldVisible>
 
-            <IfFieldVisible visible={!hiddenFields.ongoing?.reviewPeriod} name="ongoing.reviewPeriod">
+            <IfFieldVisible
+              visible={!hiddenFields.ongoing?.reviewPeriod}
+              name={PO_FORM_FIELDS.reviewPeriod}
+            >
               <Col
                 xs={6}
                 md={3}
@@ -102,7 +115,10 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
               </Col>
             </IfFieldVisible>
 
-            <IfFieldVisible visible={!hiddenFields.ongoing?.manualRenewal} name="ongoing.manualRenewal">
+            <IfFieldVisible
+              visible={!hiddenFields.ongoing?.manualRenewal}
+              name={PO_FORM_FIELDS.manualRenewal}
+            >
               <Col
                 xs={6}
                 md={3}
@@ -116,7 +132,10 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
               </Col>
             </IfFieldVisible>
 
-            <IfFieldVisible visible={!hiddenFields.ongoing?.reviewDate} name="ongoing.reviewDate">
+            <IfFieldVisible
+              visible={!hiddenFields.ongoing?.reviewDate}
+              name={PO_FORM_FIELDS.reviewDate}
+            >
               <Col
                 xs={6}
                 md={3}
@@ -130,7 +149,10 @@ const OngoingInfoForm = ({ hiddenFields = {} }) => {
               </Col>
             </IfFieldVisible>
 
-            <IfFieldVisible visible={!hiddenFields.ongoing?.notes} name="ongoing.notes">
+            <IfFieldVisible
+              visible={!hiddenFields.ongoing?.notes}
+              name={PO_FORM_FIELDS.ongoingNotes}
+            >
               <Col
                 xs={6}
                 md={3}

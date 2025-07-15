@@ -1,17 +1,18 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { Checkbox } from '@folio/stripes/components';
 
-const FieldIsApproved = ({ disabled }) => {
+import { PO_FORM_FIELDS } from '../constants';
+
+const FieldIsApproved = ({ disabled = false }) => {
   return (
     <Field
       component={Checkbox}
       fullWidth
       label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
-      name="approved"
+      name={PO_FORM_FIELDS.approved}
       type="checkbox"
       disabled={disabled}
       vertical
@@ -22,10 +23,6 @@ const FieldIsApproved = ({ disabled }) => {
 
 FieldIsApproved.propTypes = {
   disabled: PropTypes.bool,
-};
-
-FieldIsApproved.defaultProps = {
-  disabled: false,
 };
 
 export default FieldIsApproved;

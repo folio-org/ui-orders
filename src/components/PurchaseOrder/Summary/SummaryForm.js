@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -13,6 +12,7 @@ import {
   IfFieldVisible,
 } from '@folio/stripes-acq-components';
 
+import { PO_FORM_FIELDS } from '../../../common/constants';
 import { FieldIsApproved } from '../../../common/POFields';
 import {
   isWorkflowStatusClosed,
@@ -42,7 +42,7 @@ const SummaryForm = ({ initialValues: order, hiddenFields = {} }) => (
     <IfPermission perm="orders.item.approve">
       <IfFieldVisible
         visible={!hiddenFields.approved}
-        name="approved"
+        name={PO_FORM_FIELDS.approved}
       >
         <Col
           xs={6}
