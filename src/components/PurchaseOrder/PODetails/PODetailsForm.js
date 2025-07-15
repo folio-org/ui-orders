@@ -151,6 +151,7 @@ class PODetailsForm extends Component {
               lg={3}
             >
               <AcqUnitsField
+                key={formValues?.acqUnitIds?.length}
                 id="order-acq-units"
                 name="acqUnitIds"
                 perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
@@ -260,6 +261,7 @@ class PODetailsForm extends Component {
               lg={3}
             >
               <FieldTags
+                key={formValues?.tags?.tagList?.length}
                 change={change}
                 formValues={formValues}
                 name="tags.tagList"
