@@ -1,4 +1,7 @@
-import { getPoFieldsLabelMap, getPrefixSuffixOptions } from './util';
+import {
+  getPoFieldsLabelMap,
+  getPrefixSuffixOptions,
+} from './util';
 
 describe('getPoFieldsLabelMap', () => {
   it('should return labels\' map of PO fields', () => {

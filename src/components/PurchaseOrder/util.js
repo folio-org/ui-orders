@@ -123,7 +123,6 @@ export const getPoFieldsLabelMap = () => {
   };
 };
 
-
 export const getPrefixSuffixOptions = (records, selectedValue, deprecatedText) =>
     records
       .filter(({ name, deprecated }) => !deprecated || name === selectedValue)

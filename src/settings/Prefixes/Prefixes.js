@@ -17,7 +17,10 @@ import {
 } from '@folio/stripes-acq-components';
 import { Checkbox } from "@folio/stripes/components";
 
-import { validatePrefixSuffixName, formatDeprecated } from '../utils';
+import {
+  formatDeprecated,
+  validatePrefixSuffixName,
+} from '../utils';
 
 const prefixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,

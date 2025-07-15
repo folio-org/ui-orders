@@ -8,7 +8,10 @@ import {
   useState,
 } from 'react';
 import { Field } from 'react-final-form';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import { withRouter } from 'react-router-dom';
 
 import stripesForm from '@folio/stripes/final-form';
