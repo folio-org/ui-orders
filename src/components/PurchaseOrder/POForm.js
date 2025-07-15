@@ -94,6 +94,8 @@ const POForm = ({
   parentResources,
   instanceId,
 }) => {
+  console.log('formValues', formValues);
+
   const [template, setTemplate] = useState();
   const [hiddenFields, setHiddenFields] = useState({});
 
@@ -271,16 +273,19 @@ const POForm = ({
       change(PO_FORM_FIELDS.ongoing, templateValue.ongoing || {});
     }
 
+    const filterRegisteredFields = (field) => !TEMPLATE_PERSISTED_REGISTERED_FIELDS.includes(field);
+    const changeRegisteredFields = (field) => {
+      const templateField = PO_TEMPLATE_FIELDS_MAP[field] || field;
+      const templateFieldValue = get(templateValue, templateField);
+
+      change(field, templateFieldValue);
+    };
+
     setTimeout(() => {
       batch(() => {
         getRegisteredFields()
-          .filter(field => !TEMPLATE_PERSISTED_REGISTERED_FIELDS.includes(field))
-          .forEach(field => {
-            const templateField = PO_TEMPLATE_FIELDS_MAP[field] || field;
-            const templateFieldValue = get(templateValue, templateField);
-
-            change(field, templateFieldValue);
-          });
+          .filter(filterRegisteredFields)
+          .forEach(changeRegisteredFields);
       });
     });
   }, [batch, change, getRegisteredFields, parentResources]);
