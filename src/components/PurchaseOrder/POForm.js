@@ -94,8 +94,6 @@ const POForm = ({
   parentResources,
   instanceId,
 }) => {
-  console.log('formValues', formValues);
-
   const [template, setTemplate] = useState();
   const [hiddenFields, setHiddenFields] = useState({});
 

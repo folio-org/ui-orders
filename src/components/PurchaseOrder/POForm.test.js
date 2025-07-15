@@ -96,14 +96,9 @@ const defaultProps = {
 };
 
 const renderPOForm = (props = {}) => render(
-  <Form
-    onSubmit={() => jest.fn()}
-    render={() => (
-      <POForm
-        {...defaultProps}
-        {...props}
-      />
-    )}
+  <POForm
+    {...defaultProps}
+    {...props}
   />,
   { wrapper: MemoryRouter },
 );
@@ -200,7 +195,7 @@ describe('POForm shortcuts', () => {
   });
 
   it('should clear fields after template change', async () => {
-    renderPOForm();
+    renderPOForm({ initialValues: {} });
 
     await user.selectOptions(screen.getByRole('combobox', { name: /orderType/ }), ORDER_TYPE.ongoing);
 
