@@ -22,6 +22,7 @@
 * Automatically set to `Independent order and receipt quantity` if a user selects `Receipt not required` for opened order. UIOR-1243.
 * *BREAKING* Update for Split Search & Browse APIs. Refs UIOR-1452.
 * Update "Unopened purchase order" modal message. Refs UIOR-1239.
+* Remove empty lines in drop-down menus in Settings > Orders > Number generator options. Refs UIOR-1457.
 * Show a hint for deprecated prefixes/suffixes. Do not list them on order purchase creation/edit. Add a deprecated checkbox in settings. UIOR-1450.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
