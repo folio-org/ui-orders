@@ -310,7 +310,7 @@ const POForm = ({
 
   const intl = useIntl();
   const deprecatedText = intl.formatMessage({
-    id: "ui-orders.orderDetails.deprecated",
+    id: 'ui-orders.orderDetails.deprecated',
   });
 
   // values are set on once and do not change on formValues changes

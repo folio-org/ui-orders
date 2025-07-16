@@ -15,7 +15,7 @@ import {
   getControlledVocabTranslations,
   SUFFIXES_API,
 } from '@folio/stripes-acq-components';
-import { Checkbox } from "@folio/stripes/components";
+import { Checkbox } from '@folio/stripes/components';
 
 import {
   formatDeprecated,
@@ -25,9 +25,7 @@ import {
 const suffixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
   description: <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />,
-  deprecated: (
-    <FormattedMessage id="ui-orders.settings.poNumber.modifier.deprecated" />
-  ),
+  deprecated: <FormattedMessage id="ui-orders.settings.poNumber.modifier.deprecated" />,
 };
 const suffixVisibleFields = ['name', 'description', 'deprecated'];
 const suffixHiddenFields = ['numberOfObjects', 'lastUpdated'];
@@ -36,7 +34,7 @@ const checkboxFieldType = ({ fieldProps }) => (
   <Field
     {...fieldProps}
     component={Checkbox}
-    type="checkbox"
+    type='checkbox'
   />
 );
 
@@ -45,7 +43,7 @@ const fieldComponents = {
 };
 
 const formatter = {
-  deprecated: formatDeprecated
+  deprecated: formatDeprecated,
 };
 
 class Suffixes extends Component {
@@ -60,7 +58,7 @@ class Suffixes extends Component {
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}>
         <this.connectedControlledVocab
-          formType="final-form"
+          formType='final-form'
           baseUrl={SUFFIXES_API}
           columnMapping={suffixColumnMapping}
           editable

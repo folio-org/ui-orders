@@ -15,7 +15,7 @@ import {
   getControlledVocabTranslations,
   PREFIXES_API,
 } from '@folio/stripes-acq-components';
-import { Checkbox } from "@folio/stripes/components";
+import { Checkbox } from '@folio/stripes/components';
 
 import {
   formatDeprecated,
@@ -24,12 +24,8 @@ import {
 
 const prefixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
-  description: (
-    <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />
-  ),
-  deprecated: (
-    <FormattedMessage id="ui-orders.settings.poNumber.modifier.deprecated" />
-  ),
+  description: <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />,
+  deprecated: <FormattedMessage id="ui-orders.settings.poNumber.modifier.deprecated" />,
 };
 const prefixHiddenFields = ['numberOfObjects', 'lastUpdated'];
 const prefixVisibleFields = ['name', 'description', 'deprecated'];
@@ -38,7 +34,7 @@ const checkboxFieldType = ({ fieldProps }) => (
   <Field
     {...fieldProps}
     component={Checkbox}
-    type="checkbox"
+    type='checkbox'
   />
 );
 
@@ -47,7 +43,7 @@ const fieldComponents = {
 };
 
 const formatter = {
-  deprecated: formatDeprecated
+  deprecated: formatDeprecated,
 };
 
 class Prefixes extends Component {
@@ -62,7 +58,7 @@ class Prefixes extends Component {
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefixes' })}>
         <this.connectedControlledVocab
-          formType="final-form"
+          formType='final-form'
           baseUrl={PREFIXES_API}
           columnMapping={prefixColumnMapping}
           editable

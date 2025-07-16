@@ -9,14 +9,15 @@ export const validatePrefixSuffixName = (props) => {
   const name = props?.name?.match(NAME_REGEXP)
     ? <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
     : undefined;
+
   if(name != undefined) {
     errors['name'] = name;
   }
   return errors;
 };
 
-export const formatDeprecated = ({deprecated}) => {
-  return <Checkbox disabled checked={deprecated}/>;
+export const formatDeprecated = ({ deprecated }) => {
+  return <Checkbox disabled checked={ deprecated }/>;
 }
 
 export const validateDuplicates = (intl, fieldNames = []) => (item, index, items) => {

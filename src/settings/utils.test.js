@@ -71,28 +71,30 @@ describe('validateDuplicates', () => {
   });
 });
 
-describe("validatePrefixSuffixName", () => {
-  it("should return an empty object when the name validates correctly", () => {
+describe('validatePrefixSuffixName', () => {
+  it('should return an empty object when the name validates correctly', () => {
     const props = {
-      id: "0c966bd2-0ca6-43a2-9388-3a4403f19e6f",
-      name: "suf",
-      description: "Suffix for test purposes",
+      id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
+      name: 'suf',
+      description: 'Suffix for test purposes',
       deprecated: true,
     };
 
     expect(validatePrefixSuffixName(props)).toEqual({});
   });
 
-  it("should return an error message for name", () => {
+  it('should return an error message for name', () => {
     const props = {
-      id: "0c966bd2-0ca6-43a2-9388-3a4403f19e6f",
-      name: "suf0c966bd2",
-      description: "Suffix for test purposes",
+      id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
+      name: 'suf0c966bd2',
+      description: 'Suffix for test purposes',
       deprecated: true,
     };
 
-    const actual = validatePrefixSuffixName(props)
-    const expected = <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />;
+    const actual = validatePrefixSuffixName(props);
+    const expected = (
+      <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />
+    );
     expect(actual.name).toEqual(expected);
   });
 });
