@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Field } from 'react-final-form';
 import {
   FormattedMessage,
   injectIntl,
 } from 'react-intl';
-import { Field } from 'react-final-form';
 
 import {
   stripesShape,
