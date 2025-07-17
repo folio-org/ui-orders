@@ -313,20 +313,19 @@ const POForm = ({
     id: 'ui-orders.orderDetails.deprecated',
   });
 
-  // values are set on once and do not change on formValues changes
-  const poNumberPrefixRef = useRef(get(formValues, 'poNumberPrefix', ''));
-  const poNumberSuffixRef = useRef(get(formValues, 'poNumberSuffix', ''));
+  const poNumberPrefixInitial = get(initialValues, 'poNumberPrefix', '');
+  const poNumberSuffixInitial = get(initialValues, 'poNumberSuffix', '');
 
   const prefixesSetting = getPrefixSuffixOptions(
     get(parentResources, 'prefixesSetting.records', []),
-    poNumberPrefixRef.current,
-    deprecatedText
+    poNumberPrefixInitial,
+    deprecatedText,
   );
 
   const suffixesSetting = getPrefixSuffixOptions(
     get(parentResources, 'suffixesSetting.records', []),
-    poNumberSuffixRef.current,
-    deprecatedText
+    poNumberSuffixInitial,
+    deprecatedText,
   );
 
   const shortcuts = [
