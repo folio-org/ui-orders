@@ -1,3 +1,4 @@
+import { useIntl } from 'react-intl';
 import {
   getPoFieldsLabelMap,
   getPrefixSuffixOptions,
@@ -15,8 +16,22 @@ describe('getPoFieldsLabelMap', () => {
   });
 });
 
+jest.mock('react-intl', () => ({
+  ...jest.requireActual('react-intl'),
+  useIntl: jest.fn(),
+}));
 
 describe('getPrefixSuffixOptions', () => {
+  beforeEach(() => {
+    useIntl.mockReturnValue({
+      formatMessage: ({ }, { name }) => `${name} (deprecated)`,
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should filter deprecated prefixes out, but the selected prefix should always be shown. Show a hint if it is deprecated', () => {
     const records = [
       {
@@ -45,11 +60,11 @@ describe('getPrefixSuffixOptions', () => {
       },
     ];
     const selectedValue = 'pref2';
-    const deprecatedText = 'deprecated';
+    const intl = useIntl();
     const actual = getPrefixSuffixOptions(
       records,
       selectedValue,
-      deprecatedText,
+      intl,
     );
     const expected = [
       {

@@ -126,11 +126,21 @@ export const getPoFieldsLabelMap = () => {
 export const getPrefixSuffixOptions = (
   records,
   selectedValue,
-  deprecatedText,
+  intl,
 ) =>
   records
     .filter(({ name, deprecated }) => !deprecated || name === selectedValue)
-    .map(({ name, deprecated }) => ({
-      label: deprecated ? `${name} (${deprecatedText})` : name,
-      value: name,
-    }));
+    .map(({ name, deprecated }) => {
+      const deprecatedText = intl.formatMessage(
+        {
+          id: 'ui-orders.orderDetails.deprecated',
+        },
+        { 
+          name: name, 
+        },
+      );
+      return {
+        label: deprecated ? deprecatedText : name,
+        value: name,
+      };
+    });

@@ -309,9 +309,6 @@ const POForm = ({
     : getPaneFooter('clickable-create-new-purchase-order', buttonLabelId);
 
   const intl = useIntl();
-  const deprecatedText = intl.formatMessage({
-    id: 'ui-orders.orderDetails.deprecated',
-  });
 
   const poNumberPrefixInitial = get(initialValues, 'poNumberPrefix', '');
   const poNumberSuffixInitial = get(initialValues, 'poNumberSuffix', '');
@@ -319,13 +316,13 @@ const POForm = ({
   const prefixesSetting = getPrefixSuffixOptions(
     get(parentResources, 'prefixesSetting.records', []),
     poNumberPrefixInitial,
-    deprecatedText,
+    intl,
   );
 
   const suffixesSetting = getPrefixSuffixOptions(
     get(parentResources, 'suffixesSetting.records', []),
     poNumberSuffixInitial,
-    deprecatedText,
+    intl,
   );
 
   const shortcuts = [
