@@ -124,3 +124,25 @@ export const getPoFieldsLabelMap = () => {
     'closeReason.note': 'ui-orders.orderSummary.closingNote',
   };
 };
+
+export const getPrefixSuffixOptions = (
+  records,
+  selectedValue,
+  intl,
+) =>
+  records
+    .filter(({ name, deprecated }) => !deprecated || name === selectedValue)
+    .map(({ name, deprecated }) => {
+      const deprecatedText = intl.formatMessage(
+        {
+          id: 'ui-orders.orderDetails.deprecated',
+        },
+        { 
+          name: name, 
+        },
+      );
+      return {
+        label: deprecated ? deprecatedText : name,
+        value: name,
+      };
+    });

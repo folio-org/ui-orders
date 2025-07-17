@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Field } from 'react-final-form';
 import {
   FormattedMessage,
   injectIntl,
@@ -14,15 +15,36 @@ import {
   getControlledVocabTranslations,
   PREFIXES_API,
 } from '@folio/stripes-acq-components';
+import { Checkbox } from '@folio/stripes/components';
 
-import { validatePrefixSuffixName } from '../utils';
+import {
+  formatDeprecated,
+  validatePrefixSuffixName,
+} from '../utils';
 
 const prefixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
   description: <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />,
+  deprecated: <FormattedMessage id="ui-orders.settings.poNumber.modifier.deprecated" />,
 };
 const prefixHiddenFields = ['numberOfObjects', 'lastUpdated'];
-const prefixVisibleFields = ['name', 'description'];
+const prefixVisibleFields = ['name', 'description', 'deprecated'];
+
+const checkboxFieldType = ({ fieldProps }) => (
+  <Field
+    {...fieldProps}
+    component={Checkbox}
+    type='checkbox'
+  />
+);
+
+const fieldComponents = {
+  deprecated: checkboxFieldType,
+};
+
+const formatter = {
+  deprecated: formatDeprecated,
+};
 
 class Prefixes extends Component {
   constructor(props) {
@@ -36,6 +58,7 @@ class Prefixes extends Component {
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefixes' })}>
         <this.connectedControlledVocab
+          formType='final-form'
           baseUrl={PREFIXES_API}
           columnMapping={prefixColumnMapping}
           editable
@@ -50,6 +73,8 @@ class Prefixes extends Component {
           stripes={stripes}
           visibleFields={prefixVisibleFields}
           validate={validatePrefixSuffixName}
+          fieldComponents={fieldComponents}
+          formatter={formatter}
         />
       </TitleManager>
     );
