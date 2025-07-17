@@ -97,6 +97,8 @@ export const getPoFieldsLabelMap = () => {
     'metadata.updatedByUserId': 'ui-orders.versionHistory.updatedByUserId',
     'metadata.updatedDate': 'ui-orders.order.lastUpdated',
     'dateOrdered': 'ui-orders.orderDetails.dateOpened',
+    'fiscalYearId': 'ui-orders.orderDetails.yearOpened',
+    'openedById': 'ui-orders.orderDetails.openedBy',
     'notes': 'ui-orders.orderDetails.note',
     'notes[\\d]': 'ui-orders.orderDetails.note',
 

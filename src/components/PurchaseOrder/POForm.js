@@ -47,6 +47,7 @@ import {
 import {
   ENTITY_TYPE_ORDER,
   PO_CONFIG_NAME_PREFIX,
+  PO_FORM_FIELDS,
   SUBMIT_ACTION_FIELD,
 } from '../../common/constants';
 import { useErrorAccordionStatus } from '../../common/hooks';
@@ -70,6 +71,12 @@ import {
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { OngoingInfoForm } from './OngoingOrderInfo';
+
+const TEMPLATE_PERSISTED_REGISTERED_FIELDS = [
+  PO_FORM_FIELDS.poNumber,
+  PO_FORM_FIELDS.template,
+  PO_FORM_FIELDS.workflowStatus,
+];
 
 const POForm = ({
   form: {
@@ -153,7 +160,7 @@ const POForm = ({
         <FormattedMessage id="ui-orders.buttons.line.close">
           {([title]) => (
             <IconButton
-              ariaLabel={title}
+              aria-label={title}
               icon="times"
               id="clickable-close-new-purchase-order-dialog"
               onClick={onCancel}
@@ -257,39 +264,32 @@ const POForm = ({
   ]);
 
   const onChangeTemplate = useCallback((value) => {
+    change(PO_FORM_FIELDS.template, value);
+
     const templateValue = getOrderTemplateValue(parentResources, value);
 
     setTemplate(templateValue);
     setHiddenFields(prev => (prev ? (templateValue?.hiddenFields || {}) : undefined));
 
-    batch(() => {
-      change('template', value);
-      change('vendor', null);
-      change('assignedTo', null);
-      change('manualPo', false);
-      change('reEncumber', false);
-      change('orderType', null);
-      change('acqUnitIds', []);
-      change('tags', { tagList: [] });
-      change('notes', []);
-      change('billTo', null);
-      change('shipTo', null);
-    });
-
-    getRegisteredFields()
-      .forEach(field => {
-        const templateField = PO_TEMPLATE_FIELDS_MAP[field] || field;
-        const templateFieldValue = get(templateValue, templateField);
-
-        if (templateFieldValue) change(field, templateFieldValue);
-      });
     if (isOngoing(templateValue.orderType)) {
-      change('ongoing', templateValue.ongoing || {});
-      setTimeout(() => {
-        getRegisteredFields()
-          .forEach(field => get(templateValue, field) && change(field, get(templateValue, field)));
-      });
+      change(PO_FORM_FIELDS.ongoing, templateValue.ongoing || {});
     }
+
+    const filterRegisteredFields = (field) => !TEMPLATE_PERSISTED_REGISTERED_FIELDS.includes(field);
+    const changeRegisteredFields = (field) => {
+      const templateField = PO_TEMPLATE_FIELDS_MAP[field] || field;
+      const templateFieldValue = get(templateValue, templateField);
+
+      change(field, templateFieldValue);
+    };
+
+    setTimeout(() => {
+      batch(() => {
+        getRegisteredFields()
+          .filter(filterRegisteredFields)
+          .forEach(changeRegisteredFields);
+      });
+    });
   }, [batch, change, getRegisteredFields, parentResources]);
 
   const orderNumber = getFullOrderNumber(initialValues);
@@ -404,7 +404,7 @@ const POForm = ({
                               dataOptions={orderTemplates}
                               onChange={onChangeTemplate}
                               labelId="ui-orders.settings.orderTemplates.editor.template.name"
-                              name="template"
+                              name={PO_FORM_FIELDS.template}
                               id="order-template"
                               disabled={Boolean(poLinesLength)}
                             />

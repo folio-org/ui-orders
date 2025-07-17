@@ -467,6 +467,7 @@
   "orderDetails.approvedBy": "Approved by",
   "orderDetails.dateOpened": "Date opened",
   "orderDetails.yearOpened": "Year opened",
+  "orderDetails.openedBy": "Opened by",
   "orderSummary.adjustments": "Adjustments",
   "orderSummary.approved": "Approved",
   "orderSummary.closingNote": "Notes on closure",

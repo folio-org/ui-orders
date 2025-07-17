@@ -4,7 +4,11 @@ import {
   QueryClientProvider,
 } from 'react-query';
 
-import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import { arrayMutators } from 'fixtures/arrayMutatorsMock';
 import PODetailsForm from './PODetailsForm';

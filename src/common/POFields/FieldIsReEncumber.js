@@ -1,17 +1,18 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { Checkbox } from '@folio/stripes/components';
 
-const FieldIsReEncumber = ({ disabled }) => {
+import { PO_FORM_FIELDS } from '../constants';
+
+const FieldIsReEncumber = ({ disabled = false }) => {
   return (
     <Field
       component={Checkbox}
       fullWidth
       label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}
-      name="reEncumber"
+      name={PO_FORM_FIELDS.reEncumber}
       type="checkbox"
       disabled={disabled}
       vertical
@@ -22,10 +23,6 @@ const FieldIsReEncumber = ({ disabled }) => {
 
 FieldIsReEncumber.propTypes = {
   disabled: PropTypes.bool,
-};
-
-FieldIsReEncumber.defaultProps = {
-  disabled: false,
 };
 
 export default FieldIsReEncumber;

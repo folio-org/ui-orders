@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -7,12 +6,19 @@ import {
   fieldSelectOptionsShape,
 } from '@folio/stripes-acq-components';
 
-const FieldPrefix = ({ prefixes, ...rest }) => {
+import { PO_FORM_FIELDS } from '../constants';
+
+const FieldPrefix = ({
+  isNonInteractive = false,
+  prefixes,
+  ...rest
+}) => {
   return (
     <FieldSelect
-      label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
-      name="poNumberPrefix"
       dataOptions={prefixes}
+      isNonInteractive={isNonInteractive}
+      label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
+      name={PO_FORM_FIELDS.poNumberPrefix}
       validateFields={[]}
       {...rest}
     />
@@ -20,8 +26,8 @@ const FieldPrefix = ({ prefixes, ...rest }) => {
 };
 
 FieldPrefix.propTypes = {
-  prefixes: fieldSelectOptionsShape.isRequired,
   isNonInteractive: PropTypes.bool,
+  prefixes: fieldSelectOptionsShape.isRequired,
 };
 
 export default FieldPrefix;

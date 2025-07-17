@@ -1,31 +1,40 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Field, useForm, useFormState } from 'react-final-form';
+import { useCallback } from 'react';
+import {
+  Field,
+  useForm,
+  useFormState,
+} from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import { TooltippedControl } from '@folio/stripes-acq-components';
 import { Checkbox } from '@folio/stripes/components';
 
-const FieldRenewalSubscription = ({ disabled, isNonInteractive }) => {
+import { PO_FORM_FIELDS } from '../../constants';
+
+const FieldRenewalSubscription = ({
+  disabled = false,
+  isNonInteractive = false,
+}) => {
   const { batch, change, resetFieldState } = useForm();
   const { values } = useFormState();
   const isSubscription = !!values?.ongoing?.isSubscription;
 
   const onChange = useCallback(() => {
     if (isSubscription) {
-      resetFieldState('ongoing.interval');
-      resetFieldState('ongoing.renewalDate');
+      resetFieldState(PO_FORM_FIELDS.ongoingInterval);
+      resetFieldState(PO_FORM_FIELDS.renewalDate);
       batch(() => {
-        change('ongoing.isSubscription', !isSubscription);
-        change('ongoing.interval', undefined);
-        change('ongoing.renewalDate', undefined);
-        change('ongoing.reviewPeriod', undefined);
-        change('ongoing.manualRenewal', undefined);
+        change(PO_FORM_FIELDS.isSubscription, !isSubscription);
+        change(PO_FORM_FIELDS.ongoingInterval, undefined);
+        change(PO_FORM_FIELDS.renewalDate, undefined);
+        change(PO_FORM_FIELDS.reviewPeriod, undefined);
+        change(PO_FORM_FIELDS.manualRenewal, undefined);
       });
     } else {
       batch(() => {
-        change('ongoing.isSubscription', !isSubscription);
-        change('ongoing.reviewDate', undefined);
+        change(PO_FORM_FIELDS.isSubscription, !isSubscription);
+        change(PO_FORM_FIELDS.reviewDate, undefined);
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +46,7 @@ const FieldRenewalSubscription = ({ disabled, isNonInteractive }) => {
       controlComponent={Checkbox}
       disabled={!disabled && isNonInteractive}
       label={<FormattedMessage id="ui-orders.renewals.subscription" />}
-      name="ongoing.isSubscription"
+      name={PO_FORM_FIELDS.isSubscription}
       onChange={onChange}
       readOnly={disabled}
       tooltipText={disabled && <FormattedMessage id="ui-orders.renewals.subscription.tooltip" />}
@@ -52,11 +61,6 @@ const FieldRenewalSubscription = ({ disabled, isNonInteractive }) => {
 FieldRenewalSubscription.propTypes = {
   disabled: PropTypes.bool,
   isNonInteractive: PropTypes.bool,
-};
-
-FieldRenewalSubscription.defaultProps = {
-  disabled: false,
-  isNonInteractive: false,
 };
 
 export default FieldRenewalSubscription;
