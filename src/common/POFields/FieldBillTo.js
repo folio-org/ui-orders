@@ -1,14 +1,20 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FieldSelectionFinal as FieldSelection } from '@folio/stripes-acq-components';
 
-const FieldBillTo = ({ addresses, ...rest }) => {
+import { PO_FORM_FIELDS } from '../constants';
+
+const FieldBillTo = ({
+  addresses,
+  isNonInteractive = false,
+  ...rest
+}) => {
   return (
     <FieldSelection
       dataOptions={addresses}
+      isNonInteractive={isNonInteractive}
       labelId="ui-orders.orderDetails.billTo"
-      name="billTo"
+      name={PO_FORM_FIELDS.billTo}
       validateFields={[]}
       {...rest}
     />

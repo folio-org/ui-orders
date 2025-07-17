@@ -1,8 +1,8 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Component } from 'react';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
@@ -19,6 +19,7 @@ import {
   TextField,
 } from '@folio/stripes-acq-components';
 
+import { PO_FORM_FIELDS } from '../../../common/constants';
 import { getAddressOptions } from '../../../common/utils';
 import {
   FieldPrefix,
@@ -60,7 +61,7 @@ class PODetailsForm extends Component {
     const { change, generatedNumber } = this.props;
 
     if (value === '') {
-      change('poNumber', generatedNumber);
+      change(PO_FORM_FIELDS.poNumber, generatedNumber);
     }
   }
 
@@ -87,7 +88,10 @@ class PODetailsForm extends Component {
     return (
       <>
         <Row>
-          <IfFieldVisible visible={!hiddenFields.poNumberPrefix} name="poNumberPrefix">
+          <IfFieldVisible
+            visible={!hiddenFields.poNumberPrefix}
+            name={PO_FORM_FIELDS.poNumberPrefix}
+          >
             <Col xs={4}>
               <FieldPrefix
                 isNonInteractive={isPostPendingOrder}
@@ -109,7 +113,7 @@ class PODetailsForm extends Component {
                 data-test-po-number
                 fullWidth
                 label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-                name="poNumber"
+                name={PO_FORM_FIELDS.poNumber}
                 onBlur={this.fillBackGeneratedNumber}
                 validate={validateNumber}
                 validateFields={[]}
@@ -117,7 +121,10 @@ class PODetailsForm extends Component {
             )}
           </Col>
 
-          <IfFieldVisible visible={!hiddenFields.poNumberSuffix} name="poNumberSuffix">
+          <IfFieldVisible
+            visible={!hiddenFields.poNumberSuffix}
+            name={PO_FORM_FIELDS.poNumberSuffix}
+          >
             <Col xs={4}>
               <FieldSuffix
                 isNonInteractive={isPostPendingOrder}
@@ -136,7 +143,7 @@ class PODetailsForm extends Component {
               isNonInteractive={isClosedOrder}
               id={formValues.vendor}
               labelId="ui-orders.orderDetails.vendor"
-              name="vendor"
+              name={PO_FORM_FIELDS.vendor}
             />
           </Col>
           <Col
@@ -145,14 +152,18 @@ class PODetailsForm extends Component {
           >
             <FieldOrderType isNonInteractive={isPostPendingOrder} />
           </Col>
-          <IfFieldVisible visible={!hiddenFields.acqUnitIds} name="acqUnitIds">
+          <IfFieldVisible
+            visible={!hiddenFields.acqUnitIds}
+            name={PO_FORM_FIELDS.acqUnitIds}
+          >
             <Col
               xs={6}
               lg={3}
             >
               <AcqUnitsField
+                key={formValues?.acqUnitIds?.length}
                 id="order-acq-units"
-                name="acqUnitIds"
+                name={PO_FORM_FIELDS.acqUnitIds}
                 perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
                 isEdit={isEditMode}
                 preselectedUnits={order.acqUnitIds}
@@ -161,7 +172,10 @@ class PODetailsForm extends Component {
             </Col>
           </IfFieldVisible>
 
-          <IfFieldVisible visible={!hiddenFields.assignedTo} name="assignedTo">
+          <IfFieldVisible
+            visible={!hiddenFields.assignedTo}
+            name={PO_FORM_FIELDS.assignedTo}
+          >
             <Col
               xs={12}
               lg={3}
@@ -174,7 +188,10 @@ class PODetailsForm extends Component {
           </IfFieldVisible>
         </Row>
         <Row>
-          <IfFieldVisible visible={!hiddenFields.billTo} name="billTo">
+          <IfFieldVisible
+            visible={!hiddenFields.billTo}
+            name={PO_FORM_FIELDS.billTo}
+          >
             <Col
               xs={6}
               lg={3}
@@ -196,7 +213,10 @@ class PODetailsForm extends Component {
             </Col>
           </IfFieldVisible>
 
-          <IfFieldVisible visible={!hiddenFields.shipTo} name="shipTo">
+          <IfFieldVisible
+            visible={!hiddenFields.shipTo}
+            name={PO_FORM_FIELDS.shipTo}
+          >
             <Col
               xs={6}
               lg={3}
@@ -216,7 +236,10 @@ class PODetailsForm extends Component {
           </IfFieldVisible>
         </Row>
         <Row>
-          <IfFieldVisible visible={!hiddenFields.manualPo} name="manualPo">
+          <IfFieldVisible
+            visible={!hiddenFields.manualPo}
+            name={PO_FORM_FIELDS.manualPo}
+          >
             <Col
               xs={6}
               lg={3}
@@ -225,7 +248,10 @@ class PODetailsForm extends Component {
             </Col>
           </IfFieldVisible>
 
-          <IfFieldVisible visible={!hiddenFields.reEncumber} name="reEncumber">
+          <IfFieldVisible
+            visible={!hiddenFields.reEncumber}
+            name={PO_FORM_FIELDS.reEncumber}
+          >
             <Col
               xs={6}
               lg={3}
@@ -253,16 +279,17 @@ class PODetailsForm extends Component {
         <Row>
           <IfFieldVisible
             visible={!hiddenFields.poTags}
-            name="tags.tagList"
+            name={PO_FORM_FIELDS.tags}
           >
             <Col
               xs={6}
               lg={3}
             >
               <FieldTags
+                key={formValues?.tags?.tagList?.length}
                 change={change}
                 formValues={formValues}
-                name="tags.tagList"
+                name={PO_FORM_FIELDS.tags}
               />
             </Col>
           </IfFieldVisible>
@@ -270,7 +297,7 @@ class PODetailsForm extends Component {
         <Row>
           <IfFieldVisible
             visible={!hiddenFields.poNotes}
-            name="notes"
+            name={PO_FORM_FIELDS.notes}
           >
             <Col xs={12}>
               <FieldsNotes required />

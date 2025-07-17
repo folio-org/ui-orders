@@ -1,9 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
-import { Checkbox, InfoPopover } from '@folio/stripes/components';
+import {
+  Checkbox,
+  InfoPopover,
+} from '@folio/stripes/components';
+
+import { PO_FORM_FIELDS } from '../constants';
 
 const label = (
   <>
@@ -12,13 +16,13 @@ const label = (
   </>
 );
 
-const FieldIsManualPO = ({ disabled }) => {
+const FieldIsManualPO = ({ disabled = false }) => {
   return (
     <Field
       component={Checkbox}
       fullWidth
       label={label}
-      name="manualPo"
+      name={PO_FORM_FIELDS.manualPo}
       type="checkbox"
       disabled={disabled}
       vertical
@@ -29,10 +33,6 @@ const FieldIsManualPO = ({ disabled }) => {
 
 FieldIsManualPO.propTypes = {
   disabled: PropTypes.bool,
-};
-
-FieldIsManualPO.defaultProps = {
-  disabled: false,
 };
 
 export default FieldIsManualPO;

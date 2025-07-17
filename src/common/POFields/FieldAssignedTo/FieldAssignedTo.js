@@ -1,21 +1,28 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
-  TextField,
   IconButton,
+  TextField,
 } from '@folio/stripes/components';
 import {
+  Pluggable,
   stripesConnect,
   stripesShape,
-  Pluggable,
 } from '@folio/stripes/core';
 import { getFullName } from '@folio/stripes/util';
 
 import { USERS } from '../../../components/Utils/resources';
+import { PO_FORM_FIELDS } from '../../constants';
 import { getUserNameById } from '../../utils';
+
 import styles from './FieldAssignedTo.css';
 
 const columnMapping = {
@@ -69,7 +76,7 @@ function FieldAssignedTo({ change, userId, mutator, stripes }) {
         fullWidth
         hasClearIcon={false}
         label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
-        name="assignedTo"
+        name={PO_FORM_FIELDS.assignedTo}
         validateFields={[]}
       />
       <div className={styles.FieldAssignedToButtonWrapper}>

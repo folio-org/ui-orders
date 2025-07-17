@@ -1,18 +1,19 @@
-import { Field, Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
+import {
+  act,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { render, screen, act } from '@folio/jest-config-stripes/testing-library/react';
 import {
   HasCommand,
   collapseAllSections,
   expandAllSections,
 } from '@folio/stripes/components';
-import { TextField } from '@folio/stripes-acq-components';
 
 import { history } from 'fixtures/routerMocks';
 import { ORDER_TYPE } from '../../common/constants';
-import PODetailsForm from './PODetails/PODetailsForm';
 import POForm from './POForm';
 
 jest.mock('@folio/stripes/components', () => ({
@@ -25,8 +26,13 @@ jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   EditCustomFieldsRecord: jest.fn().mockReturnValue('EditCustomFieldsRecord'),
 }));
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  AcqUnitsField: jest.fn().mockReturnValue('AcqUnitsField'),
+  FieldOrganization: jest.fn().mockReturnValue('FieldOrganization'),
+  FieldTags: jest.fn().mockReturnValue('FieldTags'),
+}));
 
-jest.mock('./PODetails/PODetailsForm', () => jest.fn().mockReturnValue('PODetailsForm'));
 jest.mock('./OngoingOrderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
 
 const defaultProps = {
@@ -89,28 +95,22 @@ const defaultProps = {
 };
 
 const renderPOForm = (props = {}) => render(
-  <Form
-    onSubmit={() => jest.fn()}
-    render={() => (
-      <POForm
-        {...defaultProps}
-        {...props}
-      />
-    )}
+  <POForm
+    {...defaultProps}
+    {...props}
   />,
   { wrapper: MemoryRouter },
 );
 
 describe('POForm', () => {
-  beforeEach(() => {
-    PODetailsForm.mockClear();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render \'PO form\' fields', () => {
     renderPOForm();
 
     expect(screen.getByText('ui-orders.settings.orderTemplates.editor.template.name')).toBeInTheDocument();
-    expect(screen.getByText(/PODetailsForm/i)).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.totalUnits')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.totalEstimatedPrice')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderSummary.approved')).toBeInTheDocument();
@@ -164,15 +164,6 @@ describe('POForm', () => {
   });
 
   it('should call validator when \'PO Number\' was changed', async () => {
-    PODetailsForm.mockImplementation(({ validateNumber }) => (
-      <Field
-        component={TextField}
-        label="ui-orders.orderDetails.poNumber"
-        name="poNumber"
-        validate={validateNumber}
-      />
-    ));
-
     renderPOForm();
 
     await user.type(screen.getByLabelText('ui-orders.orderDetails.poNumber'), '777');
@@ -200,5 +191,26 @@ describe('POForm shortcuts', () => {
     act(() => HasCommand.mock.calls[0][0].commands.find(c => c.name === 'collapseAllSections').handler());
 
     expect(collapseAllSections).toHaveBeenCalled();
+  });
+
+  it('should clear fields after template change', async () => {
+    renderPOForm({ initialValues: {} });
+
+    await user.selectOptions(screen.getByRole('combobox', { name: /orderType/ }), ORDER_TYPE.ongoing);
+
+    /* Field is filled before template change */
+    expect(screen.getByRole('combobox', { name: /orderType/ })).toHaveValue(ORDER_TYPE.ongoing);
+
+    const selects = await screen.findAllByLabelText('ui-orders.settings.orderTemplates.editor.template.name');
+    const select = selects[0];
+
+    await act(async () => user.click(select));
+
+    const options = await screen.findAllByRole('option');
+
+    await act(async () => user.click(options[1]));
+
+    /* Field is cleared after template change */
+    expect(screen.getByRole('combobox', { name: /orderType/ })).toHaveValue(undefined);
   });
 });
