@@ -23,6 +23,7 @@
 * *BREAKING* Update for Split Search & Browse APIs. Refs UIOR-1452.
 * Update "Unopened purchase order" modal message. Refs UIOR-1239.
 * Remove empty lines in drop-down menus in Settings > Orders > Number generator options. Refs UIOR-1457.
+* Provide labels mapping for new fields to PO version view card. Refs UIOR-1455.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
