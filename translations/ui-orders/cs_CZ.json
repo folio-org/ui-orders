@@ -825,7 +825,7 @@
     "unopenOrderModal.confirmLabel.deleteHoldings.synchronized": "Smazat holdingy a jednotky",
     "unopenOrderModal.confirmLabel.keepHoldings.independent": "Ponechat holdingy",
     "unopenOrderModal.confirmLabel.deleteHoldings.independent": "Smazat holdingy",
-    "unopenOrderModal.message.synchronized": "Tato objednávka má alespoň jeden řádek objednávky s pracovním postupem příjmu \"Synchronizované množství objednávky a příjmu\". U takových ŘNO se souvisejícími záznamy o příjmu budou vymazány všechny nepřijaté kusy a všechny záznamy jednotek „na objednávku“ související s těmito kusy budou také vymazány z katalogu. Z katalogu lze také odstranit jednotky spojené s jednotkami, které nemají žádné další související jednotky. Jak byste chtěli postupovat?",
+    "unopenOrderModal.message.synchronized": "Tato objednávka má alespoň jeden řádek objednávky s pracovním postupem příjmu \"Synchronizované množství objednávky a příjmu\". U takovýchto ŘNO se souvisejícími záznamy o příjmu budou vymazány všechny nepřijaté kusy a všechny záznamy jednotek „na objednávku“ související s těmito kusy budou také vymazány z katalogu. Z katalogu lze také odstranit jednotky spojené s jednotkami, které nemají žádné další související jednotky. Jak byste chtěli postupovat?",
     "unopenOrderModal.message.independent": "Tato objednávka má alespoň jeden řádek objednávky se souvisejícím záznamem holdingu, který neodkazuje na žádné kusy nebo jednotky. Holdingy bez dalších souvisejících jednotek mohou být v případě potřeby odstraněny z inventáře. Jak byste chtěli postupovat?",
     "order.unopen.error": "Při neotevření nákupní objednávky došlo k chybě",
     "settings.orderTemplates.confirmDuplicate.heading": "Duplikovat šablonu",
@@ -930,8 +930,8 @@
     "settings.orderTemplateCategories.termWillBeDeleted": "Šablona kategorie objednávky <b> {term} </b> bude <b>smazána</b>.",
     "settings.orderTemplateCategories.validation.duplicates": "Název kategorie musí být jedinečný",
     "settings.orderTemplates.editor.template.categories": "Kategorie šablon objednávek",
-    "orderDetails.yearOpened": "Year opened",
-    "poLine.receivingWorkflow.infoPopover": "Selecting synchronized will keep the order quantity and the number of pieces to be received, in sync. This also means updating one will update the other. When the order is opened, the system will generate pieces based on the quantity order. Selecting “independent order and receipt quantity” will allow you to manage the number of receiving pieces and their locations independently. You can convert a POL to independent at anytime but you cannot convert back to synchronized when the order is open or closed.",
-    "poLine.receivingWorkflow.confirmModal.heading": "Update receiving workflow",
-    "poLine.receivingWorkflow.confirmModal.message": "You are about to change the receiving workflow to “Independent order and receipt quantity”. This change cannot be undone unless the order is unopened. Are you sure you want to continue?"
+    "orderDetails.yearOpened": "Otevřený rok",
+    "poLine.receivingWorkflow.infoPopover": "Výběrem možnosti „synchronizované“ se množství kusů v objednávce a počet přijatých kusů udrží synchronizované. To také znamená, že aktualizace jedné položky aktualizuje i druhou. Po otevření objednávky systém vygeneruje kusy na základě objednaného množství. Výběrem možnosti „nezávislé množství objednávek a množství pro příjem“ budete moci nezávisle spravovat počet přijímaných kusů a jejich umístění. Objednávku POL můžete kdykoli převést na nezávislou, ale nelze ji převést zpět na synchronizovanou, když je objednávka otevřená nebo uzavřená.",
+    "poLine.receivingWorkflow.confirmModal.heading": "Aktualizovat pracovní postup příjmu",
+    "poLine.receivingWorkflow.confirmModal.message": "Chystáte se změnit pracovní postup příjmu na „Nezávislé množství objednávek a množství pro příjem“. Tuto změnu nelze vrátit zpět, pokud není objednávka uzavřená. Jste si jisti, že chcete pokračovat?"
 }
