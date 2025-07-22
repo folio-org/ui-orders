@@ -28,39 +28,33 @@
 * Show a hint for deprecated prefixes/suffixes. Do not list them on order purchase creation/edit. Add a deprecated checkbox in settings. UIOR-1450.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
 
 * Add `OCLC` number to list of valid product identifier types. Refs UIOR-1440.
 
 ## [8.0.4](https://github.com/folio-org/ui-orders/tree/v8.0.4) (2025-06-12)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.3...v8.0.4)
 
 * Remove ISBN validation/normalization logic. Refs UIOR-1335.
 
 ## [8.0.3](https://github.com/folio-org/ui-orders/tree/v8.0.3) (2025-04-10)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.2...v8.0.3)
 
 * Add `settings.enabled` as a subpermission to all permission sets so they can be accessed in the UI if enabled individually. Refs UIOR-1405.
 
 ## [8.0.2](https://github.com/folio-org/ui-orders/tree/v8.0.2) (2025-04-10)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.1...v8.0.2)
 
 * Handle error response on unopen order operation fail. Refs UIOR-1413.
 * *BREAKING* Make "User Limit" an alphanumeric value rather than an integer. Refs UIOR-1023.
 
 ## [8.0.1](https://github.com/folio-org/ui-orders/tree/v8.0.1) (2025-04-03)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.0...v8.0.1)
 
 * Display empty value instead of "Invalid link" for affiliation field if no value is assigned to it. Fixes UIOR-1369.
 * Provide specific query key to the `useCentralOrderingSettings` in orders settings. Refs UIOR-1411.
 
 ## [8.0.0](https://github.com/folio-org/ui-orders/tree/v8.0.0) (2025-03-13)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.4...v8.0.0)
 
 * Display the “Record deleted” label in version history only if the UUID no longer exists. Refs UIOR-1355.
@@ -78,33 +72,28 @@
 * Handle `Receiving workflow` value on `populateFieldsFromTemplate`. Fixes UIOR-1372.
 
 ## [7.0.4](https://github.com/folio-org/ui-orders/tree/v7.0.4) (2024-12-31)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.3...v7.0.4)
 
 * Close actions dropdown before navigation to another page. Refs UIOR-1365.
 
 ## [7.0.3](https://github.com/folio-org/ui-orders/tree/v7.0.3) (2024-12-06)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.2...v7.0.3)
 
 Translations update.
 
 ## [7.0.2](https://github.com/folio-org/ui-orders/tree/v7.0.2) (2024-12-04)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.1...v7.0.2)
 
 * Add "Donor (Deprecated)" label for PO line search by Donor filed. Refs UIOR-1348.
 * Respect the `tenantId` property when resolving holdings in central tenant mode. Refs UIOR-1330.
 
 ## [7.0.1](https://github.com/folio-org/ui-orders/tree/v7.0.1) (2024-11-14)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v7.0.0...v7.0.1)
 
 * import DOMPurify in right way. Refs UIOR-1340.
 * Fix print order action. Refs UIOR-1339.
 
 ## [7.0.0](https://github.com/folio-org/ui-orders/tree/v7.0.0) (2024-11-01)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.4...v7.0.0)
 
 * UX Consistency: HTML page title display when third pane (detail record) displays. Refs UIOR-1202.
@@ -148,31 +137,26 @@ Translations update.
 * ECS - handle error message when editing POLs when user does not have all referenced affiliations. Refs UIOR-1323.
 
 ## [6.0.4](https://github.com/folio-org/ui-orders/tree/v6.0.4) (2024-04-25)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.3...v6.0.4)
 
 * Eliminate shadowing when passing an undefined prop to the receipt status field. Refs UIOR-1257.
 
 ## [6.0.3](https://github.com/folio-org/ui-orders/tree/v6.0.3) (2024-04-18)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.2...v6.0.3)
 
 * Add additional order filters to support reporting requirements. Refs UIOR-1256.
 
 ## [6.0.2](https://github.com/folio-org/ui-orders/tree/v6.0.2) (2024-04-01)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.1...v6.0.2)
 
 * Correctly specify the field name that should be hidden according to the template. Refs UIOR-1250.
 
 ## [6.0.1](https://github.com/folio-org/ui-orders/tree/v6.0.1) (2024-03-23)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v6.0.0...v6.0.1)
 
 * Add erm 7.0 interface support
 
 ## [6.0.0](https://github.com/folio-org/ui-orders/tree/v6.0.0) (2024-03-19)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.2...v6.0.0)
 
 * Allow Editing of "Renewal Date" and "Subscription to" on open purchase order line. Refs UIOR-1078.
@@ -206,13 +190,11 @@ Translations update.
 * The exchanged calculated total amount is not displayed when POL in foreign currency. Refs UIOR-1241.
 
 ## [5.0.2](https://github.com/folio-org/ui-orders/tree/v5.0.2) (2024-02-08)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.1...v5.0.2)
 
 * Invoice line Subscription fields are not populated correctly. Refs UIOR-1220.
 
 ## [5.0.1](https://github.com/folio-org/ui-orders/tree/v5.0.1) (2023-11-08)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v5.0.0...v5.0.1)
 
 * Add missed permission to fetch org types in view only mode. Refs UIOR-1168.
@@ -221,7 +203,6 @@ Translations update.
 * Populate values from a template after the fields are registered. Refs UIOR-1169.
 
 ## [5.0.0](https://github.com/folio-org/ui-orders/tree/v5.0.0) (2023-10-12)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.3...v5.0.0)
 
 * Add action for duplicate order template. Refs UIOR-1056.
@@ -247,25 +228,21 @@ Translations update.
 * Use a provided `tenantId` when loading an instance in a PO line form. Refs UIOR-1159.
 
 ## [4.0.3](https://github.com/folio-org/ui-orders/tree/v4.0.3) (2023-04-06)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.2...v4.0.3)
 
 * The `limit` query parameter is not explicitly set to some version history's requests. Refs UIOR-1101.
 
 ## [4.0.2](https://github.com/folio-org/ui-orders/tree/v4.0.2) (2023-03-17)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.1...v4.0.2)
 
 * Permissions: Order settings perms do not allow create new reason for closure. Refs UIOR-1090.
 
 ## [4.0.1](https://github.com/folio-org/ui-orders/tree/v4.0.1) (2023-03-10)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v4.0.0...v4.0.1)
 
 * Confirm if user would like to delete holdings record 'Unopen' order. Refs UIOR-1068.
 
 ## [4.0.0](https://github.com/folio-org/ui-orders/tree/v4.0.0) (2023-02-24)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.2...v4.0.0)
 
 * Use Orders Export History API (mod-orders). Refs UIOR-1034.
@@ -291,20 +268,17 @@ Translations update.
 * Unpin `@rehooks/local-storage` now that it's no longer broken. Refs UIOR-1066.
 
 ## [3.3.2](https://github.com/folio-org/ui-orders/tree/v3.3.2) (2022-11-30)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.1...v3.3.2)
 
 * Loose plugin dependencies permit incompatible versions. Refs UIOR-1042.
 * No results found shown after return to search page. Refs UIOR-1048.
 
 ## [3.3.1](https://github.com/folio-org/ui-orders/tree/v3.3.1) (2022-11-25)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.3.0...v3.3.1)
 
 * Some shortcut keys do not work in the "Orders" application. Refs UIOR-1038.
 
 ## [3.3.0](https://github.com/folio-org/ui-orders/tree/v3.3.0) (2022-10-27)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.2...v3.3.0)
 
 * Supports 'users' interface version 16.0. Refs UIOR-1030.
@@ -323,20 +297,17 @@ Translations update.
 * Blanking "Quantity physical" or "Quantity electronic" from order template sets property to empty string. Refs UIOR-1029.
 
 ## [3.2.2](https://github.com/folio-org/ui-orders/tree/v3.2.2) (2022-08-08)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.1...v3.2.2)
 
 * Orders (settings): View all settings not allowing user to see Instance matching area. Refs UIOR-1004.
 
 ## [3.2.1](https://github.com/folio-org/ui-orders/tree/v3.2.1) (2022-07-27)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.2.0...v3.2.1)
 
 * Use BE validation of fund distributions total. Refs UIOR-978.
 * Unable to select account number. Refs UIOR-1000.
 
 ## [3.2.0](https://github.com/folio-org/ui-orders/tree/v3.2.0) (2022-07-07)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.2...v3.2.0)
 
 * Updated "Date ordered" label to "Date opened". Refs UIOR-908.
@@ -367,7 +338,6 @@ Translations update.
 * Error handling improvement. Refs UIOR-994.
 
 ## [3.1.2](https://github.com/folio-org/ui-orders/tree/v3.1.2) (2022-03-25)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.1...v3.1.2)
 
 * Order: Error message does not indicate what Fund does not have money. Refs UIOR-919.
@@ -375,14 +345,12 @@ Translations update.
 * Printing process of Order with no PO Lines can not be completed. Refs UIOR-928.
 
 ## [3.1.1](https://github.com/folio-org/ui-orders/tree/v3.1.1) (2022-03-22)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.1.0...v3.1.1)
 
 * Orders csv export has errors in the location column when orders are linked to holdings. Refs UIOR-921.
 * exportCsv is deprecated in stripes-utils. Refs UIOR-922.
 
 ## [3.1.0](https://github.com/folio-org/ui-orders/tree/v3.1.0) (2022-03-04)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.3...v3.1.0)
 
 * Update agreement hyperlink on POL. Refs UIOR-796.
@@ -432,14 +400,12 @@ Translations update.
 * Allow user to set "Must acknowledge receiving note" for title when creating POL. Refs UIOR-745.
 
 ## [3.0.3](https://github.com/folio-org/ui-orders/tree/v3.0.3) (2021-12-08)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.2...v3.0.3)
 
 * POL Title selection overwriting Order template location. Refs UIOR-863.
 * Order template not populating Holdings correctly.Refs UIOR-854.
 
 ## [3.0.2](https://github.com/folio-org/ui-orders/tree/v3.0.2) (2021-11-05)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.1...v3.0.2)
 
 * Update manually add pieces for receiving field. Refs UIOR-836.
@@ -447,7 +413,6 @@ Translations update.
 * Update "Unopen order" confirmation modal message when pieces are deleted. Refs UIOR-827.
 
 ## [3.0.1](https://github.com/folio-org/ui-orders/tree/v3.0.1) (2021-11-02)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v3.0.0...v3.0.1)
 
 * Pieces are not displayed in POL Related invoices table. Refs UIOR-815.
@@ -456,7 +421,6 @@ Translations update.
 * Permission - "Order: Create order lines" missing instance plugin perms. Refs UIOR-819.
 
 ## [3.0.0](https://github.com/folio-org/ui-orders/tree/v3.0.0) (2021-10-08)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.2...v3.0.0)
 
 * Sorting of data in the "Title or package name" column is not performed in the POL list in the "Orders" app. Refs UIOR-742.
@@ -490,20 +454,17 @@ Translations update.
 * Error message when trying to view order templates with order format set to "electronic" or "p/e mix" in POL details. Refs UIOR-758.
 
 ## [2.4.2](https://github.com/folio-org/ui-orders/tree/v2.4.2) (2021-09-08)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.1...v2.4.2)
 
 * global CSS styles force landscape printing in other modules. Refs UIOR-775.
 
 ## [2.4.1](https://github.com/folio-org/ui-orders/tree/v2.4.1) (2021-07-28)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.4.0...v2.4.1)
 
 * Prefix, suffix as well as PO and POL tags missing from export. Refs UIOR-755.
 * Publication date not populated when using 'Title look up'. Refs UIOR-751.
 
 ## [2.4.0](https://github.com/folio-org/ui-orders/tree/v2.4.0) (2021-06-18)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.1...v2.4.0)
 
 * Filter order lines by Expense class. Refs UIOR-678.
@@ -528,7 +489,6 @@ Translations update.
 * Add Print action and icon to order actions menu. Refs UIOR-672.
 
 ## [2.3.1](https://github.com/folio-org/ui-orders/tree/v2.3.1) (2021-04-16)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.3.0...v2.3.1)
 
 * Add Ongoing to the POL filters. Refs UIOR-688.
@@ -539,7 +499,6 @@ Translations update.
 * POL: Adjust the UI for account number to also display the account name. Refs UIOR-706.
 
 ## [2.3.0](https://github.com/folio-org/ui-orders/tree/v2.3.0) (2021-03-18)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.6...v2.3.0)
 
 * Vendor ref number search is not working in the POL. Refs UIOR-668.
@@ -569,37 +528,32 @@ Translations update.
 * Add "Export results (CSV)" action to orders app. Refs UIOR-631.
 
 ## [2.2.6](https://github.com/folio-org/ui-orders/tree/v2.2.6) (2020-11-20)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.5...v2.2.6)
 
 * UIOR-627 fix for fix: remove extra spaces in `||` query filter param.
 
-## [2.2.5](https://github.com/folio-org/ui-orders/tree/v2.2.5) (2020-11-19)
 
+## [2.2.5](https://github.com/folio-org/ui-orders/tree/v2.2.5) (2020-11-19)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.4...v2.2.5)
 
 * UIOR-627 fix for more than one related agreement
 
 ## [2.2.4](https://github.com/folio-org/ui-orders/tree/v2.2.4) (2020-11-18)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.3...v2.2.4)
 
 * Fix improvement for unable to view PO Line when accessing via Agreements app. Refs UIOR-627
 
 ## [2.2.3](https://github.com/folio-org/ui-orders/tree/v2.2.3) (2020-11-13)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.2...v2.2.3)
 
 * Unable to view PO Line when accessing via Agreements app. Refs UIOR-627
 
 ## [2.2.2](https://github.com/folio-org/ui-orders/tree/v2.2.2) (2020-11-12)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.1...v2.2.2)
 
 * UIOR-609 revert - disable field location of order is not pending
 
 ## [2.2.1](https://github.com/folio-org/ui-orders/tree/v2.2.1) (2020-11-11)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.2.0...v2.2.1)
 
 * Clone purchase order does not clone Prefix and suffix. Refs UIOR-626.
@@ -611,7 +565,6 @@ Translations update.
 * Orders and receiving - want to see that an order is closed in search result list. Refs UIOR-620
 
 ## [2.2.0](https://github.com/folio-org/ui-orders/tree/v2.2.0) (2020-10-09)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.1.1...v2.2.0)
 
 * Can remove but can not edit location on Open POL. Refs UIOR-609
@@ -636,7 +589,6 @@ Translations update.
 * Fix Missing asterisk on location quantity fields. Refs UIOR-590
 
 ### Stories
-
 * [UIOR-561](https://issues.folio.org/browse/UIOR-561) Migrate to react-final-form
 * [UIOR-585](https://issues.folio.org/browse/UIOR-585) Add POL number to the POL details header
 * [UISACQCOMP-3](https://issues.folio.org/browse/UISACQCOMP-3) Handle import of stripes-acq-components to modules and platform
@@ -645,33 +597,27 @@ Translations update.
 * [UIOR-417](https://issues.folio.org/browse/UIOR-417) Retain filters when switching from PO to POL and back
 
 ### Bug fixes
-
 * [UIOR-583](https://issues.folio.org/browse/UIOR-583) Can use invalid characters in prefix and suffix
 * [UISACQCOMP-2](https://issues.folio.org/browse/UISACQCOMP-2) ACQ - CurrencySelect values are not translated
 * [UIOR-577](https://issues.folio.org/browse/UIOR-577) Update agreement line accordion label
 * [UIOR-524](https://issues.folio.org/browse/UIOR-524) Accessibility Error: Form elements must have labels
 
 ## [2.1.1](https://github.com/folio-org/ui-orders/tree/v2.1.1) (2020-07-08)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.1.0...v2.1.1)
 
 ### Stories
-
 * [UIOR-569](https://issues.folio.org/browse/UIOR-569) Ability to change price and fund distribution information for Open order
 
 ### Bug fixes
-
 * [UIOR-576](https://issues.folio.org/browse/UIOR-576) Reason for closure not removed from POL when reopened
 * [UIOR-578](https://issues.folio.org/browse/UIOR-578) Claim filters not working
 * [UIOR-572](https://issues.folio.org/browse/UIOR-572) Fund codes doesn't display in Order lines list
 * [UIOR-570](https://issues.folio.org/browse/UIOR-570) Fund distributions link to existing encumbrance when order is cloned
 
 ## [2.1.0](https://github.com/folio-org/ui-orders/tree/v2.1.0) (2020-06-12)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.4...v2.1.0)
 
 ### Stories
-
 * [UIOR-530](https://issues.folio.org/browse/UIOR-530) Improve Select location dropdown to use only select Location plugin
 * [UIOR-433](https://issues.folio.org/browse/UIOR-433) Ability to change price and fund distribution information without closing order
 * [UIOR-444](https://issues.folio.org/browse/UIOR-444) Ability to change quantity ordered without closing order
@@ -690,68 +636,54 @@ Translations update.
 * [UIOR-540](https://issues.folio.org/browse/UIOR-540) Add loading indicator when selecting new records
 
 ### Bug fixes
-
 * [UIOR-493](https://issues.folio.org/browse/UIOR-493) Display the PO Line record when a new PO Line is added
 * [UIOR-567](https://issues.folio.org/browse/UIOR-567) Can not tell that order has been cloned successfully
 * [UIOR-565](https://issues.folio.org/browse/UIOR-565) Ongoing order not saving when not using template
 
 ## [2.0.5](https://github.com/folio-org/ui-orders/tree/v2.0.5) (2020-05-13)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.4...v2.0.5)
 
 ### Bug fixes
-
 * [UIOR-562](https://issues.folio.org/browse/UIOR-562) Created By shows last clicked User name
 
 ## [2.0.4](https://github.com/folio-org/ui-orders/tree/v2.0.4) (2020-04-24)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.3...v2.0.4)
 
 ### Bug fixes
-
 * [UIOR-555](https://issues.folio.org/browse/UIOR-555) Refine styling of Title field at PO Line form
 * [UIOR-554](https://issues.folio.org/browse/UIOR-554) Click on instance doesn't select it and plugin-find-instance doesn't close
 * [UIOR-552](https://issues.folio.org/browse/UIOR-552) Can not remove product ID without disconnecting instance
 
 ## [2.0.3](https://github.com/folio-org/ui-orders/tree/v2.0.3) (2020-04-09)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.2...v2.0.3)
 
 ### Stories
-
 * [UIOR-516](https://issues.folio.org/browse/UIOR-516) opt-in to Load More in Lists of orders and lines
 
 ## [2.0.2](https://github.com/folio-org/ui-orders/tree/v2.0.2) (2020-04-06)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.1...v2.0.2)
 
 ### Bug fixes
-
 * [UIOR-543](https://issues.folio.org/browse/UIOR-543) Permission issue with Orders: create order
 * [UIOR-537](https://issues.folio.org/browse/UIOR-537) 'Check-in Items' permission still shows in permissions list
 
 ## [2.0.1](https://github.com/folio-org/ui-orders/tree/v2.0.1) (2020-03-30)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v2.0.0...v2.0.1)
 
 ### Stories
-
 * [UIOR-508](https://issues.folio.org/browse/UIOR-508) TECH-DEBT refactor PO list to not use SearchAndSort
 * [UIOR-529](https://issues.folio.org/browse/UIOR-529) New icon for "Open order"
 
 ### Bug fixes
-
 * [UIOR-536](https://issues.folio.org/browse/UIOR-536) Can not edit POL in testing or snapshot
 * [UIOR-535](https://issues.folio.org/browse/UIOR-535) Cancel POL creation doesn't reload PO
 
 ## [2.0.0](https://github.com/folio-org/ui-orders/tree/v2.0.0) (2020-03-13)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.3...v2.0.0)
 
 * bump the @folio/stripes peer to v3.0.0
 
 ### Stories
-
 * [UIREC-60](https://issues.folio.org/browse/UIREC-60) Improve Location filter on the Titles list to use location look-up
 * [UIOR-439](https://issues.folio.org/browse/UIOR-439) Migrate orders settings from mod-configuration
 * [UIOR-521](https://issues.folio.org/browse/UIOR-521) New icon for "Close order"
@@ -775,7 +707,6 @@ Translations update.
 * [UIOR-402](https://issues.folio.org/browse/UIOR-402) Display the Date received checked-in pieces
 
 ### Bug fixes
-
 * [UIOR-333](https://issues.folio.org/browse/UIOR-333) Error not displayed, if close order fails
 * [UIOR-303](https://issues.folio.org/browse/UIOR-303) Fix the ghost text placeholders for PO and POL searches
 * [UIOR-504](https://issues.folio.org/browse/UIOR-504) Fix the alphabetical order of 3 order setting dropdowns
@@ -784,17 +715,14 @@ Translations update.
 * [UIOR-502](https://issues.folio.org/browse/UIOR-502) Plus action appears when POL isPackage = true
 
 ## [1.8.3](https://github.com/folio-org/ui-orders/tree/v1.8.3) (2020-01-04)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.2...v1.8.3)
 
 * Handle more error codes on save PO and PO line to provide more meaningful messages
 
 ## [1.8.2](https://github.com/folio-org/ui-orders/tree/v1.8.2) (2019-12-18)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.1...v1.8.2)
 
 ### Bug fixes
-
 * [UIOR-460](https://issues.folio.org/browse/UIOR-460) Capture cost information and fund distributions in the currency selected at POL
 * [UIOR-381](https://issues.folio.org/browse/UIOR-381) Template fix: Currency
 * [UIOR-478](https://issues.folio.org/browse/UIOR-478) Invoices from the previous order is shown
@@ -803,22 +731,18 @@ Translations update.
 * [UIOR-483](https://issues.folio.org/browse/UIOR-483) Orders: Can't filter on 'reason for closure'
 
 ## [1.8.1](https://github.com/folio-org/ui-orders/tree/v1.8.1) (2019-12-12)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.0...v1.8.1)
 
 ### Bug fixes
-
 * [UIOR-462](https://issues.folio.org/browse/UIOR-462) Cannot fill in any of the cost detail fields in Order Templates
 * [UINV-96](https://issues.folio.org/browse/UINV-96) Closing reasons are not loaded
 * [UIOR-464](https://issues.folio.org/browse/UIOR-464) Calculation of estimated price in cost details sometimes blocks POLs from being created/saved
 * [UIOR-470](https://issues.folio.org/browse/UIOR-470) Users is requested with MAX_INT limit which requests all users
 
 ## [1.8.0](https://github.com/folio-org/ui-orders/tree/v1.8.0) (2019-12-04)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
 
 ### Stories
-
 * [UIOR-431](https://issues.folio.org/browse/UIOR-431) Prevent encumbering with Funds that have insufficient amounts to cover distribution
 * [UIOR-451](https://issues.folio.org/browse/UIOR-451) Item details: UUID not connected message
 * [UIOR-376](https://issues.folio.org/browse/UIOR-376) For receiving and check-in of POLs, only display Item status = In process
@@ -861,7 +785,6 @@ Translations update.
 * [UIOR-348](https://issues.folio.org/browse/UIOR-348) Store/Retrieve order templates in new order-templates API
 
 ### Bug fixes
-
 * [UIOR-459](https://issues.folio.org/browse/UIOR-459) Cannot save tenant address
 * [UIOR-455](https://issues.folio.org/browse/UIOR-455) Cancel button on PO and POL form is now labeled "Close"
 * [UIOR-442](https://issues.folio.org/browse/UIOR-442) Creating 2nd PO automatically does not work
@@ -884,21 +807,17 @@ Translations update.
 * [UIOR-356](https://issues.folio.org/browse/UIOR-356) Locations in POL dropdown should be in alphabetical order
 
 ## [1.7.1](https://github.com/folio-org/ui-orders/tree/v1.7.1) (2019-09-25)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.0...v1.7.1)
 
 ### Bug Fixes
-
 * [UIOR-386](https://issues.folio.org/browse/UIOR-386) POL check box is not displaying as active in receiving and receiving history
 * [UIOR-405](https://issues.folio.org/browse/UIOR-405) Fix bug with reassign template when editing new PO
 * [UIOP-404](https://issues.folio.org/browse/UIOR-404) Fix sort order for template varies
 
 ## [1.7.0](https://github.com/folio-org/ui-orders/tree/v1.7.0) (2019-09-11)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.6.0...v1.7.0)
 
 ### Stories
-
 * [UIOR-316](https://issues.folio.org/browse/UIOR-316) Create Acq Unit secondary filter option for Orders
 * [UIOR-310](https://issues.folio.org/browse/UIOR-310) Revise the Orders search results list columns to include "Acquisition units"
 * [UIOR-300](https://issues.folio.org/browse/UIOR-300) Ability to assign acquisition unit(s) to order records
@@ -907,7 +826,6 @@ Translations update.
 * [UIOR-123](https://issues.folio.org/browse/UIOR-123) PO and PO Line: Add "Related Invoices" accordion
 
 ### Bug Fixes
-
 * [UIOR-367](https://issues.folio.org/browse/UIOR-367) POL Keyword search not working
 * [UIOR-364](https://issues.folio.org/browse/UIOR-364) Order templates not in alphabetical order
 * [UIOR-362](https://issues.folio.org/browse/UIOR-362) Bill-to Ship-to address not aligned properly
@@ -917,7 +835,6 @@ Translations update.
 * [UIOR-328](https://issues.folio.org/browse/UIOR-328) Material type should have asterisk if required
 
 ## [1.6.0](https://github.com/folio-org/ui-orders/tree/v1.6.0) (2019-07-23)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.5.0...v1.6.0)
 
 * [UIOR-301](https://issues.folio.org/browse/UIOR-301) Create PO and POL(s) using order templates
@@ -938,11 +855,8 @@ Translations update.
 * [UIOR-245](https://issues.folio.org/browse/UIOR-245) When receiving a single line PO, automatically select the line for receipt
 
 ## [1.5.0](https://github.com/folio-org/ui-orders/tree/v1.5.0) (2019-06-12)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.4.0...v1.5.0)
-
 ### Story
-
 * [UIOR-252](https://issues.folio.org/browse/UIOR-252) Allow edit and deletion of pending check-in pieces
 * [UIOR-261](https://issues.folio.org/browse/UIOR-261) Create the primary search options for Orders
 * [UIOR-255](https://issues.folio.org/browse/UIOR-255) Reconfigure the PO remove button and add confirmation modal
@@ -967,9 +881,7 @@ Translations update.
 * [UIOR-276](https://issues.folio.org/browse/UIOR-276) Support PoLine FundDistribution schema updates from UI
 * [UIOR-288](https://issues.folio.org/browse/UIOR-288) PO Line: product id type is uuid
 * [UIOR-289](https://issues.folio.org/browse/UIOR-289) Navigation to PO details from POL details (order lines screen)
-
 ### Bug
-
 * [UIOR-296](https://issues.folio.org/browse/UIOR-296) Make the acquisitions addresses retain line breaks
 * [UIOR-201](https://issues.folio.org/browse/UIOR-201) English words/phrases showing up in FOLIO Apps UI while in RTL - Requests App Settings
 * [UIOR-218](https://issues.folio.org/browse/UIOR-218) UI validation is unsynced with back-end for location quantities
@@ -978,9 +890,7 @@ Translations update.
 * [UIOR-292](https://issues.folio.org/browse/UIOR-292) Suppress up/down arrow for search results columns that cannot be sorted
 
 ## [1.4.0](https://github.com/folio-org/ui-orders/tree/v1.4.0) (2019-05-03)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.3.1...v1.4.0)
-
 * UIOR-218 UI validation is unsynced with back-end for location quantities
 * UIOR-214 Update PO search result list columns
 * UIOR-215 Update POL table columns
@@ -1007,15 +917,11 @@ Translations update.
 * UIOR-149 Orders Settings Create Inventory
 
 ## [1.3.1](https://github.com/folio-org/ui-orders/tree/v1.3.1) (2019-03-22)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.3.0...v1.3.1)
-
 * Translations updated
 
 ## [1.3.0](https://github.com/folio-org/ui-orders/tree/v1.3.0) (2019-03-22)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.2.0...v1.3.0)
-
 * UIOR-134 Support on UI Refactoring of POLine model - Schemas
 * UIOR-140 PO Line: Physical quantities validation error message
 * UIOR-141 Purchase Order: Display Total estimated price and remove adjustments
@@ -1034,7 +940,6 @@ Translations update.
 * UIOR-174 Receiving: Receive items from a PO Line quantity
 
 ## [1.2.0](https://github.com/folio-org/ui-orders/tree/v1.2.0) (2019-02-22)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.1.1...v1.2.0)
 
 * UIOR-111 Adjustments to PO Line number field on create/edit PO Line forms
@@ -1051,14 +956,12 @@ Translations update.
 * FOLIO-1720 bump up to 3.0 orders OKAPI
 
 ## [1.1.1](https://github.com/folio-org/ui-orders/tree/v1.1.1) (2019-01-16)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.1.0...v1.1.1)
 
 * UIOR-101 bumped up version of OKAPI mod-orders to 2.0.1
 * UIOR-84 Edit PO Line -> Labels for header and Delete button
 
 ## [1.1.0](https://github.com/folio-org/ui-orders/tree/v1.1.0) (2019-01-15)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.0.0...v1.1.0)
 
 * UIOR-46 Close order
@@ -1074,7 +977,6 @@ Translations update.
 * fix UIOR-85 Create/Edit Purchase Order -> Empty Notes
 
 ## [1.0.0](https://github.com/folio-org/ui-orders/tree/v1.0.0) (2018-12-07)
-
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v0.1.0...v1.0.0)
 
 * Revise requirements of fields on PO and PO Line forms (UIOR-48).
