@@ -2,7 +2,9 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   validateDuplicates,
-  validatePrefixSuffixName,
+  validateName,
+  validatePrefixName,
+  validateSuffixName,
 } from './utils';
 
 describe('validateDuplicates', () => {
@@ -71,7 +73,23 @@ describe('validateDuplicates', () => {
   });
 });
 
-describe('validatePrefixSuffixName', () => {
+describe('validateName', () => {
+  it('should return an empty object when the name validates correctly', () => {
+    const name = 'suf';
+    expect(validateName(name)).toEqual({});
+  });
+
+  it('should return an error message for name', () => {
+    const name = 'suf0c966bd2';
+    const actual = validateName(name);
+    const expected = (
+      <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />
+    );
+    expect(actual.name).toEqual(expected);
+  });
+});
+
+describe('validateSuffixName', () => {
   it('should return an empty object when the name validates correctly', () => {
     const props = {
       id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
@@ -80,7 +98,7 @@ describe('validatePrefixSuffixName', () => {
       deprecated: true,
     };
 
-    expect(validatePrefixSuffixName(props)).toEqual({});
+    expect(validateSuffixName(props)).toEqual({});
   });
 
   it('should return an error message for name', () => {
@@ -91,7 +109,35 @@ describe('validatePrefixSuffixName', () => {
       deprecated: true,
     };
 
-    const actual = validatePrefixSuffixName(props);
+    const actual = validateSuffixName(props);
+    const expected = (
+      <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />
+    );
+    expect(actual.name).toEqual(expected);
+  });
+});
+
+describe('validatePrefixName', () => {
+  it('should return an empty object when the name validates correctly', () => {
+    const props = {
+      id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
+      name: 'pref',
+      description: 'Prefix for test purposes',
+      deprecated: true,
+    };
+
+    expect(validatePrefixName(props)).toEqual({});
+  });
+
+  it('should return an error message for name', () => {
+    const props = {
+      id: '0c966bd2-0ca6-43a2-9388-3a4403f19e6f',
+      name: 'pref0c966bd2',
+      description: 'Prefix for test purposes',
+      deprecated: true,
+    };
+
+    const actual = validatePrefixName(props);
     const expected = (
       <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />
     );

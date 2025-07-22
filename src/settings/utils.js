@@ -7,16 +7,20 @@ import {
 
 const NAME_REGEXP = new RegExp(/[^a-zA-Z\d]|^.{8,}$/);
 
-export const validatePrefixSuffixName = (props) => {
-  const errors = {};
-  const name = props?.name?.match(NAME_REGEXP)
-    ? <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
-    : undefined;
+export const validatePrefixName = ({ name }) => {
+  return validateName(name);
+};
 
-  if (name != undefined) {
-    errors['name'] = name;
-  }
-  return errors;
+export const validateSuffixName = ({ name }) => {
+  return validateName(name);
+};
+
+export const validateName = (name) => {
+  if (!name?.match(NAME_REGEXP)) return {};
+
+  return {
+    name: <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />,
+  };
 };
 
 export const formatPrefixDeprecated = ({ name, deprecated }) => (

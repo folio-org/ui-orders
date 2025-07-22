@@ -19,7 +19,7 @@ import { Checkbox } from '@folio/stripes/components';
 
 import {
   formatSuffixDeprecated,
-  validatePrefixSuffixName,
+  validateSuffixName,
 } from '../utils';
 
 const suffixColumnMapping = {
@@ -72,7 +72,7 @@ class Suffixes extends Component {
           stripes={stripes}
           hiddenFields={suffixHiddenFields}
           visibleFields={suffixVisibleFields}
-          validate={validatePrefixSuffixName}
+          validate={validateSuffixName}
           fieldComponents={fieldComponents}
           formatter={formatter}
         />
