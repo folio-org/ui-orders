@@ -59,7 +59,10 @@ import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import { getFullOrderNumber } from '../Utils/orderResource';
-import { getPrefixSuffixOptions } from './util';
+import { 
+  getPrefixOptions,
+  getSuffixOptions,
+} from './util';
 
 import {
   ACCORDION_ID,
@@ -313,13 +316,13 @@ const POForm = ({
   const poNumberPrefixInitial = initialValues?.poNumberPrefix ?? '';
   const poNumberSuffixInitial = initialValues?.poNumberSuffix ?? '';
 
-  const prefixesSetting = getPrefixSuffixOptions(
+  const prefixesSetting = getPrefixOptions(
     parentResources?.prefixesSetting?.records ?? [],
     poNumberPrefixInitial,
     intl,
   );
 
-  const suffixesSetting = getPrefixSuffixOptions(
+  const suffixesSetting = getSuffixOptions(
     parentResources?.suffixesSetting?.records ?? [],
     poNumberSuffixInitial,
     intl,

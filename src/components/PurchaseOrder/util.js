@@ -126,15 +126,14 @@ export const getPoFieldsLabelMap = () => {
 };
 
 /**
- * Calculate the options of a prefix or suffix to use in a dropdown.
+ * Calculate the options of a prefix to use in a dropdown.
  * https://github.com/folio-org/acq-models/blob/master/mod-orders-storage/schemas/prefix.json
- * https://github.com/folio-org/acq-models/blob/master/mod-orders-storage/schemas/suffix.json
- * @param {object} records - array of json objects (prefix or suffix) with { name, deprecated } 
+ * @param {object} records - array of json objects (prefix) with { name, deprecated } 
  * @param {string} initialSelectedValue - the value of the dropdown on initialization
  * @param {class} intl - class for internationalization
  * @returns {object} array of {label, value} pairs.
  */
-export const getPrefixSuffixOptions = (
+export const getPrefixOptions = (
   records,
   initialSelectedValue,
   intl,
@@ -144,7 +143,31 @@ export const getPrefixSuffixOptions = (
     .map(({ name, deprecated }) => {
       return {
         label: deprecated
-          ? intl.formatMessage({ id: 'ui-orders.orderDetails.deprecated' }, { name })
+          ? intl.formatMessage({ id: 'ui-orders.orderDetails.prefix.deprecated' }, { name })
+          : name,
+        value: name,
+      };
+    });
+
+/**
+ * Calculate the options of a suffix to use in a dropdown.
+ * https://github.com/folio-org/acq-models/blob/master/mod-orders-storage/schemas/suffix.json
+ * @param {object} records - array of json objects (suffix) with { name, deprecated } 
+ * @param {string} initialSelectedValue - the value of the dropdown on initialization
+ * @param {class} intl - class for internationalization
+ * @returns {object} array of {label, value} pairs.
+ */
+export const getSuffixOptions = (
+  records,
+  initialSelectedValue,
+  intl,
+) =>
+  records
+    .filter(({ name, deprecated }) => !deprecated || name === initialSelectedValue)
+    .map(({ name, deprecated }) => {
+      return {
+        label: deprecated
+          ? intl.formatMessage({ id: 'ui-orders.orderDetails.suffix.deprecated' }, { name })
           : name,
         value: name,
       };
