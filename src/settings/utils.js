@@ -10,7 +10,7 @@ export const validatePrefixSuffixName = (props) => {
     ? <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
     : undefined;
 
-  if(name != undefined) {
+  if (name != undefined) {
     errors['name'] = name;
   }
   return errors;

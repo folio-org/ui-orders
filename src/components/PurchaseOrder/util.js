@@ -125,24 +125,27 @@ export const getPoFieldsLabelMap = () => {
   };
 };
 
+/**
+ * Calculate the options of a prefix or suffix to use in a dropdown.
+ * https://github.com/folio-org/acq-models/blob/master/mod-orders-storage/schemas/prefix.json
+ * https://github.com/folio-org/acq-models/blob/master/mod-orders-storage/schemas/suffix.json
+ * @param {object} records - array of json objects (prefix or suffix) with { name, deprecated } 
+ * @param {string} initialSelectedValue - the value of the dropdown on initialization
+ * @param {class} intl - class for internationalization
+ * @returns {object} array of {label, value} pairs.
+ */
 export const getPrefixSuffixOptions = (
   records,
-  selectedValue,
+  initialSelectedValue,
   intl,
 ) =>
   records
-    .filter(({ name, deprecated }) => !deprecated || name === selectedValue)
+    .filter(({ name, deprecated }) => !deprecated || name === initialSelectedValue)
     .map(({ name, deprecated }) => {
-      const deprecatedText = intl.formatMessage(
-        {
-          id: 'ui-orders.orderDetails.deprecated',
-        },
-        { 
-          name: name, 
-        },
-      );
       return {
-        label: deprecated ? deprecatedText : name,
+        label: deprecated
+          ? intl.formatMessage({ id: 'ui-orders.orderDetails.deprecated' }, { name })
+          : name,
         value: name,
       };
     });

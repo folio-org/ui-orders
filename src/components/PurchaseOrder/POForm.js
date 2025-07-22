@@ -310,17 +310,17 @@ const POForm = ({
 
   const intl = useIntl();
 
-  const poNumberPrefixInitial = get(initialValues, 'poNumberPrefix', '');
-  const poNumberSuffixInitial = get(initialValues, 'poNumberSuffix', '');
+  const poNumberPrefixInitial = initialValues?.poNumberPrefix ?? '';
+  const poNumberSuffixInitial = initialValues?.poNumberSuffix ?? '';
 
   const prefixesSetting = getPrefixSuffixOptions(
-    get(parentResources, 'prefixesSetting.records', []),
+    parentResources?.prefixesSetting?.records ?? [],
     poNumberPrefixInitial,
     intl,
   );
 
   const suffixesSetting = getPrefixSuffixOptions(
-    get(parentResources, 'suffixesSetting.records', []),
+    parentResources?.suffixesSetting?.records ?? [],
     poNumberSuffixInitial,
     intl,
   );
