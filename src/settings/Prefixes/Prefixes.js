@@ -18,7 +18,7 @@ import {
 import { Checkbox } from '@folio/stripes/components';
 
 import {
-  formatDeprecated,
+  formatPrefixDeprecated,
   validatePrefixSuffixName,
 } from '../utils';
 
@@ -43,7 +43,7 @@ const fieldComponents = {
 };
 
 const formatter = {
-  deprecated: formatDeprecated,
+  deprecated: formatPrefixDeprecated,
 };
 
 class Prefixes extends Component {

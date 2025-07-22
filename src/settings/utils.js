@@ -1,6 +1,9 @@
 import { Checkbox } from '@folio/stripes/components';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { 
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 const NAME_REGEXP = new RegExp(/[^a-zA-Z\d]|^.{8,}$/);
 
@@ -16,9 +19,36 @@ export const validatePrefixSuffixName = (props) => {
   return errors;
 };
 
-export const formatDeprecated = ({ deprecated }) => {
-  return <Checkbox disabled checked={ deprecated }/>;
-}
+export const formatPrefixDeprecated = ({ name, deprecated }) => (
+  <DeprecatedCheckbox
+    name={name}
+    deprecated={deprecated}
+    messageId='ui-orders.settings.poNumber.prefix.aria-label.deprecated'
+  />
+);
+
+export const formatSuffixDeprecated = ({ name, deprecated }) => (
+  <DeprecatedCheckbox
+    name={name}
+    deprecated={deprecated}
+    messageId='ui-orders.settings.poNumber.suffix.aria-label.deprecated'
+  />
+);
+
+const DeprecatedCheckbox = ({ name, deprecated, messageId }) => {
+  const intl = useIntl();
+
+  return (
+    <Checkbox
+      aria-label={intl.formatMessage(
+        { id: messageId },
+        { name }
+      )}
+      disabled
+      checked={deprecated}
+    />
+  );
+};
 
 export const validateDuplicates = (intl, fieldNames = []) => (item, index, items) => {
   const results = fieldNames.reduce((acc, fieldName) => {
