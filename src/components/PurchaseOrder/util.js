@@ -127,10 +127,10 @@ export const getPoFieldsLabelMap = () => {
 
 /**
  * Filter deprecated options in a dropdown.
- * @param {object[]} records - array of json objects with { name, deprecated } 
+ * @param {object[]} records - array of json objects with { name, deprecated }
  * @param {string} initialSelectedValue - the value of the dropdown on initialization
  * @param {class} intl - class for internationalization
- * @param {string} deprecatedMessageId - intl message ID for labels 
+ * @param {string} deprecatedMessageId - intl message ID for labels
  * @returns {object[]} array of {label, value} pairs.
  */
 export const filterDeprecatedOptions = (
@@ -138,22 +138,21 @@ export const filterDeprecatedOptions = (
   initialSelectedValue,
   intl,
   deprecatedMessageId,
-) =>
-  records
-    .filter(({ name, deprecated }) => !deprecated || name === initialSelectedValue)
-    .map(({ name, deprecated }) => {
-      return {
-        label: deprecated
-          ? intl.formatMessage({ id: deprecatedMessageId }, { name })
-          : name,
-        value: name,
-      };
-    });
+) => records
+  .filter(({ name, deprecated }) => !deprecated || name === initialSelectedValue)
+  .map(({ name, deprecated }) => {
+    return {
+      label: deprecated
+        ? intl.formatMessage({ id: deprecatedMessageId }, { name })
+        : name,
+      value: name,
+    };
+  });
 
 /**
  * Calculate the options of a prefix to use in a dropdown.
  * https://github.com/folio-org/acq-models/blob/master/mod-orders-storage/schemas/prefix.json
- * @param {object[]} records - array of json objects (prefix) with { name, deprecated } 
+ * @param {object[]} records - array of json objects (prefix) with { name, deprecated }
  * @param {string} initialSelectedValue - the value of the dropdown on initialization
  * @param {class} intl - class for internationalization
  * @returns {object[]} array of {label, value} pairs.
@@ -162,18 +161,17 @@ export const getPrefixOptions = (
   records,
   initialSelectedValue,
   intl,
-) =>
-  filterDeprecatedOptions(
-    records,
-    initialSelectedValue,
-    intl,
-    'ui-orders.orderDetails.prefix.deprecated',
-  );
+) => filterDeprecatedOptions(
+  records,
+  initialSelectedValue,
+  intl,
+  'ui-orders.orderDetails.prefix.deprecated',
+);
 
 /**
  * Calculate the options of a suffix to use in a dropdown.
  * https://github.com/folio-org/acq-models/blob/master/mod-orders-storage/schemas/suffix.json
- * @param {object[]} records - array of json objects (suffix) with { name, deprecated } 
+ * @param {object[]} records - array of json objects (suffix) with { name, deprecated }
  * @param {string} initialSelectedValue - the value of the dropdown on initialization
  * @param {class} intl - class for internationalization
  * @returns {object[]} array of {label, value} pairs.
@@ -182,10 +180,9 @@ export const getSuffixOptions = (
   records,
   initialSelectedValue,
   intl,
-) =>
-  filterDeprecatedOptions(
-    records,
-    initialSelectedValue,
-    intl,
-    'ui-orders.orderDetails.suffix.deprecated',
-  );
+) => filterDeprecatedOptions(
+  records,
+  initialSelectedValue,
+  intl,
+  'ui-orders.orderDetails.suffix.deprecated',
+);

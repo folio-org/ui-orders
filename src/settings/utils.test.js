@@ -76,6 +76,7 @@ describe('validateDuplicates', () => {
 describe('validateName', () => {
   it('should return an empty object when the name validates correctly', () => {
     const name = 'suf';
+
     expect(validateName(name)).toEqual({});
   });
 
@@ -83,8 +84,9 @@ describe('validateName', () => {
     const name = 'suf0c966bd2';
     const actual = validateName(name);
     const expected = (
-      <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />
+      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
     );
+
     expect(actual.name).toEqual(expected);
   });
 });
@@ -108,11 +110,11 @@ describe('validateSuffixName', () => {
       description: 'Suffix for test purposes',
       deprecated: true,
     };
-
     const actual = validateSuffixName(props);
     const expected = (
-      <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />
+      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
     );
+
     expect(actual.name).toEqual(expected);
   });
 });
@@ -136,11 +138,11 @@ describe('validatePrefixName', () => {
       description: 'Prefix for test purposes',
       deprecated: true,
     };
-
     const actual = validatePrefixName(props);
     const expected = (
-      <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />
+      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
     );
+
     expect(actual.name).toEqual(expected);
   });
 });

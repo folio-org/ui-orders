@@ -34,7 +34,7 @@ const checkboxFieldType = ({ fieldProps }) => (
   <Field
     {...fieldProps}
     component={Checkbox}
-    type='checkbox'
+    type="checkbox"
   />
 );
 
@@ -58,7 +58,7 @@ class Prefixes extends Component {
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.prefixes' })}>
         <this.connectedControlledVocab
-          formType='final-form'
+          formType="final-form"
           baseUrl={PREFIXES_API}
           columnMapping={prefixColumnMapping}
           editable

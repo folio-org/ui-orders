@@ -59,7 +59,7 @@ import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import { getFullOrderNumber } from '../Utils/orderResource';
-import { 
+import {
   getPrefixOptions,
   getSuffixOptions,
 } from './util';

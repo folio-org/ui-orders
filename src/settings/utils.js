@@ -1,11 +1,19 @@
 import { Checkbox } from '@folio/stripes/components';
 import React from 'react';
-import { 
+import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
 
 const NAME_REGEXP = new RegExp(/[^a-zA-Z\d]|^.{8,}$/);
+
+export const validateName = (name) => {
+  if (!name?.match(NAME_REGEXP)) return {};
+
+  return {
+    name: <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />,
+  };
+};
 
 export const validatePrefixName = ({ name }) => {
   return validateName(name);
@@ -15,19 +23,11 @@ export const validateSuffixName = ({ name }) => {
   return validateName(name);
 };
 
-export const validateName = (name) => {
-  if (!name?.match(NAME_REGEXP)) return {};
-
-  return {
-    name: <FormattedMessage id='ui-orders.settings.poNumber.nameValidation' />,
-  };
-};
-
 export const formatPrefixDeprecated = ({ name, deprecated }) => (
   <DeprecatedCheckbox
     name={name}
     deprecated={deprecated}
-    messageId='ui-orders.settings.poNumber.prefix.aria-label.deprecated'
+    messageId="ui-orders.settings.poNumber.prefix.aria-label.deprecated"
   />
 );
 
@@ -35,7 +35,7 @@ export const formatSuffixDeprecated = ({ name, deprecated }) => (
   <DeprecatedCheckbox
     name={name}
     deprecated={deprecated}
-    messageId='ui-orders.settings.poNumber.suffix.aria-label.deprecated'
+    messageId="ui-orders.settings.poNumber.suffix.aria-label.deprecated"
   />
 );
 
@@ -46,7 +46,7 @@ const DeprecatedCheckbox = ({ name, deprecated, messageId }) => {
     <Checkbox
       aria-label={intl.formatMessage(
         { id: messageId },
-        { name }
+        { name },
       )}
       disabled
       checked={deprecated}

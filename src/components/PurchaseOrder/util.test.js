@@ -25,7 +25,7 @@ jest.mock('react-intl', () => ({
 describe('getPrefixOptions', () => {
   beforeEach(() => {
     useIntl.mockReturnValue({
-      formatMessage: ({ }, { name }) => `${name} (deprecated)`,
+      formatMessage: ({ _ }, { name }) => `${name} (deprecated)`,
     });
   });
 
@@ -81,6 +81,7 @@ describe('getPrefixOptions', () => {
         value: 'pref3',
       },
     ];
+
     expect(actual).toEqual(expected);
   });
 });
@@ -88,7 +89,7 @@ describe('getPrefixOptions', () => {
 describe('getSuffixOptions', () => {
   beforeEach(() => {
     useIntl.mockReturnValue({
-      formatMessage: ({ }, { name }) => `${name} (deprecated)`,
+      formatMessage: ({ _ }, { name }) => `${name} (deprecated)`,
     });
   });
 
@@ -144,6 +145,7 @@ describe('getSuffixOptions', () => {
         value: 'suffix3',
       },
     ];
+
     expect(actual).toEqual(expected);
   });
 });
