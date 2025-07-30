@@ -933,5 +933,6 @@
     "orderDetails.yearOpened": "Rok otwarcia",
     "poLine.receivingWorkflow.infoPopover": "Wybranie tej opcji spowoduje, że ilość w zamówieniu i ilość dostarczona będzie taka sama. Oznacza to również, że aktualizacja jednego spowoduje aktualizację drugiego. Po otwarciu zamówienia system wygeneruje części na podstawie zamówienia ilościowego. Wybranie opcji „Ilość w zamówieniu niezwiązana z ilością na rachunku” umożliwi niezależne zarządzanie liczbą odbieranych elementów i ich lokalizacjami. Możesz przekształcić pozycję zamówienia na niezależne w dowolnym momencie, ale nie możesz przekształcić z powrotem na zsynchronizowane, gdy zamówienie jest otwarte lub zamknięte.",
     "poLine.receivingWorkflow.confirmModal.heading": "Aktualizuj przepływ pracy odbioru",
-    "poLine.receivingWorkflow.confirmModal.message": "Zamierzasz zmienić przepływ pracy odbioru na „Ilość w zamówieniu niezwiązana z ilością na rachunku ”. Tej zmiany nie można cofnąć, chyba że zamówienie jest nieotwarte. Czy na pewno chcesz kontynuować?"
+    "poLine.receivingWorkflow.confirmModal.message": "Zamierzasz zmienić przepływ pracy odbioru na „Ilość w zamówieniu niezwiązana z ilością na rachunku ”. Tej zmiany nie można cofnąć, chyba że zamówienie jest nieotwarte. Czy na pewno chcesz kontynuować?",
+    "orderDetails.openedBy": "Opened by"
 }
