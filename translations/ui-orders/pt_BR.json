@@ -694,7 +694,7 @@
     "poLine.receivingWorkflow.independent": "Quantidade independente de pedidos e recebimentos",
     "poLine.receivingWorkflow.synchronized": "Quantidade sincronizada de ordem e recebimento",
     "poLine.manualPO.info": "Esta é umo pedido de compra manual, portanto todas as linhas de pedido serão excluídas dos fluxos automatizados de exportação",
-    "relatedInvoiceLines.amount": "Quantia",
+    "relatedInvoiceLines.amount": "Valor",
     "relatedInvoiceLines.invoiceLine": "Linha da fatura #",
     "relatedInvoiceLines.invoiceDate": "Data da fatura",
     "relatedInvoiceLines.quantity": "Quantidade",
@@ -933,5 +933,6 @@
     "orderDetails.yearOpened": "Ano de abertura",
     "poLine.receivingWorkflow.infoPopover": "Selecionar \"sincronizado\" manterá a quantidade do pedido e o número de partes a serem recebidas sincronizados. Isso também significa que atualizar um atualizará o outro. Quando o pedido for aberto, o sistema gerará partes com base na quantidade do pedido. Selecionar \"pedido independente e quantidade de recebimento\" permitirá que você gerencie o número de partes recebidas e suas localizações de forma independente. Você pode converter uma linha do pedido de compra para independente a qualquer momento, mas não pode converter novamente para sincronizado quando o pedido estiver aberto ou fechado.",
     "poLine.receivingWorkflow.confirmModal.heading": "Atualizar fluxo de trabalho de recebimento",
-    "poLine.receivingWorkflow.confirmModal.message": "Você está prestes a alterar o fluxo de trabalho de recebimento para \"Pedido independente e quantidade de recebimento\". Essa alteração não pode ser desfeita, a menos que o pedido não tenha sido aberto. Tem certeza de que deseja continuar?"
+    "poLine.receivingWorkflow.confirmModal.message": "Você está prestes a alterar o fluxo de trabalho de recebimento para \"Pedido independente e quantidade de recebimento\". Essa alteração não pode ser desfeita, a menos que o pedido não tenha sido aberto. Tem certeza de que deseja continuar?",
+    "orderDetails.openedBy": "Aberto por"
 }
