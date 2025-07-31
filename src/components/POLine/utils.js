@@ -117,6 +117,7 @@ export const getPoLineFieldsLabelMap = ({
     'details.productIds[\\d].productIdType': 'stripes-acq-components.label.productIdType',
     'details.productIds[\\d].qualifier': 'stripes-acq-components.label.qualifier',
     'description': 'ui-orders.itemDetails.internalNote',
+    'suppressInstanceFromDiscovery': 'ui-orders.poLine.suppressFromDiscovery',
 
     // PO Line details fields
     'poLineNumber': 'ui-orders.poLine.number',

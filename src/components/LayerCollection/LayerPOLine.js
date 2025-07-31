@@ -592,6 +592,7 @@ function LayerPOLine({
       locations: [],
       isPackage: false,
       checkinItems: false,
+      suppressInstanceFromDiscovery: instance?.discoverySuppress || false,
     };
 
     if (vendor?.id) {
@@ -605,7 +606,14 @@ function LayerPOLine({
     }
 
     return newObj;
-  }, [createInventorySetting.eresource, createInventorySetting.physical, order, stripes.currency, vendor]);
+  }, [
+    createInventorySetting.eresource,
+    createInventorySetting.physical,
+    instance?.discoverySuppress,
+    order?.id,
+    stripes.currency,
+    vendor,
+  ]);
 
   const isntLoaded = !(
     get(resources, 'createInventory.hasLoaded') &&

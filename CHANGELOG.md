@@ -25,6 +25,7 @@
 * Remove empty lines in drop-down menus in Settings > Orders > Number generator options. Refs UIOR-1457.
 * Provide labels mapping for new fields to PO version view card. Refs UIOR-1455.
 * Clear fields after switching templates in an order. Refs UIOR-1448.
+* Allow user to set "Suppress from discovery" in the PO Line form for produced instance. Refs UIOR-1451.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
