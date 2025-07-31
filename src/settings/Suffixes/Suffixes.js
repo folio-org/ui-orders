@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Field } from 'react-final-form';
 import {
   FormattedMessage,
   injectIntl,
@@ -14,15 +15,36 @@ import {
   getControlledVocabTranslations,
   SUFFIXES_API,
 } from '@folio/stripes-acq-components';
+import { Checkbox } from '@folio/stripes/components';
 
-import { validatePrefixSuffixName } from '../utils';
+import {
+  formatSuffixDeprecated,
+  validateSuffixName,
+} from '../utils';
 
 const suffixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
   description: <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />,
+  deprecated: <FormattedMessage id="ui-orders.settings.poNumber.modifier.deprecated" />,
 };
-const suffixVisibleFields = ['name', 'description'];
+const suffixVisibleFields = ['name', 'description', 'deprecated'];
 const suffixHiddenFields = ['numberOfObjects', 'lastUpdated'];
+
+const checkboxFieldType = ({ fieldProps }) => (
+  <Field
+    {...fieldProps}
+    component={Checkbox}
+    type="checkbox"
+  />
+);
+
+const fieldComponents = {
+  deprecated: checkboxFieldType,
+};
+
+const formatter = {
+  deprecated: formatSuffixDeprecated,
+};
 
 class Suffixes extends Component {
   constructor(props) {
@@ -36,6 +58,7 @@ class Suffixes extends Component {
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}>
         <this.connectedControlledVocab
+          formType="final-form"
           baseUrl={SUFFIXES_API}
           columnMapping={suffixColumnMapping}
           editable
@@ -49,7 +72,9 @@ class Suffixes extends Component {
           stripes={stripes}
           hiddenFields={suffixHiddenFields}
           visibleFields={suffixVisibleFields}
-          validate={validatePrefixSuffixName}
+          validate={validateSuffixName}
+          fieldComponents={fieldComponents}
+          formatter={formatter}
         />
       </TitleManager>
     );
