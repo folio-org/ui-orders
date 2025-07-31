@@ -1,9 +1,10 @@
-import { Checkbox } from '@folio/stripes/components';
 import React from 'react';
 import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
+
+import { Checkbox } from '@folio/stripes/components';
 
 const NAME_REGEXP = new RegExp(/[^a-zA-Z\d]|^.{8,}$/);
 
