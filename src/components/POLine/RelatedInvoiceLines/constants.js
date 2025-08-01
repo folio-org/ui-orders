@@ -40,7 +40,7 @@ const {
 export const COLUMN_INVOICE_DATE = invoiceDate;
 export const SORTABLE_FIELDS = [COLUMN_INVOICE_DATE];
 export const SORTABLE_COLUMNS = {
-  [COLUMN_INVOICE_DATE]: item => item.invoiceDate,
+  [COLUMN_INVOICE_DATE]: item => item.invoice?.invoiceDate && new Date(item.invoice.invoiceDate),
 };
 export const VISIBLE_COLUMNS = [
   vendorInvoiceNo,
