@@ -58,7 +58,16 @@ export const shouldSetInstanceId = (formValues, inventoryData) => {
 };
 
 export const createPOLDataFromInstance = (instance = {}, identifierTypes = []) => {
-  const { contributors, editions, publication, title, identifiers, id } = instance;
+  const {
+    contributors,
+    discoverySuppress,
+    editions,
+    identifiers,
+    id,
+    publication,
+    title,
+  } = instance;
+
   const { publisher } = publication?.[0] || {};
   const publicationDate = (publication || [])
     .map(({ dateOfPublication }) => dateOfPublication)
@@ -96,12 +105,13 @@ export const createPOLDataFromInstance = (instance = {}, identifierTypes = []) =
   }
 
   return ({
-    instanceId: id,
-    titleOrPackage: title,
-    publisher: publisher || '',
-    publicationDate,
-    edition: editions?.[0] || '',
     contributors: lineContributors,
+    edition: editions?.[0] || '',
+    instanceId: id,
     productIds,
+    publicationDate,
+    publisher: publisher || '',
+    suppressInstanceFromDiscovery: discoverySuppress || false,
+    titleOrPackage: title,
   });
 };

@@ -13,7 +13,11 @@ import {
   ProductIdDetails,
 } from '@folio/stripes-acq-components';
 
-import { VersionKeyValue } from '../../../../common/VersionView';
+import { POL_FORM_FIELDS } from '../../../../common/constants';
+import {
+  VersionCheckbox,
+  VersionKeyValue,
+} from '../../../../common/VersionView';
 
 export const ItemVersionView = ({ version }) => {
   const instanceId = version?.instanceId;
@@ -27,7 +31,7 @@ export const ItemVersionView = ({ version }) => {
       <Row start="xs">
         <Col xs={12}>
           <VersionKeyValue
-            name="titleOrPackage"
+            name={POL_FORM_FIELDS.titleOrPackage}
             label={<FormattedMessage id={`ui-orders.itemDetails.${version?.isPackage ? 'packageName' : 'title'}`} />}
             value={titleValue}
           />
@@ -37,8 +41,19 @@ export const ItemVersionView = ({ version }) => {
           xs={6}
           lg={3}
         >
+          <VersionCheckbox
+            name={POL_FORM_FIELDS.isPackage}
+            checked={version?.isPackage}
+            label={<FormattedMessage id="ui-orders.poLine.package" />}
+          />
+        </Col>
+
+        <Col
+          xs={6}
+          lg={3}
+        >
           <VersionKeyValue
-            name="details.receivingNote"
+            name={POL_FORM_FIELDS.receivingNote}
             label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
             value={version?.details?.receivingNote}
           />
@@ -49,7 +64,7 @@ export const ItemVersionView = ({ version }) => {
           lg={3}
         >
           <VersionKeyValue
-            name="details.subscriptionFrom"
+            name={POL_FORM_FIELDS.subscriptionFrom}
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
             value={<FolioFormattedDate value={version?.details?.subscriptionFrom} />}
           />
@@ -60,7 +75,7 @@ export const ItemVersionView = ({ version }) => {
           lg={3}
         >
           <VersionKeyValue
-            name="details.subscriptionTo"
+            name={POL_FORM_FIELDS.subscriptionTo}
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
             value={<FolioFormattedDate value={version?.details?.subscriptionTo} />}
           />
@@ -71,7 +86,7 @@ export const ItemVersionView = ({ version }) => {
           lg={3}
         >
           <VersionKeyValue
-            name="details.subscriptionInterval"
+            name={POL_FORM_FIELDS.subscriptionInterval}
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
             value={version?.details?.subscriptionInterval}
           />
@@ -82,7 +97,7 @@ export const ItemVersionView = ({ version }) => {
           lg={3}
         >
           <VersionKeyValue
-            name="publicationDate"
+            name={POL_FORM_FIELDS.publicationDate}
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
             value={version?.publicationDate}
           />
@@ -92,7 +107,7 @@ export const ItemVersionView = ({ version }) => {
           lg={3}
         >
           <VersionKeyValue
-            name="publisher"
+            name={POL_FORM_FIELDS.publisher}
             label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
             value={version?.publisher}
           />
@@ -102,7 +117,7 @@ export const ItemVersionView = ({ version }) => {
           lg={3}
         >
           <VersionKeyValue
-            name="edition"
+            name={POL_FORM_FIELDS.edition}
             label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
             value={version?.edition}
           />
@@ -113,18 +128,28 @@ export const ItemVersionView = ({ version }) => {
           lg={3}
         >
           <VersionKeyValue
-            name="packagePoLineId"
+            name={POL_FORM_FIELDS.packagePoLineId}
             label={<FormattedMessage id="ui-orders.itemDetails.linkPackage" />}
             value={version?.packagePoLineId}
           />
         </Col>
 
+        <Col xs>
+          <VersionCheckbox
+            name={POL_FORM_FIELDS.suppressInstanceFromDiscovery}
+            checked={version?.suppressInstanceFromDiscovery}
+            label={<FormattedMessage id="ui-orders.poLine.suppressFromDiscovery" />}
+          />
+        </Col>
+      </Row>
+
+      <Row start="xs">
         <Col xs={12}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}
             value={(
               <ContributorDetails
-                name="contributors"
+                name={POL_FORM_FIELDS.contributors}
                 contributors={version?.contributors}
               />
             )}
@@ -138,7 +163,7 @@ export const ItemVersionView = ({ version }) => {
             label={<FormattedMessage id="ui-orders.itemDetails.productIds" />}
             value={(
               <ProductIdDetails
-                name="details.productIds"
+                name={POL_FORM_FIELDS.productIds}
                 productIds={version?.details?.productIds}
               />
             )}
@@ -149,7 +174,7 @@ export const ItemVersionView = ({ version }) => {
       <Row start="xs">
         <Col xs={12}>
           <VersionKeyValue
-            name="description"
+            name={POL_FORM_FIELDS.description}
             label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
             value={version?.description}
           />

@@ -124,16 +124,17 @@ describe('shouldSetInstanceId', () => {
 describe('createPOLDataFromInstance', () => {
   it('should return POL data from instance', () => {
     expect(createPOLDataFromInstance(instance, [{ label: PRODUCT_ID_TYPE.isbn, value: 'isbn' }])).toEqual({
-      instanceId: instance.id,
-      titleOrPackage: instance.title,
-      publisher: instance.publication[0].publisher,
-      publicationDate: instance.publication[0].dateOfPublication,
-      edition: instance.editions?.[0],
       contributors: [{
         contributor: instance.contributors[0].name,
         contributorNameTypeId: instance.contributors[0].contributorNameTypeId,
       }],
+      edition: instance.editions?.[0],
+      instanceId: instance.id,
       productIds: [],
+      publicationDate: instance.publication[0].dateOfPublication,
+      publisher: instance.publication[0].publisher,
+      suppressInstanceFromDiscovery: false,
+      titleOrPackage: instance.title,
     });
   });
 });
