@@ -1,9 +1,10 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
+import toString from 'lodash/toString';
 import PropTypes from 'prop-types';
-import { get, toString } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 
 import {
+  Checkbox,
   Col,
   KeyValue,
   Row,
@@ -15,10 +16,10 @@ import {
   ProductIdDetails,
 } from '@folio/stripes-acq-components';
 
-import { EditionView } from './EditionField';
-import { TitleView } from './TitleField';
-import { SubscriptionIntervalView } from './SubscriptionIntervalField';
 import LinkToPoLine from '../../LinkToPoLine';
+import { EditionView } from './EditionField';
+import { SubscriptionIntervalView } from './SubscriptionIntervalField';
+import { TitleView } from './TitleField';
 
 const ItemView = ({ poLineDetails, hiddenFields }) => {
   const contributors = get(poLineDetails, 'contributors', []);
@@ -29,6 +30,20 @@ const ItemView = ({ poLineDetails, hiddenFields }) => {
         <Col xs={12}>
           <TitleView poLineDetails={poLineDetails} />
         </Col>
+
+        <IfVisible visible={!hiddenFields.isPackage}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <Checkbox
+              checked={poLineDetails.isPackage}
+              disabled
+              label={<FormattedMessage id="ui-orders.poLine.package" />}
+              vertical
+            />
+          </Col>
+        </IfVisible>
 
         <IfVisible visible={!hiddenFields.details?.receivingNote}>
           <Col
@@ -120,6 +135,19 @@ const ItemView = ({ poLineDetails, hiddenFields }) => {
           </Col>
         </IfVisible>
 
+        <IfVisible visible={!hiddenFields.suppressInstanceFromDiscovery}>
+          <Col xs>
+            <Checkbox
+              checked={poLineDetails.suppressInstanceFromDiscovery}
+              disabled
+              label={<FormattedMessage id="ui-orders.poLine.suppressFromDiscovery" />}
+              vertical
+            />
+          </Col>
+        </IfVisible>
+      </Row>
+
+      <Row start="xs">
         <IfVisible visible={!hiddenFields.details?.contributors}>
           <Col xs={12}>
             <KeyValue label={<FormattedMessage id="ui-orders.itemDetails.contributors" />}>

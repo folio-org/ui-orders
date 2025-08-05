@@ -1,14 +1,11 @@
-/* eslint-disable react/no-unused-state */
-import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
+import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
+import { Component } from 'react';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import {
-  get,
-  isEqual,
-  noop,
-} from 'lodash';
 
 import {
   Checkbox,
@@ -27,23 +24,26 @@ import {
   VisibilityControl,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../../common/constants';
+import {
+  isWorkflowStatusClosed,
+  isWorkflowStatusIsPending,
+  isWorkflowStatusOpen,
+} from '../../PurchaseOrder/util';
+import { BreakInstanceConnectionModal } from './BreakInstanceConnectionModal';
 import ContributorForm from './ContributorForm';
-import ProductIdDetailsForm from './ProductIdDetailsForm';
+import { FieldSuppressDiscovery } from './FieldSuppressDiscovery';
 import InstancePlugin from './InstancePlugin';
+import PackagePoLineField from './PackagePoLineField';
+import ProductIdDetailsForm from './ProductIdDetailsForm';
+import { TitleField } from './TitleField';
 import {
   createPOLDataFromInstance,
   getInventoryData,
   getNormalizedInventoryData,
   shouldSetInstanceId,
 } from './util';
-import {
-  isWorkflowStatusClosed,
-  isWorkflowStatusIsPending,
-  isWorkflowStatusOpen,
-} from '../../PurchaseOrder/util';
-import PackagePoLineField from './PackagePoLineField';
-import { BreakInstanceConnectionModal } from './BreakInstanceConnectionModal';
-import { TitleField } from './TitleField';
+
 import css from './ItemForm.css';
 
 const FIELDS_TO_INTERCEPT_ON_DELETE = ['contributors'];
@@ -185,8 +185,8 @@ class ItemForm extends Component {
     // Intercept deletion of connected instance field
     if (
       formValues?.instanceId
-        && FIELDS_TO_INTERCEPT_ON_DELETE.includes(fields.name)
-        && isEqual(get(formValues, fieldName), get(normalizedInventoryData, fieldName))
+      && FIELDS_TO_INTERCEPT_ON_DELETE.includes(fields.name)
+      && isEqual(get(formValues, fieldName), get(normalizedInventoryData, fieldName))
     ) {
       return this.onBreakInstanceConnection()
         .then(() => fields.remove(index))
@@ -301,17 +301,20 @@ class ItemForm extends Component {
     return (
       <>
         <Row>
-          <IfFieldVisible visible={!hiddenFields.isPackage} name="isPackage">
+          <IfFieldVisible
+            name={POL_FORM_FIELDS.isPackage}
+            visible={!hiddenFields.isPackage}
+          >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.isPackage">
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.isPackage}`}>
                 <Field
                   component={Checkbox}
                   fullWidth
                   label={<FormattedMessage id="ui-orders.poLine.package" />}
-                  name="isPackage"
+                  name={POL_FORM_FIELDS.isPackage}
                   onChange={this.setIsPackage}
                   type="checkbox"
                   disabled={isPostPendingOrder || isCreateFromInstance}
@@ -336,19 +339,19 @@ class ItemForm extends Component {
         </Row>
         <Row>
           <IfFieldVisible
+            name={POL_FORM_FIELDS.receivingNote}
             visible={!hiddenFields.details?.receivingNote}
-            name="details.receivingNote"
           >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.details.receivingNote">
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.receivingNote}`}>
                 <Field
                   component={TextArea}
                   fullWidth
                   label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-                  name="details.receivingNote"
+                  name={POL_FORM_FIELDS.receivingNote}
                   validateFields={[]}
                 />
               </VisibilityControl>
@@ -356,19 +359,19 @@ class ItemForm extends Component {
           </IfFieldVisible>
           {!lineId && (
             <IfFieldVisible
+              name={POL_FORM_FIELDS.isAcknowledged}
               visible={!hiddenFields.isAcknowledged}
-              name="isAcknowledged"
             >
               <Col
                 xs={6}
                 md={3}
               >
-                <VisibilityControl name="hiddenFields.isAcknowledged">
+                <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.isAcknowledged}`}>
                   <Field
                     component={Checkbox}
                     fullWidth
                     label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
-                    name="isAcknowledged"
+                    name={POL_FORM_FIELDS.isAcknowledged}
                     type="checkbox"
                     vertical
                     validateFields={[]}
@@ -379,30 +382,36 @@ class ItemForm extends Component {
           )}
         </Row>
         <Row>
-          <IfFieldVisible visible={!hiddenFields.details?.subscriptionFrom} name="details.subscriptionFrom">
+          <IfFieldVisible
+            name={POL_FORM_FIELDS.subscriptionFrom}
+            visible={!hiddenFields.details?.subscriptionFrom}
+          >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.details.subscriptionFrom">
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.subscriptionFrom}`}>
                 <FieldDatepickerFinal
                   label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-                  name="details.subscriptionFrom"
+                  name={POL_FORM_FIELDS.subscriptionFrom}
                   validateFields={[]}
                 />
               </VisibilityControl>
             </Col>
           </IfFieldVisible>
 
-          <IfFieldVisible visible={!hiddenFields.details?.subscriptionTo} name="details.subscriptionTo">
+          <IfFieldVisible
+            name={POL_FORM_FIELDS.subscriptionTo}
+            visible={!hiddenFields.details?.subscriptionTo}
+          >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.details.subscriptionTo">
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.subscriptionTo}`}>
                 <FieldDatepickerFinal
                   label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-                  name="details.subscriptionTo"
+                  name={POL_FORM_FIELDS.subscriptionTo}
                   isNonInteractive={isPostPendingOrder && !isOrderOpen}
                   validateFields={[]}
                 />
@@ -410,15 +419,18 @@ class ItemForm extends Component {
             </Col>
           </IfFieldVisible>
 
-          <IfFieldVisible visible={!hiddenFields.details?.subscriptionInterval} name="details.subscriptionInterval">
+          <IfFieldVisible
+            name={POL_FORM_FIELDS.subscriptionInterval}
+            visible={!hiddenFields.details?.subscriptionInterval}
+          >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.details.subscriptionInterval">
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.subscriptionInterval}`}>
                 <Field
                   label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-                  name="details.subscriptionInterval"
+                  name={POL_FORM_FIELDS.subscriptionInterval}
                   component={TextField}
                   type="number"
                   fullWidth
@@ -431,20 +443,20 @@ class ItemForm extends Component {
         </Row>
         <Row>
           <IfFieldVisible
+            name={POL_FORM_FIELDS.publicationDate}
             visible={!hiddenFields.details?.publicationDate}
-            name="publicationDate"
           >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.details.publicationDate">
+              <VisibilityControl name={`hiddenFields.details.${POL_FORM_FIELDS.publicationDate}`}>
                 <Field
                   component={TextField}
                   disabled={isCreateFromInstance}
                   fullWidth
                   label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-                  name="publicationDate"
+                  name={POL_FORM_FIELDS.publicationDate}
                   onChange={this.setPublicationDate}
                   isNonInteractive={isPostPendingOrder}
                   validateFields={[]}
@@ -453,20 +465,20 @@ class ItemForm extends Component {
             </Col>
           </IfFieldVisible>
           <IfFieldVisible
+            name={POL_FORM_FIELDS.publisher}
             visible={!hiddenFields.details?.publisher}
-            name="publisher"
           >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.details.publisher">
+              <VisibilityControl name={`hiddenFields.details.${POL_FORM_FIELDS.publisher}`}>
                 <Field
                   component={TextField}
                   disabled={isCreateFromInstance}
                   fullWidth
                   label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
-                  name="publisher"
+                  name={POL_FORM_FIELDS.publisher}
                   onChange={this.setPublisher}
                   isNonInteractive={isPostPendingOrder}
                   validateFields={[]}
@@ -475,21 +487,21 @@ class ItemForm extends Component {
             </Col>
           </IfFieldVisible>
           <IfFieldVisible
+            name={POL_FORM_FIELDS.edition}
             visible={!hiddenFields.details?.edition}
-            name="edition"
           >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.details.edition">
+              <VisibilityControl name={`hiddenFields.details.${POL_FORM_FIELDS.edition}`}>
                 <Field
                   component={TextField}
                   fullWidth
                   disabled={isCreateFromInstance}
                   label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
                   onChange={this.setEdition}
-                  name="edition"
+                  name={POL_FORM_FIELDS.edition}
                   isNonInteractive={isPostPendingOrder}
                   validateFields={[]}
                 />
@@ -497,12 +509,15 @@ class ItemForm extends Component {
             </Col>
           </IfFieldVisible>
 
-          <IfFieldVisible visible={!hiddenFields.packagePoLineId} name="packagePoLineId">
+          <IfFieldVisible
+            name={POL_FORM_FIELDS.packagePoLineId}
+            visible={!hiddenFields.packagePoLineId}
+          >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.packagePoLineId">
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.packagePoLineId}`}>
                 <PackagePoLineField
                   disabled={isPackage}
                   onSelectLine={this.onAddLinkPackage}
@@ -511,11 +526,23 @@ class ItemForm extends Component {
               </VisibilityControl>
             </Col>
           </IfFieldVisible>
+
+          <IfFieldVisible
+            name={POL_FORM_FIELDS.suppressInstanceFromDiscovery}
+            visible={!hiddenFields.suppressInstanceFromDiscovery}
+          >
+            <Col xs>
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.suppressInstanceFromDiscovery}`}>
+                {/* Disabled when PO Line is connected to the existing instance */}
+                <FieldSuppressDiscovery disabled={Boolean(formValues.instanceId)} />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
           <IfFieldVisible
+            name={POL_FORM_FIELDS.contributors}
             visible={!hiddenFields.details?.contributors}
-            name="contributors"
           >
             <Col xs={12}>
               <ContributorForm
@@ -531,8 +558,8 @@ class ItemForm extends Component {
         </Row>
         <Row>
           <IfFieldVisible
+            name={POL_FORM_FIELDS.productIds}
             visible={!hiddenFields.details?.productIds}
-            name="details.productIds"
           >
             <Col xs={12}>
               <ProductIdDetailsForm
@@ -547,17 +574,20 @@ class ItemForm extends Component {
           </IfFieldVisible>
         </Row>
         <Row>
-          <IfFieldVisible visible={!hiddenFields.description} name="description">
+          <IfFieldVisible
+            name={POL_FORM_FIELDS.description}
+            visible={!hiddenFields.description}
+          >
             <Col
               xs={6}
               md={3}
             >
-              <VisibilityControl name="hiddenFields.description">
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.description}`}>
                 <Field
                   component={TextArea}
                   fullWidth
                   label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
-                  name="description"
+                  name={POL_FORM_FIELDS.description}
                   validateFields={[]}
                 />
               </VisibilityControl>
