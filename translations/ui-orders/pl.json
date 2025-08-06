@@ -668,7 +668,7 @@
     "permission.order.updateEncumbrances": "Zamówienia: aktualizowanie obciążeń",
     "settings.inventoryInteraction.label": "Powiązanie z katalogowaniem",
     "settings.instanceMatching": "Dopasowanie instancji",
-    "settings.instanceMatching.description": "When active, instance matching will cause purchase order lines that are set to create instances, but are not manually linked to an instance record, to first search instances to find a match for one or more of the product IDs provided on the POL. If a product ID is found, that instance will be linked to the POL, and the system will NOT create a new instance for that POL. If no matches are found, the system will create a new instance record and link the POL to that instance.",
+    "settings.instanceMatching.description": "With instance matching disabled, purchase order lines will create new instances and will not be linked with existing instance records. With instance matching enabled, FOLIO will first search instances to find a match for one or more product IDs provided on the PO Line. If a product ID is found, that instance will be linked to the POL and FOLIO will NOT create a new instance for that POL. If no matches are found, the system will create a new instance record and link the POL to that instance.",
     "settings.instanceMatching.toggle": "Wyłącz dopasowanie instancji",
     "shortcut.addPOL": "Dodaj pozycję zamówienia",
     "appMenu.ordersAppSearch": "Wyszukiwanie w aplikacji Zamówienia",
@@ -842,7 +842,7 @@
     "relatedInvoices.subscriptionDescription": "Subscription info",
     "errors.encumbrancesForReEncumberNotFound": "Obciążenia zostały prawidłowo utworzone podczas przenoszenia lub zostały już zaktualizowane",
     "versionHistory.noVersion": "No version history to display.",
-    "errors.invalidProductId": "Product ID number invalid based on product ID type. You can use \"Change instance connection\" to refresh product IDs from the instance record before editing the POL.",
+    "errors.invalidProductId": "Numer ID produktu jest nieprawidłowy ze względu na rodzaj ID produktu. Możesz użyć opcji „Zmień połączoną instancję”, aby odświeżyć identyfikatory produktów w rekordzie instancji przed edycją pozycji zamówienia.",
     "relatedInvoiceLines.vendorCode": "Kod dostawcy",
     "vendor.accountNumber.inActive": "Wybrany numer konta jest nieaktywny.",
     "inactive": "Nieaktywny",
@@ -897,7 +897,7 @@
     "orderSummary.totalCredited": "Łącznie przyznano",
     "errors.userHasMissedAffiliations": "Operacja nie powiodła się. Ten rekord ma powiązania lokalizacji, których nie ma Twój użytkownik. Te powiązania muszą zostać usunięte lub operacja musi zostać wykonana przez użytkownika, który ma takie same powiązania jak rekord.",
     "errors.budgetNotFoundForFiscalYear": "Nie można otworzyć zamówienia, ponieważ nie ma bieżącego budżetu dla funduszu(y) <b>{fundCodes}</b> na rok budżetowy <b>{fiscalYearCode}</b>.",
-    "errors.locationUpdateWithoutAffiliation": "POL could not be saved. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user who has the same affiliations as the record.",
+    "errors.locationUpdateWithoutAffiliation": "Nie można zapisać pozycji zamówienia. Ten rekord ma lokalizacje afiliacji, których nie ma Twój użytkownik. Te afiliacje muszą zostać usunięte lub operacja musi zostać wykonana przez użytkownika, który ma takie same afiliacje jak rekord.",
     "buttons.line.saveAndCreateAnother": "Zapisz i utwórz kolejny",
     "settings.numberGenerator.accessionNumber": "Numer dowodu wpływu",
     "settings.numberGenerator.accessionNumberEqualCallNumber": "Użyj tego samego wygenerowanego numeru dla numeru dowodu wpływu i sygnatury",
@@ -934,5 +934,7 @@
     "poLine.receivingWorkflow.infoPopover": "Wybranie tej opcji spowoduje, że ilość w zamówieniu i ilość dostarczona będzie taka sama. Oznacza to również, że aktualizacja jednego spowoduje aktualizację drugiego. Po otwarciu zamówienia system wygeneruje części na podstawie zamówienia ilościowego. Wybranie opcji „Ilość w zamówieniu niezwiązana z ilością na rachunku” umożliwi niezależne zarządzanie liczbą odbieranych elementów i ich lokalizacjami. Możesz przekształcić pozycję zamówienia na niezależne w dowolnym momencie, ale nie możesz przekształcić z powrotem na zsynchronizowane, gdy zamówienie jest otwarte lub zamknięte.",
     "poLine.receivingWorkflow.confirmModal.heading": "Aktualizuj przepływ pracy odbioru",
     "poLine.receivingWorkflow.confirmModal.message": "Zamierzasz zmienić przepływ pracy odbioru na „Ilość w zamówieniu niezwiązana z ilością na rachunku ”. Tej zmiany nie można cofnąć, chyba że zamówienie jest nieotwarte. Czy na pewno chcesz kontynuować?",
-    "orderDetails.openedBy": "Opened by"
+    "orderDetails.openedBy": "Otwarte przez",
+    "poLine.suppressFromDiscovery": "Ukryj instancję w katalogu WWW, gdy jest generowana przez zamówienie",
+    "poLine.suppressFromDiscovery.tooltip": "When true this will suppress any instance record that is created when this order is Opened. If the order line is linked to an existing instance using the Title Lookup or it is matched to an existing instance by product identifier. This flag will not suppress the existing instance."
 }
