@@ -15,14 +15,25 @@ import {
   SUFFIXES_API,
 } from '@folio/stripes-acq-components';
 
-import { validatePrefixSuffixName } from '../utils';
+import {
+  checkboxFieldType,
+  FormatSuffixDeprecated,
+  validateSuffixName,
+} from '../utils';
 
 const suffixColumnMapping = {
   name: <FormattedMessage id="ui-orders.settings.poNumber.modifier.name" />,
   description: <FormattedMessage id="ui-orders.settings.poNumber.modifier.description" />,
+  deprecated: <FormattedMessage id="ui-orders.settings.poNumber.modifier.deprecated" />,
 };
-const suffixVisibleFields = ['name', 'description'];
+const suffixVisibleFields = ['name', 'description', 'deprecated'];
 const suffixHiddenFields = ['numberOfObjects', 'lastUpdated'];
+const fieldComponents = {
+  deprecated: checkboxFieldType,
+};
+const formatter = {
+  deprecated: FormatSuffixDeprecated,
+};
 
 class Suffixes extends Component {
   constructor(props) {
@@ -36,6 +47,7 @@ class Suffixes extends Component {
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.poNumber.suffixes' })}>
         <this.connectedControlledVocab
+          formType="final-form"
           baseUrl={SUFFIXES_API}
           columnMapping={suffixColumnMapping}
           editable
@@ -49,7 +61,9 @@ class Suffixes extends Component {
           stripes={stripes}
           hiddenFields={suffixHiddenFields}
           visibleFields={suffixVisibleFields}
-          validate={validatePrefixSuffixName}
+          validate={validateSuffixName}
+          fieldComponents={fieldComponents}
+          formatter={formatter}
         />
       </TitleManager>
     );

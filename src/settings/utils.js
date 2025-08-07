@@ -1,13 +1,85 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Field } from 'react-final-form';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
+
+import { Checkbox } from '@folio/stripes/components';
 
 const NAME_REGEXP = new RegExp(/[^a-zA-Z\d]|^.{8,}$/);
 
-export const validatePrefixSuffixName = ({ name }) => ({
-  name: name?.match(NAME_REGEXP)
-    ? <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
-    : undefined,
-});
+export const validateName = (name) => {
+  if (!name?.match(NAME_REGEXP)) return {};
+
+  return {
+    name: <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />,
+  };
+};
+
+export const validatePrefixName = ({ name }) => {
+  return validateName(name);
+};
+
+export const validateSuffixName = ({ name }) => {
+  return validateName(name);
+};
+
+export const checkboxFieldType = ({ fieldProps }) => (
+  <Field
+    {...fieldProps}
+    component={Checkbox}
+    type="checkbox"
+  />
+);
+
+export const FormatPrefixDeprecated = ({ name, deprecated }) => (
+  <DeprecatedCheckbox
+    name={name}
+    deprecated={deprecated}
+    messageId="ui-orders.settings.poNumber.prefix.aria-label.deprecated"
+  />
+);
+
+FormatPrefixDeprecated.propTypes = {
+  name: PropTypes.string.isRequired,
+  deprecated: PropTypes.bool.isRequired,
+}
+
+export const FormatSuffixDeprecated = ({ name, deprecated }) => (
+  <DeprecatedCheckbox
+    name={name}
+    deprecated={deprecated}
+    messageId="ui-orders.settings.poNumber.suffix.aria-label.deprecated"
+  />
+);
+
+FormatSuffixDeprecated.propTypes = {
+  name: PropTypes.string.isRequired,
+  deprecated: PropTypes.bool.isRequired,
+}
+
+export const DeprecatedCheckbox = ({ name, deprecated, messageId }) => {
+  const intl = useIntl();
+
+  return (
+    <Checkbox
+      aria-label={intl.formatMessage(
+        { id: messageId },
+        { name },
+      )}
+      disabled
+      checked={deprecated}
+    />
+  );
+};
+
+DeprecatedCheckbox.propTypes = {
+  name: PropTypes.string.isRequired,
+  deprecated: PropTypes.bool.isRequired,
+  messageId: PropTypes.string.isRequired,
+}
 
 export const validateDuplicates = (intl, fieldNames = []) => (item, index, items) => {
   const results = fieldNames.reduce((acc, fieldName) => {

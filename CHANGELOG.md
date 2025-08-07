@@ -28,6 +28,7 @@
 * Sort PO Line related invoice lines by invoice date. Fixes UIOR-1458.
 * Grammar fix in Orders - Instance matching description. Refs UIOR-1119.
 * Allow user to set "Suppress from discovery" in the PO Line form for produced instance. Refs UIOR-1451.
+* *BREAKING* Show a hint for deprecated prefixes/suffixes. Do not list them on PO creation/edit. Add a deprecated checkbox in settings. UIOR-1450.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
