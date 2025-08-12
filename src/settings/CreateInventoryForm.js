@@ -12,7 +12,6 @@ const CreateInventoryForm = () => (
     <Row>
       <Col xs={6}>
         <InventoryRecordTypeSelectField
-          isRedux
           label="ui-orders.settings.createInventory.eresource"
           name="eresource"
           required
@@ -22,7 +21,6 @@ const CreateInventoryForm = () => (
     <Row>
       <Col xs={6}>
         <InventoryRecordTypeSelectField
-          isRedux
           label="ui-orders.settings.createInventory.physical"
           name="physical"
           required
@@ -32,7 +30,6 @@ const CreateInventoryForm = () => (
     <Row>
       <Col xs={6}>
         <InventoryRecordTypeSelectField
-          isRedux
           label="ui-orders.settings.createInventory.other"
           name="other"
           required

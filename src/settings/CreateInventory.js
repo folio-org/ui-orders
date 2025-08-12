@@ -1,70 +1,57 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
-import { ConfigManager } from '@folio/stripes/smart-components';
 
-import {
-  MODULE_ORDERS,
-  CONFIG_CREATE_INVENTORY,
-} from '../components/Utils/const';
+import { CONFIG_CREATE_INVENTORY } from '../components/Utils/const';
 import getCreateInventorySetting from '../common/utils/getCreateInventorySetting';
-
-import css from './ConfigManagerForm.css';
+import { OrdersStorageSettingsManager } from '../components/OrdersStorageSettingsManager';
 import CreateInventoryForm from './CreateInventoryForm';
 
-class CreateInventory extends Component {
-  static propTypes = {
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }).isRequired,
-    label: PropTypes.object.isRequired,
-    stripes: PropTypes.object.isRequired,
-  };
+import css from './ConfigManagerForm.css';
 
-  constructor(props) {
-    super(props);
+const onBeforeSave = (data) => {
+  const {
+    eresource,
+    physical,
+    other,
+  } = data;
 
-    this.configManager = props.stripes.connect(ConfigManager);
-  }
+  return JSON.stringify({
+    eresource,
+    physical,
+    other,
+  });
+};
 
-  beforeSave = (data) => {
-    const {
-      eresource,
-      physical,
-      other,
-    } = data;
-
-    return JSON.stringify({
-      eresource,
-      physical,
-      other,
-    });
-  }
-
-  render() {
-    const { intl, label } = this.props;
-
-    return (
-      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.inventoryInteractions' })}>
-        <div
-          data-test-order-settings-create-inventory
-          className={css.formWrapper}
+const CreateInventory = ({
+  intl,
+  label,
+}) => {
+  return (
+    <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.inventoryInteractions' })}>
+      <div
+        data-test-order-settings-create-inventory
+        className={css.formWrapper}
+      >
+        <OrdersStorageSettingsManager
+          configName={CONFIG_CREATE_INVENTORY}
+          getInitialValues={getCreateInventorySetting}
+          label={label}
+          onBeforeSave={onBeforeSave}
         >
-          <this.configManager
-            configName={CONFIG_CREATE_INVENTORY}
-            getInitialValues={getCreateInventorySetting}
-            label={label}
-            moduleName={MODULE_ORDERS}
-            onBeforeSave={this.beforeSave}
-          >
-            <CreateInventoryForm />
-          </this.configManager>
-        </div>
-      </TitleManager>
-    );
-  }
-}
+          <CreateInventoryForm />
+        </OrdersStorageSettingsManager>
+      </div>
+    </TitleManager>
+  );
+};
+
+CreateInventory.propTypes = {
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
+  label: PropTypes.node.isRequired,
+};
 
 export default injectIntl(CreateInventory);

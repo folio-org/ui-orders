@@ -8,6 +8,7 @@ import {
   LIMIT_MAX,
   LOCATIONS_API,
   MATERIAL_TYPE_API,
+  ORDERS_STORAGE_SETTINGS_API,
   USERS_API,
   VENDORS_API,
 } from '@folio/stripes-acq-components';
@@ -36,7 +37,6 @@ import {
   CONFIG_LINES_LIMIT,
   CONFIG_OPEN_ORDER,
   CONFIG_ORDER_NUMBER,
-  MODULE_ORDERS,
   MODULE_TENANT,
 } from './const';
 
@@ -101,11 +101,11 @@ export const VENDORS = {
 
 export const LINES_LIMIT = {
   ...BASE_RESOURCE,
-  records: 'configs',
-  path: CONFIG_API,
+  records: 'settings',
+  path: ORDERS_STORAGE_SETTINGS_API,
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
+      query: `key=${CONFIG_LINES_LIMIT}`,
     },
   },
 };
@@ -143,33 +143,33 @@ export const CONTRIBUTOR_NAME_TYPES = {
 
 export const CREATE_INVENTORY = {
   ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
+  path: ORDERS_STORAGE_SETTINGS_API,
+  records: 'settings',
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CREATE_INVENTORY})`,
+      query: `key=${CONFIG_CREATE_INVENTORY}`,
     },
   },
 };
 
 export const ORDER_NUMBER_SETTING = {
   ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
+  path: ORDERS_STORAGE_SETTINGS_API,
+  records: 'settings',
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`,
+      query: `key=${CONFIG_ORDER_NUMBER}`,
     },
   },
 };
 
 export const APPROVALS_SETTING = {
   ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
+  path: ORDERS_STORAGE_SETTINGS_API,
+  records: 'settings',
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_APPROVALS})`,
+      query: `key=${CONFIG_APPROVALS}`,
     },
   },
 };
@@ -233,11 +233,11 @@ export const CONVERT_TO_ISBN13 = {
 
 export const OPEN_ORDER_SETTING = {
   ...BASE_RESOURCE,
-  path: CONFIG_API,
-  records: 'configs',
+  path: ORDERS_STORAGE_SETTINGS_API,
+  records: 'settings',
   GET: {
     params: {
-      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_OPEN_ORDER})`,
+      query: `key=${CONFIG_OPEN_ORDER}`,
     },
   },
 };

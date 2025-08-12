@@ -1,51 +1,42 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
-import { ConfigManager } from '@folio/stripes/smart-components';
-import {
-  getConfigSetting,
-  MODULE_ORDERS,
-} from '@folio/stripes-acq-components';
+import { getConfigSetting } from '@folio/stripes-acq-components';
 
+import { OrdersStorageSettingsManager } from '../../components/OrdersStorageSettingsManager';
 import { CONFIG_INSTANCE_MATCHING } from '../../components/Utils/const';
 import { InstanceMatchingForm } from './InstanceMatchingForm';
 
-class InstanceMatching extends Component {
-  constructor(props) {
-    super(props);
-    this.configManager = props.stripes.connect(ConfigManager);
-  }
+import css from '../ConfigManagerForm.css';
 
-  beforeSave = (configs) => JSON.stringify(configs);
+const onBeforeSave = (data) => JSON.stringify(data);
 
-  render() {
-    const { intl, label } = this.props;
-
-    return (
-      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.instanceMatching' })}>
-        <this.configManager
+const InstanceMatching = ({
+  intl,
+  label,
+}) => {
+  return (
+    <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.instanceMatching' })}>
+      <div className={css.formWrapper}>
+        <OrdersStorageSettingsManager
           configName={CONFIG_INSTANCE_MATCHING}
           getInitialValues={getConfigSetting}
           label={label}
-          moduleName={MODULE_ORDERS}
-          onBeforeSave={this.beforeSave}
-          formType="final-form"
+          onBeforeSave={onBeforeSave}
         >
           <InstanceMatchingForm />
-        </this.configManager>
-      </TitleManager>
-    );
-  }
-}
+        </OrdersStorageSettingsManager>
+      </div>
+    </TitleManager>
+  );
+};
 
 InstanceMatching.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }).isRequired,
   label: PropTypes.node.isRequired,
-  stripes: PropTypes.object.isRequired,
 };
 
 export default injectIntl(InstanceMatching);

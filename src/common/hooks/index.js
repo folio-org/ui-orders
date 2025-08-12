@@ -13,6 +13,8 @@ export * from './useOpenOrderSettings';
 export * from './useOrder/useOrder';
 export * from './useOrderLine';
 export * from './useOrderLinesAbandonedHoldingsCheck';
+export * from './useOrdersStorageSettings';
+export * from './useOrdersStorageSettingsMutation';
 export * from './useOrderTemplate';
 export * from './usePOLineRelatedItems';
 export * from './useReexport';

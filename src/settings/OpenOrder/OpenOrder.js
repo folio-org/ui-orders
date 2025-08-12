@@ -1,53 +1,45 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 
-import { ConfigManager } from '@folio/stripes/smart-components';
-import { stripesShape, TitleManager } from '@folio/stripes/core';
+import { TitleManager } from '@folio/stripes/core';
 import { getConfigSetting } from '@folio/stripes-acq-components';
 
-import {
-  MODULE_ORDERS,
-  CONFIG_OPEN_ORDER,
-} from '../../components/Utils/const';
+import { OrdersStorageSettingsManager } from '../../components/OrdersStorageSettingsManager';
+import { CONFIG_OPEN_ORDER } from '../../components/Utils/const';
 import OpenOrderForm from './OpenOrderForm';
 
-class OpenOrder extends Component {
-  static propTypes = {
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }).isRequired,
-    label: PropTypes.node.isRequired,
-    stripes: stripesShape.isRequired,
-  };
+import css from '../ConfigManagerForm.css';
 
-  constructor(props) {
-    super(props);
+const onBeforeSave = (data) => JSON.stringify(data);
 
-    this.configManager = props.stripes.connect(ConfigManager);
-  }
-
-  beforeSave = (data) => JSON.stringify(data);
-
-  render() {
-    const { intl, label } = this.props;
-
-    return (
-      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.openOrder' })}>
-        <this.configManager
+const OpenOrder = ({
+  intl,
+  label,
+}) => {
+  return (
+    <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.openOrder' })}>
+      <div
+        data-test-order-settings-open-order
+        className={css.formWrapper}
+      >
+        <OrdersStorageSettingsManager
           configName={CONFIG_OPEN_ORDER}
           getInitialValues={getConfigSetting}
           label={label}
-          moduleName={MODULE_ORDERS}
-          onBeforeSave={this.beforeSave}
+          onBeforeSave={onBeforeSave}
         >
-          <div data-test-order-settings-open-order>
-            <OpenOrderForm />
-          </div>
-        </this.configManager>
-      </TitleManager>
-    );
-  }
-}
+          <OpenOrderForm />
+        </OrdersStorageSettingsManager>
+      </div>
+    </TitleManager>
+  );
+};
+
+OpenOrder.propTypes = {
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
+  label: PropTypes.node.isRequired,
+};
 
 export default injectIntl(OpenOrder);
