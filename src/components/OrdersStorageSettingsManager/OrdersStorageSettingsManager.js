@@ -51,6 +51,12 @@ export const OrdersStorageSettingsManager = ({
       .then(() => {
         refetch();
         showCallout({ messageId: 'stripes-smart-components.cm.success' });
+      })
+      .catch(() => {
+        showCallout({
+          messageId: 'ui-orders.settings.update.error',
+          type: 'error',
+        });
       });
   }, [configName, mutateAsync, onBeforeSave, refetch, settings, showCallout]);
 
