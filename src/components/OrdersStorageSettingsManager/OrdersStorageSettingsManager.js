@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import PropTypes from 'prop-types';
 import {
   useCallback,
   useMemo,
@@ -71,4 +72,12 @@ export const OrdersStorageSettingsManager = ({
       {isLoading ? <Loading /> : children}
     </ConfigFinalForm>
   );
+};
+
+OrdersStorageSettingsManager.propTypes = {
+  configName: PropTypes.string.isRequired,
+  getInitialValues: PropTypes.func,
+  label: PropTypes.node.isRequired,
+  onBeforeSave: PropTypes.func,
+  children: PropTypes.node,
 };
