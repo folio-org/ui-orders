@@ -1,14 +1,15 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  renderHook,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import { LINES_LIMIT_DEFAULT } from '../../../components/Utils/const';
 import { useLinesLimit } from './useLinesLimit';
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}
@@ -18,9 +19,11 @@ const wrapper = ({ children }) => (
 const linesLimit = '3';
 
 describe('useLinesLimit', () => {
-  it('should return default lines limit config', async () => {
-    useOkapiKy.mockClear();
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
+  it('should return default lines limit config', async () => {
     const { result } = renderHook(() => useLinesLimit(false), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy());
@@ -29,10 +32,10 @@ describe('useLinesLimit', () => {
   });
 
   it('should return lines limit config', async () => {
-    useOkapiKy.mockClear().mockReturnValue({
+    useOkapiKy.mockReturnValue({
       get: () => ({
         json: () => ({
-          configs: [{ value: linesLimit }],
+          settings: [{ value: linesLimit }],
         }),
       }),
     });
