@@ -3,12 +3,12 @@ import { injectIntl } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
 
-import getOrderNumberSetting from '../common/utils/getOrderNumberSetting';
-import { OrdersStorageSettingsManager } from '../components/OrdersStorageSettingsManager';
-import { CONFIG_ORDER_NUMBER } from '../components/Utils/const';
+import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
+import { OrdersStorageSettingsManager } from '../../components/OrdersStorageSettingsManager';
+import { CONFIG_ORDER_NUMBER } from '../../components/Utils/const';
 import OrderNumberForm from './OrderNumberForm';
 
-import css from './ConfigManagerForm.css';
+import css from '../ConfigManagerForm.css';
 
 const onBeforeSave = (data) => JSON.stringify(data);
 

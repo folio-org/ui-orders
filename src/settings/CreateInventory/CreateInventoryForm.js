@@ -5,7 +5,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import InventoryRecordTypeSelectField from './InventoryRecordTypeSelectField';
+import InventoryRecordTypeSelectField from '../InventoryRecordTypeSelectField';
 
 const CreateInventoryForm = () => (
   <Fragment>

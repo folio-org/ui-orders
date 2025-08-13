@@ -92,7 +92,7 @@ describe('InstanceMatching', () => {
   it('should submit the form when save button is clicked', async () => {
     renderInstanceMatching();
 
-    await userEvent.click(screen.getByRole('checkbox', { name: 'ui-orders.settings.instanceMatching.toggle' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'ui-orders.settings.instanceMatching.toggle' }));
     await userEvent.click(screen.getByRole('button', { name: /save/i }));
 
     expect(mutateMock).toHaveBeenCalled();

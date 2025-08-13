@@ -3,12 +3,12 @@ import { injectIntl } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
 
-import { CONFIG_CREATE_INVENTORY } from '../components/Utils/const';
-import getCreateInventorySetting from '../common/utils/getCreateInventorySetting';
-import { OrdersStorageSettingsManager } from '../components/OrdersStorageSettingsManager';
+import { CONFIG_CREATE_INVENTORY } from '../../components/Utils/const';
+import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
+import { OrdersStorageSettingsManager } from '../../components/OrdersStorageSettingsManager';
 import CreateInventoryForm from './CreateInventoryForm';
 
-import css from './ConfigManagerForm.css';
+import css from '../ConfigManagerForm.css';
 
 const onBeforeSave = (data) => {
   const {

@@ -7,12 +7,22 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import { useShowCallout } from '@folio/stripes-acq-components';
 
+import {
+  useOrdersStorageSettings,
+  useOrdersStorageSettingsMutation,
+} from '../../common/hooks';
 import { OrdersStorageSettingsManager } from './OrdersStorageSettingsManager';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   Loading: jest.fn(() => <div>Loading</div>),
+}));
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useShowCallout: jest.fn(),
 }));
 
 jest.mock('../../common/hooks', () => ({
@@ -21,31 +31,39 @@ jest.mock('../../common/hooks', () => ({
   useOrdersStorageSettingsMutation: jest.fn(),
 }));
 
-const mockUseOrdersStorageSettings = require('../../common/hooks').useOrdersStorageSettings;
-const mockUseOrdersStorageSettingsMutation = require('../../common/hooks').useOrdersStorageSettingsMutation;
-
 const defaultProps = {
   configName: 'test-config',
   getInitialValues: jest.fn((settings) => ({ testField: settings?.[0]?.value || '' })),
   label: 'Test Label',
   onBeforeSave: jest.fn((data) => JSON.stringify(data)),
-  children: <div>Test Form</div>,
 };
 
 const renderComponent = (props = {}) => render(
   <OrdersStorageSettingsManager
     {...defaultProps}
     {...props}
-  />,
+  >
+    <form>
+      <div>Test Form</div>
+      <Field
+        id="test"
+        component="input"
+        name="test"
+        label="test"
+      />
+    </form>
+  </OrdersStorageSettingsManager>,
   { wrapper: MemoryRouter },
 );
 
 describe('OrdersStorageSettingsManager', () => {
   const refetchMock = jest.fn();
   const mutateAsyncMock = jest.fn();
+  const showCalloutMock = jest.fn();
 
   beforeEach(() => {
-    mockUseOrdersStorageSettings.mockReturnValue({
+    useShowCallout.mockReturnValue(showCalloutMock);
+    useOrdersStorageSettings.mockReturnValue({
       isFetching: false,
       settings: [
         {
@@ -57,7 +75,7 @@ describe('OrdersStorageSettingsManager', () => {
       refetch: refetchMock,
     });
 
-    mockUseOrdersStorageSettingsMutation.mockReturnValue({
+    useOrdersStorageSettingsMutation.mockReturnValue({
       isLoading: false,
       mutateAsync: mutateAsyncMock,
     });
@@ -87,18 +105,7 @@ describe('OrdersStorageSettingsManager', () => {
   });
 
   it('should call mutateAsync on form submit', async () => {
-    const TestForm = (
-      <form>
-        <Field
-          id="test"
-          component="input"
-          name="test"
-          label="test"
-        />
-      </form>
-    );
-
-    renderComponent({ children: TestForm });
+    renderComponent();
 
     await userEvent.type(screen.getByRole('textbox'), 'hello');
     await userEvent.click(screen.getByRole('button', { name: /save/i }));
@@ -108,8 +115,24 @@ describe('OrdersStorageSettingsManager', () => {
     });
   });
 
+  it('should display error message when mutation fails', async () => {
+    mutateAsyncMock.mockRejectedValueOnce();
+
+    renderComponent();
+
+    await userEvent.type(screen.getByRole('textbox'), 'hello');
+    await userEvent.click(screen.getByRole('button', { name: /save/i }));
+
+    await waitFor(() => {
+      expect(showCalloutMock).toHaveBeenCalledWith({
+        messageId: 'ui-orders.settings.update.error',
+        type: 'error',
+      });
+    });
+  });
+
   it('should show loading state when isFetching is true', () => {
-    mockUseOrdersStorageSettings.mockReturnValue({
+    useOrdersStorageSettings.mockReturnValue({
       isFetching: true,
       settings: [],
       refetch: refetchMock,
