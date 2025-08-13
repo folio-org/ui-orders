@@ -12,7 +12,7 @@ import {
 
 const DEFAULT_DATA = [];
 
-export const useOrdersStorageSettings = (options) => {
+export const useOrdersStorageSettings = (options = {}) => {
   const { key, ...queryOptions } = options;
 
   const ky = useOkapiKy();
