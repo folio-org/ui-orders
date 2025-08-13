@@ -1,0 +1,1 @@
+export { OrdersStorageSettingsManager } from './OrdersStorageSettingsManager';

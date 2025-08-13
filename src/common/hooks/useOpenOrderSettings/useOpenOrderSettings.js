@@ -5,14 +5,11 @@ import {
   useOkapiKy,
 } from '@folio/stripes/core';
 import {
-  CONFIG_API,
   getConfigSetting,
+  ORDERS_STORAGE_SETTINGS_API,
 } from '@folio/stripes-acq-components';
 
-import {
-  CONFIG_OPEN_ORDER,
-  MODULE_ORDERS,
-} from '../../../components/Utils/const';
+import { CONFIG_OPEN_ORDER } from '../../../components/Utils/const';
 
 export const defaultConfig = {
   isOpenOrderEnabled: false,
@@ -24,17 +21,17 @@ export const useOpenOrderSettings = (options = {}) => {
   const [namespace] = useNamespace({ key: 'open-order-settings' });
 
   const searchParams = {
-    query: `(module=${MODULE_ORDERS} and configName=${CONFIG_OPEN_ORDER})`,
+    query: `key=${CONFIG_OPEN_ORDER}`,
   };
 
-  const { isFetching, data = {} } = useQuery(
+  const { isFetching, data } = useQuery(
     [namespace],
-    ({ signal }) => ky.get(CONFIG_API, { searchParams, signal }).json(),
+    ({ signal }) => ky.get(ORDERS_STORAGE_SETTINGS_API, { searchParams, signal }).json(),
     options,
   );
 
   return ({
-    openOrderSettings: getConfigSetting(data.configs, defaultConfig),
+    openOrderSettings: getConfigSetting(data?.settings, defaultConfig),
     isFetching,
   });
 };

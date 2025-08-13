@@ -6,14 +6,11 @@ import { useIntl } from 'react-intl';
 import { Layout } from '@folio/stripes/components';
 import { TitleManager } from '@folio/stripes/core';
 import {
-  CONFIG_API,
+  ORDERS_STORAGE_SETTINGS_API,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import {
-  CONFIG_LINES_LIMIT,
-  MODULE_ORDERS,
-} from '../components/Utils/const';
+import { CONFIG_LINES_LIMIT } from '../components/Utils/const';
 import POLinesLimitForm from './POLinesLimitForm';
 
 const successMessageId = 'ui-orders.settings.setPOLInesLimit.changed';
@@ -43,8 +40,7 @@ function POLinesLimit({ label, resources, mutator }) {
       } else {
         linesLimit
           .POST({
-            module: MODULE_ORDERS,
-            configName: CONFIG_LINES_LIMIT,
+            key: CONFIG_LINES_LIMIT,
             value: values.value,
           })
           .then(() => {
@@ -77,11 +73,11 @@ function POLinesLimit({ label, resources, mutator }) {
 POLinesLimit.manifest = Object.freeze({
   linesLimit: {
     type: 'okapi',
-    records: 'configs',
-    path: CONFIG_API,
+    records: 'settings',
+    path: ORDERS_STORAGE_SETTINGS_API,
     GET: {
       params: {
-        query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
+        query: `key=${CONFIG_LINES_LIMIT}`,
       },
     },
   },

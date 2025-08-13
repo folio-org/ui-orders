@@ -6,14 +6,14 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
-import { FieldSelect } from '@folio/stripes-acq-components';
+import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
 import { CONFIG_INSTANCE_STATUS } from '../common/constants';
 
 const InstanceStatusForm = ({ instanceStatuses }) => (
   <Row>
     <Col xs={6}>
-      <FieldSelect
+      <FieldSelectFinal
         dataOptions={instanceStatuses}
         fullWidth
         label={<FormattedMessage id="ui-orders.settings.instanceStatus.select" />}

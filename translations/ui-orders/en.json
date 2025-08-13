@@ -887,6 +887,8 @@
   "settings.acquisitionMethods.termDeleted": "The acquisition method <b>{term}</b> was successfully <b>deleted</b>",
   "settings.acquisitionMethods.termWillBeDeleted": "The acquisition method <b>{term}</b> will be <b>deleted.</b>",
 
+  "settings.update.error": "Failed to update the settings.",
+  
   "shortcut.duplicateRecord": "Duplicate a record",
   "shortcut.addPOL": "Add POL",
 

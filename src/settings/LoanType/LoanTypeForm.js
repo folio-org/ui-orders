@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -8,13 +7,13 @@ import {
 } from '@folio/stripes/components';
 import {
   CONFIG_LOAN_TYPE,
-  FieldSelect,
+  FieldSelectFinal,
 } from '@folio/stripes-acq-components';
 
 const LoanTypeForm = ({ loanTypes }) => (
   <Row>
     <Col xs={6}>
-      <FieldSelect
+      <FieldSelectFinal
         dataOptions={loanTypes}
         fullWidth
         label={<FormattedMessage id="ui-orders.settings.loanType.select" />}

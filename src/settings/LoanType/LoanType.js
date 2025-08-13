@@ -1,57 +1,44 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
-import { ConfigManager } from '@folio/stripes/smart-components';
 import {
   CONFIG_LOAN_TYPE,
   LOAN_TYPES,
-  MODULE_ORDERS,
 } from '@folio/stripes-acq-components';
 
+import { OrdersStorageSettingsManager } from '../../components/OrdersStorageSettingsManager';
 import LoanTypeForm from './LoanTypeForm';
 
 import css from '../ConfigManagerForm.css';
 
-class LoanType extends Component {
-  constructor(props, context) {
-    super(props, context);
+const LoanType = ({
+  intl,
+  label,
+  resources,
+}) => {
+  const loanTypes = get(resources, 'loanTypes.records', []).map(({ name }) => ({
+    label: name,
+    value: name,
+  }));
 
-    this.configManager = props.stripes.connect(ConfigManager);
-  }
-
-  render() {
-    const {
-      intl,
-      label,
-      resources,
-    } = this.props;
-
-    const loanTypes = get(resources, 'loanTypes.records', []).map(({ name }) => ({
-      label: name,
-      value: name,
-    }));
-
-    return (
-      <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.loanType' })}>
-        <div
-          data-test-order-settings-loan-type
-          className={css.formWrapper}
+  return (
+    <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.loanType' })}>
+      <div
+        data-test-order-settings-loan-type
+        className={css.formWrapper}
+      >
+        <OrdersStorageSettingsManager
+          configName={CONFIG_LOAN_TYPE}
+          label={label}
         >
-          <this.configManager
-            configName={CONFIG_LOAN_TYPE}
-            label={label}
-            moduleName={MODULE_ORDERS}
-          >
-            <LoanTypeForm loanTypes={loanTypes} />
-          </this.configManager>
-        </div>
-      </TitleManager>
-    );
-  }
-}
+          <LoanTypeForm loanTypes={loanTypes} />
+        </OrdersStorageSettingsManager>
+      </div>
+    </TitleManager>
+  );
+};
 
 LoanType.manifest = Object.freeze({
   loanTypes: LOAN_TYPES,
@@ -61,9 +48,14 @@ LoanType.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }).isRequired,
-  label: PropTypes.object.isRequired,
-  resources: PropTypes.object.isRequired,
-  stripes: PropTypes.object.isRequired,
+  label: PropTypes.node.isRequired,
+  resources: PropTypes.shape({
+    loanTypes: {
+      records: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+      })),
+    },
+  }).isRequired,
 };
 
 export default injectIntl(LoanType);

@@ -1,11 +1,10 @@
-import React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Checkbox,
   Col,
   Row,
-  Checkbox,
 } from '@folio/stripes/components';
 
 const OpenOrderForm = () => (

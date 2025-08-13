@@ -4,12 +4,11 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import { CONFIG_API } from '@folio/stripes-acq-components';
+import { ORDERS_STORAGE_SETTINGS_API } from '@folio/stripes-acq-components';
 
 import {
   CONFIG_LINES_LIMIT,
   LINES_LIMIT_DEFAULT,
-  MODULE_ORDERS,
 } from '../../../components/Utils/const';
 
 export const useLinesLimit = (enabled = true) => {
@@ -17,17 +16,17 @@ export const useLinesLimit = (enabled = true) => {
   const [namespace] = useNamespace({ key: 'order-lines-limit' });
 
   const searchParams = {
-    query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
+    query: `key=${CONFIG_LINES_LIMIT}`,
   };
 
   const { isLoading, data = {} } = useQuery(
     [namespace],
-    ({ signal }) => ky.get(CONFIG_API, { searchParams, signal }).json(),
+    ({ signal }) => ky.get(ORDERS_STORAGE_SETTINGS_API, { searchParams, signal }).json(),
     { enabled },
   );
 
   return ({
-    linesLimit: Number(data.configs?.[0]?.value) || LINES_LIMIT_DEFAULT,
+    linesLimit: Number(data.settings?.[0]?.value) || LINES_LIMIT_DEFAULT,
     isLoading,
   });
 };

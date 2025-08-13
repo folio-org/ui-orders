@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 import { INVENTORY_RECORDS_TYPE } from '@folio/stripes-acq-components';
 
