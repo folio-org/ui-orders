@@ -120,6 +120,7 @@ const NumberGeneratorSettingsForm = ({
                   label={<FormattedMessage id="ui-orders.settings.numberGenerator.barcode" />}
                   name={BARCODE_SETTING}
                   dataOptions={dataOptionsAllEnabled}
+                  defaultValue={NUMBER_GENERATOR_OPTIONS_OFF}
                 />
               </Col>
             </Row>
@@ -131,6 +132,7 @@ const NumberGeneratorSettingsForm = ({
                   label={<FormattedMessage id="ui-orders.settings.numberGenerator.accessionNumber" />}
                   name={ACCESSION_NUMBER_SETTING}
                   dataOptions={dataOptionsOffDisabled}
+                  defaultValue={NUMBER_GENERATOR_OPTIONS_OFF}
                 />
               </Col>
             </Row>
@@ -142,6 +144,7 @@ const NumberGeneratorSettingsForm = ({
                   label={<FormattedMessage id="ui-orders.settings.numberGenerator.callNumber" />}
                   name={CALL_NUMBER_SETTING}
                   dataOptions={dataOptionsOffDisabled}
+                  defaultValue={NUMBER_GENERATOR_OPTIONS_OFF}
                 />
               </Col>
             </Row>

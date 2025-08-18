@@ -53,8 +53,6 @@ describe('Selecting barcode `onEditable`', () => {
     const saveButton = screen.getByRole('button', { name: 'stripes-core.button.save' });
     const barcodeSelect = screen.getByRole('combobox', { name: 'ui-orders.settings.numberGenerator.barcode' });
 
-    expect(saveButton).toBeDisabled();
-
     await userEvent.selectOptions(barcodeSelect, ['ui-orders.settings.numberGenerator.options.onEditable']);
     expect(saveButton).toBeEnabled();
   });
@@ -64,6 +62,12 @@ describe('Selecting number generator `off` for accessionNumber', () => {
   it('should disable accessionNumberEqualCallNumber-checkbox and show warning', async () => {
     const useEqualNumberCheckbox = screen.getByRole('checkbox', { name: 'ui-orders.settings.numberGenerator.accessionNumberEqualCallNumber' });
     const accessionNumberSelect = screen.getByRole('combobox', { name: 'ui-orders.settings.numberGenerator.accessionNumber' });
+    const callNumberSelect = screen.getByRole('combobox', { name: 'ui-orders.settings.numberGenerator.callNumber' });
+
+    expect(useEqualNumberCheckbox).toBeDisabled();
+
+    await userEvent.selectOptions(accessionNumberSelect, ['ui-orders.settings.numberGenerator.options.onEditable']);
+    await userEvent.selectOptions(callNumberSelect, ['ui-orders.settings.numberGenerator.options.onEditable']);
 
     expect(useEqualNumberCheckbox).toBeEnabled();
 
@@ -76,7 +80,13 @@ describe('Selecting number generator `off` for accessionNumber', () => {
 describe('Selecting number generator `off` for callNumber', () => {
   it('should disable accessionNumberEqualCallNumber-checkbox and show warning', async () => {
     const useEqualNumberCheckbox = screen.getByRole('checkbox', { name: 'ui-orders.settings.numberGenerator.accessionNumberEqualCallNumber' });
+    const accessionNumberSelect = screen.getByRole('combobox', { name: 'ui-orders.settings.numberGenerator.accessionNumber' });
     const callNumberSelect = screen.getByRole('combobox', { name: 'ui-orders.settings.numberGenerator.callNumber' });
+
+    expect(useEqualNumberCheckbox).toBeDisabled();
+
+    await userEvent.selectOptions(accessionNumberSelect, ['ui-orders.settings.numberGenerator.options.onEditable']);
+    await userEvent.selectOptions(callNumberSelect, ['ui-orders.settings.numberGenerator.options.onEditable']);
 
     expect(useEqualNumberCheckbox).toBeEnabled();
 
@@ -96,6 +106,8 @@ describe('Clicking accessionNumberEqualCallNumber-checkbox', () => {
     expect(accessionNumberSelectOff).toBeEnabled();
     expect(callNumberSelectOff).toBeEnabled();
 
+    await userEvent.selectOptions(accessionNumberSelect, ['ui-orders.settings.numberGenerator.options.onEditable']);
+    await userEvent.selectOptions(callNumberSelect, ['ui-orders.settings.numberGenerator.options.onEditable']);
     const useEqualNumberCheckbox = screen.getByRole('checkbox', { name: 'ui-orders.settings.numberGenerator.accessionNumberEqualCallNumber' });
 
     await userEvent.click(useEqualNumberCheckbox);
