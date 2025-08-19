@@ -395,7 +395,7 @@
     "order.lastUpdated": "Última atualização",
     "order.acquisitionsUnit": "Unidade de aquisição",
     "search.contributors": "Colaborador",
-    "search.donor": "Doador (Obsoleto)",
+    "search.donor": "Doador (Descontinuado)",
     "search.details.productIds": "ID do produto",
     "search.publisher": "Editora",
     "search.selector": "Seletor",
@@ -936,5 +936,11 @@
     "poLine.receivingWorkflow.confirmModal.message": "Você está prestes a alterar o fluxo de trabalho de recebimento para \"Pedido independente e quantidade de recebimento\". Essa alteração não pode ser desfeita, a menos que o pedido não tenha sido aberto. Tem certeza de que deseja continuar?",
     "orderDetails.openedBy": "Aberto por",
     "poLine.suppressFromDiscovery": "Suprimir instância da descoberta quando gerada por pedido",
-    "poLine.suppressFromDiscovery.tooltip": "Quando verdadeiro, isso oculta qualquer registro de instância criado quando esse pedido for aberto. Se a linha do pedido estiver vinculada a uma instância existente usando a Pesquisa de Título ou se corresponder a uma instância existente por identificador de produto. Esse sinalizador não oculta a instância existente."
+    "poLine.suppressFromDiscovery.tooltip": "Quando verdadeiro, isso oculta qualquer registro de instância criado quando esse pedido for aberto. Se a linha do pedido estiver vinculada a uma instância existente usando a Pesquisa de Título ou se corresponder a uma instância existente por identificador de produto. Esse sinalizador não oculta a instância existente.",
+    "orderDetails.prefix.deprecated": "{name} (descontinuado)",
+    "orderDetails.suffix.deprecated": "{name} (descontinuado)",
+    "settings.poNumber.modifier.deprecated": "Descontinuado",
+    "settings.poNumber.prefix.aria-label.deprecated": "Marcar {name} como descontinuado",
+    "settings.poNumber.suffix.aria-label.deprecated": "Marcar {name} como descontinuado",
+    "settings.update.error": "Falha ao atualizar as configurações."
 }
