@@ -13,11 +13,6 @@ export const useOrder = (orderId, options = {}) => {
 
   const ky = useOkapiKy();
 
-  const searchParams = {
-    query: `id==${orderId}`,
-    ...(fiscalYearId ? { fiscalYearId } : {}),
-  };
-
   const {
     data,
     isFetching,
@@ -27,8 +22,15 @@ export const useOrder = (orderId, options = {}) => {
     queryKey: ['ui-orders', 'order', orderId, fiscalYearId],
     queryFn: async ({ signal }) => {
       try {
-        return ky.get(`${ORDERS_API}/${orderId}`, { signal }).json();
+        const searchParams = fiscalYearId ? { fiscalYearId } : undefined;
+
+        return ky.get(`${ORDERS_API}/${orderId}`, { signal, searchParams }).json();
       } catch {
+        const searchParams = {
+          query: `id==${orderId}`,
+          ...(fiscalYearId ? { fiscalYearId } : {}),
+        };
+
         const { purchaseOrders } = await ky.get(ORDERS_API, { searchParams, signal }).json();
 
         return purchaseOrders[0] || {};
