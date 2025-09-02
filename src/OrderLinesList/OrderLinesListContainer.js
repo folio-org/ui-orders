@@ -11,9 +11,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { ENTITY_TYPE_PO_LINE } from '../common/constants';
-import {
-  ORDERS,
-} from '../components/Utils/resources';
+import { ORDERS } from '../components/Utils/resources';
 
 import { fetchOrderAcqUnits } from '../OrdersList/utils';
 import { useOrderLinesList } from './hooks';
