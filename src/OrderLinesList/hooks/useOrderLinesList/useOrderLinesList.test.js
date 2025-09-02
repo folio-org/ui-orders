@@ -1,12 +1,15 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { useLocation } from 'react-router';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { getLinesQuery } from '@folio/plugin-find-po-line';
 
 import { orderLine } from 'fixtures';
-import { useOrderLines } from './useOrderLines';
+import { useOrderLinesList } from './useOrderLinesList';
 
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
@@ -33,7 +36,7 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-describe('useOrderLines', () => {
+describe('useOrderLinesList', () => {
   beforeEach(() => {
     getLinesQuery.mockReturnValue(() => Promise.resolve(queryMock));
 
@@ -54,7 +57,7 @@ describe('useOrderLines', () => {
       .mockClear()
       .mockReturnValue({ search: '' });
 
-    const { result } = renderHook(() => useOrderLines({
+    const { result } = renderHook(() => useOrderLinesList({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
     }), { wrapper });
 
@@ -74,7 +77,7 @@ describe('useOrderLines', () => {
       .mockReturnValue({ search: 'workflowStatus=Open' });
 
     const fetchReferences = jest.fn().mockReturnValue(Promise.resolve({}));
-    const { result } = renderHook(() => useOrderLines({
+    const { result } = renderHook(() => useOrderLinesList({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
       fetchReferences,
     }), { wrapper });
@@ -92,7 +95,7 @@ describe('useOrderLines', () => {
     const fetchReferences = jest.fn().mockReturnValue(Promise.resolve({
       ordersMap: { [orderLine.purchaseOrderId]: { workflowStatus: 'Open' } },
     }));
-    const { result } = renderHook(() => useOrderLines({
+    const { result } = renderHook(() => useOrderLinesList({
       pagination: { limit: 5, offset: 0, timestamp: 42 },
       fetchReferences,
     }), { wrapper });

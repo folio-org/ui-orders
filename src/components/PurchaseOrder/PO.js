@@ -1,6 +1,5 @@
-/* eslint-disable max-lines */
-import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import PropTypes from 'prop-types';
 import {
   useCallback,
   useEffect,
@@ -23,12 +22,10 @@ import {
   baseManifest,
   CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
   getErrorCodeFromResponse,
-  LIMIT_MAX,
   handleKeyCommand,
   IfVisible,
   Tags,
   TagsBadge,
-  useAcqRestrictions,
   useModalToggle,
   useShowCallout,
   VersionHistoryButton,
@@ -75,11 +72,7 @@ import {
   REEXPORT_SOURCES,
   WORKFLOW_STATUS,
 } from '../../common/constants';
-import {
-  useExportHistory,
-  useHandleOrderUpdateError,
-  useOrderTemplate,
-} from '../../common/hooks';
+import { useHandleOrderUpdateError } from '../../common/hooks';
 import { isOngoing } from '../../common/POFields';
 import {
   reasonsForClosureResource,
@@ -104,7 +97,6 @@ import {
   APPROVALS_SETTING,
   FUND,
   LINES_LIMIT,
-  ORDER_INVOICES,
   ORDER_LINES,
   ORDER_NUMBER,
   ORDER,
@@ -113,7 +105,10 @@ import {
 import CloseOrderModal from './CloseOrder';
 import { LINE_LISTING_COLUMN_MAPPING } from './constants';
 import { getPOActionMenu } from './getPOActionMenu';
-import { useOrderMutation } from './hooks';
+import {
+  useOrderMutation,
+  usePurchaseOrderResources,
+} from './hooks';
 import LineListing from './LineListing';
 import LinesLimit from './LinesLimit';
 import { OngoingOrderInfoView } from './OngoingOrderInfo';
@@ -140,13 +135,12 @@ const PO = ({
   const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
   const { updateOrder } = useOrderMutation();
 
-  const [order, setOrder] = useState({});
-  const [orderInvoicesIds, setOrderInvoicesIds] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [updateOrderErrors, setUpdateOrderErrors] = useState();
   const [hiddenFields, setHiddenFields] = useState({});
   const [accountNumbers, setAccountNumbers] = useState([]);
   const [isCancelReason, setIsCancelReason] = useState(false);
+  const [selectedFiscalYear, setSelectedFiscalYear] = useState();
 
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const [isCloneConfirmation, toggleCloneConfirmation] = useModalToggle();
@@ -163,26 +157,35 @@ const PO = ({
   const [isOrderReexportModalOpened, toggleOrderReexportModal] = useModalToggle();
 
   const orderId = match.params.id;
-  const poLines = order?.poLines;
 
   const {
-    isLoading: isRestrictionsLoading,
-    restrictions,
-  } = useAcqRestrictions(order?.id, order?.acqUnitIds);
-
-  const {
-    isLoading: isOrderTemplateLoading,
-    orderTemplate,
-  } = useOrderTemplate(order?.template);
-
-  const {
-    isLoading: isExportHistoryLoading,
     exportHistory,
-  } = useExportHistory(poLines?.map(({ id }) => id));
+    fiscalYears,
+    isExportHistoryLoading,
+    isFiscalYearsLoading,
+    isOrderInvoiceRelationshipsLoading,
+    isOrderLinesLoading,
+    isOrderLoading,
+    isOrderTemplateLoading,
+    isRestrictionsLoading,
+    order,
+    orderInvoiceRelationships,
+    orderLines,
+    orderTemplate,
+    refetch,
+    restrictions,
+  } = usePurchaseOrderResources(orderId, selectedFiscalYear);
+
+  useEffect(() => {
+    // Set default fiscal year if not selected
+    if (!selectedFiscalYear && fiscalYears.length) {
+      setSelectedFiscalYear(fiscalYears[0].id);
+    }
+  }, [fiscalYears, selectedFiscalYear]);
 
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
-  const poLinesCount = poLines?.length || 0;
+  const poLinesCount = orderLines?.length || 0;
   const workflowStatus = get(order, 'workflowStatus');
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
   const tags = get(order, 'tags.tagList', []);
@@ -199,6 +202,10 @@ const PO = ({
   const cloneOrderModalLabel = intl.formatMessage({ id: 'ui-orders.order.clone.heading' });
   const differentAccountModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
   const createInvoiceModalLabel = intl.formatMessage({ id: 'ui-orders.createInvoice.confirmationModal.title' });
+
+  const orderInvoicesIds = useMemo(() => {
+    return orderInvoiceRelationships.map(({ invoiceId }) => invoiceId);
+  }, [orderInvoiceRelationships]);
 
   const openVersionHistory = useCallback(() => {
     history.push({
@@ -219,75 +226,6 @@ const PO = ({
     </PaneMenu>
   );
 
-  const fetchOrder = useCallback(
-    () => Promise.all([
-      mutator.orderDetails.GET()
-        .catch(async (errorResponse) => {
-          const isConversionError = errorResponse?.message && errorResponse.message?.indexOf('Operator failed: CurrencyConversion') !== -1;
-
-          const errorCode = isConversionError
-            ? 'conversionError'
-            : await getErrorCodeFromResponse(errorResponse);
-          const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderNotLoaded' });
-          const message = getCommonErrorMessage(errorCode, defaultMessage);
-
-          sendCallout({
-            message,
-            type: 'error',
-          });
-
-          return {};
-        }),
-      mutator.orderInvoicesRelns.GET({
-        params: {
-          query: `purchaseOrderId==${orderId}`,
-          limit: LIMIT_MAX,
-        },
-      })
-        .catch(() => []),
-      mutator.orderLines.GET({
-        params: {
-          query: `purchaseOrderId==${orderId}`,
-          limit: LIMIT_MAX,
-        },
-      })
-        .catch(async (errorResponse) => {
-          const errorCode = await getErrorCodeFromResponse(errorResponse);
-          const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderLinesNotLoaded' });
-          const message = getCommonErrorMessage(errorCode, defaultMessage);
-
-          sendCallout({
-            message,
-            type: 'error',
-          });
-
-          return [];
-        }),
-      mutator.orderDetailsList.GET({ params: { query: `id==${orderId}` } }),
-    ])
-      .then(([orderResp, orderInvoicesResp, poLines, orderListResp]) => {
-        setOrder({
-          ...(orderListResp[0] || {}),
-          poLines,
-          ...orderResp,
-        });
-        const invoicesIds = orderInvoicesResp.map(({ invoiceId }) => invoiceId);
-
-        setOrderInvoicesIds(invoicesIds);
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [orderId, sendCallout],
-  );
-
-  useEffect(
-    () => {
-      setIsLoading(true);
-      fetchOrder().finally(setIsLoading);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [match.params.id],
-  );
-
   useEffect(() => {
     setHiddenFields(orderTemplate.hiddenFields);
   }, [orderTemplate]);
@@ -302,206 +240,224 @@ const PO = ({
     setUpdateOrderErrors();
   }, [toggleErrorsModal]);
 
-  const onCloneOrder = useCallback(
-    () => {
-      toggleCloneConfirmation();
-      setIsLoading(true);
-      cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber, poLines)
-        .then(newOrder => {
-          sendCallout({
-            message: <FormattedMessage id="ui-orders.order.clone.success" />,
-            type: 'success',
-          });
-          history.push({
-            pathname: `/orders/view/${newOrder.id}`,
-            search: location.search,
-          });
-          refreshList();
-        })
-        .catch(e => {
-          setIsLoading();
-
-          return handleErrorResponse(e, orderErrorModalShow, 'clone.error');
+  const onCloneOrder = useCallback(() => {
+    toggleCloneConfirmation();
+    setIsLoading(true);
+    cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber, orderLines)
+      .then(newOrder => {
+        sendCallout({
+          message: <FormattedMessage id="ui-orders.order.clone.success" />,
+          type: 'success',
         });
-    },
-    [
-      toggleCloneConfirmation,
-      order,
-      sendCallout,
-      history,
-      location.search,
-      refreshList,
-      handleErrorResponse,
-      orderErrorModalShow,
-      poLines,
-    ],
-  );
-
-  const deletePO = useCallback(
-    () => {
-      toggleDeleteOrderConfirm();
-      setIsLoading(true);
-      mutator.orderDetails.DELETE(order, { silent: true })
-        .then(() => {
-          sendCallout({
-            message: <FormattedMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
-            type: 'success',
-          });
-          refreshList();
-          history.replace({
-            pathname: '/orders',
-            search: location.search,
-          });
-        })
-        .catch(async (errorResponse) => {
-          const errorCode = await getErrorCodeFromResponse(errorResponse);
-          const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderWasNotDeleted' });
-          const message = getCommonErrorMessage(errorCode, defaultMessage);
-
-          sendCallout({
-            message,
-            type: 'error',
-          });
-          setIsLoading();
+        history.push({
+          pathname: `/orders/view/${newOrder.id}`,
+          search: location.search,
         });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggleDeleteOrderConfirm, order, sendCallout, orderNumber, history, location.search],
-  );
+        refreshList();
+      })
+      .catch(e => {
+        return handleErrorResponse(e, orderErrorModalShow, 'clone.error');
+      })
+      .finally(() => setIsLoading(false));
+  }, [
+    toggleCloneConfirmation,
+    order,
+    mutator.orderDetails,
+    mutator.generatedOrderNumber,
+    orderLines,
+    sendCallout,
+    history,
+    location.search,
+    refreshList,
+    handleErrorResponse,
+    orderErrorModalShow,
+  ]);
 
-  const closeOrder = useCallback(
-    (reason, note) => {
-      const closeOrderProps = {
-        workflowStatus: WORKFLOW_STATUS.closed,
-        closeReason: {
-          reason,
-          note,
+  const deletePO = useCallback(() => {
+    toggleDeleteOrderConfirm();
+    setIsLoading(true);
+    mutator.orderDetails.DELETE(order, { silent: true })
+      .then(() => {
+        sendCallout({
+          message: <FormattedMessage id="ui-orders.order.delete.success" values={{ orderNumber }} />,
+          type: 'success',
+        });
+        refreshList();
+        history.replace({
+          pathname: '/orders',
+          search: location.search,
+        });
+      })
+      .catch(async (errorResponse) => {
+        const errorCode = await getErrorCodeFromResponse(errorResponse);
+        const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderWasNotDeleted' });
+        const message = getCommonErrorMessage(errorCode, defaultMessage);
+
+        sendCallout({
+          message,
+          type: 'error',
+        });
+      })
+      .finally(() => setIsLoading(false));
+  }, [
+    toggleDeleteOrderConfirm,
+    mutator.orderDetails,
+    order,
+    sendCallout,
+    orderNumber,
+    refreshList,
+    history,
+    location.search,
+    intl,
+  ]);
+
+  const closeOrder = useCallback((reason, note) => {
+    const closeOrderProps = {
+      workflowStatus: WORKFLOW_STATUS.closed,
+      closeReason: {
+        reason,
+        note,
+      },
+    };
+
+    setIsCancelReason(false);
+    toggleCloseOrderModal();
+    setIsLoading(true);
+    updateOrderResource(order, mutator.orderDetails, closeOrderProps)
+      .then(
+        () => {
+          sendCallout({ message: <FormattedMessage id="ui-orders.closeOrder.success" /> });
+          refreshList();
+
+          return refetch();
         },
-      };
-
-      setIsCancelReason(false);
-      toggleCloseOrderModal();
-      setIsLoading(true);
-      updateOrderResource(order, mutator.orderDetails, closeOrderProps)
-        .then(
-          () => {
-            sendCallout({ message: <FormattedMessage id="ui-orders.closeOrder.success" /> });
-            refreshList();
-
-            return fetchOrder();
-          },
-          e => handleErrorResponse(e, orderErrorModalShow, 'closeOrder'),
-        )
-        .finally(setIsLoading);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggleCloseOrderModal, order, sendCallout, refreshList, fetchOrder, handleErrorResponse, orderErrorModalShow],
-  );
+        e => handleErrorResponse(e, orderErrorModalShow, 'closeOrder'),
+      )
+      .finally(() => setIsLoading(false));
+  }, [
+    toggleCloseOrderModal,
+    order,
+    mutator.orderDetails,
+    sendCallout,
+    refreshList,
+    refetch,
+    handleErrorResponse,
+    orderErrorModalShow,
+  ]);
 
   const cancelClosingOrder = useCallback(() => {
     setIsCancelReason(false);
     toggleCloseOrderModal();
   }, [toggleCloseOrderModal]);
 
-  const approveOrder = useCallback(
-    () => {
-      setIsLoading(true);
-      updateOrderResource(order, mutator.orderDetails, { approved: true })
-        .then(
-          () => {
-            sendCallout({
-              message: <FormattedMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
-            });
-            refreshList();
+  const approveOrder = useCallback(() => {
+    setIsLoading(true);
+    updateOrderResource(order, mutator.orderDetails, { approved: true })
+      .then(
+        () => {
+          sendCallout({
+            message: <FormattedMessage id="ui-orders.order.approved.success" values={{ orderNumber }} />,
+          });
+          refreshList();
 
-            return fetchOrder();
-          },
-          e => {
-            return handleErrorResponse(e, orderErrorModalShow);
-          },
-        )
-        .finally(setIsLoading);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [order, sendCallout, orderNumber, refreshList, fetchOrder, handleErrorResponse, orderErrorModalShow],
-  );
+          return refetch();
+        },
+        e => {
+          return handleErrorResponse(e, orderErrorModalShow);
+        },
+      )
+      .finally(() => setIsLoading(false));
+  }, [
+    order,
+    mutator.orderDetails,
+    sendCallout,
+    orderNumber,
+    refreshList,
+    refetch,
+    handleErrorResponse,
+    orderErrorModalShow,
+  ]);
 
-  const openOrder = useCallback(
-    () => {
-      const openOrderProps = {
-        workflowStatus: WORKFLOW_STATUS.open,
-      };
+  const openOrder = useCallback(() => {
+    const openOrderProps = {
+      workflowStatus: WORKFLOW_STATUS.open,
+    };
 
-      if (isOpenOrderModalOpened) toggleOpenOrderModal();
+    if (isOpenOrderModalOpened) toggleOpenOrderModal();
 
-      const exportAccountNumbers = getExportAccountNumbers(order.poLines);
+    const exportAccountNumbers = getExportAccountNumbers(orderLines);
 
-      if (!order.manualPo && exportAccountNumbers.length > 1) {
-        setAccountNumbers(exportAccountNumbers);
+    if (!order.manualPo && exportAccountNumbers.length > 1) {
+      setAccountNumbers(exportAccountNumbers);
 
-        return toggleDifferentAccountModal();
-      }
+      return toggleDifferentAccountModal();
+    }
 
-      setIsLoading(true);
+    setIsLoading(true);
 
-      return updateOrderResource(order, mutator.orderDetails, openOrderProps)
-        .then(
-          () => {
-            sendCallout({
-              message: <FormattedMessage id="ui-orders.order.open.success" values={{ orderNumber: order?.poNumber }} />,
-              type: 'success',
-            });
-            refreshList();
+    return updateOrderResource(order, mutator.orderDetails, openOrderProps)
+      .then(
+        () => {
+          sendCallout({
+            message: <FormattedMessage id="ui-orders.order.open.success" values={{ orderNumber: order?.poNumber }} />,
+            type: 'success',
+          });
+          refreshList();
 
-            return fetchOrder();
-          },
-          e => {
-            return handleErrorResponse(e, orderErrorModalShow, ERROR_CODES.orderGenericError1, toggleDeletePieces);
-          },
-        )
-        .finally(setIsLoading);
-    },
-    [
-      isOpenOrderModalOpened,
-      toggleOpenOrderModal,
-      order,
-      accountNumbers,
-      toggleDifferentAccountModal,
-      sendCallout,
-      refreshList,
-      fetchOrder,
-      handleErrorResponse,
-      orderErrorModalShow,
-      toggleDeletePieces,
-    ],
-  );
+          return refetch();
+        },
+        e => {
+          return handleErrorResponse(e, orderErrorModalShow, ERROR_CODES.orderGenericError1, toggleDeletePieces);
+        },
+      )
+      .finally(() => setIsLoading(false));
+  }, [
+    isOpenOrderModalOpened,
+    toggleOpenOrderModal,
+    orderLines,
+    order,
+    mutator.orderDetails,
+    toggleDifferentAccountModal,
+    sendCallout,
+    refreshList,
+    refetch,
+    handleErrorResponse,
+    orderErrorModalShow,
+    toggleDeletePieces,
+  ]);
 
-  const reopenOrder = useCallback(
-    () => {
-      const openOrderProps = {
-        workflowStatus: WORKFLOW_STATUS.open,
-      };
+  const reopenOrder = useCallback(() => {
+    const openOrderProps = {
+      workflowStatus: WORKFLOW_STATUS.open,
+    };
 
-      updateOrderResource(order, mutator.orderDetails, openOrderProps)
-        .then(
-          () => {
-            sendCallout({
-              message: <FormattedMessage id="ui-orders.order.reopen.success" values={{ orderNumber }} />,
-              type: 'success',
-            });
-            refreshList();
+    setIsLoading(true);
+    updateOrderResource(order, mutator.orderDetails, openOrderProps)
+      .then(
+        () => {
+          sendCallout({
+            message: <FormattedMessage id="ui-orders.order.reopen.success" values={{ orderNumber }} />,
+            type: 'success',
+          });
+          refreshList();
 
-            return fetchOrder();
-          },
-          e => {
-            return handleErrorResponse(e, orderErrorModalShow);
-          },
-        )
-        .finally(setIsLoading);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [order, sendCallout, orderNumber, refreshList, fetchOrder, handleErrorResponse, orderErrorModalShow],
-  );
+          return refetch();
+        },
+        e => {
+          return handleErrorResponse(e, orderErrorModalShow);
+        },
+      )
+      .finally(() => setIsLoading(false));
+  }, [
+    order,
+    mutator.orderDetails,
+    sendCallout,
+    orderNumber,
+    refreshList,
+    refetch,
+    handleErrorResponse,
+    orderErrorModalShow,
+  ]);
 
   const unopenOrder = useCallback(({ deleteHoldings }) => {
     const searchParams = { deleteHoldings };
@@ -520,15 +476,15 @@ const PO = ({
           });
           refreshList();
 
-          return fetchOrder();
+          return refetch();
         },
         (e) => {
           return handleErrorResponse(e?.response, orderErrorModalShow);
         },
       )
-      .finally(setIsLoading);
+      .finally(() => setIsLoading(false));
   }, [
-    fetchOrder,
+    refetch,
     handleErrorResponse,
     order,
     orderErrorModalShow,
@@ -539,71 +495,71 @@ const PO = ({
     updateOrder,
   ]);
 
-  const createNewOrder = useCallback(
-    () => {
-      toggleLinesLimitExceededModal();
-      cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber)
-        .then(newOrder => {
-          history.push({
-            pathname: `/orders/view/${newOrder.id}/po-line/create`,
-            search: location.search,
-          });
-        })
-        .catch(e => {
-          setIsLoading();
-
-          return handleErrorResponse(e, orderErrorModalShow, 'noCreatedOrder');
-        });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleErrorResponse, history, location.search, order, orderErrorModalShow, toggleLinesLimitExceededModal],
-  );
-
-  const gotToOrdersList = useCallback(
-    () => {
-      history.push({
-        pathname: '/orders',
-        search: location.search,
-      });
-    },
-    [history, location.search],
-  );
-
-  const goToReceiving = useCallback(
-    () => {
-      history.push({
-        pathname: '/receiving',
-        search: `qindex=purchaseOrder.poNumber&query=${orderNumber}`,
-      });
-    },
-    [orderNumber, history],
-  );
-
-  const onEdit = useCallback(
-    () => {
-      history.push({
-        pathname: `/orders/edit/${match.params.id}`,
-        search: location.search,
-      });
-    },
-    [location.search, match.params.id, history],
-  );
-
-  const onAddPOLine = useCallback(
-    () => {
-      const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
-
-      if (linesLimit <= poLinesCount) {
-        toggleLinesLimitExceededModal();
-      } else {
+  const createNewOrder = useCallback(() => {
+    toggleLinesLimitExceededModal();
+    setIsLoading(true);
+    cloneOrder(order, mutator.orderDetails, mutator.generatedOrderNumber)
+      .then(newOrder => {
         history.push({
-          pathname: `/orders/view/${match.params.id}/po-line/create`,
+          pathname: `/orders/view/${newOrder.id}/po-line/create`,
           search: location.search,
         });
-      }
-    },
-    [resources, match.params.id, history, location.search, poLinesCount, toggleLinesLimitExceededModal],
-  );
+      })
+      .catch(e => {
+        return handleErrorResponse(e, orderErrorModalShow, 'noCreatedOrder');
+      })
+      .finally(() => setIsLoading(false));
+  }, [
+    handleErrorResponse,
+    history,
+    location.search,
+    mutator.generatedOrderNumber,
+    mutator.orderDetails,
+    order,
+    orderErrorModalShow,
+    toggleLinesLimitExceededModal,
+  ]);
+
+  const gotToOrdersList = useCallback(() => {
+    history.push({
+      pathname: '/orders',
+      search: location.search,
+    });
+  }, [history, location.search]);
+
+  const goToReceiving = useCallback(() => {
+    history.push({
+      pathname: '/receiving',
+      search: `qindex=purchaseOrder.poNumber&query=${orderNumber}`,
+    });
+  }, [orderNumber, history]);
+
+  const onEdit = useCallback(() => {
+    history.push({
+      pathname: `/orders/edit/${match.params.id}`,
+      search: location.search,
+    });
+  }, [location.search, match.params.id, history]);
+
+  const onAddPOLine = useCallback(() => {
+    const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
+
+    if (linesLimit <= poLinesCount) {
+      toggleLinesLimitExceededModal();
+    } else {
+      history.push({
+        pathname: `/orders/view/${match.params.id}/po-line/create`,
+        search: location.search,
+      });
+    }
+  }, [
+    resources,
+    match.params.id,
+    history,
+    location.search,
+    poLinesCount,
+    toggleLinesLimitExceededModal,
+  ]);
 
   const lineListingActionMenu = useMemo(() => (
     <Dropdown
@@ -641,29 +597,30 @@ const PO = ({
 
   const updateOrderCB = useCallback(async (orderWithTags) => {
     await mutator.orderDetails.PUT(orderWithTags);
-    await fetchOrder();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchOrder]);
+    await refetch();
+  }, [mutator.orderDetails, refetch]);
 
-  const updateEncumbrances = useCallback(
-    () => {
-      setIsLoading(true);
-      mutator.updateEncumbrances.POST({})
-        .then(
-          () => {
-            sendCallout({ message: <FormattedMessage id="ui-orders.order.updateEncumbrances.success" /> });
+  const updateEncumbrances = useCallback(() => {
+    setIsLoading(true);
+    mutator.updateEncumbrances.POST({})
+      .then(
+        () => {
+          sendCallout({ message: <FormattedMessage id="ui-orders.order.updateEncumbrances.success" /> });
 
-            return fetchOrder();
-          },
-          e => {
-            return handleErrorResponse(e, orderErrorModalShow, 'ui-orders.order.updateEncumbrances.error');
-          },
-        )
-        .finally(setIsLoading);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fetchOrder, handleErrorResponse, orderErrorModalShow, sendCallout],
-  );
+          return refetch();
+        },
+        e => {
+          return handleErrorResponse(e, orderErrorModalShow, 'ui-orders.order.updateEncumbrances.error');
+        },
+      )
+      .finally(() => setIsLoading(false));
+  }, [
+    mutator.updateEncumbrances,
+    sendCallout,
+    refetch,
+    handleErrorResponse,
+    orderErrorModalShow,
+  ]);
 
   const onCreateInvoice = useCallback(() => {
     history.push(`${INVOICES_ROUTE}/create`, { orderIds: [order.id] });
@@ -679,9 +636,8 @@ const PO = ({
 
   const onReexportConfirm = useCallback(() => {
     toggleOrderReexportModal();
-    setIsLoading(true);
-    fetchOrder().finally(() => setIsLoading(false));
-  }, [fetchOrder, toggleOrderReexportModal]);
+    refetch();
+  }, [refetch, toggleOrderReexportModal]);
 
   const shortcuts = [
     {
@@ -729,7 +685,13 @@ const PO = ({
     },
   ];
 
-  if (isLoading || order?.id !== match.params.id || isOrderTemplateLoading) {
+  if (
+    isLoading
+    || order?.id !== match.params.id
+    || isOrderLoading
+    || isOrderTemplateLoading
+    || isFiscalYearsLoading
+  ) {
     return (
       <LoadingPane
         id="order-details"
@@ -840,8 +802,11 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
             >
               <SummaryView
-                order={order}
+                fiscalYears={fiscalYears}
                 hiddenFields={hiddenFields}
+                onSelectFiscalYear={setSelectedFiscalYear}
+                order={order}
+                selectedFiscalYear={selectedFiscalYear}
               />
             </Accordion>
             <Accordion
@@ -849,14 +814,21 @@ const PO = ({
               id="POListing"
               label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
             >
-              <LineListing
-                baseUrl={`${ORDERS_ROUTE}/view/${order.id}`}
-                funds={funds}
-                poLines={poLines}
-                visibleColumns={visibleColumns}
-              />
+              {
+                isOrderLinesLoading
+                  ? <Loading />
+                  : (
+                    <LineListing
+                      baseUrl={`${ORDERS_ROUTE}/view/${order.id}`}
+                      funds={funds}
+                      poLines={orderLines}
+                      visibleColumns={visibleColumns}
+                    />
+                  )
+              }
             </Accordion>
             <POInvoicesContainer
+              isLoading={isOrderInvoiceRelationshipsLoading}
               label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
               orderInvoicesIds={orderInvoicesIds}
             />
@@ -928,7 +900,7 @@ const PO = ({
           <ModalDeletePieces
             onCancel={toggleDeletePieces}
             onSubmit={openOrder}
-            poLines={poLines}
+            poLines={orderLines}
           />
         )}
         {isDifferentAccountModalOpened && (
@@ -958,7 +930,7 @@ const PO = ({
             onCancel={toggleOrderReexportModal}
             onConfirm={onReexportConfirm}
             order={order}
-            poLines={poLines}
+            poLines={orderLines}
             exportHistory={exportHistory}
             isLoading={isExportHistoryLoading}
             source={REEXPORT_SOURCES.order}
@@ -1004,11 +976,6 @@ PO.manifest = Object.freeze({
     ...baseManifest,
     accumulate: true,
     fetch: false,
-  },
-  orderInvoicesRelns: {
-    ...ORDER_INVOICES,
-    fetch: false,
-    accumulate: true,
   },
   generatedOrderNumber: ORDER_NUMBER,
   orderLines: ORDER_LINES,

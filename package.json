@@ -181,6 +181,7 @@
           "orders.configuration.prefixes.collection.get",
           "orders.configuration.reasons-for-closure.collection.get",
           "orders.configuration.suffixes.collection.get",
+          "orders.fiscal-years.collection.get",
           "orders.item.get",
           "orders.order-templates.item.get",
           "orders.pieces.collection.get",
