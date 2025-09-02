@@ -37,8 +37,8 @@ const SummaryView = ({
   const intl = useIntl();
 
   const fiscalYearsOptions = useMemo(() => {
-    const currentFiscalYear = fiscalYears.at(-1);
-    const previousFiscalYears = fiscalYears.slice(0, -1);
+    const currentFiscalYear = fiscalYears[0];
+    const previousFiscalYears = fiscalYears.slice(1);
 
     return [
       currentFiscalYear && (

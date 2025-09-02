@@ -179,7 +179,7 @@ const PO = ({
   useEffect(() => {
     // Set default fiscal year if not selected
     if (!selectedFiscalYear && fiscalYears.length) {
-      setSelectedFiscalYear(fiscalYears.at(-1).id);
+      setSelectedFiscalYear(fiscalYears[0].id);
     }
   }, [fiscalYears, selectedFiscalYear]);
 
