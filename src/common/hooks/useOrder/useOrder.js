@@ -24,7 +24,7 @@ export const useOrder = (orderId, options = {}) => {
       try {
         const searchParams = fiscalYearId ? { fiscalYearId } : undefined;
 
-        return ky.get(`${ORDERS_API}/${orderId}`, { signal, searchParams }).json();
+        return ky.get(`${ORDERS_API}/${orderId}`, { searchParams, signal }).json();
       } catch {
         const searchParams = {
           query: `id==${orderId}`,

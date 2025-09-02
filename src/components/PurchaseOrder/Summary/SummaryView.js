@@ -72,16 +72,18 @@ const SummaryView = ({
   return (
     <>
       <Row start="xs">
-        <Col
-          xs={6}
-          lg={3}
-        >
-          <FiscalYearSelect
-            dataOptions={fiscalYearsOptions}
-            onSelect={onSelectFiscalYear}
-            value={selectedFiscalYear}
-          />
-        </Col>
+        {Boolean(fiscalYearsOptions.length) && (
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <FiscalYearSelect
+              dataOptions={fiscalYearsOptions}
+              onSelect={onSelectFiscalYear}
+              value={selectedFiscalYear}
+            />
+          </Col>
+        )}
 
         <Col
           xs={6}
