@@ -97,10 +97,8 @@ import {
   APPROVALS_SETTING,
   FUND,
   LINES_LIMIT,
-  ORDER_LINES,
   ORDER_NUMBER,
   ORDER,
-  ORDERS,
 } from '../Utils/resources';
 import CloseOrderModal from './CloseOrder';
 import { LINE_LISTING_COLUMN_MAPPING } from './constants';
@@ -978,12 +976,6 @@ PO.manifest = Object.freeze({
     fetch: false,
   },
   generatedOrderNumber: ORDER_NUMBER,
-  orderLines: ORDER_LINES,
-  orderDetailsList: {
-    ...ORDERS,
-    accumulate: true,
-    fetch: false,
-  },
   updateEncumbrances: updateEncumbrancesResource,
 });
 
