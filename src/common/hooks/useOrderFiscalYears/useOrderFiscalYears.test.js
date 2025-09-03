@@ -44,7 +44,7 @@ describe('useOrderFiscalYears', () => {
 
     await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
-    expect(kyMock.get).toHaveBeenCalledWith(`${ORDERS_API}/orderId/fiscalYears`, expect.any(Object));
+    expect(kyMock.get).toHaveBeenCalledWith(`${ORDERS_API}/orderId/fiscal-years`, expect.any(Object));
     expect(result.current.fiscalYears).toEqual(fiscalYears);
   });
 });
