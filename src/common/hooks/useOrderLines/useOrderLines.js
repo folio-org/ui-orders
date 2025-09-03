@@ -23,12 +23,7 @@ export const useOrderLines = (options = {}) => {
   const ky = useOkapiKy({ tenant: tenantId });
   const [namespace] = useNamespace({ key: 'order-lines' });
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: [namespace, tenantId, ...Object.values(params)],
     queryFn: async ({ signal }) => {
       const searchParams = {
@@ -49,9 +44,7 @@ export const useOrderLines = (options = {}) => {
 
   return ({
     orderLines: data?.poLines || DEFAULT_DATA,
-    isLoading,
-    isFetching,
-    refetch,
     totalRecords: data?.totalRecords,
+    ...rest,
   });
 };

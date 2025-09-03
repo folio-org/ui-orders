@@ -96,6 +96,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
     exportHistory,
     fiscalYears,
     isExportHistoryLoading,
+    isFiscalYearsFetched,
     isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
     isOrderLinesLoading,

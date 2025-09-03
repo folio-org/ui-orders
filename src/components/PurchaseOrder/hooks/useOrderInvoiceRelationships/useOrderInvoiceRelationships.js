@@ -23,12 +23,7 @@ export const useOrderInvoiceRelationships = (orderId, options = {}) => {
   const ky = useOkapiKy({ tenant: tenantId });
   const [namespace] = useNamespace({ key: 'invoices' });
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: [namespace, tenantId],
     queryFn: async ({ signal }) => {
       const searchParams = {
@@ -48,9 +43,7 @@ export const useOrderInvoiceRelationships = (orderId, options = {}) => {
 
   return ({
     orderInvoiceRelationships: data?.orderInvoiceRelationships || DEFAULT_DATA,
-    isLoading,
-    isFetching,
-    refetch,
     totalRecords: data?.totalRecords,
+    ...rest,
   });
 };

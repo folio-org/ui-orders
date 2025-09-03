@@ -13,12 +13,7 @@ export const useOrder = (orderId, options = {}) => {
 
   const ky = useOkapiKy();
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: ['ui-orders', 'order', orderId, fiscalYearId],
     queryFn: async ({ signal }) => {
       try {
@@ -41,9 +36,7 @@ export const useOrder = (orderId, options = {}) => {
   });
 
   return ({
-    isFetching,
-    isLoading,
     order: data,
-    refetch,
+    ...rest,
   });
 };

@@ -23,19 +23,13 @@ export const useOrderFiscalYears = (orderId, options = {}) => {
   const ky = useOkapiKy({ tenant: tenantId });
   const [namespace] = useNamespace({ key: 'order-fiscal-years' });
 
-  const {
-    data,
-    isFetching,
-    isFetched,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: [namespace, orderId, tenantId],
     queryFn: async ({ signal }) => (
       ky.get(`${ORDERS_API}/${orderId}/fiscal-years`, { signal })
         .json()
-        .then(({ fiscalYears, ...rest }) => ({
-          ...rest,
+        .then(({ fiscalYears, ..._rest }) => ({
+          ..._rest,
           fiscalYears: orderBy(fiscalYears, ['periodStart', 'code'], [DESC, ASC]),
         }))
     ),
@@ -45,10 +39,7 @@ export const useOrderFiscalYears = (orderId, options = {}) => {
 
   return ({
     fiscalYears: data?.fiscalYears || DEFAULT_DATA,
-    isLoading,
-    isFetched,
-    isFetching,
-    refetch,
     totalRecords: data?.totalRecords,
+    ...rest,
   });
 };

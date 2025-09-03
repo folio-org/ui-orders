@@ -25,10 +25,7 @@ export const useExportHistory = (poLineIds = []) => {
       .then(({ exportHistories }) => exportHistories)
   );
 
-  const {
-    data = {},
-    isLoading,
-  } = useQuery(
+  const { data = {}, ...rest } = useQuery(
     [namespace, poLineIds],
     async ({ signal }) => {
       const exportHistories = await batchRequest(
@@ -50,8 +47,8 @@ export const useExportHistory = (poLineIds = []) => {
   );
 
   return ({
-    isLoading,
     exportHistory: data?.exportHistories || [],
     totalRecords: data?.totalRecords,
+    ...rest,
   });
 };
