@@ -184,7 +184,10 @@ const SummaryView = ({
 };
 
 SummaryView.propTypes = {
-  fiscalYears: PropTypes.arrayOf(PropTypes.shape({})),
+  fiscalYears: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
+  })),
   hiddenFields: PropTypes.shape({}),
   onSelectFiscalYear: PropTypes.func,
   order: PropTypes.shape({}),

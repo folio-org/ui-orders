@@ -30,8 +30,9 @@ const POInvoicesContainer = ({
 };
 
 POInvoicesContainer.propTypes = {
-  orderInvoicesIds: PropTypes.arrayOf(PropTypes.string),
+  isLoading: PropTypes.bool,
   label: PropTypes.node.isRequired,
+  orderInvoicesIds: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default POInvoicesContainer;
