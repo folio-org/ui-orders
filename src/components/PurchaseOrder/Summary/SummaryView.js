@@ -1,6 +1,9 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import {
   Checkbox,
   Col,
@@ -13,119 +16,182 @@ import {
   ORDER_STATUSES,
 } from '@folio/stripes-acq-components';
 
+import { FiscalYearSelect } from '../../FiscalYearSelect';
 import TotalEncumberedValue from './TotalEncumberedValue';
 import TotalExpendedValue from './TotalExpendedValue';
-import WorkflowStatus from './WorkflowStatus';
 import TotalUnits from './TotalUnits';
+import WorkflowStatus from './WorkflowStatus';
 
-const SummaryView = ({ order, hiddenFields }) => (
-  <>
-    <Row start="xs">
-      <Col
-        xs={6}
-        lg={3}
-      >
-        <TotalUnits value={order.totalItems} />
-      </Col>
+const defaultProps = {
+  order: {},
+  hiddenFields: {},
+};
 
-      <IfVisible visible={!hiddenFields.approved}>
+const SummaryView = ({
+  fiscalYears,
+  hiddenFields = defaultProps.hiddenFields,
+  onSelectFiscalYear,
+  order = defaultProps.order,
+  selectedFiscalYear,
+}) => {
+  const intl = useIntl();
+
+  const fiscalYearsOptions = useMemo(() => {
+    const currentFiscalYear = fiscalYears[0];
+    const previousFiscalYears = fiscalYears.slice(1);
+
+    return [
+      currentFiscalYear && (
+        <optgroup
+          key={currentFiscalYear.id}
+          label={intl.formatMessage({ id: 'ui-orders.order.fiscalYear.current' })}
+        >
+          <option value={currentFiscalYear.id}>
+            {currentFiscalYear.code}
+          </option>
+        </optgroup>
+      ),
+      previousFiscalYears?.length && (
+        <optgroup
+          key="previous-fiscal-years"
+          label={intl.formatMessage({ id: 'ui-orders.order.fiscalYear.previous' })}
+        >
+          {previousFiscalYears.map((year) => (
+            <option
+              key={year.id}
+              value={year.id}
+            >
+              {year.code}
+            </option>
+          ))}
+        </optgroup>
+      ),
+    ].filter(Boolean);
+  }, [fiscalYears, intl]);
+
+  return (
+    <>
+      <Row start="xs">
+        {Boolean(fiscalYearsOptions.length) && (
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <FiscalYearSelect
+              dataOptions={fiscalYearsOptions}
+              onSelect={onSelectFiscalYear}
+              value={selectedFiscalYear}
+            />
+          </Col>
+        )}
+
         <Col
           xs={6}
           lg={3}
         >
-          <Checkbox
-            checked={order.approved}
-            disabled
-            label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
-            type="checkbox"
-            vertical
-          />
+          <TotalUnits value={order.totalItems} />
         </Col>
-      </IfVisible>
 
-      <Col
-        data-test-workflow-status
-        xs={6}
-        lg={3}
-      >
-        <WorkflowStatus value={order.workflowStatus} />
-      </Col>
-    </Row>
+        <IfVisible visible={!hiddenFields.approved}>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <Checkbox
+              checked={order.approved}
+              disabled
+              label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
+              type="checkbox"
+              vertical
+            />
+          </Col>
+        </IfVisible>
 
-    <Row>
-      <Col
-        xs={6}
-        lg={3}
-      >
-        <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}>
-          <AmountWithCurrencyField amount={order.totalEstimatedPrice} />
-        </KeyValue>
-      </Col>
-      {order.workflowStatus !== ORDER_STATUSES.pending && (
         <Col
-          data-test-total-encumbered
+          data-test-workflow-status
           xs={6}
           lg={3}
         >
-          <TotalEncumberedValue
-            totalEncumbered={order.totalEncumbered}
-            label={<FormattedMessage id="ui-orders.orderSummary.totalEncumbered" />}
+          <WorkflowStatus value={order.workflowStatus} />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}>
+            <AmountWithCurrencyField amount={order.totalEstimatedPrice} />
+          </KeyValue>
+        </Col>
+        {order.workflowStatus !== ORDER_STATUSES.pending && (
+          <Col
+            data-test-total-encumbered
+            xs={6}
+            lg={3}
+          >
+            <TotalEncumberedValue
+              totalEncumbered={order.totalEncumbered}
+              label={<FormattedMessage id="ui-orders.orderSummary.totalEncumbered" />}
+            />
+          </Col>
+        )}
+        <Col
+          data-test-total-expended
+          xs={6}
+          lg={3}
+        >
+          <TotalExpendedValue
+            totalExpended={order.totalExpended}
+            label={<FormattedMessage id="ui-orders.orderSummary.totalExpended" />}
           />
         </Col>
-      )}
-      <Col
-        data-test-total-expended
-        xs={6}
-        lg={3}
-      >
-        <TotalExpendedValue
-          totalExpended={order.totalExpended}
-          label={<FormattedMessage id="ui-orders.orderSummary.totalExpended" />}
-        />
-      </Col>
 
-      <Col
-        data-test-total-credited
-        xs={6}
-        lg={3}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.orderSummary.totalCredited" />}
-          value={<AmountWithCurrencyField amount={order?.totalCredited} />}
-        />
-      </Col>
-    </Row>
-
-    {(order.workflowStatus === ORDER_STATUSES.closed) && (
-      <Row
-        data-test-close-reason-block
-        start="xs"
-      >
-        <Col xs={3}>
+        <Col
+          data-test-total-credited
+          xs={6}
+          lg={3}
+        >
           <KeyValue
-            label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
-            value={order.closeReason?.reason}
-          />
-        </Col>
-        <Col xs={9}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
-            value={order.closeReason?.note}
+            label={<FormattedMessage id="ui-orders.orderSummary.totalCredited" />}
+            value={<AmountWithCurrencyField amount={order?.totalCredited} />}
           />
         </Col>
       </Row>
-    )}
-  </>
-);
 
-SummaryView.propTypes = {
-  order: PropTypes.object,
-  hiddenFields: PropTypes.object,
+      {(order.workflowStatus === ORDER_STATUSES.closed) && (
+        <Row
+          data-test-close-reason-block
+          start="xs"
+        >
+          <Col xs={3}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
+              value={order.closeReason?.reason}
+            />
+          </Col>
+          <Col xs={9}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
+              value={order.closeReason?.note}
+            />
+          </Col>
+        </Row>
+      )}
+    </>
+  );
 };
 
-SummaryView.defaultProps = {
-  order: {},
-  hiddenFields: {},
+SummaryView.propTypes = {
+  fiscalYears: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
+  })),
+  hiddenFields: PropTypes.shape({}),
+  onSelectFiscalYear: PropTypes.func,
+  order: PropTypes.shape({}),
+  selectedFiscalYear: PropTypes.string,
 };
 
 SummaryView.displayName = 'SummaryView';

@@ -13,6 +13,11 @@ import {
 import { arrayMutators } from 'fixtures/arrayMutatorsMock';
 import PODetailsForm from './PODetailsForm';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  FieldTags: jest.fn(() => 'FieldTags'),
+}))
+
 const optionMock = {
   disabled: false,
   label: 'label',
@@ -38,8 +43,6 @@ const defaultProps = {
 };
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}
@@ -84,7 +87,7 @@ describe('PODetailsForm', () => {
       expect(screen.getByText('ui-orders.orderDetails.reEncumber')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.orderDetails.createdBy')).toBeInTheDocument();
       expect(screen.getByText('ui-orders.orderDetails.createdOn')).toBeInTheDocument();
-      expect(screen.getByText('stripes-acq-components.label.tags')).toBeInTheDocument();
+      expect(screen.getByText('FieldTags')).toBeInTheDocument();
     });
   });
 

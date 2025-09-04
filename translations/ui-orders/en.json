@@ -408,6 +408,9 @@
   "order.notes.date": "Date",
   "order.notes.type": "Type",
 
+  "order.fiscalYear": "Fiscal year",
+  "order.fiscalYear.current": "Current",
+  "order.fiscalYear.previous": "Previous",
   "order.paneTitle.details": "Purchase order - {orderNumber}",
   "order.paneTitle.detailsLoading": "Details",
   "order.paneTitle.edit": "Edit - {orderNumber}",

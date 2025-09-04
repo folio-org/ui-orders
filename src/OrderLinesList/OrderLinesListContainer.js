@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { useCustomFields } from '@folio/stripes/smart-components';
@@ -11,20 +11,12 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { ENTITY_TYPE_PO_LINE } from '../common/constants';
-import {
-  ORDERS,
-} from '../components/Utils/resources';
+import { ORDERS } from '../components/Utils/resources';
 
-import {
-  useOrderLines,
-} from './hooks';
-import {
-  fetchLinesOrders,
-} from './utils';
-import {
-  fetchOrderAcqUnits,
-} from '../OrdersList/utils';
+import { fetchOrderAcqUnits } from '../OrdersList/utils';
+import { useOrderLinesList } from './hooks';
 import OrderLinesList from './OrderLinesList';
+import { fetchLinesOrders } from './utils';
 
 const resetData = () => { };
 
@@ -51,7 +43,7 @@ const OrderLinesListContainer = ({ mutator }) => {
 
   const [customFields, isLoadingCustomFields] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_PO_LINE);
   const { pagination, changePage, refreshPage } = usePagination({ limit: RESULT_COUNT_INCREMENT, offset: 0 });
-  const { orderLines, orderLinesCount, isLoading, query } = useOrderLines({
+  const { orderLines, orderLinesCount, isLoading, query } = useOrderLinesList({
     pagination,
     fetchReferences,
     customFields,

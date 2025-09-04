@@ -1,11 +1,18 @@
 import { MemoryRouter } from 'react-router';
 
-import { render, screen, act } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  act,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { useCustomFields } from '@folio/stripes/smart-components';
 import { CUSTOM_FIELDS_FIXTURE } from '@folio/stripes-acq-components';
 
-import { order, orderLine } from 'fixtures';
-import { useOrderLines } from './hooks';
+import {
+  order,
+  orderLine,
+} from 'fixtures';
+import { useOrderLinesList } from './hooks';
 import OrderLinesListContainer from './OrderLinesListContainer';
 import OrderLinesList from './OrderLinesList';
 
@@ -13,7 +20,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   useCustomFields: jest.fn().mockReturnValue([]),
 }));
-jest.mock('./hooks', () => ({ useOrderLines: jest.fn().mockReturnValue({}) }));
+jest.mock('./hooks', () => ({ useOrderLinesList: jest.fn().mockReturnValue({}) }));
 jest.mock('./OrderLinesList', () => jest.fn().mockReturnValue('OrderLinesList'));
 
 const defaultProps = {
@@ -37,7 +44,7 @@ const renderOrderLinesListContainer = (props = {}) => render(
 
 describe('OrderLinesListContainer', () => {
   beforeEach(() => {
-    useOrderLines.mockClear();
+    useOrderLinesList.mockClear();
 
     defaultProps.mutator.lineOrders.GET.mockClear();
   });
@@ -48,11 +55,11 @@ describe('OrderLinesListContainer', () => {
     expect(screen.getByText('OrderLinesList')).toBeInTheDocument();
   });
 
-  it('should pass useOrderLines result to OrderLinesList', () => {
+  it('should pass useOrderLinesList result to OrderLinesList', () => {
     const orderLines = [orderLine];
 
     OrderLinesList.mockClear();
-    useOrderLines.mockReturnValue({ orderLines });
+    useOrderLinesList.mockReturnValue({ orderLines });
     renderOrderLinesListContainer();
 
     expect(OrderLinesList.mock.calls[0][0].orderLines).toBe(orderLines);
@@ -69,7 +76,7 @@ describe('OrderLinesListContainer', () => {
   it('should load orders when fetchReferences is called', async () => {
     renderOrderLinesListContainer();
 
-    await act(() => useOrderLines.mock.calls[0][0].fetchReferences([orderLine]));
+    await act(() => useOrderLinesList.mock.calls[0][0].fetchReferences([orderLine]));
 
     expect(defaultProps.mutator.lineOrders.GET).toHaveBeenCalledWith({
       params: {

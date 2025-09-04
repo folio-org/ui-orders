@@ -1,20 +1,30 @@
-import { MemoryRouter, Route } from 'react-router-dom';
-import { IntlProvider } from 'react-intl';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+import {
+  MemoryRouter,
+  Route,
+} from 'react-router-dom';
 
+import {
+  act,
+  render,
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import user from '@folio/jest-config-stripes/testing-library/user-event';
-import { act, render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
-import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 import {
   HasCommand,
   expandAllSections,
   collapseAllSections,
 } from '@folio/stripes/components';
+import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 
 import { history } from 'fixtures/routerMocks';
 import { ORDERS_ROUTE } from '../../common/constants';
 import { useOrderLinesAbandonedHoldingsCheck } from '../../common/hooks';
-import { useOrderMutation } from './hooks';
+import { useOrderMutation, usePurchaseOrderResources } from './hooks';
 import PO from './PO';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/hooks/useAcqRestrictions', () => {
@@ -39,6 +49,7 @@ jest.mock('../../common/hooks', () => ({
 jest.mock('./hooks', () => ({
   ...jest.requireActual('./hooks'),
   useOrderMutation: jest.fn(() => ({ updateOrder: jest.fn(() => Promise.resolve()) })),
+  usePurchaseOrderResources: jest.fn(),
 }));
 
 const ORDER = {
@@ -64,19 +75,9 @@ const defaultProps = {
   },
   mutator: {
     orderDetails: {
-      GET: jest.fn().mockResolvedValue(ORDER),
       POST: jest.fn().mockResolvedValue(ORDER),
       PUT: jest.fn().mockResolvedValue(ORDER),
       DELETE: jest.fn().mockResolvedValue(ORDER),
-    },
-    orderInvoicesRelns: {
-      GET: jest.fn().mockResolvedValue([]),
-    },
-    orderLines: {
-      GET: jest.fn().mockResolvedValue([]),
-    },
-    orderDetailsList: {
-      GET: jest.fn().mockResolvedValue([ORDER, [{ invoiceId: 'invoiceId' }]]),
     },
     updateEncumbrances: {
       POST: jest.fn().mockResolvedValue(),
@@ -88,9 +89,18 @@ const defaultProps = {
   history,
 };
 
-const queryClient = new QueryClient();
+const orderRelatedData = {
+  exportHistory: [],
+  fiscalYears: [],
+  order: ORDER,
+  orderInvoiceRelationships: [],
+  orderLines: [],
+  orderTemplate: {},
+  refetch: jest.fn(),
+  restrictions: {},
+};
 
-// eslint-disable-next-line react/prop-types
+const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     <MemoryRouter initialEntries={['/orders/view/73a9b376-844f-41b5-8b3f-71f2fae63f1f']}>
@@ -101,34 +111,40 @@ const wrapper = ({ children }) => (
 
 const renderComponent = (configProps = {}) => {
   return render(
-    <IntlProvider locale="en">
-      <Route
-        path="/orders/view/:id"
-        render={props => (
-          <PO
-            {...props}
-            {...defaultProps}
-            {...configProps}
-          />
-        )}
-      />
-    </IntlProvider>,
+    <Route
+      path="/orders/view/:id"
+      render={props => (
+        <PO
+          {...props}
+          {...defaultProps}
+          {...configProps}
+        />
+      )}
+    />,
     { wrapper },
   );
 };
 
 describe('PO', () => {
+  beforeEach(() => {
+    usePurchaseOrderResources.mockReturnValue(orderRelatedData);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render update encumbrance', async () => {
     renderComponent();
     await act(() => Promise.resolve());
 
-    expect(screen.findByTestId('update-encumbrances-button')).toBeDefined();
+    expect(await screen.findByTestId('update-encumbrances-button')).toBeInTheDocument();
   });
 
   it('should render custom fields accordion', () => {
     renderComponent();
 
-    expect(screen.queryByText('ViewCustomFieldsRecord')).toBeDefined();
+    expect(screen.queryByText('ViewCustomFieldsRecord')).toBeInTheDocument();
   });
 });
 
@@ -136,12 +152,8 @@ describe('PO actions', () => {
   const updateOrder = jest.fn(() => Promise.resolve());
 
   beforeEach(() => {
-    defaultProps.mutator.orderDetails.GET.mockClear();
     defaultProps.mutator.orderDetails.POST.mockClear();
     defaultProps.mutator.orderDetails.PUT.mockClear();
-    defaultProps.mutator.orderDetailsList.GET.mockClear();
-    defaultProps.mutator.orderInvoicesRelns.GET.mockClear();
-    defaultProps.mutator.orderLines.GET.mockClear();
     history.push.mockClear();
     useOrderLinesAbandonedHoldingsCheck.mockClear();
     useOrderMutation.mockClear().mockReturnValue({ updateOrder });
@@ -286,15 +298,18 @@ describe('PO actions', () => {
 
       await user.click(reexportConfirmBtn);
 
-      expect(defaultProps.mutator.orderDetails.GET).toHaveBeenCalled();
+      expect(orderRelatedData.refetch).toHaveBeenCalled();
     });
   });
 
   describe('a pending order', () => {
     it('should open order after confirmation', async () => {
-      defaultProps.mutator.orderDetails.GET.mockResolvedValue({
-        ...ORDER,
-        workflowStatus: ORDER_STATUSES.pending,
+      usePurchaseOrderResources.mockReturnValue({
+        ...orderRelatedData,
+        order: {
+          ...ORDER,
+          workflowStatus: ORDER_STATUSES.pending,
+        },
       });
 
       renderComponent();
@@ -313,9 +328,12 @@ describe('PO actions', () => {
 
   describe('a closed order', () => {
     it('should reopen order', async () => {
-      defaultProps.mutator.orderDetails.GET.mockResolvedValue({
-        ...ORDER,
-        workflowStatus: ORDER_STATUSES.closed,
+      usePurchaseOrderResources.mockReturnValue({
+        ...orderRelatedData,
+        order: {
+          ...ORDER,
+          workflowStatus: ORDER_STATUSES.closed,
+        },
       });
 
       renderComponent();
@@ -330,36 +348,48 @@ describe('PO actions', () => {
 
   describe('adding PO Line', () => {
     it('should create new POLine if the linelimit is not exceeded', async () => {
-      defaultProps.mutator.orderDetails.GET.mockResolvedValue({
-        ...ORDER,
-        workflowStatus: ORDER_STATUSES.pending,
-        poLines: [],
+      usePurchaseOrderResources.mockReturnValue({
+        ...orderRelatedData,
+        order: {
+          ...ORDER,
+          workflowStatus: ORDER_STATUSES.pending,
+        },
       });
 
       renderComponent();
 
       const addPOLineBtn = await screen.findByTestId('add-line-button');
 
-      await user.click(addPOLineBtn);
+      await act(async () => {
+        await user.click(addPOLineBtn);
+      });
 
       expect(history.push).toHaveBeenCalled();
     });
 
-    it('should create new PO if the linelimit is exceeded', async () => {
-      defaultProps.mutator.orderDetails.GET.mockResolvedValue({
-        ...ORDER,
-        workflowStatus: ORDER_STATUSES.pending,
+    it('should create new PO if the line limit is exceeded', async () => {
+      usePurchaseOrderResources.mockReturnValue({
+        ...orderRelatedData,
+        order: {
+          ...ORDER,
+          workflowStatus: ORDER_STATUSES.pending,
+        },
+        orderLines: [{ id: 'po-line-id' }],
       });
 
       renderComponent();
 
       const addPOLineBtn = await screen.findByTestId('add-line-button');
 
-      await user.click(addPOLineBtn);
+      await act(async () => {
+        await user.click(addPOLineBtn);
+      });
 
       const createOrderBtn = await screen.findByText('ui-orders.linesLimit.createBtn');
 
-      await user.click(createOrderBtn);
+      await act(async () => {
+        await user.click(createOrderBtn);
+      });
 
       expect(defaultProps.mutator.generatedOrderNumber.GET).toHaveBeenCalled();
     });
@@ -391,36 +421,19 @@ describe('PO actions', () => {
 });
 
 describe('PO errors', () => {
-  it('should handle errors on fetch data', async () => {
-    defaultProps.mutator.orderDetails.GET.mockRejectedValue({
-      message: [],
-    });
-    defaultProps.mutator.orderInvoicesRelns.GET.mockRejectedValue();
-    defaultProps.mutator.orderLines.GET.mockRejectedValue();
-
-    renderComponent();
-
-    await waitFor(() => {
-      expect(defaultProps.mutator.orderDetails.GET).toHaveBeenCalled();
-      expect(defaultProps.mutator.orderInvoicesRelns.GET).toHaveBeenCalled();
-      expect(defaultProps.mutator.orderLines.GET).toHaveBeenCalled();
-    });
-  });
-
   it('should handle errors on update order', async () => {
     defaultProps.mutator.orderDetails.PUT.mockRejectedValue({});
 
-    defaultProps.mutator.orderDetails.GET.mockResolvedValue({
-      ...ORDER,
-      workflowStatus: ORDER_STATUSES.pending,
-      approved: true,
+    usePurchaseOrderResources.mockReturnValue({
+      ...orderRelatedData,
+      order: {
+        ...ORDER,
+        workflowStatus: ORDER_STATUSES.pending,
+        approved: true,
+      },
     });
 
     renderComponent();
-
-    await waitFor(() => {
-      expect(defaultProps.mutator.orderDetails.GET).toHaveBeenCalled();
-    });
 
     const openOrderBtn = await screen.findByTestId('open-order-button');
 
@@ -484,10 +497,12 @@ describe('PO shortcuts', () => {
   });
 
   it('should translate to POL creation form', async () => {
-    defaultProps.mutator.orderDetails.GET.mockResolvedValue({
-      ...ORDER,
-      workflowStatus: ORDER_STATUSES.pending,
-      poLines: [],
+    usePurchaseOrderResources.mockReturnValue({
+      ...orderRelatedData,
+      order: {
+        ...ORDER,
+        workflowStatus: ORDER_STATUSES.pending,
+      },
     });
 
     renderComponent();

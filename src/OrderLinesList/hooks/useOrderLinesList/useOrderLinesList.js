@@ -16,7 +16,7 @@ import {
 
 import { getLinesQuery } from '@folio/plugin-find-po-line';
 
-export const useOrderLines = ({ pagination, fetchReferences, customFields }) => {
+export const useOrderLinesList = ({ pagination, fetchReferences, customFields }) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'order-lines-list' });
   const { timezone } = useStripes();

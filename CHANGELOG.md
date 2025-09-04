@@ -31,6 +31,7 @@
 * *BREAKING* Show a hint for deprecated prefixes/suffixes. Do not list them on PO creation/edit. Add a deprecated checkbox in settings. UIOR-1450.
 * Replace using `mod-configurations` to use internal orders storage. Refs UIOR-1462.
 * Correcting the behavior of drop-down menu and checkbox in Settings > Orders > Number generator options. Refs UIOR-1464.
+* Allow user to view PO value for any related fiscal year. Refs UIOR-1308.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
