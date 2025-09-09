@@ -26,10 +26,7 @@ const fiscalYearsGrouped = {
 
 const kyMock = {
   get: jest.fn(() => ({
-    json: () => Promise.resolve({
-      totalRecords: fiscalYearsGrouped.length,
-      fiscalYears: fiscalYearsGrouped,
-    }),
+    json: () => Promise.resolve(fiscalYearsGrouped),
   })),
 };
 

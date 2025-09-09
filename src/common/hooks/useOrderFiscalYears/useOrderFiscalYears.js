@@ -39,10 +39,9 @@ export const useOrderFiscalYears = (orderId, options = {}) => {
 
   return ({
     get fiscalYears() {
-      return getSortedFiscalYears(data?.fiscalYears);
+      return getSortedFiscalYears(data);
     },
-    fiscalYearsGrouped: data?.fiscalYears || DEFAULT_DATA,
-    totalRecords: data?.totalRecords,
+    fiscalYearsGrouped: data || DEFAULT_DATA,
     ...rest,
   });
 };
