@@ -19,13 +19,16 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-const fiscalYears = [{ id: 'fiscal-year-id' }];
+const fiscalYearsGrouped = {
+  current: [{ id: 'fy-id' }],
+  previous: [],
+};
 
 const kyMock = {
   get: jest.fn(() => ({
     json: () => Promise.resolve({
-      totalRecords: fiscalYears.length,
-      fiscalYears,
+      totalRecords: fiscalYearsGrouped.length,
+      fiscalYears: fiscalYearsGrouped,
     }),
   })),
 };
@@ -45,6 +48,6 @@ describe('useOrderFiscalYears', () => {
     await waitFor(() => expect(result.current.isFetching).toBeFalsy());
 
     expect(kyMock.get).toHaveBeenCalledWith(`${ORDERS_API}/orderId/fiscal-years`, expect.any(Object));
-    expect(result.current.fiscalYears).toEqual(fiscalYears);
+    expect(result.current.fiscalYearsGrouped).toEqual(fiscalYearsGrouped);
   });
 });

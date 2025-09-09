@@ -11,7 +11,12 @@ import {
 } from '@folio/stripes-acq-components';
 
 const { DESC, ASC } = CQLBuilder.SORT_ORDERS;
-const DEFAULT_DATA = [];
+const DEFAULT_DATA = {
+  current: [],
+  previous: [],
+};
+
+const getSortedFiscalYears = ({ current, previous } = DEFAULT_DATA) => orderBy([...current, ...previous], ['periodStart', 'code'], [DESC, ASC]);
 
 export const useOrderFiscalYears = (orderId, options = {}) => {
   const {
@@ -25,20 +30,18 @@ export const useOrderFiscalYears = (orderId, options = {}) => {
 
   const { data, ...rest } = useQuery({
     queryKey: [namespace, orderId, tenantId],
-    queryFn: async ({ signal }) => (
-      ky.get(`${ORDERS_API}/${orderId}/fiscal-years`, { signal })
-        .json()
-        .then(({ fiscalYears, ..._rest }) => ({
-          ..._rest,
-          fiscalYears: orderBy(fiscalYears, ['periodStart', 'code'], [DESC, ASC]),
-        }))
-    ),
+    queryFn: async ({ signal }) => {
+      return ky.get(`${ORDERS_API}/${orderId}/fiscal-years`, { signal }).json();
+    },
     enabled: enabled && Boolean(orderId),
     ...queryOptions,
   });
 
   return ({
-    fiscalYears: data?.fiscalYears || DEFAULT_DATA,
+    get fiscalYears() {
+      return getSortedFiscalYears(data?.fiscalYears);
+    },
+    fiscalYearsGrouped: data?.fiscalYears || DEFAULT_DATA,
     totalRecords: data?.totalRecords,
     ...rest,
   });

@@ -23,12 +23,16 @@ import TotalUnits from './TotalUnits';
 import WorkflowStatus from './WorkflowStatus';
 
 const defaultProps = {
-  order: {},
+  fiscalYearsGrouped: {
+    current: [],
+    previous: [],
+  },
   hiddenFields: {},
+  order: {},
 };
 
 const SummaryView = ({
-  fiscalYears,
+  fiscalYearsGrouped = defaultProps.fiscalYearsGrouped,
   hiddenFields = defaultProps.hiddenFields,
   onSelectFiscalYear,
   order = defaultProps.order,
@@ -37,18 +41,25 @@ const SummaryView = ({
   const intl = useIntl();
 
   const fiscalYearsOptions = useMemo(() => {
-    const currentFiscalYear = fiscalYears[0];
-    const previousFiscalYears = fiscalYears.slice(1);
+    const {
+      current: currentFiscalYears,
+      previous: previousFiscalYears,
+    } = fiscalYearsGrouped;
 
     return [
-      currentFiscalYear && (
+      currentFiscalYears?.length && (
         <optgroup
-          key={currentFiscalYear.id}
+          key="current-fiscal-year"
           label={intl.formatMessage({ id: 'ui-orders.order.fiscalYear.current' })}
         >
-          <option value={currentFiscalYear.id}>
-            {currentFiscalYear.code}
-          </option>
+          {currentFiscalYears.map((year) => (
+            <option
+              key={year.id}
+              value={year.id}
+            >
+              {year.code}
+            </option>
+          ))}
         </optgroup>
       ),
       previousFiscalYears?.length && (
@@ -67,7 +78,7 @@ const SummaryView = ({
         </optgroup>
       ),
     ].filter(Boolean);
-  }, [fiscalYears, intl]);
+  }, [fiscalYearsGrouped, intl]);
 
   return (
     <>
@@ -184,10 +195,16 @@ const SummaryView = ({
 };
 
 SummaryView.propTypes = {
-  fiscalYears: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    code: PropTypes.string.isRequired,
-  })),
+  fiscalYearsGrouped: {
+    current: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+    })).isRequired,
+    previous: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+    })).isRequired,
+  },
   hiddenFields: PropTypes.shape({}),
   onSelectFiscalYear: PropTypes.func,
   order: PropTypes.shape({}),
