@@ -1,22 +1,15 @@
-import orderBy from 'lodash/orderBy';
 import { useQuery } from 'react-query';
 
 import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import {
-  CQLBuilder,
-  ORDERS_API,
-} from '@folio/stripes-acq-components';
+import { ORDERS_API } from '@folio/stripes-acq-components';
 
-const { DESC, ASC } = CQLBuilder.SORT_ORDERS;
 const DEFAULT_DATA = {
   current: [],
   previous: [],
 };
-
-const getSortedFiscalYears = ({ current, previous } = DEFAULT_DATA) => orderBy([...current, ...previous], ['periodStart', 'code'], [DESC, ASC]);
 
 export const useOrderFiscalYears = (orderId, options = {}) => {
   const {
@@ -38,9 +31,6 @@ export const useOrderFiscalYears = (orderId, options = {}) => {
   });
 
   return ({
-    get fiscalYears() {
-      return getSortedFiscalYears(data);
-    },
     fiscalYearsGrouped: data || DEFAULT_DATA,
     ...rest,
   });
