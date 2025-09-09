@@ -124,7 +124,7 @@ const POLineDetails = ({ line, hiddenFields }) => {
             lg={3}
           >
             <KeyValue label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}>
-              <FolioFormattedDate value={receiptDate} utc={false} />
+              <FolioFormattedDate value={receiptDate} />
             </KeyValue>
           </Col>
         </IfVisible>
