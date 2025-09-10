@@ -432,6 +432,7 @@ class OrderTemplateView extends Component {
                         id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
                       >
                         <EresourcesView
+                          isTemplate
                           line={orderTemplate}
                           materialTypes={materialTypes}
                         />

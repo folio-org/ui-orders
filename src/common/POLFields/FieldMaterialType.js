@@ -1,15 +1,21 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import { FieldSelectFinal } from '@folio/stripes-acq-components';
 
-const FieldMaterialType = ({ materialTypes, ...rest }) => (
+const FieldMaterialType = ({
+  disabled = false,
+  materialTypes,
+  required = false,
+  ...props
+}) => (
   <FieldSelectFinal
     dataOptions={materialTypes}
+    disabled={disabled}
     fullWidth
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}
-    {...rest}
+    required={required}
+    {...props}
   />
 );
 
@@ -21,10 +27,6 @@ FieldMaterialType.propTypes = {
   name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
-};
-
-FieldMaterialType.defaultProps = {
-  required: false,
 };
 
 export default FieldMaterialType;

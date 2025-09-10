@@ -1,18 +1,19 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import { Checkbox } from '@folio/stripes/components';
 
-const FieldRush = ({ disabled }) => {
+import { POL_FORM_FIELDS } from '../../constants';
+
+const FieldRush = ({ disabled = false }) => {
   return (
     <Field
       component={Checkbox}
       fullWidth
       id="rush"
       label={<FormattedMessage id="ui-orders.poLine.rush" />}
-      name="rush"
+      name={POL_FORM_FIELDS.rush}
       type="checkbox"
       disabled={disabled}
       vertical
@@ -23,10 +24,6 @@ const FieldRush = ({ disabled }) => {
 
 FieldRush.propTypes = {
   disabled: PropTypes.bool,
-};
-
-FieldRush.defaultProps = {
-  disabled: false,
 };
 
 export default FieldRush;

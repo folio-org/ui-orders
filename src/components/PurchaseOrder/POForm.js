@@ -269,7 +269,9 @@ const POForm = ({
   const onChangeTemplate = useCallback((value) => {
     change(PO_FORM_FIELDS.template, value);
 
-    const templateValue = getOrderTemplateValue(parentResources, value);
+    const orderTemplates = get(parentResources, 'orderTemplates.records', []);
+    const templateRaw = orderTemplates.find(orderTemplate => orderTemplate.id === value);
+    const templateValue = getOrderTemplateValue(templateRaw);
 
     setTemplate(templateValue);
     setHiddenFields(prev => (prev ? (templateValue?.hiddenFields || {}) : undefined));

@@ -1,18 +1,19 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import { Checkbox } from '@folio/stripes/components';
 
-const FieldCollection = ({ disabled }) => {
+import { POL_FORM_FIELDS } from '../../constants';
+
+const FieldCollection = ({ disabled = false }) => {
   return (
     <Field
       component={Checkbox}
       fullWidth
       id="collection"
       label={<FormattedMessage id="ui-orders.poLine.сollection" />}
-      name="collection"
+      name={POL_FORM_FIELDS.collection}
       type="checkbox"
       disabled={disabled}
       vertical
@@ -22,10 +23,6 @@ const FieldCollection = ({ disabled }) => {
 
 FieldCollection.propTypes = {
   disabled: PropTypes.bool,
-};
-
-FieldCollection.defaultProps = {
-  disabled: false,
 };
 
 export default FieldCollection;

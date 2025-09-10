@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { Checkbox } from '@folio/stripes/components';
 
+import { POL_FORM_FIELDS } from '../../constants';
+
 export const FieldClaimingActive = ({ onChange }) => {
   return (
     <Field
@@ -11,10 +13,10 @@ export const FieldClaimingActive = ({ onChange }) => {
       fullWidth
       label={<FormattedMessage id="ui-orders.poLine.claimingActive" />}
       onChange={onChange}
-      name="claimingActive"
+      name={POL_FORM_FIELDS.claimingActive}
       type="checkbox"
       vertical
-      validateFields={['claimingInterval']}
+      validateFields={[POL_FORM_FIELDS.claimingInterval]}
     />
   );
 };

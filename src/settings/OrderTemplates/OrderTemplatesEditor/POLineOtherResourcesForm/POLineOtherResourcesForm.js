@@ -1,21 +1,25 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Row,
   Col,
+  Row,
 } from '@folio/stripes/components';
 import { VisibilityControl } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../../../common/constants';
 import {
+  FieldExpectedReceiptDate,
   FieldMaterialSupplier,
   FieldMaterialType,
   FieldReceiptDue,
-  FieldExpectedReceiptDate,
 } from '../../../../common/POLFields';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 
-const POLineOtherResourcesForm = ({ materialTypes, change, formValues }) => {
+const POLineOtherResourcesForm = ({
+  change,
+  formValues,
+  materialTypes,
+}) => {
   return (
     <>
       <Row>
@@ -53,7 +57,7 @@ const POLineOtherResourcesForm = ({ materialTypes, change, formValues }) => {
           <VisibilityControl name="hiddenFields.physical.createInventory">
             <InventoryRecordTypeSelectField
               label="ui-orders.physical.createInventory"
-              name="physical.createInventory"
+              name={POL_FORM_FIELDS.physicalCreateInventory}
             />
           </VisibilityControl>
         </Col>
@@ -65,7 +69,7 @@ const POLineOtherResourcesForm = ({ materialTypes, change, formValues }) => {
           <VisibilityControl name="hiddenFields.physical.materialType">
             <FieldMaterialType
               materialTypes={materialTypes}
-              name="physical.materialType"
+              name={POL_FORM_FIELDS.physicalMaterialType}
             />
           </VisibilityControl>
         </Col>
@@ -75,9 +79,9 @@ const POLineOtherResourcesForm = ({ materialTypes, change, formValues }) => {
 };
 
 POLineOtherResourcesForm.propTypes = {
-  materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  formValues: PropTypes.object.isRequired,
   change: PropTypes.func.isRequired,
+  formValues: PropTypes.object.isRequired,
+  materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default POLineOtherResourcesForm;

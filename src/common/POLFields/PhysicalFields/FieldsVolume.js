@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { Component } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+import { FormattedMessage } from 'react-intl';
 
 import {
-  Button,
   Col,
+  Button,
   IconButton,
   Row,
 } from '@folio/stripes/components';
 import { TextField } from '@folio/stripes-acq-components';
+
+import { POL_FORM_FIELDS } from '../../constants';
 
 class FieldsVolume extends Component {
   static propTypes = {
@@ -90,7 +92,7 @@ class FieldsVolume extends Component {
       <FieldArray
         component={this.renderForm}
         label="physical.volumes"
-        name="physical.volumes"
+        name={POL_FORM_FIELDS.physicalVolumes}
       />
     );
   }

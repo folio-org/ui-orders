@@ -3,6 +3,8 @@ import {
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../common/constants';
+
 export const ERESOURCES = [ORDER_FORMATS.electronicResource, ORDER_FORMATS.PEMix];
 export const PHRESOURCES = [ORDER_FORMATS.physicalResource, ORDER_FORMATS.PEMix];
 
@@ -71,8 +73,17 @@ export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [
 export const OPTION_VALUE_WITH_BINDERY_ACTIVE = INVENTORY_RECORDS_TYPE.all;
 
 export const POL_TEMPLATE_FIELDS_MAP = {
-  'tags.tagList': 'polTags.tagList',
+  'polTags.tagList': 'tags.tagList',
 };
+
+export const POL_TEMPLATE_FIELDS_LIST = Array.from(
+  new Set([
+    ...Object.values(POL_FORM_FIELDS)
+      .filter((field) => !(field in POL_TEMPLATE_FIELDS_MAP)) // exclude POL form mapped fields
+      .map((field) => field.split('.')[0]), // take only top-level fields
+    ...Object.keys(POL_TEMPLATE_FIELDS_MAP), // include POL template mapped fields
+  ]),
+);
 
 const INITIALLY_CLOSED_ACCORDION_IDS = {
   [ACCORDION_ID.donorsInformation]: true,
@@ -94,3 +105,23 @@ export const SUBMIT_ACTION = {
   saveAndKeepEditing: 'saveAndKeepEditing',
   saveAndOpen: 'saveAndOpen',
 };
+
+export const GAME_CHANGER_FIELDS = {
+  FIRST_PHASE: [
+    POL_FORM_FIELDS.isPackage,
+    POL_FORM_FIELDS.orderFormat,
+    POL_FORM_FIELDS.checkinItems,
+    POL_FORM_FIELDS.packagePoLineId,
+    POL_FORM_FIELDS.instanceId,
+    POL_FORM_FIELDS.acquisitionMethod,
+    POL_FORM_FIELDS.receiptStatus,
+    POL_FORM_FIELDS.isBinderyActive,
+  ],
+  SECOND_PHASE: [
+    POL_FORM_FIELDS.fundDistribution,
+    POL_FORM_FIELDS.donorOrganizationIds,
+    POL_FORM_FIELDS.locations,
+  ],
+};
+
+export const GAME_CHANGER_TIMEOUT = 100;

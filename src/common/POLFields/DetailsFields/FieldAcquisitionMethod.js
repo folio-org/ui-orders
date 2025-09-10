@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -7,9 +6,14 @@ import {
   useAcqMethodsOptions,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../constants';
 import { useAcqMethods } from '../../hooks/useAcqMethods';
 
-const FieldAcquisitionMethod = ({ disabled, required, ...rest }) => {
+const FieldAcquisitionMethod = ({
+  disabled,
+  required,
+  ...props
+}) => {
   const { acqMethods } = useAcqMethods();
   const acquisitionMethods = useAcqMethodsOptions(acqMethods);
 
@@ -18,10 +22,10 @@ const FieldAcquisitionMethod = ({ disabled, required, ...rest }) => {
       id="acquisition-method"
       dataOptions={acquisitionMethods}
       label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-      name="acquisitionMethod"
+      name={POL_FORM_FIELDS.acquisitionMethod}
       required={required}
       isNonInteractive={disabled}
-      {...rest}
+      {...props}
     />
   );
 };

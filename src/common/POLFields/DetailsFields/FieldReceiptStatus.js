@@ -1,15 +1,18 @@
 import isUndefined from 'lodash/isUndefined';
 import pickBy from 'lodash/pickBy';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { useField } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
   FieldSelectFinal,
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
-import { PO_WORKFLOW_STATUSES } from '../../constants';
+import {
+  PO_WORKFLOW_STATUSES,
+  POL_FORM_FIELDS,
+} from '../../constants';
 
 const RECEIPT_STATUSES_BY_ORDER_STATUS = {
   [PO_WORKFLOW_STATUSES.pending]: [
@@ -34,7 +37,7 @@ const FieldReceiptStatus = ({
   onChange,
   workflowStatus,
 }) => {
-  const { meta: { initial } } = useField('receiptStatus');
+  const { meta: { initial } } = useField(POL_FORM_FIELDS.receiptStatus);
   const statuses = Object.keys(RECEIPT_STATUS)
     .filter(key => {
       return (RECEIPT_STATUSES_BY_ORDER_STATUS[workflowStatus] || []).includes(key) || RECEIPT_STATUS[key] === initial;
@@ -50,7 +53,7 @@ const FieldReceiptStatus = ({
     <FieldSelectFinal
       dataOptions={statuses}
       label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
-      name="receiptStatus"
+      name={POL_FORM_FIELDS.receiptStatus}
       disabled={!statuses.length}
       {...transitProps}
     />

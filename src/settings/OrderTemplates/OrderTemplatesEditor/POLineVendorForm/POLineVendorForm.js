@@ -1,21 +1,25 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Row,
   Col,
+  Row,
 } from '@folio/stripes/components';
 import {
   VendorReferenceNumbersFields,
   VisibilityControl,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../../../common/constants';
 import {
-  FieldVendorInstructions,
   FieldVendorAccountNumber,
+  FieldVendorInstructions,
 } from '../../../../common/POLFields';
 
-const POLineVendorForm = ({ accounts }) => {
+const defaultValues = {
+  accounts: [],
+};
+
+const POLineVendorForm = ({ accounts = defaultValues.accounts }) => {
   return (
     <Row>
       <Col
@@ -23,7 +27,7 @@ const POLineVendorForm = ({ accounts }) => {
         data-col-order-template-vendor-number
       >
         <VendorReferenceNumbersFields
-          fieldName="vendorDetail.referenceNumbers"
+          fieldName={POL_FORM_FIELDS.vendorDetailReferenceNumbers}
           withValidation={false}
         />
       </Col>
@@ -51,10 +55,6 @@ const POLineVendorForm = ({ accounts }) => {
 
 POLineVendorForm.propTypes = {
   accounts: PropTypes.arrayOf(PropTypes.object),
-};
-
-POLineVendorForm.defaultProps = {
-  accounts: [],
 };
 
 export default POLineVendorForm;

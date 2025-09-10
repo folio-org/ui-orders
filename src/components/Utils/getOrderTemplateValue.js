@@ -1,9 +1,4 @@
-import { get } from 'lodash';
-
-export default (resources, id, relatedData = {}) => {
-  const orderTemplates = get(resources, 'orderTemplates.records', []);
-  const template = orderTemplates.find(orderTemplate => orderTemplate.id === id) || {};
-
+export default (template = {}, relatedData = {}) => {
   if (template.locations && relatedData.locations) {
     const locationIdMap = relatedData.locations.reduce((acc, { id: locationId }) => {
       acc[locationId] = true;

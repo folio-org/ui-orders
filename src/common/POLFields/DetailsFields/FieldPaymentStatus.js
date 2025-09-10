@@ -1,14 +1,16 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { useField } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
   FieldSelectFinal,
   PAYMENT_STATUS,
 } from '@folio/stripes-acq-components';
 
-import { PO_WORKFLOW_STATUSES } from '../../constants';
+import {
+  PO_WORKFLOW_STATUSES,
+  POL_FORM_FIELDS,
+} from '../../constants';
 
 const PAYMENT_STATUSES_BY_ORDER_STATUS = {
   [PO_WORKFLOW_STATUSES.pending]: [
@@ -30,7 +32,7 @@ const PAYMENT_STATUSES_BY_ORDER_STATUS = {
 };
 
 const FieldPaymentStatus = ({ workflowStatus }) => {
-  const { meta: { initial } } = useField('paymentStatus');
+  const { meta: { initial } } = useField(POL_FORM_FIELDS.paymentStatus);
   const statuses = Object.keys(PAYMENT_STATUS)
     .filter(key => {
       return (PAYMENT_STATUSES_BY_ORDER_STATUS[workflowStatus] || []).includes(key) || PAYMENT_STATUS[key] === initial;
@@ -44,7 +46,7 @@ const FieldPaymentStatus = ({ workflowStatus }) => {
     <FieldSelectFinal
       dataOptions={statuses}
       label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
-      name="paymentStatus"
+      name={POL_FORM_FIELDS.paymentStatus}
       disabled={!statuses.length}
     />
   );

@@ -19,7 +19,13 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
-const EresourcesView = ({ line: { eresource }, order, materialTypes, hiddenFields }) => {
+const EresourcesView = ({
+  hiddenFields,
+  isTemplate = false,
+  line: { eresource },
+  materialTypes,
+  order,
+}) => {
   const expectedActivation = get(eresource, 'expectedActivation');
   const activationDue = get(eresource, 'activationDue');
   const created = get(order, 'metadata.createdDate', '');
@@ -63,7 +69,11 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes, hiddenField
       <IfVisible visible={!hiddenFields.eresource?.activationDue}>
         <Col xs={3}>
           <KeyValue label={<FormattedMessage id="ui-orders.eresource.activationDue" />}>
-            <FolioFormattedDate value={activationDueDate} />
+            {
+              isTemplate
+                ? activationDue
+                : <FolioFormattedDate value={activationDueDate} />
+            }
           </KeyValue>
         </Col>
       </IfVisible>

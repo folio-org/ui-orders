@@ -1,7 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
   FieldSelectFinal,
@@ -9,7 +8,17 @@ import {
   TextField,
 } from '@folio/stripes-acq-components';
 
-const FieldVendorAccountNumber = ({ accounts, disabled, ...rest }) => {
+import { POL_FORM_FIELDS } from '../../constants';
+
+const defaultValues = {
+  accounts: [],
+};
+
+const FieldVendorAccountNumber = ({
+  accounts = defaultValues.accounts,
+  disabled,
+  ...props
+}) => {
   return (
     accounts.length
       ? (
@@ -17,9 +26,9 @@ const FieldVendorAccountNumber = ({ accounts, disabled, ...rest }) => {
           dataOptions={accounts}
           fullWidth
           label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
-          name="vendorDetail.vendorAccount"
+          name={POL_FORM_FIELDS.vendorDetailVendorAccount}
           isNonInteractive={disabled}
-          {...rest}
+          {...props}
         />
       )
       : (
@@ -28,7 +37,7 @@ const FieldVendorAccountNumber = ({ accounts, disabled, ...rest }) => {
           fullWidth
           isNonInteractive={disabled}
           label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
-          name="vendorDetail.vendorAccount"
+          name={POL_FORM_FIELDS.vendorDetailVendorAccount}
         />
       )
   );
@@ -37,10 +46,6 @@ const FieldVendorAccountNumber = ({ accounts, disabled, ...rest }) => {
 FieldVendorAccountNumber.propTypes = {
   accounts: fieldSelectOptionsShape,
   disabled: PropTypes.bool,
-};
-
-FieldVendorAccountNumber.defaultProps = {
-  accounts: [],
 };
 
 export default FieldVendorAccountNumber;

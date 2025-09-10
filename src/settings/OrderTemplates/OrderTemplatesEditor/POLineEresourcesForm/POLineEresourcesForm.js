@@ -1,28 +1,32 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
-  Row,
   Col,
+  Row,
   TextField,
 } from '@folio/stripes/components';
 import { VisibilityControl } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../../../common/constants';
 import {
   FieldAccessProvider,
-  FieldMaterialType,
   FieldActivated,
-  FieldTrial,
-  FieldUserLimit,
   FieldExpectedActivation,
+  FieldMaterialType,
+  FieldTrial,
   FieldURL,
+  FieldUserLimit,
 } from '../../../../common/POLFields';
-import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 import parseNumber from '../../../../components/Utils/parseNumber';
+import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
 
-const POLineEresourcesForm = ({ materialTypes, formValues, change }) => {
+const POLineEresourcesForm = ({
+  change,
+  formValues,
+  materialTypes,
+}) => {
   return (
     <Row>
       <Col
@@ -45,7 +49,7 @@ const POLineEresourcesForm = ({ materialTypes, formValues, change }) => {
         <VisibilityControl name="hiddenFields.eresource.materialType">
           <FieldMaterialType
             materialTypes={materialTypes}
-            name="eresource.materialType"
+            name={POL_FORM_FIELDS.eresourceMaterialType}
           />
         </VisibilityControl>
       </Col>
@@ -60,7 +64,7 @@ const POLineEresourcesForm = ({ materialTypes, formValues, change }) => {
             fullWidth
             parse={parseNumber}
             label={<FormattedMessage id="ui-orders.eresource.activationDue" />}
-            name="eresource.activationDue"
+            name={POL_FORM_FIELDS.eresourceActivationDue}
             type="number"
             min={0}
           />
@@ -83,7 +87,7 @@ const POLineEresourcesForm = ({ materialTypes, formValues, change }) => {
         <VisibilityControl name="hiddenFields.eresource.createInventory">
           <InventoryRecordTypeSelectField
             label="ui-orders.eresource.createInventory"
-            name="eresource.createInventory"
+            name={POL_FORM_FIELDS.eresourceCreateInventory}
           />
         </VisibilityControl>
       </Col>
@@ -127,9 +131,9 @@ const POLineEresourcesForm = ({ materialTypes, formValues, change }) => {
 };
 
 POLineEresourcesForm.propTypes = {
-  materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   change: PropTypes.func.isRequired,
   formValues: PropTypes.object.isRequired,
+  materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default POLineEresourcesForm;

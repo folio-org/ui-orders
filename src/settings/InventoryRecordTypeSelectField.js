@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FieldSelect, FieldSelectFinal } from '@folio/stripes-acq-components';
+import {
+  FieldSelect,
+  FieldSelectFinal,
+} from '@folio/stripes-acq-components';
 
 import { INVENTORY_RECORDS_TYPE_FOR_SELECT } from '../components/POLine/const';
 
