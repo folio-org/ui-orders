@@ -30,6 +30,7 @@ import { SUBMIT_ACTION_FIELD } from '../../common/constants';
 import {
   useOrder,
   useOrderLine,
+  useOrderTemplate,
 } from '../../common/hooks';
 import ModalDeletePieces from '../ModalDeletePieces';
 import { SUBMIT_ACTION } from '../POLine/const';
@@ -37,9 +38,14 @@ import POLineForm from '../POLine/POLineForm';
 import { updateOrderResource } from '../Utils/orderResource';
 import LayerPOLine from './LayerPOLine';
 
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/smart-components'),
+  useCustomFields: jest.fn(() => ([[], false])),
+}));
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+  useFunds: jest.fn(() => ({ funds: [] })),
   useIntegrationConfigs: jest.fn().mockReturnValue({ integrationConfigs: [], isLoading: false }),
   useLocationsQuery: jest.fn(),
   useOrganization: jest.fn(),
@@ -50,6 +56,7 @@ jest.mock('../../common/hooks', () => ({
   useLinesLimit: jest.fn().mockReturnValue({ isLoading: false, linesLimit: 1 }),
   useOrder: jest.fn(),
   useOrderLine: jest.fn(),
+  useOrderTemplate: jest.fn(),
   useInstance: jest.fn().mockReturnValue({ isLoading: false, instance: {} }),
   useTitleMutation: jest.fn().mockReturnValue({ mutateTitle: jest.fn().mockReturnValue(() => Promise.resolve()) }),
 }));
@@ -86,9 +93,6 @@ const defaultProps = {
     createInventory: {
       GET: jest.fn().mockResolvedValue(),
     },
-    orderTemplates: {
-      GET: jest.fn().mockResolvedValue(),
-    },
     materialTypes: {
       GET: jest.fn().mockResolvedValue(),
     },
@@ -107,9 +111,6 @@ const defaultProps = {
       hasLoaded: true,
     },
     contributorNameTypes: {
-      hasLoaded: true,
-    },
-    orderTemplates: {
       hasLoaded: true,
     },
     identifierTypes: {
@@ -163,6 +164,7 @@ describe('LayerPOLine', () => {
     useOrganization.mockReturnValue({ organization: vendor });
     useLocationsQuery.mockReturnValue({ locations: [location] });
     useShowCallout.mockReturnValue(mockShowCallout);
+    useOrderTemplate.mockReturnValue({ orderTemplate: undefined });
   });
 
   afterEach(() => {

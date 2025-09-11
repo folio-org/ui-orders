@@ -1,13 +1,15 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { Form } from 'react-final-form';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import user from '@folio/jest-config-stripes/testing-library/user-event';
 import {
   render,
   screen,
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 import {
   HasCommand,
   collapseAllSections,
@@ -92,8 +94,6 @@ const defaultProps = {
 };
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     <MemoryRouter>
@@ -103,14 +103,9 @@ const wrapper = ({ children }) => (
 );
 
 const renderOrderTemplatesEditor = (props = {}) => render(
-  <Form
-    onSubmit={() => jest.fn()}
-    render={() => (
-      <OrderTemplatesEditor
-        {...defaultProps}
-        {...props}
-      />
-    )}
+  <OrderTemplatesEditor
+    {...defaultProps}
+    {...props}
   />,
   { wrapper },
 );

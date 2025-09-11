@@ -1,8 +1,8 @@
-import '@folio/stripes-acq-components/test/jest/__mock__';
-
-import { instance } from '../../../../test/jest/fixtures';
-
-import { PRODUCT_ID_TYPE } from '../../../common/constants';
+import { instance } from 'fixtures';
+import {
+  POL_FORM_FIELDS,
+  PRODUCT_ID_TYPE,
+} from '../../../common/constants';
 
 import {
   createPOLDataFromInstance,
@@ -130,7 +130,7 @@ describe('createPOLDataFromInstance', () => {
       }],
       edition: instance.editions?.[0],
       instanceId: instance.id,
-      productIds: [],
+      [POL_FORM_FIELDS.productIds]: [],
       publicationDate: instance.publication[0].dateOfPublication,
       publisher: instance.publication[0].publisher,
       suppressInstanceFromDiscovery: false,
