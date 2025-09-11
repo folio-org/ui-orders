@@ -123,5 +123,3 @@ export const GAME_CHANGER_FIELDS = {
     POL_FORM_FIELDS.locations,
   ],
 };
-
-export const GAME_CHANGER_TIMEOUT = 100;

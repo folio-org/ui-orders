@@ -40,7 +40,6 @@ import {
   FieldBinderyActive,
   isBinderyActiveDisabled,
 } from '../../../common/POLFields';
-import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
 import {
   isWorkflowStatusClosed,
   isWorkflowStatusIsPending,
@@ -52,17 +51,23 @@ import { useReceivingWorkflowChange } from '../hooks';
 
 const isReceiptNotRequired = (status) => status === RECEIPT_STATUS.receiptNotRequired;
 
+const defaultProps = {
+  hiddenFields: {},
+  integrationConfigs: [],
+  order: {},
+  vendor: {},
+};
+
 function POLineDetailsForm({
   change,
+  createInventorySetting,
   formValues,
+  hiddenFields = defaultProps.hiddenFields,
   initialValues: poLine,
-  order,
-  parentResources,
-  vendor,
-  hiddenFields = {},
-  integrationConfigs = [],
+  integrationConfigs = defaultProps.integrationConfigs,
+  order = defaultProps.order,
+  vendor = defaultProps.vendor,
 }) {
-  const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
   const isManualOrder = Boolean(order?.manualPo);
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isClosedOrder = isWorkflowStatusClosed(order);
@@ -437,18 +442,18 @@ function POLineDetailsForm({
 }
 
 POLineDetailsForm.propTypes = {
-  initialValues: PropTypes.object.isRequired,
   change: PropTypes.func.isRequired,
+  createInventorySetting: PropTypes.shape({
+    eresource: PropTypes.string,
+    physical: PropTypes.string,
+    other: PropTypes.string,
+  }).isRequired,
   formValues: PropTypes.object.isRequired,
+  hiddenFields: PropTypes.object,
+  initialValues: PropTypes.object.isRequired,
+  integrationConfigs: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object,
   vendor: PropTypes.object,
-  parentResources: PropTypes.shape({
-    createInventory: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }).isRequired,
-  }).isRequired,
-  hiddenFields: PropTypes.object,
-  integrationConfigs: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default POLineDetailsForm;

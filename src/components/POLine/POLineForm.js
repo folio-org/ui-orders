@@ -2,7 +2,6 @@ import flow from 'lodash/flow';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import keyBy from 'lodash/keyBy';
-import pick from 'lodash/pick';
 
 import PropTypes from 'prop-types';
 import {
@@ -22,6 +21,7 @@ import {
   FundDistributionFieldsFinal,
   handleKeyCommand,
   IfFieldVisible,
+  selectOptionsShape,
   useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
 import {
@@ -80,14 +80,10 @@ import {
   withUniqueFieldArrayItemKeys,
 } from '../../common/utils';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
-import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
-import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
-import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import { getOrderTemplateLabel } from '../Utils/getOrderTemplatesForSelect';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import {
   ACCORDION_ID,
-  GAME_CHANGER_TIMEOUT,
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
   SUBMIT_ACTION,
@@ -99,7 +95,6 @@ import {
   useManageDonorOrganizationIds,
 } from './hooks';
 import { ItemForm } from './Item';
-import { createPOLDataFromInstance } from './Item/util';
 import LocationForm from './Location/LocationForm';
 import { OngoingOrderForm } from './OngoingOrder';
 import { OtherForm } from './Other';
@@ -115,21 +110,23 @@ const defaultProps = {
 
 function POLineForm({
   centralOrdering,
+  contributorNameTypeOptions,
+  createInventorySetting,
   enableSaveBtn,
   form,
   form: { change, batch },
   funds: fundsRecords,
   handleSubmit,
+  identifierTypeOptions,
   initialValues,
   integrationConfigs = defaultProps.integrationConfigs,
-  instance,
   isCreateFromInstance = defaultProps.isCreateFromInstance,
   isSaveAndOpenButtonVisible,
   linesLimit,
   locations,
+  materialTypeOptions,
   onCancel,
   order,
-  parentResources,
   pristine,
   stripes,
   submitting,
@@ -144,7 +141,6 @@ function POLineForm({
 
   const accordionStatusRef = useRef();
 
-  const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const lineId = get(initialValues, 'id');
   const initialDonorOrganizationIds = get(initialValues, POL_FORM_FIELDS.donorOrganizationIds, []);
   const fundDistribution = get(formValues, POL_FORM_FIELDS.fundDistribution, []);
@@ -191,46 +187,6 @@ function POLineForm({
       change(POL_FORM_FIELDS.donorOrganizationIds, donorOrganizationIds);
     }
   }, [change, donorOrganizationIds, shouldUpdateDonorOrganizationIds]);
-
-  const initialTemplateInventoryData = useMemo(() => (
-    !lineId && templateValue.id
-      ? {
-        ...pick(templateValue, [
-          POL_FORM_FIELDS.instanceId,
-          POL_FORM_FIELDS.titleOrPackage,
-          POL_FORM_FIELDS.publisher,
-          POL_FORM_FIELDS.publicationDate,
-          POL_FORM_FIELDS.edition,
-          POL_FORM_FIELDS.contributors,
-          POL_FORM_FIELDS.productIds,
-        ]),
-      }
-      : {}
-  ), [lineId, templateValue]);
-
-  const initialInventoryData = useMemo(() => (
-    isCreateFromInstance
-      ? createPOLDataFromInstance(instance, identifierTypes)
-      : initialTemplateInventoryData
-  ), [identifierTypes, initialTemplateInventoryData, instance, isCreateFromInstance]);
-
-  const applyInitialInventoryData = useCallback(() => {
-    batch(() => {
-      change(POL_FORM_FIELDS.isPackage, false);
-
-      Object.keys(initialInventoryData).forEach(field => {
-        if (field === 'productIds') {
-          change(`${POL_FORM_FIELDS.details}.${field}`, initialInventoryData[field]);
-        } else change(field, initialInventoryData[field]);
-      });
-    });
-  }, [batch, change, initialInventoryData]);
-
-  useEffect(() => {
-    if (isCreateFromInstance) {
-      setTimeout(() => { applyInitialInventoryData(); }, GAME_CHANGER_TIMEOUT);
-    }
-  }, [applyInitialInventoryData, isCreateFromInstance]);
 
   useEffect(() => {
     setHiddenFields(templateValue?.hiddenFields || {});
@@ -498,8 +454,6 @@ function POLineForm({
   const showEresources = isEresource(orderFormat);
   const showPhresources = isPhresource(orderFormat);
   const showOther = isOtherResource(orderFormat);
-  const materialTypes = getMaterialTypesForSelect(parentResources);
-  const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
   const locationIds = locations?.map(({ id }) => id);
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
   const estimatedPrice = calculateEstimatedPrice(formValues);
@@ -562,11 +516,11 @@ function POLineForm({
                             <ItemForm
                               formValues={formValues}
                               order={order}
-                              contributorNameTypes={contributorNameTypes}
+                              contributorNameTypes={contributorNameTypeOptions}
                               change={change}
                               batch={batch}
-                              identifierTypes={identifierTypes}
-                              initialValues={{ ...initialValues, ...initialInventoryData }}
+                              identifierTypes={identifierTypeOptions}
+                              initialValues={initialValues}
                               stripes={stripes}
                               hiddenFields={hiddenFields}
                               isCreateFromInstance={isCreateFromInstance}
@@ -579,10 +533,10 @@ function POLineForm({
                           >
                             <POLineDetailsForm
                               change={change}
+                              createInventorySetting={createInventorySetting}
                               formValues={formValues}
                               initialValues={initialValues}
                               order={order}
-                              parentResources={parentResources}
                               vendor={vendor}
                               hiddenFields={hiddenFields}
                               integrationConfigs={integrationConfigs}
@@ -688,7 +642,7 @@ function POLineForm({
                               id={ACCORDION_ID.physical}
                             >
                               <PhysicalForm
-                                materialTypes={materialTypes}
+                                materialTypes={materialTypeOptions}
                                 order={order}
                                 formValues={formValues}
                                 change={change}
@@ -702,7 +656,7 @@ function POLineForm({
                               id={ACCORDION_ID.eresources}
                             >
                               <EresourcesForm
-                                materialTypes={materialTypes}
+                                materialTypes={materialTypeOptions}
                                 order={order}
                                 formValues={formValues}
                                 change={change}
@@ -716,7 +670,7 @@ function POLineForm({
                               id={ACCORDION_ID.other}
                             >
                               <OtherForm
-                                materialTypes={materialTypes}
+                                materialTypes={materialTypeOptions}
                                 order={order}
                                 formValues={formValues}
                                 change={change}
@@ -754,15 +708,21 @@ function POLineForm({
 
 POLineForm.propTypes = {
   centralOrdering: PropTypes.bool,
+  contributorNameTypeOptions: selectOptionsShape.isRequired,
+  createInventorySetting: PropTypes.shape({
+    eresource: PropTypes.string,
+    physical: PropTypes.string,
+    other: PropTypes.string,
+  }).isRequired,
   enableSaveBtn: PropTypes.bool,
   form: PropTypes.object.isRequired,
   funds: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
   })),
   handleSubmit: PropTypes.func.isRequired,
+  identifierTypeOptions: selectOptionsShape,
   initialValues: PropTypes.object,
   integrationConfigs: PropTypes.arrayOf(PropTypes.object),
-  instance: PropTypes.object,
   isCreateFromInstance: PropTypes.bool,
   isSaveAndOpenButtonVisible: PropTypes.bool,
   linesLimit: PropTypes.number.isRequired,
@@ -775,9 +735,9 @@ POLineForm.propTypes = {
     libraryId: PropTypes.string.isRequired,
     tenantId: PropTypes.string,
   })).isRequired,
+  materialTypeOptions: selectOptionsShape,
   onCancel: PropTypes.func,
   order: PropTypes.object.isRequired,
-  parentResources: PropTypes.object,
   pristine: PropTypes.bool,
   stripes: stripesShape.isRequired,
   submitting: PropTypes.bool,

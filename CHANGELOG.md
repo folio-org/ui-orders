@@ -32,6 +32,7 @@
 * Replace using `mod-configurations` to use internal orders storage. Refs UIOR-1462.
 * Correcting the behavior of drop-down menu and checkbox in Settings > Orders > Number generator options. Refs UIOR-1464.
 * Allow user to view PO value for any related fiscal year. Refs UIOR-1308.
+* Refactor the PO Line form to apply the template through initial form values. Refs UIOR-1461.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

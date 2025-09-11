@@ -1,10 +1,12 @@
-import {
-  find,
-  get,
-  isEqual,
-} from 'lodash';
+import find from 'lodash/find';
+import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 
-import { PRODUCT_ID_TYPE, QUALIFIER_SEPARATOR } from '../../../common/constants';
+import {
+  POL_FORM_FIELDS,
+  PRODUCT_ID_TYPE,
+  QUALIFIER_SEPARATOR,
+} from '../../../common/constants';
 
 // transform form's initialValues to the state of data from inventory
 export const getInventoryData = (initialValues) => {
@@ -105,13 +107,13 @@ export const createPOLDataFromInstance = (instance = {}, identifierTypes = []) =
   }
 
   return ({
-    contributors: lineContributors,
-    edition: editions?.[0] || '',
-    instanceId: id,
-    productIds,
-    publicationDate,
-    publisher: publisher || '',
-    suppressInstanceFromDiscovery: discoverySuppress || false,
-    titleOrPackage: title,
+    [POL_FORM_FIELDS.contributors]: lineContributors,
+    [POL_FORM_FIELDS.edition]: editions?.[0] || '',
+    [POL_FORM_FIELDS.instanceId]: id,
+    [POL_FORM_FIELDS.productIds]: productIds,
+    [POL_FORM_FIELDS.publicationDate]: publicationDate,
+    [POL_FORM_FIELDS.publisher]: publisher || '',
+    [POL_FORM_FIELDS.suppressInstanceFromDiscovery]: discoverySuppress || false,
+    [POL_FORM_FIELDS.titleOrPackage]: title,
   });
 };

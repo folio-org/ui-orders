@@ -103,8 +103,8 @@ function OrderTemplatesEditorContainer({
 
   const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
-  const identifierTypes = getIdentifierTypesForSelect(resources);
-  const contributorNameTypes = getContributorNameTypesForSelect(resources);
+  const identifierTypes = getIdentifierTypesForSelect(get(resources, [DICT_IDENTIFIER_TYPES, 'records'], []));
+  const contributorNameTypes = getContributorNameTypesForSelect(resources?.contributorNameTypes?.records);
   const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
   const vendors = get(resources, 'vendors.records', [])
     .filter(({ isVendor, status }) => isVendor && status === ORGANIZATION_STATUS_ACTIVE);
@@ -113,7 +113,7 @@ function OrderTemplatesEditorContainer({
   const suffixesSetting = get(resources, 'suffixesSetting.records', [])
     .map(({ name }) => ({ label: name, value: name }));
   const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
-  const materialTypes = getMaterialTypesForSelect(resources);
+  const materialTypes = getMaterialTypesForSelect(resources?.materialTypes?.records);
   const initialValues = orderTemplate.id
     ? {
       ...orderTemplate,
