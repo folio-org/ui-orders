@@ -24,7 +24,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
   const showCallout = useShowCallout();
 
   const {
-    fiscalYears,
+    fiscalYearsGrouped,
     isFetched: isFiscalYearsFetched,
     isLoading: isFiscalYearsLoading,
   } = useOrderFiscalYears(orderId);
@@ -94,7 +94,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
 
   return {
     exportHistory,
-    fiscalYears,
+    fiscalYearsGrouped,
     isExportHistoryLoading,
     isFiscalYearsFetched,
     isFiscalYearsLoading,
