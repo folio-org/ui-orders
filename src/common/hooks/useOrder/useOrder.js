@@ -8,13 +8,14 @@ export const useOrder = (orderId, options = {}) => {
   const {
     enabled = true,
     fiscalYearId,
+    tenantId,
     ...queryOptions
   } = options;
 
-  const ky = useOkapiKy();
+  const ky = useOkapiKy({ tenant: tenantId });
 
   const { data, ...rest } = useQuery({
-    queryKey: ['ui-orders', 'order', orderId, fiscalYearId],
+    queryKey: ['ui-orders', 'order', orderId, fiscalYearId, tenantId],
     queryFn: async ({ signal }) => {
       try {
         const searchParams = fiscalYearId ? { fiscalYearId } : undefined;
