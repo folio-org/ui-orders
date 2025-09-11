@@ -11,8 +11,20 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { useNumberGeneratorOptions } from '../hooks';
-import { NUMBER_GENERATOR_SETTINGS_KEY } from './constants';
+import {
+  ACCESSION_NUMBER_SETTING,
+  BARCODE_SETTING,
+  CALL_NUMBER_SETTING,
+  NUMBER_GENERATOR_OPTIONS_OFF,
+  NUMBER_GENERATOR_SETTINGS_KEY,
+} from './constants';
 import NumberGeneratorSettingsForm from './NumberGeneratorSettingsForm';
+
+const DEFAULT_VALUES = {
+  [ACCESSION_NUMBER_SETTING]: NUMBER_GENERATOR_OPTIONS_OFF,
+  [BARCODE_SETTING]: NUMBER_GENERATOR_OPTIONS_OFF,
+  [CALL_NUMBER_SETTING]: NUMBER_GENERATOR_OPTIONS_OFF,
+};
 
 export const NumberGeneratorSettings = () => {
   const intl = useIntl();
@@ -72,7 +84,7 @@ export const NumberGeneratorSettings = () => {
   return (
     <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.numberGenerator.options' })}>
       <NumberGeneratorSettingsForm
-        initialValues={numberGeneratorData ? JSON.parse(numberGeneratorData?.value) : {}}
+        initialValues={numberGeneratorData ? JSON.parse(numberGeneratorData?.value) : DEFAULT_VALUES}
         onSubmit={onSubmit}
       />
     </TitleManager>
