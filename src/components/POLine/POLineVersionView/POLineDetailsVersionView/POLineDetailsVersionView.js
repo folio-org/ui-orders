@@ -82,7 +82,7 @@ export const POLineDetailsVersionView = ({ version }) => {
           <VersionKeyValue
             name="receiptDate"
             label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
-            value={<FolioFormattedDate value={version?.receiptDate} utc={false} />}
+            value={<FolioFormattedDate value={version?.receiptDate} />}
           />
         </Col>
 

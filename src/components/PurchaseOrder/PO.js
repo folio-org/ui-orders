@@ -158,7 +158,7 @@ const PO = ({
 
   const {
     exportHistory,
-    fiscalYears,
+    fiscalYearsGrouped,
     isExportHistoryLoading,
     isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
@@ -176,10 +176,10 @@ const PO = ({
 
   useEffect(() => {
     // Set default fiscal year if not selected
-    if (!selectedFiscalYear && fiscalYears.length) {
-      setSelectedFiscalYear(fiscalYears[0].id);
+    if (!selectedFiscalYear && fiscalYearsGrouped?.current?.length) {
+      setSelectedFiscalYear(fiscalYearsGrouped.current[0].id);
     }
-  }, [fiscalYears, selectedFiscalYear]);
+  }, [fiscalYearsGrouped, selectedFiscalYear]);
 
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
@@ -800,7 +800,7 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
             >
               <SummaryView
-                fiscalYears={fiscalYears}
+                fiscalYearsGrouped={fiscalYearsGrouped}
                 hiddenFields={hiddenFields}
                 onSelectFiscalYear={setSelectedFiscalYear}
                 order={order}
