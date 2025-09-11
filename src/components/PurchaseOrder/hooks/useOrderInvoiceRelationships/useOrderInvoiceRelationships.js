@@ -24,7 +24,7 @@ export const useOrderInvoiceRelationships = (orderId, options = {}) => {
   const [namespace] = useNamespace({ key: 'invoices' });
 
   const { data, ...rest } = useQuery({
-    queryKey: [namespace, tenantId],
+    queryKey: [namespace, orderId, tenantId],
     queryFn: async ({ signal }) => {
       const searchParams = {
         limit: LIMIT_MAX,

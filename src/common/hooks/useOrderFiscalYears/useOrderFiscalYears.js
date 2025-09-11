@@ -1,17 +1,15 @@
-import orderBy from 'lodash/orderBy';
 import { useQuery } from 'react-query';
 
 import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import {
-  CQLBuilder,
-  ORDERS_API,
-} from '@folio/stripes-acq-components';
+import { ORDERS_API } from '@folio/stripes-acq-components';
 
-const { DESC, ASC } = CQLBuilder.SORT_ORDERS;
-const DEFAULT_DATA = [];
+const DEFAULT_DATA = {
+  current: [],
+  previous: [],
+};
 
 export const useOrderFiscalYears = (orderId, options = {}) => {
   const {
@@ -25,21 +23,15 @@ export const useOrderFiscalYears = (orderId, options = {}) => {
 
   const { data, ...rest } = useQuery({
     queryKey: [namespace, orderId, tenantId],
-    queryFn: async ({ signal }) => (
-      ky.get(`${ORDERS_API}/${orderId}/fiscal-years`, { signal })
-        .json()
-        .then(({ fiscalYears, ..._rest }) => ({
-          ..._rest,
-          fiscalYears: orderBy(fiscalYears, ['periodStart', 'code'], [DESC, ASC]),
-        }))
-    ),
+    queryFn: async ({ signal }) => {
+      return ky.get(`${ORDERS_API}/${orderId}/fiscal-years`, { signal }).json();
+    },
     enabled: enabled && Boolean(orderId),
     ...queryOptions,
   });
 
   return ({
-    fiscalYears: data?.fiscalYears || DEFAULT_DATA,
-    totalRecords: data?.totalRecords,
+    fiscalYearsGrouped: data || DEFAULT_DATA,
     ...rest,
   });
 };
