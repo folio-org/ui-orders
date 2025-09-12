@@ -1,5 +1,7 @@
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import unset from 'lodash/unset';
 
 import { sourceValues } from '@folio/stripes-acq-components';
 
@@ -9,16 +11,18 @@ import {
   POL_TEMPLATE_FIELDS_MAP,
 } from './const';
 import { createPOLDataFromInstance } from './Item/util';
+import { POL_FORM_FIELDS } from '../../common/constants';
 
 const DEFAULT_INITIAL_VALUES = {};
 
-const mergeInventoryData = (initialValues, inventoryDataToMerge) => {
-  return Object.entries(inventoryDataToMerge).reduce((acc, [key, value]) => {
-    set(acc, key, value);
-
-    return acc;
-  }, initialValues);
-};
+const INVENTORY_FIELDS_TO_CLEAR = [
+  POL_FORM_FIELDS.isPackage,
+  POL_FORM_FIELDS.publicationDate,
+  POL_FORM_FIELDS.publisher,
+  POL_FORM_FIELDS.edition,
+  POL_FORM_FIELDS.contributors,
+  POL_FORM_FIELDS.productIds,
+];
 
 export const buildInitialPOLineFormValues = ({
   createInventorySetting,
@@ -39,35 +43,29 @@ export const buildInitialPOLineFormValues = ({
     source: sourceValues.user,
   };
 
-  const inventoryDataToMerge = isCreateFromInstance
-    ? {
-      isPackage: false,
-      ...createPOLDataFromInstance(instance, identifierTypeOptions),
-    }
-    : {};
-
-  return template?.id
+  const initialValues = template?.id
     ? buildInitialValuesBasedOnTemplate({
       customFields,
       essentialInitialValues,
-      inventoryDataToMerge,
       template,
     })
     : buildInitialValuesWithoutTemplate({
       createInventorySetting,
       essentialInitialValues,
       instance,
-      inventoryDataToMerge,
       stripes,
       vendor,
     });
+
+  return isCreateFromInstance
+    ? mergeInventoryData(initialValues, instance, identifierTypeOptions)
+    : initialValues;
 };
 
 function buildInitialValuesWithoutTemplate({
   createInventorySetting,
   essentialInitialValues,
   instance,
-  inventoryDataToMerge,
   stripes,
   vendor,
 }) {
@@ -111,13 +109,12 @@ function buildInitialValuesWithoutTemplate({
     }
   }
 
-  return mergeInventoryData(newObj, inventoryDataToMerge);
+  return newObj;
 }
 
 function buildInitialValuesBasedOnTemplate({
   customFields,
   essentialInitialValues,
-  inventoryDataToMerge,
   template,
 }) {
   const fieldsToPopulate = Array.from(
@@ -138,5 +135,26 @@ function buildInitialValuesBasedOnTemplate({
     return acc;
   }, { ...essentialInitialValues });
 
-  return mergeInventoryData(initialValues, inventoryDataToMerge);
+  return initialValues;
+}
+
+function mergeInventoryData(initialValues, instance, identifierTypeOptions) {
+  const values = cloneDeep(initialValues);
+
+  /*
+    These fields are protected from modification when PO Line is created from an instance.
+    To ensure consistency, we clear them before merging data from the instance.
+  */
+  INVENTORY_FIELDS_TO_CLEAR.forEach(field => unset(values, field));
+
+  const inventoryDataToMerge = {
+    isPackage: false,
+    ...createPOLDataFromInstance(instance, identifierTypeOptions),
+  };
+
+  return Object.entries(inventoryDataToMerge).reduce((acc, [key, value]) => {
+    set(acc, key, value);
+
+    return acc;
+  }, values);
 }
