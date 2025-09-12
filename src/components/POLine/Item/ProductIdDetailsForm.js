@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useCallback } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
@@ -17,6 +17,8 @@ import {
   validateRequired,
   VisibilityControl,
 } from '@folio/stripes-acq-components';
+
+import { POL_FORM_FIELDS } from '../../../common/constants';
 
 const DEFAULT_ID_TYPES = [];
 
@@ -101,7 +103,7 @@ function ProductIdDetailsForm({
       emptyMessage={!isEditable ? <NoValue /> : <FormattedMessage id="ui-orders.itemDetails.addProductId" />}
       id="productIds"
       legend={legend}
-      name="details.productIds"
+      name={POL_FORM_FIELDS.productIds}
       onRemove={onRemoveField}
       canAdd={isEditable}
       canRemove={isEditable}

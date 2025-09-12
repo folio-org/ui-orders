@@ -106,7 +106,7 @@ export const createPOLDataFromInstance = (instance = {}, identifierTypes = []) =
     productIds = lineIdentifiers;
   }
 
-  return ({
+  return {
     [POL_FORM_FIELDS.contributors]: lineContributors,
     [POL_FORM_FIELDS.edition]: editions?.[0] || '',
     [POL_FORM_FIELDS.instanceId]: id,
@@ -115,5 +115,5 @@ export const createPOLDataFromInstance = (instance = {}, identifierTypes = []) =
     [POL_FORM_FIELDS.publisher]: publisher || '',
     [POL_FORM_FIELDS.suppressInstanceFromDiscovery]: discoverySuppress || false,
     [POL_FORM_FIELDS.titleOrPackage]: title,
-  });
+  };
 };

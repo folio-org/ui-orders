@@ -745,6 +745,7 @@ POLineForm.propTypes = {
     id: PropTypes.string.isRequired,
     templateCode: PropTypes.string,
     templateName: PropTypes.string.isRequired,
+    hiddenFields: PropTypes.shape({}),
   }),
   values: PropTypes.object.isRequired,
   vendor: PropTypes.object,

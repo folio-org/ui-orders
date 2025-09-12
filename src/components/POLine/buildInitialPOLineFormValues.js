@@ -12,6 +12,14 @@ import { createPOLDataFromInstance } from './Item/util';
 
 const DEFAULT_INITIAL_VALUES = {};
 
+const mergeInventoryData = (initialValues, inventoryDataToMerge) => {
+  return Object.entries(inventoryDataToMerge).reduce((acc, [key, value]) => {
+    set(acc, key, value);
+
+    return acc;
+  }, initialValues);
+};
+
 export const buildInitialPOLineFormValues = ({
   createInventorySetting,
   customFields,
@@ -33,8 +41,8 @@ export const buildInitialPOLineFormValues = ({
 
   const inventoryDataToMerge = isCreateFromInstance
     ? {
-      ...createPOLDataFromInstance(instance, identifierTypeOptions),
       isPackage: false,
+      ...createPOLDataFromInstance(instance, identifierTypeOptions),
     }
     : {};
 
@@ -79,7 +87,7 @@ function buildInitialValuesWithoutTemplate({
       vendorAccount: get(vendor, 'accounts[0].accountNo', ''),
     },
     details: {
-      subscriptionInterval: get(vendor, 'subscriptionInterval'),
+      subscriptionInterval: vendor?.subscriptionInterval,
     },
     eresource: {
       createInventory: createInventorySetting?.eresource,
@@ -103,10 +111,7 @@ function buildInitialValuesWithoutTemplate({
     }
   }
 
-  return {
-    ...newObj,
-    ...inventoryDataToMerge,
-  };
+  return mergeInventoryData(newObj, inventoryDataToMerge);
 }
 
 function buildInitialValuesBasedOnTemplate({
@@ -133,8 +138,5 @@ function buildInitialValuesBasedOnTemplate({
     return acc;
   }, { ...essentialInitialValues });
 
-  return {
-    ...initialValues,
-    ...inventoryDataToMerge,
-  };
+  return mergeInventoryData(initialValues, inventoryDataToMerge);
 }
