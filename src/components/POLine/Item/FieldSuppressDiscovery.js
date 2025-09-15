@@ -21,7 +21,7 @@ export const FieldSuppressDiscovery = ({ disabled }) => {
 
   return (
     <Field
-      id={POL_FORM_FIELDS.suppressInstanceFromDiscovery}s
+      id={POL_FORM_FIELDS.suppressInstanceFromDiscovery}
       component={Checkbox}
       disabled={disabled}
       fullWidth

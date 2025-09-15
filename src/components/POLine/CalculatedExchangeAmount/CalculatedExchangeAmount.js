@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
+import {
+  AmountWithCurrencyField,
+  useExchangeCalculation,
+} from '@folio/stripes-acq-components';
 import { KeyValue } from '@folio/stripes/components';
 import { useStripes } from '@folio/stripes/core';
-
-import { useExchangeCalculation } from '../hooks';
 
 export const CalculatedExchangeAmount = ({ currency, exchangeRate, total }) => {
   const stripes = useStripes();
