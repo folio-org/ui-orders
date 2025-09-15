@@ -1,4 +1,7 @@
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -196,7 +199,7 @@ describe('FormatPrefixDeprecated', () => {
     const messageId = 'ui-orders.settings.poNumber.prefix.aria-label.deprecated';
 
     render(
-      <FormatPrefixDeprecated name={'Test Field'} deprecated={false} />,
+      <FormatPrefixDeprecated name="Test Field" deprecated={false} />,
     );
 
     const checkbox = screen.getByRole('checkbox', {
@@ -213,7 +216,7 @@ describe('FormatSuffixDeprecated', () => {
     const messageId = 'ui-orders.settings.poNumber.suffix.aria-label.deprecated';
 
     render(
-      <FormatSuffixDeprecated name={'Test Field'} deprecated={false} />,
+      <FormatSuffixDeprecated name="Test Field" deprecated={false} />,
     );
 
     const checkbox = screen.getByRole('checkbox', {

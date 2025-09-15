@@ -45,7 +45,7 @@ export const FormatPrefixDeprecated = ({ name, deprecated }) => (
 FormatPrefixDeprecated.propTypes = {
   name: PropTypes.string.isRequired,
   deprecated: PropTypes.bool.isRequired,
-}
+};
 
 export const FormatSuffixDeprecated = ({ name, deprecated }) => (
   <DeprecatedCheckbox
@@ -58,7 +58,7 @@ export const FormatSuffixDeprecated = ({ name, deprecated }) => (
 FormatSuffixDeprecated.propTypes = {
   name: PropTypes.string.isRequired,
   deprecated: PropTypes.bool.isRequired,
-}
+};
 
 export const DeprecatedCheckbox = ({ name, deprecated, messageId }) => {
   const intl = useIntl();
@@ -79,7 +79,7 @@ DeprecatedCheckbox.propTypes = {
   name: PropTypes.string.isRequired,
   deprecated: PropTypes.bool.isRequired,
   messageId: PropTypes.string.isRequired,
-}
+};
 
 export const validateDuplicates = (intl, fieldNames = []) => (item, index, items) => {
   const results = fieldNames.reduce((acc, fieldName) => {

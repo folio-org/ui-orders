@@ -16,7 +16,7 @@ import PODetailsForm from './PODetailsForm';
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   FieldTags: jest.fn(() => 'FieldTags'),
-}))
+}));
 
 const optionMock = {
   disabled: false,
