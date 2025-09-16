@@ -96,7 +96,8 @@ const orderRelatedData = {
   orderInvoiceRelationships: [],
   orderLines: [],
   orderTemplate: {},
-  refetch: jest.fn(),
+  refetchFiscalYears: jest.fn(),
+  refetchOrder: jest.fn(),
   restrictions: {},
 };
 
@@ -298,7 +299,7 @@ describe('PO actions', () => {
 
       await user.click(reexportConfirmBtn);
 
-      expect(orderRelatedData.refetch).toHaveBeenCalled();
+      expect(orderRelatedData.refetchOrder).toHaveBeenCalled();
     });
   });
 
