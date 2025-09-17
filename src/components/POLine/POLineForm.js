@@ -38,6 +38,7 @@ import {
   Icon,
   IconButton,
   KeyValue,
+  Layout,
   LoadingPane,
   MenuSection,
   Pane,
@@ -496,12 +497,13 @@ function POLineForm({
                       <Col
                         xs={12}
                         md={8}
-                        style={{ textAlign: 'left' }}
                       >
-                        <KeyValue
-                          label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
-                          value={getOrderTemplateLabel(templateValue)}
-                        />
+                        <Layout className="textLeft">
+                          <KeyValue
+                            label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                            value={getOrderTemplateLabel(templateValue)}
+                          />
+                        </Layout>
 
                         <AccordionSet
                           initialStatus={INITIAL_SECTIONS}
