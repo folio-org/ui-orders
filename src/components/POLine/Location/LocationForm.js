@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { Loading } from '@folio/stripes/components';
+import { PIECE_STATUS } from '@folio/stripes-acq-components';
 
 import { FieldsLocation } from '../../../common/POLFields';
 import {
@@ -8,6 +9,8 @@ import {
   isWorkflowStatusIsPending,
   isWorkflowStatusOpen,
 } from '../../PurchaseOrder/util';
+import { usePOLinePiecesExistence } from '../hooks';
+import { isSynchronizedReceivingWorkflow } from '../utils';
 
 const LocationForm = ({
   centralOrdering,
@@ -20,11 +23,30 @@ const LocationForm = ({
   locations,
   order,
 }) => {
-  const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
-  const isPostPendingOrder = !isWorkflowStatusIsPending(order);
-  const isQuantityDisabled = !(formValues.checkinItems || formValues.isPackage) && isWorkflowStatusOpen(order);
+  const isPendingOrder = isWorkflowStatusIsPending(order);
+  const isPostPendingOrder = !isPendingOrder;
+  const isSynchronized = isSynchronizedReceivingWorkflow(formValues);
+  const shouldCheckReceivedPiecesExistence = isSynchronized && isPendingOrder;
 
-  if (isLoading) return <Loading />;
+  // Check if there are received pieces for the PO Line of pending Order
+  const {
+    isExist: isReceivedPiecesExist,
+    isFetching: isReceivedPiecesExistFetching,
+  } = usePOLinePiecesExistence(
+    formValues.id,
+    {
+      enabled: shouldCheckReceivedPiecesExistence,
+      receivingStatus: PIECE_STATUS.received,
+    },
+  );
+
+  const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
+  const isQuantityDisabled = (
+    (!(formValues.checkinItems || formValues.isPackage) && isWorkflowStatusOpen(order)) // PO Line with "Independent" receiving workflow or package in the "Open" status
+    || (shouldCheckReceivedPiecesExistence && isReceivedPiecesExist) // PO Line with "Synchronized" receiving workflow and received pieces exist in the "Pending" status
+  );
+
+  if (isLoading || isReceivedPiecesExistFetching) return <Loading />;
 
   return (
     <FieldsLocation
