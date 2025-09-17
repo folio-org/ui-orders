@@ -170,7 +170,8 @@ const PO = ({
     orderInvoiceRelationships,
     orderLines,
     orderTemplate,
-    refetch,
+    refetchFiscalYears,
+    refetchOrder: refetch,
     restrictions,
   } = usePurchaseOrderResources(orderId, selectedFiscalYear);
 
@@ -326,6 +327,7 @@ const PO = ({
         () => {
           sendCallout({ message: <FormattedMessage id="ui-orders.closeOrder.success" /> });
           refreshList();
+          refetchFiscalYears();
 
           return refetch();
         },
@@ -339,6 +341,7 @@ const PO = ({
     sendCallout,
     refreshList,
     refetch,
+    refetchFiscalYears,
     handleErrorResponse,
     orderErrorModalShow,
   ]);
@@ -401,6 +404,7 @@ const PO = ({
             type: 'success',
           });
           refreshList();
+          refetchFiscalYears();
 
           return refetch();
         },
@@ -419,6 +423,7 @@ const PO = ({
     sendCallout,
     refreshList,
     refetch,
+    refetchFiscalYears,
     handleErrorResponse,
     orderErrorModalShow,
     toggleDeletePieces,
@@ -438,6 +443,7 @@ const PO = ({
             type: 'success',
           });
           refreshList();
+          refetchFiscalYears();
 
           return refetch();
         },
@@ -453,6 +459,7 @@ const PO = ({
     orderNumber,
     refreshList,
     refetch,
+    refetchFiscalYears,
     handleErrorResponse,
     orderErrorModalShow,
   ]);
@@ -473,6 +480,7 @@ const PO = ({
             type: 'success',
           });
           refreshList();
+          refetchFiscalYears();
 
           return refetch();
         },
@@ -483,6 +491,7 @@ const PO = ({
       .finally(() => setIsLoading(false));
   }, [
     refetch,
+    refetchFiscalYears,
     handleErrorResponse,
     order,
     orderErrorModalShow,
