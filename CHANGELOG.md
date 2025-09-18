@@ -33,6 +33,7 @@
 * Correcting the behavior of drop-down menu and checkbox in Settings > Orders > Number generator options. Refs UIOR-1464.
 * Allow user to view PO value for any related fiscal year. Refs UIOR-1308.
 * Display "Receipt date" value without applying active timezone. Refs UIOR-1473.
+* Prevent editing locations for pending "synchronized" PO Line with related received pieces. Refs UIOR-1418.
 * Refactor the PO Line form to apply the template through initial form values. Refs UIOR-1461.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)

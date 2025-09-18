@@ -5,6 +5,7 @@ import {
   RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../common/constants';
 import {
   isWorkflowStatusClosed,
   isWorkflowStatusOpen,
@@ -214,4 +215,12 @@ export const getPoLineFieldsLabelMap = ({
     'eresource.userLimit': 'ui-orders.eresource.userLimit',
     'eresource.resourceUrl': 'ui-orders.eresource.url',
   };
+};
+
+export const isSynchronizedReceivingWorkflow = (poLine) => {
+  return poLine[POL_FORM_FIELDS.checkinItems] === false;
+};
+
+export const isIndependentReceivingWorkflow = (poLine) => {
+  return poLine[POL_FORM_FIELDS.checkinItems] === true;
 };

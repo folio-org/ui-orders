@@ -11,10 +11,13 @@ import {
   getCreateInventory,
   getPoLineFieldsLabelMap,
   isCancelableLine,
+  isIndependentReceivingWorkflow,
   isOrderLineCancelled,
+  isSynchronizedReceivingWorkflow,
   setPaymentStatus,
   setReceiptStatus,
 } from './utils';
+import { POL_FORM_FIELDS } from '../../common/constants';
 
 describe('isCancelableLine', () => {
   describe('isOrderLineCancelled', () => {
@@ -189,5 +192,21 @@ describe('getPoLineFieldsLabelMap', () => {
         'cost.quantityElectronic': 'ui-orders.cost.quantityElectronic',
       }),
     );
+  });
+});
+
+describe('Receiving workflow', () => {
+  it('should check if the PO Line receiving workflow is synchronized', () => {
+    const poLine = { [POL_FORM_FIELDS.checkinItems]: false };
+
+    expect(isSynchronizedReceivingWorkflow(poLine)).toBeTruthy();
+    expect(isIndependentReceivingWorkflow(poLine)).toBeFalsy();
+  });
+
+  it('should check if the PO Line receiving workflow is independent', () => {
+    const poLine = { [POL_FORM_FIELDS.checkinItems]: true };
+
+    expect(isSynchronizedReceivingWorkflow(poLine)).toBeFalsy();
+    expect(isIndependentReceivingWorkflow(poLine)).toBeTruthy();
   });
 });
