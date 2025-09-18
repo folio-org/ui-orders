@@ -263,7 +263,7 @@ function POLineForm({
 
   const getPaneFooter = () => {
     const isSubmitBtnDisabled = !enableSaveBtn && (
-      (pristine && !templateValue?.id)
+      (pristine && !templateValue?.id) // A user could use an ultimate template with no changes required to save
       || submitting
       || isExpenseClassProcessing
     );

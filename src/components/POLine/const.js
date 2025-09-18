@@ -105,21 +105,3 @@ export const SUBMIT_ACTION = {
   saveAndKeepEditing: 'saveAndKeepEditing',
   saveAndOpen: 'saveAndOpen',
 };
-
-export const GAME_CHANGER_FIELDS = {
-  FIRST_PHASE: [
-    POL_FORM_FIELDS.isPackage,
-    POL_FORM_FIELDS.orderFormat,
-    POL_FORM_FIELDS.checkinItems,
-    POL_FORM_FIELDS.packagePoLineId,
-    POL_FORM_FIELDS.instanceId,
-    POL_FORM_FIELDS.acquisitionMethod,
-    POL_FORM_FIELDS.receiptStatus,
-    POL_FORM_FIELDS.isBinderyActive,
-  ],
-  SECOND_PHASE: [
-    POL_FORM_FIELDS.fundDistribution,
-    POL_FORM_FIELDS.donorOrganizationIds,
-    POL_FORM_FIELDS.locations,
-  ],
-};
