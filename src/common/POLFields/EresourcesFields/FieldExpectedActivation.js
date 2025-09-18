@@ -1,13 +1,14 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { FieldDatepickerFinal } from '@folio/stripes-acq-components';
+
+import { POL_FORM_FIELDS } from '../../constants';
 
 const FieldExpectedActivation = (props) => {
   return (
     <FieldDatepickerFinal
       label={<FormattedMessage id="ui-orders.eresource.expectedActivation" />}
-      name="eresource.expectedActivation"
+      name={POL_FORM_FIELDS.eresourceExpectedActivation}
       {...props}
     />
   );

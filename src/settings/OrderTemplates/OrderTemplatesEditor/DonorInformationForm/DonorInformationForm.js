@@ -1,6 +1,5 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { Loading } from '@folio/stripes/components';
 import {
@@ -9,8 +8,8 @@ import {
   useFunds,
 } from '@folio/stripes-acq-components';
 
-import { useManageDonorOrganizationIds } from '../../../../components/POLine/hooks';
 import { POL_FORM_FIELDS } from '../../../../common/constants';
+import { useManageDonorOrganizationIds } from '../../../../components/POLine/hooks';
 
 const DonorInformationForm = ({ formValues, fundDistribution }) => {
   const initialDonorOrganizationIds = get(formValues, POL_FORM_FIELDS.donorOrganizationIds, []);
@@ -37,7 +36,7 @@ const DonorInformationForm = ({ formValues, fundDistribution }) => {
   return (
     <Donors
       donorOrganizationIds={donorOrganizationIds}
-      name="donorOrganizationIds"
+      name={POL_FORM_FIELDS.donorOrganizationIds}
       onChange={setDonorIds}
       onRemove={onDonorRemove}
     />

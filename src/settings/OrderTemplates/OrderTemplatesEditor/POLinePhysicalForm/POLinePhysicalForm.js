@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -7,11 +6,12 @@ import {
 } from '@folio/stripes/components';
 import { VisibilityControl } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../../../common/constants';
 import {
+  FieldExpectedReceiptDate,
   FieldMaterialSupplier,
   FieldMaterialType,
   FieldReceiptDue,
-  FieldExpectedReceiptDate,
   FieldsVolume,
 } from '../../../../common/POLFields';
 import InventoryRecordTypeSelectField from '../../../InventoryRecordTypeSelectField';
@@ -54,7 +54,7 @@ const POLinePhysicalForm = ({ materialTypes, change, formValues }) => {
           <VisibilityControl name="hiddenFields.physical.createInventory">
             <InventoryRecordTypeSelectField
               label="ui-orders.physical.createInventory"
-              name="physical.createInventory"
+              name={POL_FORM_FIELDS.physicalCreateInventory}
               disabled={formValues?.details?.isBinderyActive}
             />
           </VisibilityControl>
@@ -67,7 +67,7 @@ const POLinePhysicalForm = ({ materialTypes, change, formValues }) => {
           <VisibilityControl name="hiddenFields.physical.materialType">
             <FieldMaterialType
               materialTypes={materialTypes}
-              name="physical.materialType"
+              name={POL_FORM_FIELDS.physicalMaterialType}
             />
           </VisibilityControl>
         </Col>

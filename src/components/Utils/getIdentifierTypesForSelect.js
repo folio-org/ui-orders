@@ -1,10 +1,4 @@
-import { get } from 'lodash';
-
-import { DICT_IDENTIFIER_TYPES } from '@folio/stripes-acq-components';
-
-import {
-  PRODUCT_ID_TYPE,
-} from '../../common/constants';
+import { PRODUCT_ID_TYPE } from '../../common/constants';
 
 const ALLOWED_RES_ID_TYPE_NAMES = [
   PRODUCT_ID_TYPE.asin,
@@ -23,7 +17,7 @@ const ALLOWED_RES_ID_TYPE_NAMES = [
   PRODUCT_ID_TYPE.urn,
 ];
 
-export default (resources) => get(resources, [DICT_IDENTIFIER_TYPES, 'records'], [])
+export default (identifierTypes = []) => identifierTypes
   .filter(({ name }) => ALLOWED_RES_ID_TYPE_NAMES.includes(name))
   .map(({ id, name }) => ({
     label: name,

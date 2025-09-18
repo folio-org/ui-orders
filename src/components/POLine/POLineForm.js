@@ -2,8 +2,6 @@ import flow from 'lodash/flow';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import keyBy from 'lodash/keyBy';
-import pick from 'lodash/pick';
-import uniq from 'lodash/uniq';
 
 import PropTypes from 'prop-types';
 import {
@@ -23,8 +21,7 @@ import {
   FundDistributionFieldsFinal,
   handleKeyCommand,
   IfFieldVisible,
-  RECEIPT_STATUS,
-  useFunds,
+  selectOptionsShape,
   useInstanceHoldingsQuery,
 } from '@folio/stripes-acq-components';
 import {
@@ -40,6 +37,8 @@ import {
   HasCommand,
   Icon,
   IconButton,
+  KeyValue,
+  Layout,
   LoadingPane,
   MenuSection,
   Pane,
@@ -47,7 +46,6 @@ import {
   PaneMenu,
   Paneset,
   Row,
-  Selection,
 } from '@folio/stripes/components';
 import {
   stripesShape,
@@ -82,85 +80,73 @@ import {
   omitFieldArraysAsyncErrors,
   withUniqueFieldArrayItemKeys,
 } from '../../common/utils';
-import LocationForm from './Location/LocationForm';
-import { EresourcesForm } from './Eresources';
-import { PhysicalForm } from './Physical';
-import { POLineDetailsForm } from './POLineDetails';
-import { VendorForm } from './Vendor';
-import { CostForm } from './Cost';
-import { ItemForm } from './Item';
-import { OtherForm } from './Other';
-import { OngoingOrderForm } from './OngoingOrder';
+import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
+import { getOrderTemplateLabel } from '../Utils/getOrderTemplatesForSelect';
+import calculateEstimatedPrice from './calculateEstimatedPrice';
 import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
-  POL_TEMPLATE_FIELDS_MAP,
   SUBMIT_ACTION,
 } from './const';
-import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
-import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
-import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
-import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
-import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
-import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
-import calculateEstimatedPrice from './calculateEstimatedPrice';
+import { CostForm } from './Cost';
+import { EresourcesForm } from './Eresources';
 import {
   useExpenseClassChange,
   useManageDonorOrganizationIds,
 } from './hooks';
-import { createPOLDataFromInstance } from './Item/util';
+import { ItemForm } from './Item';
+import LocationForm from './Location/LocationForm';
+import { OngoingOrderForm } from './OngoingOrder';
+import { OtherForm } from './Other';
+import { PhysicalForm } from './Physical';
+import { POLineDetailsForm } from './POLineDetails';
+import { VendorForm } from './Vendor';
 
-const GAME_CHANGER_FIELDS = [
-  POL_FORM_FIELDS.isPackage,
-  POL_FORM_FIELDS.orderFormat,
-  POL_FORM_FIELDS.checkinItems,
-  POL_FORM_FIELDS.packagePoLineId,
-  POL_FORM_FIELDS.instanceId,
-];
-const GAME_CHANGER_TIMEOUT = 50;
+const defaultProps = {
+  integrationConfigs: [],
+  isCreateFromInstance: false,
+  vendor: {},
+};
 
 function POLineForm({
   centralOrdering,
-  form: { change, batch, getRegisteredFields },
-  form,
-  initialValues,
-  onCancel,
-  order,
-  parentResources,
-  stripes,
-  vendor = {},
-  pristine,
-  submitting,
-  handleSubmit,
-  isSaveAndOpenButtonVisible,
-  values: formValues,
+  contributorNameTypeOptions,
+  createInventorySetting,
   enableSaveBtn,
+  form,
+  form: { change, batch },
+  funds: fundsRecords,
+  handleSubmit,
+  identifierTypeOptions,
+  initialValues,
+  integrationConfigs = defaultProps.integrationConfigs,
+  isCreateFromInstance = defaultProps.isCreateFromInstance,
+  isSaveAndOpenButtonVisible,
   linesLimit,
   locations,
-  integrationConfigs = [],
-  instance,
-  isCreateFromInstance = false,
+  materialTypeOptions,
+  onCancel,
+  order,
+  pristine,
+  stripes,
+  submitting,
+  templateValue,
+  values: formValues,
+  vendor = defaultProps.vendor,
 }) {
   const history = useHistory();
 
   const [hiddenFields, setHiddenFields] = useState({});
-  const [isCustomFieldsLoaded, setIsCustomFieldsLoaded] = useState(false);
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
 
   const accordionStatusRef = useRef();
 
-  const identifierTypes = getIdentifierTypesForSelect(parentResources);
   const lineId = get(initialValues, 'id');
   const initialDonorOrganizationIds = get(initialValues, POL_FORM_FIELDS.donorOrganizationIds, []);
   const fundDistribution = get(formValues, POL_FORM_FIELDS.fundDistribution, []);
   const lineLocations = get(formValues, POL_FORM_FIELDS.locations, []);
   const instanceId = formValues.instanceId;
-
-  const {
-    funds: fundsRecords,
-    isLoading: isFundsLoading,
-  } = useFunds();
 
   const fundsMap = useMemo(() => keyBy(fundsRecords, 'id'), [fundsRecords]);
 
@@ -202,86 +188,6 @@ function POLineForm({
       change(POL_FORM_FIELDS.donorOrganizationIds, donorOrganizationIds);
     }
   }, [change, donorOrganizationIds, shouldUpdateDonorOrganizationIds]);
-
-  const templateValue = useMemo(() => getOrderTemplateValue(parentResources, order?.template, {
-    locations,
-  }), [locations, order?.template, parentResources]);
-
-  const initialTemplateInventoryData = useMemo(() => (
-    !lineId && templateValue.id
-      ? {
-        ...pick(templateValue, [
-          POL_FORM_FIELDS.instanceId,
-          POL_FORM_FIELDS.titleOrPackage,
-          POL_FORM_FIELDS.publisher,
-          POL_FORM_FIELDS.publicationDate,
-          POL_FORM_FIELDS.edition,
-          POL_FORM_FIELDS.contributors,
-          `${POL_FORM_FIELDS.details}.productIds`,
-        ]),
-      }
-      : {}
-  ), [lineId, templateValue]);
-
-  const initialInventoryData = useMemo(() => (
-    isCreateFromInstance
-      ? createPOLDataFromInstance(instance, identifierTypes)
-      : initialTemplateInventoryData
-  ), [identifierTypes, initialTemplateInventoryData, instance, isCreateFromInstance]);
-
-  const populateFieldsFromTemplate = useCallback((fields) => {
-    const setDonorIdsFromTemplate = (donorIds) => {
-      setDonorIds((prev) => uniq([...prev, ...donorIds]));
-    };
-
-    batch(() => {
-      fields.forEach(field => {
-        const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
-        const templateFieldValue = get(templateValue, templateField);
-
-        if (field === POL_FORM_FIELDS.receiptStatus && templateFieldValue === RECEIPT_STATUS.receiptNotRequired) {
-          change(POL_FORM_FIELDS.checkinItems, true);
-        }
-
-        if (field === POL_FORM_FIELDS.donorOrganizationIds && Array.isArray(templateFieldValue)) {
-          change(field, templateFieldValue);
-          setDonorIdsFromTemplate(templateFieldValue);
-        }
-
-        if (templateFieldValue !== undefined) change(field, templateFieldValue);
-      });
-    });
-  }, [batch, change, setDonorIds, templateValue]);
-
-  const applyInitialInventoryData = useCallback(() => {
-    batch(() => {
-      change(POL_FORM_FIELDS.isPackage, false);
-
-      Object.keys(initialInventoryData).forEach(field => {
-        if (field === 'productIds') {
-          change(`${POL_FORM_FIELDS.details}.${field}`, initialInventoryData[field]);
-        } else change(field, initialInventoryData[field]);
-      });
-    });
-  }, [batch, change, initialInventoryData]);
-
-  /*
-    Populate field values for new PO Line from a template if it exist and custom fields are loaded.
-    First, the values of the fields are set, which, when changed, change other fields.
-  */
-
-  useEffect(() => {
-    if (!lineId && templateValue.id && isCustomFieldsLoaded) {
-      setTimeout(() => populateFieldsFromTemplate(GAME_CHANGER_FIELDS));
-      setTimeout(() => populateFieldsFromTemplate(getRegisteredFields()), GAME_CHANGER_TIMEOUT);
-    }
-  }, [populateFieldsFromTemplate, getRegisteredFields, lineId, templateValue, isCustomFieldsLoaded]);
-
-  useEffect(() => {
-    if (isCreateFromInstance) {
-      setTimeout(() => { applyInitialInventoryData(); }, GAME_CHANGER_TIMEOUT);
-    }
-  }, [applyInitialInventoryData, isCreateFromInstance]);
 
   useEffect(() => {
     setHiddenFields(templateValue?.hiddenFields || {});
@@ -357,7 +263,7 @@ function POLineForm({
 
   const getPaneFooter = () => {
     const isSubmitBtnDisabled = !enableSaveBtn && (
-      pristine
+      (pristine && !templateValue?.id) // A user could use an ultimate template with no changes required to save
       || submitting
       || isExpenseClassProcessing
     );
@@ -465,10 +371,6 @@ function POLineForm({
     }
   };
 
-  const handleCustomFieldsLoaded = () => {
-    setIsCustomFieldsLoaded(true);
-  };
-
   const instanceHoldingsMap = useMemo(() => {
     return keyBy(instanceHoldings, 'id');
   }, [instanceHoldings]);
@@ -538,19 +440,21 @@ function POLineForm({
     },
   ];
 
-  const isLoading = !initialValues || isFundsLoading;
+  const isLoading = !initialValues;
 
   if (isLoading) {
-    return <LoadingPane defaultWidth="fill" onClose={onCancel} />;
+    return (
+      <LoadingPane
+        defaultWidth="fill"
+        onClose={onCancel}
+      />
+    );
   }
 
   const orderFormat = get(formValues, POL_FORM_FIELDS.orderFormat);
   const showEresources = isEresource(orderFormat);
   const showPhresources = isPhresource(orderFormat);
   const showOther = isOtherResource(orderFormat);
-  const materialTypes = getMaterialTypesForSelect(parentResources);
-  const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
-  const orderTemplates = getOrderTemplatesForSelect(parentResources);
   const locationIds = locations?.map(({ id }) => id);
   const isDisabledToChangePaymentInfo = ifDisabledToChangePaymentInfo(order);
   const estimatedPrice = calculateEstimatedPrice(formValues);
@@ -590,24 +494,17 @@ function POLineForm({
                         </Row>
                       </Col>
 
-                      <Col xs={12} md={8}>
-                        <Row>
-                          <Col xs={4}>
-                            <FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name">
-                              {(translatedLabel) => (
-                                <Selection
-                                  dataOptions={orderTemplates}
-                                  label={translatedLabel}
-                                  value={order.template}
-                                  disabled
-                                />
-                              )}
-                            </FormattedMessage>
-                          </Col>
-                        </Row>
-                      </Col>
+                      <Col
+                        xs={12}
+                        md={8}
+                      >
+                        <Layout className="textLeft">
+                          <KeyValue
+                            label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                            value={getOrderTemplateLabel(templateValue)}
+                          />
+                        </Layout>
 
-                      <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                         <AccordionSet
                           initialStatus={INITIAL_SECTIONS}
                           accordionStatus={{ ...status, ...errorAccordionStatus }}
@@ -621,11 +518,11 @@ function POLineForm({
                             <ItemForm
                               formValues={formValues}
                               order={order}
-                              contributorNameTypes={contributorNameTypes}
+                              contributorNameTypes={contributorNameTypeOptions}
                               change={change}
                               batch={batch}
-                              identifierTypes={identifierTypes}
-                              initialValues={{ ...initialValues, ...initialInventoryData }}
+                              identifierTypes={identifierTypeOptions}
+                              initialValues={initialValues}
                               stripes={stripes}
                               hiddenFields={hiddenFields}
                               isCreateFromInstance={isCreateFromInstance}
@@ -638,10 +535,10 @@ function POLineForm({
                           >
                             <POLineDetailsForm
                               change={change}
+                              createInventorySetting={createInventorySetting}
                               formValues={formValues}
                               initialValues={initialValues}
                               order={order}
-                              parentResources={parentResources}
                               vendor={vendor}
                               hiddenFields={hiddenFields}
                               integrationConfigs={integrationConfigs}
@@ -747,7 +644,7 @@ function POLineForm({
                               id={ACCORDION_ID.physical}
                             >
                               <PhysicalForm
-                                materialTypes={materialTypes}
+                                materialTypes={materialTypeOptions}
                                 order={order}
                                 formValues={formValues}
                                 change={change}
@@ -761,7 +658,7 @@ function POLineForm({
                               id={ACCORDION_ID.eresources}
                             >
                               <EresourcesForm
-                                materialTypes={materialTypes}
+                                materialTypes={materialTypeOptions}
                                 order={order}
                                 formValues={formValues}
                                 change={change}
@@ -775,7 +672,7 @@ function POLineForm({
                               id={ACCORDION_ID.other}
                             >
                               <OtherForm
-                                materialTypes={materialTypes}
+                                materialTypes={materialTypeOptions}
                                 order={order}
                                 formValues={formValues}
                                 change={change}
@@ -793,7 +690,6 @@ function POLineForm({
                               fieldComponent={Field}
                               finalFormCustomFieldsValues={customFieldsValues}
                               configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
-                              onComponentLoad={handleCustomFieldsLoaded}
                             />
                           </IfFieldVisible>
                         </AccordionSet>
@@ -814,19 +710,23 @@ function POLineForm({
 
 POLineForm.propTypes = {
   centralOrdering: PropTypes.bool,
-  initialValues: PropTypes.object,
-  handleSubmit: PropTypes.func.isRequired,
-  stripes: stripesShape.isRequired,
-  onCancel: PropTypes.func,
-  order: PropTypes.object.isRequired,
-  pristine: PropTypes.bool,
-  submitting: PropTypes.bool,
-  parentResources: PropTypes.object,
-  form: PropTypes.object.isRequired,
-  vendor: PropTypes.object,
-  isSaveAndOpenButtonVisible: PropTypes.bool,
-  values: PropTypes.object.isRequired,
+  contributorNameTypeOptions: selectOptionsShape.isRequired,
+  createInventorySetting: PropTypes.shape({
+    eresource: PropTypes.string,
+    physical: PropTypes.string,
+    other: PropTypes.string,
+  }).isRequired,
   enableSaveBtn: PropTypes.bool,
+  form: PropTypes.object.isRequired,
+  funds: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  })),
+  handleSubmit: PropTypes.func.isRequired,
+  identifierTypeOptions: selectOptionsShape,
+  initialValues: PropTypes.object,
+  integrationConfigs: PropTypes.arrayOf(PropTypes.object),
+  isCreateFromInstance: PropTypes.bool,
+  isSaveAndOpenButtonVisible: PropTypes.bool,
   linesLimit: PropTypes.number.isRequired,
   locations: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -837,9 +737,20 @@ POLineForm.propTypes = {
     libraryId: PropTypes.string.isRequired,
     tenantId: PropTypes.string,
   })).isRequired,
-  integrationConfigs: PropTypes.arrayOf(PropTypes.object),
-  instance: PropTypes.object,
-  isCreateFromInstance: PropTypes.bool,
+  materialTypeOptions: selectOptionsShape,
+  onCancel: PropTypes.func,
+  order: PropTypes.object.isRequired,
+  pristine: PropTypes.bool,
+  stripes: stripesShape.isRequired,
+  submitting: PropTypes.bool,
+  templateValue: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    templateCode: PropTypes.string,
+    templateName: PropTypes.string.isRequired,
+    hiddenFields: PropTypes.shape({}),
+  }),
+  values: PropTypes.object.isRequired,
+  vendor: PropTypes.object,
 };
 
 export default flow(

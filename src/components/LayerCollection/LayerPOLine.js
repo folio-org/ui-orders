@@ -1,3 +1,6 @@
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import {
   useCallback,
@@ -9,11 +12,6 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import {
-  cloneDeep,
-  get,
-  omit,
-} from 'lodash';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
@@ -24,7 +22,9 @@ import {
   ErrorModal,
   LoadingView,
 } from '@folio/stripes/components';
+import { useCustomFields } from '@folio/stripes/smart-components';
 import {
+  CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getConfigSetting,
@@ -32,8 +32,8 @@ import {
   materialTypesManifest,
   ORDER_FORMATS,
   ResponseErrorsContainer,
-  sourceValues,
   useCentralOrderingContext,
+  useFunds,
   useIntegrationConfigs,
   useLocationsQuery,
   useModalToggle,
@@ -42,6 +42,7 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  ENTITY_TYPE_PO_LINE,
   ERROR_CODES,
   PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE,
   SUBMIT_ACTION_FIELD,
@@ -54,6 +55,7 @@ import {
   useOpenOrderSettings,
   useOrder,
   useOrderLine,
+  useOrderTemplate,
   useTitleMutation,
 } from '../../common/hooks';
 import {
@@ -62,10 +64,7 @@ import {
   validateDuplicateLines,
 } from '../../common/utils';
 import DuplicateLinesModal from '../../common/DuplicateLinesModal';
-import {
-  DISCOUNT_TYPE,
-  SUBMIT_ACTION,
-} from '../POLine/const';
+import { SUBMIT_ACTION } from '../POLine/const';
 import {
   cloneOrder,
   updateOrderResource,
@@ -78,12 +77,18 @@ import {
   IDENTIFIER_TYPES,
   ORDER_LINES,
   ORDER_NUMBER,
-  ORDER_TEMPLATES,
   ORDERS,
 } from '../Utils/resources';
-import { POLineForm } from '../POLine';
+import {
+  buildInitialPOLineFormValues,
+  POLineForm,
+} from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import ModalDeletePieces from '../ModalDeletePieces';
+import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
+import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
+import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
+import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 const parseErrorMessage = (code) => {
   let messageCode;
@@ -112,6 +117,15 @@ const handleVendorLoadingError = async (response, sendCallout) => {
       message: <FormattedMessage id={`ui-orders.${message}`} defaultMessage={message} />,
       type: 'error',
     });
+  }
+};
+
+const formatPOLineBeforeSaving = (line) => {
+  switch (line.orderFormat) {
+    case ORDER_FORMATS.electronicResource: return omit(line, 'physical');
+    case ORDER_FORMATS.physicalResource:
+    case ORDER_FORMATS.other: return omit(line, 'eresource');
+    default: return line;
   }
 };
 
@@ -145,6 +159,7 @@ function LayerPOLine({
 
   const locationStateInstanceId = locationState?.instanceId;
   const isCreateFromInstance = Boolean(locationStateInstanceId);
+  const differentAccountsModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
 
   const { mutateTitle } = useTitleMutation();
 
@@ -192,15 +207,44 @@ function LayerPOLine({
     isLoading: isLocationsLoading,
     locations,
   } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
+
+  const {
+    isFetching: isOrderTemplateFetching,
+    orderTemplate: rawTemplate,
+  } = useOrderTemplate(order?.template);
+
+  const [
+    customFields,
+    isCustomFieldsLoading,
+  ] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_PO_LINE);
+
+  const {
+    funds,
+    isLoading: isFundsLoading,
+  } = useFunds();
   /*  */
 
   const { isOpenOrderEnabled, isDuplicateCheckDisabled } = openOrderSettings;
+
+  /* Parse resources */
   const { isApprovalRequired } = getConfigSetting(get(resources, 'approvalsSetting.records', {}));
-  const createInventory = resources?.createInventory?.records;
-  const isOrderApproved = isApprovalRequired ? order?.approved : true;
-  const differentAccountsModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
+  const createInventory = useMemo(() => resources?.createInventory?.records, [resources?.createInventory?.records]);
   const createInventorySetting = useMemo(() => getCreateInventorySetting(createInventory), [createInventory]);
 
+  const identifierTypeOptions = useMemo(() => {
+    return getIdentifierTypesForSelect(resources?.identifierTypes?.records);
+  }, [resources?.identifierTypes?.records]);
+
+  const materialTypeOptions = useMemo(() => {
+    return getMaterialTypesForSelect(resources?.materialTypes?.records);
+  }, [resources?.materialTypes?.records]);
+
+  const contributorNameTypeOptions = useMemo(() => {
+    return getContributorNameTypesForSelect(resources?.contributorNameTypes?.records);
+  }, [resources?.contributorNameTypes?.records]);
+  /*  */
+
+  const isOrderApproved = isApprovalRequired ? order?.approved : true;
   const isSaveAndOpenButtonVisible = (
     isOpenOrderEnabled &&
     isOrderApproved &&
@@ -222,7 +266,7 @@ function LayerPOLine({
     setIsValidateDuplicateLines(!isDuplicateCheckDisabled);
   }, [isDuplicateCheckDisabled]);
 
-  const openLineLimitExceededModal = useCallback(line => {
+  const openLineLimitExceededModal = useCallback((line) => {
     setIsLinesLimitExceededModalOpened(true);
     setSavingValues(line);
   }, []);
@@ -232,47 +276,44 @@ function LayerPOLine({
     setSavingValues();
   }, []);
 
-  const handleErrorResponse = useCallback(
-    async (e, line) => {
-      let response;
+  const handleErrorResponse = useCallback(async (e, line) => {
+    let response;
 
-      try {
-        response = await e.json();
-      } catch (parsingException) {
-        response = e;
-      }
+    try {
+      response = await e.json();
+    } catch (parsingException) {
+      response = e;
+    }
 
-      if (response?.errors?.length) {
-        if (response.errors.find(el => el.code === ERROR_CODES.polLimitExceeded)) {
-          openLineLimitExceededModal(line);
-        } else if (response.errors.find(el => el.code === ERROR_CODES.piecesNeedToBeDeleted)) {
-          toggleDeletePieces();
-        } else {
-          let messageCode = get(ERROR_CODES, response.errors[0].code);
-
-          if (!messageCode) {
-            messageCode = parseErrorMessage(response.errors[0].message);
-          }
-
-          sendCallout({
-            message: (
-              <FormattedMessage
-                id={`ui-orders.errors.${messageCode}`}
-                defaultMessage={intl.formatMessage({ id: 'ui-orders.errors.orderLineGenericError' })}
-              />
-            ),
-            type: 'error',
-          });
-        }
+    if (response?.errors?.length) {
+      if (response.errors.find(el => el.code === ERROR_CODES.polLimitExceeded)) {
+        openLineLimitExceededModal(line);
+      } else if (response.errors.find(el => el.code === ERROR_CODES.piecesNeedToBeDeleted)) {
+        toggleDeletePieces();
       } else {
+        let messageCode = get(ERROR_CODES, response.errors[0].code);
+
+        if (!messageCode) {
+          messageCode = parseErrorMessage(response.errors[0].message);
+        }
+
         sendCallout({
-          message: <FormattedMessage id="ui-orders.errors.orderLineGenericError" />,
+          message: (
+            <FormattedMessage
+              id={`ui-orders.errors.${messageCode}`}
+              defaultMessage={intl.formatMessage({ id: 'ui-orders.errors.orderLineGenericError' })}
+            />
+          ),
           type: 'error',
         });
       }
-    },
-    [intl, openLineLimitExceededModal, sendCallout, toggleDeletePieces],
-  );
+    } else {
+      sendCallout({
+        message: <FormattedMessage id="ui-orders.errors.orderLineGenericError" />,
+        type: 'error',
+      });
+    }
+  }, [intl, openLineLimitExceededModal, sendCallout, toggleDeletePieces]);
 
   const openOrder = useCallback((newLine = {}) => {
     const exportAccountNumbers = getExportAccountNumbers([...order.poLines, newLine]);
@@ -311,15 +352,6 @@ function LayerPOLine({
         throw errorResponse;
       });
   }, [mutator.lineOrder, order, sendCallout]);
-
-  const formatPOLineBeforeSaving = (line) => {
-    switch (line.orderFormat) {
-      case ORDER_FORMATS.electronicResource: return omit(line, 'physical');
-      case ORDER_FORMATS.physicalResource:
-      case ORDER_FORMATS.other: return omit(line, 'eresource');
-      default: return line;
-    }
-  };
 
   const submitPOLine = useCallback(async (lineValues) => {
     const {
@@ -361,8 +393,6 @@ function LayerPOLine({
           break;
         }
         case SUBMIT_ACTION.saveAndKeepEditing: {
-          await refetch();
-
           pathname = `/orders/view/${id}/po-line/edit/${savedLine.id}`;
           break;
         }
@@ -419,56 +449,52 @@ function LayerPOLine({
   }, [
     isValidateDuplicateLines,
     mutator,
-    isCreateFromInstance,
     id,
     sendCallout,
     history,
     search,
+    isCreateFromInstance,
     openOrder,
     locationStateInstanceId,
-    refetch,
     mutateTitle,
     handleErrorResponse,
     toggleNotUnique,
     toggleDifferentAccountModal,
   ]);
 
-  const createNewOrder = useCallback(
-    async () => {
-      closeLineLimitExceededModal();
-      setIsProcessing(true);
+  const createNewOrder = useCallback(async () => {
+    closeLineLimitExceededModal();
+    setIsProcessing(true);
 
-      try {
-        const newOrder = await cloneOrder(
-          order,
-          mutator.lineOrder,
-          memoizedMutator.orderNumber,
-          savingValues && [savingValues],
-        );
+    try {
+      const newOrder = await cloneOrder(
+        order,
+        mutator.lineOrder,
+        memoizedMutator.orderNumber,
+        savingValues && [savingValues],
+      );
 
-        history.push({
-          pathname: `/orders/view/${newOrder.id}`,
-          search,
-        });
-      } catch (e) {
-        setIsProcessing(false);
-        sendCallout({
-          message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
-          type: 'error',
-        });
-      }
-    },
-    [
-      closeLineLimitExceededModal,
-      history,
-      mutator.lineOrder,
-      memoizedMutator.orderNumber,
-      order,
-      savingValues,
-      search,
-      sendCallout,
-    ],
-  );
+      history.push({
+        pathname: `/orders/view/${newOrder.id}`,
+        search,
+      });
+    } catch (e) {
+      setIsProcessing(false);
+      sendCallout({
+        message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
+        type: 'error',
+      });
+    }
+  }, [
+    closeLineLimitExceededModal,
+    history,
+    mutator.lineOrder,
+    memoizedMutator.orderNumber,
+    order,
+    savingValues,
+    search,
+    sendCallout,
+  ]);
 
   const onCancel = useCallback(() => {
     const pathname = lineId
@@ -562,58 +588,9 @@ function LayerPOLine({
     updatePOLine(savingValues);
   }, [savingValues, updatePOLine]);
 
-  const getCreatePOLIneInitialValues = useMemo(() => {
-    const orderId = order?.id;
-    // Get the vendor's latest currency as default
-    const vendorPreferredCurrency = vendor?.vendorCurrencies?.slice(-1)[0];
-
-    const newObj = {
-      claimingActive: false,
-      claimingInterval: vendor?.claimingInterval,
-      source: sourceValues.user,
-      cost: {
-        currency: vendorPreferredCurrency || stripes.currency,
-        discountType: DISCOUNT_TYPE.percentage,
-      },
-      vendorDetail: {
-        instructions: '',
-        vendorAccount: get(vendor, 'accounts[0].accountNo', ''),
-      },
-      details: {
-        subscriptionInterval: get(vendor, 'subscriptionInterval'),
-      },
-      purchaseOrderId: orderId,
-      eresource: {
-        createInventory: createInventorySetting.eresource,
-      },
-      physical: {
-        createInventory: createInventorySetting.physical,
-      },
-      locations: [],
-      isPackage: false,
-      checkinItems: false,
-      suppressInstanceFromDiscovery: instance?.discoverySuppress || false,
-    };
-
-    if (vendor?.id) {
-      newObj.eresource.accessProvider = vendor.id;
-      newObj.physical.materialSupplier = vendor.id;
-
-      if (vendor?.discountPercent) {
-        newObj.cost.discountType = DISCOUNT_TYPE.percentage;
-        newObj.cost.discount = vendor.discountPercent;
-      }
-    }
-
-    return newObj;
-  }, [
-    createInventorySetting.eresource,
-    createInventorySetting.physical,
-    instance?.discoverySuppress,
-    order?.id,
-    stripes.currency,
-    vendor,
-  ]);
+  const templateValue = useMemo(() => {
+    return getOrderTemplateValue(rawTemplate, { locations });
+  }, [locations, rawTemplate]);
 
   const isntLoaded = !(
     get(resources, 'createInventory.hasLoaded') &&
@@ -622,18 +599,50 @@ function LayerPOLine({
     get(resources, 'approvalsSetting.hasLoaded') &&
     get(resources, `${DICT_CONTRIBUTOR_NAME_TYPES}.hasLoaded`) &&
     vendor &&
-    get(resources, 'orderTemplates.hasLoaded') &&
     get(resources, `${DICT_IDENTIFIER_TYPES}.hasLoaded`) &&
     get(resources, 'materialTypes.hasLoaded') &&
     get(order, 'id') === id &&
+    !isOrderTemplateFetching &&
     !isLinesLimitLoading &&
     !isConfigsFetching &&
     !isOpenOrderSettingsFetching &&
     !isInstanceLoading &&
     !isLocationsLoading &&
     !isOrderLineLoading &&
-    !isVendorLoading
+    !isVendorLoading &&
+    !isCustomFieldsLoading &&
+    !isFundsLoading
   );
+
+  const initialValues = useMemo(() => {
+    return lineId
+      ? poLine
+      : buildInitialPOLineFormValues({
+        createInventorySetting,
+        customFields,
+        enabled: !isntLoaded, // to prevent building initial values until all necessary data is loaded
+        identifierTypeOptions,
+        instance,
+        isCreateFromInstance,
+        order,
+        stripes,
+        template: templateValue,
+        vendor,
+      });
+  }, [
+    createInventorySetting,
+    customFields,
+    identifierTypeOptions,
+    instance,
+    isCreateFromInstance,
+    isntLoaded,
+    lineId,
+    order,
+    poLine,
+    stripes,
+    templateValue,
+    vendor,
+  ]);
 
   if (isProcessing || isntLoaded) {
     return (
@@ -644,28 +653,32 @@ function LayerPOLine({
     );
   }
 
-  const initialValues = lineId ? poLine : getCreatePOLIneInitialValues;
   const onSubmit = lineId ? updatePOLine : submitPOLine;
 
   return (
     <>
       <POLineForm
+        centralOrdering={isCentralOrderingEnabled}
+        contributorNameTypeOptions={contributorNameTypeOptions}
+        createInventorySetting={createInventorySetting}
+        enableSaveBtn={Boolean(savingValues)}
+        fieldArraysToHydrate={PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE}
+        funds={funds}
+        identifierTypeOptions={identifierTypeOptions}
         initialValues={savingValues || initialValues}
+        instance={instance}
+        integrationConfigs={integrationConfigs}
+        isCreateFromInstance={isCreateFromInstance}
+        isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
+        linesLimit={linesLimit}
+        locations={locations}
+        materialTypeOptions={materialTypeOptions}
         onCancel={onCancel}
         onSubmit={onSubmit}
         order={order}
-        vendor={vendor}
-        parentResources={resources}
         stripes={stripes}
-        isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
-        enableSaveBtn={Boolean(savingValues)}
-        linesLimit={linesLimit}
-        locations={locations}
-        integrationConfigs={integrationConfigs}
-        isCreateFromInstance={isCreateFromInstance}
-        instance={instance}
-        fieldArraysToHydrate={PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE}
-        centralOrdering={isCentralOrderingEnabled}
+        templateValue={templateValue}
+        vendor={vendor}
       />
       {isLinesLimitExceededModalOpened && (
         <LinesLimit
@@ -685,14 +698,14 @@ function LayerPOLine({
         isNotUniqueOpen && (
           <DuplicateLinesModal
             duplicateLines={duplicateLines}
+            onCancel={() => {
+              toggleNotUnique();
+              setIsValidateDuplicateLines(true);
+            }}
             onSubmit={() => {
               toggleNotUnique();
               setIsValidateDuplicateLines(false);
               onSubmit(savingValues);
-            }}
-            onCancel={() => {
-              toggleNotUnique();
-              setIsValidateDuplicateLines(true);
             }}
           />
         )
@@ -701,9 +714,9 @@ function LayerPOLine({
       {isDifferentAccountModalOpened && (
         <ErrorModal
           aria-label={differentAccountsModalLabel}
+          content={<FormattedMessage id="ui-orders.differentAccounts.message" values={{ accountNumber: accountNumbers.length }} />}
           id="order-open-different-account"
           label={differentAccountsModalLabel}
-          content={<FormattedMessage id="ui-orders.differentAccounts.message" values={{ accountNumber: accountNumbers.length }} />}
           onClose={() => (lineId ? onCancel() : toggleDifferentAccountModal())}
           open
         />
@@ -722,10 +735,6 @@ LayerPOLine.manifest = Object.freeze({
   [DICT_CONTRIBUTOR_NAME_TYPES]: CONTRIBUTOR_NAME_TYPES,
   poLines: ORDER_LINES,
   createInventory: CREATE_INVENTORY,
-  orderTemplates: {
-    ...ORDER_TEMPLATES,
-    shouldRefresh: () => false,
-  },
   materialTypes: {
     ...materialTypesManifest,
     accumulate: false,
@@ -738,12 +747,12 @@ LayerPOLine.manifest = Object.freeze({
 });
 
 LayerPOLine.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
+  mutator: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
-  mutator: PropTypes.object.isRequired,
 };
 
 export default stripesConnect(LayerPOLine);

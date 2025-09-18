@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-final-form';
 
+import { POL_FORM_FIELDS } from '../../../../common/constants';
 import { FieldClaimingActive } from '../../../../common/POLFields';
 
 const POLineClaimingActive = () => {
@@ -9,7 +10,7 @@ const POLineClaimingActive = () => {
   const onClaimingActiveChange = useCallback((event) => {
     const { target: { checked } } = event;
 
-    change('claimingActive', checked);
+    change(POL_FORM_FIELDS.claimingActive, checked);
   }, [change]);
 
   return (

@@ -8,17 +8,22 @@ import {
   validateRequiredPositiveNumber,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../constants';
+
 const validate = (value, { claimingActive }) => {
   if (!claimingActive) return undefined;
 
   return validateRequired(value) || validateRequiredPositiveNumber(value);
 };
 
-export const FieldClaimingInterval = ({ disabled, required }) => {
+export const FieldClaimingInterval = ({
+  disabled = false,
+  required = false,
+}) => {
   return (
     <Field
       label={<FormattedMessage id="ui-orders.poLine.claimingInterval" />}
-      name="claimingInterval"
+      name={POL_FORM_FIELDS.claimingInterval}
       component={TextField}
       type="number"
       min={1}
@@ -29,11 +34,6 @@ export const FieldClaimingInterval = ({ disabled, required }) => {
       validateFields={[]}
     />
   );
-};
-
-FieldClaimingInterval.defaultProps = {
-  disabled: false,
-  required: false,
 };
 
 FieldClaimingInterval.propTypes = {

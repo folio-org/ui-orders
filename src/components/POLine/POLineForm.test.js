@@ -1,10 +1,14 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { MemoryRouter } from 'react-router-dom';
-import { useHistory } from 'react-router';
-import { Form } from 'react-final-form';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+import {
+  MemoryRouter,
+  useHistory,
+} from 'react-router-dom';
 
-import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import user from '@folio/jest-config-stripes/testing-library/user-event';
 import {
   collapseAllSections,
   expandAllSections,
@@ -39,11 +43,7 @@ jest.mock('@folio/stripes/components', () => ({
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
-  EditCustomFieldsRecord: jest.fn(props => {
-    props.onComponentLoad();
-
-    return 'EditCustomFieldsRecord';
-  }),
+  EditCustomFieldsRecord: jest.fn(() => 'EditCustomFieldsRecord'),
 }));
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
@@ -60,76 +60,31 @@ jest.mock('./hooks', () => ({
 }));
 
 const defaultProps = {
-  onCancel: jest.fn(),
-  form: {
-    change: jest.fn(),
-    batch: jest.fn(),
-    getRegisteredFields: jest.fn(),
-  },
+  enableSaveBtn: true,
   initialValues: {
     donorOrganizationIds: [],
     fundDistribution: [],
   },
-  onSubmit: jest.fn(),
-  handleSubmit: jest.fn(),
-  pristine: false,
-  submitting: false,
   isSaveAndOpenButtonVisible: true,
-  enableSaveBtn: true,
+  linesLimit: 3,
+  onCancel: jest.fn(),
+  onSubmit: jest.fn(),
   order: {
     ...order,
     workflowStatus: 'Pending',
     template: 'templateId',
   },
-  parentResources: {
-    createInventory: {
-      records: [{}],
-    },
-    identifierTypes: {
-      records: [{
-        id: 'id',
-        name: 'ISBN',
-      }],
-    },
-    contributorNameTypes: {
-      records: [{
-        name: 'name',
-        id: 'id',
-      }],
-    },
-    locations: {
-      records: [{
-        id: 'locationId',
-      }],
-    },
-    materialTypes: {
-      records: [{
-        records: [{
-          id: 'id',
-          name: 'name',
-        }],
-      }],
-    },
-    orderTemplates: {
-      records: [{
-        id: 'templateId',
-        label: 'label',
-        templateName: 'templateName',
-        templateCode: 'templateCode',
-        locations: [{
-          locationId: 'locationId',
-        }],
-        hiddenFields: { isPackage: true },
-      }],
-    },
-  },
-  linesLimit: 3,
-  values: {
-    orderFormat: 'P/E Mix',
-    donorOrganizationIds: [],
-    fundDistribution: [],
-  },
   stripes: {},
+  templateValue: {
+    id: 'templateId',
+    label: 'label',
+    locations: [{
+      locationId: 'locationId',
+    }],
+    templateCode: 'templateCode',
+    templateName: 'templateName',
+    hiddenFields: { isPackage: true },
+  },
 };
 
 const holdings = [
@@ -161,27 +116,21 @@ const wrapper = ({ children }) => (
 );
 
 const renderPOLineForm = (props = {}) => render(
-  <Form
-    onSubmit={jest.fn}
-    render={() => (
-      <POLineForm
-        {...defaultProps}
-        {...props}
-      />
-    )}
+  <POLineForm
+    {...defaultProps}
+    {...props}
   />,
   { wrapper },
 );
 
 describe('POLineForm', () => {
   beforeEach(() => {
-    defaultProps.form.change.mockClear();
-    useFunds
-      .mockClear()
-      .mockReturnValue({ funds });
-    useInstanceHoldingsQuery
-      .mockClear()
-      .mockReturnValue({ holdings });
+    useFunds.mockReturnValue({ funds });
+    useInstanceHoldingsQuery.mockReturnValue({ holdings });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render form items', async () => {

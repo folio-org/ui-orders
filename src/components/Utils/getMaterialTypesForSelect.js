@@ -1,6 +1,4 @@
-import { get } from 'lodash';
-
-export default (resources) => get(resources, ['materialTypes', 'records'], []).map(({ id, name }) => ({
+export default (materialTypes = []) => materialTypes.map(({ id, name }) => ({
   label: name,
   value: id,
 }));

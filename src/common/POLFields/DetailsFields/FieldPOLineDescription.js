@@ -1,8 +1,9 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import { TextArea } from '@folio/stripes/components';
+
+import { POL_FORM_FIELDS } from '../../constants';
 
 const FieldPOLineDescription = () => {
   return (
@@ -10,7 +11,7 @@ const FieldPOLineDescription = () => {
       component={TextArea}
       fullWidth
       label={<FormattedMessage id="ui-orders.poLine.poLineDescription" />}
-      name="poLineDescription"
+      name={POL_FORM_FIELDS.poLineDescription}
       validateFields={[]}
     />
   );

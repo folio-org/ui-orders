@@ -3,9 +3,19 @@
   "parser": "@babel/eslint-parser",
   "overrides": [
     {
-      "files": [ "src/**/tests/*", "test/**/*" ]
+      "files": ["src/**/tests/*", "test/**/*"]
     }
   ],
+  "rules": {
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": true
+      }
+    ]
+  },
   "settings": {
     "import/resolver": {
       "alias": {

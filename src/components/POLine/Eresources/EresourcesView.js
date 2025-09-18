@@ -1,10 +1,9 @@
-import React from 'react';
+import get from 'lodash/get';
+import moment from 'moment';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 import {
   FormattedMessage,
 } from 'react-intl';
-import moment from 'moment';
 
 import {
   Checkbox,
@@ -19,7 +18,23 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
-const EresourcesView = ({ line: { eresource }, order, materialTypes, hiddenFields }) => {
+const defaultProps = {
+  hiddenFields: {},
+  isTemplate: false,
+  line: {
+    eresource: {},
+  },
+  materialTypes: [],
+  order: {},
+};
+
+const EresourcesView = ({
+  hiddenFields = defaultProps.hiddenFields,
+  isTemplate = defaultProps.isTemplate,
+  line: { eresource } = defaultProps.line,
+  materialTypes = defaultProps.materialTypes,
+  order = defaultProps.order,
+}) => {
   const expectedActivation = get(eresource, 'expectedActivation');
   const activationDue = get(eresource, 'activationDue');
   const created = get(order, 'metadata.createdDate', '');
@@ -63,7 +78,11 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes, hiddenField
       <IfVisible visible={!hiddenFields.eresource?.activationDue}>
         <Col xs={3}>
           <KeyValue label={<FormattedMessage id="ui-orders.eresource.activationDue" />}>
-            <FolioFormattedDate value={activationDueDate} />
+            {
+              isTemplate
+                ? activationDue
+                : <FolioFormattedDate value={activationDueDate} />
+            }
           </KeyValue>
         </Col>
       </IfVisible>
@@ -127,21 +146,13 @@ const EresourcesView = ({ line: { eresource }, order, materialTypes, hiddenField
 };
 
 EresourcesView.propTypes = {
+  hiddenFields: PropTypes.object,
+  isTemplate: PropTypes.bool,
   line: PropTypes.shape({
     eresource: PropTypes.object,
   }),
   materialTypes: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object,
-  hiddenFields: PropTypes.object,
-};
-
-EresourcesView.defaultProps = {
-  materialTypes: [],
-  line: {
-    eresource: {},
-  },
-  order: {},
-  hiddenFields: {},
 };
 
 export default EresourcesView;

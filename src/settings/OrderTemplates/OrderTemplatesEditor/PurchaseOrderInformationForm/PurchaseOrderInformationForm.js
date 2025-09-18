@@ -1,9 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Row,
   Col,
+  Row,
 } from '@folio/stripes/components';
 import {
   AcqUnitsField,
@@ -11,24 +10,25 @@ import {
   VisibilityControl,
 } from '@folio/stripes-acq-components';
 
+import { PO_FORM_FIELDS } from '../../../../common/constants';
 import {
-  FieldPrefix,
-  FieldSuffix,
+  FieldAssignedTo,
   FieldBillTo,
-  FieldShipTo,
   FieldIsManualPO,
   FieldIsReEncumber,
-  FieldAssignedTo,
+  FieldPrefix,
+  FieldShipTo,
+  FieldSuffix,
 } from '../../../../common/POFields';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
 
 const PurchaseOrderInformationForm = ({
   acqUnitIds,
+  addresses,
+  change,
+  formValues,
   prefixesSetting,
   suffixesSetting,
-  addresses,
-  formValues,
-  change,
 }) => {
   return (
     <Row>
@@ -58,7 +58,7 @@ const PurchaseOrderInformationForm = ({
           change={change}
           id={formValues.vendor}
           labelId="ui-orders.orderDetails.vendor"
-          name="vendor"
+          name={PO_FORM_FIELDS.vendor}
           required={false}
         />
       </Col>
@@ -111,7 +111,7 @@ const PurchaseOrderInformationForm = ({
           <AcqUnitsField
             id="po-acq-units"
             isFinal
-            name="acqUnitIds"
+            name={PO_FORM_FIELDS.acqUnitIds}
             preselectedUnits={acqUnitIds}
           />
         </VisibilityControl>
@@ -140,11 +140,11 @@ const PurchaseOrderInformationForm = ({
 
 PurchaseOrderInformationForm.propTypes = {
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
+  addresses: PropTypes.arrayOf(PropTypes.object),
+  change: PropTypes.func.isRequired,
+  formValues: PropTypes.object.isRequired,
   prefixesSetting: PropTypes.arrayOf(PropTypes.object),
   suffixesSetting: PropTypes.arrayOf(PropTypes.object),
-  addresses: PropTypes.arrayOf(PropTypes.object),
-  formValues: PropTypes.object.isRequired,
-  change: PropTypes.func.isRequired,
 };
 
 export default PurchaseOrderInformationForm;

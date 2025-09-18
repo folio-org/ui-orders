@@ -1,9 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
-import { Checkbox, InfoPopover } from '@folio/stripes/components';
+import {
+  Checkbox,
+  InfoPopover,
+} from '@folio/stripes/components';
+
+import { POL_FORM_FIELDS } from '../../constants';
 
 const FieldAutomaticExport = ({ isManualOrder = false, ...props }) => {
   const label = (
@@ -18,7 +22,7 @@ const FieldAutomaticExport = ({ isManualOrder = false, ...props }) => {
       component={Checkbox}
       fullWidth
       label={label}
-      name="automaticExport"
+      name={POL_FORM_FIELDS.automaticExport}
       type="checkbox"
       vertical
       validateFields={[]}

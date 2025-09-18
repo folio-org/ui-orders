@@ -1,7 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FieldOrganization } from '@folio/stripes-acq-components';
+
+import { POL_FORM_FIELDS } from '../../constants';
 
 const styles = {
   wrapper: {
@@ -9,13 +10,17 @@ const styles = {
   },
 };
 
-const FieldMaterialSupplier = ({ change, disabled, materialSupplierId }) => {
+const FieldMaterialSupplier = ({
+  change,
+  disabled = false,
+  materialSupplierId,
+}) => {
   return (
     <div style={styles.wrapper}>
       <FieldOrganization
         change={change}
         labelId="ui-orders.physical.materialSupplier"
-        name="physical.materialSupplier"
+        name={POL_FORM_FIELDS.physicalMaterialSupplier}
         isNonInteractive={disabled}
         id={materialSupplierId}
         required={false}
@@ -28,10 +33,6 @@ FieldMaterialSupplier.propTypes = {
   change: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   materialSupplierId: PropTypes.string,
-};
-
-FieldMaterialSupplier.defaultProps = {
-  disabled: false,
 };
 
 export default FieldMaterialSupplier;

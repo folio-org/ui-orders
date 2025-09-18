@@ -3,6 +3,8 @@ import {
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../common/constants';
+
 export const ERESOURCES = [ORDER_FORMATS.electronicResource, ORDER_FORMATS.PEMix];
 export const PHRESOURCES = [ORDER_FORMATS.physicalResource, ORDER_FORMATS.PEMix];
 
@@ -71,8 +73,17 @@ export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [
 export const OPTION_VALUE_WITH_BINDERY_ACTIVE = INVENTORY_RECORDS_TYPE.all;
 
 export const POL_TEMPLATE_FIELDS_MAP = {
-  'tags.tagList': 'polTags.tagList',
+  'polTags.tagList': 'tags.tagList',
 };
+
+export const POL_TEMPLATE_FIELDS_LIST = Array.from(
+  new Set([
+    ...Object.values(POL_FORM_FIELDS)
+      .filter((field) => !(field in POL_TEMPLATE_FIELDS_MAP)) // exclude POL form mapped fields
+      .map((field) => field.split('.')[0]), // take only top-level fields
+    ...Object.keys(POL_TEMPLATE_FIELDS_MAP), // include POL template mapped fields
+  ]),
+);
 
 const INITIALLY_CLOSED_ACCORDION_IDS = {
   [ACCORDION_ID.donorsInformation]: true,

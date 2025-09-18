@@ -7,18 +7,27 @@ import {
 
 import { ORDER_TEMPLATES_API } from '../../../components/Utils/api';
 
-export const useOrderTemplate = (orderTemplateId) => {
-  const ky = useOkapiKy();
+const DEFAULT_DATA = {};
+
+export const useOrderTemplate = (orderTemplateId, options = {}) => {
+  const {
+    enabled = true,
+    tenantId,
+    ...queryOptions
+  } = options;
+
+  const ky = useOkapiKy({ tenant: tenantId });
   const namespace = useNamespace({ key: 'order-template' });
 
-  const { data = {}, ...rest } = useQuery(
-    [namespace, orderTemplateId],
-    ({ signal }) => ky.get(`${ORDER_TEMPLATES_API}/${orderTemplateId}`, { signal }).json(),
-    { enabled: Boolean(orderTemplateId) },
-  );
+  const { data, ...rest } = useQuery({
+    queryKey: [namespace, orderTemplateId, tenantId],
+    queryFn: ({ signal }) => ky.get(`${ORDER_TEMPLATES_API}/${orderTemplateId}`, { signal }).json(),
+    enabled: enabled && Boolean(orderTemplateId),
+    ...queryOptions,
+  });
 
   return ({
-    orderTemplate: data,
+    orderTemplate: data || DEFAULT_DATA,
     ...rest,
   });
 };

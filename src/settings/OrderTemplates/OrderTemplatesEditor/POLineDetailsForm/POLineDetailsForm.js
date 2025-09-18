@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,24 +7,24 @@ import {
 import { VisibilityControl } from '@folio/stripes-acq-components';
 
 import {
-  FieldPOLineNumber,
   FieldAcquisitionMethod,
   FieldAutomaticExport,
-  FieldClaimingInterval,
-  FieldOrderFormat,
-  FieldReceiptDate,
-  FieldDonor,
-  FieldPaymentStatus,
-  FieldReceiptStatus,
-  FieldSelector,
-  FieldCancellationRestriction,
-  FieldRush,
-  FieldCollection,
-  FieldCheckInItems,
-  FieldRequester,
-  FieldCancellationRestrictionNote,
-  FieldPOLineDescription,
   FieldBinderyActive,
+  FieldCancellationRestriction,
+  FieldCancellationRestrictionNote,
+  FieldCheckInItems,
+  FieldClaimingInterval,
+  FieldCollection,
+  FieldDonor,
+  FieldOrderFormat,
+  FieldPaymentStatus,
+  FieldPOLineDescription,
+  FieldPOLineNumber,
+  FieldReceiptDate,
+  FieldReceiptStatus,
+  FieldRequester,
+  FieldRush,
+  FieldSelector,
   isBinderyActiveDisabled,
 } from '../../../../common/POLFields';
 import POLineClaimingActive from '../POLineClaimingActive';

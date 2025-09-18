@@ -1,7 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FieldOrganization } from '@folio/stripes-acq-components';
+
+import { POL_FORM_FIELDS } from '../../constants';
 
 const styles = {
   wrapper: {
@@ -9,29 +10,31 @@ const styles = {
   },
 };
 
-const FieldAccessProvider = ({ accessProviderId, ...rest }) => {
+const FieldAccessProvider = ({
+  accessProviderId,
+  disabled = false,
+  required = false,
+  ...props
+}) => {
   return (
     <div style={styles.wrapper}>
       <FieldOrganization
-        labelId="ui-orders.eresource.accessProvider"
-        name="eresource.accessProvider"
+        disabled={disabled}
         id={accessProviderId}
-        {...rest}
+        labelId="ui-orders.eresource.accessProvider"
+        name={POL_FORM_FIELDS.eresourceAccessProvider}
+        required={required}
+        {...props}
       />
     </div>
   );
 };
 
 FieldAccessProvider.propTypes = {
+  accessProviderId: PropTypes.string,
   change: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
-  accessProviderId: PropTypes.string,
-};
-
-FieldAccessProvider.defaultProps = {
-  disabled: false,
-  required: false,
 };
 
 export default FieldAccessProvider;

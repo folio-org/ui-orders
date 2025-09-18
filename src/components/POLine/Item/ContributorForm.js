@@ -16,6 +16,8 @@ import {
   VisibilityControl,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../../common/constants';
+
 const ContributorForm = ({
   onChangeField,
   onRemoveField,
@@ -79,7 +81,7 @@ const ContributorForm = ({
     <FieldArray
       component={RepeatableFieldWithErrorMessage}
       legend={legend}
-      name="contributors"
+      name={POL_FORM_FIELDS.contributors}
       addLabel={!isEditable ? null : <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />}
       emptyMessage={!isEditable ? <NoValue /> : <FormattedMessage id="ui-orders.itemDetails.addContributor" />}
       id="contributors"

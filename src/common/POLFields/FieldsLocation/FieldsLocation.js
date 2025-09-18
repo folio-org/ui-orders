@@ -18,6 +18,7 @@ import {
   ORDER_FORMATS,
 } from '@folio/stripes-acq-components';
 
+import { POL_FORM_FIELDS } from '../../constants';
 import {
   addFieldArrayItemWithUniqueKey,
   getFieldUniqueKey,
@@ -92,7 +93,7 @@ const FieldsLocation = ({
         onAdd={addFieldArrayItemWithUniqueKey}
         addLabel={isDisabledToChangePaymentInfo ? null : <FormattedMessage id="ui-orders.location.button.addLocation" />}
         component={RepeatableFieldWithValidation}
-        name="locations"
+        name={POL_FORM_FIELDS.locations}
         validate={validateLocations}
         canAdd={!(isDisabledToChangePaymentInfo || isQuantityDisabled)}
         canRemove={!(isDisabledToChangePaymentInfo || isQuantityDisabled)}

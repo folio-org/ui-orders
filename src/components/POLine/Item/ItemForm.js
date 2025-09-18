@@ -114,14 +114,12 @@ class ItemForm extends Component {
 
     batch(() => {
       Object.keys(inventoryData).forEach(field => {
-        if (field === 'productIds') return change(`details.${field}`, inventoryData[field]);
-
-        return change(field, inventoryData[field]);
+        change(field, inventoryData[field]);
       });
     });
 
     if (formValues.instanceId && formValues.instanceId !== inventoryData.instanceId) {
-      change('locations', []);
+      change(POL_FORM_FIELDS.locations, []);
     }
 
     this.setState(({
@@ -155,7 +153,7 @@ class ItemForm extends Component {
     return new Promise((resolve, reject) => {
       this.changeItemDetailsTimeout = setTimeout(() => {
         if (shouldSetInstanceId(this.props.formValues, inventoryData)) {
-          change('instanceId', inventoryData.instanceId);
+          change(POL_FORM_FIELDS.instanceId, inventoryData.instanceId);
           resolve();
         } else if (connectedInstance) {
           this.onBreakInstanceConnection()
@@ -197,22 +195,22 @@ class ItemForm extends Component {
   }
 
   setTitleOrPackage = ({ target: { value } }) => {
-    this.safeChangeField(value, 'titleOrPackage');
+    this.safeChangeField(value, POL_FORM_FIELDS.titleOrPackage);
   };
 
   setIsPackage = () => {
     const { batch, change, formValues } = this.props;
     const isPackageValue = !formValues?.isPackage;
 
-    this.onChangeField(isPackageValue, 'isPackage')
+    this.onChangeField(isPackageValue, POL_FORM_FIELDS.isPackage)
       .then(() => {
-        change('checkinItems', isPackageValue);
+        change(POL_FORM_FIELDS.checkinItems, isPackageValue);
 
         if (isPackageValue) {
           batch(() => {
             formValues?.locations?.forEach((_, i) => {
-              change(`locations[${i}].quantityPhysical`, null);
-              change(`locations[${i}].quantityElectronic`, null);
+              change(`${POL_FORM_FIELDS.locations}[${i}].quantityPhysical`, null);
+              change(`${POL_FORM_FIELDS.locations}[${i}].quantityElectronic`, null);
             });
           });
         }
@@ -221,23 +219,27 @@ class ItemForm extends Component {
   };
 
   setPublisher = ({ target: { value } }) => {
-    this.safeChangeField(value, 'publisher');
+    this.safeChangeField(value, POL_FORM_FIELDS.publisher);
   };
 
   setPublicationDate = ({ target: { value } }) => {
-    this.safeChangeField(value || null, 'publicationDate');
+    this.safeChangeField(value || null, POL_FORM_FIELDS.publicationDate);
   };
 
   setEdition = ({ target: { value } }) => {
-    this.safeChangeField(value, 'edition');
+    this.safeChangeField(value, POL_FORM_FIELDS.edition);
   };
 
   getTitleLabel = () => {
     const { required, formValues } = this.props;
-    const instanceId = get(formValues, 'instanceId');
-    const isPackage = get(formValues, 'isPackage');
+    const instanceId = get(formValues, POL_FORM_FIELDS.instanceId);
+    const isPackage = get(formValues, POL_FORM_FIELDS.isPackage);
     const title = (
-      <Label className={css.titleLabel} required={required} tagName="div">
+      <Label
+        className={css.titleLabel}
+        required={required}
+        tagName="div"
+      >
         {
           isPackage
             ? <FormattedMessage id="ui-orders.itemDetails.packageName" />

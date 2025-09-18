@@ -1,18 +1,19 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes-acq-components';
 
-const FieldRequester = ({ disabled }) => {
+import { POL_FORM_FIELDS } from '../../constants';
+
+const FieldRequester = ({ disabled = false }) => {
   return (
     <Field
       component={TextField}
       fullWidth
       id="requester"
       label={<FormattedMessage id="ui-orders.poLine.requester" />}
-      name="requester"
+      name={POL_FORM_FIELDS.requester}
       type="text"
       isNonInteractive={disabled}
       validateFields={[]}
@@ -22,10 +23,6 @@ const FieldRequester = ({ disabled }) => {
 
 FieldRequester.propTypes = {
   disabled: PropTypes.bool,
-};
-
-FieldRequester.defaultProps = {
-  disabled: false,
 };
 
 export default FieldRequester;
