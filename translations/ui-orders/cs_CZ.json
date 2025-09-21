@@ -942,5 +942,8 @@
     "settings.poNumber.modifier.deprecated": "Zastaralé",
     "settings.poNumber.prefix.aria-label.deprecated": "Označit {name} jako zastaralé",
     "settings.poNumber.suffix.aria-label.deprecated": "Označit {name} jako zastaralé",
-    "settings.update.error": "Nepodařilo se aktualizovat nastavení."
+    "settings.update.error": "Nepodařilo se aktualizovat nastavení.",
+    "order.fiscalYear": "Fiskální rok",
+    "order.fiscalYear.current": "Současný",
+    "order.fiscalYear.previous": "Předchozí"
 }
