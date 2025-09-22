@@ -332,10 +332,7 @@ const OrderTemplatesEditor = ({
                         displayWhenOpen={donorsVisibilityControl}
                         displayWhenClosed={donorsVisibilityControl}
                       >
-                        <DonorInformationForm
-                          formValues={formValues}
-                          fundDistribution={fundDistribution}
-                        />
+                        <DonorInformationForm />
                       </Accordion>
 
                       {isOngoing(orderType) && (
