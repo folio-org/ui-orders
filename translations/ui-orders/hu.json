@@ -942,5 +942,8 @@
     "settings.poNumber.modifier.deprecated": "Deprecated",
     "settings.poNumber.prefix.aria-label.deprecated": "Mark {name} as deprecated",
     "settings.poNumber.suffix.aria-label.deprecated": "Mark {name} as deprecated",
-    "settings.update.error": "Failed to update the settings."
+    "settings.update.error": "Failed to update the settings.",
+    "order.fiscalYear": "Fiscal year",
+    "order.fiscalYear.current": "Current",
+    "order.fiscalYear.previous": "Previous"
 }
