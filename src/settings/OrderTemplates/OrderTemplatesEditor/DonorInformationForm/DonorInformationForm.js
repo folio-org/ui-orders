@@ -1,18 +1,29 @@
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
+import isEqual from 'lodash/isEqual';
+import {
+  useEffect,
+  useMemo,
+} from 'react';
+import {
+  useForm,
+  useFormState,
+} from 'react-final-form';
 
 import { Loading } from '@folio/stripes/components';
 import {
   Donors,
-  fundDistributionShape,
   useFunds,
 } from '@folio/stripes-acq-components';
 
 import { POL_FORM_FIELDS } from '../../../../common/constants';
 import { useManageDonorOrganizationIds } from '../../../../components/POLine/hooks';
 
-const DonorInformationForm = ({ formValues, fundDistribution }) => {
-  const initialDonorOrganizationIds = get(formValues, POL_FORM_FIELDS.donorOrganizationIds, []);
+const DonorInformationForm = () => {
+  const { change } = useForm();
+  const { values, initialValues } = useFormState();
+
+  const initialDonorOrganizationIds = get(initialValues, POL_FORM_FIELDS.donorOrganizationIds, []);
+  const fundDistribution = get(values, POL_FORM_FIELDS.fundDistribution, []);
 
   const {
     funds,
@@ -29,6 +40,24 @@ const DonorInformationForm = ({ formValues, fundDistribution }) => {
     initialDonorOrganizationIds,
   });
 
+  const shouldUpdateDonorOrganizationIds = useMemo(() => {
+    const hasChanged = !isEqual(donorOrganizationIds, values?.donorOrganizationIds);
+    const isFundDistributionChanged = !isEqual(fundDistribution, initialValues?.fundDistribution);
+
+    return hasChanged && isFundDistributionChanged;
+  }, [
+    donorOrganizationIds,
+    fundDistribution,
+    initialValues?.fundDistribution,
+    values?.donorOrganizationIds,
+  ]);
+
+  useEffect(() => {
+    if (shouldUpdateDonorOrganizationIds) {
+      change(POL_FORM_FIELDS.donorOrganizationIds, donorOrganizationIds);
+    }
+  }, [change, donorOrganizationIds, shouldUpdateDonorOrganizationIds]);
+
   if (isFundsLoading) {
     return <Loading />;
   }
@@ -41,11 +70,6 @@ const DonorInformationForm = ({ formValues, fundDistribution }) => {
       onRemove={onDonorRemove}
     />
   );
-};
-
-DonorInformationForm.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  fundDistribution: fundDistributionShape,
 };
 
 export default DonorInformationForm;
