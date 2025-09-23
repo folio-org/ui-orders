@@ -1,11 +1,18 @@
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { useForm } from 'react-final-form';
 
 import {
-  Row,
   Col,
+  Row,
 } from '@folio/stripes/components';
 import { VisibilityControl } from '@folio/stripes-acq-components';
 
+import {
+  PO_FORM_FIELDS,
+  POL_FORM_FIELDS,
+} from '../../../../common/constants';
 import {
   FieldAcquisitionMethod,
   FieldAutomaticExport,
@@ -13,6 +20,7 @@ import {
   FieldCancellationRestriction,
   FieldCancellationRestrictionNote,
   FieldCheckInItems,
+  FieldClaimingActive,
   FieldClaimingInterval,
   FieldCollection,
   FieldDonor,
@@ -27,11 +35,38 @@ import {
   FieldSelector,
   isBinderyActiveDisabled,
 } from '../../../../common/POLFields';
-import POLineClaimingActive from '../POLineClaimingActive';
+import { isReceiptNotRequired } from '../../../../components/POLine/utils';
 
 const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
-  const orderFormat = formValues?.orderFormat;
-  const isBinderyActive = formValues?.details?.isBinderyActive;
+  const { change } = useForm();
+
+  const isManualOrder = get(formValues, PO_FORM_FIELDS.manualPo);
+  const orderFormat = get(formValues, POL_FORM_FIELDS.orderFormat);
+  const isBinderyActive = get(formValues, POL_FORM_FIELDS.isBinderyActive);
+  const isCheckInItems = get(formValues, POL_FORM_FIELDS.checkinItems);
+  const isClaimingActive = get(formValues, POL_FORM_FIELDS.claimingActive);
+  const isPackage = get(formValues, POL_FORM_FIELDS.isPackage);
+  const receiptStatus = get(formValues, POL_FORM_FIELDS.receiptStatus);
+  const isCheckInItemsDisabled = isPackage || isBinderyActive || isReceiptNotRequired(receiptStatus);
+
+  const onReceiptStatusChange = useCallback(async ({ target: { value } }) => {
+    const shouldTriggerReceivingWorkflowChange = !isCheckInItems && isReceiptNotRequired(value);
+
+    if (shouldTriggerReceivingWorkflowChange) {
+      change(POL_FORM_FIELDS.receiptStatus, value || undefined);
+      change(POL_FORM_FIELDS.checkinItems, true);
+    } else {
+      change(POL_FORM_FIELDS.receiptStatus, value || undefined);
+    }
+  }, [change, isCheckInItems]);
+
+  const onClaimingActiveChange = useCallback(({ target: { checked } }) => {
+    change(POL_FORM_FIELDS.claimingActive, checked);
+
+    if (!checked) {
+      change(POL_FORM_FIELDS.claimingInterval, undefined);
+    }
+  }, [change]);
 
   return (
     <>
@@ -55,7 +90,10 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-auto-export
         >
           <VisibilityControl name="hiddenFields.automaticExport">
-            <FieldAutomaticExport />
+            <FieldAutomaticExport
+              disabled={isManualOrder}
+              isManualOrder={isManualOrder}
+            />
           </VisibilityControl>
         </Col>
 
@@ -86,7 +124,10 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-receipt-status
         >
           <VisibilityControl name="hiddenFields.receiptStatus">
-            <FieldReceiptStatus workflowStatus="template" />
+            <FieldReceiptStatus
+              workflowStatus="template"
+              onChange={onReceiptStatusChange}
+            />
           </VisibilityControl>
         </Col>
 
@@ -135,7 +176,7 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-claiming-active
         >
           <VisibilityControl name="hiddenFields.claimingActive">
-            <POLineClaimingActive />
+            <FieldClaimingActive onChange={onClaimingActiveChange} />
           </VisibilityControl>
         </Col>
 
@@ -144,7 +185,15 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-claiming-interval
         >
           <VisibilityControl name="hiddenFields.claimingInterval">
-            <FieldClaimingInterval />
+            <FieldClaimingInterval disabled={!isClaimingActive} />
+          </VisibilityControl>
+        </Col>
+        <Col
+          xs={3}
+          data-col-order-template-pol-is-bindary-active
+        >
+          <VisibilityControl name="hiddenFields.details.isBinderyActive">
+            <FieldBinderyActive disabled={isBinderyActiveDisabled(orderFormat)} />
           </VisibilityControl>
         </Col>
       </Row>
@@ -182,7 +231,7 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-check-in
         >
           <VisibilityControl name="hiddenFields.checkinItems">
-            <FieldCheckInItems disabled={formValues.isPackage || isBinderyActive} />
+            <FieldCheckInItems disabled={isCheckInItemsDisabled} />
           </VisibilityControl>
         </Col>
       </Row>
@@ -203,14 +252,6 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
         >
           <VisibilityControl name="hiddenFields.poLineDescription">
             <FieldPOLineDescription />
-          </VisibilityControl>
-        </Col>
-        <Col
-          xs={3}
-          data-col-order-template-pol-is-bindary-active
-        >
-          <VisibilityControl name="hiddenFields.details.isBinderyActive">
-            <FieldBinderyActive disabled={isBinderyActiveDisabled(orderFormat)} />
           </VisibilityControl>
         </Col>
       </Row>

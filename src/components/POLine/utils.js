@@ -224,3 +224,5 @@ export const isSynchronizedReceivingWorkflow = (poLine) => {
 export const isIndependentReceivingWorkflow = (poLine) => {
   return poLine[POL_FORM_FIELDS.checkinItems] === true;
 };
+
+export const isReceiptNotRequired = (status) => status === RECEIPT_STATUS.receiptNotRequired;
