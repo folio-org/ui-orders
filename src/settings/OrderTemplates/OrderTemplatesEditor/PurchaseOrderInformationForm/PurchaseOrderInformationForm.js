@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 
 import {
   Col,
@@ -10,7 +11,10 @@ import {
   VisibilityControl,
 } from '@folio/stripes-acq-components';
 
-import { PO_FORM_FIELDS } from '../../../../common/constants';
+import {
+  PO_FORM_FIELDS,
+  POL_FORM_FIELDS,
+} from '../../../../common/constants';
 import {
   FieldAssignedTo,
   FieldBillTo,
@@ -30,6 +34,14 @@ const PurchaseOrderInformationForm = ({
   prefixesSetting,
   suffixesSetting,
 }) => {
+  const onManualPOChange = useCallback(({ target: { checked } }) => {
+    change(PO_FORM_FIELDS.manualPo, checked);
+
+    if (checked) {
+      change(POL_FORM_FIELDS.automaticExport, false);
+    }
+  }, [change]);
+
   return (
     <Row>
       <Col
@@ -122,7 +134,7 @@ const PurchaseOrderInformationForm = ({
         data-col-order-template-manual
       >
         <VisibilityControl name="hiddenFields.manualPo">
-          <FieldIsManualPO />
+          <FieldIsManualPO onChange={onManualPOChange} />
         </VisibilityControl>
       </Col>
 

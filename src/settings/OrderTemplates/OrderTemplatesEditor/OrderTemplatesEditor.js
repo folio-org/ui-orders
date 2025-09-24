@@ -1,6 +1,7 @@
 import flow from 'lodash/flow';
 import PropTypes from 'prop-types';
 import {
+  useCallback,
   useMemo,
   useRef,
 } from 'react';
@@ -124,7 +125,7 @@ const OrderTemplatesEditor = ({
   const errors = useMemo(() => omitFieldArraysAsyncErrors(formErrors, ['fundDistribution']), [formErrors]);
   const errorAccordionStatus = useErrorAccordionStatus({ errors, fieldsMap: MAP_FIELD_ACCORDION });
 
-  const changeLocation = (location, locationFieldName, holdingFieldName, holdingId) => {
+  const changeLocation = useCallback((location, locationFieldName, holdingFieldName, holdingId) => {
     const locationId = holdingId ? undefined : location?.id || location;
 
     change(locationFieldName, locationId);
@@ -132,7 +133,7 @@ const OrderTemplatesEditor = ({
     if (holdingFieldName) {
       change(holdingFieldName, holdingId);
     }
-  };
+  }, [change]);
 
   const getLastMenu = () => {
     return (

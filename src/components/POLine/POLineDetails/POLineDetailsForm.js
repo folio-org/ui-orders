@@ -48,8 +48,7 @@ import {
 import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
 import { ConfirmReceivingWorkflowChangeModal } from '../ConfirmReceivingWorkflowChange';
 import { useReceivingWorkflowChange } from '../hooks';
-
-const isReceiptNotRequired = (status) => status === RECEIPT_STATUS.receiptNotRequired;
+import { isReceiptNotRequired } from '../utils';
 
 const defaultProps = {
   hiddenFields: {},

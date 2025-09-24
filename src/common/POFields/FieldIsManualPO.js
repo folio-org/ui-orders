@@ -16,7 +16,10 @@ const label = (
   </>
 );
 
-const FieldIsManualPO = ({ disabled = false }) => {
+const FieldIsManualPO = ({
+  disabled = false,
+  ...rest
+}) => {
   return (
     <Field
       component={Checkbox}
@@ -27,6 +30,7 @@ const FieldIsManualPO = ({ disabled = false }) => {
       disabled={disabled}
       vertical
       validateFields={[]}
+      {...rest}
     />
   );
 };
