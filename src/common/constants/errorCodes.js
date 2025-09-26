@@ -5,6 +5,7 @@ export const ERROR_CODES = {
   budgetIsInactive: 'budgetIsInactive',
   budgetNotFoundForFiscalYear: 'budgetNotFoundForFiscalYear',
   budgetNotFoundForTransaction: 'budgetNotFoundForTransaction',
+  cannotConvertAmountInvalidCurrency: 'cannotConvertAmountInvalidCurrency',
   conversionError: 'conversionError',
   costAdditionalCostInvalid: 'costAdditionalCostInvalid',
   costDiscountInvalid: 'costDiscountInvalid',

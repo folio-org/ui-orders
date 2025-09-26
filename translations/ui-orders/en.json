@@ -146,6 +146,7 @@
   "errors.budgetIsInactive": "Cannot create encumbrance from the not active budget",
   "errors.budgetNotFoundForFiscalYear": "Order cannot be opened because there is no current budget for fund(s) <b>{fundCodes}</b> for fiscal year <b>{fiscalYearCode}</b>.",
   "errors.budgetNotFoundForTransaction": "One or more fund distribution(s) on this order can not be encumbered, because there is no current budget",
+  "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please enter an exchange rate manually or configure an exchange rate provider that supports this currency.",
   "errors.clone.error": "The purchase order was not cloned",
   "errors.costAdditionalCostInvalid": "Cost's additional cost must be positive number",
   "errors.costDiscountInvalid": "Cost's discount is invalid",
