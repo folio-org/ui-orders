@@ -124,22 +124,30 @@ const initialAccordionStatus = {
   [ACCORDION_ID.ongoingOrder]: true,
 };
 
+const defaultProps = {
+  line: {},
+  locations: [],
+  materialTypes: [],
+  order: {},
+  orderTemplate: {},
+};
+
 const POLineView = ({
   cancelLine,
   deleteLine,
-  editable,
+  editable = true,
   goToOrderDetails,
   goToReceive,
   history,
-  line,
+  line = defaultProps.line,
   location,
-  locations,
-  materialTypes,
+  locations = defaultProps.locations,
+  materialTypes = defaultProps.materialTypes,
   onClose,
-  order,
+  order = defaultProps.order,
   poURL,
   tagsToggle,
-  orderTemplate,
+  orderTemplate = defaultProps.orderTemplate,
   refetch,
 }) => {
   const intl = useIntl();
@@ -681,13 +689,6 @@ POLineView.propTypes = {
   tagsToggle: PropTypes.func.isRequired,
   orderTemplate: PropTypes.object,
   refetch: PropTypes.func.isRequired,
-};
-
-POLineView.defaultProps = {
-  locations: [],
-  materialTypes: [],
-  editable: true,
-  orderTemplate: {},
 };
 
 export default withRouter(POLineView);

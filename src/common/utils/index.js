@@ -21,6 +21,7 @@ export * from './getVersionMetadata';
 export * from './getExportAccountNumbers';
 export * from './getRecordMap';
 export * from './getTenantAddresses';
+export * from './handleOrderLoadingError';
 export * from './locationsRestrictedFunds';
 export * from './fetchExportDataByIds';
 export * from './omitFieldArraysAsyncErrors';

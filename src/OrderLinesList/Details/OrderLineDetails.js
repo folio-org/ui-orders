@@ -2,7 +2,6 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import {
   useCallback,
-  useEffect,
   useState,
 } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -17,10 +16,7 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
-import {
-  ORDERS_API,
-  LINES_API,
-} from '../../components/Utils/api';
+import { LINES_API } from '../../components/Utils/api';
 import {
   FUND,
   MATERIAL_TYPES,
@@ -28,7 +24,12 @@ import {
 import { getCancelledLine } from '../../components/POLine/utils';
 import { POLineView } from '../../components/POLine';
 import { FILTERS as ORDER_FILTERS } from '../../OrdersList';
-import { useOrderTemplate } from '../../common/hooks';
+import {
+  useOrder,
+  useOrderLine,
+  useOrderTemplate,
+} from '../../common/hooks';
+import { handleOrderLoadingError } from '../../common/utils';
 
 const OrderLineDetails = ({
   history,
@@ -39,47 +40,36 @@ const OrderLineDetails = ({
   resources,
 }) => {
   const lineId = match.params.id;
-  const [isLoading, setIsLoading] = useState(true);
-  const [line, setLine] = useState({});
-  const [order, setOrder] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const showToast = useShowCallout();
 
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
-
-  const {
-    isLoading: isOrderTemplateLoading,
-    orderTemplate,
-  } = useOrderTemplate(order?.template);
 
   const {
     isLoading: isLocationsLoading,
     locations,
   } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
 
-  const fetchLineDetails = useCallback(
-    () => {
-      setLine({});
-      setOrder({});
+  const {
+    isLoading: isOrderLineLoading,
+    orderLine: line,
+    refetch: refetchOrderLine,
+  } = useOrderLine(lineId);
 
-      return mutator.orderLine.GET()
-        .then(lineResponse => {
-          setLine(lineResponse);
-
-          return mutator.order.GET({ path: `${ORDERS_API}/${lineResponse.purchaseOrderId}` });
-        })
-        .then(setOrder);
+  const {
+    isLoading: isOrderLoading,
+    order,
+  } = useOrder(
+    line?.purchaseOrderId,
+    {
+      onError: handleOrderLoadingError(showToast),
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [lineId],
   );
 
-  useEffect(
-    () => {
-      setIsLoading(true);
-      fetchLineDetails().finally(setIsLoading);
-    },
-    [fetchLineDetails, lineId],
-  );
+  const {
+    isLoading: isOrderTemplateLoading,
+    orderTemplate,
+  } = useOrderTemplate(order?.template);
 
   const goToOrderDetails = useCallback(
     () => {
@@ -143,23 +133,23 @@ const OrderLineDetails = ({
             type: 'success',
           });
 
-          return fetchLineDetails();
+          return refetchOrderLine();
         })
         .catch(() => {
-          setIsLoading();
+          setIsLoading(false);
           showToast({
             messageId: 'ui-orders.errors.lineWasNotCancelled',
             type: 'error',
           });
         })
-        .finally(setIsLoading);
+        .finally(() => setIsLoading(false));
     },
-    [fetchLineDetails, line, mutator.orderLine, showToast],
+    [line, mutator.orderLine, refetchOrderLine, showToast],
   );
 
   const updateLineTagList = async (orderLine) => {
     await mutator.orderLine.PUT(orderLine);
-    fetchLineDetails();
+    refetchOrderLine();
   };
 
   const [isTagsPaneOpened, setIsTagsPaneOpened] = useState(false);
@@ -180,15 +170,11 @@ const OrderLineDetails = ({
     [location.search],
   );
 
-  const refetch = useCallback(async () => {
-    setIsLoading(true);
-    await fetchLineDetails();
-    setIsLoading(false);
-  }, [fetchLineDetails]);
-
   const isDataLoading = (
     isLoading
     || line?.id !== lineId
+    || isOrderLineLoading
+    || isOrderLoading
     || isOrderTemplateLoading
     || isLocationsLoading
   );
@@ -219,7 +205,7 @@ const OrderLineDetails = ({
         tagsToggle={toggleTagsPane}
         onClose={onClose}
         orderTemplate={orderTemplate}
-        refetch={refetch}
+        refetch={refetchOrderLine}
       />
       {isTagsPaneOpened && (
         <Tags

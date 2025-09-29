@@ -14,7 +14,10 @@ import {
   useOrderLines,
   useOrderTemplate,
 } from '../../../../common/hooks';
-import { getCommonErrorMessage } from '../../../../common/utils';
+import {
+  getCommonErrorMessage,
+  handleOrderLoadingError,
+} from '../../../../common/utils';
 import { useOrderInvoiceRelationships } from '../useOrderInvoiceRelationships';
 
 const DEFAULT_ORDER = {};
@@ -37,21 +40,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
   } = useOrder(orderId, {
     enabled: isFiscalYearsFetched,
     fiscalYearId,
-    onError: async (errorResponse) => {
-      const isConversionError = errorResponse?.message && errorResponse.message?.indexOf('Operator failed: CurrencyConversion') !== -1;
-
-      const errorCode = isConversionError
-        ? 'conversionError'
-        : await getErrorCodeFromResponse(errorResponse);
-
-      const defaultMessage = intl.formatMessage({ id: 'ui-orders.errors.orderNotLoaded' });
-      const message = getCommonErrorMessage(errorCode, defaultMessage);
-
-      showCallout({
-        message,
-        type: 'error',
-      });
-    },
+    onError: handleOrderLoadingError(showCallout),
   });
 
   const {
