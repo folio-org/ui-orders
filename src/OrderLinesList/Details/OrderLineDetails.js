@@ -154,7 +154,7 @@ const OrderLineDetails = ({
 
   const [isTagsPaneOpened, setIsTagsPaneOpened] = useState(false);
 
-  const toggleTagsPane = () => setIsTagsPaneOpened(!isTagsPaneOpened);
+  const toggleTagsPane = useCallback(() => setIsTagsPaneOpened(opened => !opened), []);
 
   const materialTypes = get(resources, 'materialTypes.records', []);
   const funds = get(resources, 'funds.records', []);
@@ -222,11 +222,6 @@ OrderLineDetails.manifest = Object.freeze({
   orderLine: {
     ...baseManifest,
     path: `${LINES_API}/:{id}`,
-    accumulate: true,
-    fetch: false,
-  },
-  order: {
-    ...baseManifest,
     accumulate: true,
     fetch: false,
   },
