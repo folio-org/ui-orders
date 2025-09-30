@@ -27,7 +27,10 @@ import {
   useOrder,
   useOrderTemplate,
 } from '../../common/hooks';
-import { getCommonErrorMessage } from '../../common/utils';
+import {
+  getCommonErrorMessage,
+  handleOrderLoadingError,
+} from '../../common/utils';
 import {
   CONTRIBUTOR_NAME_TYPES,
   FUND,
@@ -47,10 +50,20 @@ function POLine({
 }) {
   const intl = useIntl();
   const sendCallout = useShowCallout();
+
   const [isTagsPaneOpened, toggleTagsPane] = useModalToggle();
-  const { isLoading: isLoadingOrder, order } = useOrder(orderId);
   const [line, setLine] = useState();
   const [isLoading, setIsLoading] = useState(true);
+
+  const {
+    isLoading: isLoadingOrder,
+    order,
+  } = useOrder(
+    orderId,
+    {
+      onError: handleOrderLoadingError(sendCallout),
+    },
+  );
 
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
 

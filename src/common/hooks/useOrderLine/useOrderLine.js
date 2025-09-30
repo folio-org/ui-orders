@@ -17,12 +17,7 @@ export const useOrderLine = (lineId, options = {}) => {
   const [namespace] = useNamespace({ key: 'purchase-order-line' });
   const ky = useOkapiKy({ tenant: tenantId });
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: [namespace, lineId, tenantId],
     queryFn: ({ signal }) => ky.get(`${LINES_API}/${lineId}`, { signal }).json(),
     enabled: enabled && Boolean(lineId),
@@ -31,8 +26,6 @@ export const useOrderLine = (lineId, options = {}) => {
 
   return ({
     orderLine: data,
-    isFetching,
-    isLoading,
-    refetch,
+    ...rest,
   });
 };

@@ -61,6 +61,7 @@ import {
 import {
   getCreateInventorySetting,
   getExportAccountNumbers,
+  handleOrderLoadingError,
   validateDuplicateLines,
 } from '../../common/utils';
 import DuplicateLinesModal from '../../common/DuplicateLinesModal';
@@ -178,7 +179,12 @@ function LayerPOLine({
   const {
     isLoading: isOrderLoading,
     order,
-  } = useOrder(id);
+  } = useOrder(
+    id,
+    {
+      onError: handleOrderLoadingError(sendCallout),
+    },
+  );
 
   const {
     organization: vendor,

@@ -23,6 +23,11 @@ import {
   history,
   location,
 } from 'fixtures/routerMocks';
+import {
+  useOrder,
+  useOrderLine,
+  useOrderTemplate,
+} from '../../common/hooks';
 import { POLineView } from '../../components/POLine';
 import OrderLineDetails from './OrderLineDetails';
 
@@ -32,11 +37,15 @@ jest.mock('@folio/stripes-acq-components', () => ({
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
   useLocationsQuery: jest.fn(() => ({ locations: [] })),
 }));
+jest.mock('../../common/hooks', () => ({
+  useOrder: jest.fn(),
+  useOrderLine: jest.fn(),
+  useOrderTemplate: jest.fn(),
+}));
 jest.mock('../../components/POLine/POLineView', () => jest.fn().mockReturnValue('POLineView'));
 
 const mutator = {
   orderLine: {
-    GET: jest.fn().mockResolvedValue(orderLine),
     PUT: jest.fn().mockResolvedValue(orderLine),
     DELETE: jest.fn().mockResolvedValue(),
   },
@@ -66,8 +75,6 @@ const defaultProps = {
 };
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     <MemoryRouter>
@@ -86,9 +93,13 @@ const renderOrderLineDetails = (props = {}) => render(
 
 describe('OrderLineDetails', () => {
   beforeEach(() => {
-    useLocationsQuery
-      .mockClear()
-      .mockReturnValue({ locations: [location] });
+    useLocationsQuery.mockReturnValue({ locations: [location] });
+    useOrder.mockReturnValue({ order });
+    useOrderLine.mockReturnValue({
+      orderLine,
+      refetch: jest.fn(),
+    });
+    useOrderTemplate.mockReturnValue({ orderTemplate: null });
   });
 
   it('should render POLineView', async () => {
