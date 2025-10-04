@@ -945,5 +945,6 @@
     "settings.update.error": "Update van de instellingen mislukt.",
     "order.fiscalYear": "Boekjaar",
     "order.fiscalYear.current": "Huidige",
-    "order.fiscalYear.previous": "Vorige"
+    "order.fiscalYear.previous": "Vorige",
+    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency."
 }

@@ -945,5 +945,6 @@
     "settings.update.error": "Не вдалося оновити налаштування.",
     "order.fiscalYear": "Фінансовий рік",
     "order.fiscalYear.current": "Поточний",
-    "order.fiscalYear.previous": "Попередній"
+    "order.fiscalYear.previous": "Попередній",
+    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency."
 }

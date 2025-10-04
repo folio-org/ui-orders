@@ -660,7 +660,7 @@
     "cost.quantityPopover": "This order has receiving records. These quantities can only be edited by working with the records in the receiving app.",
     "cost.rolloverAdjustment": "Rollover adjustment",
     "cost.rolloverAdjustment.info": "This value was added during rollover to balance the order cost with your desired encumbrance for the new year. If you edit the cost this value will be eliminated, and the encumbered value will be updated based on the new Estimated Price.",
-    "location.createHolding": "Create new holdings for location",
+    "location.createHolding": "Utwórz nowy zasób dla lokalizacji",
     "location.holding": "Zasób",
     "location.selectHoldings": "Wybierz zasoby",
     "location.editInReceiving": "Edit in receiving",
@@ -899,7 +899,7 @@
     "errors.budgetNotFoundForFiscalYear": "Nie można otworzyć zamówienia, ponieważ nie ma bieżącego budżetu dla funduszu(y) <b>{fundCodes}</b> na rok budżetowy <b>{fiscalYearCode}</b>.",
     "errors.locationUpdateWithoutAffiliation": "Nie można zapisać pozycji zamówienia. Ten rekord ma lokalizacje afiliacji, których nie ma Twój użytkownik. Te afiliacje muszą zostać usunięte lub operacja musi zostać wykonana przez użytkownika, który ma takie same afiliacje jak rekord.",
     "buttons.line.saveAndCreateAnother": "Zapisz i utwórz kolejny",
-    "settings.numberGenerator.accessionNumber": "Numer dowodu wpływu",
+    "settings.numberGenerator.accessionNumber": "Nr dowodu wpływu",
     "settings.numberGenerator.accessionNumberEqualCallNumber": "Użyj tego samego wygenerowanego numeru dla numeru dowodu wpływu i sygnatury",
     "settings.numberGenerator.accessionNumberEqualCallNumber.warning": "Ostrzeżenie: Pole checkbox jest wyłączone, ponieważ numer dowodu wpływu i/lub sygnatura zostały ustawione na uzupełnianie ręczne.",
     "settings.numberGenerator.barcode": "Kod kreskowy",
@@ -945,5 +945,6 @@
     "settings.update.error": "Failed to update the settings.",
     "order.fiscalYear": "Fiscal year",
     "order.fiscalYear.current": "Current",
-    "order.fiscalYear.previous": "Previous"
+    "order.fiscalYear.previous": "Previous",
+    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency."
 }

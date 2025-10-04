@@ -945,5 +945,6 @@
     "settings.update.error": "Failed to update the settings.",
     "order.fiscalYear": "Fiscal year",
     "order.fiscalYear.current": "Current",
-    "order.fiscalYear.previous": "Previous"
+    "order.fiscalYear.previous": "Previous",
+    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency."
 }
