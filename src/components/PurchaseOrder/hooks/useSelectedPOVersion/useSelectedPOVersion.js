@@ -71,12 +71,24 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
   const metadata = useMemo(() => getVersionMetadata(currentVersion, order), [currentVersion, order]);
   const assignedToId = versionSnapshot?.assignedTo;
   const createdByUserId = metadata?.createdByUserId;
+  const approvedById = versionSnapshot?.approvedById;
+  const openedById = versionSnapshot?.openedById;
   const fiscalYearId = versionSnapshot?.fiscalYearId;
   const vendorId = versionSnapshot?.vendor;
   const billToId = versionSnapshot?.billTo;
   const shipToId = versionSnapshot?.shipTo;
 
-  const versionUserIds = useMemo(() => getUniqItems([assignedToId, createdByUserId]), [assignedToId, createdByUserId]);
+  const versionUserIds = useMemo(() => getUniqItems([
+    approvedById,
+    assignedToId,
+    createdByUserId,
+    openedById,
+  ]), [
+    approvedById,
+    assignedToId,
+    createdByUserId,
+    openedById,
+  ]);
   const {
     users,
     isLoading: isUsersLoading,
@@ -113,12 +125,14 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
         ...versionSnapshot,
         acqUnits: acqUnitsIds.map((id) => getObjectPropertyById(id, 'name', acqUnitsDict)).join(', '),
         assignedTo: getUserFullNameById(assignedToId, versionUsersMap),
+        approvedBy: getUserFullNameById(approvedById, versionUsersMap),
+        billTo: getObjectPropertyById(billToId, 'address', addressesDict),
         createdByUser: getUserFullNameById(createdByUserId, versionUsersMap),
         fiscalYear: formatFiscalYear(fiscalYearId, fiscalYearDict, intl),
-        vendor: getObjectPropertyById(vendorId, 'name', organizationsDict),
-        billTo: getObjectPropertyById(billToId, 'address', addressesDict),
-        shipTo: getObjectPropertyById(shipToId, 'address', addressesDict),
         metadata,
+        openedBy: getUserFullNameById(openedById, versionUsersMap),
+        shipTo: getObjectPropertyById(shipToId, 'address', addressesDict),
+        vendor: getObjectPropertyById(vendorId, 'name', organizationsDict),
       };
     },
     {

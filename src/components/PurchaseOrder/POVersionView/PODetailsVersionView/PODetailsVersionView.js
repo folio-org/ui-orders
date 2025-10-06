@@ -77,6 +77,19 @@ export const PODetailsVersionView = ({ version }) => {
             value={<FolioFormattedTime dateString={version?.approvalDate} />}
           />
         </Col>
+
+        {Boolean(version?.approvalDate) && (
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <VersionKeyValue
+              name="approvedById"
+              label={<FormattedMessage id="ui-orders.orderDetails.approvedBy" />}
+              value={version?.approvedBy}
+            />
+          </Col>
+        )}
         <Col
           xs={6}
           lg={3}
@@ -175,6 +188,19 @@ export const PODetailsVersionView = ({ version }) => {
                   name="fiscalYearId"
                   label={<FormattedMessage id="ui-orders.orderDetails.yearOpened" />}
                   value={version.fiscalYear}
+                />
+              </Col>
+            )}
+
+            {Boolean(version?.openedById) && (
+              <Col
+                xs={6}
+                lg={3}
+              >
+                <VersionKeyValue
+                  name="openedById"
+                  label={<FormattedMessage id="ui-orders.orderDetails.openedBy" />}
+                  value={version.openedBy}
                 />
               </Col>
             )}
