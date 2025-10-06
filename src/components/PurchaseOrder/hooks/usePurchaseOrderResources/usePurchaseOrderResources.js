@@ -54,6 +54,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
   } = useOrderTemplate(order?.template);
 
   const {
+    isFetching: isOrderLinesFetching,
     isLoading: isOrderLinesLoading,
     orderLines,
   } = useOrderLines({
@@ -89,6 +90,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
     isFiscalYearsFetched,
     isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
+    isOrderLinesFetching,
     isOrderLinesLoading,
     isOrderLoading,
     isOrderTemplateLoading,

@@ -162,7 +162,7 @@ const PO = ({
     isExportHistoryLoading,
     isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
-    isOrderLinesLoading,
+    isOrderLinesFetching,
     isOrderLoading,
     isOrderTemplateLoading,
     isRestrictionsLoading,
@@ -822,7 +822,7 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
             >
               {
-                isOrderLinesLoading
+                isOrderLinesFetching
                   ? <Loading />
                   : (
                     <LineListing
