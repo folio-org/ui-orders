@@ -3,9 +3,29 @@ import {
   QueryClientProvider,
 } from 'react-query';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
+import {
+  ORDER_STATUSES,
+  useFiscalYear,
+} from '@folio/stripes-acq-components';
 
+import { formatOpenedFiscalYear } from '../../../common/utils';
 import PODetailsView from './PODetailsView';
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useFiscalYear: jest.fn(),
+}));
+jest.mock('./UserValue', () => ({ userId }) => <span>{userId}</span>);
+
+const fiscalYear = {
+  code: 'TY2025',
+  id: 'fiscalYearId',
+  name: 'Test fiscal year',
+};
 
 const defaultProps = {
   order: {
@@ -18,8 +38,6 @@ const defaultProps = {
 };
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}
@@ -35,6 +53,14 @@ const renderPODetailsView = (props = {}) => render(
 );
 
 describe('PODetailsView', () => {
+  beforeEach(() => {
+    useFiscalYear.mockReturnValue({ fiscalYear });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render \'PO details\' view', () => {
     renderPODetailsView();
 
@@ -52,5 +78,37 @@ describe('PODetailsView', () => {
     expect(screen.getByText('ui-orders.orderDetails.reEncumber')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderDetails.createdBy')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderDetails.createdOn')).toBeInTheDocument();
+
+    /* Approved order details */
+    expect(screen.queryByText('ui-orders.orderDetails.approvedBy')).not.toBeInTheDocument();
+
+    /* Opened order details */
+    expect(screen.queryByText('ui-orders.orderDetails.dateOpened')).not.toBeInTheDocument();
+    expect(screen.queryByText('ui-orders.orderDetails.openedBy')).not.toBeInTheDocument();
+    expect(screen.queryByText('ui-orders.orderDetails.yearOpened')).not.toBeInTheDocument();
+  });
+
+  it('should render \'PO details\' view with approved and opened order details', () => {
+    renderPODetailsView({
+      order: {
+        ...defaultProps.order,
+        approvalDate: new Date('2023-01-01').toISOString(),
+        approvedById: 'approvedById',
+        dateOrdered: new Date('2023-01-02').toISOString(),
+        fiscalYearId: fiscalYear.id,
+        openedById: 'openedById',
+        workflowStatus: ORDER_STATUSES.open,
+      },
+    });
+
+    /* Approved order details */
+    expect(screen.getByText('ui-orders.orderDetails.approvedBy')).toBeInTheDocument();
+    expect(screen.getByText('approvedById')).toBeInTheDocument();
+
+    /* Opened order details */
+    expect(screen.getByText('ui-orders.orderDetails.dateOpened')).toBeInTheDocument();
+    expect(screen.getByText('openedById')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.orderDetails.yearOpened')).toBeInTheDocument();
+    expect(screen.getByText(formatOpenedFiscalYear(fiscalYear))).toBeInTheDocument();
   });
 });

@@ -162,7 +162,7 @@ const PO = ({
     isExportHistoryLoading,
     isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
-    isOrderLinesLoading,
+    isOrderLinesFetching,
     isOrderLoading,
     isOrderTemplateLoading,
     isRestrictionsLoading,
@@ -219,9 +219,7 @@ const PO = ({
         tagsToggle={toggleTagsPane}
         tagsQuantity={tags.length}
       />
-      <VersionHistoryButton
-        onClick={openVersionHistory}
-      />
+      <VersionHistoryButton onClick={openVersionHistory} />
     </PaneMenu>
   );
 
@@ -650,9 +648,7 @@ const PO = ({
     {
       name: 'new',
       handler: handleKeyCommand(() => {
-        if (stripes.hasPerm('ui-orders.orders.create')) {
-          history.push('/orders/create');
-        }
+        if (stripes.hasPerm('ui-orders.orders.create')) history.push('/orders/create');
       }),
     },
     {
@@ -668,9 +664,7 @@ const PO = ({
     {
       name: 'duplicateRecord',
       handler: handleKeyCommand(() => {
-        if (stripes.hasPerm('ui-orders.orders.create')) {
-          toggleCloneConfirmation();
-        }
+        if (stripes.hasPerm('ui-orders.orders.create')) toggleCloneConfirmation();
       }),
     },
     {
@@ -685,9 +679,7 @@ const PO = ({
       name: 'addPOL',
       shortcut: 'alt+a',
       handler: handleKeyCommand(() => {
-        if (stripes.hasPerm('orders.po-lines.item.post') && isAbleToAddLines) {
-          onAddPOLine();
-        }
+        if (stripes.hasPerm('orders.po-lines.item.post') && isAbleToAddLines) onAddPOLine();
       }),
     },
   ];
@@ -822,7 +814,7 @@ const PO = ({
               label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
             >
               {
-                isOrderLinesLoading
+                isOrderLinesFetching
                   ? <Loading />
                   : (
                     <LineListing
