@@ -124,8 +124,8 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
       return {
         ...versionSnapshot,
         acqUnits: acqUnitsIds.map((id) => getObjectPropertyById(id, 'name', acqUnitsDict)).join(', '),
-        assignedTo: getUserFullNameById(assignedToId, versionUsersMap),
         approvedBy: getUserFullNameById(approvedById, versionUsersMap),
+        assignedTo: getUserFullNameById(assignedToId, versionUsersMap),
         billTo: getObjectPropertyById(billToId, 'address', addressesDict),
         createdByUser: getUserFullNameById(createdByUserId, versionUsersMap),
         fiscalYear: formatFiscalYear(fiscalYearId, fiscalYearDict, intl),

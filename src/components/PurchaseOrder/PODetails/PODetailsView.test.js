@@ -18,7 +18,7 @@ import PODetailsView from './PODetailsView';
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useFiscalYear: jest.fn(),
-}))
+}));
 jest.mock('./UserValue', () => ({ userId }) => <span>{userId}</span>);
 
 const fiscalYear = {
