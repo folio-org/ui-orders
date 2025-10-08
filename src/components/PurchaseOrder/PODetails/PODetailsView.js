@@ -100,6 +100,19 @@ const PODetailsView = ({
           </KeyValue>
         </Col>
 
+        {Boolean(order?.approvalDate) && (
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.orderDetails.approvedBy" />}
+            >
+              <UserValue userId={order?.approvedById} />
+            </KeyValue>
+          </Col>
+        )}
+
         <IfVisible visible={!hiddenFields.assignedTo}>
           <Col
             xs={6}
@@ -207,6 +220,19 @@ const PODetailsView = ({
                 lg={3}
               >
                 <FiscalYearOpenedView fiscalYearId={order.fiscalYearId} />
+              </Col>
+            )}
+
+            {Boolean(order?.openedById) && (
+              <Col
+                xs={6}
+                lg={3}
+              >
+                <KeyValue
+                  label={<FormattedMessage id="ui-orders.orderDetails.openedBy" />}
+                >
+                  <UserValue userId={order?.openedById} />
+                </KeyValue>
               </Col>
             )}
           </>

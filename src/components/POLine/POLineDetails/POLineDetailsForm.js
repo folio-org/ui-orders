@@ -14,7 +14,6 @@ import {
   sourceLabels,
   FieldTags,
   IfFieldVisible,
-  RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 
 import { POL_FORM_FIELDS } from '../../../common/constants';
