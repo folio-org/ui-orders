@@ -6,7 +6,9 @@ import { useIntl } from 'react-intl';
 import {
   stripesConnect,
   useOkapiKy,
+  useStripes,
 } from '@folio/stripes/core';
+import { useCentralOrderingContext } from '@folio/stripes-acq-components';
 
 import { exportManifest, getExportData } from '../common/ExportSettingsModal/utils';
 
@@ -22,6 +24,8 @@ export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => 
   const intl = useIntl();
   const { getPOLineTotalEstimatedPrice } = usePOLineTotalEstimatedPrice();
   const ky = useOkapiKy();
+  const stripes = useStripes();
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const [printableOrder, setPrintableOrder] = useState();
 
@@ -37,7 +41,17 @@ export const PrintOrderComponent = ({ mutator, order, orderLine, onCancel }) => 
       const { poLines } = order;
       const linesToPrint = orderLine ? [orderLine] : poLines;
       const printData = poLines?.length
-        ? { lines: await getExportData(mutator, linesToPrint, [order], [], intl) }
+        ? {
+          lines: await getExportData(
+            mutator,
+            ky,
+            {
+              intl,
+              isCentralOrderingEnabled,
+              stripes,
+            },
+          )(linesToPrint, [order], []),
+        }
         : await getOrderPrintData(ky, order);
 
       let poLineTotals = {};

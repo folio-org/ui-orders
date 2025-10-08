@@ -24,7 +24,7 @@ jest.mock('@folio/stripes/components', () => {
 jest.mock('./utils', () => {
   return {
     ...jest.requireActual('./utils'),
-    getExportData: jest.fn().mockResolvedValue([{ field1: 'value1', field2: 'value2' }]),
+    getExportData: jest.fn().mockResolvedValue(() => [{ field1: 'value1', field2: 'value2' }]),
     getExportLineFields: () => ({ field1: 'field1 name' }),
     getExportOrderFields: () => ({ field2: 'field2 name' }),
   };

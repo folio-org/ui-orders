@@ -1,6 +1,7 @@
 import { useIntl } from 'react-intl';
 
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
+import { useStripes } from '@folio/stripes/core';
 
 import {
   address,
@@ -61,11 +62,18 @@ const mockMutator = {
   },
 };
 
+const kyMock = {
+  extend: jest.fn().mockReturnThis(),
+  get: jest.fn(),
+};
+
 test('should ', async () => {
   const { result } = renderHook(() => useIntl());
+  const { result: stripesResult } = renderHook(() => useStripes());
   const intl = result.current;
+  const stripes = stripesResult.current;
 
-  const report = await getExportData(mockMutator, [orderLine], [order], intl);
+  const report = await getExportData(mockMutator, kyMock, { intl, stripes })([orderLine], [order], []);
 
   expect(report).toEqual('test report');
 });

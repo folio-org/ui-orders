@@ -36,6 +36,7 @@
 * Prevent editing locations for pending "synchronized" PO Line with related received pieces. Refs UIOR-1418.
 * Refactor the PO Line form to apply the template through initial form values. Refs UIOR-1461.
 * Handle existing orders in non-default currencies when ECB provider does not support them. Refs UIOR-1474.
+* Include locations from member tenants in the CSV export file for orders. Refs UIOR-1467.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

@@ -10,7 +10,7 @@ jest.mock('./hooks', () => ({
 }));
 jest.mock('./ComponentToPrint', () => jest.fn().mockReturnValue('ComponentToPrint'));
 jest.mock('../common/ExportSettingsModal/utils/getExportData', () => ({
-  getExportData: jest.fn(),
+  getExportData: jest.fn(() => jest.fn()),
 }));
 
 const defaultProps = {
