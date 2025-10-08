@@ -3,6 +3,10 @@ import { render, screen } from '@folio/jest-config-stripes/testing-library/react
 import { order, orderLine } from 'fixtures';
 import { PrintOrder } from './PrintOrder';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+}));
 jest.mock('./hooks', () => ({
   usePOLineTotalEstimatedPrice: jest.fn().mockReturnValue({
     getPOLineTotalEstimatedPrice: jest.fn(),

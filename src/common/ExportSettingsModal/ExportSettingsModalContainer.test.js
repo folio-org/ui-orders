@@ -21,10 +21,15 @@ jest.mock('@folio/stripes/components', () => {
   };
 });
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
+}));
+
 jest.mock('./utils', () => {
   return {
     ...jest.requireActual('./utils'),
-    getExportData: jest.fn().mockResolvedValue(() => [{ field1: 'value1', field2: 'value2' }]),
+    getExportData: jest.fn(() => () => Promise.resolve([{ field1: 'value1', field2: 'value2' }])),
     getExportLineFields: () => ({ field1: 'field1 name' }),
     getExportOrderFields: () => ({ field2: 'field2 name' }),
   };
