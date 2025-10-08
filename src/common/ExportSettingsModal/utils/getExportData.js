@@ -2,6 +2,12 @@ import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
 
 import {
+  fetchAllRecords,
+  fetchConsortiumHoldingsByIds,
+  fetchConsortiumLocations,
+} from '@folio/stripes-acq-components';
+
+import {
   CONFIG_ADDRESSES,
   MODULE_TENANT,
 } from '../../../components/Utils/const';
@@ -35,7 +41,15 @@ const buildAddressQuery = (itemsChunk) => {
 
 const extractUniqueFlat = (array, extractor) => uniq(array.flatMap(item => extractor(item) || []).filter(Boolean));
 
-export const getExportData = async (mutator, lines, orders, customFields, intl) => {
+export const getExportData = (
+  mutator,
+  ky,
+  {
+    intl,
+    stripes,
+    isCentralOrderingEnabled,
+  } = {},
+) => async (lines, orders, customFields) => {
   /* Orders based */
   const acqUnitsIds = extractUniqueFlat(orders, ({ acqUnitIds }) => acqUnitIds);
   const addressIds = extractUniqueFlat(orders, ({ billTo, shipTo }) => [billTo, shipTo]);
@@ -68,7 +82,9 @@ export const getExportData = async (mutator, lines, orders, customFields, intl) 
   );
 
   const vendors = await fetchExportDataByIds(mutator.exportVendors, uniq([...orderVendorIds, ...lineVendorIds]));
-  const lineHoldings = await fetchExportDataByIds(mutator.exportHoldings, lineHoldingIds);
+  const lineHoldings = isCentralOrderingEnabled
+    ? await fetchConsortiumHoldingsByIds(ky, stripes)(lineHoldingIds).then((res) => res.holdings || [])
+    : await fetchExportDataByIds(mutator.exportHoldings, lineHoldingIds);
 
   const organizationTypeIds = extractUniqueFlat(vendors, ({ organizationTypes }) => organizationTypes);
 
@@ -76,6 +92,14 @@ export const getExportData = async (mutator, lines, orders, customFields, intl) 
     ...lineLocationIds,
     ...lineHoldings.map(({ permanentLocationId }) => permanentLocationId),
   ]);
+
+  const fetchLocationsPromise = isCentralOrderingEnabled
+    ? await fetchAllRecords({
+      GET: async ({ params: searchParams }) => {
+        return fetchConsortiumLocations(ky, stripes)({ searchParams }).then(({ locations }) => locations);
+      },
+    })
+    : fetchExportDataByIds(mutator.exportLocations, locationIds);
 
   const [
     lineLocations,
@@ -90,7 +114,7 @@ export const getExportData = async (mutator, lines, orders, customFields, intl) 
     acquisitionMethods,
     fiscalYears,
   ] = await Promise.all([
-    fetchExportDataByIds(mutator.exportLocations, locationIds),
+    fetchLocationsPromise,
     fetchExportDataByIds(mutator.organizationTypes, organizationTypeIds),
     fetchExportDataByIds(mutator.exportUsers, getExportUserIds(lines, orders)),
     fetchExportDataByIds(mutator.exportAcqUnits, acqUnitsIds),

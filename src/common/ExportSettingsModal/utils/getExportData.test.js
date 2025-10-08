@@ -1,6 +1,11 @@
 import { useIntl } from 'react-intl';
 
 import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
+import { useStripes } from '@folio/stripes/core';
+import {
+  fetchConsortiumHoldingsByIds,
+  fetchConsortiumLocations,
+} from '@folio/stripes-acq-components';
 
 import {
   address,
@@ -9,6 +14,12 @@ import {
   vendor,
 } from 'fixtures';
 import { getExportData } from './getExportData';
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  fetchConsortiumHoldingsByIds: jest.fn(() => () => Promise.resolve({ holdings: [] })),
+  fetchConsortiumLocations: jest.fn(() => () => Promise.resolve({ locations: [] })),
+}));
 
 jest.mock('./createExportReport', () => ({
   createExportReport: jest.fn().mockReturnValue('test report'),
@@ -61,11 +72,48 @@ const mockMutator = {
   },
 };
 
-test('should ', async () => {
-  const { result } = renderHook(() => useIntl());
-  const intl = result.current;
+const kyMock = {
+  extend: jest.fn().mockReturnThis(),
+  get: jest.fn(),
+};
 
-  const report = await getExportData(mockMutator, [orderLine], [order], intl);
+describe('getExportData', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  expect(report).toEqual('test report');
+  it('should get export data', async () => {
+    const { result } = renderHook(() => useIntl());
+    const { result: stripesResult } = renderHook(() => useStripes());
+    const intl = result.current;
+    const stripes = stripesResult.current;
+
+    const report = await getExportData(mockMutator, kyMock, { intl, stripes })([orderLine], [order], []);
+
+    expect(report).toEqual('test report');
+
+    expect(fetchConsortiumHoldingsByIds).not.toHaveBeenCalled();
+    expect(fetchConsortiumLocations).not.toHaveBeenCalled();
+  });
+
+  describe('Central ordering enabled', () => {
+    it('should get export data', async () => {
+      const { result } = renderHook(() => useIntl());
+      const { result: stripesResult } = renderHook(() => useStripes());
+      const intl = result.current;
+      const stripes = stripesResult.current;
+      const configs = {
+        isCentralOrderingEnabled: true,
+        intl,
+        stripes,
+      };
+
+      const report = await getExportData(mockMutator, kyMock, configs)([orderLine], [order], []);
+
+      expect(report).toEqual('test report');
+
+      expect(fetchConsortiumHoldingsByIds).toHaveBeenCalled();
+      expect(fetchConsortiumLocations).toHaveBeenCalled();
+    });
+  });
 });
