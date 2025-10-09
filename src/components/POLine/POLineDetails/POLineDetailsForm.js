@@ -75,7 +75,6 @@ function POLineDetailsForm({
   const isBinderyActive = get(formValues, POL_FORM_FIELDS.isBinderyActive, false);
 
   const isClaimingActive = Boolean(formValues?.claimingActive);
-  const orderFormat = formValues?.orderFormat;
 
   const checkinItemsFieldDisabled = (
     isClosedOrder
@@ -330,7 +329,7 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldBinderyActive disabled={isBinderyActiveDisabled(orderFormat)} />
+            <FieldBinderyActive disabled={isBinderyActiveDisabled(formValues, order)} />
           </Col>
         </IfFieldVisible>
       </Row>

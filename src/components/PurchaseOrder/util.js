@@ -17,24 +17,20 @@ const isLineAbleToBeReceived = (line = { cost: {} }) => {
 };
 
 export const isWorkflowStatusNotPending = (order) => {
-  const { workflowStatus } = order;
-
-  return workflowStatus !== ORDER_STATUSES.pending;
+  return order?.workflowStatus !== ORDER_STATUSES.pending;
 };
 
 export const isWorkflowStatusIsPending = (order) => {
-  const { workflowStatus } = order;
-
-  return workflowStatus === ORDER_STATUSES.pending;
+  return order?.workflowStatus === ORDER_STATUSES.pending;
 };
 
 export const isWorkflowStatusOpen = (order) => {
-  const { workflowStatus } = order;
-
-  return workflowStatus === ORDER_STATUSES.open;
+  return order?.workflowStatus === ORDER_STATUSES.open;
 };
 
-export const isWorkflowStatusClosed = ({ workflowStatus }) => workflowStatus === ORDER_STATUSES.closed;
+export const isWorkflowStatusClosed = (order) => {
+  return order?.workflowStatus === ORDER_STATUSES.closed;
+};
 
 export const isReceiveAvailableForLine = (line = {}, order = {}) => {
   const hasLineItemsToReceive = isLineAbleToBeReceived(line);
