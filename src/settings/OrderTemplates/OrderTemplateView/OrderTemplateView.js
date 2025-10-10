@@ -29,7 +29,10 @@ import {
   Pane,
   Row,
 } from '@folio/stripes/components';
-import { IfPermission } from '@folio/stripes/core';
+import {
+  IfPermission,
+  stripesShape,
+} from '@folio/stripes/core';
 import { ViewCustomFieldsRecord } from '@folio/stripes/smart-components';
 import {
   CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
@@ -513,7 +516,7 @@ OrderTemplateView.propTypes = {
     name: PropTypes.string,
   })).isRequired,
   rootPath: PropTypes.string,
-  stripes: PropTypes.shape({}).isRequired,
+  stripes: stripesShape.isRequired,
 };
 
 export default injectIntl(OrderTemplateView);
