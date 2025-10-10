@@ -17,6 +17,7 @@ import {
 } from '@folio/stripes/components';
 
 import { history } from 'fixtures/routerMocks';
+import { useIsFundsRestrictedByLocationIds } from '../../../components/POLine/hooks';
 import OrderTemplateView from './OrderTemplateView';
 
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
@@ -53,6 +54,10 @@ jest.mock('../../../components/POLine/Location/LocationView', () => jest.fn().mo
 jest.mock('../../../components/POLine/POLineDetails/POLineDetails', () => jest.fn().mockReturnValue('POLineDetails'));
 jest.mock('../../../components/PurchaseOrder/PODetails/PODetailsView', () => jest.fn().mockReturnValue('PODetailsView'));
 jest.mock('../../../components/PurchaseOrder/Summary/SummaryView', () => jest.fn().mockReturnValue('SummaryView'));
+jest.mock('../../../components/POLine/hooks', () => ({
+  ...jest.requireActual('../../../components/POLine/hooks'),
+  useIsFundsRestrictedByLocationIds: jest.fn(() => ({ hasLocationRestrictedFund: false })),
+}));
 
 const mockPush = jest.fn();
 
@@ -91,6 +96,10 @@ const renderOrderTemplateView = (props = {}) => render(
 );
 
 describe('OrderTemplateView', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render \'order template view\' items', () => {
     renderOrderTemplateView();
 
@@ -134,6 +143,10 @@ describe('OrderTemplateView', () => {
     await user.click(screen.getByText('ui-orders.settings.orderTemplates.confirmDelete.confirmLabel'));
 
     expect(defaultProps.onDelete).toHaveBeenCalled();
+  });
+
+  it('should display validation error when restricted funds used for wrong locations', () => {
+    useIsFundsRestrictedByLocationIds.mockReturnValue({ hasLocationRestrictedFund: true });
   });
 
   describe('OrderTemplateView shortcuts', () => {
