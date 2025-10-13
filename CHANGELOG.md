@@ -38,6 +38,7 @@
 * Handle existing orders in non-default currencies when ECB provider does not support them. Refs UIOR-1474.
 * Add "Approved by" and "Opened by" to order view and order history view. Refs UIOR-1456.
 * Disable "Bindery active" checkbox on open order when criteria are not met. Refs UIOR-1476.
+* Display a validation error when a location-restricted funds violation occurs in a template. Refs UIOR-1477.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
