@@ -8,10 +8,15 @@ import {
 import { useIntl } from 'react-intl';
 
 import { exportToCsv } from '@folio/stripes/components';
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 import { useCustomFields } from '@folio/stripes/smart-components';
 import {
   CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
+  useCentralOrderingContext,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -32,6 +37,8 @@ const ExportSettingsModalContainer = ({
   mutator,
   fetchOrdersAndLines,
 }) => {
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+
   const [isExporting, setIsExporting] = useState(false);
   const [customFieldsPO, isLoadingPO] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_ORDER);
   const [customFieldsPOL, isLoadingPOL] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_PO_LINE);
@@ -42,6 +49,8 @@ const ExportSettingsModalContainer = ({
   const isLoadingCustomFields = isLoadingPO || isLoadingPOL;
   const showCallout = useShowCallout();
   const intl = useIntl();
+  const ky = useOkapiKy();
+  const stripes = useStripes();
 
   const onExportCSV = useCallback(async (exportFields) => {
     try {
@@ -50,7 +59,15 @@ const ExportSettingsModalContainer = ({
 
       const { lines, orders } = await fetchOrdersAndLines();
 
-      const exportData = await getExportData(mutator, lines, orders, customFields, intl);
+      const exportData = await getExportData(
+        mutator,
+        ky,
+        {
+          intl,
+          isCentralOrderingEnabled,
+          stripes,
+        },
+      )(lines, orders, customFields);
 
       setIsExporting(false);
 

@@ -39,6 +39,7 @@
 * Add "Approved by" and "Opened by" to order view and order history view. Refs UIOR-1456.
 * Disable "Bindery active" checkbox on open order when criteria are not met. Refs UIOR-1476.
 * Display a validation error when a location-restricted funds violation occurs in a template. Refs UIOR-1477.
+* Include locations from member tenants in the CSV export file for orders. Refs UIOR-1467.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
