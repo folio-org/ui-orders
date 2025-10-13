@@ -41,7 +41,6 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
   const { change } = useForm();
 
   const isManualOrder = get(formValues, PO_FORM_FIELDS.manualPo);
-  const orderFormat = get(formValues, POL_FORM_FIELDS.orderFormat);
   const isBinderyActive = get(formValues, POL_FORM_FIELDS.isBinderyActive);
   const isCheckInItems = get(formValues, POL_FORM_FIELDS.checkinItems);
   const isClaimingActive = get(formValues, POL_FORM_FIELDS.claimingActive);
@@ -193,7 +192,7 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-is-bindary-active
         >
           <VisibilityControl name="hiddenFields.details.isBinderyActive">
-            <FieldBinderyActive disabled={isBinderyActiveDisabled(orderFormat)} />
+            <FieldBinderyActive disabled={isBinderyActiveDisabled(formValues)} />
           </VisibilityControl>
         </Col>
       </Row>
