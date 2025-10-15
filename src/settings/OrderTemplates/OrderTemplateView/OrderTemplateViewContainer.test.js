@@ -8,10 +8,11 @@ import {
 import { useLocationsQuery } from '@folio/stripes-acq-components';
 
 import { location } from 'fixtures';
+import { useOrderTemplate } from '../../../common/hooks';
 import { getCommonErrorMessage } from '../../../common/utils';
 import { useOrderTemplateCategories } from '../../hooks';
-import OrderTemplateViewContainer from './OrderTemplateViewContainer';
 import OrderTemplateView from './OrderTemplateView';
+import OrderTemplateViewContainer from './OrderTemplateViewContainer';
 
 jest.mock('react-intl', () => ({
   ...jest.requireActual('react-intl'),
@@ -24,6 +25,10 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
   useLocationsQuery: jest.fn(),
+}));
+jest.mock('../../../common/hooks', () => ({
+  ...jest.requireActual('../../../common/hooks'),
+  useOrderTemplate: jest.fn(),
 }));
 jest.mock('../../../common/utils', () => ({
   ...jest.requireActual('../../../common/utils'),
@@ -65,7 +70,12 @@ const template = {
 describe('OrderTemplateViewContainer', () => {
   beforeEach(() => {
     useLocationsQuery.mockReturnValue({ locations: [location] });
+    useOrderTemplate.mockReturnValue({ orderTemplate: template });
     useOrderTemplateCategories.mockReturnValue({ orderTemplateCategories: [] });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render order template view', () => {
