@@ -16,6 +16,7 @@ import {
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
+import { useOrderTemplate } from '../../../common/hooks';
 import {
   getAddresses,
   getCommonErrorMessage,
@@ -56,6 +57,21 @@ function OrderTemplateViewContainer({
   const intl = useIntl();
   const sendCallout = useShowCallout();
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
+
+  const {
+    isLoading: isLocationsLoading,
+    locations,
+  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
+
+  const {
+    isFetching: isOrderTemplateCategoriesFetching,
+    orderTemplateCategories,
+  } = useOrderTemplateCategories();
+
+  const {
+    isFetching: isOrderTemplateFetching,
+    orderTemplate,
+  } = useOrderTemplate(id);
 
   const onDuplicateOrderTemplate = useCallback(async ({ id: _, templateName, ...template }) => {
     try {
@@ -101,22 +117,15 @@ function OrderTemplateViewContainer({
     [close, id, sendCallout, showSuccessDeleteMessage],
   );
 
-  const {
-    isLoading: isLocationsLoading,
-    locations,
-  } = useLocationsQuery({ consortium: isCentralOrderingEnabled });
-
-  const {
-    isFetching: isOrderTemplateCategoriesFetching,
-    orderTemplateCategories,
-  } = useOrderTemplateCategories();
-
-  const orderTemplate = get(resources, ['orderTemplate', 'records', 0], {});
   const addresses = getAddresses(get(resources, 'addresses.records', []));
   const funds = get(resources, 'funds.records', []);
   const materialTypes = get(resources, 'materialTypes.records', []);
 
-  const isLoading = isLocationsLoading || isOrderTemplateCategoriesFetching;
+  const isLoading = (
+    isLocationsLoading
+    || isOrderTemplateCategoriesFetching
+    || isOrderTemplateFetching
+  );
 
   return (
     <TitleManager
@@ -145,7 +154,10 @@ function OrderTemplateViewContainer({
 OrderTemplateViewContainer.manifest = Object.freeze({
   addresses: ADDRESSES,
   materialTypes: MATERIAL_TYPES,
-  orderTemplate: ORDER_TEMPLATE,
+  orderTemplate: {
+    ...ORDER_TEMPLATE,
+    fetch: false,
+  },
 });
 
 OrderTemplateViewContainer.propTypes = {
