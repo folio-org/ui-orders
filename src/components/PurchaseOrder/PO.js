@@ -805,6 +805,7 @@ const PO = ({
                 hiddenFields={hiddenFields}
                 onSelectFiscalYear={setSelectedFiscalYear}
                 order={order}
+                orderLines={orderLines}
                 selectedFiscalYear={selectedFiscalYear}
               />
             </Accordion>
