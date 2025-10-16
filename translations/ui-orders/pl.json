@@ -939,7 +939,7 @@
     "poLine.suppressFromDiscovery.tooltip": "When true this will suppress any instance record that is created when this order is Opened. If the order line is linked to an existing instance using the Title Lookup or it is matched to an existing instance by product identifier. This flag will not suppress the existing instance.",
     "orderDetails.prefix.deprecated": "{name} (deprecated)",
     "orderDetails.suffix.deprecated": "{name} (deprecated)",
-    "settings.poNumber.modifier.deprecated": "Deprecated",
+    "settings.poNumber.modifier.deprecated": "Wycofany",
     "settings.poNumber.prefix.aria-label.deprecated": "Mark {name} as deprecated",
     "settings.poNumber.suffix.aria-label.deprecated": "Mark {name} as deprecated",
     "settings.update.error": "Failed to update the settings.",
