@@ -29,7 +29,10 @@ export const useIsFundsRestrictedByLocationIds = (line) => {
   const {
     isFetching: isHoldingsFetching,
     holdings,
-  } = useInstanceHoldingsQuery(line?.instanceId, { consortium: isCentralOrderingEnabled });
+  } = useInstanceHoldingsQuery(line?.instanceId, {
+    consortium: isCentralOrderingEnabled,
+    enabled: !!holdingIds.length,
+  });
 
   const locationIdsSet = useMemo(() => {
     const holdingIdsSet = new Set(holdingIds);
@@ -43,7 +46,9 @@ export const useIsFundsRestrictedByLocationIds = (line) => {
   const {
     funds,
     isFetching: isFundsFetching,
-  } = useFundsById(fundIds, { enabled: !isHoldingsFetching });
+  } = useFundsById(fundIds, {
+    enabled: !isHoldingsFetching && !!locationIdsSet.size, // to avoid fetching funds when there are no locations
+  });
 
   const locationsRestrictedByFunds = useMemo(() => {
     return funds
@@ -58,12 +63,23 @@ export const useIsFundsRestrictedByLocationIds = (line) => {
   }, [locationsRestrictedByFunds, locationIdsSet]);
 
   const hasLocationRestrictedFund = useMemo(() => {
-    if (!isHoldingsFetching && !isFundsFetching && locationsRestrictedByFunds.length) {
+    if (
+      !isHoldingsFetching
+      && !isFundsFetching
+      && locationsRestrictedByFunds.length
+      && locationIdsSet.size
+    ) {
       return !isFundNotRestricted();
     }
 
     return false;
-  }, [locationsRestrictedByFunds, isFundNotRestricted, isFundsFetching, isHoldingsFetching]);
+  }, [
+    isHoldingsFetching,
+    isFundNotRestricted,
+    isFundsFetching,
+    locationsRestrictedByFunds.length,
+    locationIdsSet.size,
+  ]);
 
   return ({
     isLoading: isHoldingsFetching || isFundsFetching,
