@@ -25,7 +25,7 @@ const getTotalEstimatedPriceFromPOLines = (orderLines, stripes) => {
 
   return totalEstimatedPrices
     .sort(([currencyA], [currencyB]) => currencyA.localeCompare(currencyB))
-    .map(([currency, formattedAmount]) => `${currency} ${formattedAmount}`)
+    .map(([_currency, formattedAmount]) => formattedAmount)
     .join(', ') || getAmountWithCurrency(stripes.locale, stripes.currency, 0);
 };
 
