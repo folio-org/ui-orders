@@ -10,6 +10,7 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 import {
   AmountWithCurrencyField,
   IfVisible,
@@ -17,6 +18,8 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { FiscalYearSelect } from '../../FiscalYearSelect';
+import { TotalEstimatedPrice } from '../components';
+import { isWorkflowStatusNotPending } from '../util';
 import TotalEncumberedValue from './TotalEncumberedValue';
 import TotalExpendedValue from './TotalExpendedValue';
 import TotalUnits from './TotalUnits';
@@ -29,6 +32,7 @@ const defaultProps = {
   },
   hiddenFields: {},
   order: {},
+  orderLines: [],
 };
 
 const SummaryView = ({
@@ -36,9 +40,20 @@ const SummaryView = ({
   hiddenFields = defaultProps.hiddenFields,
   onSelectFiscalYear,
   order = defaultProps.order,
+  orderLines = defaultProps.orderLines,
   selectedFiscalYear,
 }) => {
   const intl = useIntl();
+  const stripes = useStripes();
+
+  /*
+    If there are order lines with currency different from the PO currency,
+    then we need to show the total estimated price separately for each currency.
+    Exchanged total estimated price will be shown in this case as well.
+   */
+  const isExchangedTotalEstimatedPriceVisible = useMemo(() => {
+    return orderLines.some((line) => line.cost?.currency !== stripes.currency);
+  }, [orderLines, stripes.currency]);
 
   const fiscalYearsOptions = useMemo(() => {
     const {
@@ -128,15 +143,26 @@ const SummaryView = ({
       </Row>
 
       <Row>
+        {isExchangedTotalEstimatedPriceVisible && (
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <TotalEstimatedPrice orderLines={orderLines} />
+          </Col>
+        )}
+
         <Col
           xs={6}
           lg={3}
         >
-          <KeyValue label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}>
-            <AmountWithCurrencyField amount={order.totalEstimatedPrice} />
-          </KeyValue>
+          <KeyValue
+            label={<FormattedMessage id={`ui-orders.orderSummary.totalEstimatedPrice${isExchangedTotalEstimatedPriceVisible ? '.exchanged' : ''}`} />}
+            value={<AmountWithCurrencyField amount={order.totalEstimatedPrice} />}
+          />
         </Col>
-        {order.workflowStatus !== ORDER_STATUSES.pending && (
+
+        {isWorkflowStatusNotPending(order) && (
           <Col
             data-test-total-encumbered
             xs={6}
@@ -148,6 +174,7 @@ const SummaryView = ({
             />
           </Col>
         )}
+
         <Col
           data-test-total-expended
           xs={6}
@@ -208,6 +235,12 @@ SummaryView.propTypes = {
   hiddenFields: PropTypes.shape({}),
   onSelectFiscalYear: PropTypes.func,
   order: PropTypes.shape({}),
+  orderLines: PropTypes.arrayOf(PropTypes.shape({
+    cost: PropTypes.shape({
+      currency: PropTypes.string,
+      poLineEstimatedPrice: PropTypes.number,
+    }),
+  })),
   selectedFiscalYear: PropTypes.string,
 };
 

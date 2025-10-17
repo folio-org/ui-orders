@@ -24,14 +24,15 @@ import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 import { history } from 'fixtures/routerMocks';
 import { ORDERS_ROUTE } from '../../common/constants';
 import { useOrderLinesAbandonedHoldingsCheck } from '../../common/hooks';
-import { useOrderMutation, usePurchaseOrderResources } from './hooks';
+import {
+  useOrderMutation,
+  usePurchaseOrderResources,
+} from './hooks';
 import PO from './PO';
 
-jest.mock('@folio/stripes-acq-components/lib/AcqUnits/hooks/useAcqRestrictions', () => {
-  return {
-    useAcqRestrictions: jest.fn().mockReturnValue({ restrictions: {} }),
-  };
-});
+jest.mock('@folio/stripes-acq-components/lib/AcqUnits/hooks/useAcqRestrictions', () => ({
+  useAcqRestrictions: jest.fn().mockReturnValue({ restrictions: {} }),
+}));
 jest.mock('@folio/stripes-components/lib/Commander', () => ({
   HasCommand: jest.fn(({ children }) => <div>{children}</div>),
   expandAllSections: jest.fn(),
@@ -375,7 +376,12 @@ describe('PO actions', () => {
           ...ORDER,
           workflowStatus: ORDER_STATUSES.pending,
         },
-        orderLines: [{ id: 'po-line-id' }],
+        orderLines: [{
+          id: 'po-line-id',
+          cost: {
+            currency: 'USD',
+          },
+        }],
       });
 
       renderComponent();
