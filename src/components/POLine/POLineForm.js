@@ -532,6 +532,7 @@ function POLineForm({
                             id={ACCORDION_ID.lineDetails}
                           >
                             <POLineDetailsForm
+                              batch={batch}
                               change={change}
                               createInventorySetting={createInventorySetting}
                               formValues={formValues}
