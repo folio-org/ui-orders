@@ -39,7 +39,7 @@ import {
 import { isReceiptNotRequired } from '../../../../components/POLine/utils';
 
 const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
-  const { change } = useForm();
+  const { batch, change } = useForm();
 
   const isManualOrder = get(formValues, PO_FORM_FIELDS.manualPo);
   const isBinderyActive = get(formValues, POL_FORM_FIELDS.isBinderyActive);
