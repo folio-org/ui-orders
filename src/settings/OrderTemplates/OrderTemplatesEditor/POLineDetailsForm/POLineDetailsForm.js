@@ -33,12 +33,13 @@ import {
   FieldRequester,
   FieldRush,
   FieldSelector,
+  handleBinderyActiveFieldChange,
   isBinderyActiveDisabled,
 } from '../../../../common/POLFields';
 import { isReceiptNotRequired } from '../../../../components/POLine/utils';
 
 const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
-  const { change } = useForm();
+  const { batch, change } = useForm();
 
   const isManualOrder = get(formValues, PO_FORM_FIELDS.manualPo);
   const isBinderyActive = get(formValues, POL_FORM_FIELDS.isBinderyActive);
@@ -66,6 +67,10 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
       change(POL_FORM_FIELDS.claimingInterval, undefined);
     }
   }, [change]);
+
+  const onBinderyActiveChange = useCallback(({ target: { checked } }) => {
+    return handleBinderyActiveFieldChange(checked, { batch, change });
+  }, [batch, change]);
 
   return (
     <>
@@ -192,7 +197,10 @@ const POLineDetailsForm = ({ formValues, createInventorySetting }) => {
           data-col-order-template-pol-is-bindary-active
         >
           <VisibilityControl name="hiddenFields.details.isBinderyActive">
-            <FieldBinderyActive disabled={isBinderyActiveDisabled(formValues)} />
+            <FieldBinderyActive
+              disabled={isBinderyActiveDisabled(formValues)}
+              onChange={onBinderyActiveChange}
+            />
           </VisibilityControl>
         </Col>
       </Row>

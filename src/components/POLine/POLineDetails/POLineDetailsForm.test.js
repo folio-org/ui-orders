@@ -30,8 +30,6 @@ const defaultProps = {
 };
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}
@@ -44,13 +42,14 @@ const renderPOLineDetailsForm = (props = {}, _initialValues = {}) => render(
     initialValues={_initialValues}
     render={({
       initialValues,
-      form: { change },
+      form: { batch, change },
       values,
     }) => (
       <POLineDetailsForm
-        initialValues={initialValues}
-        formValues={values}
+        batch={batch}
         change={change}
+        formValues={values}
+        initialValues={initialValues}
         {...defaultProps}
         {...props}
       />
@@ -149,6 +148,57 @@ describe('POLineDetailsForm', () => {
 
       /* No changes */
       expect(receiptStatusField).toHaveValue(RECEIPT_STATUS.awaitingReceipt);
+      expect(receivingWorkflowField).toHaveValue('false');
+      expect(receivingWorkflowField).not.toBeDisabled();
+    });
+
+    it('should confirm modal when a user activates \'Bindery active\' on post-pending order', async () => {
+      renderPOLineDetailsForm(
+        {
+          order: { workflowStatus: WORKFLOW_STATUS.open },
+        },
+        { checkinItems: false },
+      );
+
+      const binderyActiveField = screen.getByRole('checkbox', { name: /poLine.isBinderyActive/ });
+      const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
+
+      expect(receivingWorkflowField).toHaveValue('false');
+
+      await userEvent.click(binderyActiveField);
+
+      expect(receivingWorkflowField).toHaveValue('false');
+      expect(screen.getByText('ui-orders.poLine.receivingWorkflow.confirmModal.heading')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole('button', { name: 'stripes-core.button.confirm' }));
+
+      expect(binderyActiveField).toBeChecked();
+      expect(receivingWorkflowField).toHaveValue('true');
+      expect(receivingWorkflowField).toBeDisabled();
+    });
+
+    it('should cancel modal when a user selects \'Bindery active\' on post-pending order', async () => {
+      renderPOLineDetailsForm(
+        {
+          order: { workflowStatus: WORKFLOW_STATUS.open },
+        },
+        { checkinItems: false },
+      );
+
+      const binderyActiveField = screen.getByRole('checkbox', { name: /poLine.isBinderyActive/ });
+      const receivingWorkflowField = screen.getByRole('combobox', { name: /ui-orders.poLine.receivingWorkflow/ });
+
+      expect(receivingWorkflowField).toHaveValue('false');
+
+      await userEvent.click(binderyActiveField);
+
+      expect(receivingWorkflowField).toHaveValue('false');
+      expect(screen.getByText('ui-orders.poLine.receivingWorkflow.confirmModal.heading')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole('button', { name: 'stripes-components.cancel' }));
+
+      /* No changes */
+      expect(binderyActiveField).not.toBeChecked();
       expect(receivingWorkflowField).toHaveValue('false');
       expect(receivingWorkflowField).not.toBeDisabled();
     });

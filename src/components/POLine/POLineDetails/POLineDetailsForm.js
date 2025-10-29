@@ -37,6 +37,7 @@ import {
   FieldClaimingActive,
   FieldClaimingInterval,
   FieldBinderyActive,
+  handleBinderyActiveFieldChange,
   isBinderyActiveDisabled,
 } from '../../../common/POLFields';
 import {
@@ -57,6 +58,7 @@ const defaultProps = {
 };
 
 function POLineDetailsForm({
+  batch,
   change,
   createInventorySetting,
   formValues,
@@ -123,6 +125,22 @@ function POLineDetailsForm({
       change(POL_FORM_FIELDS.receiptStatus, value || undefined);
     }
   }, [change, initReceivingWorkflowChange, isClosedOrder, isCheckInItems, isOpenedOrder]);
+
+  const onBinderyActiveChange = useCallback(async ({ target: { checked } }) => {
+    const shouldTriggerReceivingWorkflowChange = (
+      checked
+      && isPostPendingOrder
+      && !isCheckInItems
+    );
+
+    if (shouldTriggerReceivingWorkflowChange) {
+      await initReceivingWorkflowChange()
+        .then(() => handleBinderyActiveFieldChange(checked, { batch, change }))
+        .catch(noop);
+    } else {
+      handleBinderyActiveFieldChange(checked, { batch, change });
+    }
+  }, [batch, change, initReceivingWorkflowChange, isCheckInItems, isPostPendingOrder]);
 
   const onClaimingActiveChange = useCallback((event) => {
     const { target: { checked } } = event;
@@ -329,7 +347,10 @@ function POLineDetailsForm({
             xs={6}
             md={3}
           >
-            <FieldBinderyActive disabled={isBinderyActiveDisabled(formValues, order)} />
+            <FieldBinderyActive
+              disabled={isBinderyActiveDisabled(formValues, order)}
+              onChange={onBinderyActiveChange}
+            />
           </Col>
         </IfFieldVisible>
       </Row>
@@ -439,6 +460,7 @@ function POLineDetailsForm({
 }
 
 POLineDetailsForm.propTypes = {
+  batch: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
   createInventorySetting: PropTypes.shape({
     eresource: PropTypes.string,
