@@ -559,7 +559,7 @@
     "errors.ongoingNotAllowed": "O campo em andamento deve estar ausente no pedido único",
     "errors.closeOrder": "Falha ao fechar o pedido",
     "line.closedOrderMessage": "Pedido de compra fechado - {reason}",
-    "itemDetails.titleLookUp": "Pesquisa de título",
+    "itemDetails.titleLookUp": "Consultar título",
     "itemDetails.titleLookUpNoPlugin": "[nenhum plugin de seleção de instância]",
     "orderSummary.totalEncumbered": "Total onerado",
     "unopenOrderModal.title": "Pendente - pedido de compra - {orderNumber}",
@@ -568,7 +568,7 @@
     "paneBlock.unopenBtn": "Pendente",
     "permission.order.unopen": "Pedidos: Pedidos de compra pendentes",
     "itemDetails.linkPackage": "Pacote de links",
-    "itemDetails.linkPackageLookUp": "Buscar linhas do pedido do pacote",
+    "itemDetails.linkPackageLookUp": "Consultar linhas do pedido de compra do pacote",
     "find-po-line-plugin-unavailable": "O plugin de busca de linha do pedidos de compra não está disponível",
     "deletePiece.btn.cancel": "Cancelar",
     "deletePiece.btn.deletePiece": "Excluir",
@@ -668,7 +668,7 @@
     "permission.order.updateEncumbrances": "Pedidos: Atualizar encargos",
     "settings.inventoryInteraction.label": "Interações de registros App Inventário",
     "settings.instanceMatching": "Correspondência de instância",
-    "settings.instanceMatching.description": "Com a correspondência de instâncias desabilitada, as linhas de pedido de compra criarão novas instâncias e não serão vinculadas aos registros de instância existentes. Com a correspondência de instâncias habilitada, o FOLIO primeiro pesquisará as instâncias para encontrar uma correspondência para um ou mais IDs de produto fornecidos na Linha de Pedido de Compra. Se um ID de produto for encontrado, essa instância será vinculada a Linha de Pedido de Compra e o FOLIO NÃO criará uma nova instância para esse Linha de Pedido de Compra. Se nenhuma correspondência for encontrada, o sistema criará um novo registro de instância e vinculará a Linha de Pedido de Compra a essa instância.",
+    "settings.instanceMatching.description": "Com a correspondência de instâncias desabilitada, as linhas de pedido de compra criarão novas instâncias e não serão vinculadas aos registros de instância existentes. Com a correspondência de instâncias habilitada, o FOLIO primeiro buscará as instâncias para encontrar uma correspondência para um ou mais IDs de produto fornecidos na Linha de Pedido de Compra. Se um ID de produto for encontrado, essa instância será vinculada a Linha de Pedido de Compra e o FOLIO NÃO criará uma nova instância para esse Linha de Pedido de Compra. Se nenhuma correspondência for encontrada, o sistema criará um novo registro de instância e vinculará a Linha de Pedido de Compra a essa instância.",
     "settings.instanceMatching.toggle": "Desativar correspondência de instância",
     "shortcut.addPOL": "Adicionar Linha do Pedido de Compra",
     "appMenu.ordersAppSearch": "Buscar na app de Pedidos",
@@ -936,7 +936,7 @@
     "poLine.receivingWorkflow.confirmModal.message": "Você está prestes a alterar o fluxo de trabalho de recebimento para \"Pedido independente e quantidade de recebimento\". Essa alteração não pode ser desfeita, a menos que o pedido não tenha sido aberto. Tem certeza de que deseja continuar?",
     "orderDetails.openedBy": "Aberto por",
     "poLine.suppressFromDiscovery": "Suprimir instância da descoberta quando gerada por pedido",
-    "poLine.suppressFromDiscovery.tooltip": "Quando verdadeiro, isso oculta qualquer registro de instância criado quando esse pedido for aberto. Se a linha do pedido estiver vinculada a uma instância existente usando a Pesquisa de Título ou se corresponder a uma instância existente por identificador de produto. Esse sinalizador não oculta a instância existente.",
+    "poLine.suppressFromDiscovery.tooltip": "Quando verdadeiro, isso oculta qualquer registro de instância criado quando esse pedido for aberto. Se a linha do pedido estiver vinculada a uma instância existente usando a Consulta de Título ou se corresponder a uma instância existente por identificador de produto. Esse sinalizador não oculta a instância existente.",
     "orderDetails.prefix.deprecated": "{name} (descontinuado)",
     "orderDetails.suffix.deprecated": "{name} (descontinuado)",
     "settings.poNumber.modifier.deprecated": "Descontinuado",
@@ -946,5 +946,6 @@
     "order.fiscalYear": "Ano fiscal",
     "order.fiscalYear.current": "Atual",
     "order.fiscalYear.previous": "Anterior",
-    "errors.cannotConvertAmountInvalidCurrency": "A moeda selecionada não pode ser convertida. Configure um provedor de taxa de câmbio que suporte essa moeda."
+    "errors.cannotConvertAmountInvalidCurrency": "A moeda selecionada não pode ser convertida. Configure um provedor de taxa de câmbio que suporte essa moeda.",
+    "orderSummary.totalEstimatedPrice.exchanged": "Preço total estimado (Trocado)"
 }

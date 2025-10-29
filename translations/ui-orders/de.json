@@ -677,7 +677,7 @@
     "button.printLine": "Bestellposten drucken",
     "buttons.line.submit": "Absenden",
     "unopenOrderModal.message.withoutPieces": "Öffnen der Bestellung wirklich rückgängig machen?",
-    "unopenOrderModal.message.withPieces": "Diese Bestellung hat mindestens eine Bestellposition mit Inventarisierungsworkflow „Synchronisierte Bestell- und Eingangsmenge“. Bei solchen POLs mit zugehörigen Inventarisierungsdatensätzen werden alle nicht inventarisierten Stücke gelöscht, und alle Bestellexemplare, die sich auf diese Exemplare beziehen, werden ebenfalls aus dem Katalog gelöscht. Bestände, die mit solchen Exemplaren verknüpft sind, und die keine anderen verknüpften Exemplare haben, werden ebenfalls aus dem Katalog gelöscht. Soll das Öffnen der Bestellung wirklich rückgängig gemacht werden?",
+    "unopenOrderModal.message.withPieces": "Diese Bestellung hat mindestens einen Bestellposten mit Inventarisierungsworkflow „Synchronisierte Bestell- und Eingangsmenge“. Bei solchen POLs mit zugehörigen Inventarisierungsdatensätzen werden alle nicht inventarisierten Stücke gelöscht, und alle Bestellexemplare, die sich auf diese Exemplare beziehen, werden ebenfalls aus dem Katalog gelöscht. Bestände, die mit solchen Exemplaren verknüpft sind, und die keine anderen verknüpften Exemplare haben, werden ebenfalls aus dem Katalog gelöscht. Soll das Öffnen der Bestellung wirklich rückgängig gemacht werden?",
     "duplicateLines.confirmation.heading": "Bestellposten speichern",
     "duplicateLines.confirmation.message": "Dies scheint ein doppelter Bestellposten zu sein",
     "duplicateLines.confirmation.title": "Möglicherweise doppelter Bestellposten",
@@ -854,7 +854,7 @@
     "poLine.claimingInterval": "Mahnintervall",
     "poLine.donorOrganizationIds": "Informationen zur spendenden Person",
     "settings.customFields.purchaseOrders": "Benutzerdefinierte Felder - Bestellungen",
-    "settings.customFields.purchaseOrderLines": "Benutzerdefinierte Felder - Bestellpositionen",
+    "settings.customFields.purchaseOrderLines": "Benutzerdefinierte Felder - Bestellposten",
     "errors.openOrder.fundLocationRestrictionViolation": "Bestellung kann nicht geöffnet werden. Ein oder mehrere Fonds von Bestellposten <b>{polNumber}</b> sind für die ausgewählten Standorte ungültig.",
     "errors.poLineHasLocationRestrictedFund": "Standortbeschränkter Fonds auf ungültigen Standort angewendet",
     "errors.templateNameNotUnique": "Bestellvorlage konnte nicht gespeichert werden, weil dieser Name bereits existiert.",
@@ -946,5 +946,6 @@
     "order.fiscalYear": "Fiscal year",
     "order.fiscalYear.current": "Current",
     "order.fiscalYear.previous": "Previous",
-    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency."
+    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
+    "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)"
 }

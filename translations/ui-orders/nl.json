@@ -395,7 +395,7 @@
     "order.lastUpdated": "Laatst bijgewerkt",
     "order.acquisitionsUnit": "Acquisitie-unit",
     "search.contributors": "Bijdrager",
-    "search.donor": "Donateur",
+    "search.donor": "Donor (verouderd)",
     "search.details.productIds": "Product-ID",
     "search.publisher": "Uitgever",
     "search.selector": "Selector",
@@ -946,5 +946,6 @@
     "order.fiscalYear": "Boekjaar",
     "order.fiscalYear.current": "Huidige",
     "order.fiscalYear.previous": "Vorige",
-    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency."
+    "errors.cannotConvertAmountInvalidCurrency": "De geselecteerde valuta kan niet worden geconverteerd. Configureer een Leverancier van wisselkoersen die deze valuta ondersteunt.",
+    "orderSummary.totalEstimatedPrice.exchanged": "Geschatte prijs Totaal (Omgewisseld)"
 }
