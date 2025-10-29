@@ -1,4 +1,5 @@
 import flow from 'lodash/flow';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import {
   useCallback,
@@ -39,6 +40,7 @@ import {
   ENTITY_TYPE_ORDER,
   ENTITY_TYPE_PO_LINE,
   PO_CONFIG_NAME_PREFIX,
+  PO_FORM_FIELDS,
   PO_LINE_CONFIG_NAME_PREFIX,
   WORKFLOW_STATUS,
 } from '../../../common/constants';
@@ -266,7 +268,7 @@ const OrderTemplatesEditor = ({
                         />
                       </Accordion>
 
-                      <OngoingInfoForm />
+                      {isOngoing(get(formValues, PO_FORM_FIELDS.orderType)) && <OngoingInfoForm />}
 
                       <Accordion
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_NOTES]}
@@ -523,11 +525,12 @@ OrderTemplatesEditor.propTypes = {
 
 export default flow(
   stripesForm({
+    destroyOnUnregister: true,
     enableReinitialize: true,
     keepDirtyOnReinitialize: true,
     navigationCheck: true,
-    validateOnBlur: true,
     subscription: { values: true },
+    validateOnBlur: true,
   }),
   withUniqueFieldArrayItemKeys,
 )(OrderTemplatesEditor);
