@@ -946,5 +946,6 @@
     "order.fiscalYear": "财务年度",
     "order.fiscalYear.current": "当前",
     "order.fiscalYear.previous": "上一个",
-    "errors.cannotConvertAmountInvalidCurrency": "所选货币无法兑换。请配置支持此货币的汇率提供商。"
+    "errors.cannotConvertAmountInvalidCurrency": "所选货币无法兑换。请配置支持此货币的汇率提供商。",
+    "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)"
 }

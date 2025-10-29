@@ -946,5 +946,6 @@
     "order.fiscalYear": "Fiskální rok",
     "order.fiscalYear.current": "Současný",
     "order.fiscalYear.previous": "Předchozí",
-    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency."
+    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
+    "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)"
 }
