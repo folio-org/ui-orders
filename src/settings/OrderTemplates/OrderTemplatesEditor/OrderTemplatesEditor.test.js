@@ -5,6 +5,7 @@ import {
 import { MemoryRouter } from 'react-router-dom';
 
 import {
+  act,
   render,
   screen,
   waitFor,
@@ -15,6 +16,7 @@ import {
   collapseAllSections,
   expandAllSections,
 } from '@folio/stripes/components';
+import { ORDER_TYPES } from '@folio/stripes-acq-components';
 
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
@@ -38,6 +40,12 @@ jest.mock('@folio/stripes/smart-components', () => ({
 
     return <div>EditCustomFieldsRecord</div>;
   }),
+}));
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  AcqUnitsField: jest.fn().mockReturnValue('AcqUnitsField'),
+  FieldOrganization: jest.fn().mockReturnValue('FieldOrganization'),
+  FieldTags: jest.fn().mockReturnValue('FieldTags'),
 }));
 
 const defaultProps = {
@@ -111,6 +119,10 @@ const renderOrderTemplatesEditor = (props = {}) => render(
 );
 
 describe('OrderTemplatesEditor', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render \'order templates editor\' form fields', async () => {
     renderOrderTemplatesEditor();
 
@@ -148,6 +160,53 @@ describe('OrderTemplatesEditor', () => {
     expect(binderyActiveField).toBeChecked();
     expect(screen.getByLabelText(/physical.createInventory/)).toBeDisabled();
     expect(screen.getByLabelText(/workflow/i)).toBeDisabled();
+  });
+
+  describe('Form values', () => {
+    it('should NOT populate ongoing fields when order type is not ongoing', async () => {
+      renderOrderTemplatesEditor({
+        initialValues: { templateName: 'Test' },
+      });
+
+      await act(async () => {
+        await user.selectOptions(screen.getByRole('combobox', { name: /orderDetails.orderType/ }), [ORDER_TYPES.oneTime]);
+      });
+      await act(async () => {
+        await user.click(screen.getByRole('button', { name: /editor.save/ }));
+      });
+
+      const formValues = defaultProps.onSubmit.mock.calls[0][0];
+
+      expect(formValues.ongoing).toBeUndefined();
+      expect(formValues).toEqual(expect.objectContaining({
+        templateName: 'Test',
+        orderType: ORDER_TYPES.oneTime,
+      }));
+    }, 10000);
+
+    it('should populate ongoing fields when order type is ongoing', async () => {
+      renderOrderTemplatesEditor({
+        initialValues: { templateName: 'Test' },
+      });
+
+      await act(async () => {
+        await user.selectOptions(screen.getByRole('combobox', { name: /orderDetails.orderType/ }), [ORDER_TYPES.ongoing]);
+      });
+      await act(async () => {
+        await user.click(screen.getByRole('checkbox', { name: /renewals.subscription/ }));
+      });
+      await act(async () => {
+        await user.click(screen.getByRole('button', { name: /editor.save/ }));
+      });
+
+      const formValues = defaultProps.onSubmit.mock.calls[0][0];
+
+      expect(formValues.ongoing).toBeDefined();
+      expect(formValues).toEqual(expect.objectContaining({
+        templateName: 'Test',
+        orderType: ORDER_TYPES.ongoing,
+      }));
+    }, 10000);
   });
 
   describe('OrderTemplatesEditor shortcuts', () => {
