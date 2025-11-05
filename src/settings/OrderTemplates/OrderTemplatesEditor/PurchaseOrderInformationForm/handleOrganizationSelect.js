@@ -58,9 +58,12 @@ export const handleOrganizationSelect = (change, formValues) => (vendor) => {
     [POL_FORM_FIELDS.physicalMaterialSupplier, vendorId],
   ]);
 
-  fieldsToUpdateMap.forEach((config, fieldName) => {
-    return isObject(config)
-      ? (config.condition && change(fieldName, config.value))
-      : change(fieldName, config);
-  });
+  /* Apply changes for relevant fields */
+  for (const entry of fieldsToUpdateMap) {
+    (([fieldName, config]) => (
+      isObject(config)
+        ? (config.condition && change(fieldName, config.value))
+        : change(fieldName, config)
+    ))(entry);
+  }
 };
