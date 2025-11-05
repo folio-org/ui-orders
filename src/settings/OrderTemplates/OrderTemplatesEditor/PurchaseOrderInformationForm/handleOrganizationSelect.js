@@ -59,11 +59,13 @@ export const handleOrganizationSelect = (change, formValues) => (vendor) => {
   ]);
 
   /* Apply changes for relevant fields */
-  for (const entry of fieldsToUpdateMap) {
-    (([fieldName, config]) => (
-      isObject(config)
-        ? (config.condition && change(fieldName, config.value))
-        : change(fieldName, config)
-    ))(entry);
+  for (const [fieldName, config] of fieldsToUpdateMap) {
+    if (isObject(config)) {
+      if (config.condition) {
+        change(fieldName, config.value);
+      }
+    } else {
+      change(fieldName, config);
+    }
   }
 };
