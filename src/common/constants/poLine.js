@@ -52,6 +52,9 @@ export const POL_FORM_FIELDS = {
   costListUnitPriceElectronic: 'cost.listUnitPriceElectronic',
   costQuantityElectronic: 'cost.quantityElectronic',
   costQuantityPhysical: 'cost.quantityPhysical',
+  currency: 'cost.currency',
+  discount: 'cost.discount',
+  discountType: 'cost.discountType',
 
   /* E-resources details */
   eresource: 'eresource',

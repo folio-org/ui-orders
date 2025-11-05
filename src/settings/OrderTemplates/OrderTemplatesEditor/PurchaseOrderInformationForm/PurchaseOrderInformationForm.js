@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
+import { useForm } from 'react-final-form';
 
 import {
   Col,
@@ -25,15 +26,20 @@ import {
   FieldSuffix,
 } from '../../../../common/POFields';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
+import { handleOrganizationSelect } from './handleOrganizationSelect';
 
 const PurchaseOrderInformationForm = ({
   acqUnitIds,
   addresses,
-  change,
-  formValues,
   prefixesSetting,
   suffixesSetting,
 }) => {
+  const {
+    batch,
+    change,
+    getState,
+  } = useForm();
+
   const onManualPOChange = useCallback(({ target: { checked } }) => {
     change(PO_FORM_FIELDS.manualPo, checked);
 
@@ -41,6 +47,16 @@ const PurchaseOrderInformationForm = ({
       change(POL_FORM_FIELDS.automaticExport, false);
     }
   }, [change]);
+
+  const onSelectVendor = useCallback((vendor) => {
+    if (!vendor?.id) return;
+
+    const formValues = getState().values;
+
+    batch(() => {
+      handleOrganizationSelect(change, formValues)(vendor);
+    });
+  }, [batch, change, getState]);
 
   return (
     <Row>
@@ -68,9 +84,10 @@ const PurchaseOrderInformationForm = ({
       >
         <FieldOrganization
           change={change}
-          id={formValues.vendor}
+          id={getState().values?.vendor}
           labelId="ui-orders.orderDetails.vendor"
           name={PO_FORM_FIELDS.vendor}
+          onSelect={onSelectVendor}
           required={false}
         />
       </Col>
@@ -82,7 +99,7 @@ const PurchaseOrderInformationForm = ({
         <VisibilityControl name="hiddenFields.assignedTo">
           <FieldAssignedTo
             change={change}
-            userId={formValues?.assignedTo}
+            userId={getState().values?.assignedTo}
           />
         </VisibilityControl>
       </Col>
@@ -153,8 +170,6 @@ const PurchaseOrderInformationForm = ({
 PurchaseOrderInformationForm.propTypes = {
   acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   addresses: PropTypes.arrayOf(PropTypes.object),
-  change: PropTypes.func.isRequired,
-  formValues: PropTypes.object.isRequired,
   prefixesSetting: PropTypes.arrayOf(PropTypes.object),
   suffixesSetting: PropTypes.arrayOf(PropTypes.object),
 };
