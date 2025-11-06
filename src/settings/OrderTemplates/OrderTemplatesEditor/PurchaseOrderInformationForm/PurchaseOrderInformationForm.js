@@ -26,7 +26,7 @@ import {
   FieldSuffix,
 } from '../../../../common/POFields';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
-import { handleOrganizationSelect } from './handleOrganizationSelect';
+import { getOrganizationSelectHandler } from './getOrganizationSelectHandler';
 
 const PurchaseOrderInformationForm = ({
   acqUnitIds,
@@ -54,7 +54,7 @@ const PurchaseOrderInformationForm = ({
     const formValues = getState().values;
 
     batch(() => {
-      handleOrganizationSelect(change, formValues)(vendor);
+      getOrganizationSelectHandler(change, formValues)(vendor);
     });
   }, [batch, change, getState]);
 

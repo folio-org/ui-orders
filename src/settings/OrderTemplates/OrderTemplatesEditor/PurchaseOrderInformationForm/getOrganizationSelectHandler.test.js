@@ -3,9 +3,9 @@ import {
   POL_FORM_FIELDS,
 } from '../../../../common/constants';
 import { DISCOUNT_TYPE } from '../../../../components/POLine/const';
-import { handleOrganizationSelect } from './handleOrganizationSelect';
+import { getOrganizationSelectHandler } from './getOrganizationSelectHandler';
 
-describe('handleOrganizationSelect', () => {
+describe('getOrganizationSelectHandler', () => {
   it('should apply all updates when vendor provides values and discountType needs change', () => {
     const change = jest.fn();
     const vendor = {
@@ -22,7 +22,7 @@ describe('handleOrganizationSelect', () => {
       [POL_FORM_FIELDS.discountType]: 'amount',
     };
 
-    handleOrganizationSelect(change, formValues)(vendor);
+    getOrganizationSelectHandler(change, formValues)(vendor);
 
     // Expect 10 updates as every map entry should trigger when values are present
     expect(change).toHaveBeenCalledTimes(10);
@@ -52,7 +52,7 @@ describe('handleOrganizationSelect', () => {
       [POL_FORM_FIELDS.discountType]: DISCOUNT_TYPE.percentage,
     };
 
-    handleOrganizationSelect(change, formValues)(vendor);
+    getOrganizationSelectHandler(change, formValues)(vendor);
 
     // There are 10 entries in the map; 3 of them are conditional objects (discount, discountType, currency)
     // Those should be skipped here. The remaining 7 direct-config entries will still invoke change (possibly with undefined).

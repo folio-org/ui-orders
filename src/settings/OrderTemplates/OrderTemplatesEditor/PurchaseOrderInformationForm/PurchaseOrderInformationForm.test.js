@@ -10,7 +10,7 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import { FieldOrganization } from '@folio/stripes-acq-components';
 
-import { handleOrganizationSelect } from './handleOrganizationSelect';
+import { getOrganizationSelectHandler } from './getOrganizationSelectHandler';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 
 jest.mock('@folio/stripes-acq-components', () => ({
@@ -18,8 +18,8 @@ jest.mock('@folio/stripes-acq-components', () => ({
   FieldOrganization: jest.fn(() => 'ui-orders.orderDetails.vendor'),
 }));
 
-jest.mock('./handleOrganizationSelect', () => ({
-  handleOrganizationSelect: jest.fn(),
+jest.mock('./getOrganizationSelectHandler', () => ({
+  getOrganizationSelectHandler: jest.fn(),
 }));
 
 const defaultProps = {
@@ -53,7 +53,7 @@ const renderPurchaseOrderInformationForm = (props = {}) => render(
 
 describe('PurchaseOrderInformationForm', () => {
   beforeEach(() => {
-    handleOrganizationSelect.mockReturnValue(jest.fn());
+    getOrganizationSelectHandler.mockReturnValue(jest.fn());
   });
 
   afterEach(() => {
@@ -74,11 +74,11 @@ describe('PurchaseOrderInformationForm', () => {
     expect(screen.getByText('ui-orders.orderDetails.reEncumber')).toBeInTheDocument();
   });
 
-  it('should call handleOrganizationSelect on vendor change', async () => {
+  it('should call getOrganizationSelectHandler on vendor change', async () => {
     renderPurchaseOrderInformationForm();
 
     await FieldOrganization.mock.calls[0][0].onSelect({ id: 'vendorId' });
 
-    expect(handleOrganizationSelect).toHaveBeenCalled();
+    expect(getOrganizationSelectHandler).toHaveBeenCalled();
   });
 });

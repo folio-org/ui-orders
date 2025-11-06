@@ -7,10 +7,15 @@ import {
 } from '../../../../common/constants';
 import { DISCOUNT_TYPE } from '../../../../components/POLine/const';
 
-export const handleOrganizationSelect = (change, formValues) => (vendor) => {
+/*
+  Returns a handler function to be called when an organization (vendor) is selected.
+  The handler updates various form fields based on the selected vendor's details
+  and current form values.
+*/
+export const getOrganizationSelectHandler = (change, formValues) => (vendor) => {
   /* Values from vendor */
   const vendorId = vendor.id;
-  const vendorPreferredCurrency = vendor.vendorCurrencies?.slice(-1)[0];
+  const vendorPreferredCurrency = vendor.vendorCurrencies?.at(-1);
   const vendorAccount = vendor.accounts?.[0]?.accountNo;
   const claimingInterval = vendor.claimingInterval;
   const discount = vendor.discountPercent;
