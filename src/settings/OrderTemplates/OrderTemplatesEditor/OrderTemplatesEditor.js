@@ -263,8 +263,6 @@ const OrderTemplatesEditor = ({
                           prefixesSetting={prefixesSetting}
                           suffixesSetting={suffixesSetting}
                           addresses={addresses}
-                          formValues={formValues}
-                          change={change}
                         />
                       </Accordion>
 

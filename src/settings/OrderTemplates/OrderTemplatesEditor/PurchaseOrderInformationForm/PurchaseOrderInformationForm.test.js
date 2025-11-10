@@ -4,9 +4,23 @@ import {
   QueryClientProvider,
 } from 'react-query';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
+import { FieldOrganization } from '@folio/stripes-acq-components';
 
+import { getOrganizationSelectHandler } from './getOrganizationSelectHandler';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  FieldOrganization: jest.fn(() => 'ui-orders.orderDetails.vendor'),
+}));
+
+jest.mock('./getOrganizationSelectHandler', () => ({
+  getOrganizationSelectHandler: jest.fn(),
+}));
 
 const defaultProps = {
   acqUnitIds: [],
@@ -18,8 +32,6 @@ const defaultProps = {
 };
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}
@@ -40,6 +52,14 @@ const renderPurchaseOrderInformationForm = (props = {}) => render(
 );
 
 describe('PurchaseOrderInformationForm', () => {
+  beforeEach(() => {
+    getOrganizationSelectHandler.mockReturnValue(jest.fn());
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render \'PO information form\' fields', () => {
     renderPurchaseOrderInformationForm();
 
@@ -52,5 +72,13 @@ describe('PurchaseOrderInformationForm', () => {
     expect(screen.getByText('ui-orders.orderDetails.orderType')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderDetails.manualPO')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderDetails.reEncumber')).toBeInTheDocument();
+  });
+
+  it('should call getOrganizationSelectHandler on vendor change', async () => {
+    renderPurchaseOrderInformationForm();
+
+    await FieldOrganization.mock.calls[0][0].onSelect({ id: 'vendorId' });
+
+    expect(getOrganizationSelectHandler).toHaveBeenCalled();
   });
 });
