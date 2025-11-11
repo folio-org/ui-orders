@@ -523,7 +523,7 @@ OrderTemplatesEditor.propTypes = {
 
 export default flow(
   stripesForm({
-    destroyOnUnregister: true,
+    destroyOnUnregister: false, // `true` breaks fund distribution section
     enableReinitialize: true,
     keepDirtyOnReinitialize: true,
     navigationCheck: true,

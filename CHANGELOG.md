@@ -41,7 +41,7 @@
 * Display a validation error when a location-restricted funds violation occurs in a template. Refs UIOR-1477.
 * Include locations from member tenants in the CSV export file for orders. Refs UIOR-1467.
 * Display the total estimated price of PO in the actual currencies of the PO Lines, rather than in the converted value. Refs UIOR-1264.
-* Submit only fields registered in the form. Refs UIOR-1481.
+* Omit ongoing fields for the "One-time" order template form on submit. Refs UIOR-1481.
 * Display a confirmation modal when activating "Bindery active" field in the PO Line form of post-pending order. Refs UIOR-1479.
 * Enhance order template to use a vendor information. Refs UIOR-1482.
 
