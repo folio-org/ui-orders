@@ -59,8 +59,9 @@ const INITIAL_VALUES = { isPackage: false, hideAll: false };
 const sanitizeValues = (values) => {
   const sanitizedValues = { ...values };
   const orderType = get(values, PO_FORM_FIELDS.orderType);
+  const isNotOngoing = orderType !== ORDER_TYPES.ongoing;
 
-  return orderType !== ORDER_TYPES.ongoing
+  return isNotOngoing
     ? omit(sanitizedValues, PO_FORM_FIELDS.ongoing)
     : sanitizedValues;
 };
