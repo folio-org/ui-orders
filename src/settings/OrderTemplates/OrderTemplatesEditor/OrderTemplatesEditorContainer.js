@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import {
   useCallback,
@@ -16,6 +17,7 @@ import {
   DICT_CONTRIBUTOR_NAME_TYPES,
   DICT_IDENTIFIER_TYPES,
   getErrorCodeFromResponse,
+  ORDER_TYPES,
   prefixesResource,
   suffixesResource,
   useCentralOrderingContext,
@@ -45,6 +47,7 @@ import {
 } from '../../../common/utils';
 import {
   ORGANIZATION_STATUS_ACTIVE,
+  PO_FORM_FIELDS,
   PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE,
 } from '../../../common/constants';
 import { useOrderTemplate } from '../../../common/hooks';
@@ -52,6 +55,16 @@ import { useOrderTemplateCategories } from '../../hooks';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 const INITIAL_VALUES = { isPackage: false, hideAll: false };
+
+const sanitizeValues = (values) => {
+  const sanitizedValues = { ...values };
+  const orderType = get(values, PO_FORM_FIELDS.orderType);
+  const isNotOngoing = orderType !== ORDER_TYPES.ongoing;
+
+  return isNotOngoing
+    ? omit(sanitizedValues, PO_FORM_FIELDS.ongoing)
+    : sanitizedValues;
+};
 
 function OrderTemplatesEditorContainer({
   match: { params: { id } },
@@ -65,10 +78,11 @@ function OrderTemplatesEditorContainer({
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
 
   const saveOrderTemplate = useCallback((values) => {
+    const sanitizedValues = sanitizeValues(values);
     const mutatorMethod = id ? mutator.orderTemplate.PUT : mutator.orderTemplate.POST;
-    const templateName = values.templateName?.trim();
+    const templateName = sanitizedValues.templateName?.trim();
 
-    mutatorMethod({ ...values, templateName, hideAll: undefined })
+    mutatorMethod({ ...sanitizedValues, templateName, hideAll: undefined })
       .then(() => {
         showToast({ messageId: 'ui-orders.settings.orderTemplates.save.success' });
         close();
