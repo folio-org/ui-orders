@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
+import map from 'lodash/map';
 import PropTypes from 'prop-types';
-import { get, map } from 'lodash';
+import { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 
 import {
@@ -21,12 +22,15 @@ import { LINE_LISTING_COLUMN_MAPPING } from '../constants';
 
 const alignRowProps = { alignLastColToEnd: true };
 
+const DEFAULT_FUNDS = [];
+const DEFAULT_PO_LINES = [];
+
 function LineListing({
   baseUrl,
-  funds,
-  poLines,
+  funds = DEFAULT_FUNDS,
   history,
   location,
+  poLines = DEFAULT_PO_LINES,
   visibleColumns,
 }) {
   const onSelectRow = useCallback(
@@ -114,11 +118,6 @@ LineListing.propTypes = {
   location: PropTypes.object.isRequired,
   poLines: PropTypes.arrayOf(PropTypes.object),
   visibleColumns: PropTypes.arrayOf(PropTypes.string),
-};
-
-LineListing.defaultProps = {
-  funds: [],
-  poLines: [],
 };
 
 export default withRouter(LineListing);

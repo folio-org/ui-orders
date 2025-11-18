@@ -1,6 +1,5 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useForm } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
@@ -67,7 +66,7 @@ function FieldOrderFormat({
   createInventorySetting,
   disabled,
   formValues,
-  required,
+  required = true,
   vendor,
 }) {
   const { batch, change } = useForm();
@@ -109,15 +108,11 @@ function FieldOrderFormat({
 }
 
 FieldOrderFormat.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  vendor: PropTypes.object,
   createInventorySetting: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
+  formValues: PropTypes.object.isRequired,
   required: PropTypes.bool,
-};
-
-FieldOrderFormat.defaultProps = {
-  required: true,
+  vendor: PropTypes.object,
 };
 
 export default FieldOrderFormat;

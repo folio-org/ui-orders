@@ -9,7 +9,7 @@ import { UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES } from '../../../common/constants
 export const UnopenOrderConfirmationModalFooterEnd = ({
   id,
   itemsCount,
-  modalType,
+  modalType = UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.defaultType,
   onConfirm,
 }) => {
   const { synchronized, independent } = UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES;
@@ -53,10 +53,6 @@ export const UnopenOrderConfirmationModalFooterEnd = ({
       <FormattedMessage id="ui-orders.unopenOrderModal.confirmLabel" />
     </Button>
   );
-};
-
-UnopenOrderConfirmationModalFooterEnd.defaultProps = {
-  modalType: UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES.defaultType,
 };
 
 UnopenOrderConfirmationModalFooterEnd.propTypes = {

@@ -23,12 +23,12 @@ import { POL_FORM_FIELDS } from '../../../common/constants';
 const DEFAULT_ID_TYPES = [];
 
 function ProductIdDetailsForm({
-  disabled,
-  identifierTypes,
-  isNonInteractive,
+  disabled = false,
+  identifierTypes = DEFAULT_ID_TYPES,
+  isNonInteractive = false,
   onChangeField,
   onRemoveField,
-  required,
+  required = true,
 }) {
   const isEditable = !(disabled || isNonInteractive);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -113,19 +113,12 @@ function ProductIdDetailsForm({
 }
 
 ProductIdDetailsForm.propTypes = {
+  disabled: PropTypes.bool,
   identifierTypes: PropTypes.arrayOf(PropTypes.object),
   isNonInteractive: PropTypes.bool,
   onChangeField: PropTypes.func.isRequired,
   onRemoveField: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
   required: PropTypes.bool,
-};
-
-ProductIdDetailsForm.defaultProps = {
-  disabled: false,
-  identifierTypes: DEFAULT_ID_TYPES,
-  isNonInteractive: false,
-  required: true,
 };
 
 export default ProductIdDetailsForm;

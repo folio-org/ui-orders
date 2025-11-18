@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
@@ -8,7 +7,7 @@ import {
   FieldDatepickerFinal,
 } from '@folio/stripes-acq-components';
 
-const FieldActivationDue = ({ created }) => {
+const FieldActivationDue = ({ created = '' }) => {
   return (
     <FieldDatepickerFinal
       format={(value) => {
@@ -29,10 +28,6 @@ const FieldActivationDue = ({ created }) => {
 
 FieldActivationDue.propTypes = {
   created: PropTypes.string,
-};
-
-FieldActivationDue.defaultProps = {
-  created: '',
 };
 
 export default FieldActivationDue;

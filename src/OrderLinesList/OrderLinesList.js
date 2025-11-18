@@ -106,19 +106,22 @@ export const columnMapping = {
   acqUnit: <FormattedMessage id="ui-orders.order.acquisitionsUnit" />,
 };
 
+const DEFAULT_CUSTOM_FIELDS = [];
+const DEFAULT_ORDER_LINES = [];
+
 function OrderLinesList({
-  customFields,
+  customFields = DEFAULT_CUSTOM_FIELDS,
   history,
-  isLoading,
+  isLoading = false,
+  linesQuery = '',
   location,
   match,
   onNeedMoreData,
-  resetData,
-  orderLines,
-  orderLinesCount,
-  refreshList,
-  linesQuery,
+  orderLines = DEFAULT_ORDER_LINES,
+  orderLinesCount = 0,
   pagination,
+  refreshList,
+  resetData,
 }) {
   const [
     filters,
@@ -294,25 +297,17 @@ function OrderLinesList({
 
 OrderLinesList.propTypes = {
   customFields: PropTypes.arrayOf(PropTypes.object),
-  onNeedMoreData: PropTypes.func.isRequired,
-  resetData: PropTypes.func.isRequired,
-  orderLinesCount: PropTypes.number,
-  isLoading: PropTypes.bool,
-  orderLines: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
+  isLoading: PropTypes.bool,
+  linesQuery: PropTypes.string,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
-  refreshList: PropTypes.func.isRequired,
-  linesQuery: PropTypes.string,
+  onNeedMoreData: PropTypes.func.isRequired,
+  orderLines: PropTypes.arrayOf(PropTypes.object),
+  orderLinesCount: PropTypes.number,
   pagination: PropTypes.object,
-};
-
-OrderLinesList.defaultProps = {
-  customFields: [],
-  orderLinesCount: 0,
-  isLoading: false,
-  orderLines: [],
-  linesQuery: '',
+  refreshList: PropTypes.func.isRequired,
+  resetData: PropTypes.func.isRequired,
 };
 
 export default withRouter(OrderLinesList);

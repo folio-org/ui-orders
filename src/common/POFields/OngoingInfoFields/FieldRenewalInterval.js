@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
@@ -8,7 +7,12 @@ import {
   validateRequired,
 } from '@folio/stripes-acq-components';
 
-const FieldRenewalInterval = ({ required, disabled, isNonInteractive, ...rest }) => {
+const FieldRenewalInterval = ({
+  disabled = false,
+  isNonInteractive,
+  required = false,
+  ...rest
+}) => {
   const fieldIsRequired = required && !disabled && !isNonInteractive;
 
   return (
@@ -32,13 +36,8 @@ const FieldRenewalInterval = ({ required, disabled, isNonInteractive, ...rest })
 
 FieldRenewalInterval.propTypes = {
   disabled: PropTypes.bool,
-  required: PropTypes.bool,
   isNonInteractive: PropTypes.bool,
-};
-
-FieldRenewalInterval.defaultProps = {
-  disabled: false,
-  required: false,
+  required: PropTypes.bool,
 };
 
 export default FieldRenewalInterval;

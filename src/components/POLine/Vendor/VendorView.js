@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-
-import { get } from 'lodash';
+import { useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
@@ -16,7 +15,14 @@ import {
 
 import { useVendor } from '../../../common/hooks';
 
-const VendorView = ({ vendorDetail, vendorId, hiddenFields }) => {
+const DEFAULT_HIDDEN_FIELDS = {};
+const DEFAULT_VENDOR_DETAIL = {};
+
+const VendorView = ({
+  hiddenFields = DEFAULT_HIDDEN_FIELDS,
+  vendorDetail = DEFAULT_VENDOR_DETAIL,
+  vendorId,
+}) => {
   const { vendor } = useVendor(vendorId);
 
   const accountNumber = vendorDetail?.vendorAccount;
@@ -68,14 +74,9 @@ const VendorView = ({ vendorDetail, vendorId, hiddenFields }) => {
 };
 
 VendorView.propTypes = {
+  hiddenFields: PropTypes.object,
   vendorDetail: PropTypes.object,
   vendorId: PropTypes.string,
-  hiddenFields: PropTypes.object,
-};
-
-VendorView.defaultProps = {
-  vendorDetail: {},
-  hiddenFields: {},
 };
 
 export default VendorView;

@@ -1,15 +1,19 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
-  ButtonGroup,
   Button,
+  ButtonGroup,
 } from '@folio/stripes/components';
 
-const OrdersNavigation = ({ isOrders, isOrderLines, history }) => {
+const OrdersNavigation = ({
+  history,
+  isOrderLines = false,
+  isOrders = false,
+}) => {
   const goTo = useCallback(
     (tabId, search) => history.push({
       pathname: tabId,
@@ -41,14 +45,9 @@ const OrdersNavigation = ({ isOrders, isOrderLines, history }) => {
 };
 
 OrdersNavigation.propTypes = {
-  isOrders: PropTypes.bool,
-  isOrderLines: PropTypes.bool,
   history: ReactRouterPropTypes.history.isRequired,
-};
-
-OrdersNavigation.defaultProps = {
-  isOrders: false,
-  isOrderLines: false,
+  isOrderLines: PropTypes.bool,
+  isOrders: PropTypes.bool,
 };
 
 export default withRouter(OrdersNavigation);

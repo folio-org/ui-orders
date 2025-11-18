@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
@@ -18,13 +18,15 @@ import {
 
 import { POL_FORM_FIELDS } from '../../../common/constants';
 
+const DEFAULT_CONTRIBUTOR_NAME_TYPES = [];
+
 const ContributorForm = ({
+  contributorNameTypes = DEFAULT_CONTRIBUTOR_NAME_TYPES,
+  disabled = false,
+  isNonInteractive = false,
   onChangeField,
   onRemoveField,
-  disabled,
-  isNonInteractive,
-  required,
-  contributorNameTypes,
+  required = true,
 }) => {
   const isEditable = !(disabled || isNonInteractive);
 
@@ -94,19 +96,12 @@ const ContributorForm = ({
 };
 
 ContributorForm.propTypes = {
-  onChangeField: PropTypes.func.isRequired,
-  onRemoveField: PropTypes.func.isRequired,
+  contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   disabled: PropTypes.bool,
   isNonInteractive: PropTypes.bool,
+  onChangeField: PropTypes.func.isRequired,
+  onRemoveField: PropTypes.func.isRequired,
   required: PropTypes.bool,
-  contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
-};
-
-ContributorForm.defaultProps = {
-  contributorNameTypes: [],
-  disabled: false,
-  isNonInteractive: false,
-  required: true,
 };
 
 export default ContributorForm;

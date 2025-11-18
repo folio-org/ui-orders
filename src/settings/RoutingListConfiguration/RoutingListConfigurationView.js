@@ -30,17 +30,16 @@ import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import RoutingListConfigurationEmailTemplate from './RoutingListConfigurationEmailTemplate';
 
-const RoutingListConfigurationView = (props) => {
+const DEFAULT_LIST_CONFIG = {};
+
+const RoutingListConfigurationView = ({
+  intl: { formatMessage },
+  listConfig = DEFAULT_LIST_CONFIG,
+}) => {
   const accordionStatusRef = useRef();
   const location = useLocation();
   const history = useHistory();
   const stripes = useStripes();
-  const {
-    listConfig,
-    intl: {
-      formatMessage,
-    },
-  } = props;
 
   const emailTemplate = get(listConfig, 'localizedTemplates.en.body', '');
   const editable = stripes.hasPerm('ui-orders.settings.all');
@@ -120,10 +119,6 @@ const RoutingListConfigurationView = (props) => {
 RoutingListConfigurationView.propTypes = {
   intl: PropTypes.object.isRequired,
   listConfig: PropTypes.object,
-};
-
-RoutingListConfigurationView.defaultProps = {
-  listConfig: {},
 };
 
 export default injectIntl(RoutingListConfigurationView);

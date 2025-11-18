@@ -1,7 +1,6 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
@@ -14,7 +13,15 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
-const OtherView = ({ materialTypes, physical, hiddenFields }) => {
+const DEFAULT_MATERIAL_TYPES = [];
+const DEFAULT_PHYSICAL = {};
+const DEFAULT_HIDDEN_FIELDS = {};
+
+const OtherView = ({
+  hiddenFields = DEFAULT_HIDDEN_FIELDS,
+  materialTypes = DEFAULT_MATERIAL_TYPES,
+  physical = DEFAULT_PHYSICAL,
+}) => {
   const materialSupplierId = get(physical, 'materialSupplier');
   const materialTypeId = get(physical, 'materialType');
   const materialType = materialTypes.find(type => materialTypeId === type.id);
@@ -70,14 +77,9 @@ const OtherView = ({ materialTypes, physical, hiddenFields }) => {
 };
 
 OtherView.propTypes = {
+  hiddenFields: PropTypes.object,
   materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   physical: PropTypes.object,
-  hiddenFields: PropTypes.object,
-};
-
-OtherView.defaultProps = {
-  physical: {},
-  hiddenFields: {},
 };
 
 export default OtherView;

@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   Route,
   withRouter,
 } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { omit } from 'lodash';
 
 import {
   TitleManager,
@@ -102,19 +102,22 @@ export const columnMapping = {
   assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
 };
 
+const DEFAULT_CUSTOM_FIELDS = [];
+const DEFAULT_ORDERS = [];
+
 function OrdersList({
+  customFields = DEFAULT_CUSTOM_FIELDS,
   history,
-  isLoading,
+  isLoading = false,
   location,
   match,
   onNeedMoreData,
-  orders,
-  ordersCount,
+  orders = DEFAULT_ORDERS,
+  ordersQuery = '',
+  ordersCount = 0,
+  pagination,
   resetData,
   refreshList,
-  ordersQuery,
-  pagination,
-  customFields,
 }) {
   const stripes = useStripes();
   const [
@@ -297,25 +300,17 @@ function OrdersList({
 
 OrdersList.propTypes = {
   customFields: PropTypes.arrayOf(PropTypes.object),
-  onNeedMoreData: PropTypes.func.isRequired,
-  resetData: PropTypes.func.isRequired,
-  ordersCount: PropTypes.number,
-  isLoading: PropTypes.bool,
-  orders: PropTypes.arrayOf(PropTypes.object),
   history: ReactRouterPropTypes.history.isRequired,
+  isLoading: PropTypes.bool,
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
-  refreshList: PropTypes.func.isRequired,
+  onNeedMoreData: PropTypes.func.isRequired,
+  orders: PropTypes.arrayOf(PropTypes.object),
+  ordersCount: PropTypes.number,
   ordersQuery: PropTypes.string,
   pagination: PropTypes.object,
-};
-
-OrdersList.defaultProps = {
-  customFields: [],
-  ordersCount: 0,
-  isLoading: false,
-  orders: [],
-  ordersQuery: '',
+  refreshList: PropTypes.func.isRequired,
+  resetData: PropTypes.func.isRequired,
 };
 
 export default withRouter(OrdersList);

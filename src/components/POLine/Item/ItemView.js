@@ -21,7 +21,13 @@ import { EditionView } from './EditionField';
 import { SubscriptionIntervalView } from './SubscriptionIntervalField';
 import { TitleView } from './TitleField';
 
-const ItemView = ({ poLineDetails, hiddenFields }) => {
+const DEFAULT_HIDDEN_FIELDS = {};
+const DEFAULT_PO_LINE_DETAILS = {};
+
+const ItemView = ({
+  hiddenFields = DEFAULT_HIDDEN_FIELDS,
+  poLineDetails = DEFAULT_PO_LINE_DETAILS,
+}) => {
   const contributors = get(poLineDetails, 'contributors', []);
 
   return (
@@ -182,13 +188,8 @@ const ItemView = ({ poLineDetails, hiddenFields }) => {
 };
 
 ItemView.propTypes = {
-  poLineDetails: PropTypes.object,
   hiddenFields: PropTypes.object,
-};
-
-ItemView.defaultProps = {
-  poLineDetails: {},
-  hiddenFields: {},
+  poLineDetails: PropTypes.object,
 };
 
 export default ItemView;
