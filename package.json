@@ -81,13 +81,19 @@
       {
         "permissionName": "module.orders.enabled",
         "displayName": "UI: Orders module is enabled",
-        "visible": false
+        "visible": false,
+        "subPermissions": [
+          "mod-settings.entries.collection.get",
+          "mod-settings.global.read.stripes-core.prefs.manage"
+        ]
       },
       {
         "permissionName": "settings.orders.enabled",
         "displayName": "Settings (Orders): Can view and edit settings",
         "subPermissions": [
-          "settings.enabled"
+          "settings.enabled",
+          "mod-settings.entries.collection.get",
+          "mod-settings.global.read.stripes-core.prefs.manage"
         ],
         "visible": false
       },
