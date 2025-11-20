@@ -42,7 +42,13 @@ export const getAcquisitionMethodValue = (acqMethodId, acqMethod) => {
     : invalidAcqMethod;
 };
 
-const POLineDetails = ({ line, hiddenFields }) => {
+const DEFAULT_HIDDEN_FIELDS = {};
+const DEFAULT_LINE = {};
+
+const POLineDetails = ({
+  hiddenFields = DEFAULT_HIDDEN_FIELDS,
+  line = DEFAULT_LINE,
+}) => {
   const receiptDate = get(line, 'receiptDate');
   const { acqMethod, isLoading } = useAcqMethod(line.acquisitionMethod);
 
@@ -330,13 +336,8 @@ const POLineDetails = ({ line, hiddenFields }) => {
 };
 
 POLineDetails.propTypes = {
-  line: PropTypes.object,
   hiddenFields: PropTypes.object,
-};
-
-POLineDetails.defaultProps = {
-  line: {},
-  hiddenFields: {},
+  line: PropTypes.object,
 };
 
 export default POLineDetails;

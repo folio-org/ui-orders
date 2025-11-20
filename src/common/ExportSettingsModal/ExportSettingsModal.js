@@ -1,5 +1,8 @@
-import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useState,
+} from 'react';
 import {
   FormattedMessage,
   useIntl,
@@ -12,9 +15,9 @@ import {
   Loading,
   Modal,
   ModalFooter,
+  MultiSelection,
   RadioButton,
   RadioButtonGroup,
-  MultiSelection,
 } from '@folio/stripes/components';
 
 import {
@@ -36,17 +39,17 @@ const SELECTED_POL_FIELDS_ID = 'selected-pol-fields';
 
 const ExportSettingsModal = ({
   customFields,
-  isLoading,
-  onCancel,
   isExporting,
+  isLoading,
   onExportCSV,
+  onCancel,
   modalConfig: {
     actionLabel,
     lineFieldsLabel,
     message,
     modalLabel: modalLabelProp,
     orderFieldsLabel,
-  },
+  } = MODAL_CONFIG_DEFAULT,
 }) => {
   const intl = useIntl();
   const [isOrderExportAll, setIsOrderExportAll] = useState(true);
@@ -208,15 +211,11 @@ const ExportSettingsModal = ({
 
 ExportSettingsModal.propTypes = {
   customFields: PropTypes.arrayOf(PropTypes.object),
-  isLoading: PropTypes.bool,
-  onCancel: PropTypes.func.isRequired,
   isExporting: PropTypes.bool.isRequired,
-  onExportCSV: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
   modalConfig: PropTypes.object,
-};
-
-ExportSettingsModal.defaultProps = {
-  modalConfig: MODAL_CONFIG_DEFAULT,
+  onCancel: PropTypes.func.isRequired,
+  onExportCSV: PropTypes.func.isRequired,
 };
 
 export default ExportSettingsModal;

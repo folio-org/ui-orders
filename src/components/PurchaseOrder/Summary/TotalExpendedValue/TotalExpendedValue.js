@@ -1,14 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  KeyValue,
-} from '@folio/stripes/components';
-import {
-  AmountWithCurrencyField,
-} from '@folio/stripes-acq-components';
+import { KeyValue } from '@folio/stripes/components';
+import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
-const TotalExpendedValue = ({ totalExpended, label }) => {
+const TotalExpendedValue = ({
+  label,
+  totalExpended,
+}) => {
   return (
     <KeyValue label={label}>
       <AmountWithCurrencyField amount={totalExpended} />
@@ -17,11 +15,8 @@ const TotalExpendedValue = ({ totalExpended, label }) => {
 };
 
 TotalExpendedValue.propTypes = {
-  totalExpended: PropTypes.number,
   label: PropTypes.node.isRequired,
-};
-
-TotalExpendedValue.defaultProps = {
+  totalExpended: PropTypes.number,
 };
 
 export default TotalExpendedValue;

@@ -45,6 +45,7 @@
 * Display a confirmation modal when activating "Bindery active" field in the PO Line form of post-pending order. Refs UIOR-1479.
 * Enhance order template to use a vendor information. Refs UIOR-1482.
 * Include global `mod-settings` permissions in base permission sets. Refs UIOR-1483.
+* React v19: Refactor away from default props for functional components. Refs UIOR-1268.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

@@ -10,8 +10,8 @@ import { POL_FORM_FIELDS } from '../../constants';
 import { useAcqMethods } from '../../hooks/useAcqMethods';
 
 const FieldAcquisitionMethod = ({
-  disabled,
-  required,
+  disabled = false,
+  required = true,
   ...props
 }) => {
   const { acqMethods } = useAcqMethods();
@@ -33,11 +33,6 @@ const FieldAcquisitionMethod = ({
 FieldAcquisitionMethod.propTypes = {
   disabled: PropTypes.bool,
   required: PropTypes.bool,
-};
-
-FieldAcquisitionMethod.defaultProps = {
-  disabled: false,
-  required: true,
 };
 
 export default FieldAcquisitionMethod;

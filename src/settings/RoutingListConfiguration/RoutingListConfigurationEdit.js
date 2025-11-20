@@ -34,13 +34,15 @@ import { ROUTING_LIST_TOKEN } from './constants';
 import { validateRoutingListConfigurationForm } from './utils';
 import TokensList from './TokensList';
 
+const DEFAULT_INITIAL_VALUES = {};
+
 const EditRoutingListConfiguration = (props) => {
   const accordionStatusRef = useRef();
   const {
     handleSubmit,
     initialValues: {
       metadata,
-    },
+    } = DEFAULT_INITIAL_VALUES,
     intl: {
       formatMessage,
     },
@@ -175,19 +177,15 @@ const EditRoutingListConfiguration = (props) => {
 };
 
 EditRoutingListConfiguration.propTypes = {
-  intl: PropTypes.object.isRequired,
-  initialValues: PropTypes.object,
   form: PropTypes.object.isRequired,
-  pristine: PropTypes.bool.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
-  submitting: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
+  initialValues: PropTypes.object,
+  intl: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
+  pristine: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
   values: PropTypes.object,
-};
-
-EditRoutingListConfiguration.defaultProps = {
-  initialValues: {},
 };
 
 export default stripesFinalForm({

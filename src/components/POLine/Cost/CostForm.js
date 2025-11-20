@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { Field } from 'react-final-form';
-import { get } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
@@ -57,13 +57,15 @@ const validateNotNegative = (value) => {
     : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
 };
 
+const DEFAULT_HIDDEN_FIELDS = {};
+
 const CostForm = ({
-  formValues,
-  order,
-  initialValues,
   change,
-  required,
-  hiddenFields,
+  formValues,
+  hiddenFields = DEFAULT_HIDDEN_FIELDS,
+  initialValues,
+  order,
+  required = true,
 }) => {
   const orderFormat = formValues.orderFormat;
   const checkinItems = formValues.checkinItems;
@@ -336,17 +338,12 @@ const CostForm = ({
 };
 
 CostForm.propTypes = {
+  change: PropTypes.func,
   formValues: PropTypes.object,
+  hiddenFields: PropTypes.object,
+  initialValues: PropTypes.object.isRequired,
   order: PropTypes.object.isRequired,
   required: PropTypes.bool,
-  initialValues: PropTypes.object.isRequired,
-  change: PropTypes.func,
-  hiddenFields: PropTypes.object,
-};
-
-CostForm.defaultProps = {
-  hiddenFields: {},
-  required: true,
 };
 
 export default CostForm;

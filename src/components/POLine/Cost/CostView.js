@@ -1,6 +1,5 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import { useStripes } from '@folio/stripes/core';
 import {
@@ -19,7 +18,15 @@ import {
 import { DISCOUNT_TYPE } from '../const';
 import { RolloverAdjustmentAmount } from './RolloverAdjustmentAmount';
 
-function CostView({ cost, isPackage, orderFormat, hiddenFields }) {
+const DEFAULT_COST = {};
+const DEFAULT_HIDDEN_FIELDS = {};
+
+function CostView({
+  cost = DEFAULT_COST,
+  hiddenFields = DEFAULT_HIDDEN_FIELDS,
+  isPackage = false,
+  orderFormat,
+}) {
   const stripes = useStripes();
   const discountType = cost.discountType;
   const discount = cost.discount || 0;
@@ -201,15 +208,9 @@ function CostView({ cost, isPackage, orderFormat, hiddenFields }) {
 
 CostView.propTypes = {
   cost: PropTypes.object,
+  hiddenFields: PropTypes.object,
   isPackage: PropTypes.bool,
   orderFormat: PropTypes.string,
-  hiddenFields: PropTypes.object,
-};
-
-CostView.defaultProps = {
-  cost: {},
-  isPackage: false,
-  hiddenFields: {},
 };
 
 export default CostView;

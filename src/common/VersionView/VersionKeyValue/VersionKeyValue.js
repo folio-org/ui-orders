@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { useContext, useMemo } from 'react';
+import {
+  useContext,
+  useMemo,
+} from 'react';
 
 import {
   KeyValue,
@@ -10,7 +13,7 @@ import { VersionViewContext } from '@folio/stripes-acq-components';
 export const VersionKeyValue = ({
   children,
   label,
-  multiple,
+  multiple = false,
   name,
   value,
 }) => {
@@ -30,10 +33,6 @@ export const VersionKeyValue = ({
       value={displayValue}
     />
   );
-};
-
-VersionKeyValue.defaultProps = {
-  multiple: false,
 };
 
 VersionKeyValue.propTypes = {

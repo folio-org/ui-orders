@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -8,7 +7,9 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-const OrderTemplateTagsView = ({ tags }) => {
+const DEFAULT_TAGS = [];
+
+const OrderTemplateTagsView = ({ tags = DEFAULT_TAGS }) => {
   return (
     <Row start="xs">
       <Col xs={3}>
@@ -23,10 +24,6 @@ const OrderTemplateTagsView = ({ tags }) => {
 
 OrderTemplateTagsView.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string),
-};
-
-OrderTemplateTagsView.defaultProps = {
-  tags: [],
 };
 
 export default OrderTemplateTagsView;

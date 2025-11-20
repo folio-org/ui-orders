@@ -12,6 +12,8 @@ import {
 import { usePOLinePiecesExistence } from '../hooks';
 import { isSynchronizedReceivingWorkflow } from '../utils';
 
+const DEFAULT_LOCATIONS = [];
+
 const LocationForm = ({
   centralOrdering,
   changeLocation,
@@ -20,7 +22,7 @@ const LocationForm = ({
   formValues,
   isLoading = false,
   locationIds,
-  locations,
+  locations = DEFAULT_LOCATIONS,
   order,
 }) => {
   const isPendingOrder = isWorkflowStatusIsPending(order);
@@ -69,17 +71,13 @@ const LocationForm = ({
 LocationForm.propTypes = {
   centralOrdering: PropTypes.bool,
   changeLocation: PropTypes.func.isRequired,
-  formValues: PropTypes.object.isRequired,
   filterHoldings: PropTypes.func,
   filterLocations: PropTypes.func,
+  formValues: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   locationIds: PropTypes.arrayOf(PropTypes.string),
   locations: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object.isRequired,
-};
-
-LocationForm.defaultProps = {
-  locations: [],
 };
 
 export default LocationForm;

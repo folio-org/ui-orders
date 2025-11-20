@@ -35,20 +35,22 @@ import {
 
 const NO_VALIDATE = undefined;
 
+const DEFAULT_LOCATIONS = [];
+
 const FieldsLocation = ({
   centralOrdering = false,
   changeLocation,
   filterHoldings,
   filterLocations,
-  isDisabledToChangePaymentInfo,
-  isPostPendingOrder,
-  isQuantityDisabled,
+  isDisabledToChangePaymentInfo = false,
+  isPostPendingOrder = false,
+  isQuantityDisabled = false,
   locationIds,
-  locations,
+  locations = DEFAULT_LOCATIONS,
   pOLineFormValues: { orderFormat, physical, eresource, instanceId, isPackage } = {},
   pOLineFormValues,
   poNumber,
-  withValidation,
+  withValidation = true,
 }) => {
   if (!locations) return null;
 
@@ -170,14 +172,6 @@ FieldsLocation.propTypes = {
   pOLineFormValues: PropTypes.object,
   poNumber: PropTypes.string,
   withValidation: PropTypes.bool,
-};
-
-FieldsLocation.defaultProps = {
-  locations: [],
-  isDisabledToChangePaymentInfo: false,
-  isPostPendingOrder: false,
-  isQuantityDisabled: false,
-  withValidation: true,
 };
 
 export default FieldsLocation;
