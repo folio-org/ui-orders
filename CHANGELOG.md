@@ -46,6 +46,7 @@
 * Enhance order template to use a vendor information. Refs UIOR-1482.
 * Include global `mod-settings` permissions in base permission sets. Refs UIOR-1483.
 * React v19: Refactor away from default props for functional components. Refs UIOR-1268.
+* Remove local implementation for loading addresses and tags. Refs UIOR-1390.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

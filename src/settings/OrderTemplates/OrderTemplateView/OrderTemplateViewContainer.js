@@ -1,31 +1,25 @@
-import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { useMaterialTypes } from '@folio/plugin-find-po-line/FindPOLine/hooks';
 import {
   stripesConnect,
   TitleManager,
 } from '@folio/stripes/core';
 import {
   getErrorCodeFromResponse,
+  useAddresses,
   useCentralOrderingContext,
   useLocationsQuery,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
 import { useOrderTemplate } from '../../../common/hooks';
-import {
-  getAddresses,
-  getCommonErrorMessage,
-} from '../../../common/utils';
-import {
-  ADDRESSES,
-  MATERIAL_TYPES,
-  ORDER_TEMPLATE,
-} from '../../../components/Utils/resources';
+import { getCommonErrorMessage } from '../../../common/utils';
+import { ORDER_TEMPLATE } from '../../../components/Utils/resources';
 import { useOrderTemplateCategories } from '../../hooks';
 import { TEMPLATES_RETURN_LINK } from '../constants';
 import OrderTemplateView from './OrderTemplateView';
@@ -48,7 +42,6 @@ function OrderTemplateViewContainer({
   close,
   match: { params: { id } },
   mutator,
-  resources,
   rootPath,
   showSuccessDeleteMessage,
   stripes,
@@ -72,6 +65,16 @@ function OrderTemplateViewContainer({
     isFetching: isOrderTemplateFetching,
     orderTemplate,
   } = useOrderTemplate(id);
+
+  const {
+    addresses,
+    isLoading: isAddressesLoading,
+  } = useAddresses();
+
+  const {
+    isLoading: isMaterialTypesLoading,
+    materialTypes,
+  } = useMaterialTypes();
 
   const onDuplicateOrderTemplate = useCallback(async ({ id: _, templateName, ...template }) => {
     try {
@@ -117,14 +120,12 @@ function OrderTemplateViewContainer({
     [close, id, sendCallout, showSuccessDeleteMessage],
   );
 
-  const addresses = getAddresses(get(resources, 'addresses.records', []));
-  const funds = get(resources, 'funds.records', []);
-  const materialTypes = get(resources, 'materialTypes.records', []);
-
   const isLoading = (
     isLocationsLoading
     || isOrderTemplateCategoriesFetching
     || isOrderTemplateFetching
+    || isAddressesLoading
+    || isMaterialTypesLoading
   );
 
   return (
@@ -135,7 +136,6 @@ function OrderTemplateViewContainer({
       <OrderTemplateView
         addresses={addresses}
         close={close}
-        funds={funds}
         isLoading={isLoading}
         locations={locations}
         materialTypes={materialTypes}
@@ -152,8 +152,6 @@ function OrderTemplateViewContainer({
 }
 
 OrderTemplateViewContainer.manifest = Object.freeze({
-  addresses: ADDRESSES,
-  materialTypes: MATERIAL_TYPES,
   orderTemplate: {
     ...ORDER_TEMPLATE,
     fetch: false,

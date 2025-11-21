@@ -62,10 +62,6 @@ const mockMutator = {
     GET: jest.fn(),
     reset: jest.fn(),
   },
-  exportAddresses: {
-    GET: jest.fn().mockResolvedValue([address]),
-    reset: jest.fn(),
-  },
   organizationTypes: {
     GET: jest.fn().mockResolvedValue([]),
     reset: jest.fn(),

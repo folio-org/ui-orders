@@ -15,7 +15,7 @@ import {
 } from '@folio/stripes/core';
 import {
   fetchFiscalYearByIds,
-  getAddresses,
+  fetchTenantAddresses,
   useUsersBatch,
   useVersionHistoryValueResolvers,
 } from '@folio/stripes-acq-components';
@@ -24,7 +24,6 @@ import { useOrder } from '../../../../common/hooks';
 import {
   getAcqUnitsByIds,
   getOrganizationsByIds,
-  getTenantAddresses,
   getVersionMetadata,
 } from '../../../../common/utils';
 
@@ -115,9 +114,7 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
       ] = await Promise.all([
         getOrganizationsByIds(kyExtended)(organizationIds).then(keyBy('id')),
         getAcqUnitsByIds(kyExtended)(acqUnitsIds).then(keyBy('id')),
-        getTenantAddresses(kyExtended)()
-          .then(({ configs }) => getAddresses(configs))
-          .then(keyBy('id')),
+        fetchTenantAddresses(kyExtended)().then(keyBy('id')),
         fetchFiscalYearByIds(kyExtended)(fiscalYearIds).then(({ fiscalYears }) => keyBy('id', fiscalYears)),
       ]);
 
