@@ -797,7 +797,7 @@
     "breakInstanceConnection.modal.heading": "Odebrat připojení titulu",
     "breakInstanceConnection.modal.message": "Provedením této změny se zruší vazba mezi ŘNO a vybraným titulem katalogu. Jste si jisti, že chcete pokračovat v provádění této změny a zrušit vazbu tohoto ŘNO na titul katalogu<b>\"{titleOrPackage}\"</b>?",
     "orderDetails.approvedBy": "Schváleno",
-    "versionHistory.updatedByUserId": "Aktualizoval",
+    "versionHistory.updatedByUserId": "Aktualizoval/a",
     "errors.currentFYearIdNotFound": "Pro řádek NO nebyl nalezen aktuální fiskální rok",
     "errors.errorRemovingInvoiceLineEncumbrances": "Chyba při odstraňování odkazů věcných břemen položky faktury po odstranění věcných břemen",
     "errors.errorRetrievingPoLines": "Chyba při načítání řádků nákupní objednávky z úložiště",
@@ -882,7 +882,7 @@
     "settings.centralOrdering.submit.error.generic": "Aktualizace nastavení centrálního objednávání se nezdařila",
     "settings.networkInteraction.label": "Síťové uspořádání",
     "filter.createdBy": "Vytvořil",
-    "filter.updatedBy": "Aktualizoval",
+    "filter.updatedBy": "Aktualizoval/a",
     "filter.dateUpdated": "Datum aktualizace",
     "settings.routing.address": "Směrovací adresa",
     "settings.routingAddress.submit.success": "Nastavení směrovací adresy bylo úspěšně aktualizováno",
@@ -947,5 +947,5 @@
     "order.fiscalYear.current": "Současný",
     "order.fiscalYear.previous": "Předchozí",
     "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
-    "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)"
+    "orderSummary.totalEstimatedPrice.exchanged": "Celková odhadovaná cena (Směněná)"
 }
