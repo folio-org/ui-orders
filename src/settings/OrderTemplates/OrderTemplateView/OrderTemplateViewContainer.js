@@ -165,7 +165,6 @@ OrderTemplateViewContainer.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   rootPath: PropTypes.string.isRequired,
   showSuccessDeleteMessage: PropTypes.func.isRequired,
-  resources: PropTypes.object,
   stripes: PropTypes.object.isRequired,
 };
 
