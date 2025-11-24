@@ -5,6 +5,7 @@ import { useStripes } from '@folio/stripes/core';
 import {
   fetchConsortiumHoldingsByIds,
   fetchConsortiumLocations,
+  fetchTenantAddressesByIds,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -19,6 +20,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   fetchConsortiumHoldingsByIds: jest.fn(() => () => Promise.resolve({ holdings: [] })),
   fetchConsortiumLocations: jest.fn(() => () => Promise.resolve({ locations: [] })),
+  fetchTenantAddressesByIds: jest.fn(),
 }));
 
 jest.mock('./createExportReport', () => ({
@@ -74,6 +76,10 @@ const kyMock = {
 };
 
 describe('getExportData', () => {
+  beforeEach(() => {
+    fetchTenantAddressesByIds.mockReturnValue(() => Promise.resolve({ addresses: [address] }));
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

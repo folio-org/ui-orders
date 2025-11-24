@@ -114,7 +114,7 @@ export const useSelectedPOVersion = ({ versionId, versions, snapshotPath }, opti
       ] = await Promise.all([
         getOrganizationsByIds(kyExtended)(organizationIds).then(keyBy('id')),
         getAcqUnitsByIds(kyExtended)(acqUnitsIds).then(keyBy('id')),
-        fetchTenantAddresses(kyExtended)().then(keyBy('id')),
+        fetchTenantAddresses(kyExtended)().then(({ addresses }) => keyBy('id', addresses)),
         fetchFiscalYearByIds(kyExtended)(fiscalYearIds).then(({ fiscalYears }) => keyBy('id', fiscalYears)),
       ]);
 

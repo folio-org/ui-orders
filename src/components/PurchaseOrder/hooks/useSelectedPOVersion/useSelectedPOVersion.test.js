@@ -3,12 +3,15 @@ import {
   QueryClientProvider,
 } from 'react-query';
 
-import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  renderHook,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 import { getFullName } from '@folio/stripes/util';
 import {
   ACQUISITIONS_UNITS_API,
-  CONFIG_API,
+  fetchTenantAddresses,
   FISCAL_YEARS_API,
   ORDERS_API,
   useUsersBatch,
@@ -23,7 +26,9 @@ import {
 
 import { useSelectedPOVersion } from './useSelectedPOVersion';
 
-jest.mock('@folio/stripes-acq-components/lib/hooks/useUsersBatch', () => ({
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  fetchTenantAddresses: jest.fn(),
   useUsersBatch: jest.fn(() => ({ users: [], isLoading: false })),
 }));
 
@@ -48,9 +53,6 @@ const kyMock = {
       if (url.startsWith(ACQUISITIONS_UNITS_API)) {
         return { acquisitionsUnits: [acqUnit] };
       }
-      if (url.startsWith(CONFIG_API)) {
-        return { configs: [address] };
-      }
       if (url.startsWith(VENDORS_API)) {
         return { organizations: [vendor] };
       }
@@ -68,8 +70,6 @@ const kyMock = {
 };
 
 const queryClient = new QueryClient();
-
-// eslint-disable-next-line react/prop-types
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>
     {children}
@@ -78,12 +78,16 @@ const wrapper = ({ children }) => (
 
 describe('useSelectedPOVersion', () => {
   beforeEach(() => {
-    kyMock.get.mockClear();
-    useOkapiKy.mockClear().mockReturnValue(kyMock);
-    useUsersBatch.mockClear().mockReturnValue({
+    fetchTenantAddresses.mockReturnValue(() => Promise.resolve({ addresses: [address] }));
+    useOkapiKy.mockReturnValue(kyMock);
+    useUsersBatch.mockReturnValue({
       isLoading: false,
       users: [user],
     });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should return PO version data', async () => {
@@ -114,7 +118,7 @@ describe('useSelectedPOVersion', () => {
 
     expect(id).toEqual(order.id);
     expect(vendorField).toEqual(vendor.name);
-    expect(billTo).toBeNull();
+    expect(billTo).toEqual(address.address);
     expect(shipTo).toEqual('stripes-acq-components.versionHistory.deletedRecord');
     expect(createdByUser).toEqual(getFullName(user));
   });

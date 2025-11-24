@@ -23,8 +23,13 @@ jest.mock('react-intl', () => ({
 }));
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
+  useAddresses: jest.fn(() => ({ addresses: [] })),
   useCentralOrderingContext: jest.fn(() => ({ isCentralOrderingEnabled: false })),
   useLocationsQuery: jest.fn(),
+}));
+jest.mock('@folio/plugin-find-po-line/FindPOLine/hooks', () => ({
+  ...jest.requireActual('@folio/plugin-find-po-line/FindPOLine/hooks'),
+  useMaterialTypes: jest.fn(() => ({ materialTypes: [] })),
 }));
 jest.mock('../../../common/hooks', () => ({
   ...jest.requireActual('../../../common/hooks'),
