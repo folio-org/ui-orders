@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { useCallback } from 'react';
+import {
+  useCallback,
+  useMemo,
+} from 'react';
 import { useForm } from 'react-final-form';
 
 import {
@@ -25,6 +28,7 @@ import {
   FieldShipTo,
   FieldSuffix,
 } from '../../../../common/POFields';
+import { getAddressOptions } from '../../../../common/utils';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
 import { getOrganizationSelectHandler } from './getOrganizationSelectHandler';
 
@@ -39,6 +43,8 @@ const PurchaseOrderInformationForm = ({
     change,
     getState,
   } = useForm();
+
+  const addressOptions = useMemo(() => getAddressOptions(addresses), [addresses]);
 
   const onManualPOChange = useCallback(({ target: { checked } }) => {
     change(PO_FORM_FIELDS.manualPo, checked);
@@ -109,7 +115,7 @@ const PurchaseOrderInformationForm = ({
         data-col-order-template-bill-to
       >
         <VisibilityControl name="hiddenFields.billTo">
-          <FieldBillTo addresses={addresses} />
+          <FieldBillTo addresses={addressOptions} />
         </VisibilityControl>
       </Col>
 
@@ -118,7 +124,7 @@ const PurchaseOrderInformationForm = ({
         data-col-order-template-ship-to
       >
         <VisibilityControl name="hiddenFields.shipTo">
-          <FieldShipTo addresses={addresses} />
+          <FieldShipTo addresses={addressOptions} />
         </VisibilityControl>
       </Col>
 
