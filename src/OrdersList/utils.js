@@ -1,6 +1,16 @@
-import { uniq } from 'lodash';
+import uniq from 'lodash/uniq';
 
-import { batchFetch } from '@folio/stripes-acq-components';
+import {
+  batchFetch,
+  ResponseErrorsContainer,
+} from '@folio/stripes-acq-components';
+
+import { ERROR_CODES } from '../common/constants';
+import {
+  genericErrorStrategy,
+  isRequestTooLargeError,
+  tooLargeRequestStrategy,
+} from '../common/utils/errorHandling';
 
 export const fetchOrderVendors = (mutator, orders, fetchedVendorsMap) => {
   const unfetchedVendors = orders
@@ -39,4 +49,18 @@ export const fetchOrderUsers = (mutator, orders, fetchedUsersMap) => {
     : Promise.resolve([]);
 
   return fetchUsersPromise;
+};
+
+export const handleOrdersListLoadingError = async ({ response }, callout, intl) => {
+  const { handler } = await ResponseErrorsContainer.create(response);
+
+  if (isRequestTooLargeError(response)) {
+    return handler.handle(tooLargeRequestStrategy({ callout }));
+  }
+
+  return handler.handle(genericErrorStrategy({
+    callout,
+    defaultErrorCode: ERROR_CODES.ordersNotLoadedGeneric,
+    intl,
+  }));
 };

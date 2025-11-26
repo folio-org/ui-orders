@@ -1,12 +1,14 @@
-import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
   CUSTOM_FIELDS_ORDERS_BACKEND_NAME,
   organizationsManifest,
-  usePagination,
   RESULT_COUNT_INCREMENT,
+  usePagination,
+  useShowCallout,
 } from '@folio/stripes-acq-components';
 import { useCustomFields } from '@folio/stripes/smart-components';
 
@@ -21,15 +23,17 @@ import {
   fetchOrderAcqUnits,
   fetchOrderUsers,
   fetchOrderVendors,
+  handleOrdersListLoadingError,
 } from './utils';
 
-import {
-  useOrders,
-} from './hooks';
+import { useOrders } from './hooks';
 
 const resetData = () => { };
 
 const OrdersListContainer = ({ mutator }) => {
+  const intl = useIntl();
+  const sendCallout = useShowCallout();
+
   const fetchReferences = useCallback(purchaseOrders => {
     const fetchVendorsPromise = fetchOrderVendors(mutator.orderVendors, purchaseOrders, {});
     const fetchAcqUnitsPromise = fetchOrderAcqUnits(mutator.orderAcqUnits, purchaseOrders, {});
@@ -62,7 +66,22 @@ const OrdersListContainer = ({ mutator }) => {
 
   const { pagination, changePage, refreshPage } = usePagination({ limit: RESULT_COUNT_INCREMENT, offset: 0 });
   const [customFields, isLoadingCustomFields] = useCustomFields(CUSTOM_FIELDS_ORDERS_BACKEND_NAME, ENTITY_TYPE_ORDER);
-  const { query, orders, isLoading, ordersCount } = useOrders({ pagination, fetchReferences, customFields });
+
+  const {
+    isLoading,
+    orders,
+    ordersCount,
+    query,
+  } = useOrders(
+    {
+      customFields,
+      fetchReferences,
+      pagination,
+    },
+    {
+      onError: (error) => handleOrdersListLoadingError(error, { sendCallout }, intl),
+    },
+  );
 
   return (
     <OrdersList
