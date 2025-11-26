@@ -138,6 +138,8 @@
           "invoice.invoices.collection.get",
           "isbn-utils.convert-to-13.get",
           "isbn-utils.validator.get",
+          "mod-settings.global.read.ui-tags.tags.manage",
+          "mod-settings.global.read.ui-tenant-settings.addresses.manage",
           "note.types.collection.get",
           "note.links.collection.get",
           "organizations.organizations.collection.get",
