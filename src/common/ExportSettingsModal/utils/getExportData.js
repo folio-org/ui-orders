@@ -5,14 +5,10 @@ import {
   fetchAllRecords,
   fetchConsortiumHoldingsByIds,
   fetchConsortiumLocations,
+  fetchTenantAddressesByIds,
 } from '@folio/stripes-acq-components';
 
-import {
-  CONFIG_ADDRESSES,
-  MODULE_TENANT,
-} from '../../../components/Utils/const';
 import { fetchExportDataByIds } from '../../utils';
-import { getAddresses } from '../../utils/getAddresses';
 import { createExportReport } from './createExportReport';
 
 const getExportUserIds = (lines = [], orders = []) => {
@@ -28,15 +24,6 @@ const getExportUserIds = (lines = [], orders = []) => {
   ]));
 
   return uniq(flatten([...lineUserIds, ...orderUserIds])).filter(Boolean);
-};
-
-const buildAddressQuery = (itemsChunk) => {
-  const subQuery = itemsChunk
-    .map(id => `id==${id}`)
-    .join(' or ');
-  const query = subQuery ? `(module=${MODULE_TENANT} and configName=${CONFIG_ADDRESSES} and (${subQuery}))` : '';
-
-  return query;
 };
 
 const extractUniqueFlat = (array, extractor) => uniq(array.flatMap(item => extractor(item) || []).filter(Boolean));
@@ -122,7 +109,7 @@ export const getExportData = (
     fetchExportDataByIds(mutator.exportContributorNameTypes, contributorNameTypeIds),
     fetchExportDataByIds(mutator.exportIdentifierTypes, identifierTypeIds),
     fetchExportDataByIds(mutator.exportExpenseClasses, expenseClassIds),
-    fetchExportDataByIds(mutator.exportAddresses, addressIds, buildAddressQuery).then(getAddresses),
+    fetchTenantAddressesByIds(ky)(addressIds).then((res) => res.addresses),
     fetchExportDataByIds(mutator.acquisitionMethods, acquisitionMethodsIds),
     fetchExportDataByIds(mutator.fiscalYears, fiscalYearIds),
   ]);

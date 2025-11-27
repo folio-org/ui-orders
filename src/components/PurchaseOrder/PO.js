@@ -79,7 +79,6 @@ import {
   updateEncumbrancesResource,
 } from '../../common/resources';
 import {
-  getAddresses,
   getCommonErrorMessage,
   getExportAccountNumbers,
 } from '../../common/utils';
@@ -93,7 +92,6 @@ import {
   updateOrderResource,
 } from '../Utils/orderResource';
 import {
-  ADDRESSES,
   APPROVALS_SETTING,
   FUND,
   LINES_LIMIT,
@@ -157,8 +155,10 @@ const PO = ({
   const orderId = match.params.id;
 
   const {
+    addresses,
     exportHistory,
     fiscalYearsGrouped,
+    isAddressesLoading,
     isExportHistoryLoading,
     isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
@@ -189,7 +189,6 @@ const PO = ({
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
   const tags = get(order, 'tags.tagList', []);
   const orderType = get(order, 'orderType');
-  const addresses = getAddresses(get(resources, 'addresses.records', []));
   const funds = get(resources, 'fund.records', []);
   const approvalsSetting = get(resources, 'approvalsSetting.records', {});
   const customFieldsValues = get(order, 'customFields', {});
@@ -690,6 +689,7 @@ const PO = ({
     || isOrderLoading
     || isOrderTemplateLoading
     || isFiscalYearsLoading
+    || isAddressesLoading
   ) {
     return (
       <LoadingPane
@@ -971,7 +971,6 @@ PO.manifest = Object.freeze({
   closingReasons: reasonsForClosureResource,
   fund: FUND,
   approvalsSetting: APPROVALS_SETTING,
-  addresses: ADDRESSES,
   expenseClass: {
     ...baseManifest,
     accumulate: true,

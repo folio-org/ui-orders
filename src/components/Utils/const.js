@@ -3,7 +3,6 @@ export const MODULE_TENANT = 'TENANT';
 export const CONFIG_CREATE_INVENTORY = 'createInventory';
 export const CONFIG_LINES_LIMIT = 'poLines-limit';
 export const CONFIG_ORDER_NUMBER = 'orderNumber';
-export const CONFIG_ADDRESSES = 'tenant.addresses';
 export const CONFIG_APPROVALS = 'approvals';
 export const CONFIG_OPEN_ORDER = 'openOrder';
 export const CONFIG_INSTANCE_MATCHING = 'disableInstanceMatching';

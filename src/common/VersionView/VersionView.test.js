@@ -1,11 +1,21 @@
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
-import { useParams, MemoryRouter } from 'react-router-dom';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
+import {
+  useParams,
+  MemoryRouter,
+} from 'react-router-dom';
 
 import VersionView from './VersionView';
 
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useParams: jest.fn(),
+}));
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  TagsBadge: jest.fn().mockReturnValue('TagsBadge'),
 }));
 
 const defaultProps = {

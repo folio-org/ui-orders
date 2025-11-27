@@ -5,7 +5,10 @@ import {
   screen,
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
-import { ORDER_TYPES } from '@folio/stripes-acq-components';
+import {
+  ORDER_TYPES,
+  useAddresses,
+} from '@folio/stripes-acq-components';
 
 import {
   address,
@@ -22,6 +25,10 @@ import { SUBMIT_ACTION } from '../PurchaseOrder/constants';
 import POForm from '../PurchaseOrder/POForm';
 import LayerPO from './LayerPO';
 
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  useAddresses: jest.fn(),
+}));
 jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
   useOrder: jest.fn(),
@@ -38,9 +45,6 @@ const defaultProps = {
     order: {
       POST: jest.fn().mockResolvedValue([order]),
       PUT: jest.fn().mockResolvedValue([order]),
-    },
-    addresses: {
-      GET: jest.fn().mockResolvedValue([address]),
     },
     users: {
       GET: jest.fn().mockResolvedValue([userMock]),
@@ -80,6 +84,7 @@ const renderLayerPO = (props = {}) => render(
 
 describe('LayerPO', () => {
   beforeEach(() => {
+    useAddresses.mockReturnValue({ addresses: [address] });
     useOrder.mockReturnValue({
       order,
       refetch: jest.fn(),

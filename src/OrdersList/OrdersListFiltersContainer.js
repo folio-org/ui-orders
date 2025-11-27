@@ -1,11 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { useFunds } from '@folio/stripes-acq-components';
+import {
+  useAddresses,
+  useFunds,
+} from '@folio/stripes-acq-components';
 
-import { getAddresses } from '../common/utils';
-import { ADDRESSES } from '../components/Utils/resources';
 import { reasonsForClosureResource } from '../common/resources';
 import OrdersListFilters from './OrdersListFilters';
 
@@ -17,8 +17,8 @@ const OrdersListFiltersContainer = ({
   disabled,
 }) => {
   const closingReasons = resources?.closingReasons?.records;
-  const addresses = getAddresses(resources?.addresses?.records);
 
+  const { addresses } = useAddresses();
   const { funds } = useFunds();
 
   return (
@@ -35,7 +35,6 @@ const OrdersListFiltersContainer = ({
 };
 
 OrdersListFiltersContainer.manifest = Object.freeze({
-  addresses: ADDRESSES,
   closingReasons: reasonsForClosureResource,
 });
 

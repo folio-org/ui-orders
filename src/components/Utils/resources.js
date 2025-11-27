@@ -1,7 +1,6 @@
 import {
   ACQUISITIONS_UNITS_API,
   baseManifest,
-  CONFIG_API,
   CONTRIBUTOR_NAME_TYPES_API,
   fundsManifest,
   IDENTIFIER_TYPES_API,
@@ -31,13 +30,11 @@ import {
   ORGANIZATION_TYPES_API,
 } from './api';
 import {
-  CONFIG_ADDRESSES,
   CONFIG_APPROVALS,
   CONFIG_CREATE_INVENTORY,
   CONFIG_LINES_LIMIT,
   CONFIG_OPEN_ORDER,
   CONFIG_ORDER_NUMBER,
-  MODULE_TENANT,
 } from './const';
 
 const BASE_RESOURCE = {
@@ -106,17 +103,6 @@ export const LINES_LIMIT = {
   GET: {
     params: {
       query: `key=${CONFIG_LINES_LIMIT}`,
-    },
-  },
-};
-
-export const ADDRESSES = {
-  ...BASE_RESOURCE,
-  records: 'configs',
-  path: CONFIG_API,
-  GET: {
-    params: {
-      query: `(module=${MODULE_TENANT} and configName=${CONFIG_ADDRESSES})`,
     },
   },
 };

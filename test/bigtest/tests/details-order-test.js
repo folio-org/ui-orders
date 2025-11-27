@@ -6,6 +6,11 @@ import {
 import { expect } from 'chai';
 
 import {
+  SETTINGS_ENTRIES_API,
+  SETTINGS_SCOPES,
+} from '@folio/stripes-acq-components';
+
+import {
   ORDER_TYPE,
   WORKFLOW_STATUS,
 } from '../../../src/common/constants';
@@ -14,10 +19,6 @@ import { TIMEOUT } from '../interactors/const';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import LineEditPage from '../interactors/line-edit-page';
-import {
-  CONFIG_ADDRESSES,
-  MODULE_ORDERS,
-} from '../../../src/components/Utils/const';
 
 const ADDRESS = 'TEST ADDRESS';
 
@@ -35,11 +36,12 @@ describe('Order Details Page', function () {
   let configs = null;
 
   beforeEach(async function () {
-    configs = this.server.create('config', {
-      module: MODULE_ORDERS,
-      configName: CONFIG_ADDRESSES,
-      enabled: true,
-      value: '{"name": "ADDRESS NAME","address": "TEST ADDRESS"}',
+    configs = this.server.create(SETTINGS_ENTRIES_API, {
+      scope: SETTINGS_SCOPES.TENANT_ADDRESSES,
+      value: {
+        address: 'TEST ADDRESS',
+        name: 'ADDRESS NAME',
+      },
     });
     vendor = this.server.create('vendor');
     order = this.server.create('order', {
