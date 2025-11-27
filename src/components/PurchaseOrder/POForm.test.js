@@ -36,6 +36,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
 jest.mock('./OngoingOrderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
 
 const defaultProps = {
+  addresses: [],
   values: {},
   generatedNumber: '1000',
   initialValues: {

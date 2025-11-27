@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import {
   getErrorCodeFromResponse,
   useAcqRestrictions,
+  useAddresses,
   useShowCallout,
 } from '@folio/stripes-acq-components';
 
@@ -83,9 +84,16 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
     orderInvoiceRelationships,
   } = useOrderInvoiceRelationships(orderId);
 
+  const {
+    addresses,
+    isLoading: isAddressesLoading,
+  } = useAddresses();
+
   return {
+    addresses,
     exportHistory,
     fiscalYearsGrouped,
+    isAddressesLoading,
     isExportHistoryLoading,
     isFiscalYearsFetched,
     isFiscalYearsLoading,

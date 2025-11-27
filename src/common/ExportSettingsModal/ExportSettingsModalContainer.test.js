@@ -42,9 +42,6 @@ const mockMutator = {
   exportUsers: {
     GET: jest.fn(),
   },
-  exportAddresses: {
-    GET: jest.fn(),
-  },
   exportAcqUnits: {
     GET: jest.fn(),
   },

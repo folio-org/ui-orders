@@ -51,9 +51,6 @@ import {
   SUBMIT_ACTION_FIELD,
 } from '../../common/constants';
 import { useErrorAccordionStatus } from '../../common/hooks';
-import {
-  getAddresses,
-} from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
@@ -82,6 +79,7 @@ const TEMPLATE_PERSISTED_REGISTERED_FIELDS = [
 ];
 
 const POForm = ({
+  addresses,
   form: {
     batch,
     change,
@@ -299,7 +297,6 @@ const POForm = ({
 
   const orderNumber = getFullOrderNumber(initialValues);
   const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', {}));
-  const addresses = getAddresses(get(parentResources, 'addresses.records', []));
   const orderTemplates = getOrderTemplatesForSelect(parentResources);
   const poLinesLength = get(initialValues, 'poLines', []).length;
   const customFieldsValues = getState().values.customFields;
@@ -478,6 +475,7 @@ const POForm = ({
 };
 
 POForm.propTypes = {
+  addresses: PropTypes.arrayOf(PropTypes.object).isRequired,
   values: PropTypes.object,
   form: PropTypes.object.isRequired,
   generatedNumber: PropTypes.string.isRequired,

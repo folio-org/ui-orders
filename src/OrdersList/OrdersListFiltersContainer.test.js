@@ -4,6 +4,7 @@ import OrdersListFiltersContainer from './OrdersListFiltersContainer';
 
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
+  useAddresses: jest.fn(() => ({ addresses: [{ id: 'id', addressLine1: 'line1' }] })),
   useFunds: jest.fn(() => ({ funds: [{ id: 'id', code: 'code' }] })),
 }));
 jest.mock('./OrdersListFilters', () => jest.fn().mockReturnValue('OrdersListFilters'));

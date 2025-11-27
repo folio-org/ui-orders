@@ -13,7 +13,6 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
-  ADDRESSES,
   HOLDINGS,
   ORGANIZATION_TYPES,
 } from '../../../components/Utils/resources';
@@ -31,11 +30,6 @@ export const exportManifest = Object.freeze({
   },
   exportUsers: {
     ...usersManifest,
-    fetch: false,
-    accumulate: true,
-  },
-  exportAddresses: {
-    ...ADDRESSES,
     fetch: false,
     accumulate: true,
   },

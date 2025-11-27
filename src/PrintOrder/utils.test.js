@@ -1,7 +1,10 @@
-import { order } from '../../test/jest/fixtures';
-import {
-  getOrderPrintData,
-} from './utils';
+import { order } from 'fixtures';
+import { getOrderPrintData } from './utils';
+
+jest.mock('@folio/stripes-acq-components', () => ({
+  ...jest.requireActual('@folio/stripes-acq-components'),
+  fetchTenantAddressesByIds: jest.fn(() => () => Promise.resolve({ addresses: [] })),
+}));
 
 describe('utils', () => {
   it('should call `getOrderPrintData`', () => {

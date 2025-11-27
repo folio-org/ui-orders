@@ -20,6 +20,7 @@ import {
   ORDER_TYPES,
   prefixesResource,
   suffixesResource,
+  useAddresses,
   useCentralOrderingContext,
   useLocationsQuery,
   useShowCallout,
@@ -27,7 +28,6 @@ import {
 
 import {
   IDENTIFIER_TYPES,
-  ADDRESSES,
   FUND,
   CREATE_INVENTORY,
   VENDORS,
@@ -41,8 +41,6 @@ import getMaterialTypesForSelect from '../../../components/Utils/getMaterialType
 import getContributorNameTypesForSelect from '../../../components/Utils/getContributorNameTypesForSelect';
 import {
   getCreateInventorySetting,
-  getAddresses,
-  getAddressOptions,
   getCommonErrorMessage,
 } from '../../../common/utils';
 import {
@@ -115,6 +113,11 @@ function OrderTemplatesEditorContainer({
     isLoading: isOrderTemplateCategoriesLoading,
   } = useOrderTemplateCategories();
 
+  const {
+    addresses,
+    isLoading: isAddressesLoading,
+  } = useAddresses();
+
   const locationIds = useMemo(() => locations?.map(location => location.id), [locations]);
   const funds = getFundsForSelect(resources);
   const identifierTypes = getIdentifierTypesForSelect(get(resources, [DICT_IDENTIFIER_TYPES, 'records'], []));
@@ -126,7 +129,6 @@ function OrderTemplatesEditorContainer({
     .map(({ name }) => ({ label: name, value: name }));
   const suffixesSetting = get(resources, 'suffixesSetting.records', [])
     .map(({ name }) => ({ label: name, value: name }));
-  const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
   const materialTypes = getMaterialTypesForSelect(resources?.materialTypes?.records);
   const initialValues = orderTemplate.id
     ? {
@@ -143,6 +145,7 @@ function OrderTemplatesEditorContainer({
     isOrderTemplateFetching
     || isLocationsLoading
     || isOrderTemplateCategoriesLoading
+    || isAddressesLoading
   );
 
   return (
@@ -182,7 +185,6 @@ OrderTemplatesEditorContainer.manifest = Object.freeze({
   createInventory: CREATE_INVENTORY,
   prefixesSetting: prefixesResource,
   suffixesSetting: suffixesResource,
-  addresses: ADDRESSES,
   vendors: VENDORS,
   materialTypes: MATERIAL_TYPES,
   orderTemplate: {

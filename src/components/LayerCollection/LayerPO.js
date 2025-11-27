@@ -15,6 +15,7 @@ import {
   ORDER_STATUSES,
   prefixesResource,
   suffixesResource,
+  useAddresses,
   useModalToggle,
   useShowCallout,
 } from '@folio/stripes-acq-components';
@@ -29,7 +30,6 @@ import POForm from '../PurchaseOrder/POForm';
 import { UpdateOrderErrorModal } from '../PurchaseOrder/UpdateOrderErrorModal';
 import { createOrEditOrderResource } from '../Utils/orderResource';
 import {
-  ADDRESSES,
   ORDER,
   ORDER_NUMBER,
   ORDER_NUMBER_SETTING,
@@ -70,6 +70,11 @@ function LayerPO({
   } = useOrder(id);
 
   const order = id ? fetchedOrder : NEW_ORDER;
+
+  const {
+    addresses,
+    isLoading: isAddressesLoading,
+  } = useAddresses();
 
   useEffect(() => {
     if (id) {
@@ -158,7 +163,12 @@ function LayerPO({
     [history, id, location.search, instanceId],
   );
 
-  if (isLoading || isOrderLoading || !order) {
+  if (
+    isLoading
+    || isOrderLoading
+    || !order
+    || isAddressesLoading
+  ) {
     return (
       <LoadingView
         dismissible
@@ -181,6 +191,7 @@ function LayerPO({
   return (
     <>
       <POForm
+        addresses={addresses}
         generatedNumber={generatedNumber}
         initialValues={initialValues}
         onCancel={onCancel}
@@ -205,7 +216,6 @@ LayerPO.manifest = Object.freeze({
     ...ORDER,
     fetch: false,
   },
-  addresses: ADDRESSES,
   users: {
     ...USERS,
     accumulate: true,
