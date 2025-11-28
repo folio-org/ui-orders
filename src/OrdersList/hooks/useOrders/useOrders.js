@@ -16,7 +16,16 @@ import {
 
 import { useBuildQuery } from '../useBuildQuery';
 
-export const useOrders = ({ pagination, fetchReferences, customFields }) => {
+export const useOrders = (
+  {
+    customFields,
+    fetchReferences,
+    pagination,
+  },
+  options = {},
+) => {
+  const { enabled = true, ...queryOptions } = options;
+
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'orders-list' });
   const { timezone } = useStripes();
@@ -61,8 +70,9 @@ export const useOrders = ({ pagination, fetchReferences, customFields }) => {
       };
     },
     {
-      enabled: Boolean(pagination.timestamp),
+      enabled: enabled && Boolean(pagination.timestamp),
       keepPreviousData: true,
+      ...queryOptions,
     },
   );
 

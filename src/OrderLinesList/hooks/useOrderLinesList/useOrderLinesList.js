@@ -16,7 +16,16 @@ import {
 
 import { getLinesQuery } from '@folio/plugin-find-po-line';
 
-export const useOrderLinesList = ({ pagination, fetchReferences, customFields }) => {
+export const useOrderLinesList = (
+  {
+    customFields,
+    fetchReferences,
+    pagination,
+  },
+  options = {},
+) => {
+  const { enabled = true, ...queryOptions } = options;
+
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'order-lines-list' });
   const { timezone } = useStripes();
@@ -64,8 +73,9 @@ export const useOrderLinesList = ({ pagination, fetchReferences, customFields })
       };
     },
     {
-      enabled: Boolean(pagination.timestamp),
+      enabled: enabled && Boolean(pagination.timestamp),
       keepPreviousData: true,
+      ...queryOptions,
     },
   );
 
