@@ -947,5 +947,7 @@
     "order.fiscalYear.current": "Huidige",
     "order.fiscalYear.previous": "Vorige",
     "errors.cannotConvertAmountInvalidCurrency": "De geselecteerde valuta kan niet worden geconverteerd. Configureer een Leverancier van wisselkoersen die deze valuta ondersteunt.",
-    "orderSummary.totalEstimatedPrice.exchanged": "Geschatte prijs Totaal (Omgewisseld)"
+    "orderSummary.totalEstimatedPrice.exchanged": "Geschatte prijs Totaal (Omgewisseld)",
+    "errors.ordersNotLoadedGeneric": "Fout bij het invoeren van inkooporders.",
+    "errors.tooLargeRequest": "De zoekopdracht is te groot. Verminder het aantal filters of verkort de zoekwaarde en probeer het opnieuw."
 }
