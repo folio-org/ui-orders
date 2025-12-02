@@ -850,8 +850,8 @@
     "paneBlock.donorInformation": "Informace o dárci",
     "poLine.donor.info": "Toto pole bylo deaktivováno a v roce 2025 bude zastaralé. Záznamy dárců vytvářejte v aplikaci Organizace. K přidání dárců do tohoto ŘNO použijte níže uvedený odstavec s informacemi o dárci. Upozorňujeme, že informace smazané z tohoto pole NELZE obnovit.",
     "line.accordion.donor": "Dárce",
-    "poLine.claimingActive": "Nárokování je aktivní",
-    "poLine.claimingInterval": "Interval nárokování",
+    "poLine.claimingActive": "Reklamace aktivní",
+    "poLine.claimingInterval": "Reklamační interval",
     "poLine.donorOrganizationIds": "Informace o dárci",
     "settings.customFields.purchaseOrders": "Vlastní pole - Nákupní objednávky",
     "settings.customFields.purchaseOrderLines": "Vlastní pole – řádky Nákupní objednávky",
@@ -947,5 +947,7 @@
     "order.fiscalYear.current": "Současný",
     "order.fiscalYear.previous": "Předchozí",
     "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
-    "orderSummary.totalEstimatedPrice.exchanged": "Celková odhadovaná cena (Směněná)"
+    "orderSummary.totalEstimatedPrice.exchanged": "Celková odhadovaná cena (Směněná)",
+    "errors.ordersNotLoadedGeneric": "Chyba při načítání objednávek.",
+    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again."
 }

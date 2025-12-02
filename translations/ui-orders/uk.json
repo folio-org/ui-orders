@@ -947,5 +947,7 @@
     "order.fiscalYear.current": "Поточний",
     "order.fiscalYear.previous": "Попередній",
     "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
-    "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)"
+    "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)",
+    "errors.ordersNotLoadedGeneric": "Error while loading purchase orders.",
+    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again."
 }
