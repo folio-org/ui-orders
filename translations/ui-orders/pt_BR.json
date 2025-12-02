@@ -947,5 +947,7 @@
     "order.fiscalYear.current": "Atual",
     "order.fiscalYear.previous": "Anterior",
     "errors.cannotConvertAmountInvalidCurrency": "A moeda selecionada não pode ser convertida. Configure um provedor de taxa de câmbio que suporte essa moeda.",
-    "orderSummary.totalEstimatedPrice.exchanged": "Preço total estimado (Trocado)"
+    "orderSummary.totalEstimatedPrice.exchanged": "Preço total estimado (Trocado)",
+    "errors.ordersNotLoadedGeneric": "Erro ao carregar os pedidos de compra.",
+    "errors.tooLargeRequest": "A solicitação de busca é muito grande. Reduza o número de filtros ou encurte o termo de pesquisa e tente novamente."
 }
