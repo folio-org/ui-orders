@@ -50,7 +50,7 @@ export const COLUMN_MAPPING = {
   [vendorCode]: <FormattedMessage id="ui-orders.relatedInvoices.vendorCode" />,
   [vendorInvoiceNo]: <FormattedMessage id="ui-orders.relatedInvoices.vendorInvoiceNo" />,
   [status]: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
-  [expendedAmount]: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
+  [expendedAmount]: <FormattedMessage id="ui-orders.relatedInvoices.invoiceAmount" />,
 };
 
 export const RESULT_FORMATTER = {
