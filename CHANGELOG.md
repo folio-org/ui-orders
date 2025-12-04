@@ -49,6 +49,7 @@
 * Remove local implementation for loading addresses and tags. Refs UIOR-1390.
 * Improve handling of failed requests in orders and order lines search. Refs UIOR-1288.
 * Sort audit events by `event_date` field. Refs UIOR-1446.
+* Rename “Expended amount” column to “Invoice amount” in the “Related invoices” accordion. Refs UIOR-1470.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
