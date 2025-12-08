@@ -40,7 +40,7 @@ describe('POInvoices', () => {
     expect(screen.getByText('ui-orders.relatedInvoices.vendorCode')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.vendorInvoiceNo')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.relatedInvoices.status')).toBeInTheDocument();
-    expect(screen.getByText('ui-orders.relatedInvoices.expendedAmount')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.relatedInvoices.invoiceAmount')).toBeInTheDocument();
   });
 
   it('should not render the component with empty orderInvoices', () => {
