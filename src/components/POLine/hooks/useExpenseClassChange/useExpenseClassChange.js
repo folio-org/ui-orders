@@ -32,7 +32,12 @@ const getAffectedInvoiceLines = (httpClient) => async (encumbranceId, orderLineI
       query: (
         cqlBuilder
           .equal('poLineId', orderLineId)
-          .equal('releaseEncumbrance', true)
+          .group((builder) => (
+            builder
+              .equal('releaseEncumbrance', true)
+              .or()
+              .equal('releaseEncumbrance', false)
+          ))
           .equal('invoices.fiscalYearId', encumbrance.fiscalYearId)
           .build()
       ),
