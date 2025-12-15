@@ -109,7 +109,7 @@ export const useExpenseClassChange = (orderLineId) => {
         </ModalFooter>
       )}
     >
-      <FormattedMessage id="ui-orders.poLine.fundDistribution.expenseClass.modal.description" />
+      <FormattedMessage id="ui-orders.poLine.fundDistribution.expenseClass.modal.message" />
     </Modal>
   ), [intl, isConfirmModalOpen, onConfirmExpenseClassChange]);
 
