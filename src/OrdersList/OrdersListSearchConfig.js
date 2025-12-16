@@ -1,5 +1,4 @@
-import moment from 'moment';
-
+import { dayjs } from '@folio/stripes/components';
 import {
   CUSTOM_FIELDS_FILTER,
   CUSTOM_FIELDS_TYPES,
@@ -10,7 +9,7 @@ import {
 const indexes = ['metadata.createdDate', 'dateOrdered', 'poNumber'];
 
 const searchByDate = (query, dateFormat) => {
-  const isoDate = moment.utc(query, dateFormat).format(DATE_FORMAT);
+  const isoDate = dayjs.utc(query, dateFormat).format(DATE_FORMAT);
 
   return `${isoDate}*`;
 };

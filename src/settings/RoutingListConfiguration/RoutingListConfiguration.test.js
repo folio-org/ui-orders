@@ -136,7 +136,6 @@ describe('RoutingListConfiguration', () => {
   it('should display edit page and update description', async () => {
     let updateRoutingListOptions = {};
     const updateMock = jest.fn().mockImplementation((_, options) => {
-      console.log('options', options);
       updateRoutingListOptions = options;
     });
 
