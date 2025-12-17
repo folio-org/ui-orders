@@ -32,7 +32,12 @@ const getAffectedInvoiceLines = (httpClient) => async (encumbranceId, orderLineI
       query: (
         cqlBuilder
           .equal('poLineId', orderLineId)
-          .equal('releaseEncumbrance', true)
+          .group((builder) => (
+            builder
+              .equal('releaseEncumbrance', true)
+              .or()
+              .equal('releaseEncumbrance', false)
+          ))
           .equal('invoices.fiscalYearId', encumbrance.fiscalYearId)
           .build()
       ),
@@ -104,7 +109,7 @@ export const useExpenseClassChange = (orderLineId) => {
         </ModalFooter>
       )}
     >
-      <FormattedMessage id="ui-orders.poLine.fundDistribution.expenseClass.modal.description" />
+      <FormattedMessage id="ui-orders.poLine.fundDistribution.expenseClass.modal.message" />
     </Modal>
   ), [intl, isConfirmModalOpen, onConfirmExpenseClassChange]);
 
