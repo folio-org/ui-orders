@@ -407,7 +407,6 @@
     "itemDetails.contributorType": "Tipo de colaborador",
     "poLine.source": "Fonte",
     "paneBlock.relatedInvoices": "Faturas relacionadas",
-    "relatedInvoices.expendedAmount": "Valor gasto",
     "relatedInvoices.invoice": "Núm. da fatura",
     "relatedInvoices.invoiceDate": "Data da fatura",
     "relatedInvoices.quantity": "Quantidade",
@@ -853,8 +852,8 @@
     "poLine.claimingActive": "Reclamação ativa",
     "poLine.claimingInterval": "Intervalo de reclamação",
     "poLine.donorOrganizationIds": "Informações do doador",
-    "settings.customFields.purchaseOrders": "Campos Personalizados - Pedidos de Compra",
-    "settings.customFields.purchaseOrderLines": "Campos Personalizados - Linhas do Pedido de Compra",
+    "settings.customFields.purchaseOrders": "Campos Personalizados - pedidos de compra",
+    "settings.customFields.purchaseOrderLines": "Campos Personalizados - linhas do pedido de compra",
     "errors.openOrder.fundLocationRestrictionViolation": "Não foi possível abrir o pedido de compra. Um ou mais fundos para o número da linha do pedido de compra <b>{polNumber} </b> não são válidos para a(s) localização(ões) selecionada(s)",
     "errors.poLineHasLocationRestrictedFund": "Fundo com restrição de localização aplicado a um local inválido",
     "errors.templateNameNotUnique": "O modelo de pedido não pôde ser salvo porque esse nome de modelo já existe.",
@@ -917,7 +916,6 @@
     "settings.numberGenerator.infoAdditional.serviceInteraction": "Interação de serviço",
     "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Sequências de gerador de números",
     "poLine.fundDistribution.expenseClass.modal.title": "Atualizar classe de despesa",
-    "poLine.fundDistribution.expenseClass.modal.description": "Alterar esta classe de despesa não atualizará a linha da fatura correspondente. Se você deseja que a aprovação/pagamento da fatura libere a transação de ônus, a classe de despesa da fatura correspondente também deverá ser atualizada.",
     "settings.orderTemplateCategories": "Categorias de modelos de pedidos",
     "settings.orderTemplateCategories.sub": "Categorias",
     "settings.orderTemplateCategories.field.name": "Nome",
@@ -949,5 +947,7 @@
     "errors.cannotConvertAmountInvalidCurrency": "A moeda selecionada não pode ser convertida. Configure um provedor de taxa de câmbio que suporte essa moeda.",
     "orderSummary.totalEstimatedPrice.exchanged": "Preço total estimado (Trocado)",
     "errors.ordersNotLoadedGeneric": "Erro ao carregar os pedidos de compra.",
-    "errors.tooLargeRequest": "A solicitação de busca é muito grande. Reduza o número de filtros ou encurte o termo de pesquisa e tente novamente."
+    "errors.tooLargeRequest": "A solicitação de busca é muito grande. Reduza o número de filtros ou encurte o termo de pesquisa e tente novamente.",
+    "relatedInvoices.invoiceAmount": "Valor da fatura",
+    "poLine.fundDistribution.expenseClass.modal.message": "Alterar essa classe de despesa não atualizará a distribuição de fundos da linha de fatura correspondente. Se você deseja que a classe de despesa na linha da fatura corresponda, é necessário atualizar a distribuição de fundos da linha de fatura correspondente no aplicativo de fatura."
 }

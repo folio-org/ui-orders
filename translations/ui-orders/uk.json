@@ -407,7 +407,6 @@
     "itemDetails.contributorType": "Тип контрибутора",
     "poLine.source": "Джерело",
     "paneBlock.relatedInvoices": "Пов'язані рахунки-фактури",
-    "relatedInvoices.expendedAmount": "Витрачена сума",
     "relatedInvoices.invoice": "№ рахунку-фактури",
     "relatedInvoices.invoiceDate": "Дата рахунку-фактури",
     "relatedInvoices.quantity": "Кількість",
@@ -917,7 +916,6 @@
     "settings.numberGenerator.infoAdditional.serviceInteraction": "Взаємодія сервісів",
     "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Послідовності генератора номерів",
     "poLine.fundDistribution.expenseClass.modal.title": "Оновити клас витрат",
-    "poLine.fundDistribution.expenseClass.modal.description": "Зміна цього класу витрат не оновить відповідний рядок рахунку-фактури. Якщо ви хочете, щоб затвердження/оплата рахунку-фактури зняли відрахування з транзакції, то клас витрат пов'язаних рахунків-фактур також повинен бути оновлений.",
     "settings.orderTemplateCategories": "Категорії шаблонів замовлень",
     "settings.orderTemplateCategories.sub": "Категорії",
     "settings.orderTemplateCategories.field.name": "Ім'я/Назва",
@@ -949,5 +947,7 @@
     "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
     "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)",
     "errors.ordersNotLoadedGeneric": "Error while loading purchase orders.",
-    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again."
+    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again.",
+    "relatedInvoices.invoiceAmount": "Invoice amount",
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
 }

@@ -407,7 +407,6 @@
     "itemDetails.contributorType": "Typen Mitwirkende",
     "poLine.source": "Quelle",
     "paneBlock.relatedInvoices": "Zugehörige Rechnungen",
-    "relatedInvoices.expendedAmount": "Verausgabter Betrag",
     "relatedInvoices.invoice": "Rechnung #",
     "relatedInvoices.invoiceDate": "Rechnungsdatum",
     "relatedInvoices.quantity": "Anzahl",
@@ -917,7 +916,6 @@
     "settings.numberGenerator.infoAdditional.serviceInteraction": "Service Interaktion",
     "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Nummernkreise",
     "poLine.fundDistribution.expenseClass.modal.title": "Update expense class",
-    "poLine.fundDistribution.expenseClass.modal.description": "Changing this expense class will not update the related invoice line. If you want the invoice approval/payment to release the encumbrance transaction then the related invoices' expense class must be updated as well.",
     "settings.orderTemplateCategories": "Order template categories",
     "settings.orderTemplateCategories.sub": "Categories",
     "settings.orderTemplateCategories.field.name": "Name",
@@ -949,5 +947,7 @@
     "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
     "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)",
     "errors.ordersNotLoadedGeneric": "Error while loading purchase orders.",
-    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again."
+    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again.",
+    "relatedInvoices.invoiceAmount": "Invoice amount",
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
 }
