@@ -407,7 +407,6 @@
     "itemDetails.contributorType": "Tipologia autori",
     "poLine.source": "Fonte",
     "paneBlock.relatedInvoices": "Fatture correlate",
-    "relatedInvoices.expendedAmount": "Importo speso",
     "relatedInvoices.invoice": "Fattura #",
     "relatedInvoices.invoiceDate": "Data fattura",
     "relatedInvoices.quantity": "Quantità",
@@ -853,8 +852,8 @@
     "poLine.claimingActive": "Claiming active",
     "poLine.claimingInterval": "Claiming interval",
     "poLine.donorOrganizationIds": "Donor information",
-    "settings.customFields.purchaseOrders": "Custom Fields - Purchase Orders",
-    "settings.customFields.purchaseOrderLines": "Custom Fields - Purchase Order Lines",
+    "settings.customFields.purchaseOrders": "Custom Fields - purchase orders",
+    "settings.customFields.purchaseOrderLines": "Custom Fields - purchase order lines",
     "errors.openOrder.fundLocationRestrictionViolation": "Unable to open PO. One or more funds for POL number <b>{polNumber}</b> are not valid with the selected location(s)",
     "errors.poLineHasLocationRestrictedFund": "Location-restricted fund applied to invalid location",
     "errors.templateNameNotUnique": "The order template could not be saved because this template name already exists.",
@@ -917,7 +916,6 @@
     "settings.numberGenerator.infoAdditional.serviceInteraction": "Service interaction",
     "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Number generator sequences",
     "poLine.fundDistribution.expenseClass.modal.title": "Update expense class",
-    "poLine.fundDistribution.expenseClass.modal.description": "Changing this expense class will not update the related invoice line. If you want the invoice approval/payment to release the encumbrance transaction then the related invoices' expense class must be updated as well.",
     "settings.orderTemplateCategories": "Order template categories",
     "settings.orderTemplateCategories.sub": "Categories",
     "settings.orderTemplateCategories.field.name": "Name",
@@ -949,5 +947,7 @@
     "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
     "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)",
     "errors.ordersNotLoadedGeneric": "Error while loading purchase orders.",
-    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again."
+    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again.",
+    "relatedInvoices.invoiceAmount": "Invoice amount",
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
 }

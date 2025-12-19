@@ -407,7 +407,6 @@
     "itemDetails.contributorType": "贡献者类型",
     "poLine.source": "来源",
     "paneBlock.relatedInvoices": "相关发票",
-    "relatedInvoices.expendedAmount": "支出金额",
     "relatedInvoices.invoice": "发票号",
     "relatedInvoices.invoiceDate": "发票日期",
     "relatedInvoices.quantity": "数量",
@@ -917,7 +916,6 @@
     "settings.numberGenerator.infoAdditional.serviceInteraction": "服务交互",
     "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "数字生成器序列",
     "poLine.fundDistribution.expenseClass.modal.title": "更新支出类别",
-    "poLine.fundDistribution.expenseClass.modal.description": "更改此费用类别不会更新相关发票行。如果您希望发票审批/付款能够释放预支交易，则相关发票的费用类别也必须更新。",
     "settings.orderTemplateCategories": "订单模板类别",
     "settings.orderTemplateCategories.sub": "类别",
     "settings.orderTemplateCategories.field.name": "名称",
@@ -947,7 +945,9 @@
     "order.fiscalYear.current": "当前",
     "order.fiscalYear.previous": "上一个",
     "errors.cannotConvertAmountInvalidCurrency": "所选货币无法兑换。请配置支持此货币的汇率提供商。",
-    "orderSummary.totalEstimatedPrice.exchanged": "Total estimated price (Exchanged)",
-    "errors.ordersNotLoadedGeneric": "Error while loading purchase orders.",
-    "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again."
+    "orderSummary.totalEstimatedPrice.exchanged": "总估价（已兑换）",
+    "errors.ordersNotLoadedGeneric": "加载采购订单时出错。",
+    "errors.tooLargeRequest": "搜索请求过长。请减少筛选条件或缩短搜索词，然后重试。",
+    "relatedInvoices.invoiceAmount": "发票金额",
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
 }

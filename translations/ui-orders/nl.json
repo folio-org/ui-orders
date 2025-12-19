@@ -407,7 +407,6 @@
     "itemDetails.contributorType": "Type bijdrager",
     "poLine.source": "Bron",
     "paneBlock.relatedInvoices": "Gerelateerde facturen",
-    "relatedInvoices.expendedAmount": "Uitgegeven bedrag",
     "relatedInvoices.invoice": "Factuurnummer",
     "relatedInvoices.invoiceDate": "Factuurdatum",
     "relatedInvoices.quantity": "Aantal",
@@ -917,7 +916,6 @@
     "settings.numberGenerator.infoAdditional.serviceInteraction": "Service-interactie",
     "settings.numberGenerator.infoAdditional.numberGeneratorSequences": "Nummergeneratorreeksen",
     "poLine.fundDistribution.expenseClass.modal.title": "Onkostenklasse updaten",
-    "poLine.fundDistribution.expenseClass.modal.description": "Als u deze Onkostensoort wijzigt, wordt de gerelateerde Factuurregel niet geüpdatet. Als u wilt dat de goedkeuring/betaling van de factuur de vrijgave van de budgetreserveringstransactie tot gevolg heeft, dan moet de Onkostensoort van de gerelateerde facturen ook geüpdatet worden.",
     "settings.orderTemplateCategories": "Bestelsjabloon categorieën",
     "settings.orderTemplateCategories.sub": "Categorieën",
     "settings.orderTemplateCategories.field.name": "Naam",
@@ -949,5 +947,7 @@
     "errors.cannotConvertAmountInvalidCurrency": "De geselecteerde valuta kan niet worden geconverteerd. Configureer een Leverancier van wisselkoersen die deze valuta ondersteunt.",
     "orderSummary.totalEstimatedPrice.exchanged": "Geschatte prijs Totaal (Omgewisseld)",
     "errors.ordersNotLoadedGeneric": "Fout bij het invoeren van inkooporders.",
-    "errors.tooLargeRequest": "De zoekopdracht is te groot. Verminder het aantal filters of verkort de zoekwaarde en probeer het opnieuw."
+    "errors.tooLargeRequest": "De zoekopdracht is te groot. Verminder het aantal filters of verkort de zoekwaarde en probeer het opnieuw.",
+    "relatedInvoices.invoiceAmount": "Invoice amount",
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
 }
