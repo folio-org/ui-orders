@@ -37,7 +37,7 @@ const CustomFieldsSettings = () => {
   return (
     <Switch>
       <Route exact path={basePO}>
-        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrders' })}>
+        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrders.label' })}>
           <ViewCustomFieldsSettings
             backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
             entityType={ENTITY_TYPE_ORDER}
@@ -48,7 +48,7 @@ const CustomFieldsSettings = () => {
         </TitleManager>
       </Route>
       <Route exact path={`${basePO}/edit`}>
-        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrders' })}>
+        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrders.label' })}>
           <EditCustomFieldsSettings
             backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
             entityType={ENTITY_TYPE_ORDER}
@@ -60,7 +60,7 @@ const CustomFieldsSettings = () => {
       </Route>
 
       <Route exact path={basePOL}>
-        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrderLines' })}>
+        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrderLines.label' })}>
           <ViewCustomFieldsSettings
             backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
             entityType={ENTITY_TYPE_PO_LINE}
@@ -71,7 +71,7 @@ const CustomFieldsSettings = () => {
         </TitleManager>
       </Route>
       <Route exact path={`${basePOL}/edit`}>
-        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrderLines' })}>
+        <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.customFields.purchaseOrderLines.label' })}>
           <EditCustomFieldsSettings
             backendModuleName={CUSTOM_FIELDS_ORDERS_BACKEND_NAME}
             entityType={ENTITY_TYPE_PO_LINE}

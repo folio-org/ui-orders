@@ -92,13 +92,13 @@ export const SECTIONS = [
       },
       {
         component: CustomFieldsSettings,
-        label: <FormattedMessage id="ui-orders.settings.customFields.purchaseOrders" />,
+        label: <FormattedMessage id="ui-orders.settings.customFields.purchaseOrders.label" />,
         route: 'custom-fields-po',
         perm: 'ui-orders.settings.custom-fields.view',
       },
       {
         component: CustomFieldsSettings,
-        label: <FormattedMessage id="ui-orders.settings.customFields.purchaseOrderLines" />,
+        label: <FormattedMessage id="ui-orders.settings.customFields.purchaseOrderLines.label" />,
         route: 'custom-fields-pol',
         perm: 'ui-orders.settings.custom-fields.view',
       },
