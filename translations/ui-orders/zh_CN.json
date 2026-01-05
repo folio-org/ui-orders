@@ -852,8 +852,6 @@
     "poLine.claimingActive": "催缺激活",
     "poLine.claimingInterval": "催缺间隔",
     "poLine.donorOrganizationIds": "捐赠者信息",
-    "settings.customFields.purchaseOrders": "自定义字段 - 采购订单",
-    "settings.customFields.purchaseOrderLines": "自定义字段 - 采购订单行",
     "errors.openOrder.fundLocationRestrictionViolation": "无法打开采购订单。 订单行号<b> {polNumber} </b>的一笔或多笔经费在所选馆藏地无效",
     "errors.poLineHasLocationRestrictedFund": "位置限制经费应用于无效馆藏地",
     "errors.templateNameNotUnique": "无法保存订单模板，因为该模板名称已存在。",
@@ -949,5 +947,7 @@
     "errors.ordersNotLoadedGeneric": "加载采购订单时出错。",
     "errors.tooLargeRequest": "搜索请求过长。请减少筛选条件或缩短搜索词，然后重试。",
     "relatedInvoices.invoiceAmount": "发票金额",
-    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application.",
+    "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
+    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines"
 }

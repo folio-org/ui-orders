@@ -852,8 +852,6 @@
     "poLine.claimingActive": "Mahnen aktiv",
     "poLine.claimingInterval": "Mahnintervall",
     "poLine.donorOrganizationIds": "Informationen zur spendenden Person",
-    "settings.customFields.purchaseOrders": "Benutzerdefinierte Felder - Bestellungen",
-    "settings.customFields.purchaseOrderLines": "Benutzerdefinierte Felder - Bestellposten",
     "errors.openOrder.fundLocationRestrictionViolation": "Bestellung kann nicht geöffnet werden. Ein oder mehrere Fonds von Bestellposten <b>{polNumber}</b> sind für die ausgewählten Standorte ungültig.",
     "errors.poLineHasLocationRestrictedFund": "Standortbeschränkter Fonds auf ungültigen Standort angewendet",
     "errors.templateNameNotUnique": "Bestellvorlage konnte nicht gespeichert werden, weil dieser Name bereits existiert.",
@@ -949,5 +947,7 @@
     "errors.ordersNotLoadedGeneric": "Error while loading purchase orders.",
     "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again.",
     "relatedInvoices.invoiceAmount": "Invoice amount",
-    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application.",
+    "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
+    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines"
 }

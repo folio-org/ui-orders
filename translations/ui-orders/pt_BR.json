@@ -852,8 +852,6 @@
     "poLine.claimingActive": "Reclamação ativa",
     "poLine.claimingInterval": "Intervalo de reclamação",
     "poLine.donorOrganizationIds": "Informações do doador",
-    "settings.customFields.purchaseOrders": "Campos Personalizados - pedidos de compra",
-    "settings.customFields.purchaseOrderLines": "Campos Personalizados - linhas do pedido de compra",
     "errors.openOrder.fundLocationRestrictionViolation": "Não foi possível abrir o pedido de compra. Um ou mais fundos para o número da linha do pedido de compra <b>{polNumber} </b> não são válidos para a(s) localização(ões) selecionada(s)",
     "errors.poLineHasLocationRestrictedFund": "Fundo com restrição de localização aplicado a um local inválido",
     "errors.templateNameNotUnique": "O modelo de pedido não pôde ser salvo porque esse nome de modelo já existe.",
@@ -949,5 +947,7 @@
     "errors.ordersNotLoadedGeneric": "Erro ao carregar os pedidos de compra.",
     "errors.tooLargeRequest": "A solicitação de busca é muito grande. Reduza o número de filtros ou encurte o termo de pesquisa e tente novamente.",
     "relatedInvoices.invoiceAmount": "Valor da fatura",
-    "poLine.fundDistribution.expenseClass.modal.message": "Alterar essa classe de despesa não atualizará a distribuição de fundos da linha de fatura correspondente. Se você deseja que a classe de despesa na linha da fatura corresponda, é necessário atualizar a distribuição de fundos da linha de fatura correspondente no aplicativo de fatura."
+    "poLine.fundDistribution.expenseClass.modal.message": "Alterar essa classe de despesa não atualizará a distribuição de fundos da linha de fatura correspondente. Se você deseja que a classe de despesa na linha da fatura corresponda, é necessário atualizar a distribuição de fundos da linha de fatura correspondente no aplicativo de fatura.",
+    "settings.customFields.purchaseOrders.label": "Campos personalizados - pedidos de compra",
+    "settings.customFields.purchaseOrderLines.label": "Campos personalizados - linhas de pedido de compra"
 }
