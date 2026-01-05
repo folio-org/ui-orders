@@ -852,8 +852,6 @@
     "poLine.claimingActive": "مطالبة نشطة",
     "poLine.claimingInterval": "الفاصل الزمني للمطالبة",
     "poLine.donorOrganizationIds": "معلومات الجهة المانحة",
-    "settings.customFields.purchaseOrders": "Custom Fields - purchase orders",
-    "settings.customFields.purchaseOrderLines": "Custom Fields - purchase order lines",
     "errors.openOrder.fundLocationRestrictionViolation": "تعذر فتح أمر شراء. أحد التمويلات أو أكثر لرقم سطر أمر الشراء <b>{polNumber}</b> غير صالحة للمواقع المحددة.",
     "errors.poLineHasLocationRestrictedFund": "تم تطبيق تمويل مقيد بالموقع على موقع غير صالح",
     "errors.templateNameNotUnique": "تعذر حفظ قالب أمر الشراء لأن اسم القالب هذا موجود بالفعل.",
@@ -949,5 +947,7 @@
     "errors.ordersNotLoadedGeneric": "Error while loading purchase orders.",
     "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again.",
     "relatedInvoices.invoiceAmount": "Invoice amount",
-    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application.",
+    "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
+    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines"
 }

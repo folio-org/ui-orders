@@ -852,8 +852,6 @@
     "poLine.claimingActive": "索賠啟動",
     "poLine.claimingInterval": "催缺間隔",
     "poLine.donorOrganizationIds": "捐贈者資訊",
-    "settings.customFields.purchaseOrders": "自訂欄位 - 採購訂單",
-    "settings.customFields.purchaseOrderLines": "自訂欄位 - 採購訂單細項",
     "errors.openOrder.fundLocationRestrictionViolation": "無法開啟採購訂單。 POL 編號<b> {polNumber} </b>的一筆或多筆經費在所選地點無效",
     "errors.poLineHasLocationRestrictedFund": "位置限制資金應用於無效位置",
     "errors.templateNameNotUnique": "無法儲存訂單範本，因為該範本名稱已存在。",
@@ -949,5 +947,7 @@
     "errors.ordersNotLoadedGeneric": "Error while loading purchase orders.",
     "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again.",
     "relatedInvoices.invoiceAmount": "Invoice amount",
-    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
+    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application.",
+    "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
+    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines"
 }

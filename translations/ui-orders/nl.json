@@ -852,8 +852,6 @@
     "poLine.claimingActive": "Reclamatie actief",
     "poLine.claimingInterval": "Reclamatie-interval",
     "poLine.donorOrganizationIds": "Donateursinformatie",
-    "settings.customFields.purchaseOrders": "Maatwerkvelden - Inkooporders",
-    "settings.customFields.purchaseOrderLines": "Maatwerkvelden - PO-regelnummers",
     "errors.openOrder.fundLocationRestrictionViolation": "Kan PO niet openen. Een of meer fondsen voor PO-regelnummer <b>{polNumber}</b> zijn niet geldig voor de geselecteerde locatie(s).",
     "errors.poLineHasLocationRestrictedFund": "Fonds met beperkte locatie toegepast op ongeldige locatie",
     "errors.templateNameNotUnique": "De ordertemplate kon niet worden opgeslagen omdat deze templatenaam al bestaat.",
@@ -948,6 +946,8 @@
     "orderSummary.totalEstimatedPrice.exchanged": "Geschatte prijs Totaal (Omgewisseld)",
     "errors.ordersNotLoadedGeneric": "Fout bij het invoeren van inkooporders.",
     "errors.tooLargeRequest": "De zoekopdracht is te groot. Verminder het aantal filters of verkort de zoekwaarde en probeer het opnieuw.",
-    "relatedInvoices.invoiceAmount": "Invoice amount",
-    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application."
+    "relatedInvoices.invoiceAmount": "Factuur bedrag",
+    "poLine.fundDistribution.expenseClass.modal.message": "Als u deze Onkostensoort wijzigt, wordt de gerelateerde Factuurregel fondsverdeling niet bijgewerkt. Als u wilt dat de onkostenklasse op de factuurregel overeenkomt, moet u de gerelateerde fondsverdeling van de factuurregel in de factuurapplicatie updaten.",
+    "settings.customFields.purchaseOrders.label": "Maatwerk velden - inkooporders",
+    "settings.customFields.purchaseOrderLines.label": "Maatwerk velden - Regel purchase order"
 }
