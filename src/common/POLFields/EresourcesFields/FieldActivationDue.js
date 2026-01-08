@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import moment from 'moment';
 
+import { dayjs } from '@folio/stripes/components';
 import {
   DATE_FORMAT,
   FieldDatepickerFinal,
@@ -12,12 +12,12 @@ const FieldActivationDue = ({ created = '' }) => {
     <FieldDatepickerFinal
       format={(value) => {
         return Number.isInteger(value)
-          ? moment.utc(created).add(value, 'days').format(DATE_FORMAT)
+          ? dayjs.utc(created).add(value, 'days').format(DATE_FORMAT)
           : '';
       }}
       parse={(value) => {
         return value
-          ? moment.utc(value).diff(moment(created), 'days') + 1
+          ? dayjs.utc(value).diff(dayjs(created), 'days') + 1
           : undefined;
       }}
       label={<FormattedMessage id="ui-orders.eresource.activationDue" />}

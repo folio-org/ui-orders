@@ -1,4 +1,3 @@
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
   useCallback,
@@ -7,7 +6,10 @@ import {
 } from 'react';
 import { useIntl } from 'react-intl';
 
-import { exportToCsv } from '@folio/stripes/components';
+import {
+  dayjs,
+  exportToCsv,
+} from '@folio/stripes/components';
 import {
   stripesConnect,
   useOkapiKy,
@@ -73,7 +75,7 @@ const ExportSettingsModalContainer = ({
 
       onCancel();
 
-      const filename = `order-export-${moment().format('YYYY-MM-DD-hh:mm')}`;
+      const filename = `order-export-${dayjs().format('YYYY-MM-DD-hh:mm')}`;
 
       return exportToCsv(
         [{ ...getExportOrderFields(customFields), ...getExportLineFields(customFields) }, ...exportData],

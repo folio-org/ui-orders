@@ -8,7 +8,7 @@ describe('makeSearchQuery', () => {
   it('should return query without qindex', () => {
     const query = makeSearchQuery()('query');
 
-    expect(query).toBe(`metadata.createdDate=="Invalid date*" or dateOrdered=="Invalid date*" or poNumber=="*${QUERY}*"`);
+    expect(query).toBe(`metadata.createdDate=="Invalid Date*" or dateOrdered=="Invalid Date*" or poNumber=="*${QUERY}*"`);
   });
 
   it('should return query with qindex', () => {
@@ -39,8 +39,8 @@ describe('makeSearchQuery', () => {
     const query = makeSearchQuery(null, CUSTOM_FIELDS_FIXTURE)(QUERY);
 
     expect(query).toBe(
-      `metadata.createdDate=="Invalid date*" or dateOrdered=="Invalid date*" or poNumber=="*${QUERY}*" or ` +
-      `customFields.datepicker=="Invalid date*" or customFields.longtext=="*${QUERY}*" or customFields.shorttext=="*${QUERY}*"`,
+      `metadata.createdDate=="Invalid Date*" or dateOrdered=="Invalid Date*" or poNumber=="*${QUERY}*" or ` +
+      `customFields.datepicker=="Invalid Date*" or customFields.longtext=="*${QUERY}*" or customFields.shorttext=="*${QUERY}*"`,
     );
   });
 });

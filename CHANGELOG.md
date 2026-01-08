@@ -52,6 +52,7 @@
 * Rename “Expended amount” column to “Invoice amount” in the “Related invoices” accordion. Refs UIOR-1470.
 * Update the "Update expense class" modal. Refs UIOR-1486.
 * Fix capitalization for the custom fields labels in the settings. Refs UIOR-1489.
+* Replace `moment` with `dayjs`. Refs UIOR-1399.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

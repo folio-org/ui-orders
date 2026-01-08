@@ -1,7 +1,6 @@
+import queryString from 'query-string';
 import { useQuery } from 'react-query';
 import { useLocation } from 'react-router';
-import queryString from 'query-string';
-import moment from 'moment';
 
 import {
   useNamespace,
@@ -39,11 +38,7 @@ export const useOrderLinesList = (
   const { isFetching, data = {} } = useQuery(
     [namespace, pagination.timestamp, pagination.limit, pagination.offset],
     async ({ signal }) => {
-      moment.tz.setDefault(timezone);
-
-      const query = await buildQuery();
-
-      moment.tz.setDefault();
+      const query = await buildQuery({ timezone });
 
       if (!filtersCount || !query) {
         return { orderLines: [], orderLinesCount: 0, query };

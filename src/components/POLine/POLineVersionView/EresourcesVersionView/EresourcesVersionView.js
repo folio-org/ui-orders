@@ -1,9 +1,9 @@
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
+  dayjs,
   Row,
   TextLink,
 } from '@folio/stripes/components';
@@ -17,8 +17,8 @@ import {
 export const EresourcesVersionView = ({ version }) => {
   const eresource = version?.eresource;
   const created = version?.order?.metadata?.createdDate;
+  const activationDueDate = eresource?.activationDue && dayjs.utc(created).add(eresource.activationDue, 'days').format();
 
-  const activationDueDate = eresource?.activationDue && moment.utc(created).add(eresource.activationDue, 'days').format();
   const resourceUrl = eresource?.resourceUrl && (
     <TextLink
       href={eresource?.resourceUrl}

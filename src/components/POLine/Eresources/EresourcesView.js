@@ -1,13 +1,11 @@
 import get from 'lodash/get';
-import moment from 'moment';
 import PropTypes from 'prop-types';
-import {
-  FormattedMessage,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Checkbox,
   Col,
+  dayjs,
   KeyValue,
   Row,
   TextLink,
@@ -38,7 +36,7 @@ const EresourcesView = ({
   const expectedActivation = get(eresource, 'expectedActivation');
   const activationDue = get(eresource, 'activationDue');
   const created = get(order, 'metadata.createdDate', '');
-  const activationDueDate = activationDue && moment.utc(created).add(activationDue, 'days').format();
+  const activationDueDate = activationDue && dayjs.utc(created).add(activationDue, 'days').format();
   const accessProviderId = get(eresource, 'accessProvider');
   const materialTypeId = get(eresource, 'materialType');
   const materialType = materialTypes.find((type => materialTypeId === type.id));

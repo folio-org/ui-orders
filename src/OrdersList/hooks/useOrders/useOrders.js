@@ -1,7 +1,6 @@
+import queryString from 'query-string';
 import { useQuery } from 'react-query';
 import { useLocation } from 'react-router';
-import queryString from 'query-string';
-import moment from 'moment';
 
 import {
   useNamespace,
@@ -29,17 +28,11 @@ export const useOrders = (
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'orders-list' });
   const { timezone } = useStripes();
-
   const { search } = useLocation();
   const buildQuery = useBuildQuery(customFields);
+
   const queryParams = queryString.parse(search);
-
-  moment.tz.setDefault(timezone);
-
-  const query = buildQuery(queryParams);
-
-  moment.tz.setDefault();
-
+  const query = buildQuery(queryParams, { timezone });
   const filtersCount = getFiltersCount(queryParams);
 
   const searchParams = {
