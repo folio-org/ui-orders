@@ -205,21 +205,20 @@ const POLineView = ({
   const openVersionHistory = useCallback(() => {
     history.push({
       pathname: poURL
-        ? `${ORDERS_ROUTE}/view/${order.id}/po-line/view/${line.id}/versions`
+        ? `${ORDERS_ROUTE}/view/${line.purchaseOrderId}/po-line/view/${line.id}/versions`
         : `${ORDER_LINES_ROUTE}/view/${line.id}/versions`,
       search: location.search,
     });
-  }, [history, line.id, location.search, order.id, poURL]);
+  }, [history, line.id, line.purchaseOrderId, location.search, poURL]);
 
   const onEditPOLine = useCallback((e) => {
     if (e) e.preventDefault();
     history.push({
-      pathname: `/orders/view/${order.id}/po-line/edit/${line.id}`,
+      pathname: `/orders/view/${line.purchaseOrderId}/po-line/edit/${line.id}`,
       search: location.search,
       state: { backPathname: location.pathname },
     });
-  }, [history, order.id, line.id, location.pathname, location.search]);
-
+  }, [history, line.id, line.purchaseOrderId, location.pathname, location.search]);
   const onConfirmDelete = useCallback(() => {
     toggleConfirmDelete();
     deleteLine();
