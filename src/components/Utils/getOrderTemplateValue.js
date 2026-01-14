@@ -1,4 +1,6 @@
 export default (template = {}, relatedData = {}) => {
+  const result = structuredClone(template);
+
   if (template.locations && relatedData.locations) {
     const locationIdMap = relatedData.locations.reduce((acc, { id: locationId }) => {
       acc[locationId] = true;
@@ -6,11 +8,11 @@ export default (template = {}, relatedData = {}) => {
       return acc;
     }, {});
 
-    template.locations = template.locations.map(location => ({
+    result.locations = template.locations.map(location => ({
       ...location,
       locationId: locationIdMap[location.locationId] ? location.locationId : undefined,
     }));
   }
 
-  return template;
+  return result;
 };
