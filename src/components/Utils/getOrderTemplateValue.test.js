@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep';
+
 import getOrderTemplateValue from './getOrderTemplateValue';
 
 const orderTemplate = {
@@ -7,7 +9,17 @@ const orderTemplate = {
   }],
 };
 
+const structuredCloneOriginal = global.structuredClone;
+
 describe('getOrderTemplateValue', () => {
+  beforeAll(() => {
+    global.structuredClone = cloneDeep;
+  });
+
+  afterAll(() => {
+    global.structuredClone = structuredCloneOriginal;
+  });
+
   it('should return found order template', () => {
     const actualOrderTemplate = getOrderTemplateValue(orderTemplate);
 
