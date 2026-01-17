@@ -946,8 +946,8 @@
     "orderSummary.totalEstimatedPrice.exchanged": "Celková odhadovaná cena (Směněná)",
     "errors.ordersNotLoadedGeneric": "Chyba při načítání objednávek.",
     "errors.tooLargeRequest": "Požadavek na vyhledávání je příliš velký. Snižte prosím počet filtrů, nebo zkraťte hledaný výraz a zkuste to znovu.",
-    "relatedInvoices.invoiceAmount": "Invoice amount",
-    "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application.",
-    "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
-    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines"
+    "relatedInvoices.invoiceAmount": "Fakturovaná částka",
+    "poLine.fundDistribution.expenseClass.modal.message": "Změna této třídy výdajů neaktualizuje související rozdělení fondu na faktuře. Pokud chcete, aby třída výdajů na faktuře odpovídala, musíte aktualizovat související rozdělení fondu v aplikaci faktur.",
+    "settings.customFields.purchaseOrders.label": "Vlastní pole - nákupní objednávky",
+    "settings.customFields.purchaseOrderLines.label": "Vlastní pole - řádky nákupní objednávky"
 }
