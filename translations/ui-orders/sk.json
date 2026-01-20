@@ -506,7 +506,7 @@
     "errors.costUnitPriceElectronicInvalid": "Cost's list unit price for Electronic resource(s) is invalid",
     "errors.costUnitPriceInvalid": "Cost's list unit price is invalid",
     "errors.encumbranceCreationFailure": "One or more encumbrance record(s) failed to be created",
-    "errors.fundsNotFound": "The fund records are not found",
+    "errors.fundsNotFound": "One or more funds could not be loaded. The fund(s) may have been deleted or you may not have permission to view the associated fund(s).",
     "errors.idMismatch": "Mismatch between id in path and request body",
     "errors.itemCreationFailed": "The item record failed to be created",
     "errors.itemNotFound": "The item record is not found",
