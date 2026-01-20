@@ -293,6 +293,8 @@
   "filter.updatedBy": "Updated by",
   "filter.dateUpdated": "Date updated",
 
+  "holdings.deleteModal.message": "This purchase order line is connected to records in inventory. After this edit there will be no other purchase order lines, pieces OR items connected to the related Holdings record(s). After making this change would you like FOLIO to delete the Holdings record(s)?",
+
   "fund.fundIdentifier": "Fund ID",
   "fund.selectAdjustment": "Select adjustment",
   "fund.value": "Value",

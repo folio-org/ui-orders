@@ -54,6 +54,7 @@
 * Fix capitalization for the custom fields labels in the settings. Refs UIOR-1489.
 * Replace `moment` with `dayjs`. Refs UIOR-1399.
 * Use a pure function for a template value building. Refs UIOR-1490.
+* Use ACQ holdings analyzer to check holdings abandonment. Refs UIOR-1466, UIOR-1468.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

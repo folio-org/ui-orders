@@ -1,5 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import {
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import {
   DeleteHoldingsModal,
@@ -103,6 +108,7 @@ export const ChangeInstanceModalContainer = ({
 
       {isDeleteHoldingsModalOpen && (
         <DeleteHoldingsModal
+          message={<FormattedMessage id="ui-orders.holdings.deleteModal.message" />}
           onCancel={toggleDeleteHoldingsModal}
           onKeepHoldings={() => onSubmit({ holdingsOperation: operation }).catch(handleErrorResponse)}
           onConfirm={() => onSubmit({
