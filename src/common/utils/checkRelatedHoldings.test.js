@@ -1,24 +1,27 @@
-import { orderLine } from '../../../test/jest/fixtures/orderLine';
+import { orderLine } from 'fixtures';
 import { checkRelatedHoldings } from './checkRelatedHoldings';
 
-const pieces = [{}];
-
-const kyMock = {
-  get: jest.fn(() => ({
-    json: Promise.resolve([{
-      pieces,
-      totalRecords: pieces.length,
-    }]),
-  })),
+const analyzerMock = {
+  analyze: jest.fn(() => [
+    {
+      abandoned: true,
+      explain: {
+        related: {
+          items: [],
+        },
+      },
+    },
+  ]),
 };
 
 describe('checkRelatedHoldings', () => {
-  it('should check if holding(s) related to piece(s), which not related to current POLine', async () => {
-    const holdingsConfigs = await checkRelatedHoldings(kyMock)(orderLine);
+  it('should check if holding(s) related to piece(s), which not related to current POLine', () => {
+    const holdingIds = ['holding-id-1'];
+    const holdingsConfigs = checkRelatedHoldings(analyzerMock)([orderLine], holdingIds);
 
     expect(holdingsConfigs).toEqual(expect.objectContaining({
       relatedToAnother: false,
-      willAbandoned: false,
+      willAbandoned: true,
     }));
   });
 });

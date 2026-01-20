@@ -8,14 +8,23 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
+import {
+  useCentralOrderingContext,
+  useHoldingsAbandonmentAnalyzer,
+  usePublishCoordinator,
+} from '@folio/stripes-acq-components';
 
 import { orderLine } from 'fixtures/orderLine';
-import { checkRelatedHoldings } from '../../../../../common/utils';
+import {
+  checkRelatedHoldings,
+  getHoldingIdsFromPOLines,
+} from '../../../../../common/utils';
 import { getCreateInventory } from '../../../utils';
 import { SHOW_DETAILED_MODAL_CONFIGS } from '../../constants';
 import { useChangeInstanceModalConfigs } from './useChangeInstanceModalConfigs';
 
-jest.mock('../../../../../common/utils/checkRelatedHoldings');
+jest.mock('../../../../../common/utils');
+jest.mock('@folio/stripes-acq-components');
 
 const modalConfigs = {
   holdingsConfigs: {
@@ -40,19 +49,40 @@ const kyMock = {
   extend: jest.fn(() => kyMock),
 };
 
+const analyzerMock = {
+  analyze: jest.fn(() => [
+    {
+      abandoned: false,
+      explain: {
+        related: {
+          items: [],
+        },
+      },
+    },
+  ]),
+};
+
 describe('useChangeInstanceModalConfigs', () => {
   beforeEach(() => {
     useOkapiKy.mockReturnValue(kyMock);
+    useCentralOrderingContext.mockReturnValue({
+      isCentralOrderingEnabled: false,
+    });
+    usePublishCoordinator.mockReturnValue({
+      initPublicationRequest: jest.fn(),
+    });
+    useHoldingsAbandonmentAnalyzer.mockReturnValue({
+      analyzerFactory: jest.fn().mockResolvedValue(analyzerMock),
+      isLoading: false,
+    });
+    getHoldingIdsFromPOLines.mockReturnValue(() => Promise.resolve(
+      orderLine.locations.map(({ holdingId }) => holdingId),
+    ));
+    checkRelatedHoldings.mockReturnValue(() => modalConfigs.holdingsConfigs);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  beforeEach(() => {
-    checkRelatedHoldings
-      .mockClear()
-      .mockReturnValue(() => modalConfigs.holdingsConfigs);
   });
 
   it('should return modal configs', async () => {
