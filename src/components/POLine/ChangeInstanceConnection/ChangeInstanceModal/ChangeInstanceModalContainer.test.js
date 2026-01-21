@@ -156,7 +156,7 @@ describe('ChangeInstanceModalContainer', () => {
       it('should NOT render modal if related holding(s) contain another piece(s)/item(s)', async () => {
         await renderConfigured();
 
-        expect(screen.queryByText('ui-orders.holdings.deleteModal.message')).not.toBeInTheDocument();
+        expect(screen.queryByText('ui-orders.line.holdings.deleteModal.message')).not.toBeInTheDocument();
       });
 
       describe('when related holding(s) will be abandoned after instance changing:', () => {
@@ -169,7 +169,7 @@ describe('ChangeInstanceModalContainer', () => {
         });
 
         it('should render \'Delete holdings\' modal', () => {
-          expect(screen.getByText('ui-orders.holdings.deleteModal.message')).toBeInTheDocument();
+          expect(screen.getByText('ui-orders.line.holdings.deleteModal.message')).toBeInTheDocument();
         });
 
         it('should call \'onSubmit\' without deletion flag when \'Keep holdings\' button was clicked', async () => {

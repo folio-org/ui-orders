@@ -108,7 +108,7 @@ export const ChangeInstanceModalContainer = ({
 
       {isDeleteHoldingsModalOpen && (
         <DeleteHoldingsModal
-          message={<FormattedMessage id="ui-orders.holdings.deleteModal.message" />}
+          message={<FormattedMessage id="ui-orders.line.holdings.deleteModal.message" />}
           onCancel={toggleDeleteHoldingsModal}
           onKeepHoldings={() => onSubmit({ holdingsOperation: operation }).catch(handleErrorResponse)}
           onConfirm={() => onSubmit({
