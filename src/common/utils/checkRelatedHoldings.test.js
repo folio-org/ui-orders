@@ -171,5 +171,29 @@ describe('checkRelatedHoldings', () => {
         holdingsItemsCount: 3,
       }));
     });
+
+    it('should return willAbandoned: false when multiple lines share same holding but not abandoned', () => {
+      const analyzerMock = createAnalyzerMock([
+        {
+          abandoned: false,
+          explain: { related: { items: [] } },
+        },
+        {
+          abandoned: false,
+          explain: { related: { items: [] } },
+        },
+      ]);
+      const holdingIds = ['holding-id-1'];
+      const poLines = [orderLine, { ...orderLine, id: 'line-2' }];
+
+      const result = checkRelatedHoldings(analyzerMock)(poLines, holdingIds);
+
+      expect(result).toEqual(expect.objectContaining({
+        relatedToAnother: true,
+        willAbandoned: false,
+        holdingIds,
+      }));
+      expect(result.holdingsItemsCount).toBe(0);
+    });
   });
 });
