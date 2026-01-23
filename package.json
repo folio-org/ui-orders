@@ -155,6 +155,16 @@
         ]
       },
       {
+        "permissionName": "ui-orders.custom-fields.view",
+        "displayName": "Orders: Can view custom fields",
+        "description": "Contains permissions required to retrieve custom fields data",
+        "visible": false,
+        "subPermissions": [
+          "mod-settings.global.read.ui-orders.custom-fields.manage",
+          "orders-storage.custom-fields.collection.get"
+        ]
+      },
+      {
         "permissionName": "ui-orders.orders.view",
         "displayName": "Orders: Can view Orders and Order lines",
         "description": "",
