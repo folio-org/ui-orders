@@ -99,6 +99,7 @@ const orderRelatedData = {
   orderTemplate: {},
   refetchFiscalYears: jest.fn(),
   refetchOrder: jest.fn(),
+  refetchOrderLines: jest.fn(),
   restrictions: {},
 };
 
