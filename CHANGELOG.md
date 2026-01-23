@@ -55,6 +55,7 @@
 * Replace `moment` with `dayjs`. Refs UIOR-1399.
 * Use a pure function for a template value building. Refs UIOR-1490.
 * Improve fund distribution loading error message. Refs UIOR-1488.
+* Migrate custom fields titles from mod-configuration to mod-settings. Refs UIOR-1501.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

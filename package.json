@@ -54,6 +54,7 @@
       "pieces": "2.0 3.0",
       "po-number": "1.0",
       "receiving": "1.0 2.0",
+      "settings": "1.0",
       "search-inventory": "1.0",
       "tags": "1.0",
       "template-engine": "2.0",
@@ -151,16 +152,6 @@
           "usergroups.collection.get",
           "users.collection.get",
           "users.item.get"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.custom-fields.view",
-        "displayName": "Orders: Can view custom fields",
-        "description": "Contains permissions required to retrieve custom fields data",
-        "visible": false,
-        "subPermissions": [
-          "configuration.entries.collection.get",
-          "orders-storage.custom-fields.collection.get"
         ]
       },
       {
@@ -390,13 +381,23 @@
         ]
       },
       {
+        "permissionName": "mod-settings.global.read.ui-orders.custom-fields.manage",
+        "displayName": "Settings (Orders): Read the settings in the 'custom fields' section",
+        "visible": false
+      },
+      {
+        "permissionName": "mod-settings.global.write.ui-orders.custom-fields.manage",
+        "displayName": "Settings (Orders): Write the settings in the 'custom fields' section",
+        "visible": false
+      },
+      {
         "permissionName": "ui-orders.settings.custom-fields.view",
         "displayName": "Settings (Orders): Can view custom fields",
         "description": "",
         "visible": true,
         "subPermissions": [
           "settings.orders.enabled",
-          "configuration.entries.collection.get",
+          "mod-settings.global.read.ui-orders.custom-fields.manage",
           "orders-storage.custom-fields.collection.get",
           "orders-storage.custom-fields.item.get",
           "orders-storage.custom-fields.item.stats.get",
@@ -411,8 +412,7 @@
         "visible": true,
         "subPermissions": [
           "ui-orders.settings.custom-fields.view",
-          "configuration.entries.item.put",
-          "configuration.entries.item.post",
+          "mod-settings.global.write.ui-orders.custom-fields.edit",
           "orders-storage.custom-fields.collection.put",
           "orders-storage.custom-fields.item.post",
           "orders-storage.custom-fields.item.put"
