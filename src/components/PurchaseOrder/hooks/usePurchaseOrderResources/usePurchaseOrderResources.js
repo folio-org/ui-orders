@@ -58,6 +58,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
     isFetching: isOrderLinesFetching,
     isLoading: isOrderLinesLoading,
     orderLines,
+    refetch: refetchOrderLines,
   } = useOrderLines({
     searchParams: { query: `purchaseOrderId==${orderId}` },
     onError: async (errorResponse) => {
@@ -109,6 +110,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
     orderTemplate,
     refetchFiscalYears,
     refetchOrder,
+    refetchOrderLines,
     restrictions,
   };
 };
