@@ -506,7 +506,7 @@
     "errors.costUnitPriceElectronicInvalid": "O preço unitário da lista de custos para recursos eletrônicos é inválido.",
     "errors.costUnitPriceInvalid": "O preço unitário da lista de custos é inválido",
     "errors.encumbranceCreationFailure": "Um ou mais registros de encargo não foram criados",
-    "errors.fundsNotFound": "Os registros do fundo não foram encontrados",
+    "errors.fundsNotFound": "Um ou mais fundos não puderam ser carregados. O(s) fundo(s) pode(m) ter sido excluído(s) ou você pode não ter permissão para visualizar o(s) fundo(s) associado(s).",
     "errors.idMismatch": "Incompatibilidade entre o ID no caminho e o corpo da requisição",
     "errors.itemCreationFailed": "Falha ao criar o registro do item",
     "errors.itemNotFound": "O registro do item não foi encontrado",

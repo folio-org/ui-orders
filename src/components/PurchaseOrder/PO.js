@@ -172,6 +172,7 @@ const PO = ({
     orderTemplate,
     refetchFiscalYears,
     refetchOrder: refetch,
+    refetchOrderLines,
     restrictions,
   } = usePurchaseOrderResources(orderId, selectedFiscalYear);
 
@@ -402,6 +403,7 @@ const PO = ({
           });
           refreshList();
           refetchFiscalYears();
+          refetchOrderLines();
 
           return refetch();
         },
@@ -420,6 +422,7 @@ const PO = ({
     sendCallout,
     refreshList,
     refetch,
+    refetchOrderLines,
     refetchFiscalYears,
     handleErrorResponse,
     orderErrorModalShow,
@@ -441,6 +444,7 @@ const PO = ({
           });
           refreshList();
           refetchFiscalYears();
+          refetchOrderLines();
 
           return refetch();
         },
@@ -456,6 +460,7 @@ const PO = ({
     orderNumber,
     refreshList,
     refetch,
+    refetchOrderLines,
     refetchFiscalYears,
     handleErrorResponse,
     orderErrorModalShow,
@@ -478,6 +483,7 @@ const PO = ({
           });
           refreshList();
           refetchFiscalYears();
+          refetchOrderLines();
 
           return refetch();
         },
@@ -487,13 +493,14 @@ const PO = ({
       )
       .finally(() => setIsLoading(false));
   }, [
-    refetch,
-    refetchFiscalYears,
     handleErrorResponse,
     order,
     orderErrorModalShow,
     orderNumber,
+    refetch,
+    refetchFiscalYears,
     refreshList,
+    refetchOrderLines,
     sendCallout,
     toggleUnopenOrderModal,
     updateOrder,
