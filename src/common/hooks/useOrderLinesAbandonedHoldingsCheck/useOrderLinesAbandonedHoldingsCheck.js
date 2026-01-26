@@ -1,3 +1,4 @@
+import uniq from 'lodash/uniq';
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 
@@ -8,28 +9,29 @@ import {
 import {
   useCentralOrderingContext,
   useConsortiumTenants,
+  useHoldingsAbandonmentAnalyzer,
   usePublishCoordinator,
 } from '@folio/stripes-acq-components';
 
 import { UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES } from '../../constants';
 import {
-  checkIndependentPOLinesAbandonedHoldings,
-  checkSynchronizedPOLinesAbandonedHoldings,
+  checkRelatedHoldings,
+  getHoldingIdsFromPOLines,
 } from '../../utils';
 
 const getUnopenOrderAbandonedType = (
   isSynchronizedPOLineHoldingsWillAbandoned,
-  isIndependenPOLineHoldingstWillAbandoned,
+  isIndependentPOLineHoldingsWillAbandoned,
 ) => {
   const {
+    defaultType,
     independent,
     synchronized,
-    defaultType,
   } = UNOPEN_ORDER_ABANDONED_HOLDINGS_TYPES;
 
   if (isSynchronizedPOLineHoldingsWillAbandoned) {
     return synchronized;
-  } else if (isIndependenPOLineHoldingstWillAbandoned) {
+  } else if (isIndependentPOLineHoldingsWillAbandoned) {
     return independent;
   }
 
@@ -43,6 +45,11 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
   const { isCentralOrderingEnabled } = useCentralOrderingContext();
   const { initPublicationRequest } = usePublishCoordinator();
   const { tenants, isLoading: isTenantsLoading } = useConsortiumTenants({ enabled: isCentralOrderingEnabled });
+
+  const {
+    analyzerFactory,
+    isLoading: isAnalyzing,
+  } = useHoldingsAbandonmentAnalyzer();
 
   const {
     synchronized: synchronizedPOLines,
@@ -70,13 +77,27 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
         tenants,
       };
 
-      const [
-        synchronizedPOLinesCheckResult,
-        independentPOLinesCheckResult,
-      ] = await Promise.all([
-        checkSynchronizedPOLinesAbandonedHoldings(kyExtended, requestHandlerOptions)(synchronizedPOLines),
-        checkIndependentPOLinesAbandonedHoldings(kyExtended, requestHandlerOptions)(independentPOLines),
-      ]);
+      const synchronizedPOLinesHoldingIds = await getHoldingIdsFromPOLines(
+        kyExtended,
+        requestHandlerOptions,
+      )(synchronizedPOLines);
+
+      const independentPOLinesHoldingIds = uniq(
+        independentPOLines
+          .flatMap(({ locations }) => locations)
+          .map(({ holdingId }) => holdingId)
+          .filter(Boolean),
+      );
+
+      const analyzer = await analyzerFactory({
+        // Combine holding IDs from both synchronized and independent PO lines for building the analysis context
+        holdingIds: uniq([...synchronizedPOLinesHoldingIds, ...independentPOLinesHoldingIds]),
+        signal,
+      });
+
+      const analyze = checkRelatedHoldings(analyzer);
+      const synchronizedPOLinesCheckResult = analyze(synchronizedPOLines, synchronizedPOLinesHoldingIds);
+      const independentPOLinesCheckResult = analyze(independentPOLines, independentPOLinesHoldingIds);
 
       const isSynchronizedWillAbandoned = !!synchronizedPOLines.length && synchronizedPOLinesCheckResult.willAbandoned;
       const isIndependentWillAbandoned = !!independentPOLines.length && independentPOLinesCheckResult.willAbandoned;
@@ -96,7 +117,7 @@ export const useOrderLinesAbandonedHoldingsCheck = (poLines = [], options = {}) 
   );
 
   return {
-    isFetching,
+    isFetching: isFetching || isAnalyzing || isTenantsLoading,
     result: data,
   };
 };
