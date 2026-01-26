@@ -47,6 +47,7 @@
       "order-templates": "1.0",
       "orders": "13.0",
       "orders.export-history": "1.0",
+      "orders.holding-detail": "1.0",
       "orders-storage.settings": "1.0",
       "orders-storage.order-template-categories": "1.0",
       "organizations.organizations": "1.0",
@@ -216,6 +217,7 @@
         "visible": true,
         "subPermissions": [
           "data-export.config.collection.get",
+          "orders.holding-detail.item.post",
           "orders.item.put",
           "orders.order-templates.collection.get",
           "orders.order-templates.item.get",
@@ -296,6 +298,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
+          "orders.holding-detail.item.post",
           "orders.item.put",
           "orders.item.unopen"
         ]

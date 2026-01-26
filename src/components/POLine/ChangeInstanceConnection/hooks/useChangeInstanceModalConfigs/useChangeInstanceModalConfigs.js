@@ -4,8 +4,16 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
+import {
+  useCentralOrderingContext,
+  useHoldingsAbandonmentAnalyzer,
+  usePublishCoordinator,
+} from '@folio/stripes-acq-components';
 
-import { checkRelatedHoldings } from '../../../../../common/utils';
+import {
+  checkRelatedHoldings,
+  getHoldingIdsFromPOLines,
+} from '../../../../../common/utils';
 import { getCreateInventory } from '../../../utils';
 import { SHOW_DETAILED_MODAL_CONFIGS } from '../../constants';
 
@@ -13,22 +21,38 @@ export const useChangeInstanceModalConfigs = (poLine) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'change-instance-modal-configs' });
 
+  const { isCentralOrderingEnabled } = useCentralOrderingContext();
+  const { initPublicationRequest } = usePublishCoordinator();
+
+  const {
+    analyzerFactory,
+    isLoading: isAnalyzing,
+  } = useHoldingsAbandonmentAnalyzer();
+
   const createInventoryValue = getCreateInventory(poLine);
   const isDetailed = SHOW_DETAILED_MODAL_CONFIGS[createInventoryValue];
 
-  const {
-    data,
-    isLoading,
-  } = useQuery({
+  const results = useQuery({
     queryKey: [namespace, poLine.id],
-    queryFn: ({ signal }) => checkRelatedHoldings(ky.extend({ signal }))(poLine),
-    queryOptions: {
-      enabled: isDetailed,
+    queryFn: async ({ signal }) => {
+      const options = {
+        initPublicationRequest,
+        isCentralOrderingEnabled,
+        signal,
+      };
+      const holdingIds = await getHoldingIdsFromPOLines(ky, options)([poLine]);
+
+      const analyzer = await analyzerFactory({ holdingIds, signal });
+
+      return checkRelatedHoldings(analyzer)([poLine], holdingIds);
     },
+    enabled: isDetailed,
   });
 
+  const isLoading = isAnalyzing || results.isLoading;
+
   return {
-    holdingsConfigs: data || {},
+    holdingsConfigs: results.data || {},
     isDetailed,
     isLoading,
   };
