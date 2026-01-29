@@ -5,6 +5,7 @@ import {
   IconButton,
   InfoPopover,
   KeyValue,
+  Layout,
 } from '@folio/stripes/components';
 import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
@@ -32,17 +33,21 @@ export const RolloverAdjustmentAmount = ({
         </div>
       }
     >
-      <AmountWithCurrencyField
-        currency={currency}
-        amount={amount}
-      />
-      {typeof onClear === 'function' && (
-        <IconButton
-          icon="times-circle-solid"
-          iconSize="small"
-          onClick={onClear}
+      <Layout className="flex">
+        <AmountWithCurrencyField
+          currency={currency}
+          amount={amount}
         />
-      )}
+        {typeof onClear === 'function' && (
+          <IconButton
+            data-testid="clear-rollover-adjustment-amount"
+            disabled={!amount}
+            icon="times-circle-solid"
+            iconSize="small"
+            onClick={onClear}
+          />
+        )}
+      </Layout>
     </KeyValueComponent>
   );
 };
