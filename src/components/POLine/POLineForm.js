@@ -262,7 +262,7 @@ function POLineForm({
 
   const getPaneFooter = () => {
     const isSubmitBtnDisabled = !enableSaveBtn && (
-      (pristine && !templateValue?.id) // A user could use an ultimate template with no changes required to save
+      (pristine && (!templateValue?.id || lineId)) // A user could use an ultimate template with no changes required to save a new PO Line
       || submitting
       || isExpenseClassProcessing
     );

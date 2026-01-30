@@ -33,9 +33,7 @@ import {
 } from '../const';
 import { CalculatedExchangeAmount } from '../CalculatedExchangeAmount';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
-import {
-  RolloverAdjustmentAmount,
-} from './RolloverAdjustmentAmount';
+import { FieldRolloverAdjustmentAmount } from './RolloverAdjustmentAmount';
 
 import styles from './CostForm.css';
 
@@ -116,9 +114,13 @@ const CostForm = ({
     </div>
   ), [isPackageLabel, isQuantityDisabled]);
 
+  const clearRolloverAdjustmentAmount = () => {
+    change('cost.fyroAdjustmentAmount', 0);
+  };
+
   const onCostChange = e => {
     if (rolloverAdjustmentAmount) {
-      change('cost.fyroAdjustmentAmount', 0);
+      clearRolloverAdjustmentAmount();
     }
 
     change(e.target.name, parseNumber(e.target.value));
@@ -197,9 +199,10 @@ const CostForm = ({
               xs={6}
               md={3}
             >
-              <RolloverAdjustmentAmount
+              <FieldRolloverAdjustmentAmount
                 currency={currency}
-                amount={rolloverAdjustmentAmount}
+                name="cost.fyroAdjustmentAmount"
+                onClear={clearRolloverAdjustmentAmount}
               />
             </Col>
           )

@@ -1,20 +1,20 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  KeyValue,
+  IconButton,
   InfoPopover,
+  KeyValue,
+  Layout,
 } from '@folio/stripes/components';
-import {
-  AmountWithCurrencyField,
-} from '@folio/stripes-acq-components';
+import { AmountWithCurrencyField } from '@folio/stripes-acq-components';
 
 export const RolloverAdjustmentAmount = ({
   amount,
-  currency,
   component,
+  currency,
   name,
+  onClear,
 }) => {
   const KeyValueComponent = component || KeyValue;
 
@@ -33,10 +33,21 @@ export const RolloverAdjustmentAmount = ({
         </div>
       }
     >
-      <AmountWithCurrencyField
-        currency={currency}
-        amount={amount}
-      />
+      <Layout className="flex">
+        <AmountWithCurrencyField
+          currency={currency}
+          amount={amount}
+        />
+        {typeof onClear === 'function' && (
+          <IconButton
+            data-testid="clear-rollover-adjustment-amount"
+            disabled={!amount}
+            icon="times-circle-solid"
+            iconSize="small"
+            onClick={onClear}
+          />
+        )}
+      </Layout>
     </KeyValueComponent>
   );
 };
@@ -46,4 +57,5 @@ RolloverAdjustmentAmount.propTypes = {
   component: PropTypes.node,
   currency: PropTypes.string,
   name: PropTypes.string,
+  onClear: PropTypes.func,
 };
