@@ -24,7 +24,11 @@ describe('ExportSettingsModal', () => {
   });
 });
 
-describe('ExportSettingsModal actions', () => {
+/*
+  Temporarily skipping these tests: https://open-libr-foundation.slack.com/archives/C210UCHQ9/p1769792228764189
+  TODO: Enable again after 3-rd library issue with downshift is fixed
+*/
+describe.skip('ExportSettingsModal actions', () => {
   beforeEach(() => {
     defaultProps.onCancel.mockClear();
     defaultProps.onExportCSV.mockClear();
