@@ -825,6 +825,18 @@
   "settings.orderTemplates.save.success": "The template was saved",
   "settings.orderTemplates.save.error": "The template was not saved",
 
+  "settings.emailTemplates.label": "Email templates - Purchase Orders",
+  "settings.emailTemplates.generalInformation": "General information",
+  "settings.emailTemplates.name": "Template name",
+  "settings.emailTemplates.description": "Description",
+  "settings.emailTemplates.active": "Active",
+  "settings.emailTemplates.active.yes": "Yes",
+  "settings.emailTemplates.active.no": "No",
+  "settings.emailTemplates.templateContent": "Template content",
+  "settings.emailTemplates.subject": "Email subject",
+  "settings.emailTemplates.body": "Email body",
+  "settings.emailTemplates.body.hint": "You can use tokens like {{order.poNumber}} to insert dynamic values. Token support will be added in a future update.",
+
   "settings.orderTemplateCategories": "Order template categories",
   "settings.orderTemplateCategories.sub": "Categories",
   "settings.orderTemplateCategories.field.name": "Name",
