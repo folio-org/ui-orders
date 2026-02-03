@@ -59,6 +59,7 @@
 * Use ACQ holdings analyzer to check holdings abandonment. Refs UIOR-1466, UIOR-1468.
 * Migrate custom fields titles from mod-configuration to mod-settings. Refs UIOR-1501.
 * Implement action to clear rollover adjustment in the PO Line form. Refs UIOR-1484.
+* Display the actual estimated price on PO line edit screen with rollover adjustment. Refs UIOR-1502.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)
