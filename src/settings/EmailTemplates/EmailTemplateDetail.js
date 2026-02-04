@@ -1,25 +1,55 @@
+import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import DOMPurify from 'dompurify';
 
 import {
   Accordion,
   AccordionSet,
+  AccordionStatus,
+  Button,
   Col,
+  ExpandAllButton,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import {
+  PreviewModal,
+  tokensReducer,
+} from '@folio/stripes-template-editor';
+
+import { ORDER_EMAIL_TOKENS } from './constants';
+
+/**
+ * Convert our token structure to the format expected by tokensReducer.
+ * tokensReducer expects: { 'token.name': 'previewValue', ... }
+ */
+const getPreviewTokens = () => {
+  const tokens = {};
+
+  Object.values(ORDER_EMAIL_TOKENS).forEach((section) => {
+    section.forEach(({ token, previewValue }) => {
+      if (previewValue) {
+        tokens[token] = previewValue;
+      }
+    });
+  });
+
+  return tokens;
+};
 
 /**
  * EmailTemplateDetail - Read-only view of an email template.
  *
  * Displays:
  * - General information (name, description, active status)
- * - Template content (body)
+ * - Template content (subject, body with preview)
  *
  * TODO (UIOR-1494): Add logo display
- * TODO (UIOR-1495): Add preview/print functionality
  */
 const EmailTemplateDetail = ({ initialValues }) => {
+  const [openPreview, setOpenPreview] = useState(false);
+
   const {
     name,
     description,
@@ -31,59 +61,90 @@ const EmailTemplateDetail = ({ initialValues }) => {
   const template = localizedTemplates?.en || {};
   const { header: subject, body } = template;
 
-  return (
-    <AccordionSet>
-      <Accordion
-        label={<FormattedMessage id="ui-orders.settings.emailTemplates.generalInformation" />}
-      >
-        <Row>
-          <Col xs={12} md={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.settings.emailTemplates.name" />}
-              value={name}
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.settings.emailTemplates.active" />}
-              value={active ? <FormattedMessage id="ui-orders.settings.emailTemplates.active.yes" /> : <FormattedMessage id="ui-orders.settings.emailTemplates.active.no" />}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.settings.emailTemplates.description" />}
-              value={description}
-            />
-          </Col>
-        </Row>
-      </Accordion>
+  const previewTokens = useMemo(() => getPreviewTokens(), []);
+  const sanitizedBody = useMemo(() => DOMPurify.sanitize(body || ''), [body]);
 
-      <Accordion
-        label={<FormattedMessage id="ui-orders.settings.emailTemplates.templateContent" />}
-      >
-        <Row>
-          <Col xs={12}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.settings.emailTemplates.subject" />}
-              value={subject}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.settings.emailTemplates.body" />}
-            >
-              {/* Render HTML content safely */}
-              {/* eslint-disable-next-line react/no-danger */}
-              <div dangerouslySetInnerHTML={{ __html: body }} />
-            </KeyValue>
-          </Col>
-        </Row>
-      </Accordion>
-    </AccordionSet>
+  const togglePreviewDialog = () => {
+    setOpenPreview(!openPreview);
+  };
+
+  return (
+    <AccordionStatus>
+      <Row end="xs">
+        <Col>
+          <ExpandAllButton />
+        </Col>
+      </Row>
+      <AccordionSet>
+        <Accordion
+          label={<FormattedMessage id="ui-orders.settings.emailTemplates.generalInformation" />}
+        >
+          <Row>
+            <Col xs={12} md={6}>
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.settings.emailTemplates.name" />}
+                value={name}
+              />
+            </Col>
+            <Col xs={12} md={6}>
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.settings.emailTemplates.active" />}
+                value={active ? <FormattedMessage id="ui-orders.settings.emailTemplates.active.yes" /> : <FormattedMessage id="ui-orders.settings.emailTemplates.active.no" />}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.settings.emailTemplates.description" />}
+                value={description}
+              />
+            </Col>
+          </Row>
+        </Accordion>
+
+        <Accordion
+          label={<FormattedMessage id="ui-orders.settings.emailTemplates.templateContent" />}
+        >
+          <Row>
+            <Col xs={8}>
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.settings.emailTemplates.subject" />}
+                value={subject}
+              />
+            </Col>
+            <Col xs={4} style={{ textAlign: 'right' }}>
+              <Button onClick={togglePreviewDialog}>
+                <FormattedMessage id="ui-orders.settings.emailTemplates.preview" />
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <KeyValue
+                label={<FormattedMessage id="ui-orders.settings.emailTemplates.body" />}
+              >
+                {/* eslint-disable-next-line react/no-danger */}
+                <div dangerouslySetInnerHTML={{ __html: sanitizedBody }} />
+              </KeyValue>
+            </Col>
+          </Row>
+        </Accordion>
+      </AccordionSet>
+
+      <PreviewModal
+        open={openPreview}
+        header={
+          <FormattedMessage
+            id="ui-orders.settings.emailTemplates.previewHeader"
+            values={{ name }}
+          />
+        }
+        previewTemplate={body || ''}
+        previewFormat={tokensReducer(previewTokens)}
+        onClose={togglePreviewDialog}
+      />
+    </AccordionStatus>
   );
 };
 
