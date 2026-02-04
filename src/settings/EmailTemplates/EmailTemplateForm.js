@@ -100,6 +100,8 @@ const EmailTemplateForm = ({
                 <ExpandAllButton />
               </Col>
             </Row>
+            {/* Hidden field to ensure category is always sent with form data */}
+            <Field name="category" component="input" type="hidden" />
             <AccordionSet>
               <Accordion
                 label={<FormattedMessage id="ui-orders.settings.emailTemplates.generalInformation" />}

@@ -8,6 +8,7 @@ import { stripesConnect, TitleManager } from '@folio/stripes/core';
 
 import EmailTemplateDetail from './EmailTemplateDetail';
 import EmailTemplateForm from './EmailTemplateForm';
+import { EMAIL_TEMPLATE_CATEGORY } from './constants';
 
 /**
  * EmailTemplates - Settings page for managing email templates for purchase orders.
@@ -15,7 +16,7 @@ import EmailTemplateForm from './EmailTemplateForm';
  * Uses EntryManager from stripes-smart-components for CRUD operations.
  * Similar to PatronNotices in ui-circulation.
  *
- * API: GET /templates?query=category=="OrderEmail"
+ * API: GET /templates?query=category==EMAIL_TEMPLATE_CATEGORY
  *
  * Tickets: UIOR-1492, UIOR-1493, UIOR-1494, UIOR-1495
  */
@@ -51,7 +52,7 @@ class EmailTemplates extends React.Component {
       path: 'templates',
       records: 'templates',
       params: {
-        query: 'cql.allRecords=1 AND category=="OrderEmail"',
+        query: `cql.allRecords=1 AND category=="${EMAIL_TEMPLATE_CATEGORY}"`,
       },
       perRequest: 100,
     },
@@ -85,7 +86,7 @@ class EmailTemplates extends React.Component {
             active: true,
             outputFormats: ['text/html'],
             templateResolver: 'mustache',
-            category: 'OrderEmail',
+            category: EMAIL_TEMPLATE_CATEGORY,
           }}
           nameKey="name"
           permissions={{
