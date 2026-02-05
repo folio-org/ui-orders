@@ -1,4 +1,5 @@
-import { get } from 'lodash';
+import get from 'lodash/get';
+import isNumber from 'lodash/isNumber';
 
 import { getMoneyMultiplier } from '@folio/stripes-acq-components';
 
@@ -23,7 +24,12 @@ const calculateEstimatedPrice = (formValues) => {
   const discountAmount = isAmountDiscountType
     ? discount * multiplier
     : Math.round(baseListPrice * discount * 100) / 10000;
-  const poLineEstimatedPrice = Math.round(baseListPrice + additionalCost - discountAmount) / multiplier;
+  const fyroAdjustmentAmount = isNumber(formValues?.cost?.fyroAdjustmentAmount)
+    ? formValues.cost.fyroAdjustmentAmount * multiplier
+    : 0;
+  const poLineEstimatedPrice = Math.round(
+    baseListPrice + additionalCost - discountAmount + fyroAdjustmentAmount,
+  ) / multiplier;
 
   return poLineEstimatedPrice;
 };
