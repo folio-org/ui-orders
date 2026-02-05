@@ -949,5 +949,6 @@
     "relatedInvoices.invoiceAmount": "Factuur bedrag",
     "poLine.fundDistribution.expenseClass.modal.message": "Als u deze Onkostensoort wijzigt, wordt de gerelateerde Factuurregel fondsverdeling niet bijgewerkt. Als u wilt dat de onkostenklasse op de factuurregel overeenkomt, moet u de gerelateerde fondsverdeling van de factuurregel in de factuurapplicatie updaten.",
     "settings.customFields.purchaseOrders.label": "Maatwerk velden - inkooporders",
-    "settings.customFields.purchaseOrderLines.label": "Maatwerk velden - Regel purchase order"
+    "settings.customFields.purchaseOrderLines.label": "Maatwerk velden - Regel purchase order",
+    "line.holdings.deleteModal.message": "Deze PO regel is verbonden met Records in de inventaris. Na deze bewerking zijn er geen andere Regel purchase orders, Stukken OF artikelen meer verbonden met de Gerelateerd Holdingsrecord(s). Wilt u dat FOLIO na deze wijziging de Holdingsrecords verwijdert?"
 }

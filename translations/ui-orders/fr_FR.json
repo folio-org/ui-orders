@@ -283,7 +283,7 @@
     "checkIn.pieceFormat": "Format de l'unité",
     "pieceFormat.electronic": "Électronique",
     "pieceFormat.other": "Autre",
-    "pieceFormat.physical": "Objet",
+    "pieceFormat.physical": "Physique",
     "checkIn.checkInItem.error": "Retour - erreur",
     "checkIn.checkInItem.success": "Retour réussi",
     "checkIn.modalPaneTitle": "Détails du retour",
@@ -420,7 +420,7 @@
     "errors.orderNotLoaded": "La commande n'a pas été chargée.",
     "checkIn.expectedReceiptDate": "Date de réception prévue",
     "checkIn.pieceFormat.electronic": "Électronique",
-    "checkIn.pieceFormat.physical": "Objet",
+    "checkIn.pieceFormat.physical": "Physique",
     "search.productIdISBN": "ID produit ISBN",
     "itemDetails.qualifier": "Qualificatif",
     "itemDetails.contributors": "Contributeurs",
@@ -655,7 +655,7 @@
     "print.orderFieldsLabel": "PO fields to print",
     "print.lineFieldsLabel": "POL fields to print",
     "shortcut.duplicateRecord": "Dupliquer un enregistrement",
-    "cost.listPriceOfPhysical": "Physical unit price",
+    "cost.listPriceOfPhysical": "Prix unitaire physique",
     "cost.quantityPopover": "This order has receiving records. These quantities can only be edited by working with the records in the receiving app.",
     "cost.rolloverAdjustment": "Rollover adjustment",
     "cost.rolloverAdjustment.info": "This value was added during rollover to balance the order cost with your desired encumbrance for the new year. If you edit the cost this value will be eliminated, and the encumbered value will be updated based on the new Estimated Price.",
@@ -949,5 +949,6 @@
     "relatedInvoices.invoiceAmount": "Invoice amount",
     "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application.",
     "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
-    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines"
+    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines",
+    "line.holdings.deleteModal.message": "This PO Line is connected to records in inventory. After this edit there will be no other purchase order lines, pieces OR items connected to the related Holdings record(s). After making this change would you like FOLIO to delete the Holdings record(s)?"
 }
