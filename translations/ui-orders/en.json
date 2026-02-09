@@ -108,7 +108,7 @@
   "cost.discount": "Discount",
   "cost.discountType": "Type",
   "cost.estimatedPrice": "Estimated price",
-  "cost.info": "List unit price(s) x quantities ordered + additional cost - discount",
+  "cost.info": "List unit price(s) x quantities ordered + additional cost - discount + rollover adjustment",
   "cost.listPrice": "Unit price",
   "cost.listPriceOfPhysical": "Physical unit price",
   "cost.quantity": "Quantity",
