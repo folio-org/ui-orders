@@ -942,12 +942,13 @@
     "order.fiscalYear": "Fiskální rok",
     "order.fiscalYear.current": "Současný",
     "order.fiscalYear.previous": "Předchozí",
-    "errors.cannotConvertAmountInvalidCurrency": "The selected currency cannot be converted. Please configure an exchange rate provider that supports this currency.",
+    "errors.cannotConvertAmountInvalidCurrency": "Vybranou měnu nelze převést. Nakonfigurujte prosím poskytovatele směnných kurzů, který tuto měnu podporuje.",
     "orderSummary.totalEstimatedPrice.exchanged": "Celková odhadovaná cena (Směněná)",
     "errors.ordersNotLoadedGeneric": "Chyba při načítání objednávek.",
     "errors.tooLargeRequest": "Požadavek na vyhledávání je příliš velký. Snižte prosím počet filtrů, nebo zkraťte hledaný výraz a zkuste to znovu.",
     "relatedInvoices.invoiceAmount": "Fakturovaná částka",
     "poLine.fundDistribution.expenseClass.modal.message": "Změna této třídy výdajů neaktualizuje související rozdělení fondu na faktuře. Pokud chcete, aby třída výdajů na faktuře odpovídala, musíte aktualizovat související rozdělení fondu v aplikaci faktur.",
     "settings.customFields.purchaseOrders.label": "Vlastní pole - nákupní objednávky",
-    "settings.customFields.purchaseOrderLines.label": "Vlastní pole - řádky nákupní objednávky"
+    "settings.customFields.purchaseOrderLines.label": "Vlastní pole - řádky nákupní objednávky",
+    "line.holdings.deleteModal.message": "Tento řádek objednávky je propojen se záznamy v katalogu. Po této úpravě nebudou k souvisejícím záznamům holdingu propojeny žádné další řádky objednávky, kusy NEBO položky. Chcete, aby FOLIO po provedení této změny holdingy smazalo?"
 }

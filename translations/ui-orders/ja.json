@@ -949,5 +949,6 @@
     "relatedInvoices.invoiceAmount": "Invoice amount",
     "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application.",
     "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
-    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines"
+    "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines",
+    "line.holdings.deleteModal.message": "This PO Line is connected to records in inventory. After this edit there will be no other purchase order lines, pieces OR items connected to the related Holdings record(s). After making this change would you like FOLIO to delete the Holdings record(s)?"
 }
