@@ -71,7 +71,7 @@ export const SECTIONS = [
         component: EmailTemplates,
         label: <FormattedMessage id="ui-orders.settings.emailTemplates.label" />,
         route: 'email-templates',
-        perm: 'ui-orders.settings.email-templates.view',
+        perm: 'ui-orders.settings.order-templates.view',
       },
       {
         component: OrderTemplateCategories,

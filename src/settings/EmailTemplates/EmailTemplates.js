@@ -90,9 +90,9 @@ class EmailTemplates extends React.Component {
           }}
           nameKey="name"
           permissions={{
-            put: 'ui-orders.settings.email-templates.edit',
-            post: 'ui-orders.settings.email-templates.create',
-            delete: 'ui-orders.settings.email-templates.delete',
+            put: 'ui-orders.settings.order-templates.edit',
+            post: 'ui-orders.settings.order-templates.create',
+            delete: 'ui-orders.settings.order-templates.delete',
           }}
           enableDetailsActionMenu
         />

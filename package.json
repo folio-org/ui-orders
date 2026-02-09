@@ -394,47 +394,6 @@
         ]
       },
       {
-        "permissionName": "ui-orders.settings.email-templates.view",
-        "displayName": "Settings (Orders): Can view email templates",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "settings.orders.enabled",
-          "templates.collection.get",
-          "templates.item.get"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.settings.email-templates.edit",
-        "displayName": "Settings (Orders): Can view, edit email templates",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "ui-orders.settings.email-templates.view",
-          "templates.item.put"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.settings.email-templates.create",
-        "displayName": "Settings (Orders): Can view, edit, create email templates",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "ui-orders.settings.email-templates.edit",
-          "templates.item.post"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.settings.email-templates.delete",
-        "displayName": "Settings (Orders): Can view, edit, delete email templates",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "ui-orders.settings.email-templates.edit",
-          "templates.item.delete"
-        ]
-      },
-      {
         "permissionName": "mod-settings.global.read.ui-orders.custom-fields.manage",
         "displayName": "Settings (Orders): Read the settings in the 'custom fields' section",
         "visible": false

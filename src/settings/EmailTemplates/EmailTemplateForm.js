@@ -91,7 +91,7 @@ const EmailTemplateForm = ({
           defaultWidth="100%"
           dismissible
           footer={renderFooter()}
-          onClose={onCancel}
+          onClose={(e) => onCancel(e || { preventDefault: () => {} })}
           paneTitle={paneTitle}
         >
           <AccordionStatus>
