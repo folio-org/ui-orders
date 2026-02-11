@@ -21,24 +21,6 @@ import {
 import { ORDER_EMAIL_TOKENS } from './constants';
 
 /**
- * Convert our token structure to the format expected by tokensReducer.
- * tokensReducer expects: { 'token.name': 'previewValue', ... }
- */
-const getPreviewTokens = () => {
-  const tokens = {};
-
-  Object.values(ORDER_EMAIL_TOKENS).forEach((section) => {
-    section.forEach(({ token, previewValue }) => {
-      if (previewValue) {
-        tokens[token] = previewValue;
-      }
-    });
-  });
-
-  return tokens;
-};
-
-/**
  * EmailTemplateDetail - Read-only view of an email template.
  *
  * Displays:
@@ -61,7 +43,7 @@ const EmailTemplateDetail = ({ initialValues }) => {
   const template = localizedTemplates?.en || {};
   const { header: subject, body } = template;
 
-  const previewTokens = useMemo(() => getPreviewTokens(), []);
+  const previewFormat = useMemo(() => tokensReducer(ORDER_EMAIL_TOKENS), []);
   const sanitizedBody = useMemo(() => DOMPurify.sanitize(body || ''), [body]);
 
   const togglePreviewDialog = () => {
@@ -132,6 +114,10 @@ const EmailTemplateDetail = ({ initialValues }) => {
         </Accordion>
       </AccordionSet>
 
+      {/* NOTE: template-resolver in stripes-template-editor only replaces simple
+          {{token}} placeholders. Mustache loops ({{#orderLines}}...{{/orderLines}})
+          are not iterated — order line tokens appear once. For multi-row preview,
+          a real Mustache library would be needed (TODO: UIOR-1495). */}
       <PreviewModal
         open={openPreview}
         header={
@@ -141,7 +127,7 @@ const EmailTemplateDetail = ({ initialValues }) => {
           />
         }
         previewTemplate={body || ''}
-        previewFormat={tokensReducer(previewTokens)}
+        previewFormat={previewFormat}
         onClose={togglePreviewDialog}
       />
     </AccordionStatus>

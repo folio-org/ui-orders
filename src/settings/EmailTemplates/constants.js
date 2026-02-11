@@ -4,6 +4,9 @@
  * Token structure follows Mustache syntax:
  * - Simple tokens: {{vendor.name}}
  * - Loops: {{#orderLines}}...{{/orderLines}}
+ *
+ * Order line tokens are always rendered inside a loop.
+ * The loop is handled by the TemplateEditor via loopConfig.
  */
 
 export const EMAIL_TEMPLATE_CATEGORY = 'OrderEmail';
@@ -15,20 +18,26 @@ export const TOKEN_SECTIONS = {
   LIBRARY: 'library',
 };
 
-// TODO: Clarify final token list with backend (mod-template-engine)
+export const ORDER_LINES_LOOP_TAG = 'orderLines';
+
+// TODO: Finalize token list with backend team
 export const ORDER_EMAIL_TOKENS = {
   [TOKEN_SECTIONS.VENDOR]: [
     {
       token: 'vendor.name',
-      previewValue: 'ACME Books Inc.',
+      previewValue: 'Schweitzer Fachinformationen',
     },
     {
       token: 'vendor.code',
-      previewValue: 'ACME-001',
+      previewValue: 'SCHW',
     },
     {
       token: 'vendor.contactEmail',
-      previewValue: 'orders@acmebooks.com',
+      previewValue: 'orders@schweitzer-online.de',
+    },
+    {
+      token: 'vendor.accountNumber',
+      previewValue: 'BIB-2024-4711',
     },
   ],
   [TOKEN_SECTIONS.ORDER]: [
@@ -41,26 +50,50 @@ export const ORDER_EMAIL_TOKENS = {
       previewValue: '2024-02-03',
     },
     {
-      token: 'order.workflowStatus',
-      previewValue: 'Open',
+      token: 'order.orderType',
+      previewValue: 'One-Time',
     },
     {
       token: 'order.totalEstimatedPrice',
       previewValue: '1,234.56 EUR',
     },
+    {
+      token: 'order.shipTo',
+      previewValue: 'Main Library, 123 Library Street, 01234 Booktown',
+    },
+    {
+      token: 'order.billTo',
+      previewValue: 'University Library, Accounting Dept., 456 Campus Road, 01234 Booktown',
+    },
+    {
+      token: 'order.note',
+      previewValue: 'Please confirm delivery date.',
+    },
   ],
   [TOKEN_SECTIONS.ORDER_LINES]: [
     {
-      token: '#orderLines',
-      previewValue: '',
+      token: 'orderLine.poLineNumber',
+      previewValue: 'PO-2024-001234-1',
     },
     {
       token: 'orderLine.title',
       previewValue: 'Introduction to Library Science',
     },
     {
-      token: 'orderLine.poLineNumber',
-      previewValue: 'PO-2024-001234-1',
+      token: 'orderLine.publisher',
+      previewValue: 'De Gruyter',
+    },
+    {
+      token: 'orderLine.edition',
+      previewValue: '3rd ed.',
+    },
+    {
+      token: 'orderLine.productIdentifier',
+      previewValue: '978-3-11-069137-8',
+    },
+    {
+      token: 'orderLine.materialType',
+      previewValue: 'Book',
     },
     {
       token: 'orderLine.quantity',
@@ -71,18 +104,26 @@ export const ORDER_EMAIL_TOKENS = {
       previewValue: '45.00 EUR',
     },
     {
-      token: '/orderLines',
-      previewValue: '',
+      token: 'orderLine.currency',
+      previewValue: 'EUR',
+    },
+    {
+      token: 'orderLine.vendorRefNumber',
+      previewValue: 'SCHW-REF-98765',
+    },
+    {
+      token: 'orderLine.instructions',
+      previewValue: 'Hardcover preferred',
     },
   ],
   [TOKEN_SECTIONS.LIBRARY]: [
     {
       token: 'library.name',
-      previewValue: 'Main Library',
+      previewValue: 'University Library',
     },
     {
       token: 'library.address',
-      previewValue: '123 Library Street, Booktown',
+      previewValue: '456 Campus Road, 01234 Booktown',
     },
   ],
 };

@@ -7,14 +7,21 @@ import {
 } from '@folio/stripes/components';
 import { TokensSection } from '@folio/stripes-template-editor';
 
-import { TOKEN_SECTIONS } from '../constants';
+import { TOKEN_SECTIONS, ORDER_LINES_LOOP_TAG } from '../constants';
 
 const TokensList = ({
   tokens,
+  onLoopSelect,
   onSectionInit,
   onTokenSelect,
   intl: { formatMessage },
 }) => {
+  const orderLinesLoopConfig = {
+    enabled: true,
+    label: formatMessage({ id: 'ui-orders.settings.emailTemplates.tokens.multipleOrderLines' }),
+    tag: ORDER_LINES_LOOP_TAG,
+    isDisabledLoop: null,
+  };
   return (
     <Row data-testid="emailTemplateTokenListWrapper">
       <Col xs={6}>
@@ -38,6 +45,8 @@ const TokensList = ({
           section={TOKEN_SECTIONS.ORDER_LINES}
           header={formatMessage({ id: 'ui-orders.settings.emailTemplates.tokens.orderLines' })}
           tokens={tokens[TOKEN_SECTIONS.ORDER_LINES]}
+          loopConfig={orderLinesLoopConfig}
+          onLoopSelect={onLoopSelect}
           onSectionInit={onSectionInit}
           onTokenSelect={onTokenSelect}
         />
@@ -55,6 +64,7 @@ const TokensList = ({
 
 TokensList.propTypes = {
   tokens: PropTypes.object.isRequired,
+  onLoopSelect: PropTypes.func.isRequired,
   onSectionInit: PropTypes.func.isRequired,
   onTokenSelect: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,

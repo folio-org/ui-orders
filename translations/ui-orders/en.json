@@ -842,6 +842,7 @@
   "settings.emailTemplates.tokens.vendor": "Vendor",
   "settings.emailTemplates.tokens.order": "Order",
   "settings.emailTemplates.tokens.orderLines": "Order lines",
+  "settings.emailTemplates.tokens.multipleOrderLines": "Multiple order lines",
   "settings.emailTemplates.tokens.library": "Library",
   "settings.emailTemplates.validation.nameRequired": "Template name is required",
   "settings.emailTemplates.validation.subjectRequired": "Email subject is required",

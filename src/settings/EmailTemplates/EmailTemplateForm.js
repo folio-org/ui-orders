@@ -151,6 +151,7 @@ const EmailTemplateForm = ({
                 </Row>
                 <Row>
                   <Col xs={12}>
+                    {/* Preview: loops not iterated by template-resolver (TODO: UIOR-1495) */}
                     <Field
                       name="localizedTemplates.en.body"
                       label={<FormattedMessage id="ui-orders.settings.emailTemplates.body" />}
