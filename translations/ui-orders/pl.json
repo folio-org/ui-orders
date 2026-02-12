@@ -623,7 +623,7 @@
     "cost.exchangeRate": "Kurs wymiany",
     "order.updateEncumbrances.success": "Zaktualizowano obciążenia zamówienia",
     "order.updateEncumbrances.error": "Nie zaktualizowano obciążeń zamówienia",
-    "paneBlock.updateEncumbrances": "Aktualizacja obciążeń",
+    "paneBlock.updateEncumbrances": "Aktualizacja rezerwacji środków",
     "settings": "Ustawienia zamówień",
     "permission.settings.all": "Ustawienia (Zamówienia): może wyświetlać i edytować wszystkie ustawienia",
     "permission.settings.order-templates.create": "Ustawienia (Zamówienia): można wyświetlać, edytować, tworzyć nowe szablony zamówień",

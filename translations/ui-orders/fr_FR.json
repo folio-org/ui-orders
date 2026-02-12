@@ -86,7 +86,7 @@
     "cost.quantityPhysical": "Quantité physique",
     "cost.quantityElectronic": "Quantité électronique",
     "cost.estimatedPrice": "Prix estimé",
-    "cost.info": "List unit price(s) x quantities ordered + additional cost - discount",
+    "cost.info": "List unit price(s) x quantities ordered + additional cost - discount + rollover adjustment",
     "cost.buttonLabel": "Lire la suite",
     "paneBlock.POLines": "Lignes de bon de commande",
     "order_format.other": "Autre",
