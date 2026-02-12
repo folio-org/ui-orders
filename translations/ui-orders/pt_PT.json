@@ -86,7 +86,7 @@
     "cost.quantityPhysical": "Quantity physical",
     "cost.quantityElectronic": "Quantity electronic",
     "cost.estimatedPrice": "Estimated price",
-    "cost.info": "List unit price(s) x quantities ordered + additional cost - discount",
+    "cost.info": "List unit price(s) x quantities ordered + additional cost - discount + rollover adjustment",
     "cost.buttonLabel": "Read more",
     "paneBlock.POLines": "PO lines",
     "order_format.other": "Other",
