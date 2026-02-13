@@ -425,7 +425,7 @@
         "visible": true,
         "subPermissions": [
           "ui-orders.settings.custom-fields.view",
-          "mod-settings.global.write.ui-orders.custom-fields.edit",
+          "mod-settings.global.write.ui-orders.custom-fields.manage",
           "orders-storage.custom-fields.collection.put",
           "orders-storage.custom-fields.item.post",
           "orders-storage.custom-fields.item.put"
