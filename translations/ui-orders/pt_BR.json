@@ -86,7 +86,7 @@
     "cost.quantityPhysical": "Quantidade física",
     "cost.quantityElectronic": "Quantidade eletrônica",
     "cost.estimatedPrice": "Preço estimado",
-    "cost.info": "Lista de preço unitário(s) x quantidades encomendadas + adicional de custo - desconto",
+    "cost.info": "Lista de preço unitário(s) x quantidade encomendada + custo adicional - desconto + ajuste de saldo",
     "cost.buttonLabel": "Leia mais",
     "paneBlock.POLines": "Linhas do pedido de compra",
     "order_format.other": "Outros",
