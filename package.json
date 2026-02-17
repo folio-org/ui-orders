@@ -411,6 +411,7 @@
         "subPermissions": [
           "settings.orders.enabled",
           "mod-settings.global.read.ui-orders.custom-fields.manage",
+          "mod-settings.entries.item.get",
           "orders-storage.custom-fields.collection.get",
           "orders-storage.custom-fields.item.get",
           "orders-storage.custom-fields.item.stats.get",
@@ -426,6 +427,8 @@
         "subPermissions": [
           "ui-orders.settings.custom-fields.view",
           "mod-settings.global.write.ui-orders.custom-fields.manage",
+          "mod-settings.entries.item.post",
+          "mod-settings.entries.item.put",
           "orders-storage.custom-fields.collection.put",
           "orders-storage.custom-fields.item.post",
           "orders-storage.custom-fields.item.put"
@@ -439,6 +442,7 @@
         "subPermissions": [
           "ui-orders.settings.custom-fields.edit",
           "mod-settings.global.delete.ui-orders.custom-fields.manage",
+          "mod-settings.entries.item.delete",
           "orders-storage.custom-fields.item.delete"
         ]
       },
