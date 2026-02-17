@@ -66,6 +66,7 @@ import {
   ENTITY_TYPE_PO_LINE,
   PO_CONFIG_NAME_PREFIX,
   PO_LINE_CONFIG_NAME_PREFIX,
+  SCOPE_CUSTOM_FIELDS_MANAGE,
 } from '../../../common/constants';
 import { isOngoing } from '../../../common/POFields';
 import {
@@ -458,6 +459,7 @@ const OrderTemplateView = (props) => {
                     customFieldsValues={customFieldsValues}
                     entityType={ENTITY_TYPE_ORDER}
                     configNamePrefix={PO_CONFIG_NAME_PREFIX}
+                    scope={SCOPE_CUSTOM_FIELDS_MANAGE}
                   />
 
                   <ViewCustomFieldsRecord
@@ -466,6 +468,7 @@ const OrderTemplateView = (props) => {
                     customFieldsValues={customFieldsValues}
                     entityType={ENTITY_TYPE_PO_LINE}
                     configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
+                    scope={SCOPE_CUSTOM_FIELDS_MANAGE}
                   />
                 </AccordionSet>
               </Col>

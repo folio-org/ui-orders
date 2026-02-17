@@ -42,6 +42,7 @@ import {
   PO_CONFIG_NAME_PREFIX,
   PO_FORM_FIELDS,
   PO_LINE_CONFIG_NAME_PREFIX,
+  SCOPE_CUSTOM_FIELDS_MANAGE,
   WORKFLOW_STATUS,
 } from '../../../common/constants';
 import {
@@ -469,6 +470,7 @@ const OrderTemplatesEditor = ({
                         displayWhenClosed={customPOFieldsVisibilityControl}
                         displayWhenOpen={customPOFieldsVisibilityControl}
                         configNamePrefix={PO_CONFIG_NAME_PREFIX}
+                        scope={SCOPE_CUSTOM_FIELDS_MANAGE}
                       />
                       <EditCustomFieldsRecord
                         accordionId={ORDER_TEMPLATES_ACCORDION.POL_CUSTOM_FIELDS}
@@ -480,6 +482,7 @@ const OrderTemplatesEditor = ({
                         displayWhenClosed={customPOLineFieldsVisibilityControl}
                         displayWhenOpen={customPOLineFieldsVisibilityControl}
                         configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
+                        scope={SCOPE_CUSTOM_FIELDS_MANAGE}
                       />
                     </AccordionSet>
                   </Col>

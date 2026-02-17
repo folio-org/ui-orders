@@ -60,6 +60,7 @@ import {
   ENTITY_TYPE_PO_LINE,
   PO_LINE_CONFIG_NAME_PREFIX,
   POL_FORM_FIELDS,
+  SCOPE_CUSTOM_FIELDS_MANAGE,
   SUBMIT_ACTION_FIELD,
 } from '../../common/constants';
 import {
@@ -689,6 +690,7 @@ function POLineForm({
                               fieldComponent={Field}
                               finalFormCustomFieldsValues={customFieldsValues}
                               configNamePrefix={PO_LINE_CONFIG_NAME_PREFIX}
+                              scope={SCOPE_CUSTOM_FIELDS_MANAGE}
                             />
                           </IfFieldVisible>
                         </AccordionSet>
