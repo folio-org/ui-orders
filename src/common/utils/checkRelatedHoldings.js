@@ -4,8 +4,9 @@ import { HoldingsAbandonmentPOLineStrategy } from '@folio/stripes-acq-components
   Checks if holdings contain other pieces and items
   that are not related to the given purchase order line.
 */
-export const checkRelatedHoldings = (analyzer) => (poLines, holdingIds) => {
+export const checkRelatedHoldings = (analyzer, actionType) => (poLines, holdingIds) => {
   const results = analyzer.analyze({
+    actionType,
     explain: true,
     holdingIds,
     ids: poLines.map(({ id }) => id),
