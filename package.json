@@ -59,6 +59,7 @@
       "search-inventory": "1.0",
       "tags": "1.0",
       "template-engine": "2.0",
+      "tenant-addresses": "1.0",
       "titles": "1.2",
       "users": "15.0 16.0"
     },
