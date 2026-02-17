@@ -141,7 +141,6 @@
           "isbn-utils.convert-to-13.get",
           "isbn-utils.validator.get",
           "mod-settings.global.read.ui-tags.tags.manage",
-          "mod-settings.global.read.ui-tenant-settings.addresses.manage",
           "note.types.collection.get",
           "note.links.collection.get",
           "organizations.organizations.collection.get",
@@ -150,6 +149,7 @@
           "search.facets.collection.get",
           "tags.collection.get",
           "tags.item.post",
+          "tenant-addresses.collection.get",
           "usergroups.collection.get",
           "users.collection.get",
           "users.item.get"
