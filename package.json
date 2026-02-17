@@ -438,6 +438,7 @@
         "visible": true,
         "subPermissions": [
           "ui-orders.settings.custom-fields.edit",
+          "mod-settings.global.delete.ui-orders.custom-fields.manage",
           "orders-storage.custom-fields.item.delete"
         ]
       },
