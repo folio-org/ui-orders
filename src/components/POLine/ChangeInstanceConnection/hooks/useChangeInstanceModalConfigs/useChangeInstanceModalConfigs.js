@@ -5,6 +5,7 @@ import {
   useOkapiKy,
 } from '@folio/stripes/core';
 import {
+  HoldingsAbandonmentPOLineStrategy,
   useCentralOrderingContext,
   useHoldingsAbandonmentAnalyzer,
   usePublishCoordinator,
@@ -44,7 +45,10 @@ export const useChangeInstanceModalConfigs = (poLine) => {
 
       const analyzer = await analyzerFactory({ holdingIds, signal });
 
-      return checkRelatedHoldings(analyzer)([poLine], holdingIds);
+      return checkRelatedHoldings(
+        analyzer,
+        HoldingsAbandonmentPOLineStrategy.ACTION_TYPES.CHANGE_INSTANCE,
+      )([poLine], holdingIds);
     },
     enabled: isDetailed,
   });
