@@ -44,7 +44,7 @@
 * Omit ongoing fields for the "One-time" order template form on submit. Refs UIOR-1481.
 * Display a confirmation modal when activating "Bindery active" field in the PO Line form of post-pending order. Refs UIOR-1479.
 * Enhance order template to use a vendor information. Refs UIOR-1482.
-* Include global `mod-settings` permissions in base permission sets. Refs UIOR-1483.
+* Include global `stripes-core.settings.read` permission in base permission sets. Refs UIOR-1483.
 * React v19: Refactor away from default props for functional components. Refs UIOR-1268.
 * Remove local implementation for loading addresses and tags. Refs UIOR-1390.
 * Improve handling of failed requests in orders and order lines search. Refs UIOR-1288.
