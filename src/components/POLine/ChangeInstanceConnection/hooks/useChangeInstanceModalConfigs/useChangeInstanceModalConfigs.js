@@ -53,7 +53,7 @@ export const useChangeInstanceModalConfigs = (poLine) => {
     enabled: isDetailed,
   });
 
-  const isLoading = isAnalyzing || results.isLoading;
+  const isLoading = isAnalyzing || results.isFetching;
 
   return {
     holdingsConfigs: results.data || {},
