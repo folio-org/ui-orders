@@ -5,10 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import {
-  SETTINGS_ENTRIES_API,
-  SETTINGS_SCOPES,
-} from '@folio/stripes-acq-components';
+import { TENANT_ADDRESSES_API } from '@folio/stripes-acq-components';
 
 import {
   ORDER_TYPE,
@@ -36,12 +33,9 @@ describe('Order Details Page', function () {
   let configs = null;
 
   beforeEach(async function () {
-    configs = this.server.create(SETTINGS_ENTRIES_API, {
-      scope: SETTINGS_SCOPES.TENANT_ADDRESSES,
-      value: {
-        address: 'TEST ADDRESS',
-        name: 'ADDRESS NAME',
-      },
+    configs = this.server.create(TENANT_ADDRESSES_API, {
+      address: 'TEST ADDRESS',
+      name: 'ADDRESS NAME',
     });
     vendor = this.server.create('vendor');
     order = this.server.create('order', {
