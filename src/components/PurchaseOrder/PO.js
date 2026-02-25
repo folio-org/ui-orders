@@ -70,6 +70,7 @@ import {
   ORDERS_ROUTE,
   PO_CONFIG_NAME_PREFIX,
   REEXPORT_SOURCES,
+  SCOPE_CUSTOM_FIELDS_MANAGE,
   WORKFLOW_STATUS,
 } from '../../common/constants';
 import { useHandleOrderUpdateError } from '../../common/hooks';
@@ -847,6 +848,7 @@ const PO = ({
                 customFieldsValues={customFieldsValues}
                 entityType={ENTITY_TYPE_ORDER}
                 configNamePrefix={PO_CONFIG_NAME_PREFIX}
+                scope={SCOPE_CUSTOM_FIELDS_MANAGE}
               />
             </IfVisible>
 

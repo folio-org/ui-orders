@@ -48,6 +48,7 @@ import {
   ENTITY_TYPE_ORDER,
   PO_CONFIG_NAME_PREFIX,
   PO_FORM_FIELDS,
+  SCOPE_CUSTOM_FIELDS_MANAGE,
   SUBMIT_ACTION_FIELD,
 } from '../../common/constants';
 import { useErrorAccordionStatus } from '../../common/hooks';
@@ -458,6 +459,7 @@ const POForm = ({
                               fieldComponent={Field}
                               finalFormCustomFieldsValues={customFieldsValues}
                               configNamePrefix={PO_CONFIG_NAME_PREFIX}
+                              scope={SCOPE_CUSTOM_FIELDS_MANAGE}
                             />
                           </IfFieldVisible>
                         </AccordionSet>
