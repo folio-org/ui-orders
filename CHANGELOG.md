@@ -62,6 +62,7 @@
 * Display the actual estimated price on PO line edit screen with rollover adjustment. Refs UIOR-1502.
 * Reflect changes of tenant addresses API. Refs UIOR-1508.
 * Add scope to all EditCustomFieldsSettings and ViewCustomFieldsSettings. Refs UIOR-1516.
+* Rename permissions to make it easier to differentiate between them. Refs UIOR-1504.
 * Fix permission error for edit custom-fields. Refs UIOR-1513.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)

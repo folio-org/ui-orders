@@ -40,8 +40,8 @@ import UserValue from './UserValue';
 
 import css from './PODetailsForm.css';
 
-const CREATE_UNITS_PERM = 'orders.acquisitions-units-assignments.assign';
-const MANAGE_UNITS_PERM = 'orders.acquisitions-units-assignments.manage';
+const CREATE_UNITS_PERM = 'orders.acquisitions-units-assignments.create.execute';
+const MANAGE_UNITS_PERM = 'orders.acquisitions-units-assignments.manage.execute';
 
 class PODetailsForm extends Component {
   static propTypes = {

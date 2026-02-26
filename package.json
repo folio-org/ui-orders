@@ -264,21 +264,27 @@
         ]
       },
       {
-        "permissionName": "ui-orders.acq.unit.assignment.assign",
+        "permissionName": "ui-orders.orders.acquisitions_units.assign.execute",
         "displayName": "Orders: Assign acquisition units to new order",
         "description": "",
         "visible": true,
+        "replaces": [
+          "ui-orders.acq.unit.assignment.assign"
+        ],
         "subPermissions": [
-          "orders.acquisitions-units-assignments.assign"
+          "orders.acquisitions-units-assignments.create.execute"
         ]
       },
       {
-        "permissionName": "ui-orders.acq.unit.assignment.manage",
+        "permissionName": "ui-orders.orders.acquisitions_units.manage.execute",
         "displayName": "Orders: Manage acquisition units",
         "description": "",
         "visible": true,
+        "replaces": [
+          "ui-orders.acq.unit.assignment.manage"
+        ],
         "subPermissions": [
-          "orders.acquisitions-units-assignments.manage"
+          "orders.acquisitions-units-assignments.manage.execute"
         ]
       },
       {
