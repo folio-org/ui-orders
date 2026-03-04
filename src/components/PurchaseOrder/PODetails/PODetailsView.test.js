@@ -15,6 +15,10 @@ import {
 import { formatOpenedFiscalYear } from '../../../common/utils';
 import PODetailsView from './PODetailsView';
 
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  Loading: jest.fn(() => 'Loading'),
+}));
 jest.mock('@folio/stripes-acq-components', () => ({
   ...jest.requireActual('@folio/stripes-acq-components'),
   useFiscalYear: jest.fn(),
@@ -110,5 +114,11 @@ describe('PODetailsView', () => {
     expect(screen.getByText('openedById')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.orderDetails.yearOpened')).toBeInTheDocument();
     expect(screen.getByText(formatOpenedFiscalYear(fiscalYear))).toBeInTheDocument();
+  });
+
+  it('should render loading state when addresses are loading', () => {
+    renderPODetailsView({ isAddressesLoading: true });
+
+    expect(screen.getAllByText('Loading')).toHaveLength(2); // "Ship to" and "Bill to" addresses
   });
 });
