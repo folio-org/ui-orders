@@ -8,6 +8,7 @@ import {
   Checkbox,
   Col,
   KeyValue,
+  Loading,
   Row,
 } from '@folio/stripes/components';
 import { useStripes } from '@folio/stripes/core';
@@ -38,6 +39,7 @@ const defaultProps = {
 const SummaryView = ({
   fiscalYearsGrouped = defaultProps.fiscalYearsGrouped,
   hiddenFields = defaultProps.hiddenFields,
+  isFiscalYearsFetching = false,
   onSelectFiscalYear,
   order = defaultProps.order,
   orderLines = defaultProps.orderLines,
@@ -103,11 +105,17 @@ const SummaryView = ({
             xs={6}
             lg={3}
           >
-            <FiscalYearSelect
-              dataOptions={fiscalYearsOptions}
-              onSelect={onSelectFiscalYear}
-              value={selectedFiscalYear}
-            />
+            {
+              isFiscalYearsFetching
+                ? <Loading />
+                : (
+                  <FiscalYearSelect
+                    dataOptions={fiscalYearsOptions}
+                    onSelect={onSelectFiscalYear}
+                    value={selectedFiscalYear}
+                  />
+                )
+            }
           </Col>
         )}
 
@@ -233,6 +241,7 @@ SummaryView.propTypes = {
     })).isRequired,
   },
   hiddenFields: PropTypes.shape({}),
+  isFiscalYearsFetching: PropTypes.bool,
   onSelectFiscalYear: PropTypes.func,
   order: PropTypes.shape({}),
   orderLines: PropTypes.arrayOf(PropTypes.shape({

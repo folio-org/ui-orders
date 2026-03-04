@@ -6,6 +6,7 @@ import {
   Checkbox,
   Col,
   KeyValue,
+  Loading,
   NoValue,
   Row,
 } from '@folio/stripes/components';
@@ -34,6 +35,7 @@ const defaultProps = {
 const PODetailsView = ({
   addresses = defaultProps.addresses,
   hiddenFields = defaultProps.hiddenFields,
+  isAddressesLoading = false,
   order,
 }) => {
   const addressBillTo = get(addresses.find(el => el.id === get(order, 'billTo', '')), 'address', '');
@@ -135,7 +137,7 @@ const PODetailsView = ({
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-              value={addressBillTo}
+              value={isAddressesLoading ? <Loading /> : addressBillTo}
             />
           </Col>
         </IfVisible>
@@ -149,7 +151,7 @@ const PODetailsView = ({
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-              value={addressShipTo}
+              value={isAddressesLoading ? <Loading /> : addressShipTo}
             />
           </Col>
         </IfVisible>
@@ -257,6 +259,7 @@ const PODetailsView = ({
 PODetailsView.propTypes = {
   addresses: PropTypes.arrayOf(PropTypes.object),
   hiddenFields: PropTypes.object,
+  isAddressesLoading: PropTypes.bool,
   order: PropTypes.object,
 };
 

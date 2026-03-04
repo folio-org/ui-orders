@@ -137,7 +137,7 @@ const PO = ({
   const [hiddenFields, setHiddenFields] = useState({});
   const [accountNumbers, setAccountNumbers] = useState([]);
   const [isCancelReason, setIsCancelReason] = useState(false);
-  const [selectedFiscalYear, setSelectedFiscalYear] = useState();
+  const [selectedFiscalYear, setSelectedFiscalYear] = useState(null);
 
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const [isCloneConfirmation, toggleCloneConfirmation] = useModalToggle();
@@ -161,6 +161,7 @@ const PO = ({
     fiscalYearsGrouped,
     isAddressesLoading,
     isExportHistoryLoading,
+    isFiscalYearsFetching,
     isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
     isOrderLinesFetching,
@@ -176,6 +177,11 @@ const PO = ({
     refetchOrderLines,
     restrictions,
   } = usePurchaseOrderResources(orderId, selectedFiscalYear);
+
+  useEffect(() => {
+    // Reset the selected fiscal year if PO has changed.
+    setSelectedFiscalYear(null);
+  }, [orderId]);
 
   useEffect(() => {
     // Set default fiscal year if not selected
@@ -697,7 +703,6 @@ const PO = ({
     || isOrderLoading
     || isOrderTemplateLoading
     || isFiscalYearsLoading
-    || isAddressesLoading
   ) {
     return (
       <LoadingPane
@@ -791,6 +796,7 @@ const PO = ({
                 addresses={addresses}
                 order={order}
                 hiddenFields={hiddenFields}
+                isAddressesLoading={isAddressesLoading}
               />
             </Accordion>
             {isOngoing(orderType) && (
@@ -811,6 +817,7 @@ const PO = ({
               <SummaryView
                 fiscalYearsGrouped={fiscalYearsGrouped}
                 hiddenFields={hiddenFields}
+                isFiscalYearsFetching={isFiscalYearsFetching}
                 onSelectFiscalYear={setSelectedFiscalYear}
                 order={order}
                 orderLines={orderLines}
