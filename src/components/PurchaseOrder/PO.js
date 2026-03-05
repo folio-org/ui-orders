@@ -162,7 +162,6 @@ const PO = ({
     isAddressesLoading,
     isExportHistoryLoading,
     isFiscalYearsFetching,
-    isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
     isOrderLinesFetching,
     isOrderLoading,
@@ -702,7 +701,8 @@ const PO = ({
     || order?.id !== match.params.id
     || isOrderLoading
     || isOrderTemplateLoading
-    || isFiscalYearsLoading
+    || isFiscalYearsFetching
+    || isAddressesLoading
   ) {
     return (
       <LoadingPane
@@ -796,7 +796,6 @@ const PO = ({
                 addresses={addresses}
                 order={order}
                 hiddenFields={hiddenFields}
-                isAddressesLoading={isAddressesLoading}
               />
             </Accordion>
             {isOngoing(orderType) && (
@@ -817,7 +816,6 @@ const PO = ({
               <SummaryView
                 fiscalYearsGrouped={fiscalYearsGrouped}
                 hiddenFields={hiddenFields}
-                isFiscalYearsFetching={isFiscalYearsFetching}
                 onSelectFiscalYear={setSelectedFiscalYear}
                 order={order}
                 orderLines={orderLines}
