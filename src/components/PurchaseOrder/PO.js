@@ -137,7 +137,7 @@ const PO = ({
   const [hiddenFields, setHiddenFields] = useState({});
   const [accountNumbers, setAccountNumbers] = useState([]);
   const [isCancelReason, setIsCancelReason] = useState(false);
-  const [selectedFiscalYear, setSelectedFiscalYear] = useState();
+  const [selectedFiscalYear, setSelectedFiscalYear] = useState(null);
 
   const [isErrorsModalOpened, toggleErrorsModal] = useModalToggle();
   const [isCloneConfirmation, toggleCloneConfirmation] = useModalToggle();
@@ -161,7 +161,7 @@ const PO = ({
     fiscalYearsGrouped,
     isAddressesLoading,
     isExportHistoryLoading,
-    isFiscalYearsLoading,
+    isFiscalYearsFetching,
     isOrderInvoiceRelationshipsLoading,
     isOrderLinesFetching,
     isOrderLoading,
@@ -176,6 +176,11 @@ const PO = ({
     refetchOrderLines,
     restrictions,
   } = usePurchaseOrderResources(orderId, selectedFiscalYear);
+
+  useEffect(() => {
+    // Reset the selected fiscal year if PO has changed.
+    setSelectedFiscalYear(null);
+  }, [orderId]);
 
   useEffect(() => {
     // Set default fiscal year if not selected
@@ -696,7 +701,7 @@ const PO = ({
     || order?.id !== match.params.id
     || isOrderLoading
     || isOrderTemplateLoading
-    || isFiscalYearsLoading
+    || isFiscalYearsFetching
     || isAddressesLoading
   ) {
     return (

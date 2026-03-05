@@ -30,6 +30,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
   const {
     fiscalYearsGrouped,
     isFetched: isFiscalYearsFetched,
+    isFetching: isFiscalYearsFetching,
     isLoading: isFiscalYearsLoading,
     refetch: refetchFiscalYears,
   } = useOrderFiscalYears(orderId);
@@ -97,6 +98,7 @@ export const usePurchaseOrderResources = (orderId, fiscalYearId) => {
     isAddressesLoading,
     isExportHistoryLoading,
     isFiscalYearsFetched,
+    isFiscalYearsFetching,
     isFiscalYearsLoading,
     isOrderInvoiceRelationshipsLoading,
     isOrderLinesFetching,
