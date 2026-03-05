@@ -225,6 +225,7 @@
   "errors.polLimitExceeded": "Your FOLIO system is configured to limit the number of PO Lines on each order",
   "errors.poLineHasRelatedApprovedInvoice": "The purchase order line fund distribution can not be changed because the order line is linked to an invoice line that currently has the \"approved\" status",
   "errors.poNumberNotUnique": "PO Number already exists",
+  "errors.poNumberPatternMismatch": "PO Number must not be longer than {count} characters alphanumeric.",
   "errors.poNumberPrefixRequired": "PO Number must start with Prefix",
   "errors.poNumberRequired": "PO Number is missing",
   "errors.poNumberSuffixRequired": "PO Number must ends with Suffix",

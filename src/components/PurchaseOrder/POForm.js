@@ -58,33 +58,32 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 import { getFullOrderNumber } from '../Utils/orderResource';
 import {
-  getPrefixOptions,
-  getSuffixOptions,
-} from './util';
-
-import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
   MAP_FIELD_ACCORDION,
   PO_TEMPLATE_FIELDS_MAP,
   SUBMIT_ACTION,
 } from './constants';
+import { usePONumberFieldValidator } from './hooks';
+import { OngoingInfoForm } from './OngoingOrderInfo';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
-import { OngoingInfoForm } from './OngoingOrderInfo';
+import {
+  getPrefixOptions,
+  getSuffixOptions,
+} from './util';
 
-const TEMPLATE_PERSISTED_REGISTERED_FIELDS = [
+const TEMPLATE_PERSISTED_REGISTERED_FIELDS_SET = new Set([
   PO_FORM_FIELDS.poNumber,
   PO_FORM_FIELDS.template,
   PO_FORM_FIELDS.workflowStatus,
-];
+]);
 
 const POForm = ({
   addresses,
   form: {
     batch,
     change,
-    getFieldState,
     getRegisteredFields,
     getState,
   },
@@ -96,7 +95,6 @@ const POForm = ({
   history,
   initialValues,
   onCancel,
-  parentMutator,
   parentResources,
   instanceId,
 }) => {
@@ -107,6 +105,8 @@ const POForm = ({
 
   const errors = getState()?.errors;
   const errorAccordionStatus = useErrorAccordionStatus({ errors, fieldsMap: MAP_FIELD_ACCORDION });
+
+  const { validate: validateNumber } = usePONumberFieldValidator();
 
   useEffect(() => {
     if (initialValues.template) {
@@ -121,26 +121,6 @@ const POForm = ({
       }));
     }
   }, []);
-
-  const callAPI = useCallback((_fieldName, values) => {
-    const { orderNumber: validator } = parentMutator;
-    const fullOrderNumber = getFullOrderNumber(values);
-    const initialFullOrderNumber = getFullOrderNumber(formValues);
-
-    return (values.poNumber && initialFullOrderNumber) !== fullOrderNumber
-      ? validator.POST({ poNumber: fullOrderNumber })
-        .then(() => { })
-        .catch(() => <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" />)
-      : Promise.resolve();
-  }, [formValues, parentMutator]);
-
-  const validateNumber = useCallback((poNumber, values) => {
-    const isDirty = getFieldState('poNumber')?.dirty;
-
-    return poNumber && isDirty
-      ? callAPI('poNumber', values)
-      : Promise.resolve();
-  }, [callAPI, getFieldState]);
 
   const toggleForceVisibility = useCallback(() => {
     setHiddenFields(prev => (prev ? undefined : template?.hiddenFields || {}));
@@ -279,7 +259,7 @@ const POForm = ({
       change(PO_FORM_FIELDS.ongoing, templateValue.ongoing || {});
     }
 
-    const filterRegisteredFields = (field) => !TEMPLATE_PERSISTED_REGISTERED_FIELDS.includes(field);
+    const filterRegisteredFields = (field) => !TEMPLATE_PERSISTED_REGISTERED_FIELDS_SET.has(field);
     const changeRegisteredFields = (field) => {
       const templateField = PO_TEMPLATE_FIELDS_MAP[field] || field;
       const templateFieldValue = get(templateValue, templateField);
@@ -488,7 +468,6 @@ POForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   parentResources: PropTypes.object.isRequired,
-  parentMutator: PropTypes.object.isRequired,
   instanceId: PropTypes.string,
 };
 

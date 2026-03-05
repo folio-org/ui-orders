@@ -1,7 +1,6 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -16,7 +15,6 @@ import {
   FieldTags,
   FolioFormattedTime,
   IfFieldVisible,
-  TextField,
 } from '@folio/stripes-acq-components';
 
 import { PO_FORM_FIELDS } from '../../../common/constants';
@@ -31,11 +29,13 @@ import {
   FieldsNotes,
   FieldAssignedTo,
 } from '../../../common/POFields';
-import FieldOrderType from './FieldOrderType';
 import {
   isWorkflowStatusClosed,
   isWorkflowStatusIsPending,
 } from '../util';
+import FieldOrderType from './FieldOrderType';
+import { FieldPONumber } from './FieldPONumber';
+import PONumber from './PONumber';
 import UserValue from './UserValue';
 
 import css from './PODetailsForm.css';
@@ -101,24 +101,15 @@ class PODetailsForm extends Component {
           </IfFieldVisible>
 
           <Col xs={4}>
-            {(!canUserEditOrderNumber || isPostPendingOrder) ? (
-              <KeyValue
-                data-test-po-number
-                label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-                value={formValues?.poNumber}
-              />
-            ) : (
-              <Field
-                component={TextField}
-                data-test-po-number
-                fullWidth
-                label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-                name={PO_FORM_FIELDS.poNumber}
-                onBlur={this.fillBackGeneratedNumber}
-                validate={validateNumber}
-                validateFields={[]}
-              />
-            )}
+            {(!canUserEditOrderNumber || isPostPendingOrder)
+              ? <PONumber value={formValues?.poNumber} />
+              : (
+                <FieldPONumber
+                  onBlur={this.fillBackGeneratedNumber}
+                  validate={validateNumber}
+                />
+              )
+            }
           </Col>
 
           <IfFieldVisible
