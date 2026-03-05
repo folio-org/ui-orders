@@ -34,8 +34,9 @@ export const usePONumberFieldValidator = () => {
 
   const callAPI = useCallback((values, { signal }) => {
     const newFullOrderNumber = getFullOrderNumber(values);
+    const shouldSendAPIRequest = (values.poNumber && currentFullOrderNumber) !== newFullOrderNumber;
 
-    return (values.poNumber && currentFullOrderNumber) !== newFullOrderNumber
+    return shouldSendAPIRequest
       ? ky.post(
         ORDER_NUMBER_VALIDATE_API,
         {
