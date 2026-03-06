@@ -196,7 +196,6 @@ function LayerPO({
         initialValues={initialValues}
         onCancel={onCancel}
         onSubmit={updatePO}
-        parentMutator={memoizedMutator}
         parentResources={resources}
         instanceId={instanceId}
       />

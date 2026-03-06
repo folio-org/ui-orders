@@ -15,6 +15,7 @@ import {
 import { history } from 'fixtures/routerMocks';
 import { ORDER_TYPE } from '../../common/constants';
 import POForm from './POForm';
+import { usePONumberFieldValidator } from './hooks';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
@@ -32,7 +33,10 @@ jest.mock('@folio/stripes-acq-components', () => ({
   FieldOrganization: jest.fn().mockReturnValue('FieldOrganization'),
   FieldTags: jest.fn().mockReturnValue('FieldTags'),
 }));
-
+jest.mock('./hooks', () => ({
+  ...jest.requireActual('./hooks'),
+  usePONumberFieldValidator: jest.fn(),
+}));
 jest.mock('./OngoingOrderInfo/OngoingInfoForm', () => jest.fn().mockReturnValue('OngoingInfoForm'));
 
 const defaultProps = {
@@ -87,11 +91,6 @@ const defaultProps = {
     batch: jest.fn(),
     getRegisteredFields: jest.fn(),
   },
-  parentMutator: {
-    orderNumber: {
-      POST: jest.fn(() => Promise.resolve({})),
-    },
-  },
   history,
 };
 
@@ -104,6 +103,12 @@ const renderPOForm = (props = {}) => render(
 );
 
 describe('POForm', () => {
+  const validatePONumberMock = jest.fn();
+
+  beforeEach(() => {
+    usePONumberFieldValidator.mockReturnValue({ validate: validatePONumberMock });
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -169,7 +174,7 @@ describe('POForm', () => {
 
     await user.type(screen.getByLabelText('ui-orders.orderDetails.poNumber'), '777');
 
-    expect(defaultProps.parentMutator.orderNumber.POST).toHaveBeenCalled();
+    expect(validatePONumberMock).toHaveBeenCalled();
   });
 });
 
