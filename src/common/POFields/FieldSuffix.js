@@ -19,7 +19,7 @@ const FieldSuffix = ({
       isNonInteractive={isNonInteractive}
       label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
       name={PO_FORM_FIELDS.poNumberSuffix}
-      validateFields={[]}
+      validateFields={[PO_FORM_FIELDS.poNumber]}
       {...rest}
     />
   );
