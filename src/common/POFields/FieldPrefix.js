@@ -19,7 +19,7 @@ const FieldPrefix = ({
       isNonInteractive={isNonInteractive}
       label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
       name={PO_FORM_FIELDS.poNumberPrefix}
-      validateFields={[]}
+      validateFields={[PO_FORM_FIELDS.poNumber]}
       {...rest}
     />
   );
