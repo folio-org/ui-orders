@@ -237,6 +237,7 @@
   "errors.suffixIsUsed": "The suffix cannot be deleted as it is used by one or more orders",
   "errors.suffixNotFound": "The suffix is not available",
   "errors.titleNotFound": "The receiving title(s) could not be found",
+  "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding.",
   "errors.tooLargeRequest": "The search request is too large. Please reduce the number of filters or shorten the search term and try again.",
   "errors.userHasMissedAffiliations": "Operation failed. This record has location affiliations that your user does not have. These affiliations must be removed or the operation must be performed by a user that has the same affiliations as the record.",
   "errors.userHasNoAcqUnitsPermission": "User does not have permissions to manage acquisition units assignments - operation is restricted",
