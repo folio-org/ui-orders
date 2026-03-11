@@ -950,5 +950,7 @@
     "poLine.fundDistribution.expenseClass.modal.message": "Changing this expense class will not update the related invoice line fund distribution. If you want the expense class on the invoice line to match you must update the related invoice line fund distribution in the invoice application.",
     "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
     "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines",
-    "line.holdings.deleteModal.message": "รายการใบสั่งซื้อ (PO Line) นี้เชื่อมต่อกับระเบียนในคลังทรัพยากร หลังจากแก้ไขแล้วจะไม่มีรายการใบสั่งซื้อ ชิ้นส่วน หรือรายการอื่นใดที่เชื่อมต่อกับระเบียนชุดทรัพยากร (Holdings) ที่เกี่ยวข้องอีก หลังจากทำการเปลี่ยนแปลงนี้ คุณต้องการให้ FOLIO ลบระเบียนชุดทรัพยากรดังกล่าวหรือไม่"
+    "line.holdings.deleteModal.message": "รายการใบสั่งซื้อ (PO Line) นี้เชื่อมต่อกับระเบียนในคลังทรัพยากร หลังจากแก้ไขแล้วจะไม่มีรายการใบสั่งซื้อ ชิ้นส่วน หรือรายการอื่นใดที่เชื่อมต่อกับระเบียนชุดทรัพยากร (Holdings) ที่เกี่ยวข้องอีก หลังจากทำการเปลี่ยนแปลงนี้ คุณต้องการให้ FOLIO ลบระเบียนชุดทรัพยากรดังกล่าวหรือไม่",
+    "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
+    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
 }

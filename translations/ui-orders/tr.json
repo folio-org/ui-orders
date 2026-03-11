@@ -950,5 +950,7 @@
     "poLine.fundDistribution.expenseClass.modal.message": "Bu gider sınıfının değiştirilmesi ilişkili fatura kalemi fon dağılımını güncellemeyecektir. Fatura kalemindeki gider sınıfının eşleşmesini istiyorsanız, fatura uygulamasında ilişkili fatura kalemi fon dağılımını güncellemeniz gerekir.",
     "settings.customFields.purchaseOrders.label": "Özel alanlar - satın alma siparişleri",
     "settings.customFields.purchaseOrderLines.label": "Özel alanlar - satın alma siparişi satırları",
-    "line.holdings.deleteModal.message": "This PO Line is connected to records in inventory. After this edit there will be no other purchase order lines, pieces OR items connected to the related Holdings record(s). After making this change would you like FOLIO to delete the Holdings record(s)?"
+    "line.holdings.deleteModal.message": "This PO Line is connected to records in inventory. After this edit there will be no other purchase order lines, pieces OR items connected to the related Holdings record(s). After making this change would you like FOLIO to delete the Holdings record(s)?",
+    "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
+    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
 }
