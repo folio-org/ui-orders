@@ -950,5 +950,7 @@
     "poLine.fundDistribution.expenseClass.modal.message": "Alterar essa classe de despesa não atualizará a distribuição de fundos da linha de fatura correspondente. Se você deseja que a classe de despesa na linha da fatura corresponda, é necessário atualizar a distribuição de fundos da linha de fatura correspondente no aplicativo de fatura.",
     "settings.customFields.purchaseOrders.label": "Campos personalizados - pedidos de compra",
     "settings.customFields.purchaseOrderLines.label": "Campos personalizados - linhas de pedido de compra",
-    "line.holdings.deleteModal.message": "Esta linha de pedido de compra está conectada a registros no inventário. Após essa edição, não haverá outras linhas de pedido de compra, partes OU itens conectados ao(s) registro(s) de Acervo relacionado(s). Depois de fazer essa alteração, você gostaria que o FOLIO excluísse o(s) registro(s) de Acervo?"
+    "line.holdings.deleteModal.message": "Esta linha de pedido de compra está conectada a registros no inventário. Após essa edição, não haverá outras linhas de pedido de compra, partes OU itens conectados ao(s) registro(s) de Acervo relacionado(s). Depois de fazer essa alteração, você gostaria que o FOLIO excluísse o(s) registro(s) de Acervo?",
+    "errors.poNumberPatternMismatch": "O número do pedido de compra não deve ser maior que {count, number} caracteres alfanuméricos",
+    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
 }

@@ -950,5 +950,7 @@
     "poLine.fundDistribution.expenseClass.modal.message": "Změna této třídy výdajů neaktualizuje související rozdělení fondu na faktuře. Pokud chcete, aby třída výdajů na faktuře odpovídala, musíte aktualizovat související rozdělení fondu v aplikaci faktur.",
     "settings.customFields.purchaseOrders.label": "Vlastní pole - nákupní objednávky",
     "settings.customFields.purchaseOrderLines.label": "Vlastní pole - řádky nákupní objednávky",
-    "line.holdings.deleteModal.message": "Tento řádek objednávky je propojen se záznamy v katalogu. Po této úpravě nebudou k souvisejícím záznamům holdingu propojeny žádné další řádky objednávky, kusy NEBO položky. Chcete, aby FOLIO po provedení této změny holdingy smazalo?"
+    "line.holdings.deleteModal.message": "Tento řádek objednávky je propojen se záznamy v katalogu. Po této úpravě nebudou k souvisejícím záznamům holdingu propojeny žádné další řádky objednávky, kusy NEBO položky. Chcete, aby FOLIO po provedení této změny holdingy smazalo?",
+    "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
+    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
 }
