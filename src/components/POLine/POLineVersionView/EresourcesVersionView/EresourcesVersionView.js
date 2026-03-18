@@ -9,6 +9,7 @@ import {
 } from '@folio/stripes/components';
 import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
+import { CREATE_INVENTORY_TRANSLATED_VALUES } from '../../../../common/constants';
 import {
   VersionCheckbox,
   VersionKeyValue,
@@ -59,7 +60,7 @@ export const EresourcesVersionView = ({ version }) => {
         <VersionKeyValue
           name="eresource.createInventory"
           label={<FormattedMessage id="ui-orders.eresource.createInventory" />}
-          value={eresource?.createInventory}
+          value={CREATE_INVENTORY_TRANSLATED_VALUES[eresource?.createInventory]}
         />
       </Col>
 

@@ -53,7 +53,7 @@ describe('EresourcesVersionView', () => {
   it('should render create inventory value', () => {
     renderEresourcesVersionView();
 
-    expect(screen.getByText('Instance, Holding, Item')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.settings.createInventory.recordType.all')).toBeInTheDocument();
   });
 
   it('should render material type', () => {

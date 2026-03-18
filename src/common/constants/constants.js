@@ -1,3 +1,14 @@
+import invert from 'lodash/invert';
+import { FormattedMessage } from 'react-intl';
+
+import {
+  INVENTORY_RECORDS_TYPE,
+  ORDER_FORMATS,
+  ORDER_TYPES,
+  PAYMENT_STATUS,
+  RECEIPT_STATUS,
+} from '@folio/stripes-acq-components';
+
 export const ORGANIZATION_STATUS_ACTIVE = 'Active';
 
 export const PRODUCT_ID_TYPE = {
@@ -79,3 +90,16 @@ export const PO_LINE_CONFIG_NAME_PREFIX = 'po_lines';
 export const PO_CONFIG_NAME_PREFIX = 'purchase_orders';
 
 export const SCOPE_CUSTOM_FIELDS_MANAGE = 'ui-orders.custom-fields.manage';
+
+const buildCommonTranslatedDictionary = (dictionary, baseTranslationKey) => {
+  return Object.fromEntries(
+    Object.entries(invert(dictionary))
+      .map(([orderType, key]) => [orderType, <FormattedMessage key={key} id={`${baseTranslationKey}${key}`} />]),
+  );
+};
+
+export const ORDER_TYPE_TRANSLATED_VALUES = buildCommonTranslatedDictionary(ORDER_TYPES, 'ui-orders.order_type.');
+export const ORDER_FORMAT_TRANSLATED_VALUES = buildCommonTranslatedDictionary(ORDER_FORMATS, 'ui-orders.order_format.');
+export const RECEIPT_STATUS_TRANSLATED_VALUES = buildCommonTranslatedDictionary(RECEIPT_STATUS, 'ui-orders.receipt_status.');
+export const PAYMENT_STATUS_TRANSLATED_VALUES = buildCommonTranslatedDictionary(PAYMENT_STATUS, 'ui-orders.payment_status.');
+export const CREATE_INVENTORY_TRANSLATED_VALUES = buildCommonTranslatedDictionary(INVENTORY_RECORDS_TYPE, 'ui-orders.settings.createInventory.recordType.');
