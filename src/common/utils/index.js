@@ -1,3 +1,4 @@
+export { buildCommonTranslatedDictionary } from './buildCommonTranslatedDictionary';
 export { buildRelationModifierQuery } from './buildRelationModifierQuery';
 export * from './checkRelatedHoldings';
 export * from './createClearFilterHandler';

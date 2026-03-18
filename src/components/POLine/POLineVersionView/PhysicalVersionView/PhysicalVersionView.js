@@ -5,10 +5,9 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
-import {
-  FolioFormattedDate,
-} from '@folio/stripes-acq-components';
+import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
+import { CREATE_INVENTORY_TRANSLATED_VALUES } from '../../../../common/constants';
 import { VersionKeyValue } from '../../../../common/VersionView';
 
 export const PhysicalVersionView = ({ version }) => {
@@ -68,7 +67,7 @@ export const PhysicalVersionView = ({ version }) => {
         <VersionKeyValue
           name="physical.createInventory"
           label={<FormattedMessage id="ui-orders.physical.createInventory" />}
-          value={physical?.createInventory}
+          value={CREATE_INVENTORY_TRANSLATED_VALUES[physical?.createInventory]}
         />
       </Col>
 

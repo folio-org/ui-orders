@@ -20,9 +20,9 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
+import { ORDER_TYPE_TRANSLATED_VALUES } from '../../../common/constants';
 import { FiscalYearOpenedView } from '../components';
 import { isWorkflowStatusNotPending } from '../util';
-import { OrderType } from './OrderType';
 import UserValue from './UserValue';
 
 import css from './PODetailsView.css';
@@ -77,7 +77,10 @@ const PODetailsView = ({
           xs={6}
           lg={3}
         >
-          <OrderType orderType={order?.orderType} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
+            value={ORDER_TYPE_TRANSLATED_VALUES[order.orderType]}
+          />
         </Col>
 
         <IfVisible visible={!hiddenFields.acqUnitIds}>
