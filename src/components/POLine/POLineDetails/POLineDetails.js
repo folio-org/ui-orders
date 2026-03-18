@@ -21,6 +21,7 @@ import {
 
 import {
   ORDER_FORMAT_TRANSLATED_VALUES,
+  PAYMENT_STATUS_TRANSLATED_VALUES,
   RECEIPT_STATUS_TRANSLATED_VALUES,
 } from '../../../common/constants';
 import { useAcqMethod } from '../../../common/hooks';
@@ -160,7 +161,7 @@ const POLineDetails = ({
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
-              value={get(line, 'paymentStatus')}
+              value={PAYMENT_STATUS_TRANSLATED_VALUES[line?.paymentStatus]}
             />
           </Col>
         </IfVisible>

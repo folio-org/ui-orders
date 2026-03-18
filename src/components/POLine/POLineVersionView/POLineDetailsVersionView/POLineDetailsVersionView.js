@@ -14,6 +14,7 @@ import {
 
 import {
   ORDER_FORMAT_TRANSLATED_VALUES,
+  PAYMENT_STATUS_TRANSLATED_VALUES,
   RECEIPT_STATUS_TRANSLATED_VALUES,
 } from '../../../../common/constants';
 import {
@@ -108,7 +109,7 @@ export const POLineDetailsVersionView = ({ version }) => {
           <VersionKeyValue
             name="paymentStatus"
             label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
-            value={version?.paymentStatus}
+            value={PAYMENT_STATUS_TRANSLATED_VALUES[version?.paymentStatus]}
           />
         </Col>
 
