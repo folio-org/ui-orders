@@ -3,13 +3,13 @@ import { FormattedMessage } from 'react-intl';
 
 import { KeyValue } from '@folio/stripes/components';
 
-import { ORDER_TYPE_LABELS } from '../../../common/constants';
+import { ORDER_TYPE_TRANSLATED_VALUES } from '../../../common/constants';
 
 export const OrderType = ({ orderType }) => {
   return (
     <KeyValue
       label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
-      value={ORDER_TYPE_LABELS[orderType]}
+      value={ORDER_TYPE_TRANSLATED_VALUES[orderType]}
     />
   );
 };

@@ -45,7 +45,7 @@ import {
 
 import {
   CANCEL_ORDER_REASON,
-  ORDER_TYPE_LABELS,
+  ORDER_TYPE_TRANSLATED_VALUES,
 } from '../common/constants';
 import {
   useIsRowSelected,
@@ -91,7 +91,7 @@ export const getResultsFormatter = ({ search }) => ({
       </>
     );
   },
-  orderType: (order) => ORDER_TYPE_LABELS[order.orderType],
+  orderType: (order) => ORDER_TYPE_TRANSLATED_VALUES[order.orderType],
   [UPDATED_DATE]: (order) => <FolioFormattedDate value={order.metadata?.updatedDate} utc={false} />,
   workflowStatus: (order) => ORDER_STATUS_LABEL[order.workflowStatus],
 });

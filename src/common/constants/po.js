@@ -31,7 +31,7 @@ export const PO_FORM_FIELDS = {
   workflowStatus: 'workflowStatus',
 };
 
-export const ORDER_TYPE_LABELS = Object.fromEntries(
+export const ORDER_TYPE_TRANSLATED_VALUES = Object.fromEntries(
   Object.entries(invert(ORDER_TYPES))
     .map(([orderType, key]) => [orderType, <FormattedMessage key={key} id={`ui-orders.order_type.${key}`} />]),
 );

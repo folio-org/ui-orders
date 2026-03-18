@@ -8,7 +8,7 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import { FolioFormattedTime } from '@folio/stripes-acq-components';
 
-import { ORDER_TYPE_LABELS } from '../../../../common/constants';
+import { ORDER_TYPE_TRANSLATED_VALUES } from '../../../../common/constants';
 import {
   VersionCheckbox,
   VersionKeyValue,
@@ -51,7 +51,7 @@ export const PODetailsVersionView = ({ version }) => {
           <VersionKeyValue
             name="orderType"
             label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
-            value={ORDER_TYPE_LABELS[version?.orderType]}
+            value={ORDER_TYPE_TRANSLATED_VALUES[version?.orderType]}
           />
         </Col>
         <Col
