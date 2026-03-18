@@ -16,7 +16,7 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
-import { CREATE_INVENTORY_TRANSLATED_VALUES } from '../../../common/constants/poLine';
+import { CREATE_INVENTORY_TRANSLATED_VALUES } from '../../../common/constants';
 
 const defaultProps = {
   hiddenFields: {},
