@@ -1,3 +1,8 @@
+import invert from 'lodash/invert';
+
+import { ORDER_TYPES } from '@folio/stripes-acq-components';
+import { FormattedMessage } from 'react-intl';
+
 export const PO_FORM_FIELDS = {
   acqUnitIds: 'acqUnitIds',
   approved: 'approved',
@@ -25,3 +30,8 @@ export const PO_FORM_FIELDS = {
   vendor: 'vendor',
   workflowStatus: 'workflowStatus',
 };
+
+export const ORDER_TYPE_LABELS = Object.fromEntries(
+  Object.entries(invert(ORDER_TYPES))
+    .map(([orderType, key]) => [orderType, <FormattedMessage key={key} id={`ui-orders.order_type.${key}`} />]),
+);

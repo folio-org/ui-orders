@@ -22,6 +22,7 @@ import {
 
 import { FiscalYearOpenedView } from '../components';
 import { isWorkflowStatusNotPending } from '../util';
+import { OrderType } from './OrderType';
 import UserValue from './UserValue';
 
 import css from './PODetailsView.css';
@@ -76,10 +77,7 @@ const PODetailsView = ({
           xs={6}
           lg={3}
         >
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
-            value={get(order, 'orderType')}
-          />
+          <OrderType orderType={order?.orderType} />
         </Col>
 
         <IfVisible visible={!hiddenFields.acqUnitIds}>

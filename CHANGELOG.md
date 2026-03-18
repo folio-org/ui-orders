@@ -67,6 +67,7 @@
 * Reset selected FY when PO has changed. Refs UIOR-1510.
 * Implement PO number validation handler. Refs UIOR-1507.
 * Add translation for the `thereAreRequestsOnItem` error code. Refs UIOR-1498.
+* Translate static values. Refs UIOR-1518.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

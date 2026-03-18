@@ -43,7 +43,10 @@ import {
   useItemToView,
 } from '@folio/stripes-acq-components';
 
-import { CANCEL_ORDER_REASON } from '../common/constants';
+import {
+  CANCEL_ORDER_REASON,
+  ORDER_TYPE_LABELS,
+} from '../common/constants';
 import {
   useIsRowSelected,
   useResultsPageTitle,
@@ -61,7 +64,7 @@ const title = <FormattedMessage id="ui-orders.navigation.orders" />;
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', UPDATED_DATE];
 
 export const getResultsFormatter = ({ search }) => ({
-  poNumber: order => {
+  poNumber: (order) => {
     const isCancelled = order.workflowStatus === ORDER_STATUSES.closed &&
       order.closeReason?.reason === CANCEL_ORDER_REASON;
 
@@ -88,8 +91,9 @@ export const getResultsFormatter = ({ search }) => ({
       </>
     );
   },
-  [UPDATED_DATE]: order => <FolioFormattedDate value={order.metadata?.updatedDate} utc={false} />,
-  workflowStatus: order => ORDER_STATUS_LABEL[order.workflowStatus],
+  orderType: (order) => ORDER_TYPE_LABELS[order.orderType],
+  [UPDATED_DATE]: (order) => <FolioFormattedDate value={order.metadata?.updatedDate} utc={false} />,
+  workflowStatus: (order) => ORDER_STATUS_LABEL[order.workflowStatus],
 });
 
 export const columnMapping = {
