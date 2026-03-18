@@ -3,6 +3,7 @@ import invert from 'lodash/invert';
 import {
   ORDER_FORMATS,
   ORDER_TYPES,
+  RECEIPT_STATUS,
 } from '@folio/stripes-acq-components';
 import { FormattedMessage } from 'react-intl';
 
@@ -42,4 +43,9 @@ export const ORDER_TYPE_TRANSLATED_VALUES = Object.fromEntries(
 export const ORDER_FORMAT_TRANSLATED_VALUES = Object.fromEntries(
   Object.entries(invert(ORDER_FORMATS))
     .map(([orderType, key]) => [orderType, <FormattedMessage key={key} id={`ui-orders.order_format.${key}`} />]),
+);
+
+export const RECEIPT_STATUS_TRANSLATED_VALUES = Object.fromEntries(
+  Object.entries(invert(RECEIPT_STATUS))
+    .map(([orderType, key]) => [orderType, <FormattedMessage key={key} id={`ui-orders.receipt_status.${key}`} />]),
 );

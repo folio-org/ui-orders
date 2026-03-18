@@ -12,7 +12,10 @@ import {
   sourceLabels,
 } from '@folio/stripes-acq-components';
 
-import { ORDER_FORMAT_TRANSLATED_VALUES } from '../../../../common/constants';
+import {
+  ORDER_FORMAT_TRANSLATED_VALUES,
+  RECEIPT_STATUS_TRANSLATED_VALUES,
+} from '../../../../common/constants';
 import {
   VersionCheckbox,
   VersionKeyValue,
@@ -94,7 +97,7 @@ export const POLineDetailsVersionView = ({ version }) => {
           <VersionKeyValue
             name="receiptStatus"
             label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
-            value={version?.receiptStatus}
+            value={RECEIPT_STATUS_TRANSLATED_VALUES[version?.receiptStatus]}
           />
         </Col>
 

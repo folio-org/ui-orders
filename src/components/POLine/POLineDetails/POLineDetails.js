@@ -19,7 +19,10 @@ import {
   sourceLabels,
 } from '@folio/stripes-acq-components';
 
-import { ORDER_FORMAT_TRANSLATED_VALUES } from '../../../common/constants';
+import {
+  ORDER_FORMAT_TRANSLATED_VALUES,
+  RECEIPT_STATUS_TRANSLATED_VALUES,
+} from '../../../common/constants';
 import { useAcqMethod } from '../../../common/hooks';
 import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
 
@@ -144,7 +147,7 @@ const POLineDetails = ({
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
-              value={get(line, 'receiptStatus')}
+              value={RECEIPT_STATUS_TRANSLATED_VALUES[line?.receiptStatus]}
             />
           </Col>
         </IfVisible>
