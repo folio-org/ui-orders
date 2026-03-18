@@ -19,6 +19,7 @@ import {
   sourceLabels,
 } from '@folio/stripes-acq-components';
 
+import { ORDER_FORMAT_TRANSLATED_VALUES } from '../../../common/constants';
 import { useAcqMethod } from '../../../common/hooks';
 import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
 
@@ -108,7 +109,7 @@ const POLineDetails = ({
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
-              value={get(line, 'orderFormat')}
+              value={ORDER_FORMAT_TRANSLATED_VALUES[line?.orderFormat]}
             />
           </Col>
         </IfVisible>
