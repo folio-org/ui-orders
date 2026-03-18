@@ -1,12 +1,3 @@
-import {
-  INVENTORY_RECORDS_TYPE,
-  ORDER_FORMATS,
-  PAYMENT_STATUS,
-  RECEIPT_STATUS,
-} from '@folio/stripes-acq-components';
-
-import { buildCommonTranslatedDictionary } from '../utils';
-
 export const POL_FORM_FIELDS = {
   /* Item details */
   contributors: 'contributors',
@@ -97,8 +88,3 @@ export const POL_FORM_FIELDS = {
 };
 
 export const PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE = [POL_FORM_FIELDS.locations];
-
-export const ORDER_FORMAT_TRANSLATED_VALUES = buildCommonTranslatedDictionary(ORDER_FORMATS, 'ui-orders.order_format.');
-export const RECEIPT_STATUS_TRANSLATED_VALUES = buildCommonTranslatedDictionary(RECEIPT_STATUS, 'ui-orders.receipt_status.');
-export const PAYMENT_STATUS_TRANSLATED_VALUES = buildCommonTranslatedDictionary(PAYMENT_STATUS, 'ui-orders.payment_status.');
-export const CREATE_INVENTORY_TRANSLATED_VALUES = buildCommonTranslatedDictionary(INVENTORY_RECORDS_TYPE, 'ui-orders.settings.createInventory.recordType.');

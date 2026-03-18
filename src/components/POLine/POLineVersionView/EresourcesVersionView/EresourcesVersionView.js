@@ -9,7 +9,7 @@ import {
 } from '@folio/stripes/components';
 import { FolioFormattedDate } from '@folio/stripes-acq-components';
 
-import { CREATE_INVENTORY_TRANSLATED_VALUES } from '../../../../common/constants/poLine';
+import { CREATE_INVENTORY_TRANSLATED_VALUES } from '../../../../common/constants';
 import {
   VersionCheckbox,
   VersionKeyValue,

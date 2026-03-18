@@ -1,7 +1,3 @@
-import { ORDER_TYPES } from '@folio/stripes-acq-components';
-
-import { buildCommonTranslatedDictionary } from '../utils';
-
 export const PO_FORM_FIELDS = {
   acqUnitIds: 'acqUnitIds',
   approved: 'approved',
@@ -29,5 +25,3 @@ export const PO_FORM_FIELDS = {
   vendor: 'vendor',
   workflowStatus: 'workflowStatus',
 };
-
-export const ORDER_TYPE_TRANSLATED_VALUES = buildCommonTranslatedDictionary(ORDER_TYPES, 'ui-orders.order_type.');
