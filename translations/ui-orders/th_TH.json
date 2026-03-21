@@ -432,7 +432,7 @@
     "requests.message.multiple": "The following items have open requests",
     "requests.message.barcode": "Barcode ({barcode})",
     "requests.message.itemId": "Item ({itemId})",
-    "requests.request": "Request",
+    "requests.request": "คำขอ",
     "requests.request.isOpened": "Yes",
     "settings.openOrder": "Opening purchase orders",
     "settings.openOrder.isOpenOrderEnabled": "Allow save and open purchase order when creating or editing a purchase order line",
@@ -951,6 +951,6 @@
     "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
     "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines",
     "line.holdings.deleteModal.message": "รายการใบสั่งซื้อ (PO Line) นี้เชื่อมต่อกับระเบียนในคลังทรัพยากร หลังจากแก้ไขแล้วจะไม่มีรายการใบสั่งซื้อ ชิ้นส่วน หรือรายการอื่นใดที่เชื่อมต่อกับระเบียนชุดทรัพยากร (Holdings) ที่เกี่ยวข้องอีก หลังจากทำการเปลี่ยนแปลงนี้ คุณต้องการให้ FOLIO ลบระเบียนชุดทรัพยากรดังกล่าวหรือไม่",
-    "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
-    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
+    "errors.poNumberPatternMismatch": "หมายเลข PO ต้องไม่ยาวเกิน {count, number} อักขระตัวอักษรและตัวเลข",
+    "errors.thereAreRequestsOnItem": "ไม่สามารถบันทึกคำสั่งซื้อได้เนื่องจากมีคำขอที่เกี่ยวข้อง โปรดลบคำขอก่อนดำเนินการต่อ"
 }
