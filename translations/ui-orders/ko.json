@@ -951,6 +951,6 @@
     "settings.customFields.purchaseOrders.label": "Custom fields - purchase orders",
     "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines",
     "line.holdings.deleteModal.message": "This PO Line is connected to records in inventory. After this edit there will be no other purchase order lines, pieces OR items connected to the related Holdings record(s). After making this change would you like FOLIO to delete the Holdings record(s)?",
-    "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
-    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
+    "errors.poNumberPatternMismatch": "PO 번호는 영숫자 {count, number}를 초과할 수 없습니다.",
+    "errors.thereAreRequestsOnItem": "관련 요청이 있어 주문을 저장할 수 없습니다. 계속 진행하려면 먼저 요청을 삭제해 주세요."
 }
