@@ -13,6 +13,11 @@ import {
 } from '@folio/stripes-acq-components';
 
 import {
+  ORDER_FORMAT_TRANSLATED_VALUES,
+  PAYMENT_STATUS_TRANSLATED_VALUES,
+  RECEIPT_STATUS_TRANSLATED_VALUES,
+} from '../../../../common/constants';
+import {
   VersionCheckbox,
   VersionKeyValue,
 } from '../../../../common/VersionView';
@@ -60,7 +65,7 @@ export const POLineDetailsVersionView = ({ version }) => {
           <VersionKeyValue
             name="orderFormat"
             label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
-            value={version?.orderFormat}
+            value={ORDER_FORMAT_TRANSLATED_VALUES[version?.orderFormat]}
           />
         </Col>
 
@@ -93,7 +98,7 @@ export const POLineDetailsVersionView = ({ version }) => {
           <VersionKeyValue
             name="receiptStatus"
             label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
-            value={version?.receiptStatus}
+            value={RECEIPT_STATUS_TRANSLATED_VALUES[version?.receiptStatus]}
           />
         </Col>
 
@@ -104,7 +109,7 @@ export const POLineDetailsVersionView = ({ version }) => {
           <VersionKeyValue
             name="paymentStatus"
             label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
-            value={version?.paymentStatus}
+            value={PAYMENT_STATUS_TRANSLATED_VALUES[version?.paymentStatus]}
           />
         </Col>
 

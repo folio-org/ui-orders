@@ -20,6 +20,7 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
+import { ORDER_TYPE_TRANSLATED_VALUES } from '../../../common/constants';
 import { FiscalYearOpenedView } from '../components';
 import { isWorkflowStatusNotPending } from '../util';
 import UserValue from './UserValue';
@@ -78,7 +79,7 @@ const PODetailsView = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
-            value={get(order, 'orderType')}
+            value={ORDER_TYPE_TRANSLATED_VALUES[order.orderType]}
           />
         </Col>
 

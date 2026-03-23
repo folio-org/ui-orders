@@ -14,6 +14,8 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
+import { CREATE_INVENTORY_TRANSLATED_VALUES } from '../../../common/constants';
+
 const DEFAULT_MATERIAL_TYPES = [];
 const DEFAULT_PHYSICAL = {};
 const DEFAULT_HIDDEN_FIELDS = {};
@@ -82,7 +84,7 @@ const PhysicalView = ({
         >
           <KeyValue
             label={<FormattedMessage id="ui-orders.physical.createInventory" />}
-            value={get(physical, 'createInventory')}
+            value={CREATE_INVENTORY_TRANSLATED_VALUES[physical?.createInventory]}
           />
         </Col>
       </IfVisible>

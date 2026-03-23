@@ -16,6 +16,8 @@ import {
   OrganizationValue,
 } from '@folio/stripes-acq-components';
 
+import { CREATE_INVENTORY_TRANSLATED_VALUES } from '../../../common/constants';
+
 const defaultProps = {
   hiddenFields: {},
   isTemplate: false,
@@ -89,7 +91,7 @@ const EresourcesView = ({
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.eresource.createInventory" />}
-            value={get(eresource, 'createInventory')}
+            value={CREATE_INVENTORY_TRANSLATED_VALUES[eresource?.createInventory]}
           />
         </Col>
       </IfVisible>
