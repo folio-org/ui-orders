@@ -951,6 +951,6 @@
     "settings.customFields.purchaseOrders.label": "Vlastní pole - nákupní objednávky",
     "settings.customFields.purchaseOrderLines.label": "Vlastní pole - řádky nákupní objednávky",
     "line.holdings.deleteModal.message": "Tento řádek objednávky je propojen se záznamy v katalogu. Po této úpravě nebudou k souvisejícím záznamům holdingu propojeny žádné další řádky objednávky, kusy NEBO položky. Chcete, aby FOLIO po provedení této změny holdingy smazalo?",
-    "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
-    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
+    "errors.poNumberPatternMismatch": "Číslo NO nesmí být delší než {count, number} alfanumerických znaků",
+    "errors.thereAreRequestsOnItem": "Objednávku nelze uložit, protože existují související požadavky. Než budete pokračovat, smažte prosím tyto požadavky."
 }
