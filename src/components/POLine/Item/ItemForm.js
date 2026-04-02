@@ -359,29 +359,27 @@ class ItemForm extends Component {
               </VisibilityControl>
             </Col>
           </IfFieldVisible>
-          {!lineId && (
-            <IfFieldVisible
-              name={POL_FORM_FIELDS.isAcknowledged}
-              visible={!hiddenFields.isAcknowledged}
+          <IfFieldVisible
+            name={POL_FORM_FIELDS.isAcknowledged}
+            visible={!hiddenFields.isAcknowledged}
+          >
+            <Col
+              xs={6}
+              md={3}
             >
-              <Col
-                xs={6}
-                md={3}
-              >
-                <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.isAcknowledged}`}>
-                  <Field
-                    component={Checkbox}
-                    fullWidth
-                    label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
-                    name={POL_FORM_FIELDS.isAcknowledged}
-                    type="checkbox"
-                    vertical
-                    validateFields={[]}
-                  />
-                </VisibilityControl>
-              </Col>
-            </IfFieldVisible>
-          )}
+              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.isAcknowledged}`}>
+                <Field
+                  component={Checkbox}
+                  fullWidth
+                  label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
+                  name={POL_FORM_FIELDS.isAcknowledged}
+                  type="checkbox"
+                  vertical
+                  validateFields={[]}
+                />
+              </VisibilityControl>
+            </Col>
+          </IfFieldVisible>
         </Row>
         <Row>
           <IfFieldVisible
