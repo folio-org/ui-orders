@@ -881,6 +881,7 @@
   "settings.poNumber.suffix.deleteEntry": "Delete suffix",
   "settings.poNumber.suffix.termDeleted": "The suffix <b>{term}</b> was successfully <b>deleted</b>",
   "settings.poNumber.suffix.termWillBeDeleted": "The suffix <b>{term}</b> will be <b>deleted.</b>",
+  "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "Name must be less than {count, number} alphanumeric characters",
   "settings.poNumber.nameValidation": "Name is not valid",
   "settings.poNumber": "Purchase order number",
   "settings.saveBtn": "Save",

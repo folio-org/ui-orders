@@ -91,7 +91,10 @@ describe('validateName', () => {
     const name = 'suf0c966bd2';
     const actual = validateName(name);
     const expected = (
-      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
+      <FormattedMessage
+        id="ui-orders.settings.poNumber.validation.prefixOrSuffixPatternMismatch"
+        values={{ count: 8 }}
+      />
     );
 
     expect(actual.name).toEqual(expected);
@@ -119,7 +122,10 @@ describe('validateSuffixName', () => {
     };
     const actual = validateSuffixName(props);
     const expected = (
-      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
+      <FormattedMessage
+        id="ui-orders.settings.poNumber.validation.prefixOrSuffixPatternMismatch"
+        values={{ count: 8 }}
+      />
     );
 
     expect(actual.name).toEqual(expected);
@@ -147,7 +153,10 @@ describe('validatePrefixName', () => {
     };
     const actual = validatePrefixName(props);
     const expected = (
-      <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />
+      <FormattedMessage
+        id="ui-orders.settings.poNumber.validation.prefixOrSuffixPatternMismatch"
+        values={{ count: 8 }}
+      />
     );
 
     expect(actual.name).toEqual(expected);
