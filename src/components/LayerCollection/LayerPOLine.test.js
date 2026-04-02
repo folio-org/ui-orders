@@ -58,7 +58,6 @@ jest.mock('../../common/hooks', () => ({
   useOrderLine: jest.fn(),
   useOrderTemplate: jest.fn(),
   useInstance: jest.fn().mockReturnValue({ isLoading: false, instance: {} }),
-  useTitleMutation: jest.fn().mockReturnValue({ mutateTitle: jest.fn().mockReturnValue(() => Promise.resolve()) }),
 }));
 jest.mock('../POLine/POLineForm', () => jest.fn().mockReturnValue('POLineForm'));
 jest.mock('../ModalDeletePieces', () => jest.fn().mockReturnValue('ModalDeletePieces'));

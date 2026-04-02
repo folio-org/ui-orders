@@ -5,7 +5,7 @@ export const POL_FORM_FIELDS = {
   details: 'details',
   edition: 'edition',
   instanceId: 'instanceId',
-  isAcknowledged: 'isAcknowledged',
+  isAcknowledged: 'details.isAcknowledged',
   isPackage: 'isPackage',
   packagePoLineId: 'packagePoLineId',
   productIds: 'details.productIds',
