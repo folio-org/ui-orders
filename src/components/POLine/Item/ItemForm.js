@@ -60,7 +60,6 @@ class ItemForm extends Component {
     required: PropTypes.bool,
     hiddenFields: PropTypes.object,
     isCreateFromInstance: PropTypes.bool,
-    lineId: PropTypes.string,
   };
 
   static defaultProps = {
@@ -291,7 +290,6 @@ class ItemForm extends Component {
       isCreateFromInstance,
       required,
       hiddenFields,
-      lineId,
     } = this.props;
     const isPackage = Boolean(formValues?.isPackage);
     const isSelectInstanceVisible = !(isPackage || isPostPendingOrder || isCreateFromInstance);
