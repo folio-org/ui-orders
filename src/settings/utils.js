@@ -9,12 +9,18 @@ import {
 import { Checkbox } from '@folio/stripes/components';
 
 const NAME_REGEXP = new RegExp(/[^a-zA-Z\d]|^.{8,}$/);
+const PREXIS_OR_SUFFIX_MAX_LENGTH = 8;
 
 export const validateName = (name) => {
   if (!name?.match(NAME_REGEXP)) return {};
 
   return {
-    name: <FormattedMessage id="ui-orders.settings.poNumber.nameValidation" />,
+    name: (
+      <FormattedMessage
+        id="ui-orders.settings.poNumber.validation.prefixOrSuffixPatternMismatch"
+        values={{ count: PREXIS_OR_SUFFIX_MAX_LENGTH }}
+      />
+    ),
   };
 };
 
