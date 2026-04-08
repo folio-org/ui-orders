@@ -56,7 +56,6 @@ import {
   useOrder,
   useOrderLine,
   useOrderTemplate,
-  useTitleMutation,
 } from '../../common/hooks';
 import {
   getCreateInventorySetting,
@@ -161,8 +160,6 @@ function LayerPOLine({
   const locationStateInstanceId = locationState?.instanceId;
   const isCreateFromInstance = Boolean(locationStateInstanceId);
   const differentAccountsModalLabel = intl.formatMessage({ id: 'ui-orders.differentAccounts.title' });
-
-  const { mutateTitle } = useTitleMutation();
 
   /* Queries */
   const {
@@ -362,7 +359,6 @@ function LayerPOLine({
   const submitPOLine = useCallback(async (lineValues) => {
     const {
       [SUBMIT_ACTION_FIELD]: submitAction,
-      isAcknowledged,
       ...line
     } = lineValues;
 
@@ -418,17 +414,6 @@ function LayerPOLine({
 
       setSavingValues();
 
-      if (isAcknowledged) {
-        try {
-          await mutateTitle(savedLine.id);
-        } catch {
-          sendCallout({
-            message: <FormattedMessage id="ui-orders.title.actions.update.error" />,
-            type: 'error',
-          });
-        }
-      }
-
       return history.push({
         pathname,
         search,
@@ -462,7 +447,6 @@ function LayerPOLine({
     isCreateFromInstance,
     openOrder,
     locationStateInstanceId,
-    mutateTitle,
     handleErrorResponse,
     toggleNotUnique,
     toggleDifferentAccountModal,
