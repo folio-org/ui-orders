@@ -60,6 +60,7 @@ class ItemForm extends Component {
     required: PropTypes.bool,
     hiddenFields: PropTypes.object,
     isCreateFromInstance: PropTypes.bool,
+    lineId: PropTypes.string,
   };
 
   static defaultProps = {
@@ -290,6 +291,7 @@ class ItemForm extends Component {
       isCreateFromInstance,
       required,
       hiddenFields,
+      lineId,
     } = this.props;
     const isPackage = Boolean(formValues?.isPackage);
     const isSelectInstanceVisible = !(isPackage || isPostPendingOrder || isCreateFromInstance);
@@ -357,27 +359,29 @@ class ItemForm extends Component {
               </VisibilityControl>
             </Col>
           </IfFieldVisible>
-          <IfFieldVisible
-            name={POL_FORM_FIELDS.isAcknowledged}
-            visible={!hiddenFields.isAcknowledged}
-          >
-            <Col
-              xs={6}
-              md={3}
+          {!lineId && (
+            <IfFieldVisible
+              name={POL_FORM_FIELDS.isAcknowledged}
+              visible={!hiddenFields.isAcknowledged}
             >
-              <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.isAcknowledged}`}>
-                <Field
-                  component={Checkbox}
-                  fullWidth
-                  label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
-                  name={POL_FORM_FIELDS.isAcknowledged}
-                  type="checkbox"
-                  vertical
-                  validateFields={[]}
-                />
-              </VisibilityControl>
-            </Col>
-          </IfFieldVisible>
+              <Col
+                xs={6}
+                md={3}
+              >
+                <VisibilityControl name={`hiddenFields.${POL_FORM_FIELDS.isAcknowledged}`}>
+                  <Field
+                    component={Checkbox}
+                    fullWidth
+                    label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
+                    name={POL_FORM_FIELDS.isAcknowledged}
+                    type="checkbox"
+                    vertical
+                    validateFields={[]}
+                  />
+                </VisibilityControl>
+              </Col>
+            </IfFieldVisible>
+          )}
         </Row>
         <Row>
           <IfFieldVisible

@@ -69,7 +69,6 @@
 * Add translation for the `thereAreRequestsOnItem` error code. Refs UIOR-1498.
 * Translate static values. Refs UIOR-1518.
 * Improve error message for order prefix and suffix name in settings. Refs UIOR-1514.
-* Include "Must acknowledge receiving note" field value (`details.isAcknowledged`) in the POL payload. Refs UIOR-1527.
 
 ## [8.0.5](https://github.com/folio-org/ui-orders/tree/v8.0.5) (2025-06-30)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.4...v8.0.5)

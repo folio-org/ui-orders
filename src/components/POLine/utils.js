@@ -101,7 +101,6 @@ export const getPoLineFieldsLabelMap = ({
     'instanceId': 'ui-orders.itemDetails.instanceId',
     'titleOrPackage': `ui-orders.itemDetails.${isPackage ? 'packageName' : 'title'}`,
     'details.receivingNote': 'ui-orders.itemDetails.receivingNote',
-    'details.isAcknowledged': 'ui-orders.itemDetails.isAcknowledged',
     'details.subscriptionFrom': 'ui-orders.itemDetails.subscriptionFrom',
     'details.subscriptionTo': 'ui-orders.itemDetails.subscriptionTo',
     'details.subscriptionInterval': 'ui-orders.itemDetails.subscriptionInterval',

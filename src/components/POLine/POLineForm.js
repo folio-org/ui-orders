@@ -525,6 +525,7 @@ function POLineForm({
                               stripes={stripes}
                               hiddenFields={hiddenFields}
                               isCreateFromInstance={isCreateFromInstance}
+                              lineId={lineId}
                             />
                           </Accordion>
                           <Accordion
