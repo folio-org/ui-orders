@@ -63,20 +63,6 @@ const ItemView = ({
           </Col>
         </IfVisible>
 
-        <IfVisible visible={!hiddenFields.details?.isAcknowledged}>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <Checkbox
-              checked={poLineDetails.details?.isAcknowledged}
-              disabled
-              label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
-              vertical
-            />
-          </Col>
-        </IfVisible>
-
         <IfVisible visible={!hiddenFields.details?.subscriptionFrom}>
           <Col
             xs={6}

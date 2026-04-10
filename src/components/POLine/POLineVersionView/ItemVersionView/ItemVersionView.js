@@ -63,17 +63,6 @@ export const ItemVersionView = ({ version }) => {
           xs={6}
           lg={3}
         >
-          <VersionCheckbox
-            name={POL_FORM_FIELDS.isAcknowledged}
-            checked={version?.details?.isAcknowledged}
-            label={<FormattedMessage id="ui-orders.itemDetails.isAcknowledged" />}
-          />
-        </Col>
-
-        <Col
-          xs={6}
-          lg={3}
-        >
           <VersionKeyValue
             name={POL_FORM_FIELDS.subscriptionFrom}
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
