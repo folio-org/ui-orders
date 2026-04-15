@@ -952,5 +952,6 @@
     "settings.customFields.purchaseOrderLines.label": "自定义字段 - 采购订单行",
     "line.holdings.deleteModal.message": "此采购订单行与典藏中记录关联。修改后，将不再有其他采购订单行、件或单件与相关的馆藏记录关联。更改完成后，是否希望FOLIO删除馆藏记录？",
     "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
-    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
+    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding.",
+    "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "Name must be less than {count, number} alphanumeric characters"
 }

@@ -890,7 +890,7 @@
     "routing.list.accordion.create.button": "Adicionar lista de roteamento",
     "poLine.isBinderyActive": "Encadernação ativa",
     "routing.list.accordion.tokens.description": "Para garantir que os dados relacionados ao usuário sejam analisados corretamente pelo editor de rich text, use <b>'{{#users}}'</b> no início e <b>'{{/users}}'</b> no final, inserindo <i>'{{firstName}}', '{{lastName}}', '{{routingAddress}}'</i> entre esses tokens. {br} Ex: <i><b>'{{#users}}'</b> '{{firstName}}' '{{lastName}}' - '{{routingAddress}}' <b>'{{/users}}'</b></i>",
-    "line.changeInstance.relatedItems.error": "Falha ao carregar itens para locatário(s): <b>{tenants}</b>",
+    "line.changeInstance.relatedItems.error": "Falha ao carregar itens para inquilino(s): <b>{tenants}</b>",
     "orderSummary.totalCredited": "Total creditado",
     "errors.userHasMissedAffiliations": "A operação falhou. Este registro tem afiliações de localização que seu usuário não tem. Essas afiliações devem ser removidas ou a operação deve ser realizada por um usuário que tenha as mesmas afiliações que o registro.",
     "errors.budgetNotFoundForFiscalYear": "O pedido não pode ser aberto porque não há orçamento atual para o(s) fundo(s) <b>{fundCodes}</b> para o ano fiscal <b>{fiscalYearCode}</b>.",
@@ -947,10 +947,11 @@
     "errors.ordersNotLoadedGeneric": "Erro ao carregar os pedidos de compra.",
     "errors.tooLargeRequest": "A solicitação de busca é muito grande. Reduza o número de filtros ou encurte o termo de pesquisa e tente novamente.",
     "relatedInvoices.invoiceAmount": "Valor da fatura",
-    "poLine.fundDistribution.expenseClass.modal.message": "Alterar essa classe de despesa não atualizará a distribuição de fundos da linha de fatura correspondente. Se você deseja que a classe de despesa na linha da fatura corresponda, é necessário atualizar a distribuição de fundos da linha de fatura correspondente no aplicativo de fatura.",
+    "poLine.fundDistribution.expenseClass.modal.message": "Alterar essa classe de despesa não atualizará a distribuição de fundos da linha de fatura correspondente. Se você deseja que a classe de despesa na linha da fatura corresponda, é necessário atualizar a distribuição de fundos da linha de fatura correspondente no aplicativo de Fatura.",
     "settings.customFields.purchaseOrders.label": "Campos personalizados - pedidos de compra",
     "settings.customFields.purchaseOrderLines.label": "Campos personalizados - linhas de pedido de compra",
-    "line.holdings.deleteModal.message": "Esta linha de pedido de compra está conectada a registros no inventário. Após essa edição, não haverá outras linhas de pedido de compra, partes OU itens conectados ao(s) registro(s) de Acervo relacionado(s). Depois de fazer essa alteração, você gostaria que o FOLIO excluísse o(s) registro(s) de Acervo?",
+    "line.holdings.deleteModal.message": "Esta linha de pedido de compra está conectada a registros no inventário. Após essa edição, não haverá outras linhas de pedido de compra, partes OU itens conectados ao(s) registro(s) de Acervo relacionado(s). Depois de fazer essa alteração, você gostaria que o FOLIO excluísse o(s) registro(s) de Coleção?",
     "errors.poNumberPatternMismatch": "O número do pedido de compra não deve ser maior que {count, number} caracteres alfanuméricos",
-    "errors.thereAreRequestsOnItem": "O pedido não pôde ser salvo porque existem solicitações associadas. Exclua as solicitações antes de prosseguir."
+    "errors.thereAreRequestsOnItem": "O pedido não pôde ser salvo porque existem solicitações associadas. Exclua as solicitações antes de prosseguir.",
+    "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "O nome deve ter menos de {count, number} caracteres alfanuméricos"
 }
