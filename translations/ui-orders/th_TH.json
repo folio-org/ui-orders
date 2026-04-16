@@ -952,5 +952,6 @@
     "settings.customFields.purchaseOrderLines.label": "Custom fields - purchase order lines",
     "line.holdings.deleteModal.message": "รายการใบสั่งซื้อ (PO Line) นี้เชื่อมต่อกับระเบียนในคลังทรัพยากร หลังจากแก้ไขแล้วจะไม่มีรายการใบสั่งซื้อ ชิ้นส่วน หรือรายการอื่นใดที่เชื่อมต่อกับระเบียนชุดทรัพยากร (Holdings) ที่เกี่ยวข้องอีก หลังจากทำการเปลี่ยนแปลงนี้ คุณต้องการให้ FOLIO ลบระเบียนชุดทรัพยากรดังกล่าวหรือไม่",
     "errors.poNumberPatternMismatch": "หมายเลข PO ต้องไม่ยาวเกิน {count, number} อักขระตัวอักษรและตัวเลข",
-    "errors.thereAreRequestsOnItem": "ไม่สามารถบันทึกคำสั่งซื้อได้เนื่องจากมีคำขอที่เกี่ยวข้อง โปรดลบคำขอก่อนดำเนินการต่อ"
+    "errors.thereAreRequestsOnItem": "ไม่สามารถบันทึกคำสั่งซื้อได้เนื่องจากมีคำขอที่เกี่ยวข้อง โปรดลบคำขอก่อนดำเนินการต่อ",
+    "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "Name must be less than {count, number} alphanumeric characters"
 }

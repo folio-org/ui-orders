@@ -951,6 +951,7 @@
     "settings.customFields.purchaseOrders.label": "Maatwerk velden - inkooporders",
     "settings.customFields.purchaseOrderLines.label": "Maatwerk velden - Regel purchase order",
     "line.holdings.deleteModal.message": "Deze PO regel is verbonden met Records in de inventaris. Na deze bewerking zijn er geen andere Regel purchase orders, Stukken OF artikelen meer verbonden met de Gerelateerd Holdingsrecord(s). Wilt u dat FOLIO na deze wijziging de Holdingsrecords verwijdert?",
-    "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
-    "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding."
+    "errors.poNumberPatternMismatch": "Het PO-nummer mag niet langer zijn dan {count, number} alfanumerieke tekens",
+    "errors.thereAreRequestsOnItem": "Bestelling kon niet worden opgeslagen omdat er aanverwante aanvragen zijn. Verwijder de Aanvragen voordat u verder gaat.",
+    "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "Name must be less than {count, number} alphanumeric characters"
 }
