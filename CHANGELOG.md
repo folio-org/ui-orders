@@ -1,6 +1,9 @@
 # Change history for ui-orders
 
-## 9.0.0 (IN PROGRESS)
+## 9.1.0 (IN PROGRESS)
+
+## [9.0.0](https://github.com/folio-org/ui-orders/tree/v9.0.0) (2026-04-17)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.5...v9.0.0)
 
 * Provide `signal` from `useQuery` function to the http client (ky). Refs UIOR-1363.
 * Allow editing of the "Notes on closure" field for PO in the "Closed" workflow status. Refs UIOR-1105.
