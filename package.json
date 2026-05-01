@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -614,7 +614,7 @@
     "redux": "*"
   },
   "optionalDependencies": {
-    "@folio/plugin-find-instance": "^9.0.0",
+    "@folio/plugin-find-instance": "^10.0.0",
     "@folio/plugin-find-organization": "^6.0.0",
     "@folio/plugin-find-user": "^8.0.0"
   }
