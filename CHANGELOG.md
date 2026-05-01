@@ -2,6 +2,11 @@
 
 ## 9.1.0 (IN PROGRESS)
 
+## [9.0.1](https://github.com/folio-org/ui-orders/tree/v9.0.1) (2026-05-01)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.0...v9.0.1)
+
+* Update `@folio/plugin-find-instance` version to `^10.0.0`.
+
 ## [9.0.0](https://github.com/folio-org/ui-orders/tree/v9.0.0) (2026-04-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.5...v9.0.0)
 
