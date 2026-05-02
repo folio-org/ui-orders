@@ -953,5 +953,5 @@
     "line.holdings.deleteModal.message": "Deze PO regel is verbonden met Records in de inventaris. Na deze bewerking zijn er geen andere Regel purchase orders, Stukken OF artikelen meer verbonden met de Gerelateerd Holdingsrecord(s). Wilt u dat FOLIO na deze wijziging de Holdingsrecords verwijdert?",
     "errors.poNumberPatternMismatch": "Het PO-nummer mag niet langer zijn dan {count, number} alfanumerieke tekens",
     "errors.thereAreRequestsOnItem": "Bestelling kon niet worden opgeslagen omdat er aanverwante aanvragen zijn. Verwijder de Aanvragen voordat u verder gaat.",
-    "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "Name must be less than {count, number} alphanumeric characters"
+    "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "De naam moet kleiner zijn dan {count, number} alfanumerieke tekens"
 }
