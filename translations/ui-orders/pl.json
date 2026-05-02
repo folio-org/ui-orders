@@ -953,5 +953,5 @@
     "line.holdings.deleteModal.message": "This PO Line is connected to records in inventory. After this edit there will be no other purchase order lines, pieces OR items connected to the related Holdings record(s). After making this change would you like FOLIO to delete the Holdings record(s)?",
     "errors.poNumberPatternMismatch": "PO Number must not be longer than {count, number} alphanumeric characters",
     "errors.thereAreRequestsOnItem": "Order could not be saved because there are associated requests. Please delete the requests before proceeding.",
-    "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "Name must be less than {count, number} alphanumeric characters"
+    "settings.poNumber.validation.prefixOrSuffixPatternMismatch": "Nazwa musi mieć mniej niż {count, number} znaków alfanumerycznych"
 }
