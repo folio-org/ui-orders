@@ -2,6 +2,7 @@
 
 ## 9.1.0 (IN PROGRESS)
 * PO line cannot be deleted from Order lines toggle. Refs UIOR-1539.
+* Save button is active after opening order template from. Refs UIOR-1542.
 
 ## [9.0.0](https://github.com/folio-org/ui-orders/tree/v9.0.0) (2026-04-17)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v8.0.5...v9.0.0)

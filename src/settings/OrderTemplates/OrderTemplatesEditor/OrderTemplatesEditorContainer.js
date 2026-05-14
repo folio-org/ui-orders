@@ -52,7 +52,7 @@ import { useOrderTemplate } from '../../../common/hooks';
 import { useOrderTemplateCategories } from '../../hooks';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
-const INITIAL_VALUES = { isPackage: false, hideAll: false };
+const INITIAL_VALUES = { isPackage: false, hideAll: false, donorOrganizationIds: [] };
 
 const sanitizeValues = (values) => {
   const sanitizedValues = { ...values };
