@@ -116,7 +116,7 @@ const OrderLineDetails = ({
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [lineId, location.search, showToast],
+    [line?.poLineNumber, location.search, showToast],
   );
 
   const cancelLine = useCallback(

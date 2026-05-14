@@ -1,6 +1,7 @@
 # Change history for ui-orders
 
 ## 9.1.0 (IN PROGRESS)
+* PO line cannot be deleted from Order lines toggle. Refs UIOR-1539.
 
 ## [9.0.1](https://github.com/folio-org/ui-orders/tree/v9.0.1) (2026-05-01)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.0...v9.0.1)
