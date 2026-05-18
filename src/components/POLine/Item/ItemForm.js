@@ -362,7 +362,7 @@ class ItemForm extends Component {
           {!lineId && (
             <IfFieldVisible
               name={POL_FORM_FIELDS.isAcknowledged}
-              visible={!hiddenFields.isAcknowledged}
+              visible={!hiddenFields.details?.isAcknowledged}
             >
               <Col
                 xs={6}
