@@ -5,6 +5,7 @@ import {
   useCallback,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
@@ -118,9 +119,9 @@ const OrderTemplatesEditor = ({
   suffixesSetting,
   title,
   values: formValues,
-  vendors,
 }) => {
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
+  const [vendor, setVendor] = useState();
 
   const accordionStatusRef = useRef();
 
@@ -167,8 +168,7 @@ const OrderTemplatesEditor = ({
 
   const estimatedPrice = calculateEstimatedPrice(formValues);
   const currency = cost?.currency || stripes.currency;
-  const vendor = vendors?.find(v => v.id === formValues.vendor);
-  const accounts = vendor?.accounts.map(({ name, accountNo }) => ({
+  const accounts = vendor?.accounts?.map(({ name, accountNo }) => ({
     label: `${name} (${accountNo})`,
     value: accountNo,
   }));
@@ -264,6 +264,7 @@ const OrderTemplatesEditor = ({
                           prefixesSetting={prefixesSetting}
                           suffixesSetting={suffixesSetting}
                           addresses={addresses}
+                          setVendor={setVendor}
                         />
                       </Accordion>
 
@@ -521,7 +522,6 @@ OrderTemplatesEditor.propTypes = {
   suffixesSetting: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.node,
   values: PropTypes.object.isRequired,
-  vendors: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default flow(
