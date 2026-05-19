@@ -55,16 +55,6 @@ const defaultProps = {
         value: {},
       }],
     },
-    vendors: {
-      records: [{
-        isVendor: true,
-        status: 'Active',
-        accounts: [{
-          name: 'accountName',
-          accountNo: 'accountNo',
-        }],
-      }],
-    },
     prefixesSetting: {
       records: [{
         name: 'prefixName',

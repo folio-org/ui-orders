@@ -30,7 +30,6 @@ import {
   IDENTIFIER_TYPES,
   FUND,
   CREATE_INVENTORY,
-  VENDORS,
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
   CONTRIBUTOR_NAME_TYPES,
@@ -44,7 +43,6 @@ import {
   getCommonErrorMessage,
 } from '../../../common/utils';
 import {
-  ORGANIZATION_STATUS_ACTIVE,
   PO_FORM_FIELDS,
   PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE,
 } from '../../../common/constants';
@@ -123,8 +121,6 @@ function OrderTemplatesEditorContainer({
   const identifierTypes = getIdentifierTypesForSelect(get(resources, [DICT_IDENTIFIER_TYPES, 'records'], []));
   const contributorNameTypes = getContributorNameTypesForSelect(resources?.contributorNameTypes?.records);
   const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
-  const vendors = get(resources, 'vendors.records', [])
-    .filter(({ isVendor, status }) => isVendor && status === ORGANIZATION_STATUS_ACTIVE);
   const prefixesSetting = get(resources, 'prefixesSetting.records', [])
     .map(({ name }) => ({ label: name, value: name }));
   const suffixesSetting = get(resources, 'suffixesSetting.records', [])
@@ -169,7 +165,6 @@ function OrderTemplatesEditorContainer({
         suffixesSetting={suffixesSetting}
         addresses={addresses}
         materialTypes={materialTypes}
-        vendors={vendors}
         contributorNameTypes={contributorNameTypes}
         stripes={stripes}
         centralOrdering={isCentralOrderingEnabled}
@@ -185,7 +180,6 @@ OrderTemplatesEditorContainer.manifest = Object.freeze({
   createInventory: CREATE_INVENTORY,
   prefixesSetting: prefixesResource,
   suffixesSetting: suffixesResource,
-  vendors: VENDORS,
   materialTypes: MATERIAL_TYPES,
   orderTemplate: {
     ...ORDER_TEMPLATE,

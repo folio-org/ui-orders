@@ -37,6 +37,7 @@ const PurchaseOrderInformationForm = ({
   addresses,
   prefixesSetting,
   suffixesSetting,
+  setVendor,
 }) => {
   const {
     batch,
@@ -55,6 +56,10 @@ const PurchaseOrderInformationForm = ({
   }, [change]);
 
   const onSelectVendor = useCallback((vendor) => {
+    if (setVendor) {
+      setVendor(vendor);
+    }
+
     if (!vendor?.id) return;
 
     const formValues = getState().values;
@@ -62,7 +67,7 @@ const PurchaseOrderInformationForm = ({
     batch(() => {
       getOrganizationSelectHandler(change, formValues)(vendor);
     });
-  }, [batch, change, getState]);
+  }, [batch, change, getState, setVendor]);
 
   return (
     <Row>
@@ -178,6 +183,7 @@ PurchaseOrderInformationForm.propTypes = {
   addresses: PropTypes.arrayOf(PropTypes.object),
   prefixesSetting: PropTypes.arrayOf(PropTypes.object),
   suffixesSetting: PropTypes.arrayOf(PropTypes.object),
+  setVendor: PropTypes.func,
 };
 
 export default PurchaseOrderInformationForm;
