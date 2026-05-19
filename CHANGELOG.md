@@ -8,6 +8,7 @@
 * PO line cannot be deleted from Order lines toggle. Refs UIOR-1539.
 * Save button is active after opening order template from. Refs UIOR-1542.
 * 'Must acknowledge receiving note' checkbox remains visible despite being hidden in the order template. Refs UIOR-1543.
+* Only one vendor account is displayed in Order template. Refs UIOR-1546.
 
 ## [9.0.1](https://github.com/folio-org/ui-orders/tree/v9.0.1) (2026-05-01)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.0...v9.0.1)

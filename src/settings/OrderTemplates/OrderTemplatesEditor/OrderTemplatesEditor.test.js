@@ -82,14 +82,6 @@ const defaultProps = {
     { id: '2', name: 'Category 2' },
     { id: '3', name: 'Category 3' },
   ],
-  vendors: [{
-    isVendor: true,
-    status: 'Active',
-    accounts: [{
-      name: 'accountName',
-      accountNo: 'accountNo',
-    }],
-  }],
   prefixesSetting: [{
     name: 'prefixName',
   }],
