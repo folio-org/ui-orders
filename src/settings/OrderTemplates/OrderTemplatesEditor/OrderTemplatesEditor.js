@@ -107,6 +107,7 @@ const OrderTemplatesEditor = ({
   handleSubmit,
   identifierTypes,
   initialValues,
+  initialVendor,
   isLoading,
   locationIds,
   locations,
@@ -121,7 +122,7 @@ const OrderTemplatesEditor = ({
   values: formValues,
 }) => {
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
-  const [vendor, setVendor] = useState();
+  const [vendor, setVendor] = useState(initialVendor);
 
   const accordionStatusRef = useRef();
 
