@@ -1,6 +1,10 @@
 # Change history for ui-orders
 
 ## 9.1.0 (IN PROGRESS)
+
+## [9.0.2](https://github.com/folio-org/ui-orders/tree/v9.0.2) (2026-05-20)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.1...v9.0.2)
+
 * PO line cannot be deleted from Order lines toggle. Refs UIOR-1539.
 * Save button is active after opening order template from. Refs UIOR-1542.
 * 'Must acknowledge receiving note' checkbox remains visible despite being hidden in the order template. Refs UIOR-1543.
