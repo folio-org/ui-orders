@@ -46,8 +46,13 @@ import {
   PO_FORM_FIELDS,
   PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE,
 } from '../../../common/constants';
-import { useOrderTemplate } from '../../../common/hooks';
-import { useOrderTemplateCategories } from '../../hooks';
+import {
+  useOrderTemplate,
+  useVendor,
+} from '../../../common/hooks';
+import {
+  useOrderTemplateCategories,
+} from '../../hooks';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 const INITIAL_VALUES = { isPackage: false, hideAll: false, donorOrganizationIds: [] };
@@ -100,6 +105,10 @@ function OrderTemplatesEditorContainer({
     isFetching: isOrderTemplateFetching,
     orderTemplate,
   } = useOrderTemplate(id);
+  const {
+    isLoading: isOrderTemplateVendorLoading,
+    vendor: orderTemplateVendor,
+  } = useVendor(orderTemplate?.vendor);
 
   const {
     isLoading: isLocationsLoading,
@@ -139,6 +148,7 @@ function OrderTemplatesEditorContainer({
 
   const isLoading = (
     isOrderTemplateFetching
+    || isOrderTemplateVendorLoading
     || isLocationsLoading
     || isOrderTemplateCategoriesLoading
     || isAddressesLoading
@@ -157,6 +167,7 @@ function OrderTemplatesEditorContainer({
         close={close}
         funds={funds}
         initialValues={initialValues}
+        initialVendor={orderTemplateVendor}
         identifierTypes={identifierTypes}
         locationIds={locationIds}
         locations={locations}
