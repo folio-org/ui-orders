@@ -1,10 +1,11 @@
 export const noExpenseClassesStrategy = ({ callout }) => {
   const handle = (errorsContainer) => {
-    const fundCode = errorsContainer.getError().getParameter('fundCode');
-    const expenseClassName = errorsContainer.getError().getParameter('expenseClassName');
+    const error = errorsContainer.getError();
+    const fundCode = error.getParameter('fundCode');
+    const expenseClassName = error.getParameter('expenseClassName');
 
     callout.sendCallout({
-      messageId: `ui-orders.errors.${errorsContainer.code}`,
+      messageId: `ui-orders.errors.${error.code}`,
       type: 'error',
       values: { fundCode, expenseClassName },
     });
