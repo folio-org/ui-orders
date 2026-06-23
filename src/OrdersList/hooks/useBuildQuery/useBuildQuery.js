@@ -33,8 +33,8 @@ export function useBuildQuery(customFields) {
         },
         [FILTERS.TAGS]: buildMultiSelectionCqlQuery.bind(null, FILTERS.TAGS),
         [FILTERS.ACQUISITIONS_UNIT]: buildMultiSelectionCqlQuery.bind(null, FILTERS.ACQUISITIONS_UNIT),
-        [FILTERS.FUND_CODE]: buildRelationModifierQuery.bind(null, FILTERS.FUND_CODE, 'fundId'),
-        [FILTERS.RENEWAL_REVIEW_PERIOD]: (filterValue) => `${FILTERS.RENEWAL_REVIEW_PERIOD} =/number "${filterValue}"`,
+        [FILTERS.FUND_CODE]: buildRelationModifierQuery.bind(null, FILTERS.FUND_CODE, '@fundId'),
+        [FILTERS.RENEWAL_REVIEW_PERIOD]: buildRelationModifierQuery.bind(null, FILTERS.RENEWAL_REVIEW_PERIOD, 'number'),
         ...customFieldsFilterMap,
       },
     )(queryParams, options);
