@@ -1,9 +1,9 @@
 # Change history for ui-orders
 
-## 9.1.0 (IN PROGRESS)
+## 10.0.0 (IN PROGRESS)
 
 * Fix the `budgetExpenseClassNotFound` error handling. Refs UIOR-1552.
-* Update CQL queries to use the new indices. Refs UIOR-1519.
+* *BREAKING* Update CQL queries to use the new indices. Refs UIOR-1519.
 
 ## [9.0.4](https://github.com/folio-org/ui-orders/tree/v9.0.4) (2026-05-26)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.3...v9.0.4)
