@@ -85,6 +85,7 @@ export const POL_FORM_FIELDS = {
 
   /* Ongoing order details */
   renewalNote: 'renewalNote',
+  multiYearPayment: 'multiYearPayment',
 };
 
 export const PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE = [POL_FORM_FIELDS.locations];

@@ -149,6 +149,7 @@ export const getPoLineFieldsLabelMap = ({
 
     // Ongoing PO details fields
     'renewalNote': 'ui-orders.poLine.renewalNote',
+    'multiYearPayment': 'ui-orders.poLine.multiYearPayment',
 
     // Vendor details fields
     'vendorDetail.noteFromVendor': 'ui-orders.vendor.referenceNumbers',

@@ -557,6 +557,8 @@
   "poLine.location": "POL location",
   "poLine.manualPO.info": "This is a Manual PO so all POLs are excluded from automated export workflows",
   "poLine.materialType": "Material type",
+  "poLine.multiYearPayment": "Multi-year prepayment",
+  "poLine.multiYearPayment.infoPopover": "<p>Select <b>Multi-year prepayment</b> if paying for orders over multiple fiscal years.</p><p>When selected, the fields for <b>Prepayment term</b> and <b>Starting fiscal year</b> will become enabled. The fields within the <b>Payment terms</b> accordion will also become enabled.</p>",
   "poLine.notes": "POL notes",
   "poLine.orderFormat": "Order format",
   "poLine.paymentStatus": "Payment status",
