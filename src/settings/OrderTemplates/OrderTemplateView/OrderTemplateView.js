@@ -363,7 +363,10 @@ const OrderTemplateView = (props) => {
                       label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]}
                       id={ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER}
                     >
-                      <OngoingOrderView renewalNote={orderTemplate.renewalNote} />
+                      <OngoingOrderView
+                        multiYearPayment={orderTemplate.multiYearPayment}
+                        renewalNote={orderTemplate.renewalNote}
+                      />
                     </Accordion>
                   )}
 

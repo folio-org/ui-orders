@@ -439,8 +439,9 @@ const POLineView = ({
                     id={ACCORDION_ID.ongoingOrder}
                   >
                     <OngoingOrderView
-                      renewalNote={line.renewalNote}
+                      multiYearPayment={line.multiYearPayment}
                       hiddenFields={hiddenFields}
+                      renewalNote={line.renewalNote}
                     />
                   </Accordion>
                 )}
