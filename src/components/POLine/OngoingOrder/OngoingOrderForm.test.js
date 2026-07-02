@@ -27,5 +27,6 @@ describe('OngoingOrderForm', () => {
     renderOngoingOrderForm();
 
     expect(screen.getByText('ui-orders.poLine.renewalNote')).toBeInTheDocument();
+    expect(screen.getByText('ui-orders.poLine.multiYearPayment')).toBeInTheDocument();
   });
 });
