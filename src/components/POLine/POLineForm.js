@@ -99,6 +99,7 @@ import { ItemForm } from './Item';
 import LocationForm from './Location/LocationForm';
 import { OngoingOrderForm } from './OngoingOrder';
 import { OtherForm } from './Other';
+import { PaymentTermsFormContainer } from './PaymentTerms';
 import { PhysicalForm } from './Physical';
 import { POLineDetailsForm } from './POLineDetails';
 import { VendorForm } from './Vendor';
@@ -147,6 +148,8 @@ function POLineForm({
   const fundDistribution = get(formValues, POL_FORM_FIELDS.fundDistribution, []);
   const lineLocations = get(formValues, POL_FORM_FIELDS.locations, []);
   const instanceId = formValues.instanceId;
+  const isOrderOngoing = isOngoing(order.orderType);
+  const isMultiYearPaymentActive = Boolean(formValues.multiYearPayment);
 
   const fundsMap = useMemo(() => keyBy(fundsRecords, 'id'), [fundsRecords]);
 
@@ -354,6 +357,11 @@ function POLineForm({
   ), [formErrors]);
   const errorAccordionStatus = useErrorAccordionStatus({ errors, fieldsMap: MAP_FIELD_ACCORDION });
 
+  const accordionsInitialStatus = useMemo(() => ({
+    ...INITIAL_SECTIONS,
+    [ACCORDION_ID.paymentTerms]: isMultiYearPaymentActive,
+  }), [isMultiYearPaymentActive]);
+
   const lineNumber = get(initialValues, 'poLineNumber', '');
   const firstMenu = getAddFirstMenu();
   const paneTitle = lineId
@@ -505,7 +513,7 @@ function POLineForm({
                         />
 
                         <AccordionSet
-                          initialStatus={INITIAL_SECTIONS}
+                          initialStatus={accordionsInitialStatus}
                           accordionStatus={{ ...status, ...errorAccordionStatus }}
                         >
                           <Accordion
@@ -560,13 +568,14 @@ function POLineForm({
                               />
                             </Accordion>
                           </IfFieldVisible>
-                          {isOngoing(order.orderType) && (
+                          {isOrderOngoing && (
                             <Accordion
                               label={<FormattedMessage id="ui-orders.line.accordion.ongoingOrder" />}
                               id={ACCORDION_ID.ongoingOrder}
                             >
                               <OngoingOrderForm
                                 hiddenFields={hiddenFields}
+                                order={order}
                               />
                             </Accordion>
                           )}
@@ -615,6 +624,20 @@ function POLineForm({
                               />
                             </Accordion>
                           </IfFieldVisible>
+
+                          {isOrderOngoing && (
+                            <IfFieldVisible
+                              visible={!hiddenFields?.paymentTerms}
+                              name="paymentTerms"
+                            >
+                              <Accordion
+                                label={<FormattedMessage id="ui-orders.line.accordion.paymentTerms" />}
+                                id={ACCORDION_ID.paymentTerms}
+                              >
+                                <PaymentTermsFormContainer order={order} />
+                              </Accordion>
+                            </IfFieldVisible>
+                          )}
 
                           <IfFieldVisible
                             visible={!hiddenFields?.locations}

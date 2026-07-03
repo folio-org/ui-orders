@@ -15,8 +15,14 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { POL_FORM_FIELDS } from '../../../common/constants';
+import { isWorkflowStatusNotPending } from '../../PurchaseOrder/util';
 
-const OngoingOrderForm = ({ hiddenFields = {} }) => {
+const OngoingOrderForm = ({
+  hiddenFields = {},
+  order,
+}) => {
+  const isPostPendingOrder = order && isWorkflowStatusNotPending(order);
+
   return (
     <Row>
       <IfFieldVisible
@@ -50,6 +56,7 @@ const OngoingOrderForm = ({ hiddenFields = {} }) => {
           <VisibilityControl name="hiddenFields.multiYearPayment">
             <Field
               component={Checkbox}
+              disabled={isPostPendingOrder}
               fullWidth
               label={(
                 <>
@@ -71,6 +78,9 @@ const OngoingOrderForm = ({ hiddenFields = {} }) => {
 
 OngoingOrderForm.propTypes = {
   hiddenFields: PropTypes.object,
+  order: PropTypes.shape({
+    workflowStatus: PropTypes.string.isRequired,
+  }),
 };
 
 export default OngoingOrderForm;

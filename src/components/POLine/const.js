@@ -12,6 +12,7 @@ export const ACCORDION_ID = {
   costDetails: 'costDetails',
   eresources: 'eresources',
   fundDistribution: 'fundDistributionAccordion',
+  paymentTerms: 'paymentTerms',
   itemDetails: 'itemDetails',
   lineDetails: 'lineDetails',
   location: 'location',
