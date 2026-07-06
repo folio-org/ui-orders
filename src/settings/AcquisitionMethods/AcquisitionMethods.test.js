@@ -42,4 +42,31 @@ describe('AcquisitionMethods', () => {
       />,
     );
   });
+
+  it('should allow editing all rows and suppress delete only for System methods', () => {
+    renderAcquisitionMethods();
+
+    const { actionSuppressor } = ControlledVocab.mock.calls[0][0];
+
+    // EditableListForm requires both keys to be callable
+    expect(typeof actionSuppressor.edit).toBe('function');
+    expect(typeof actionSuppressor.delete).toBe('function');
+
+    // Edit is never suppressed (System rows must be editable to toggle the deprecated flag)
+    expect(actionSuppressor.edit({ source: 'System' })).toBe(false);
+    expect(actionSuppressor.edit({ source: 'User' })).toBe(false);
+
+    // Delete is suppressed for System, allowed for User
+    expect(actionSuppressor.delete({ source: 'System' })).toBe(true);
+    expect(actionSuppressor.delete({ source: 'User' })).toBe(false);
+  });
+
+  it('should keep the name read-only for System methods only', () => {
+    renderAcquisitionMethods();
+
+    const { getReadOnlyFieldsForItem } = ControlledVocab.mock.calls[0][0];
+
+    expect(getReadOnlyFieldsForItem({ source: 'System' })).toEqual(['value']);
+    expect(getReadOnlyFieldsForItem({ source: 'User' })).toEqual([]);
+  });
 });

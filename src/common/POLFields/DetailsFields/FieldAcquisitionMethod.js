@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useField } from 'react-final-form';
 
 import {
   FieldSelectionFinal,
@@ -15,7 +16,17 @@ const FieldAcquisitionMethod = ({
   ...props
 }) => {
   const { acqMethods } = useAcqMethods();
-  const acquisitionMethods = useAcqMethodsOptions(acqMethods);
+  // Read only the acquisition-method field value so this field re-renders when it changes,
+  // rather than on every keystroke elsewhere in the form.
+  const { input: { value: selectedValue } } = useField(POL_FORM_FIELDS.acquisitionMethod, {
+    subscription: { value: true },
+  });
+
+  const acquisitionMethods = useAcqMethodsOptions(acqMethods, {
+    excludeDeprecated: true,
+    selectedValue,
+    withDeprecatedSuffix: true,
+  });
 
   return (
     <FieldSelectionFinal

@@ -25,6 +25,7 @@ const INVENTORY_FIELDS_TO_CLEAR = [
 ];
 
 export const buildInitialPOLineFormValues = ({
+  acqMethods,
   createInventorySetting,
   customFields,
   enabled,
@@ -45,6 +46,7 @@ export const buildInitialPOLineFormValues = ({
 
   const initialValues = template?.id
     ? buildInitialValuesBasedOnTemplate({
+      acqMethods,
       customFields,
       essentialInitialValues,
       template,
@@ -113,6 +115,7 @@ function buildInitialValuesWithoutTemplate({
 }
 
 function buildInitialValuesBasedOnTemplate({
+  acqMethods,
   customFields,
   essentialInitialValues,
   template,
@@ -134,6 +137,18 @@ function buildInitialValuesBasedOnTemplate({
 
     return acc;
   }, { ...essentialInitialValues });
+
+  /*
+    A deprecated acquisition method must not be carried over from a template into a new PO line:
+    clear it so the required field forces the user to re-pick an active method.
+  */
+  const deprecatedAcqMethodIds = new Set(
+    (acqMethods || []).filter(({ deprecated }) => deprecated).map(({ id }) => id),
+  );
+
+  if (deprecatedAcqMethodIds.has(initialValues[POL_FORM_FIELDS.acquisitionMethod])) {
+    unset(initialValues, POL_FORM_FIELDS.acquisitionMethod);
+  }
 
   return initialValues;
 }

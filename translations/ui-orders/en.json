@@ -892,9 +892,11 @@
   "settings.setPOLInesLimit": "Set purchase order lines limit",
 
   "settings.acquisitionMethods": "Acquisition methods",
+  "settings.acquisitionMethods.aria-label.deprecated": "Mark {name} as deprecated",
   "settings.acquisitionMethods.cannotDeleteTermHeader": "Cannot delete the acquisition method",
   "settings.acquisitionMethods.cannotDeleteTermMessage": "This acquisition method cannot be deleted, as it is in use by one or more records.",
   "settings.acquisitionMethods.deleteEntry": "Delete acquisition method",
+  "settings.acquisitionMethods.deprecated": "Deprecated",
   "settings.acquisitionMethods.name": "Name",
   "settings.acquisitionMethods.singular": "Acquisition method",
   "settings.acquisitionMethods.termDeleted": "The acquisition method <b>{term}</b> was successfully <b>deleted</b>",
