@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
+import { useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Card,
   Col,
-  KeyValue,
   Layout,
   NoValue,
   Row,
@@ -12,17 +12,13 @@ import {
 import {
   AmountWithCurrencyField,
   FundDistributionView,
-  IfVisible,
 } from '@folio/stripes-acq-components';
 
-const mclProps = {
-  visibleColumns: ['name', 'expenseClass', 'value', 'amount'],
-};
+import { VersionKeyValue } from '../../../../common/VersionView';
 
-export const PaymentTermsView = ({
+export const PaymentTermsVersionViewContent = ({
   currency,
   fiscalYearsMap,
-  hiddenFields = {},
   paymentTerms = {},
 }) => {
   const intl = useIntl();
@@ -34,35 +30,39 @@ export const PaymentTermsView = ({
     totalPrice,
   } = paymentTerms;
 
+  const mclProps = useMemo(() => ({
+    visibleColumns: ['name', 'expenseClass', 'value', 'amount'],
+  }), []);
+
   return (
     <>
       <Row start="xs">
-        <IfVisible visible={!hiddenFields.totalPrice}>
-          <Col xs={6} lg={3}>
-            <KeyValue label={intl.formatMessage({ id: 'ui-orders.poLine.paymentTerms.totalPrice' })}>
+        <Col xs={6} lg={3}>
+          <VersionKeyValue
+            name="paymentTerms.totalPrice"
+            label={<FormattedMessage id="ui-orders.poLine.paymentTerms.totalPrice" />}
+            value={(
               <AmountWithCurrencyField
                 currency={currency}
                 amount={totalPrice}
               />
-            </KeyValue>
-          </Col>
-        </IfVisible>
-        <IfVisible visible={!hiddenFields.prepaymentTerm}>
-          <Col xs={6} lg={3}>
-            <KeyValue
-              label={intl.formatMessage({ id: 'ui-orders.poLine.paymentTerms.prepaymentTerm' })}
-              value={prepaymentTerm ?? <NoValue />}
-            />
-          </Col>
-        </IfVisible>
-        <IfVisible visible={!hiddenFields.startingFiscalYearId}>
-          <Col xs={6} lg={3}>
-            <KeyValue
-              label={intl.formatMessage({ id: 'ui-orders.poLine.paymentTerms.startingFY' })}
-              value={fiscalYearsMap.get(startingFiscalYearId)?.code ?? <NoValue />}
-            />
-          </Col>
-        </IfVisible>
+            )}
+          />
+        </Col>
+        <Col xs={6} lg={3}>
+          <VersionKeyValue
+            name="paymentTerms.prepaymentTerm"
+            label={<FormattedMessage id="ui-orders.poLine.paymentTerms.prepaymentTerm" />}
+            value={prepaymentTerm ?? <NoValue />}
+          />
+        </Col>
+        <Col xs={6} lg={3}>
+          <VersionKeyValue
+            name="paymentTerms.startingFiscalYearId"
+            label={<FormattedMessage id="ui-orders.poLine.paymentTerms.startingFY" />}
+            value={fiscalYearsMap.get(startingFiscalYearId)?.code ?? <NoValue />}
+          />
+        </Col>
       </Row>
 
       {fiscalYearDistributions.map((entry, index) => {
@@ -85,6 +85,7 @@ export const PaymentTermsView = ({
                 currency={currency}
                 fundDistributions={entry.fundDistributions}
                 mclProps={mclProps}
+                name={`paymentTerms.fiscalYearDistributions[${index}].fundDistributions`}
                 totalAmount={totalPrice}
               />
             </Card>
@@ -95,10 +96,9 @@ export const PaymentTermsView = ({
   );
 };
 
-PaymentTermsView.propTypes = {
+PaymentTermsVersionViewContent.propTypes = {
   currency: PropTypes.string,
   fiscalYearsMap: PropTypes.instanceOf(Map).isRequired,
-  hiddenFields: PropTypes.object,
   paymentTerms: PropTypes.shape({
     fiscalYearDistributions: PropTypes.arrayOf(PropTypes.shape({
       fiscalYearId: PropTypes.string,

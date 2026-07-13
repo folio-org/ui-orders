@@ -44,7 +44,7 @@ export const getFundDistributionTotalValidator = (validateFundDistributionTotal,
   return async (value) => {
     const fundDistributions = value?.reduce((acc, curr) => [...acc, ...(curr.fundDistributions || [])], []);
 
-    if (!fundDistributions?.length || !fundDistributions.every((fd) => fd?.fundId && fd?.value)) {
+    if (!fundDistributions?.length || !fundDistributions.every((fd) => fd?.fundId && fd?.value != null)) {
       pendingKey = null;
       pendingPromise = null;
 

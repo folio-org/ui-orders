@@ -17,6 +17,8 @@ import {
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import { ORDER_FORMATS } from '@folio/stripes-acq-components';
 
+import { isOngoing } from '../../../common/POFields';
+
 import {
   VersionCheckbox,
   VersionKeyValue,
@@ -35,6 +37,7 @@ import { LocationVersionView } from './LocationVersionView/LocationVersionView';
 import { OtherVersionView } from './OtherVersionView';
 import { PhysicalVersionView } from './PhysicalVersionView';
 import { POLineDetailsVersionView } from './POLineDetailsVersionView';
+import { PaymentTermsVersionView } from './PaymentTermsVersionView';
 import { VendorVersionView } from './VendorVersionView';
 import { POL_FORM_FIELDS } from '../../../common/constants';
 
@@ -117,6 +120,15 @@ const POLineVersion = ({
               </Col>
             </Row>
           </Accordion>
+
+          {isOngoing(version?.order?.orderType) && version?.multiYearPayment && (
+            <Accordion
+              label={<FormattedMessage id="ui-orders.line.accordion.paymentTerms" />}
+              id={ACCORDION_ID.paymentTerms}
+            >
+              <PaymentTermsVersionView version={version} />
+            </Accordion>
+          )}
 
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}

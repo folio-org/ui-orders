@@ -130,11 +130,22 @@ describe('getFundDistributionTotalValidator', () => {
     const validator = getFundDistributionTotalValidator(validateFundDistributionTotal, setRemainingAmount);
 
     const result = await validator([
-      { fiscalYearId: 'fy1', fundDistributions: [{ fundId: 'f1' }] }, // missing value
+      { fiscalYearId: 'fy1', fundDistributions: [{ fundId: 'f1' }] }, // missing value (undefined)
     ]);
 
     expect(result).toBeUndefined();
     expect(validateFundDistributionTotal).not.toHaveBeenCalled();
+  });
+
+  it('should call validateFundDistributionTotal when a distribution has value 0 (zero is valid)', async () => {
+    const validateFundDistributionTotal = jest.fn(() => Promise.resolve());
+    const validator = getFundDistributionTotalValidator(validateFundDistributionTotal, setRemainingAmount);
+
+    await validator([
+      { fiscalYearId: 'fy1', fundDistributions: [{ fundId: 'f1', value: 0 }] },
+    ]);
+
+    expect(validateFundDistributionTotal).toHaveBeenCalled();
   });
 
   it('should call validateFundDistributionTotal with flattened distributions', async () => {

@@ -155,7 +155,7 @@ export const PaymentTermsFormContainer = ({
 };
 
 PaymentTermsFormContainer.propTypes = {
-  filterFunds: PropTypes.func.isRequired,
+  filterFunds: PropTypes.func,
   isTemplate: PropTypes.bool,
   order: PropTypes.shape({
     workflowStatus: PropTypes.string.isRequired,

@@ -354,7 +354,10 @@ function POLineForm({
 
   const formErrors = form.getState()?.errors;
   const errors = useMemo(() => (
-    omitFieldArraysAsyncErrors(formErrors, [POL_FORM_FIELDS.fundDistribution])
+    omitFieldArraysAsyncErrors(formErrors, [
+      POL_FORM_FIELDS.fundDistribution,
+      `${POL_FORM_FIELDS.paymentTerms}.fiscalYearDistributions`,
+    ])
   ), [formErrors]);
   const errorAccordionStatus = useErrorAccordionStatus({ errors, fieldsMap: MAP_FIELD_ACCORDION });
 

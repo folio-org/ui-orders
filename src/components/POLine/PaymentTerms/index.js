@@ -2,4 +2,7 @@ export {
   PaymentTermsForm,
   PaymentTermsFormContainer,
 } from './PaymentTermsForm';
-export { PaymentTermsView } from './PaymentTermsView';
+export {
+  PaymentTermsView,
+  PaymentTermsViewContainer,
+} from './PaymentTermsView';

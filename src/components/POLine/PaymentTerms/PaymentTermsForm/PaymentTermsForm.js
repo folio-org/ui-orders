@@ -1,3 +1,5 @@
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
 import {
   useCallback,
   useMemo,
@@ -9,7 +11,6 @@ import {
   useFormState,
 } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {
   Col,
@@ -161,17 +162,20 @@ export const PaymentTermsForm = ({
   const validateFiscalYearsDistributions = useCallback(async (value) => {
     setIsFundDistributionValidating(true);
 
-    const error = await composeValidatorsAsync(
-      validateFundDistributionRequired,
-      validateFundDistributionUniqueFunds,
-      fundDistributionTotalValidator,
-    )(value);
+    try {
+      const error = await composeValidatorsAsync(
+        isRequired ? validateFundDistributionRequired : noop,
+        validateFundDistributionUniqueFunds,
+        fundDistributionTotalValidator,
+      )(value);
 
-    setHasValidationError(Boolean(error));
-    setIsFundDistributionValidating(false);
+      setHasValidationError(Boolean(error));
 
-    return error;
-  }, [fundDistributionTotalValidator]);
+      return error;
+    } finally {
+      setIsFundDistributionValidating(false);
+    }
+  }, [fundDistributionTotalValidator, isRequired]);
 
   return (
     <>
@@ -238,7 +242,7 @@ export const PaymentTermsForm = ({
             onRemoveFiscalYear={onRemoveFiscalYearDistribution}
             onRemoveFundDistribution={onRemoveFundDistribution}
             totalAmount={totalPrice}
-            validate={isRequired ? validateFiscalYearsDistributions : undefined}
+            validate={validateFiscalYearsDistributions}
           />
         </Col>
       </Row>
@@ -249,7 +253,7 @@ export const PaymentTermsForm = ({
 PaymentTermsForm.propTypes = {
   amounts: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
-  filterFunds: PropTypes.func.isRequired,
+  filterFunds: PropTypes.func,
   isLoading: PropTypes.bool,
   isNonInteractive: PropTypes.bool,
   isTemplate: PropTypes.bool,
