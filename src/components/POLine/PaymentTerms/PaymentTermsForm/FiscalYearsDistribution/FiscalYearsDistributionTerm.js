@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useForm } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import {
@@ -6,28 +7,82 @@ import {
   IconButton,
   Layout,
 } from '@folio/stripes/components';
+import {
+  FundDistributionFieldsFinalComponent,
+  useFundDistributionExpenseClasses,
+  useFundDistributionHandlers,
+} from '@folio/stripes-acq-components';
+
+import css from './FiscalYearsDistributionTerm.css';
 
 export const FiscalYearsDistributionTerm = ({
+  amounts,
+  currency,
+  disabled,
+  filterFunds,
+  fiscalYearId,
+  fundDistributions,
+  funds,
   label,
-  onRemove,
+  name,
+  onExpenseClassChange,
+  onRemoveFiscalYear,
+  onRemoveFundDistribution,
   showRemoveButton,
+  totalAmount,
+  validateFieldsMap,
 }) => {
+  const { change } = useForm();
+
+  const { expenseClassesByFundId } = useFundDistributionExpenseClasses({
+    fiscalYearId,
+    fundDistribution: fundDistributions,
+  });
+
   const intl = useIntl();
 
+  const {
+    onAdd: onAddFund,
+    onChangeToAmount,
+    onChangeToPercent,
+    onRemove: onRemoveFund,
+    onSelectFund,
+  } = useFundDistributionHandlers({
+    change,
+    fiscalYearId,
+    funds,
+  });
+
   return (
-    <Layout className="display-flex align-items-center">
+    <Layout className="flex">
       <Card
         headerStart={label}
         roundedBorder
       >
-        TODO: Add fiscal year distribution term fields here
+        <FundDistributionFieldsFinalComponent
+          amounts={amounts}
+          currency={currency}
+          disabled={disabled}
+          expenseClassesByFundId={expenseClassesByFundId}
+          filterFunds={filterFunds}
+          funds={funds}
+          hasValidationError={false}
+          name={name}
+          onAdd={onAddFund}
+          onChangeToAmount={onChangeToAmount}
+          onChangeToPercent={onChangeToPercent}
+          onRemove={onRemoveFundDistribution || onRemoveFund}
+          onSelectFund={onSelectFund}
+          onExpenseClassChange={onExpenseClassChange}
+          totalAmount={totalAmount}
+          validateFieldsMap={validateFieldsMap}
+        />
       </Card>
-      {/* TODO: properly handle CSS */}
-      <div style={{ width: '50px', display: 'flex', justifyContent: 'center' }}>
+      <div className={css.repeatableFieldRemoveItem}>
         {showRemoveButton && (
           <IconButton
             icon="trash"
-            onClick={onRemove}
+            onClick={onRemoveFiscalYear}
             aria-label={intl.formatMessage({ id: 'ui-orders.poLine.paymentTerms.FYDistributions.action.remove' })}
           />
         )}
@@ -37,7 +92,19 @@ export const FiscalYearsDistributionTerm = ({
 };
 
 FiscalYearsDistributionTerm.propTypes = {
+  amounts: PropTypes.object.isRequired,
+  currency: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  filterFunds: PropTypes.func.isRequired,
+  fiscalYearId: PropTypes.string,
+  fundDistributions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  funds: PropTypes.arrayOf(PropTypes.object).isRequired,
   label: PropTypes.string.isRequired,
-  onRemove: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  onExpenseClassChange: PropTypes.func.isRequired,
+  onRemoveFiscalYear: PropTypes.func.isRequired,
+  onRemoveFundDistribution: PropTypes.func,
   showRemoveButton: PropTypes.bool.isRequired,
+  totalAmount: PropTypes.number.isRequired,
+  validateFieldsMap: PropTypes.object,
 };

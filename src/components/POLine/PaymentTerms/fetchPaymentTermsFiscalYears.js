@@ -5,8 +5,8 @@ import {
   LIMIT_MAX,
 } from '@folio/stripes-acq-components';
 
-export const fetchPaymentTermsFiscalYears = (ky) => (startingFiscalYearId) => {
-  return fetchFiscalYearById(ky)(startingFiscalYearId)
+export const fetchPaymentTermsFiscalYears = (ky) => (startingFiscalYearId, { signal } = {}) => {
+  return fetchFiscalYearById(ky)(startingFiscalYearId, { signal })
     .then((fiscalYear) => {
       const query = new CQLBuilder()
         .equal('series', fiscalYear.series)
@@ -19,6 +19,7 @@ export const fetchPaymentTermsFiscalYears = (ky) => (startingFiscalYearId) => {
           limit: LIMIT_MAX,
           query,
         },
+        signal,
       });
     });
 };

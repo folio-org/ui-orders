@@ -1,6 +1,10 @@
-import PropTypes from 'prop-types';
-import { Field } from 'react-final-form';
+import { useCallback } from 'react';
+import {
+  Field,
+  useForm,
+} from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import {
   Checkbox,
@@ -22,6 +26,25 @@ const OngoingOrderForm = ({
   order,
 }) => {
   const isPostPendingOrder = order && isWorkflowStatusNotPending(order);
+
+  const {
+    change,
+    getState,
+  } = useForm();
+
+  const onMultiYearPaymentChange = useCallback((e) => {
+    const value = Boolean(e.target.checked);
+
+    change(POL_FORM_FIELDS.multiYearPayment, value);
+
+    if (value) {
+      const poLineEstimatedPrice = getState().values?.cost?.poLineEstimatedPrice || 0;
+
+      change(`${POL_FORM_FIELDS.paymentTerms}.totalPrice`, poLineEstimatedPrice);
+    } else {
+      change(POL_FORM_FIELDS.paymentTerms, undefined);
+    }
+  }, [change, getState]);
 
   return (
     <Row>
@@ -65,6 +88,7 @@ const OngoingOrderForm = ({
                 </>
               )}
               name={POL_FORM_FIELDS.multiYearPayment}
+              onChange={onMultiYearPaymentChange}
               type="checkbox"
               validateFields={[]}
               vertical

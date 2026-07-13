@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
 import {
   useCallback,
   useMemo,
+  useState,
 } from 'react';
 import {
   Field,
@@ -9,31 +9,57 @@ import {
   useFormState,
 } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import {
   Col,
+  InfoPopover,
+  Loading,
   Row,
 } from '@folio/stripes/components';
 import {
+  AmountWithCurrencyField,
+  composeValidators,
+  composeValidatorsAsync,
   FieldSelectionFinal,
   TextField,
   useShowCallout,
   validateRequired,
+  validateRequiredNotNegative,
 } from '@folio/stripes-acq-components';
 
 import { FiscalYearsDistribution } from './FiscalYearsDistribution';
+import { usePaymentTermsContext } from './PaymentTermsContext';
+import {
+  getFundDistributionTotalValidator,
+  validateFiscalYearsCount,
+  validateFundDistributionRequired,
+  validateFundDistributionUniqueFunds,
+} from './validation';
 
 export const PaymentTermsForm = ({
+  amounts,
   disabled = false,
+  filterFunds,
   isLoading = false,
   isNonInteractive = false,
   isTemplate = false,
-  name,
   onStartingFYChange,
-  paymentTermsFiscalYears,
-  startingFiscalYears,
+  onExpenseClassChange,
+  validateFundDistributionTotal,
 }) => {
+  const [isFundDistributionValidating, setIsFundDistributionValidating] = useState(false);
+  const [remainingAmount, setRemainingAmount] = useState();
+  // Used as workaround for react-final-form issue with async validation of field arrays:
+  const [hasValidationError, setHasValidationError] = useState(false);
   const showCallout = useShowCallout();
+
+  const {
+    currency,
+    paymentTermsFiscalYears,
+    rootFieldName,
+    startingFiscalYears,
+  } = usePaymentTermsContext();
 
   const { change } = useForm();
   const { values } = useFormState();
@@ -43,6 +69,7 @@ export const PaymentTermsForm = ({
     paymentTerms: {
       fiscalYearDistributions,
       startingFiscalYearId,
+      totalPrice,
     } = {},
   } = values;
 
@@ -67,9 +94,24 @@ export const PaymentTermsForm = ({
     return startingFiscalYears.map(({ code, id: fiscalYearId }) => ({ value: fiscalYearId, label: code }));
   }, [startingFiscalYears]);
 
-  const paymentTermsFiscalYearsMap = useMemo(() => {
-    return paymentTermsFiscalYears?.reduce((acc, fy) => acc.set(fy.id, fy), new Map());
-  }, [paymentTermsFiscalYears]);
+  const displayCalculatedRemainingAmount = (
+    fiscalYearDistributions?.length
+    && fiscalYearDistributions.some(({ fundDistributions }) => fundDistributions?.length)
+    && remainingAmount !== undefined
+  );
+  const remainingAmountNode = (
+    <FormattedMessage
+      id="stripes-acq-components.fundDistribution.remainingAmount"
+      values={{
+        remainingAmount: (
+          <AmountWithCurrencyField
+            currency={currency}
+            amount={displayCalculatedRemainingAmount ? remainingAmount : totalPrice}
+          />
+        ),
+      }}
+    />
+  );
 
   const onAddFiscalYearDistribution = useCallback((fields) => {
     const nextFiscalYearId = paymentTermsFiscalYears[fields.length]?.id;
@@ -84,17 +126,52 @@ export const PaymentTermsForm = ({
       return;
     }
 
-    change(`${name}.prepaymentTerm`, fields.length + 1);
+    change(`${rootFieldName}.prepaymentTerm`, fields.length + 1);
     fields.push({
       fiscalYearId: nextFiscalYearId,
       fundDistributions: [],
     });
-  }, [change, name, paymentTermsFiscalYears, showCallout]);
+  }, [change, rootFieldName, paymentTermsFiscalYears, showCallout]);
 
   const onRemoveFiscalYearDistribution = useCallback((index, fields) => {
-    change(`${name}.prepaymentTerm`, Math.max(fields.length - 1, 0));
+    change(`${rootFieldName}.prepaymentTerm`, Math.max(fields.length - 1, 0));
     fields.remove(index);
-  }, [change, name]);
+  }, [change, rootFieldName]);
+
+  const onRemoveFundDistribution = useCallback((fields, index) => {
+    if (fields.length === 1) setRemainingAmount(undefined);
+    fields.remove(index);
+  }, []);
+
+  const validatePrepaymentTerm = useCallback((value, allValues) => {
+    return composeValidators(
+      validateFiscalYearsCount,
+      validateRequiredNotNegative,
+    )(value, allValues, { paymentTermsFiscalYearsLength: paymentTermsFiscalYears?.length });
+  }, [paymentTermsFiscalYears?.length]);
+
+  // Must be a stable instance (useMemo, not recreated inside the callback) so the
+  // closure's pendingKey/pendingPromise state persists across the onChange and onBlur
+  // runs that react-final-form fires for the same user interaction.
+  const fundDistributionTotalValidator = useMemo(
+    () => getFundDistributionTotalValidator(validateFundDistributionTotal, setRemainingAmount),
+    [validateFundDistributionTotal],
+  );
+
+  const validateFiscalYearsDistributions = useCallback(async (value) => {
+    setIsFundDistributionValidating(true);
+
+    const error = await composeValidatorsAsync(
+      validateFundDistributionRequired,
+      validateFundDistributionUniqueFunds,
+      fundDistributionTotalValidator,
+    )(value);
+
+    setHasValidationError(Boolean(error));
+    setIsFundDistributionValidating(false);
+
+    return error;
+  }, [fundDistributionTotalValidator]);
 
   return (
     <>
@@ -104,9 +181,11 @@ export const PaymentTermsForm = ({
             component={TextField}
             disabled={disabled || !isMultiYearPayment}
             label={<FormattedMessage id="ui-orders.poLine.paymentTerms.totalPrice" />}
-            name={`${name}.totalPrice`}
+            name={`${rootFieldName}.totalPrice`}
             required={isRequired}
-            validate={isRequired ? validateRequired : undefined}
+            type="number"
+            validate={isRequired ? validateRequiredNotNegative : undefined}
+            validateFields={[`${rootFieldName}.fiscalYearDistributions`]}
           />
         </Col>
         <Col xs={3}>
@@ -114,33 +193,52 @@ export const PaymentTermsForm = ({
             component={TextField}
             disabled
             label={<FormattedMessage id="ui-orders.poLine.paymentTerms.prepaymentTerm" />}
-            name={`${name}.prepaymentTerm`}
+            name={`${rootFieldName}.prepaymentTerm`}
             required={isRequired}
-            validate={isRequired ? validateRequired : undefined}
+            type="number"
+            validate={(isRequired && !isLoading) ? validatePrepaymentTerm : undefined}
+            validateFields={[]}
           />
         </Col>
         <Col xs={3}>
           <FieldSelectionFinal
             dataOptions={startingFiscalYearOptions}
             disabled={disabled || !isMultiYearPayment || isLoading}
-            label={<FormattedMessage id="ui-orders.poLine.paymentTerms.startingFY" />}
-            name={`${name}.startingFiscalYearId`}
+            label={(
+              <>
+                <FormattedMessage id="ui-orders.poLine.paymentTerms.startingFY" />
+                <InfoPopover content={<FormattedMessage id="ui-orders.poLine.paymentTerms.startingFY.infoPopover" />} />
+              </>
+            )}
+            name={`${rootFieldName}.startingFiscalYearId`}
             onChange={onStartingFYChange}
             required={isRequired}
+            validate={isRequired ? validateRequired : undefined}
+            validateFields={[`${rootFieldName}.prepaymentTerm`, `${rootFieldName}.fiscalYearDistributions`]}
           />
         </Col>
       </Row>
       <Row>
         <Col xs>
+          {/* key forces a full remount when the starting FY changes, clearing stale
+              distributions before the new FY series is populated. */}
           <FiscalYearsDistribution
+            key={startingFiscalYearId}
+            amounts={amounts}
+            filterFunds={filterFunds}
+            hasValidationError={hasValidationError}
             isAddFYButtonHidden={isAddFYButtonHidden}
             isAddFYButtonDisabled={isAddFYButtonDisabled}
             isLoading={isLoading}
             isNonInteractive={isNonInteractive}
-            name={`${name}.fiscalYearDistributions`}
+            legend={isFundDistributionValidating ? <Loading /> : remainingAmountNode}
+            name={`${rootFieldName}.fiscalYearDistributions`}
             onAddFiscalYear={onAddFiscalYearDistribution}
+            onExpenseClassChange={onExpenseClassChange}
             onRemoveFiscalYear={onRemoveFiscalYearDistribution}
-            paymentTermsFiscalYearsMap={paymentTermsFiscalYearsMap}
+            onRemoveFundDistribution={onRemoveFundDistribution}
+            totalAmount={totalPrice}
+            validate={isRequired ? validateFiscalYearsDistributions : undefined}
           />
         </Col>
       </Row>
@@ -149,17 +247,13 @@ export const PaymentTermsForm = ({
 };
 
 PaymentTermsForm.propTypes = {
+  amounts: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
+  filterFunds: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   isNonInteractive: PropTypes.bool,
   isTemplate: PropTypes.bool,
-  name: PropTypes.string.isRequired,
-  paymentTermsFiscalYears: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  })).isRequired,
-  startingFiscalYears: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  })).isRequired,
+  onExpenseClassChange: PropTypes.func.isRequired,
+  onStartingFYChange: PropTypes.func.isRequired,
+  validateFundDistributionTotal: PropTypes.func,
 };

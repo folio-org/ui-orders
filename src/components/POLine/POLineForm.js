@@ -56,6 +56,7 @@ import {
   ViewMetaData,
 } from '@folio/stripes/smart-components';
 
+import { AccordionInfoPopover } from '../../common';
 import {
   ENTITY_TYPE_PO_LINE,
   PO_LINE_CONFIG_NAME_PREFIX,
@@ -628,13 +629,21 @@ function POLineForm({
                           {isOrderOngoing && (
                             <IfFieldVisible
                               visible={!hiddenFields?.paymentTerms}
-                              name="paymentTerms"
+                              name={POL_FORM_FIELDS.paymentTerms}
                             >
                               <Accordion
-                                label={<FormattedMessage id="ui-orders.line.accordion.paymentTerms" />}
+                                label={(
+                                  <>
+                                    <FormattedMessage id="ui-orders.line.accordion.paymentTerms" />
+                                    <AccordionInfoPopover content={<FormattedMessage id="ui-orders.line.accordion.paymentTerms.infoPopover" />} />
+                                  </>
+                                )}
                                 id={ACCORDION_ID.paymentTerms}
                               >
-                                <PaymentTermsFormContainer order={order} />
+                                <PaymentTermsFormContainer
+                                  filterFunds={filterFunds}
+                                  order={order}
+                                />
                               </Accordion>
                             </IfFieldVisible>
                           )}
