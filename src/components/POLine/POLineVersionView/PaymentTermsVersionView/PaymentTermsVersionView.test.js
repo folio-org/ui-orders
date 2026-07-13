@@ -3,21 +3,11 @@ import {
   screen,
 } from '@folio/jest-config-stripes/testing-library/react';
 
-import { usePaymentTermsFiscalYears } from '../../PaymentTerms/hooks';
 import { PaymentTermsVersionViewContent } from './PaymentTermsVersionViewContent';
 import { PaymentTermsVersionView } from './PaymentTermsVersionView';
 
-jest.mock('../../PaymentTerms/hooks', () => ({
-  usePaymentTermsFiscalYears: jest.fn(() => ({ fiscalYears: [], isFetching: false })),
-}));
-
 jest.mock('./PaymentTermsVersionViewContent', () => ({
   PaymentTermsVersionViewContent: jest.fn(() => 'PaymentTermsVersionViewContent'),
-}));
-
-jest.mock('@folio/stripes/components', () => ({
-  ...jest.requireActual('@folio/stripes/components'),
-  Loading: jest.fn(() => <span data-testid="loading">Loading</span>),
 }));
 
 const defaultVersion = {
@@ -27,13 +17,11 @@ const defaultVersion = {
     totalPrice: 1000,
     fiscalYearDistributions: [],
   },
+  paymentTermsFiscalYears: [],
 };
 
-const renderComponent = (props = {}) => render(
-  <PaymentTermsVersionView
-    version={defaultVersion}
-    {...props}
-  />,
+const renderComponent = (version = defaultVersion) => render(
+  <PaymentTermsVersionView version={version} />,
 );
 
 const getContentProps = () => PaymentTermsVersionViewContent.mock.calls.at(-1)[0];
@@ -41,50 +29,35 @@ const getContentProps = () => PaymentTermsVersionViewContent.mock.calls.at(-1)[0
 describe('PaymentTermsVersionView', () => {
   afterEach(() => {
     jest.clearAllMocks();
-    usePaymentTermsFiscalYears.mockReturnValue({ fiscalYears: [], isFetching: false });
   });
 
-  it('should render PaymentTermsVersionViewContent when not fetching', () => {
+  it('should render PaymentTermsVersionViewContent', () => {
     renderComponent();
 
     expect(screen.getByText('PaymentTermsVersionViewContent')).toBeInTheDocument();
   });
 
-  it('should show Loading while fetching', () => {
-    usePaymentTermsFiscalYears.mockReturnValue({ fiscalYears: [], isFetching: true });
-    renderComponent();
-
-    expect(screen.getByTestId('loading')).toBeInTheDocument();
-    expect(screen.queryByText('PaymentTermsVersionViewContent')).not.toBeInTheDocument();
-  });
-
-  it('should pass currency and paymentTerms to PaymentTermsVersionViewContent', () => {
+  it('should pass currency and paymentTerms from version', () => {
     renderComponent();
 
     expect(getContentProps().currency).toBe('USD');
     expect(getContentProps().paymentTerms).toBe(defaultVersion.paymentTerms);
   });
 
-  it('should pass a fiscalYearsMap built from fetched fiscal years', () => {
+  it('should build fiscalYearsMap from version.paymentTermsFiscalYears', () => {
     const fy = { id: 'fy1', code: 'FY2026' };
+    const version = { ...defaultVersion, paymentTermsFiscalYears: [fy] };
 
-    usePaymentTermsFiscalYears.mockReturnValue({ fiscalYears: [fy], isFetching: false });
-    renderComponent();
+    renderComponent(version);
 
-    const { fiscalYearsMap } = getContentProps();
-
-    expect(fiscalYearsMap.get('fy1')).toBe(fy);
+    expect(getContentProps().fiscalYearsMap.get('fy1')).toBe(fy);
   });
 
-  it('should call usePaymentTermsFiscalYears with startingFiscalYearId', () => {
-    renderComponent();
+  it('should pass an empty fiscalYearsMap when paymentTermsFiscalYears is absent', () => {
+    const version = { cost: defaultVersion.cost, paymentTerms: defaultVersion.paymentTerms };
 
-    expect(usePaymentTermsFiscalYears).toHaveBeenCalledWith('fy1');
-  });
+    renderComponent(version);
 
-  it('should call usePaymentTermsFiscalYears with undefined when startingFiscalYearId is absent', () => {
-    renderComponent({ version: { cost: { currency: 'USD' }, paymentTerms: {} } });
-
-    expect(usePaymentTermsFiscalYears).toHaveBeenCalledWith(undefined);
+    expect(getContentProps().fiscalYearsMap.size).toBe(0);
   });
 });

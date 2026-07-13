@@ -121,15 +121,6 @@ const POLineVersion = ({
             </Row>
           </Accordion>
 
-          {isOngoing(version?.order?.orderType) && version?.multiYearPayment && (
-            <Accordion
-              label={<FormattedMessage id="ui-orders.line.accordion.paymentTerms" />}
-              id={ACCORDION_ID.paymentTerms}
-            >
-              <PaymentTermsVersionView version={version} />
-            </Accordion>
-          )}
-
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.donorInformation" />}
             id={ACCORDION_ID.donorsInformation}
@@ -157,6 +148,15 @@ const POLineVersion = ({
           >
             <FundDistributionVersionView version={version} />
           </Accordion>
+
+          {isOngoing(version?.order?.orderType) && version?.multiYearPayment && (
+            <Accordion
+              label={<FormattedMessage id="ui-orders.line.accordion.paymentTerms" />}
+              id={ACCORDION_ID.paymentTerms}
+            >
+              <PaymentTermsVersionView version={version} />
+            </Accordion>
+          )}
 
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.location" />}

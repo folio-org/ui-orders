@@ -1,28 +1,22 @@
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 
-import { Loading } from '@folio/stripes/components';
-
-import { usePaymentTermsFiscalYears } from '../../PaymentTerms/hooks';
 import { PaymentTermsVersionViewContent } from './PaymentTermsVersionViewContent';
 
 export const PaymentTermsVersionView = ({ version }) => {
-  const currency = version?.cost?.currency;
-  const paymentTerms = version?.paymentTerms;
-  const startingFiscalYearId = paymentTerms?.startingFiscalYearId;
-
   const {
-    fiscalYears,
-    isFetching,
-  } = usePaymentTermsFiscalYears(startingFiscalYearId);
+    cost,
+    paymentTerms,
+    paymentTermsFiscalYears = [],
+  } = version;
 
-  const fiscalYearsMap = useMemo(() => new Map(fiscalYears.map((fy) => [fy.id, fy])), [fiscalYears]);
-
-  if (isFetching) return <Loading />;
+  const fiscalYearsMap = useMemo(() => {
+    return new Map(paymentTermsFiscalYears.map((fy) => [fy.id, fy]));
+  }, [paymentTermsFiscalYears]);
 
   return (
     <PaymentTermsVersionViewContent
-      currency={currency}
+      currency={cost?.currency}
       fiscalYearsMap={fiscalYearsMap}
       paymentTerms={paymentTerms}
     />
