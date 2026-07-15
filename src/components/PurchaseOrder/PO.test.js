@@ -44,6 +44,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
 }));
 jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
+  useDeprecatedAcqMethods: jest.fn(() => ({ deprecatedAcqMethods: [], isLoading: false })),
   useOrderLinesAbandonedHoldingsCheck: jest.fn(() => ({ isFetching: false, result: { type: 'withoutPieces' } })),
   useHandleOrderUpdateError: jest.fn(() => [jest.fn()]),
 }));
