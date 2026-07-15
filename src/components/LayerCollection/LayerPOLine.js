@@ -231,7 +231,6 @@ function LayerPOLine({
     acqMethods,
     isLoading: isAcqMethodsLoading,
   } = useAcqMethods();
-  /*  */
 
   const { isOpenOrderEnabled, isDuplicateCheckDisabled } = openOrderSettings;
 

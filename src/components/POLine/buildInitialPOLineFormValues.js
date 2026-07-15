@@ -138,16 +138,14 @@ function buildInitialValuesBasedOnTemplate({
     return acc;
   }, { ...essentialInitialValues });
 
-  /*
-    A deprecated acquisition method must not be carried over from a template into a new PO line:
-    clear it so the required field forces the user to re-pick an active method.
-  */
-  const deprecatedAcqMethodIds = new Set(
-    (acqMethods || []).filter(({ deprecated }) => deprecated).map(({ id }) => id),
+  // Don't carry a deprecated method over from a template — the required field forces a re-pick.
+  const templateAcqMethodId = initialValues[POL_FORM_FIELDS.acquisitionMethod];
+  const isTemplateAcqMethodDeprecated = acqMethods?.some(
+    ({ id, deprecated }) => deprecated && id === templateAcqMethodId,
   );
 
-  if (deprecatedAcqMethodIds.has(initialValues[POL_FORM_FIELDS.acquisitionMethod])) {
-    unset(initialValues, POL_FORM_FIELDS.acquisitionMethod);
+  if (isTemplateAcqMethodDeprecated) {
+    delete initialValues[POL_FORM_FIELDS.acquisitionMethod];
   }
 
   return initialValues;

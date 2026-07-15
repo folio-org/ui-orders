@@ -12,10 +12,10 @@ import {
 import { ControlledVocab } from '@folio/stripes/smart-components';
 import {
   ACQUISITION_METHODS_API,
+  getAcqMethodLabel,
   getControlledVocabTranslations,
 } from '@folio/stripes-acq-components';
 
-import { getTranslatedAcqMethod } from '../../components/Utils/getTranslatedAcqMethod';
 import {
   checkboxFieldType,
   FormatAcqMethodDeprecated,
@@ -34,11 +34,6 @@ const fieldComponents = {
   deprecated: checkboxFieldType,
 };
 
-const formatter = {
-  value: ({ value }) => getTranslatedAcqMethod(value),
-  deprecated: FormatAcqMethodDeprecated,
-};
-
 // System rows: allow editing deprecated flag but keep the name read-only
 const getReadOnlyFieldsForItem = (item) => (item.source === ACQ_METHODS_SYSTEM_SOURCE ? ['value'] : []);
 
@@ -54,6 +49,11 @@ class AcquisitionMethods extends Component {
 
   render() {
     const { intl, stripes } = this.props;
+
+    const formatter = {
+      value: (acqMethod) => getAcqMethodLabel(acqMethod, { intl }),
+      deprecated: FormatAcqMethodDeprecated,
+    };
 
     return (
       <TitleManager record={intl.formatMessage({ id: 'ui-orders.settings.acquisitionMethods' })}>

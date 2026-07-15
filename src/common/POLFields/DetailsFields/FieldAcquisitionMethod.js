@@ -16,15 +16,14 @@ const FieldAcquisitionMethod = ({
   ...props
 }) => {
   const { acqMethods } = useAcqMethods();
-  // Read only the acquisition-method field value so this field re-renders when it changes,
-  // rather than on every keystroke elsewhere in the form.
-  const { input: { value: selectedValue } } = useField(POL_FORM_FIELDS.acquisitionMethod, {
-    subscription: { value: true },
+  const { meta: { initial: initialAcqMethod } } = useField(POL_FORM_FIELDS.acquisitionMethod, {
+    subscription: { initial: true },
   });
 
+  // Deprecated methods are hidden, except the saved (initial) one, which stays selectable with a suffix.
   const acquisitionMethods = useAcqMethodsOptions(acqMethods, {
     excludeDeprecated: true,
-    selectedValue,
+    selectedValue: initialAcqMethod,
     withDeprecatedSuffix: true,
   });
 
