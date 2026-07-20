@@ -16,7 +16,7 @@
     "okapiInterfaces": {
       "acquisition-order-events": "1.0",
       "acquisition-order-line-events": "1.0",
-      "acquisition-methods": "1.0",
+      "acquisition-methods": "1.1",
       "acquisitions-units": "1.1",
       "configuration.prefixes": "1.2",
       "configuration.reasons-for-closure": "1.0",

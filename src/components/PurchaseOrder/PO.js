@@ -777,6 +777,7 @@ const PO = ({
               {isOpenOrderModalOpened && (
                 <OpenOrderConfirmationModal
                   orderNumber={orderNumber}
+                  orderLines={orderLines}
                   submit={openOrder}
                   cancel={toggleOpenOrderModal}
                 />
