@@ -9,6 +9,11 @@
 * Include prepayment information in order CSV export. Refs UIOR-1535.
 * Implement "Payment terms" form. Refs UIOR-1530.
 
+## [9.0.5](https://github.com/folio-org/ui-orders/tree/v9.0.5) (2026-07-20)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.4...v9.0.5)
+
+* Bump up the minimal version of the `stripes-acq-components` dependency.
+
 ## [9.0.4](https://github.com/folio-org/ui-orders/tree/v9.0.4) (2026-05-26)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.3...v9.0.4)
 
