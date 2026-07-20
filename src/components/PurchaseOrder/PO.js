@@ -90,6 +90,7 @@ import ModalDeletePieces from '../ModalDeletePieces';
 import { LINES_LIMIT_DEFAULT } from '../Utils/const';
 import {
   cloneOrder,
+  reopenOrder as reopenOrderResource,
   updateOrderResource,
 } from '../Utils/orderResource';
 import {
@@ -436,12 +437,8 @@ const PO = ({
   ]);
 
   const reopenOrder = useCallback(() => {
-    const openOrderProps = {
-      workflowStatus: WORKFLOW_STATUS.open,
-    };
-
     setIsLoading(true);
-    updateOrderResource(order, mutator.orderDetails, openOrderProps)
+    reopenOrderResource(order, mutator.orderDetails)
       .then(
         () => {
           sendCallout({
