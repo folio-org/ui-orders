@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import isNil from 'lodash/isNil';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { ClipCopy } from '@folio/stripes/smart-components';
 import {
@@ -15,6 +15,7 @@ import {
 import {
   FolioFormattedDate,
   FolioFormattedTime,
+  getAcqMethodLabel,
   IfVisible,
   sourceLabels,
 } from '@folio/stripes-acq-components';
@@ -25,7 +26,6 @@ import {
   RECEIPT_STATUS_TRANSLATED_VALUES,
 } from '../../../common/constants';
 import { useAcqMethod } from '../../../common/hooks';
-import { getTranslatedAcqMethod } from '../../Utils/getTranslatedAcqMethod';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
 
@@ -39,12 +39,11 @@ export const getReceivingWorkflowValue = (checkinItems) => {
   );
 };
 
-export const getAcquisitionMethodValue = (acqMethodId, acqMethod) => {
+export const getAcquisitionMethodValue = (acqMethodId, acqMethod, intl) => {
   if (!acqMethodId) return null;
+  if (!acqMethod) return invalidAcqMethod;
 
-  return acqMethod
-    ? getTranslatedAcqMethod(acqMethod.value)
-    : invalidAcqMethod;
+  return getAcqMethodLabel(acqMethod, { intl, withDeprecatedSuffix: true });
 };
 
 const DEFAULT_HIDDEN_FIELDS = {};
@@ -54,6 +53,7 @@ const POLineDetails = ({
   hiddenFields = DEFAULT_HIDDEN_FIELDS,
   line = DEFAULT_LINE,
 }) => {
+  const intl = useIntl();
   const receiptDate = get(line, 'receiptDate');
   const { acqMethod, isLoading } = useAcqMethod(line.acquisitionMethod);
 
@@ -85,7 +85,7 @@ const POLineDetails = ({
           >
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-              value={isLoading ? <Loading /> : getAcquisitionMethodValue(line.acquisitionMethod, acqMethod)}
+              value={isLoading ? <Loading /> : getAcquisitionMethodValue(line.acquisitionMethod, acqMethod, intl)}
             />
           </Col>
         </IfVisible>
