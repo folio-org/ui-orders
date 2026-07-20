@@ -26,6 +26,7 @@ export const usePaymentTermsFiscalYears = (startingFiscalYearId, options = {}) =
   } = useQuery({
     queryKey: [namespace, startingFiscalYearId],
     queryFn: ({ signal }) => fetchPaymentTermsFiscalYears(ky)(startingFiscalYearId, { signal }),
+    // Distribution FYs are only meaningful once a starting FY has been selected.
     enabled: Boolean(enabled && startingFiscalYearId),
     ...queryOptions,
   });

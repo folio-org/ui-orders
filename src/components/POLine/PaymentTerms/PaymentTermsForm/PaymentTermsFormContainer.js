@@ -72,7 +72,8 @@ export const PaymentTermsFormContainer = ({
     isFetching: isStartingFiscalYearsFetching,
   } = useStartingFiscalYears(initialStartingFiscalYearValue);
 
-  // Used to fetch initial list of FYs for mapping
+  // Load FY metadata for the initial value only while the field is pristine; once the user
+  // changes the starting FY, the mutation path becomes the source of truth for this list.
   const { isFetching: isPaymentTermsFiscalYearsFetching } = usePaymentTermsFiscalYears(
     initialStartingFiscalYearValue,
     {
@@ -104,6 +105,8 @@ export const PaymentTermsFormContainer = ({
   }, [handleStartingFiscalYearChange, showCallout]);
 
   const multiYearFundDistribution = useMemo(() => {
+    // Amount calculation utilities expect one flat fund distribution list, while the form state
+    // stores distributions grouped by fiscal year.
     return fiscalYearDistributions
       ?.reduce((acc, { fundDistributions }) => [...acc, ...(fundDistributions || [])], [])
       ?.filter(Boolean) || [];
@@ -117,10 +120,10 @@ export const PaymentTermsFormContainer = ({
   const contextValue = useMemo(() => ({
     currency,
     funds,
-    paymentTermsFiscalYears, // A list of FYs for mapping
-    paymentTermsFiscalYearsMap: new Map(paymentTermsFiscalYears.map((fy) => [fy.id, fy])), // A map of FYs for mapping
-    rootFieldName: POL_FORM_FIELDS.paymentTerms, // The root field name for payment terms
-    startingFiscalYears, // A list of FYs for dropdown
+    paymentTermsFiscalYears,
+    paymentTermsFiscalYearsMap: new Map(paymentTermsFiscalYears.map((fy) => [fy.id, fy])),
+    rootFieldName: POL_FORM_FIELDS.paymentTerms,
+    startingFiscalYears,
   }), [
     currency,
     funds,

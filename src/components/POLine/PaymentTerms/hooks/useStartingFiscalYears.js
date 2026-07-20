@@ -16,6 +16,7 @@ const buildFiltersPart = (initialStartingFiscalYear) => {
   const builder = new CQLBuilder().gte('periodEnd', new Date().toISOString());
 
   return initialStartingFiscalYear
+    // Keep the current value available even if it no longer matches the default "active FY" filter.
     ? builder.or().equal('id', initialStartingFiscalYear)
     : builder;
 };

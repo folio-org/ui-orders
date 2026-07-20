@@ -9,6 +9,7 @@ import css from './AccordionInfoPopover.css';
 
 const renderPaymentTermsInfoPopoverTrigger = ({ toggle, open, ref }) => {
   const handleClick = (e) => {
+    // Prevent the surrounding accordion header from toggling when the info icon is clicked.
     e.stopPropagation();
     toggle();
   };
