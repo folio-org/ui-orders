@@ -28,6 +28,26 @@ const getExportUserIds = (lines = [], orders = []) => {
 
 const extractUniqueFlat = (array, extractor) => uniq(array.flatMap(item => extractor(item) || []).filter(Boolean));
 
+// Extracts expense class ids from regular POL fund distributions.
+const getFundDistributionExpenseClassIds = ({ fundDistribution }) => (
+  fundDistribution?.map(({ expenseClassId }) => expenseClassId)
+);
+
+// Extracts expense class ids from a payment term's fund distribution list.
+const getFundDistributionsExpenseClassIds = (fundDistributions = []) => (
+  fundDistributions?.map(({ expenseClassId }) => expenseClassId)
+);
+
+// Flattens expense class ids across all payment term fiscal year distributions.
+const getFiscalYearDistributionsExpenseClassIds = (fiscalYearDistributions = []) => (
+  fiscalYearDistributions?.flatMap(({ fundDistributions }) => getFundDistributionsExpenseClassIds(fundDistributions))
+);
+
+// Extracts expense class ids from nested payment terms data on a POL.
+const getPaymentTermsExpenseClassIds = ({ paymentTerms }) => (
+  getFiscalYearDistributionsExpenseClassIds(paymentTerms?.fiscalYearDistributions)
+);
+
 export const getExportData = (
   mutator,
   ky,
@@ -60,19 +80,13 @@ export const getExportData = (
     lines,
     ({ contributors }) => contributors?.map(({ contributorNameTypeId }) => contributorNameTypeId),
   );
-  const getPaymentTermsExpenseClassIds = ({ paymentTerms }) => (
-    paymentTerms?.fiscalYearDistributions?.flatMap(
-      ({ fundDistributions }) => fundDistributions?.map(({ expenseClassId }) => expenseClassId),
-    )
-  );
-
-  const expenseClassIds = uniq([
+  const expenseClassIds = Array.from(new Set([
     ...extractUniqueFlat(
       lines,
-      ({ fundDistribution }) => fundDistribution?.map(({ expenseClassId }) => expenseClassId),
+      getFundDistributionExpenseClassIds,
     ), // Expense classes of the POLine fund distribution
     ...extractUniqueFlat(lines, getPaymentTermsExpenseClassIds), // Expense classes of the POLine payment term fund distribution
-  ]);
+  ]));
 
   const identifierTypeIds = extractUniqueFlat(
     lines,

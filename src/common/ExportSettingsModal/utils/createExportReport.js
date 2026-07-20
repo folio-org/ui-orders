@@ -43,6 +43,7 @@ const getProductIdData = (line, identifierTypeMap, invalidReferenceLabel) => (
   }).join(' | ')
 );
 
+// Builds a reusable CSV fragment for a single fund distribution row.
 const buildFundDistributionValue = (
   line,
   fundDistributionItem,
@@ -61,6 +62,7 @@ const buildFundDistributionValue = (
   );
 };
 
+// Formats the regular POL fund distributions into a pipe-delimited CSV value.
 const getFundDistributionData = (line, expenseClassMap, invalidReferenceLabel) => (
   line.fundDistribution
     ?.map((fund) => buildFundDistributionValue(line, fund, expenseClassMap, invalidReferenceLabel))
@@ -68,6 +70,7 @@ const getFundDistributionData = (line, expenseClassMap, invalidReferenceLabel) =
     ?.replace(/\n\s+/g, '')
 );
 
+// Formats prepayment distributions and prefixes each fund distribution with its fiscal year code.
 const getPrepaymentFYDistributionData = (line, fiscalYearsMap, expenseClassMap, invalidReferenceLabel) => {
   const prepaymentTotalPrice = line.paymentTerms?.totalPrice || 0;
 
@@ -92,6 +95,7 @@ const getPrepaymentFYDistributionData = (line, fiscalYearsMap, expenseClassMap, 
     ?.replace(/\n\s+/g, '');
 };
 
+// Resolves payment terms starting fiscal year id to a fiscal year code for export.
 const getPrepaymentStartingFiscalYearData = (line, fiscalYearsMap, invalidReferenceLabel) => {
   const startingFiscalYearId = line.paymentTerms?.startingFiscalYearId;
 
