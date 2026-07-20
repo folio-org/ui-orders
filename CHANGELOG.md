@@ -2,8 +2,8 @@
 
 ## 9.1.0 (IN PROGRESS)
 
-## [9.0.4](https://github.com/folio-org/ui-orders/tree/v9.0.4) (2026-05-26)
-[Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.3...v9.0.4)
+## [9.0.5](https://github.com/folio-org/ui-orders/tree/v9.0.5) (2026-07-20)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.4...v9.0.5)
 
 * Bump up the minimal version of the `stripes-acq-components` dependency.
 
