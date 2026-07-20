@@ -5,6 +5,11 @@
 ## [9.0.4](https://github.com/folio-org/ui-orders/tree/v9.0.4) (2026-05-26)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.3...v9.0.4)
 
+* Bump up the minimal version of the `stripes-acq-components` dependency.
+
+## [9.0.4](https://github.com/folio-org/ui-orders/tree/v9.0.4) (2026-05-26)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.3...v9.0.4)
+
 * Bump up @folio/plugin-find-po-line. Refs UIOR-1551.
 
 ## [9.0.3](https://github.com/folio-org/ui-orders/tree/v9.0.3) (2026-05-22)
