@@ -5,6 +5,7 @@
 * Fix the `budgetExpenseClassNotFound` error handling. Refs UIOR-1552.
 * *BREAKING* Update CQL queries to use the new indices. Refs UIOR-1519.
 * Update the "Ongoing order information" for PO Line to define multi-year payments. Refs UIOR-1528.
+* Use `permanentLoanType` as a fallback for the loan type in the item list format. Refs UIOR-1565.
 * Deprecate acquisition methods in settings, PO line and templates. Refs UIOR-1157.
 
 ## [9.0.4](https://github.com/folio-org/ui-orders/tree/v9.0.4) (2026-05-26)
