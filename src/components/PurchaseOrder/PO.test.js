@@ -22,13 +22,19 @@ import {
 import { ORDER_STATUSES } from '@folio/stripes-acq-components';
 
 import { history } from 'fixtures/routerMocks';
-import { ORDERS_ROUTE } from '../../common/constants';
+import {
+  ERROR_CODES,
+  ORDERS_ROUTE,
+  PO_UPDATE_ACTION_TYPES,
+} from '../../common/constants';
 import { useOrderLinesAbandonedHoldingsCheck } from '../../common/hooks';
 import {
   useOrderMutation,
   usePurchaseOrderResources,
 } from './hooks';
 import PO from './PO';
+
+const mockHandleOrderUpdateError = jest.fn();
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/hooks/useAcqRestrictions', () => ({
   useAcqRestrictions: jest.fn().mockReturnValue({ restrictions: {} }),
@@ -46,7 +52,7 @@ jest.mock('../../common/hooks', () => ({
   ...jest.requireActual('../../common/hooks'),
   useDeprecatedAcqMethods: jest.fn(() => ({ deprecatedAcqMethods: [], isLoading: false })),
   useOrderLinesAbandonedHoldingsCheck: jest.fn(() => ({ isFetching: false, result: { type: 'withoutPieces' } })),
-  useHandleOrderUpdateError: jest.fn(() => [jest.fn()]),
+  useHandleOrderUpdateError: jest.fn(() => [mockHandleOrderUpdateError]),
 }));
 jest.mock('./hooks', () => ({
   ...jest.requireActual('./hooks'),
@@ -158,7 +164,9 @@ describe('PO actions', () => {
   beforeEach(() => {
     defaultProps.mutator.orderDetails.POST.mockClear();
     defaultProps.mutator.orderDetails.PUT.mockClear();
+    defaultProps.mutator.orderDetails.PUT.mockResolvedValue(ORDER);
     history.push.mockClear();
+    mockHandleOrderUpdateError.mockClear().mockResolvedValue();
     useOrderLinesAbandonedHoldingsCheck.mockClear();
     useOrderMutation.mockClear().mockReturnValue({ updateOrder });
   });
@@ -169,7 +177,7 @@ describe('PO actions', () => {
 
       const receiveBtn = await screen.findByTestId('order-receiving-button');
 
-      await user.click(receiveBtn);
+      await act((async () => user.click(receiveBtn)));
 
       expect(history.push).toHaveBeenCalled();
     });
@@ -179,7 +187,7 @@ describe('PO actions', () => {
 
       const editBtn = await screen.findByTestId('button-edit-order');
 
-      await user.click(editBtn);
+      await act((async () => user.click(editBtn)));
 
       expect(history.push).toHaveBeenCalled();
     });
@@ -189,15 +197,43 @@ describe('PO actions', () => {
 
       const closeBtn = await screen.findByTestId('close-order-button');
 
-      await user.click(closeBtn);
+      await act(async () => user.click(closeBtn));
 
       const confirmCloseBtn = await screen.findByText('ui-orders.closeOrderModal.submit');
       const selectReason = await screen.findByLabelText('ui-orders.closeOrderModal.reason');
 
-      await user.selectOptions(selectReason, 'reason');
-      await user.click(confirmCloseBtn);
+      await act(async () => {
+        await user.selectOptions(selectReason, 'reason');
+        await user.click(confirmCloseBtn);
+      });
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
+    });
+
+    it('should pass close action options to order update error handler', async () => {
+      defaultProps.mutator.orderDetails.PUT.mockRejectedValueOnce({});
+
+      renderComponent();
+
+      const closeBtn = await screen.findByTestId('close-order-button');
+
+      await act(async () => user.click(closeBtn));
+
+      const confirmCloseBtn = await screen.findByText('ui-orders.closeOrderModal.submit');
+      const selectReason = await screen.findByLabelText('ui-orders.closeOrderModal.reason');
+
+      await act(async () => {
+        await user.selectOptions(selectReason, 'reason');
+        await user.click(confirmCloseBtn);
+      });
+
+      await waitFor(() => (
+        expect(mockHandleOrderUpdateError).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+          actionType: PO_UPDATE_ACTION_TYPES.CLOSE,
+          genericCode: 'closeOrder',
+          openModal: expect.any(Function),
+        }))
+      ));
     });
 
     it('should cancel order after confirmation', async () => {
@@ -205,11 +241,11 @@ describe('PO actions', () => {
 
       const cancelBtn = await screen.findByTestId('cancel-order-button');
 
-      await user.click(cancelBtn);
+      await act(async () => user.click(cancelBtn));
 
       const confirmCloseBtn = await screen.findByText('ui-orders.closeOrderModal.submit');
 
-      await user.click(confirmCloseBtn);
+      await act(async () => user.click(confirmCloseBtn));
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
@@ -219,11 +255,11 @@ describe('PO actions', () => {
 
       const unopenBtn = await screen.findByTestId('unopen-order-button');
 
-      await user.click(unopenBtn);
+      await act(async () => user.click(unopenBtn));
 
       const confirmBtn = await screen.findByText('ui-orders.unopenOrderModal.confirmLabel');
 
-      await user.click(confirmBtn);
+      await act(async () => user.click(confirmBtn));
 
       expect(updateOrder).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -239,7 +275,7 @@ describe('PO actions', () => {
 
       const updateEncumbBtn = await screen.findByTestId('update-encumbrances-button');
 
-      await user.click(updateEncumbBtn);
+      await act(async () => user.click(updateEncumbBtn));
 
       expect(defaultProps.mutator.updateEncumbrances.POST).toHaveBeenCalled();
     });
@@ -249,11 +285,11 @@ describe('PO actions', () => {
 
       const cloneBtn = await screen.findByTestId('clone-order-button');
 
-      await user.click(cloneBtn);
+      await act(async () => user.click(cloneBtn));
 
       const confirmBtn = await screen.findByText('ui-orders.order.clone.confirmLabel');
 
-      await user.click(confirmBtn);
+      await act(async () => user.click(confirmBtn));
 
       expect(defaultProps.mutator.generatedOrderNumber.GET).toHaveBeenCalled();
     });
@@ -263,11 +299,11 @@ describe('PO actions', () => {
 
       const deleteBtn = await screen.findByTestId('button-delete-order');
 
-      await user.click(deleteBtn);
+      await act(async () => user.click(deleteBtn));
 
       const confirmBtn = await screen.findByText('ui-orders.order.delete.confirmLabel');
 
-      await user.click(confirmBtn);
+      await act(async () => user.click(confirmBtn));
 
       expect(defaultProps.mutator.orderDetails.DELETE).toHaveBeenCalled();
     });
@@ -286,7 +322,7 @@ describe('PO actions', () => {
 
       const approveBtn = await screen.findByTestId('approve-order-button');
 
-      await user.click(approveBtn);
+      await act(async () => user.click(approveBtn));
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
@@ -296,11 +332,11 @@ describe('PO actions', () => {
 
       const reexportBtn = await screen.findByTestId('reexport-order-button');
 
-      await user.click(reexportBtn);
+      await act(async () => user.click(reexportBtn));
 
       const reexportConfirmBtn = await screen.findByTestId('confirm-reexport-button');
 
-      await user.click(reexportConfirmBtn);
+      await act(async () => user.click(reexportConfirmBtn));
 
       expect(orderRelatedData.refetchOrder).toHaveBeenCalled();
     });
@@ -320,13 +356,43 @@ describe('PO actions', () => {
 
       const openBtn = await screen.findByTestId('open-order-button');
 
-      await user.click(openBtn);
+      await act(async () => user.click(openBtn));
 
       const confirmBtn = await screen.findByText('ui-orders.openOrderModal.submit');
 
-      await user.click(confirmBtn);
+      await act(async () => user.click(confirmBtn));
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
+    });
+
+    it('should pass open action options to order update error handler', async () => {
+      usePurchaseOrderResources.mockReturnValue({
+        ...orderRelatedData,
+        order: {
+          ...ORDER,
+          workflowStatus: ORDER_STATUSES.pending,
+        },
+      });
+      defaultProps.mutator.orderDetails.PUT.mockRejectedValueOnce({});
+
+      renderComponent();
+
+      const openBtn = await screen.findByTestId('open-order-button');
+
+      await act(async () => user.click(openBtn));
+
+      const confirmOpenBtn = await screen.findByText('ui-orders.openOrderModal.submit');
+
+      await act(async () => user.click(confirmOpenBtn));
+
+      await waitFor(() => (
+        expect(mockHandleOrderUpdateError).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+          actionType: PO_UPDATE_ACTION_TYPES.OPEN,
+          genericCode: ERROR_CODES.orderGenericError1,
+          openModal: expect.any(Function),
+          toggleDeletePieces: expect.any(Function),
+        }))
+      ));
     });
   });
 
@@ -344,7 +410,7 @@ describe('PO actions', () => {
 
       const reopenBtn = await screen.findByTestId('reopen-order-button');
 
-      await user.click(reopenBtn);
+      await act(async () => user.click(reopenBtn));
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
@@ -411,7 +477,7 @@ describe('PO actions', () => {
 
     const closeBtn = await screen.findByRole('button', { name: 'stripes-components.closeItem' });
 
-    await user.click(closeBtn);
+    await act(async () => user.click(closeBtn));
 
     expect(history.push).toHaveBeenCalled();
   });
@@ -446,13 +512,13 @@ describe('PO errors', () => {
 
     const openOrderBtn = await screen.findByTestId('open-order-button');
 
-    await user.click(openOrderBtn);
+    await act(async () => user.click(openOrderBtn));
 
     await waitFor(() => {
       expect(screen.getByText('ui-orders.openOrderModal.submit')).toBeInTheDocument();
     });
 
-    await user.click(screen.getByText('ui-orders.openOrderModal.submit'));
+    await act(async () => user.click(screen.getByText('ui-orders.openOrderModal.submit')));
 
     await waitFor(() => {
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
