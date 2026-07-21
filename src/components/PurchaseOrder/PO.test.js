@@ -135,9 +135,23 @@ const renderComponent = (configProps = {}) => {
   );
 };
 
+const setOrderResources = ({
+  order = {},
+  ...rest
+} = {}) => {
+  usePurchaseOrderResources.mockReturnValue({
+    ...orderRelatedData,
+    ...rest,
+    order: {
+      ...ORDER,
+      ...order,
+    },
+  });
+};
+
 describe('PO', () => {
   beforeEach(() => {
-    usePurchaseOrderResources.mockReturnValue(orderRelatedData);
+    setOrderResources();
   });
 
   afterEach(() => {
@@ -294,6 +308,27 @@ describe('PO actions', () => {
       expect(defaultProps.mutator.generatedOrderNumber.GET).toHaveBeenCalled();
     });
 
+    it('should pass clone error options to order update error handler', async () => {
+      defaultProps.mutator.generatedOrderNumber.GET.mockRejectedValueOnce({});
+
+      renderComponent();
+
+      const cloneBtn = await screen.findByTestId('clone-order-button');
+
+      await act(async () => user.click(cloneBtn));
+
+      const confirmBtn = await screen.findByText('ui-orders.order.clone.confirmLabel');
+
+      await act(async () => user.click(confirmBtn));
+
+      await waitFor(() => (
+        expect(mockHandleOrderUpdateError).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+          genericCode: 'clone.error',
+          openModal: expect.any(Function),
+        }))
+      ));
+    });
+
     it('should delete order after confirmation', async () => {
       renderComponent();
 
@@ -306,6 +341,24 @@ describe('PO actions', () => {
       await act(async () => user.click(confirmBtn));
 
       expect(defaultProps.mutator.orderDetails.DELETE).toHaveBeenCalled();
+    });
+
+    it('should process delete order error without navigation', async () => {
+      defaultProps.mutator.orderDetails.DELETE.mockRejectedValueOnce({});
+      history.replace.mockClear();
+
+      renderComponent();
+
+      const deleteBtn = await screen.findByTestId('button-delete-order');
+
+      await act(async () => user.click(deleteBtn));
+
+      const confirmBtn = await screen.findByText('ui-orders.order.delete.confirmLabel');
+
+      await act(async () => user.click(confirmBtn));
+
+      await waitFor(() => expect(defaultProps.mutator.orderDetails.DELETE).toHaveBeenCalled());
+      expect(history.replace).not.toHaveBeenCalled();
     });
 
     it('should approve order', async () => {
@@ -327,6 +380,32 @@ describe('PO actions', () => {
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
 
+    it('should pass approve action options to order update error handler', async () => {
+      defaultProps.mutator.orderDetails.PUT.mockRejectedValueOnce({});
+
+      renderComponent({
+        resources: {
+          ...defaultProps.resources,
+          approvalsSetting: {
+            records: [{
+              value: JSON.stringify({ isApprovalRequired: true }),
+            }],
+          },
+        },
+      });
+
+      const approveBtn = await screen.findByTestId('approve-order-button');
+
+      await act(async () => user.click(approveBtn));
+
+      await waitFor(() => (
+        expect(mockHandleOrderUpdateError).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+          actionType: PO_UPDATE_ACTION_TYPES.APPROVE,
+          openModal: expect.any(Function),
+        }))
+      ));
+    });
+
     it('should update order details after reexport', async () => {
       renderComponent();
 
@@ -344,10 +423,8 @@ describe('PO actions', () => {
 
   describe('a pending order', () => {
     it('should open order after confirmation', async () => {
-      usePurchaseOrderResources.mockReturnValue({
-        ...orderRelatedData,
+      setOrderResources({
         order: {
-          ...ORDER,
           workflowStatus: ORDER_STATUSES.pending,
         },
       });
@@ -366,10 +443,8 @@ describe('PO actions', () => {
     });
 
     it('should pass open action options to order update error handler', async () => {
-      usePurchaseOrderResources.mockReturnValue({
-        ...orderRelatedData,
+      setOrderResources({
         order: {
-          ...ORDER,
           workflowStatus: ORDER_STATUSES.pending,
         },
       });
@@ -394,14 +469,43 @@ describe('PO actions', () => {
         }))
       ));
     });
+
+    it('should show different account modal when opening with multiple export accounts', async () => {
+      setOrderResources({
+        order: {
+          workflowStatus: ORDER_STATUSES.pending,
+          manualPo: false,
+        },
+        orderLines: [{
+          cost: { currency: 'USD' },
+          automaticExport: true,
+          vendorDetail: { vendorAccount: 'ACC-1' },
+        }, {
+          cost: { currency: 'USD' },
+          automaticExport: true,
+          vendorDetail: { vendorAccount: 'ACC-2' },
+        }],
+      });
+
+      renderComponent();
+
+      const openBtn = await screen.findByTestId('open-order-button');
+
+      await act(async () => user.click(openBtn));
+
+      const confirmOpenBtn = await screen.findByText('ui-orders.openOrderModal.submit');
+
+      await act(async () => user.click(confirmOpenBtn));
+
+      expect(await screen.findByText('ui-orders.differentAccounts.title')).toBeInTheDocument();
+      expect(defaultProps.mutator.orderDetails.PUT).not.toHaveBeenCalled();
+    });
   });
 
   describe('a closed order', () => {
     it('should reopen order', async () => {
-      usePurchaseOrderResources.mockReturnValue({
-        ...orderRelatedData,
+      setOrderResources({
         order: {
-          ...ORDER,
           workflowStatus: ORDER_STATUSES.closed,
         },
       });
@@ -414,14 +518,34 @@ describe('PO actions', () => {
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
+
+    it('should pass reopen action options to order update error handler', async () => {
+      setOrderResources({
+        order: {
+          workflowStatus: ORDER_STATUSES.closed,
+        },
+      });
+      defaultProps.mutator.orderDetails.PUT.mockRejectedValueOnce({});
+
+      renderComponent();
+
+      const reopenBtn = await screen.findByTestId('reopen-order-button');
+
+      await act(async () => user.click(reopenBtn));
+
+      await waitFor(() => (
+        expect(mockHandleOrderUpdateError).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+          actionType: PO_UPDATE_ACTION_TYPES.REOPEN,
+          openModal: expect.any(Function),
+        }))
+      ));
+    });
   });
 
   describe('adding PO Line', () => {
     it('should create new POLine if the linelimit is not exceeded', async () => {
-      usePurchaseOrderResources.mockReturnValue({
-        ...orderRelatedData,
+      setOrderResources({
         order: {
-          ...ORDER,
           workflowStatus: ORDER_STATUSES.pending,
         },
       });
@@ -438,10 +562,8 @@ describe('PO actions', () => {
     });
 
     it('should create new PO if the line limit is exceeded', async () => {
-      usePurchaseOrderResources.mockReturnValue({
-        ...orderRelatedData,
+      setOrderResources({
         order: {
-          ...ORDER,
           workflowStatus: ORDER_STATUSES.pending,
         },
         orderLines: [{
@@ -499,10 +621,8 @@ describe('PO errors', () => {
   it('should handle errors on update order', async () => {
     defaultProps.mutator.orderDetails.PUT.mockRejectedValue({});
 
-    usePurchaseOrderResources.mockReturnValue({
-      ...orderRelatedData,
+    setOrderResources({
       order: {
-        ...ORDER,
         workflowStatus: ORDER_STATUSES.pending,
         approved: true,
       },
@@ -523,6 +643,56 @@ describe('PO errors', () => {
     await waitFor(() => {
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
     });
+  });
+
+  it('should open and close update error modal from open order flow', async () => {
+    defaultProps.mutator.orderDetails.PUT.mockRejectedValueOnce({});
+
+    mockHandleOrderUpdateError.mockImplementationOnce(async (_error, { openModal }) => {
+      openModal([{ code: ERROR_CODES.vendorNotFound }]);
+    });
+
+    setOrderResources({
+      order: {
+        workflowStatus: ORDER_STATUSES.pending,
+      },
+    });
+
+    renderComponent();
+
+    const openOrderBtn = await screen.findByTestId('open-order-button');
+
+    await act(async () => user.click(openOrderBtn));
+
+    await act(async () => user.click(screen.getByText('ui-orders.openOrderModal.submit')));
+
+    expect(await screen.findByText('ui-orders.errors.vendorNotFound')).toBeInTheDocument();
+
+    await act(async () => user.click(screen.getByText('ui-orders.openOrderModal.cancel')));
+
+    await waitFor(() => expect(screen.queryByText('ui-orders.errors.vendorNotFound')).not.toBeInTheDocument());
+  });
+
+  it('should close close-order modal without submitting', async () => {
+    setOrderResources({
+      order: {
+        workflowStatus: ORDER_STATUSES.open,
+      },
+    });
+
+    renderComponent();
+    defaultProps.mutator.orderDetails.PUT.mockClear();
+
+    const closeBtn = await screen.findByTestId('close-order-button');
+
+    await act(async () => user.click(closeBtn));
+
+    expect(await screen.findByText('ui-orders.closeOrderModal.submit')).toBeInTheDocument();
+
+    await act(async () => user.click(screen.getByText('ui-orders.closeOrderModal.cancel')));
+
+    await waitFor(() => expect(screen.queryByText('ui-orders.closeOrderModal.submit')).not.toBeInTheDocument());
+    expect(defaultProps.mutator.orderDetails.PUT).not.toHaveBeenCalled();
   });
 });
 
@@ -572,10 +742,8 @@ describe('PO shortcuts', () => {
   });
 
   it('should translate to POL creation form', async () => {
-    usePurchaseOrderResources.mockReturnValue({
-      ...orderRelatedData,
+    setOrderResources({
       order: {
-        ...ORDER,
         workflowStatus: ORDER_STATUSES.pending,
       },
     });
