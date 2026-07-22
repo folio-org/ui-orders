@@ -1,6 +1,10 @@
-import PropTypes from 'prop-types';
-import { Field } from 'react-final-form';
+import { useCallback } from 'react';
+import {
+  Field,
+  useForm,
+} from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import {
   Checkbox,
@@ -15,8 +19,33 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { POL_FORM_FIELDS } from '../../../common/constants';
+import { isWorkflowStatusNotPending } from '../../PurchaseOrder/util';
 
-const OngoingOrderForm = ({ hiddenFields = {} }) => {
+const OngoingOrderForm = ({
+  hiddenFields = {},
+  order,
+}) => {
+  const isPostPendingOrder = order && isWorkflowStatusNotPending(order);
+
+  const {
+    change,
+    getState,
+  } = useForm();
+
+  const onMultiYearPaymentChange = useCallback((e) => {
+    const value = Boolean(e.target.checked);
+
+    change(POL_FORM_FIELDS.multiYearPayment, value);
+
+    if (value) {
+      const poLineEstimatedPrice = getState().values?.cost?.poLineEstimatedPrice || 0;
+
+      change(`${POL_FORM_FIELDS.paymentTerms}.totalPrice`, poLineEstimatedPrice);
+    } else {
+      change(POL_FORM_FIELDS.paymentTerms, undefined);
+    }
+  }, [change, getState]);
+
   return (
     <Row>
       <IfFieldVisible
@@ -50,6 +79,7 @@ const OngoingOrderForm = ({ hiddenFields = {} }) => {
           <VisibilityControl name="hiddenFields.multiYearPayment">
             <Field
               component={Checkbox}
+              disabled={isPostPendingOrder}
               fullWidth
               label={(
                 <>
@@ -58,6 +88,7 @@ const OngoingOrderForm = ({ hiddenFields = {} }) => {
                 </>
               )}
               name={POL_FORM_FIELDS.multiYearPayment}
+              onChange={onMultiYearPaymentChange}
               type="checkbox"
               validateFields={[]}
               vertical
@@ -71,6 +102,9 @@ const OngoingOrderForm = ({ hiddenFields = {} }) => {
 
 OngoingOrderForm.propTypes = {
   hiddenFields: PropTypes.object,
+  order: PropTypes.shape({
+    workflowStatus: PropTypes.string.isRequired,
+  }),
 };
 
 export default OngoingOrderForm;
