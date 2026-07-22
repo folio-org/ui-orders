@@ -8,6 +8,8 @@
 * Use `permanentLoanType` as a fallback for the loan type in the item list format. Refs UIOR-1565.
 * Include prepayment information in order CSV export. Refs UIOR-1535.
 * Deprecate acquisition methods in settings, PO line and templates. Refs UIOR-1157.
+* Do not copy closure reason when duplicating or reopening an order. Refs UIOR-1567.
+* Handle the `budgetNotFoundForFiscalYear` error code based on the intended PO action. Refs UIOR-1568.
 * Implement "Payment terms" form. Refs UIOR-1530.
 
 ## [9.0.5](https://github.com/folio-org/ui-orders/tree/v9.0.5) (2026-07-20)
