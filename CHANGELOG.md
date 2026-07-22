@@ -9,6 +9,7 @@
 * Include prepayment information in order CSV export. Refs UIOR-1535.
 * Deprecate acquisition methods in settings, PO line and templates. Refs UIOR-1157.
 * Do not copy closure reason when duplicating or reopening an order. Refs UIOR-1567.
+* Handle the `budgetNotFoundForFiscalYear` error code based on the intended PO action. Refs UIOR-1568.
 
 ## [9.0.5](https://github.com/folio-org/ui-orders/tree/v9.0.5) (2026-07-20)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.4...v9.0.5)
