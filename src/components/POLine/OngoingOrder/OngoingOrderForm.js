@@ -90,7 +90,6 @@ const OngoingOrderForm = ({
               name={POL_FORM_FIELDS.multiYearPayment}
               onChange={onMultiYearPaymentChange}
               type="checkbox"
-              validateFields={[]}
               vertical
             />
           </VisibilityControl>

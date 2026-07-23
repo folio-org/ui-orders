@@ -1,4 +1,3 @@
-import { noop } from 'lodash';
 import PropTypes from 'prop-types';
 import {
   useCallback,
@@ -164,7 +163,7 @@ export const PaymentTermsForm = ({
 
     try {
       const error = await composeValidatorsAsync(
-        isRequired ? validateFundDistributionRequired : noop,
+        validateFundDistributionRequired,
         validateFundDistributionUniqueFunds,
         fundDistributionTotalValidator,
       )(value);
@@ -175,7 +174,7 @@ export const PaymentTermsForm = ({
     } finally {
       setIsFundDistributionValidating(false);
     }
-  }, [fundDistributionTotalValidator, isRequired]);
+  }, [fundDistributionTotalValidator]);
 
   return (
     <>
@@ -242,7 +241,7 @@ export const PaymentTermsForm = ({
             onRemoveFiscalYear={onRemoveFiscalYearDistribution}
             onRemoveFundDistribution={onRemoveFundDistribution}
             totalAmount={totalPrice}
-            validate={validateFiscalYearsDistributions}
+            validate={isRequired ? validateFiscalYearsDistributions : undefined}
           />
         </Col>
       </Row>
