@@ -20,6 +20,7 @@ import {
 
 import { POL_FORM_FIELDS } from '../../../common/constants';
 import { isWorkflowStatusNotPending } from '../../PurchaseOrder/util';
+import calculateEstimatedPrice from '../calculateEstimatedPrice';
 
 const OngoingOrderForm = ({
   hiddenFields = {},
@@ -38,7 +39,7 @@ const OngoingOrderForm = ({
     change(POL_FORM_FIELDS.multiYearPayment, value);
 
     if (value) {
-      const poLineEstimatedPrice = getState().values?.cost?.poLineEstimatedPrice || 0;
+      const poLineEstimatedPrice = calculateEstimatedPrice(getState().values);
 
       change(`${POL_FORM_FIELDS.paymentTerms}.totalPrice`, poLineEstimatedPrice);
     } else {

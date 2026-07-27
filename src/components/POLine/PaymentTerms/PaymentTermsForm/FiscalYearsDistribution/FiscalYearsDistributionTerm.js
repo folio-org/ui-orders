@@ -8,12 +8,17 @@ import {
   Layout,
 } from '@folio/stripes/components';
 import {
+  FUND_DISTR_TYPE,
   FundDistributionFieldsFinalComponent,
   useFundDistributionExpenseClasses,
   useFundDistributionHandlers,
 } from '@folio/stripes-acq-components';
 
 import css from './FiscalYearsDistributionTerm.css';
+
+const onAddFund = (fields) => {
+  fields.push({ distributionType: FUND_DISTR_TYPE.amount, value: 0 });
+};
 
 export const FiscalYearsDistributionTerm = ({
   amounts,
@@ -42,7 +47,6 @@ export const FiscalYearsDistributionTerm = ({
   const intl = useIntl();
 
   const {
-    onAdd: onAddFund,
     onChangeToAmount,
     onChangeToPercent,
     onRemove: onRemoveFund,
@@ -99,7 +103,7 @@ FiscalYearsDistributionTerm.propTypes = {
   fiscalYearId: PropTypes.string,
   fundDistributions: PropTypes.arrayOf(PropTypes.object).isRequired,
   funds: PropTypes.arrayOf(PropTypes.object).isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
   onExpenseClassChange: PropTypes.func.isRequired,
   onRemoveFiscalYear: PropTypes.func.isRequired,

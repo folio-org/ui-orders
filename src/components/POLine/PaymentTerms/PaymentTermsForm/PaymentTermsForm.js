@@ -182,7 +182,7 @@ export const PaymentTermsForm = ({
         <Col xs={3}>
           <Field
             component={TextField}
-            disabled={disabled || !isMultiYearPayment}
+            disabled={!isMultiYearPayment}
             label={<FormattedMessage id="ui-orders.poLine.paymentTerms.totalPrice" />}
             name={`${rootFieldName}.totalPrice`}
             required={isRequired}

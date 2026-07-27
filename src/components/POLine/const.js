@@ -41,6 +41,7 @@ export const MAP_FIELD_ACCORDION = {
   orderFormat: ACCORDION_ID.lineDetails,
   other: ACCORDION_ID.other,
   paymentTerms: ACCORDION_ID.paymentTerms,
+  'paymentTerms.fiscalYearDistributions-error': ACCORDION_ID.paymentTerms,
   physical: ACCORDION_ID.physical,
   poLineNumber: ACCORDION_ID.lineDetails,
   publicationDate: ACCORDION_ID.itemDetails,

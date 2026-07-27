@@ -1,7 +1,11 @@
 import { useForm } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  act,
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import stripesFinalForm from '@folio/stripes/final-form';
 
@@ -58,14 +62,22 @@ describe('OngoingOrderForm', () => {
 
     useForm.mockReturnValue({
       change,
-      getState: jest.fn(() => ({ values: { cost: { poLineEstimatedPrice: 245 } } })),
+      getState: jest.fn(() => ({
+        values: {
+          cost: {
+            listUnitPrice: 245,
+            quantityPhysical: 1,
+            currency: 'USD',
+          },
+        },
+      })),
     });
 
-    renderOngoingOrderForm({
-      initialValues: { cost: { poLineEstimatedPrice: 245 } },
-    });
+    renderOngoingOrderForm();
 
-    await userEvent.click(screen.getByRole('checkbox'));
+    await act(async () => {
+      await userEvent.click(screen.getByRole('checkbox'));
+    });
 
     expect(change).toHaveBeenCalledWith('multiYearPayment', true);
     expect(change).toHaveBeenCalledWith('paymentTerms.totalPrice', 245);
