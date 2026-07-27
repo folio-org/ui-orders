@@ -59,7 +59,7 @@ export const FiscalYearsDistribution = ({
     const handleRemoveFiscalYear = () => {
       onRemoveFiscalYear(index, fields);
     };
-    const showRemoveButton = fields.length - 1 === index; // Only show remove button for the last fiscal year distribution
+    const showRemoveButton = (fields.length - 1 === index) && !isNonInteractive; // Only show remove button for the last fiscal year distribution and when the form is not in non-interactive mode
     const fiscalYearId = fields.value[index].fiscalYearId;
     const fundDistributions = fields.value[index].fundDistributions || [];
     const label = intl.formatMessage(
@@ -86,7 +86,6 @@ export const FiscalYearsDistribution = ({
       <FiscalYearsDistributionTerm
         amounts={fyAmounts}
         currency={currency}
-        disabled={isNonInteractive}
         filterFunds={filterFunds}
         fiscalYearId={fiscalYearId}
         fundDistributions={fundDistributions}

@@ -11,7 +11,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Field } from 'react-final-form';
+import {
+  Field,
+  useFormState,
+} from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 
@@ -138,6 +141,8 @@ function POLineForm({
   vendor = defaultProps.vendor,
 }) {
   const history = useHistory();
+
+  const { errors: formErrors } = useFormState();
 
   const [hiddenFields, setHiddenFields] = useState({});
   const { validateFundDistributionTotal } = useFundDistributionValidation(formValues);
@@ -352,7 +357,6 @@ function POLineForm({
     );
   };
 
-  const formErrors = form.getState()?.errors;
   const errors = useMemo(() => (
     omitFieldArraysAsyncErrors(formErrors, [
       POL_FORM_FIELDS.fundDistribution,
