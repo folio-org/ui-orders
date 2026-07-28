@@ -49,7 +49,7 @@ export const createOrEditOrderResource = (orderFormValues, mutator) => {
 
 export const reopenOrder = (order, mutator) => {
   return updateOrderResource(
-    omit(order, ['closeReason']),
+    omit(order, ['closeReason', 'openedById']),
     mutator,
     { workflowStatus: WORKFLOW_STATUS.open },
   );
@@ -67,7 +67,7 @@ export const cloneOrder = async (order, mutator, orderNumberMutator, lines) => {
       [
         'id', 'adjustment', 'metadata', 'poNumber', 'workflowStatus',
         'poLines', 'approved', 'approvedById', 'approvalDate',
-        'nextPolNumber', 'closeReason',
+        'nextPolNumber', 'closeReason', 'openedById',
       ],
     ),
     poNumber,
