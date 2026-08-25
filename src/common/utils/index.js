@@ -2,6 +2,7 @@ export { buildRelationModifierQuery } from './buildRelationModifierQuery';
 export * from './checkRelatedHoldings';
 export * from './createClearFilterHandler';
 export * from './fetchExportDataByIds';
+export * from './fetchOrderById';
 export * from './fieldArray';
 export * from './formatOpenedFiscalYear';
 export * from './getAcqUnitsByIds';
