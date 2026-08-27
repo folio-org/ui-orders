@@ -120,7 +120,7 @@ const PO = ({
   const intl = useIntl();
   const sendCallout = useShowCallout();
   const accordionStatusRef = useRef();
-  const [handleErrorResponse] = useHandleOrderUpdateError(mutator.expenseClass);
+  const [handleErrorResponse] = useHandleOrderUpdateError();
   const { visibleColumns, toggleColumn } = useColumnManager('line-listing-column-manager', LINE_LISTING_COLUMN_MAPPING);
   const { updateOrder } = useOrderMutation();
 
