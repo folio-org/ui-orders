@@ -5,7 +5,7 @@ export const inactiveExpenseClassStrategy = ({ callout }) => {
     const expenseClassName = error.getParameter('expenseClassName');
 
     callout.sendCallout({
-      messageId: `ui-orders.errors.${error.code}`,
+      messageId: `ui-orders.errors.openOrder.${error.code}`,
       type: 'error',
       values: { fundCode, expenseClassName },
     });

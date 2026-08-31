@@ -116,7 +116,7 @@ describe('useHandleOrderUpdateError', () => {
     );
 
     expect(sendCallout).toHaveBeenCalledWith({
-      messageId: 'ui-orders.errors.inactiveExpenseClass',
+      messageId: 'ui-orders.errors.openOrder.inactiveExpenseClass',
       type: 'error',
       values: { fundCode: 'fundCode', expenseClassName: 'expenseClassName' },
     });
