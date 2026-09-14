@@ -616,6 +616,7 @@
   "optionalDependencies": {
     "@folio/plugin-find-instance": "^10.0.0",
     "@folio/plugin-find-organization": "^6.0.0",
+    "plugin-task-list": "^1.0.0",
     "@folio/plugin-find-user": "^8.0.0"
   }
 }

@@ -57,8 +57,7 @@ import {
 } from '@folio/stripes/smart-components';
 
 import {
-  ExportDetailsAccordion,
-  ReexportModal,
+  ConnectedTasksJobsButton, ConnectedTasksJobsPane, ExportDetailsAccordion, ReexportModal, useConnectedTasksJobsProps,
 } from '../../common';
 import {
   ENTITY_TYPE_ORDER,
@@ -183,6 +182,7 @@ const PO = ({
 
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
+  const connectedTasksJobsProps = useConnectedTasksJobsProps(order, 'order');
   const poLinesCount = orderLines?.length || 0;
   const workflowStatus = get(order, 'workflowStatus');
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
@@ -217,6 +217,7 @@ const PO = ({
         tagsToggle={toggleTagsPane}
         tagsQuantity={tags.length}
       />
+      <ConnectedTasksJobsButton {...connectedTasksJobsProps} />
       <VersionHistoryButton onClick={openVersionHistory} />
     </PaneMenu>
   );
@@ -974,6 +975,7 @@ const PO = ({
   return (
     <>
       {POPane}
+      <ConnectedTasksJobsPane {...connectedTasksJobsProps} />
       {isTagsPaneOpened && (
         <Tags
           putMutator={updateOrderCB}

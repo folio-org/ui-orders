@@ -65,6 +65,9 @@ import { isWorkflowStatusClosed } from '../PurchaseOrder/util';
 import {
   ExportDetailsAccordion,
   ReexportModal,
+  ConnectedTasksJobsButton,
+  ConnectedTasksJobsPane,
+  useConnectedTasksJobsProps,
 } from '../../common';
 import {
   ENTITY_TYPE_PO_LINE,
@@ -320,6 +323,8 @@ const POLineView = ({
   ]);
 
   const tags = get(line, ['tags', 'tagList'], []);
+  const poLineNumber = line.poLineNumber;
+  const connectedTasksJobsProps = useConnectedTasksJobsProps(line, 'orderLine');
 
   const firstMenu = (
     <PaneMenu>
@@ -336,6 +341,7 @@ const POLineView = ({
         tagsToggle={tagsToggle}
         tagsQuantity={tags.length}
       />
+      <ConnectedTasksJobsButton {...connectedTasksJobsProps} />
       <VersionHistoryButton
         onClick={openVersionHistory}
       />
@@ -343,7 +349,6 @@ const POLineView = ({
   );
 
   const orderFormat = get(line, 'orderFormat');
-  const poLineNumber = line.poLineNumber;
   const showEresources = ERESOURCES.includes(orderFormat);
   const showPhresources = PHRESOURCES.includes(orderFormat);
   const showRoutingList = orderFormat === ORDER_FORMATS.PEMix || orderFormat === ORDER_FORMATS.physicalResource;
@@ -668,7 +673,7 @@ const POLineView = ({
           />
         )}
       </Pane>
-
+      <ConnectedTasksJobsPane {...connectedTasksJobsProps} />
       {
         isPrintOrderModalOpened && (
           <PrintOrder
