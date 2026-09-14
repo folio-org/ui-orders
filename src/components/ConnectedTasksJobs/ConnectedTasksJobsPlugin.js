@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Pluggable } from '@folio/stripes/core';
 
+import { CONNECTED_RECORD_TYPES } from '../../common/constants';
+
 export const ConnectedTasksJobsPlugin = ({
   componentType,
   recordId,
@@ -30,7 +32,7 @@ ConnectedTasksJobsPlugin.propTypes = {
   ]).isRequired,
   recordId: PropTypes.string.isRequired,
   recordObject: PropTypes.object,
-  recordType: PropTypes.oneOf(['order', 'orderLine']).isRequired,
+  recordType: PropTypes.oneOf(Object.values(CONNECTED_RECORD_TYPES)).isRequired,
 };
 
 ConnectedTasksJobsPlugin.defaultProps = {

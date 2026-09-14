@@ -60,6 +60,7 @@ import {
   ConnectedTasksJobsButton, ConnectedTasksJobsPane, ExportDetailsAccordion, ReexportModal, useConnectedTasksJobsProps,
 } from '../../common';
 import {
+  CONNECTED_RECORD_TYPES,
   ENTITY_TYPE_ORDER,
   ERROR_CODES,
   INVOICES_ROUTE,
@@ -179,10 +180,9 @@ const PO = ({
       setSelectedFiscalYear(fiscalYearsGrouped.current[0].id);
     }
   }, [fiscalYearsGrouped, selectedFiscalYear]);
-
   const reasonsForClosure = get(resources, 'closingReasons.records');
   const orderNumber = get(order, 'poNumber', '');
-  const connectedTasksJobsProps = useConnectedTasksJobsProps(order, 'order');
+  const connectedTasksJobsProps = useConnectedTasksJobsProps(order, CONNECTED_RECORD_TYPES.ORDER);
   const poLinesCount = orderLines?.length || 0;
   const workflowStatus = get(order, 'workflowStatus');
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;

@@ -70,6 +70,7 @@ import {
   useConnectedTasksJobsProps,
 } from '../../common';
 import {
+  CONNECTED_RECORD_TYPES,
   ENTITY_TYPE_PO_LINE,
   NOTE_TYPES,
   NOTES_ROUTE,
@@ -324,7 +325,7 @@ const POLineView = ({
 
   const tags = get(line, ['tags', 'tagList'], []);
   const poLineNumber = line.poLineNumber;
-  const connectedTasksJobsProps = useConnectedTasksJobsProps(line, 'orderLine');
+  const connectedTasksJobsProps = useConnectedTasksJobsProps(line, CONNECTED_RECORD_TYPES.ORDER_LINE);
 
   const firstMenu = (
     <PaneMenu>

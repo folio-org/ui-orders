@@ -1,7 +1,9 @@
 import { useOrganization } from '@folio/stripes-acq-components';
 
+import { CONNECTED_RECORD_TYPES } from '../../common/constants';
+
 const getRecordObject = (record, recordType, vendorName) => {
-  if (recordType === 'order') {
+  if (recordType === CONNECTED_RECORD_TYPES.ORDER) {
     return {
       poNumber: record.poNumber,
       vendorName,
@@ -18,7 +20,7 @@ const getRecordObject = (record, recordType, vendorName) => {
 
 export const useConnectedTasksJobsProps = (record, recordType) => {
   const { organization } = useOrganization(
-    recordType === 'order' ? record.vendor : undefined,
+    recordType === CONNECTED_RECORD_TYPES.ORDER ? record.vendor : undefined,
   );
 
   return {
