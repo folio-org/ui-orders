@@ -16,6 +16,7 @@ export * from './getHoldingPiecesAndItemsCount';
 export * from './getLocations';
 export * from './getMaterialTypes';
 export * from './getOrganizationsByIds';
+export * from './getPaymentTermsFundIds';
 export * from './getPOLinePieces';
 export * from './getRecordMap';
 export * from './getSettingsList';

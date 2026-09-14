@@ -354,6 +354,7 @@
           "settings.orders.enabled",
           "configuration.entries.collection.get",
           "finance.exchange-rate.item.get",
+          "finance.fiscal-years.collection.get",
           "finance.funds.expense-classes.collection.get",
           "inventory.instances.collection.get",
           "orders.acquisition-methods.collection.get",
@@ -563,7 +564,7 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^9.0.0",
-    "@folio/jest-config-stripes": "^3.1.0",
+    "@folio/jest-config-stripes": "^4.0.0",
     "@folio/stripes": "^10.0.0",
     "@folio/stripes-cli": "^5.0.0",
     "chai": "^4.2.0",
@@ -616,7 +617,6 @@
   "optionalDependencies": {
     "@folio/plugin-find-instance": "^10.0.0",
     "@folio/plugin-find-organization": "^6.0.0",
-    "plugin-task-list": "^1.0.0",
     "@folio/plugin-find-user": "^8.0.0"
   }
 }

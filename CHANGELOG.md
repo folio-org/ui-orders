@@ -12,6 +12,7 @@
 * Handle the `budgetNotFoundForFiscalYear` error code based on the intended PO action. Refs UIOR-1568.
 * Implement "Payment terms" form. Refs UIOR-1530.
 * Get a new version of the order to open after saving a line. Refs UIOR-1545.
+* Multi-year prepayments fixes and improvements. Refs UIOR-1572.
 * Integrate the Connected Tasks/Jobs plugin with Purchase Order and PO Line detail views. Refs UIOR-1578.
 
 ## [9.0.5](https://github.com/folio-org/ui-orders/tree/v9.0.5) (2026-07-20)
