@@ -99,6 +99,7 @@ import { EresourcesForm } from './Eresources';
 import {
   useExpenseClassChange,
   useManageDonorOrganizationIds,
+  useMultiYearPaymentChange,
 } from './hooks';
 import { ItemForm } from './Item';
 import LocationForm from './Location/LocationForm';
@@ -188,6 +189,8 @@ function POLineForm({
     holdings: instanceHoldings,
     isLoading: isHoldingsLoading,
   } = useInstanceHoldingsQuery(instanceId, { consortium: centralOrdering });
+
+  const { onChange: onMultiYearPaymentChange } = useMultiYearPaymentChange(accordionStatusRef);
 
   const shouldUpdateDonorOrganizationIds = useMemo(() => {
     const hasChanged = !isEqual(donorOrganizationIds, formValues?.donorOrganizationIds);
@@ -598,6 +601,7 @@ function POLineForm({
                           >
                             <OngoingOrderForm
                               hiddenFields={hiddenFields}
+                              onMultiYearPaymentChange={onMultiYearPaymentChange}
                               order={order}
                             />
                           </Accordion>
