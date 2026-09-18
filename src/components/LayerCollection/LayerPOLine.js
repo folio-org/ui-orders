@@ -678,7 +678,7 @@ function LayerPOLine({
         centralOrdering={isCentralOrderingEnabled}
         contributorNameTypeOptions={contributorNameTypeOptions}
         createInventorySetting={createInventorySetting}
-        enableSaveBtn={Boolean(savingValues)}
+        enableSaveBtn={Boolean(savingValues || isCreateFromInstance)}
         fieldArraysToHydrate={PO_LINE_FORM_FIELD_ARRAYS_TO_HYDRATE}
         funds={funds}
         identifierTypeOptions={identifierTypeOptions}

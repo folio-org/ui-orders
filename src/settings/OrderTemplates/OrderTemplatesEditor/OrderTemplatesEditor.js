@@ -69,6 +69,7 @@ import {
 } from '../../../common/utils';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
+import { useMultiYearPaymentChange } from '../../../components/POLine/hooks';
 import { OngoingOrderForm } from '../../../components/POLine/OngoingOrder';
 import { PaymentTermsFormContainer } from '../../../components/POLine/PaymentTerms';
 import TemplateInformationForm from './TemplateInformationForm';
@@ -145,6 +146,8 @@ const OrderTemplatesEditor = ({
       change(holdingFieldName, holdingId);
     }
   }, [change]);
+
+  const { onChange: onMultiYearPaymentChange } = useMultiYearPaymentChange(accordionStatusRef);
 
   const getLastMenu = () => {
     return (
@@ -349,7 +352,7 @@ const OrderTemplatesEditor = ({
                         label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER]}
                         id={ORDER_TEMPLATES_ACCORDION.POL_ONGOING_ORDER}
                       >
-                        <OngoingOrderForm />
+                        <OngoingOrderForm onMultiYearPaymentChange={onMultiYearPaymentChange} />
                       </Accordion>
                     )}
 
