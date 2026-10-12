@@ -7,7 +7,7 @@ const isEmpty = (value) => !value || (typeof value === 'string' && value.trim() 
 // non-breaking spaces.
 const isEmptyEditor = (value) => isEmpty(
   (value ?? '')
-    .replaceAll(/<[^>]*>/g, '')
+    .replaceAll(/<[^<>]*>/g, '')
     .replaceAll('&nbsp;', ' '),
 );
 
