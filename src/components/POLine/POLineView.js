@@ -53,6 +53,7 @@ import {
   RoutingListAccordion,
   TagsBadge,
   useAcqRestrictions,
+  useIntegrationConfigs,
   useModalToggle,
   useShowCallout,
   VersionHistoryButton,
@@ -185,6 +186,14 @@ const POLineView = ({
   } = useExportHistory([line.id]);
 
   const isCancelable = isCancelableLine(line, order);
+
+  // Fetched only when the export hint can show something.
+  const {
+    integrationConfigs,
+    isFetching: isIntegrationConfigsFetching,
+  } = useIntegrationConfigs({
+    organizationId: (line.automaticExport && !order?.manualPo) ? order?.vendor : undefined,
+  });
 
   const { hasLocationRestrictedFund } = useIsFundsRestrictedByLocationIds(line);
 
@@ -439,6 +448,9 @@ const POLineView = ({
                   <POLineDetails
                     line={line}
                     hiddenFields={hiddenFields}
+                    integrationConfigs={integrationConfigs}
+                    isIntegrationConfigsLoading={isIntegrationConfigsFetching}
+                    manualOrder={order?.manualPo}
                   />
                 </Accordion>
                 {isOngoing(order.orderType) && (

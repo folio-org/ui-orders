@@ -21,6 +21,7 @@ import {
   FieldPOLineNumber,
   FieldAcquisitionMethod,
   FieldAutomaticExport,
+  AutomaticExportInfo,
   FieldOrderFormat,
   FieldReceiptDate,
   FieldDonor,
@@ -52,7 +53,6 @@ import { isReceiptNotRequired } from '../utils';
 
 const defaultProps = {
   hiddenFields: {},
-  integrationConfigs: [],
   order: {},
   vendor: {},
 };
@@ -64,7 +64,7 @@ function POLineDetailsForm({
   formValues,
   hiddenFields = defaultProps.hiddenFields,
   initialValues: poLine,
-  integrationConfigs = defaultProps.integrationConfigs,
+  integrationConfigs,
   order = defaultProps.order,
   vendor = defaultProps.vendor,
 }) {
@@ -96,10 +96,14 @@ function POLineDetailsForm({
   const onAcqMethodChange = useCallback(
     (value) => {
       change(POL_FORM_FIELDS.acquisitionMethod, value);
+
+      // Manual orders are never exported, so leave the disabled checkbox alone.
+      if (isManualOrder) return;
+
       const vendorAccount = formValues?.vendorDetail?.vendorAccount;
 
       toggleAutomaticExport({ vendorAccount, acquisitionMethod: value, integrationConfigs, change });
-    }, [change, formValues, integrationConfigs],
+    }, [change, formValues, integrationConfigs, isManualOrder],
   );
 
   const onReceiptStatusChange = useCallback(async ({ target: { value } }) => {
@@ -160,6 +164,14 @@ function POLineDetailsForm({
     }
   }, [change, initReceivingWorkflowChange, isPostPendingOrder]);
 
+  const exportInfoProps = {
+    acquisitionMethod: formValues?.acquisitionMethod,
+    automaticExport: formValues?.automaticExport,
+    integrationConfigs,
+    manualOrder: isManualOrder,
+    vendorAccount: formValues?.vendorDetail?.vendorAccount,
+  };
+
   return (
     <>
       <Row>
@@ -196,6 +208,17 @@ function POLineDetailsForm({
             <FieldAutomaticExport
               disabled={isPostPendingOrder || isManualOrder}
               isManualOrder={isManualOrder}
+              exportInfo={(
+                <AutomaticExportInfo
+                  placement="label"
+                  {...exportInfoProps}
+                />
+              )}
+            />
+
+            <AutomaticExportInfo
+              placement="below"
+              {...exportInfoProps}
             />
           </Col>
         </IfFieldVisible>
