@@ -15,6 +15,7 @@
 * Multi-year prepayments fixes and improvements. Refs UIOR-1572.
 * Integrate the Connected Tasks/Jobs plugin with Purchase Order and PO Line detail views. Refs UIOR-1578.
 * Set initial sorting column for "Related invoice lines" MCL. Refs UIOR-1581.
+* Show which export integration applies to a PO line. Refs UIOR-1556.
 
 ## [9.0.5](https://github.com/folio-org/ui-orders/tree/v9.0.5) (2026-07-20)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.4...v9.0.5)
