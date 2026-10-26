@@ -37,6 +37,7 @@ const VendorForm = ({
   const { vendorDetail } = getState().values;
   const currentAccountNumber = vendorDetail?.vendorAccount;
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
+  const isManualOrder = Boolean(order?.manualPo);
   const initialAccountNumber = useRef(currentAccountNumber);
 
   const activeAccountOptions = useMemo(() => {
@@ -57,10 +58,14 @@ const VendorForm = ({
   const onAccountChange = useCallback(
     ({ target: { value } }) => {
       change('vendorDetail.vendorAccount', value);
+
+      // Manual orders are never exported, so leave the disabled checkbox alone.
+      if (isManualOrder) return;
+
       const acquisitionMethod = getState().values?.acquisitionMethod;
 
       toggleAutomaticExport({ vendorAccount: value, acquisitionMethod, integrationConfigs, change });
-    }, [change, getState, integrationConfigs],
+    }, [change, getState, integrationConfigs, isManualOrder],
   );
 
   const isSelectedAccountInactive = useMemo(() => {
