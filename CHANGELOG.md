@@ -15,6 +15,7 @@
 * Multi-year prepayments fixes and improvements. Refs UIOR-1572.
 * Integrate the Connected Tasks/Jobs plugin with Purchase Order and PO Line detail views. Refs UIOR-1578.
 * Set initial sorting column for "Related invoice lines" MCL. Refs UIOR-1581.
+* Preserve the "Create inventory" and "Receiving workflow" fields values according to the form value precedence rules. Refs UIOR-1582.
 
 ## [9.0.5](https://github.com/folio-org/ui-orders/tree/v9.0.5) (2026-07-20)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.4...v9.0.5)
