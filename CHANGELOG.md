@@ -17,6 +17,7 @@
 * Set initial sorting column for "Related invoice lines" MCL. Refs UIOR-1581.
 * Add Order email templates settings with token picker and Handlebars backend-rendered preview. Refs UIOR-1492, UIOR-1493, UIOR-1495.
 * Do not show metadata fields in "Version history" for PO and PO Lines. Refs UIOR-1585.
+* Preserve the "Create inventory" and "Receiving workflow" fields values according to the form value precedence rules. Refs UIOR-1582.
 
 ## [9.0.5](https://github.com/folio-org/ui-orders/tree/v9.0.5) (2026-07-20)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v9.0.4...v9.0.5)
