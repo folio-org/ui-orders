@@ -3,8 +3,14 @@ import { MemoryRouter } from 'react-router-dom';
 
 import user from '@folio/jest-config-stripes/testing-library/user-event';
 import { act, render, screen } from '@folio/jest-config-stripes/testing-library/react';
-import { ORDER_TYPES } from '@folio/stripes-acq-components';
-import { Pluggable } from '@folio/stripes/core';
+import {
+  ORDER_TYPES,
+  useIntegrationConfigs,
+} from '@folio/stripes-acq-components';
+import {
+  Pluggable,
+  useStripes,
+} from '@folio/stripes/core';
 
 import {
   orderLine,
@@ -41,6 +47,7 @@ jest.mock('@folio/stripes-acq-components', () => ({
   DonorsListContainer: jest.fn().mockReturnValue('DonorsListContainer'),
   FundDistributionView: jest.fn(() => 'FundDistributionView'),
   RoutingListAccordion: jest.fn().mockReturnValue('RoutingListAccordion'),
+  useIntegrationConfigs: jest.fn(() => ({ integrationConfigs: [], isFetching: false })),
   useOrganization: jest.fn(() => ({ organization: undefined })),
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
@@ -169,6 +176,46 @@ describe('POLineView', () => {
       recordType: 'orderLine',
       type: 'task-list',
     }));
+  });
+
+  describe('Integration configs for the export hint', () => {
+    beforeEach(() => {
+      useIntegrationConfigs.mockClear();
+    });
+
+    afterEach(() => {
+      useStripes().hasPerm.mockImplementation(() => true);
+    });
+
+    it('should fetch them when automatic export is on', () => {
+      renderPOLineView({ line: { ...orderLine, automaticExport: true } });
+
+      expect(useIntegrationConfigs).toHaveBeenCalledWith({ organizationId: order.vendor });
+    });
+
+    it('should not fetch them when automatic export is off', () => {
+      renderPOLineView({ line: { ...orderLine, automaticExport: false } });
+
+      expect(useIntegrationConfigs).toHaveBeenCalledWith({ organizationId: undefined });
+    });
+
+    it('should not fetch them for a manual order', () => {
+      renderPOLineView({
+        line: { ...orderLine, automaticExport: true },
+        order: { ...order, manualPo: true },
+      });
+
+      expect(useIntegrationConfigs).toHaveBeenCalledWith({ organizationId: undefined });
+    });
+
+    it('should neither fetch them nor show a warning without the permission to read integrations', () => {
+      useStripes().hasPerm.mockImplementation((perm) => perm !== 'data-export.config.collection.get');
+
+      renderPOLineView({ line: { ...orderLine, automaticExport: true } });
+
+      expect(useIntegrationConfigs).toHaveBeenCalledWith({ organizationId: undefined });
+      expect(screen.queryByRole('button', { name: 'ui-orders.poLine.automaticExport.noIntegration' })).not.toBeInTheDocument();
+    });
   });
 
   it('should render Ongoing order information accordion', async () => {
