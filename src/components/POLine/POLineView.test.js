@@ -19,6 +19,7 @@ import {
   ORDERS_ROUTE,
   ORDER_LINES_ROUTE,
 } from '../../common/constants';
+import { useAutomaticExportConfigs } from '../../common/hooks/useAutomaticExportConfigs';
 import POLineView from './POLineView';
 
 jest.mock('react-router-dom', () => ({
@@ -48,6 +49,9 @@ jest.mock('@folio/stripes/smart-components', () => ({
   NotesSmartAccordion: jest.fn().mockReturnValue('NotesSmartAccordion'),
   ViewMetaData: jest.fn().mockReturnValue('ViewMetaData'),
   ViewCustomFieldsRecord: jest.fn().mockReturnValue('ViewCustomFieldsRecord'),
+}));
+jest.mock('../../common/hooks/useAutomaticExportConfigs', () => ({
+  useAutomaticExportConfigs: jest.fn(() => ({ configs: undefined })),
 }));
 jest.mock('./Cost/CostView', () => jest.fn().mockReturnValue('CostView'));
 jest.mock('./Location/LocationView', () => jest.fn().mockReturnValue('LocationView'));
@@ -169,6 +173,17 @@ describe('POLineView', () => {
       recordType: 'orderLine',
       type: 'task-list',
     }));
+  });
+
+  it('should look up the export integrations of the order\'s vendor', () => {
+    useAutomaticExportConfigs.mockClear();
+
+    renderPOLineView({ line: { ...orderLine, automaticExport: true } });
+
+    expect(useAutomaticExportConfigs).toHaveBeenCalledWith(
+      expect.objectContaining({ vendorId: order.vendor }),
+      { enabled: true },
+    );
   });
 
   it('should render Ongoing order information accordion', async () => {

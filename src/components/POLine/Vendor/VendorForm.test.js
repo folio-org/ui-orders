@@ -1,9 +1,15 @@
 import { Form } from 'react-final-form';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { arrayMutators } from 'fixtures/arrayMutatorsMock';
+import { useToggleAutomaticExport } from '../../../common/hooks/useToggleAutomaticExport';
 import VendorForm from './VendorForm';
+
+jest.mock('../../../common/hooks/useToggleAutomaticExport', () => ({
+  useToggleAutomaticExport: jest.fn(() => jest.fn()),
+}));
 
 const defaultProps = {
   accounts: [{
@@ -62,5 +68,40 @@ describe('VendorForm', () => {
 
     expect(screen.getByText(`${accounts[0].name} (${accounts[0].accountNo})`)).toBeInTheDocument();
     expect(screen.getByText(`${accounts[2].name} (${accounts[2].accountNo})`)).toBeInTheDocument();
+  });
+
+  describe('Account number change', () => {
+    const toggleAutomaticExport = jest.fn();
+    const order = { workflowStatus: 'Pending', vendor: 'vendor-id' };
+    const accounts = [{
+      name: 'name',
+      accountNo: 'accountNo',
+      accountStatus: 'Active',
+    }];
+
+    beforeEach(() => {
+      toggleAutomaticExport.mockClear();
+      useToggleAutomaticExport.mockClear().mockReturnValue(toggleAutomaticExport);
+    });
+
+    it('should recalculate automatic export', async () => {
+      renderVendorForm({ accounts, order });
+
+      await userEvent.selectOptions(screen.getByRole('combobox'), 'accountNo');
+
+      expect(useToggleAutomaticExport).toHaveBeenCalledWith(order.vendor);
+      expect(toggleAutomaticExport).toHaveBeenCalledWith({
+        acquisitionMethod: undefined,
+        vendorAccount: 'accountNo',
+      });
+    });
+
+    it('should not recalculate automatic export for a manual order', async () => {
+      renderVendorForm({ accounts, order: { ...order, manualPo: true } });
+
+      await userEvent.selectOptions(screen.getByRole('combobox'), 'accountNo');
+
+      expect(toggleAutomaticExport).not.toHaveBeenCalled();
+    });
   });
 });

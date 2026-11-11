@@ -17,10 +17,12 @@ import {
 } from '@folio/stripes-acq-components';
 
 import { POL_FORM_FIELDS } from '../../../common/constants';
+import { useToggleAutomaticExport } from '../../../common/hooks/useToggleAutomaticExport';
 import {
   FieldPOLineNumber,
   FieldAcquisitionMethod,
   FieldAutomaticExport,
+  AutomaticExportInfo,
   FieldOrderFormat,
   FieldReceiptDate,
   FieldDonor,
@@ -45,14 +47,12 @@ import {
   isWorkflowStatusIsPending,
   isWorkflowStatusOpen,
 } from '../../PurchaseOrder/util';
-import { toggleAutomaticExport } from '../../Utils/toggleAutomaticExport';
 import { ConfirmReceivingWorkflowChangeModal } from '../ConfirmReceivingWorkflowChange';
 import { useReceivingWorkflowChange } from '../hooks';
 import { isReceiptNotRequired } from '../utils';
 
 const defaultProps = {
   hiddenFields: {},
-  integrationConfigs: [],
   order: {},
   vendor: {},
 };
@@ -64,11 +64,11 @@ function POLineDetailsForm({
   formValues,
   hiddenFields = defaultProps.hiddenFields,
   initialValues: poLine,
-  integrationConfigs = defaultProps.integrationConfigs,
   order = defaultProps.order,
   vendor = defaultProps.vendor,
 }) {
   const isManualOrder = Boolean(order?.manualPo);
+  const toggleAutomaticExport = useToggleAutomaticExport(order?.vendor);
   const isPostPendingOrder = !isWorkflowStatusIsPending(order);
   const isClosedOrder = isWorkflowStatusClosed(order);
   const isOpenedOrder = isWorkflowStatusOpen(order);
@@ -96,10 +96,14 @@ function POLineDetailsForm({
   const onAcqMethodChange = useCallback(
     (value) => {
       change(POL_FORM_FIELDS.acquisitionMethod, value);
+
+      // Manual orders are never exported, so leave the disabled checkbox alone.
+      if (isManualOrder) return;
+
       const vendorAccount = formValues?.vendorDetail?.vendorAccount;
 
-      toggleAutomaticExport({ vendorAccount, acquisitionMethod: value, integrationConfigs, change });
-    }, [change, formValues, integrationConfigs],
+      toggleAutomaticExport({ vendorAccount, acquisitionMethod: value });
+    }, [change, formValues, isManualOrder, toggleAutomaticExport],
   );
 
   const onReceiptStatusChange = useCallback(async ({ target: { value } }) => {
@@ -160,6 +164,14 @@ function POLineDetailsForm({
     }
   }, [change, initReceivingWorkflowChange, isPostPendingOrder]);
 
+  const exportInfoProps = {
+    acquisitionMethod: formValues?.acquisitionMethod,
+    automaticExport: formValues?.automaticExport,
+    manualOrder: isManualOrder,
+    vendorAccount: formValues?.vendorDetail?.vendorAccount,
+    vendorId: order?.vendor,
+  };
+
   return (
     <>
       <Row>
@@ -196,6 +208,17 @@ function POLineDetailsForm({
             <FieldAutomaticExport
               disabled={isPostPendingOrder || isManualOrder}
               isManualOrder={isManualOrder}
+              exportInfo={(
+                <AutomaticExportInfo
+                  placement="label"
+                  {...exportInfoProps}
+                />
+              )}
+            />
+
+            <AutomaticExportInfo
+              placement="below"
+              {...exportInfoProps}
             />
           </Col>
         </IfFieldVisible>
@@ -470,7 +493,6 @@ POLineDetailsForm.propTypes = {
   formValues: PropTypes.object.isRequired,
   hiddenFields: PropTypes.object,
   initialValues: PropTypes.object.isRequired,
-  integrationConfigs: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object,
   vendor: PropTypes.object,
 };

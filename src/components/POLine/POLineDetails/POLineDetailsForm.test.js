@@ -12,7 +12,18 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { RECEIPT_STATUS } from '@folio/stripes-acq-components';
 
 import { WORKFLOW_STATUS } from '../../../common/constants';
+import { useAcqMethods } from '../../../common/hooks/useAcqMethods';
+import { useToggleAutomaticExport } from '../../../common/hooks/useToggleAutomaticExport';
 import POLineDetailsForm from './POLineDetailsForm';
+
+jest.mock('../../../common/hooks/useAcqMethods', () => ({
+  useAcqMethods: jest.fn(() => ({ acqMethods: [], isLoading: false })),
+}));
+jest.mock('../../../common/hooks/useToggleAutomaticExport', () => ({
+  useToggleAutomaticExport: jest.fn(() => jest.fn()),
+}));
+
+const acqMethod = { id: 'acq-method-id', value: 'Purchase' };
 
 const defaultProps = {
   materialTypes: [{
@@ -294,6 +305,42 @@ describe('POLineDetailsForm', () => {
     await userEvent.type(claimingIntervalField, '42');
     expect(claimingIntervalField).toHaveValue(42);
     expect(claimingIntervalField).toBeValid();
+  });
+
+  describe('Acquisition method change', () => {
+    const toggleAutomaticExport = jest.fn();
+    const order = { workflowStatus: 'Pending', vendor: 'vendor-id' };
+
+    const selectAcqMethod = async () => {
+      await userEvent.click(screen.getByRole('button', { name: /ui-orders.poLine.acquisitionMethod/ }));
+      await userEvent.click(screen.getByRole('option', { name: /acquisition_method/ }));
+    };
+
+    beforeEach(() => {
+      toggleAutomaticExport.mockClear();
+      useToggleAutomaticExport.mockClear().mockReturnValue(toggleAutomaticExport);
+      useAcqMethods.mockReturnValue({ acqMethods: [acqMethod], isLoading: false });
+    });
+
+    it('should recalculate automatic export', async () => {
+      renderPOLineDetailsForm({ order }, { vendorDetail: { vendorAccount: '12345' } });
+
+      await selectAcqMethod();
+
+      expect(useToggleAutomaticExport).toHaveBeenCalledWith(order.vendor);
+      expect(toggleAutomaticExport).toHaveBeenCalledWith({
+        acquisitionMethod: acqMethod.id,
+        vendorAccount: '12345',
+      });
+    });
+
+    it('should not recalculate automatic export for a manual order', async () => {
+      renderPOLineDetailsForm({ order: { ...order, manualPo: true } });
+
+      await selectAcqMethod();
+
+      expect(toggleAutomaticExport).not.toHaveBeenCalled();
+    });
   });
 
   it('should `Bindary Active` field be disabled if "orderFormat" is not `physicalResource` nor `PEMix`', async () => {
