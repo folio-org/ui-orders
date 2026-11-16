@@ -27,6 +27,7 @@ import {
   IfFieldVisible,
   selectOptionsShape,
   useInstanceHoldingsQuery,
+  useModalToggle,
 } from '@folio/stripes-acq-components';
 import {
   Accordion,
@@ -69,6 +70,7 @@ import {
 } from '../../common/constants';
 import {
   useAccordionErrorTrigger,
+  useDeprecatedAcqMethods,
   useFundDistributionValidation,
 } from '../../common/hooks';
 import {
@@ -85,9 +87,11 @@ import {
   omitFieldArraysAsyncErrors,
   withUniqueFieldArrayItemKeys,
 } from '../../common/utils';
+import OpenOrderConfirmationModal from '../PurchaseOrder/OpenOrderConfirmationModal';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import { getOrderTemplateLabel } from '../Utils/getOrderTemplatesForSelect';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
+import { getOrderLinesAfterSave } from './getOrderLinesAfterSave';
 import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
@@ -277,6 +281,25 @@ function POLineForm({
     handleSubmit();
   }, [change, handleSubmit]);
 
+  const { acquisitionMethod, poLineNumber } = formValues;
+  const orderLinesAfterSave = useMemo(() => (
+    getOrderLinesAfterSave(order.poLines, { id: lineId, acquisitionMethod, poLineNumber })
+  ), [order.poLines, lineId, acquisitionMethod, poLineNumber]);
+  const { deprecatedAcqMethods } = useDeprecatedAcqMethods(orderLinesAfterSave);
+  const [isOpenOrderConfirmationOpened, toggleOpenOrderConfirmation] = useModalToggle();
+
+  // Asks for confirmation before opening an order that uses deprecated acquisition methods
+  const onSaveAndOpenClick = useCallback(() => {
+    if (form.getState().hasValidationErrors) return handleSubmit();
+
+    return deprecatedAcqMethods.length ? toggleOpenOrderConfirmation() : onSaveAndOpen();
+  }, [deprecatedAcqMethods, form, handleSubmit, onSaveAndOpen, toggleOpenOrderConfirmation]);
+
+  const confirmSaveAndOpen = useCallback(() => {
+    toggleOpenOrderConfirmation();
+    onSaveAndOpen();
+  }, [onSaveAndOpen, toggleOpenOrderConfirmation]);
+
   const onSaveAndKeepEditing = useCallback(() => {
     change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndKeepEditing);
     handleSubmit();
@@ -352,7 +375,7 @@ function POLineForm({
               type="submit"
               buttonStyle="primary mega"
               disabled={submitting}
-              onClick={onSaveAndOpen}
+              onClick={onSaveAndOpenClick}
             >
               <FormattedMessage id="ui-orders.buttons.line.saveAndOpen" />
             </Button>
@@ -764,6 +787,15 @@ function POLineForm({
             </form>
           </AccordionStatus>
         </Pane>
+
+        {isOpenOrderConfirmationOpened && (
+          <OpenOrderConfirmationModal
+            orderNumber={order.poNumber}
+            orderLines={orderLinesAfterSave}
+            submit={confirmSaveAndOpen}
+            cancel={toggleOpenOrderConfirmation}
+          />
+        )}
       </Paneset>
     </HasCommand>
   );

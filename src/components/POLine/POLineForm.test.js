@@ -22,7 +22,12 @@ import {
 import {
   location,
   order,
+  orderLine,
 } from 'fixtures';
+import { SUBMIT_ACTION_FIELD } from '../../common/constants';
+import { useDeprecatedAcqMethods } from '../../common/hooks';
+import OpenOrderConfirmationModal from '../PurchaseOrder/OpenOrderConfirmationModal';
+import { SUBMIT_ACTION } from './const';
 import POLineForm from './POLineForm';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
@@ -49,7 +54,15 @@ jest.mock('../../common/hooks', () => ({
     onExpandAllToggle: jest.fn(),
     collapseAll: mockCollapseAll,
   })),
+  useDeprecatedAcqMethods: jest.fn(() => ({ deprecatedAcqMethods: [] })),
 }));
+jest.mock('../PurchaseOrder/OpenOrderConfirmationModal', () => jest.fn(({ cancel, submit }) => (
+  <div>
+    OpenOrderConfirmationModal
+    <button type="button" onClick={cancel}>cancel open</button>
+    <button type="button" onClick={submit}>submit open</button>
+  </div>
+)));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
   EditCustomFieldsRecord: jest.fn(() => 'EditCustomFieldsRecord'),
@@ -253,5 +266,127 @@ describe('POLineForm actions', () => {
     const field = screen.getByRole('checkbox', { name: 'ui-orders.poLine.package' });
 
     expect(field).toBeInTheDocument();
+  });
+});
+
+describe('POLineForm "Save & open" with deprecated acquisition methods', () => {
+  const otherLine = { id: 'other-line-id', acquisitionMethod: 'deprecated-method-id' };
+  const lastLine = { id: 'last-line-id', acquisitionMethod: 'deprecated-method-id' };
+  const orderWithLines = {
+    ...defaultProps.order,
+    poLines: [otherLine, orderLine, lastLine],
+  };
+
+  // Without metadata, which needs a stripes object with okapi to be rendered
+  const line = { ...orderLine, metadata: undefined };
+
+  const renderLineForm = () => renderPOLineForm({ initialValues: line, order: orderWithLines });
+  const clickSaveAndOpen = () => user.click(screen.getByTestId('button-save-and-open'));
+
+  const mockDeprecatedAcqMethods = () => useDeprecatedAcqMethods.mockReturnValue({
+    deprecatedAcqMethods: [{ id: 'deprecated-method-id', deprecated: true }],
+  });
+
+  beforeEach(() => {
+    useFunds.mockReturnValue({ funds });
+    useInstanceHoldingsQuery.mockReturnValue({ holdings });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    useDeprecatedAcqMethods.mockReturnValue({ deprecatedAcqMethods: [] });
+  });
+
+  it('should check the order lines with the edited line as it is in the form', () => {
+    renderPOLineForm({ initialValues: { ...line, acquisitionMethod: 'edited-method-id' }, order: orderWithLines });
+
+    // The edited line keeps its position, so that the warning lists the line numbers in order
+    expect(useDeprecatedAcqMethods).toHaveBeenLastCalledWith([
+      otherLine,
+      expect.objectContaining({ id: line.id, acquisitionMethod: 'edited-method-id' }),
+      lastLine,
+    ]);
+  });
+
+  it('should save and open the order right away when no deprecated methods are used', async () => {
+    renderLineForm();
+
+    await clickSaveAndOpen();
+
+    expect(screen.queryByText('OpenOrderConfirmationModal')).not.toBeInTheDocument();
+    expect(defaultProps.onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen }),
+    );
+  });
+
+  it('should ask for confirmation before saving when deprecated methods are used', async () => {
+    mockDeprecatedAcqMethods();
+    renderLineForm();
+
+    await clickSaveAndOpen();
+
+    expect(screen.getByText('OpenOrderConfirmationModal')).toBeInTheDocument();
+    expect(defaultProps.onSubmit).not.toHaveBeenCalled();
+  });
+
+  it('should warn about the same order lines that were checked', async () => {
+    mockDeprecatedAcqMethods();
+    renderLineForm();
+
+    await clickSaveAndOpen();
+
+    const { orderLines, orderNumber } = OpenOrderConfirmationModal.mock.lastCall[0];
+
+    expect(orderNumber).toBe(orderWithLines.poNumber);
+    expect(orderLines).toBe(useDeprecatedAcqMethods.mock.lastCall[0]);
+  });
+
+  it('should save and open the order when the user confirms', async () => {
+    mockDeprecatedAcqMethods();
+    renderLineForm();
+
+    await clickSaveAndOpen();
+    await user.click(screen.getByText('submit open'));
+
+    expect(screen.queryByText('OpenOrderConfirmationModal')).not.toBeInTheDocument();
+    expect(defaultProps.onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen }),
+    );
+  });
+
+  it('should not open the order with the save shortcut after the user cancelled', async () => {
+    mockDeprecatedAcqMethods();
+    renderLineForm();
+
+    await clickSaveAndOpen();
+    await user.click(screen.getByText('cancel open'));
+    await user.type(screen.getByRole('textbox', { name: /edition/i }), ' updated');
+    HasCommand.mock.calls.at(-1)[0].commands.find(c => c.name === 'save').handler();
+
+    await waitFor(() => expect(defaultProps.onSubmit).toHaveBeenCalled());
+    expect(defaultProps.onSubmit).not.toHaveBeenCalledWith(
+      expect.objectContaining({ [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen }),
+    );
+  });
+
+  it('should only show the validation errors for an invalid form', async () => {
+    mockDeprecatedAcqMethods();
+    renderPOLineForm({ initialValues: { ...line, titleOrPackage: '' }, order: orderWithLines });
+
+    await clickSaveAndOpen();
+
+    expect(screen.queryByText('OpenOrderConfirmationModal')).not.toBeInTheDocument();
+    expect(defaultProps.onSubmit).not.toHaveBeenCalled();
+  });
+
+  it('should neither save nor open the order when the user cancels', async () => {
+    mockDeprecatedAcqMethods();
+    renderLineForm();
+
+    await clickSaveAndOpen();
+    await user.click(screen.getByText('cancel open'));
+
+    expect(screen.queryByText('OpenOrderConfirmationModal')).not.toBeInTheDocument();
+    expect(defaultProps.onSubmit).not.toHaveBeenCalled();
   });
 });
