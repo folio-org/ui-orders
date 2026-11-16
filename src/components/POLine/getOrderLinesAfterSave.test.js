@@ -7,7 +7,7 @@ describe('getOrderLinesAfterSave', () => {
   it('should replace the saved line in place with its edited values', () => {
     const editedLine = { id: 'first', acquisitionMethod: 'gift' };
 
-    expect(getOrderLinesAfterSave([firstLine, secondLine], editedLine)).toEqual([
+    expect(getOrderLinesAfterSave(editedLine, [firstLine, secondLine])).toEqual([
       { ...firstLine, acquisitionMethod: 'gift' },
       secondLine,
     ]);
@@ -16,10 +16,10 @@ describe('getOrderLinesAfterSave', () => {
   it('should add a line that is not in the order yet', () => {
     const newLine = { id: 'new', acquisitionMethod: 'purchase' };
 
-    expect(getOrderLinesAfterSave([firstLine], newLine)).toEqual([firstLine, newLine]);
+    expect(getOrderLinesAfterSave(newLine, [firstLine])).toEqual([firstLine, newLine]);
   });
 
   it('should return only the line when the order has no lines', () => {
-    expect(getOrderLinesAfterSave(undefined, firstLine)).toEqual([firstLine]);
+    expect(getOrderLinesAfterSave(firstLine)).toEqual([firstLine]);
   });
 });

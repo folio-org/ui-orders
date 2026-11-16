@@ -1,10 +1,10 @@
-const replaceOrderLine = (orderLines, line) => orderLines.map((orderLine) => (
+const replaceOrderLine = (line, orderLines) => orderLines.map((orderLine) => (
   orderLine.id === line.id ? { ...orderLine, ...line } : orderLine
 ));
 
 // The order lines as they will be once the edited (or new) line has been saved
-export const getOrderLinesAfterSave = (orderLines = [], line) => {
+export const getOrderLinesAfterSave = (line, orderLines = []) => {
   const isLineInOrder = orderLines.some(({ id }) => id === line.id);
 
-  return isLineInOrder ? replaceOrderLine(orderLines, line) : [...orderLines, line];
+  return isLineInOrder ? replaceOrderLine(line, orderLines) : [...orderLines, line];
 };

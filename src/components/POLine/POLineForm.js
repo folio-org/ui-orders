@@ -283,7 +283,7 @@ function POLineForm({
 
   const { acquisitionMethod, poLineNumber } = formValues;
   const orderLinesAfterSave = useMemo(() => (
-    getOrderLinesAfterSave(order.poLines, { id: lineId, acquisitionMethod, poLineNumber })
+    getOrderLinesAfterSave({ id: lineId, acquisitionMethod, poLineNumber }, order.poLines)
   ), [order.poLines, lineId, acquisitionMethod, poLineNumber]);
   const { deprecatedAcqMethods } = useDeprecatedAcqMethods(orderLinesAfterSave);
   const [isOpenOrderConfirmationOpened, toggleOpenOrderConfirmation] = useModalToggle();
