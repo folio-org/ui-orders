@@ -276,29 +276,29 @@ function POLineForm({
     handleSubmit();
   }, [change, handleSubmit]);
 
-  const onSaveAndOpen = useCallback(() => {
-    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndOpen);
-    handleSubmit();
-  }, [change, handleSubmit]);
-
   const { acquisitionMethod, poLineNumber } = formValues;
   const orderLinesAfterSave = useMemo(() => (
     getOrderLinesAfterSave({ id: lineId, acquisitionMethod, poLineNumber }, order.poLines)
   ), [order.poLines, lineId, acquisitionMethod, poLineNumber]);
   const { deprecatedAcqMethods } = useDeprecatedAcqMethods(orderLinesAfterSave);
-  const [isOpenOrderConfirmationOpened, toggleOpenOrderConfirmation] = useModalToggle();
+  const [isDeprecatedAcqMethodsModalOpen, toggleDeprecatedAcqMethodsModal] = useModalToggle();
 
   // Asks for confirmation before opening an order that uses deprecated acquisition methods
-  const onSaveAndOpenClick = useCallback(() => {
+  const onSaveAndOpen = useCallback(() => {
     if (form.getState().hasValidationErrors) return handleSubmit();
 
-    return deprecatedAcqMethods.length ? toggleOpenOrderConfirmation() : onSaveAndOpen();
-  }, [deprecatedAcqMethods, form, handleSubmit, onSaveAndOpen, toggleOpenOrderConfirmation]);
+    if (deprecatedAcqMethods.length) return toggleDeprecatedAcqMethodsModal();
 
-  const confirmSaveAndOpen = useCallback(() => {
-    toggleOpenOrderConfirmation();
-    onSaveAndOpen();
-  }, [onSaveAndOpen, toggleOpenOrderConfirmation]);
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndOpen);
+
+    return handleSubmit();
+  }, [change, deprecatedAcqMethods, form, handleSubmit, toggleDeprecatedAcqMethodsModal]);
+
+  const onDeprecatedAcqMethodsConfirm = useCallback(() => {
+    toggleDeprecatedAcqMethodsModal();
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndOpen);
+    handleSubmit();
+  }, [change, handleSubmit, toggleDeprecatedAcqMethodsModal]);
 
   const onSaveAndKeepEditing = useCallback(() => {
     change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndKeepEditing);
@@ -375,7 +375,7 @@ function POLineForm({
               type="submit"
               buttonStyle="primary mega"
               disabled={submitting}
-              onClick={onSaveAndOpenClick}
+              onClick={onSaveAndOpen}
             >
               <FormattedMessage id="ui-orders.buttons.line.saveAndOpen" />
             </Button>
@@ -788,12 +788,12 @@ function POLineForm({
           </AccordionStatus>
         </Pane>
 
-        {isOpenOrderConfirmationOpened && (
+        {isDeprecatedAcqMethodsModalOpen && (
           <OpenOrderConfirmationModal
             orderNumber={order.poNumber}
             orderLines={orderLinesAfterSave}
-            submit={confirmSaveAndOpen}
-            cancel={toggleOpenOrderConfirmation}
+            submit={onDeprecatedAcqMethodsConfirm}
+            cancel={toggleDeprecatedAcqMethodsModal}
           />
         )}
       </Paneset>
