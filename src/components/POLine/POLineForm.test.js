@@ -321,17 +321,7 @@ describe('POLineForm "Save & open" with deprecated acquisition methods', () => {
     );
   });
 
-  it('should ask for confirmation before saving when deprecated methods are used', async () => {
-    mockDeprecatedAcqMethods();
-    renderLineForm();
-
-    await clickSaveAndOpen();
-
-    expect(screen.getByText('DeprecatedAcqMethodsModal')).toBeInTheDocument();
-    expect(defaultProps.onSubmit).not.toHaveBeenCalled();
-  });
-
-  it('should warn about the deprecated methods that were found', async () => {
+  it('should ask for confirmation with the deprecated methods before saving', async () => {
     mockDeprecatedAcqMethods();
     renderLineForm();
 
@@ -339,6 +329,8 @@ describe('POLineForm "Save & open" with deprecated acquisition methods', () => {
 
     const { deprecatedAcqMethods, orderNumber } = DeprecatedAcqMethodsModal.mock.lastCall[0];
 
+    expect(screen.getByText('DeprecatedAcqMethodsModal')).toBeInTheDocument();
+    expect(defaultProps.onSubmit).not.toHaveBeenCalled();
     expect(orderNumber).toBe(orderWithLines.poNumber);
     expect(deprecatedAcqMethods).toBe(useDeprecatedAcqMethods.mock.results.at(-1).value.deprecatedAcqMethods);
   });
