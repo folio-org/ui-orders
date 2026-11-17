@@ -91,7 +91,6 @@ import OpenOrderConfirmationModal from '../PurchaseOrder/OpenOrderConfirmationMo
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import { getOrderTemplateLabel } from '../Utils/getOrderTemplatesForSelect';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
-import { getOrderLinesAfterSave } from './getOrderLinesAfterSave';
 import {
   ACCORDION_ID,
   INITIAL_SECTIONS,
@@ -277,9 +276,14 @@ function POLineForm({
   }, [change, handleSubmit]);
 
   const { acquisitionMethod, poLineNumber } = formValues;
-  const orderLinesAfterSave = useMemo(() => (
-    getOrderLinesAfterSave({ id: lineId, acquisitionMethod, poLineNumber }, order.poLines)
-  ), [order.poLines, lineId, acquisitionMethod, poLineNumber]);
+  const orderLinesAfterSave = useMemo(() => {
+    const formLine = { id: lineId, acquisitionMethod, poLineNumber };
+    const orderLines = order.poLines || [];
+
+    return lineId
+      ? orderLines.map((line) => (line.id === lineId ? formLine : line))
+      : [...orderLines, formLine];
+  }, [order.poLines, lineId, acquisitionMethod, poLineNumber]);
   const { deprecatedAcqMethods } = useDeprecatedAcqMethods(orderLinesAfterSave);
   const [isDeprecatedAcqMethodsModalOpen, toggleDeprecatedAcqMethodsModal] = useModalToggle();
 
