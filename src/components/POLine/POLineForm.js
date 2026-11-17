@@ -87,7 +87,6 @@ import {
   omitFieldArraysAsyncErrors,
   withUniqueFieldArrayItemKeys,
 } from '../../common/utils';
-import OpenOrderConfirmationModal from '../PurchaseOrder/OpenOrderConfirmationModal';
 import { ifDisabledToChangePaymentInfo } from '../PurchaseOrder/util';
 import { getOrderTemplateLabel } from '../Utils/getOrderTemplatesForSelect';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
@@ -98,6 +97,7 @@ import {
   SUBMIT_ACTION,
 } from './const';
 import { CostForm } from './Cost';
+import { DeprecatedAcqMethodsModal } from './DeprecatedAcqMethodsModal';
 import { EresourcesForm } from './Eresources';
 import {
   useExpenseClassChange,
@@ -792,14 +792,13 @@ function POLineForm({
           </AccordionStatus>
         </Pane>
 
-        {isDeprecatedAcqMethodsModalOpen && (
-          <OpenOrderConfirmationModal
-            orderNumber={order.poNumber}
-            orderLines={orderLinesAfterSave}
-            submit={onDeprecatedAcqMethodsConfirm}
-            cancel={toggleDeprecatedAcqMethodsModal}
-          />
-        )}
+        <DeprecatedAcqMethodsModal
+          deprecatedAcqMethods={deprecatedAcqMethods}
+          isOpen={isDeprecatedAcqMethodsModalOpen}
+          onCancel={toggleDeprecatedAcqMethodsModal}
+          onConfirm={onDeprecatedAcqMethodsConfirm}
+          orderNumber={order.poNumber}
+        />
       </Paneset>
     </HasCommand>
   );
