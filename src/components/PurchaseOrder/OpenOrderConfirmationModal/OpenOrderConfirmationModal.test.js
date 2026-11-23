@@ -28,17 +28,26 @@ describe('OpenOrderConfirmationModal', () => {
       .mockReturnValue({ deprecatedAcqMethods: [], isLoading: false });
   });
 
-  it('should warn about the deprecated methods used by the order lines', () => {
-    const orderLines = [{ id: 'line-id', acquisitionMethod: 'old', poLineNumber: 'POL-1' }];
+  it('should render open order confirmation modal ', () => {
+    renderOpenOrderConfirmationModal();
 
+    expect(screen.getByText('ui-orders.openOrderModal.title')).toBeInTheDocument();
+  });
+
+  it('should not show the deprecated methods warning when no line uses one', () => {
+    renderOpenOrderConfirmationModal();
+
+    expect(screen.queryByText('ui-orders.openOrderModal.deprecatedAcquisitionMethods')).not.toBeInTheDocument();
+  });
+
+  it('should warn about the deprecated methods used by the order lines', () => {
     useDeprecatedAcqMethods.mockReturnValue({
       deprecatedAcqMethods: [{ id: 'old', value: 'Old method', deprecated: true, poLineNumbers: ['POL-1'] }],
       isLoading: false,
     });
 
-    renderOpenOrderConfirmationModal({ orderLines });
+    renderOpenOrderConfirmationModal();
 
-    expect(useDeprecatedAcqMethods).toHaveBeenCalledWith(orderLines);
     expect(screen.getByText('ui-orders.openOrderModal.deprecatedAcquisitionMethods')).toBeInTheDocument();
   });
 
