@@ -1,11 +1,10 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { Button, MessageBanner, Modal } from '@folio/stripes/components';
-import { getAcqMethodLabel } from '@folio/stripes-acq-components';
+import { Button, Modal } from '@folio/stripes/components';
 
-export const BaseOpenOrderModal = ({
-  deprecatedAcqMethods,
+export const OpenOrderModal = ({
+  children,
   isLoading = false,
   onCancel,
   onSubmit,
@@ -17,16 +16,6 @@ export const BaseOpenOrderModal = ({
     { id: 'ui-orders.openOrderModal.title' },
     { orderNumber },
   );
-
-  const deprecatedMethodsList = deprecatedAcqMethods
-    .map((method) => {
-      const label = getAcqMethodLabel(method, { intl });
-
-      return method.poLineNumbers?.length
-        ? `${label} (${method.poLineNumbers.join(', ')})`
-        : label;
-    })
-    .join(', ');
 
   const footer = (
     <div>
@@ -59,20 +48,7 @@ export const BaseOpenOrderModal = ({
       footer={footer}
     >
       <div data-test-open-order-confirmation-modal-content>
-        {deprecatedAcqMethods.length > 0 && (
-          <MessageBanner
-            type="warning"
-            data-test-open-order-deprecated-acq-method-warning
-          >
-            <FormattedMessage
-              id="ui-orders.openOrderModal.deprecatedAcquisitionMethods"
-              values={{
-                count: deprecatedAcqMethods.length,
-                methods: deprecatedMethodsList,
-              }}
-            />
-          </MessageBanner>
-        )}
+        {children}
 
         <div>
           <FormattedMessage id="ui-orders.openOrderModal.message" />
@@ -82,8 +58,8 @@ export const BaseOpenOrderModal = ({
   );
 };
 
-BaseOpenOrderModal.propTypes = {
-  deprecatedAcqMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
+OpenOrderModal.propTypes = {
+  children: PropTypes.node,
   isLoading: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

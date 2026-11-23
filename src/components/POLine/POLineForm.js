@@ -68,6 +68,7 @@ import {
   SCOPE_CUSTOM_FIELDS_MANAGE,
   SUBMIT_ACTION_FIELD,
 } from '../../common/constants';
+import { DeprecatedAcqMethodsOpenOrderModal } from '../../common/DeprecatedAcqMethodsOpenOrderModal';
 import {
   useAccordionErrorTrigger,
   useDeprecatedAcqMethods,
@@ -97,7 +98,6 @@ import {
   SUBMIT_ACTION,
 } from './const';
 import { CostForm } from './Cost';
-import { DeprecatedAcqMethodsModal } from './DeprecatedAcqMethodsModal';
 import { EresourcesForm } from './Eresources';
 import {
   useExpenseClassChange,
@@ -287,7 +287,6 @@ function POLineForm({
   const { deprecatedAcqMethods } = useDeprecatedAcqMethods(orderLinesAfterSave);
   const [isDeprecatedAcqMethodsModalOpen, toggleDeprecatedAcqMethodsModal] = useModalToggle();
 
-  // Asks for confirmation before opening an order that uses deprecated acquisition methods
   const onSaveAndOpen = useCallback(() => {
     if (form.getState().hasValidationErrors) return handleSubmit();
 
@@ -792,13 +791,14 @@ function POLineForm({
           </AccordionStatus>
         </Pane>
 
-        <DeprecatedAcqMethodsModal
-          deprecatedAcqMethods={deprecatedAcqMethods}
-          isOpen={isDeprecatedAcqMethodsModalOpen}
-          onCancel={toggleDeprecatedAcqMethodsModal}
-          onConfirm={onDeprecatedAcqMethodsConfirm}
-          orderNumber={order.poNumber}
-        />
+        {isDeprecatedAcqMethodsModalOpen && (
+          <DeprecatedAcqMethodsOpenOrderModal
+            deprecatedAcqMethods={deprecatedAcqMethods}
+            onCancel={toggleDeprecatedAcqMethodsModal}
+            onSubmit={onDeprecatedAcqMethodsConfirm}
+            orderNumber={order.poNumber}
+          />
+        )}
       </Paneset>
     </HasCommand>
   );

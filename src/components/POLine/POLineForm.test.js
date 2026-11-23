@@ -25,9 +25,9 @@ import {
   orderLine,
 } from 'fixtures';
 import { SUBMIT_ACTION_FIELD } from '../../common/constants';
+import { DeprecatedAcqMethodsOpenOrderModal } from '../../common/DeprecatedAcqMethodsOpenOrderModal';
 import { useDeprecatedAcqMethods } from '../../common/hooks';
 import { SUBMIT_ACTION } from './const';
-import { DeprecatedAcqMethodsModal } from './DeprecatedAcqMethodsModal';
 import POLineForm from './POLineForm';
 
 jest.mock('@folio/stripes-acq-components/lib/AcqUnits/AcqUnitsField', () => {
@@ -56,14 +56,14 @@ jest.mock('../../common/hooks', () => ({
   })),
   useDeprecatedAcqMethods: jest.fn(() => ({ deprecatedAcqMethods: [] })),
 }));
-jest.mock('./DeprecatedAcqMethodsModal', () => ({
-  DeprecatedAcqMethodsModal: jest.fn(({ isOpen, onCancel, onConfirm }) => (isOpen ? (
+jest.mock('../../common/DeprecatedAcqMethodsOpenOrderModal', () => ({
+  DeprecatedAcqMethodsOpenOrderModal: jest.fn(({ onCancel, onSubmit }) => (
     <div>
-      DeprecatedAcqMethodsModal
+      DeprecatedAcqMethodsOpenOrderModal
       <button type="button" onClick={onCancel}>cancel open</button>
-      <button type="button" onClick={onConfirm}>submit open</button>
+      <button type="button" onClick={onSubmit}>submit open</button>
     </div>
-  ) : null)),
+  )),
 }));
 jest.mock('@folio/stripes/smart-components', () => ({
   ...jest.requireActual('@folio/stripes/smart-components'),
@@ -315,7 +315,7 @@ describe('POLineForm "Save & open" with deprecated acquisition methods', () => {
 
     await clickSaveAndOpen();
 
-    expect(screen.queryByText('DeprecatedAcqMethodsModal')).not.toBeInTheDocument();
+    expect(screen.queryByText('DeprecatedAcqMethodsOpenOrderModal')).not.toBeInTheDocument();
     expect(defaultProps.onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({ [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen }),
     );
@@ -327,9 +327,9 @@ describe('POLineForm "Save & open" with deprecated acquisition methods', () => {
 
     await clickSaveAndOpen();
 
-    const { deprecatedAcqMethods, orderNumber } = DeprecatedAcqMethodsModal.mock.lastCall[0];
+    const { deprecatedAcqMethods, orderNumber } = DeprecatedAcqMethodsOpenOrderModal.mock.lastCall[0];
 
-    expect(screen.getByText('DeprecatedAcqMethodsModal')).toBeInTheDocument();
+    expect(screen.getByText('DeprecatedAcqMethodsOpenOrderModal')).toBeInTheDocument();
     expect(defaultProps.onSubmit).not.toHaveBeenCalled();
     expect(orderNumber).toBe(orderWithLines.poNumber);
     expect(deprecatedAcqMethods).toBe(useDeprecatedAcqMethods.mock.results.at(-1).value.deprecatedAcqMethods);
@@ -342,7 +342,7 @@ describe('POLineForm "Save & open" with deprecated acquisition methods', () => {
     await clickSaveAndOpen();
     await user.click(screen.getByText('submit open'));
 
-    expect(screen.queryByText('DeprecatedAcqMethodsModal')).not.toBeInTheDocument();
+    expect(screen.queryByText('DeprecatedAcqMethodsOpenOrderModal')).not.toBeInTheDocument();
     expect(defaultProps.onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({ [SUBMIT_ACTION_FIELD]: SUBMIT_ACTION.saveAndOpen }),
     );
@@ -369,7 +369,7 @@ describe('POLineForm "Save & open" with deprecated acquisition methods', () => {
 
     await clickSaveAndOpen();
 
-    expect(screen.queryByText('DeprecatedAcqMethodsModal')).not.toBeInTheDocument();
+    expect(screen.queryByText('DeprecatedAcqMethodsOpenOrderModal')).not.toBeInTheDocument();
     expect(defaultProps.onSubmit).not.toHaveBeenCalled();
   });
 
@@ -380,7 +380,7 @@ describe('POLineForm "Save & open" with deprecated acquisition methods', () => {
     await clickSaveAndOpen();
     await user.click(screen.getByText('cancel open'));
 
-    expect(screen.queryByText('DeprecatedAcqMethodsModal')).not.toBeInTheDocument();
+    expect(screen.queryByText('DeprecatedAcqMethodsOpenOrderModal')).not.toBeInTheDocument();
     expect(defaultProps.onSubmit).not.toHaveBeenCalled();
   });
 });

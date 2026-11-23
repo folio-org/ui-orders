@@ -71,15 +71,14 @@ import {
   SCOPE_CUSTOM_FIELDS_MANAGE,
   WORKFLOW_STATUS,
 } from '../../common/constants';
-import { useHandleOrderUpdateError } from '../../common/hooks';
+import { DeprecatedAcqMethodsOpenOrderModal } from '../../common/DeprecatedAcqMethodsOpenOrderModal';
+import { useDeprecatedAcqMethods, useHandleOrderUpdateError } from '../../common/hooks';
 import { isOngoing } from '../../common/POFields';
 import {
   getCommonErrorMessage,
   getExportAccountNumbers,
 } from '../../common/utils';
-import {
-  PrintOrder,
-} from '../../PrintOrder';
+import { PrintOrder } from '../../PrintOrder';
 import ModalDeletePieces from '../ModalDeletePieces';
 import { LINES_LIMIT_DEFAULT } from '../Utils/const';
 import {
@@ -101,7 +100,6 @@ import {
 import LineListing from './LineListing';
 import LinesLimit from './LinesLimit';
 import { OngoingOrderInfoView } from './OngoingOrderInfo';
-import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 import { PODetailsView } from './PODetails';
 import POInvoicesContainer from './POInvoices';
 import { SummaryView } from './Summary';
@@ -184,6 +182,7 @@ const PO = ({
   const orderNumber = get(order, 'poNumber', '');
   const connectedTasksJobsProps = useConnectedTasksJobsProps(order, CONNECTED_RECORD_TYPES.ORDER);
   const poLinesCount = orderLines?.length || 0;
+  const { deprecatedAcqMethods, isLoading: isAcqMethodsLoading } = useDeprecatedAcqMethods(orderLines);
   const workflowStatus = get(order, 'workflowStatus');
   const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
   const tags = get(order, 'tags.tagList', []);
@@ -792,11 +791,12 @@ const PO = ({
               )}
 
               {isOpenOrderModalOpened && (
-                <OpenOrderConfirmationModal
+                <DeprecatedAcqMethodsOpenOrderModal
+                  deprecatedAcqMethods={deprecatedAcqMethods}
+                  isLoading={isAcqMethodsLoading}
+                  onCancel={toggleOpenOrderModal}
+                  onSubmit={openOrder}
                   orderNumber={orderNumber}
-                  orderLines={orderLines}
-                  submit={openOrder}
-                  cancel={toggleOpenOrderModal}
                 />
               )}
             </Col>

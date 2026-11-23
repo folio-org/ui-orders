@@ -31,7 +31,10 @@ import {
   ORDERS_ROUTE,
   PO_UPDATE_ACTION_TYPES,
 } from '../../common/constants';
-import { useOrderLinesAbandonedHoldingsCheck } from '../../common/hooks';
+import {
+  useDeprecatedAcqMethods,
+  useOrderLinesAbandonedHoldingsCheck,
+} from '../../common/hooks';
 import {
   useOrderMutation,
   usePurchaseOrderResources,
@@ -235,6 +238,7 @@ describe('PO actions', () => {
     defaultProps.mutator.orderDetails.PUT.mockResolvedValue(ORDER);
     history.push.mockClear();
     mockHandleOrderUpdateError.mockClear().mockResolvedValue();
+    useDeprecatedAcqMethods.mockReturnValue({ deprecatedAcqMethods: [], isLoading: false });
     useOrderLinesAbandonedHoldingsCheck.mockClear();
     useOrderMutation.mockClear().mockReturnValue({ updateOrder });
   });
@@ -494,6 +498,49 @@ describe('PO actions', () => {
       await act(async () => user.click(confirmBtn));
 
       expect(defaultProps.mutator.orderDetails.PUT).toHaveBeenCalled();
+    });
+
+    it('should warn about the deprecated methods used by the order lines', async () => {
+      const orderLines = [{ id: 'line-id', acquisitionMethod: 'old', cost: { currency: 'USD' }, poLineNumber: 'POL-1' }];
+
+      useDeprecatedAcqMethods.mockReturnValue({
+        deprecatedAcqMethods: [{ id: 'old', value: 'Old method', deprecated: true, poLineNumbers: ['POL-1'] }],
+        isLoading: false,
+      });
+      setOrderResources({
+        order: { workflowStatus: ORDER_STATUSES.pending },
+        orderLines,
+      });
+
+      renderComponent();
+
+      await act(async () => user.click(await screen.findByTestId('open-order-button')));
+
+      expect(useDeprecatedAcqMethods).toHaveBeenLastCalledWith(orderLines);
+      expect(screen.getByText('ui-orders.openOrderModal.deprecatedAcquisitionMethods')).toBeInTheDocument();
+    });
+
+    it('should disable opening while the acquisition methods are loading', async () => {
+      useDeprecatedAcqMethods.mockReturnValue({ deprecatedAcqMethods: [], isLoading: true });
+      setOrderResources({ order: { workflowStatus: ORDER_STATUSES.pending } });
+
+      renderComponent();
+
+      await act(async () => user.click(await screen.findByTestId('open-order-button')));
+
+      expect(screen.getByText('ui-orders.openOrderModal.submit').closest('button')).toBeDisabled();
+    });
+
+    it('should close the open order confirmation without opening the order', async () => {
+      setOrderResources({ order: { workflowStatus: ORDER_STATUSES.pending } });
+
+      renderComponent();
+
+      await act(async () => user.click(await screen.findByTestId('open-order-button')));
+      await act(async () => user.click(screen.getByText('ui-orders.openOrderModal.cancel')));
+
+      expect(screen.queryByText('ui-orders.openOrderModal.submit')).not.toBeInTheDocument();
+      expect(defaultProps.mutator.orderDetails.PUT).not.toHaveBeenCalled();
     });
 
     it('should pass open action options to order update error handler', async () => {

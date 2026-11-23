@@ -1,0 +1,1 @@
+export { DeprecatedAcqMethodsOpenOrderModal } from './DeprecatedAcqMethodsOpenOrderModal';
