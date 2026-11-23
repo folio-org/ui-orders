@@ -1,1 +1,0 @@
-export { DeprecatedAcqMethodsModal } from './DeprecatedAcqMethodsModal';
