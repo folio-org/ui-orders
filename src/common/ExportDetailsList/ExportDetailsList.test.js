@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import { exportHistory } from 'fixtures';
+import { RESULTS_FORMATTER } from './constants';
 import { ExportDetailsList } from './ExportDetailsList';
 
 const defaultProps = {
@@ -32,5 +33,9 @@ describe('ExportDetailsList', () => {
     expect(screen.getByText('ui-orders.export.exportDate')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.export.fileName')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.export.method')).toBeInTheDocument();
+  });
+
+  it('should display export date in the tenant time zone', () => {
+    expect(RESULTS_FORMATTER.exportDate(exportHistory).props.utc).toBe(false);
   });
 });

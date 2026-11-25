@@ -84,6 +84,24 @@ describe('OrderLinesList', () => {
 
     expect(getByText('OrderLineDetails')).toBeInTheDocument();
   });
+
+  it('should display export date as the last column', () => {
+    renderOrderLinesList();
+
+    const columnHeaders = screen.getAllByRole('columnheader');
+
+    expect(columnHeaders[columnHeaders.length - 1]).toHaveTextContent('ui-orders.export.exportDate');
+  });
+
+  it('should sort order lines by export date', async () => {
+    renderOrderLinesList();
+
+    await act(async () => user.click(screen.getByRole('button', { name: 'ui-orders.export.exportDate' })));
+
+    const exportDateHeader = screen.getByRole('columnheader', { name: 'ui-orders.export.exportDate' });
+
+    expect(exportDateHeader).toHaveAttribute('aria-sort', 'ascending');
+  });
 });
 
 describe('getResultsFormatter', () => {
@@ -117,6 +135,21 @@ describe('getResultsFormatter', () => {
     const { getByText } = render(getResultsFormatter(location).orderWorkflow({ ...orderLine, orderWorkflow: 'Pending' }));
 
     expect(getByText('stripes-acq-components.order.status.pending')).toBeInTheDocument();
+  });
+
+  it('should display export date in the tenant time zone', () => {
+    const exportDate = getResultsFormatter(location).lastEDIExportDate({ lastEDIExportDate: '2021-08-16T01:52:09.051+00:00' });
+
+    render(exportDate);
+
+    expect(screen.getByText('2021-08-16')).toBeInTheDocument();
+    expect(exportDate.props.utc).toBe(false);
+  });
+
+  it('should display a hyphen if the line has not been exported', () => {
+    render(getResultsFormatter(location).lastEDIExportDate({}));
+
+    expect(screen.getByText('-')).toBeInTheDocument();
   });
 
   it('should display only order line number', () => {

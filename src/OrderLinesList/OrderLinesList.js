@@ -57,8 +57,9 @@ import LineExportSettingsModalContainer from './LineExportSettingModalContainer'
 
 const VENDOR_REF_NUMBER = 'vendorDetail.refNumber';
 const UPDATED_DATE = 'metadata.updatedDate';
+const EXPORT_DATE = 'lastEDIExportDate';
 const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
-const sortableColumns = ['poLineNumber', UPDATED_DATE, 'titleOrPackage'];
+const sortableColumns = ['poLineNumber', UPDATED_DATE, 'titleOrPackage', EXPORT_DATE];
 
 export const getResultsFormatter = ({ search }) => ({
   poLineNumber: line => {
@@ -93,6 +94,7 @@ export const getResultsFormatter = ({ search }) => ({
   ),
   funCodes: line => line.fundDistribution?.map(({ code }) => code).filter(Boolean).join(', '),
   orderWorkflow: line => ORDER_STATUS_LABEL[line.orderWorkflow],
+  [EXPORT_DATE]: line => <FolioFormattedDate value={line[EXPORT_DATE]} utc={false} />,
 });
 
 export const columnMapping = {
@@ -104,6 +106,7 @@ export const columnMapping = {
   funCodes: <FormattedMessage id="ui-orders.orderLineList.funCodes" />,
   orderWorkflow: <FormattedMessage id="ui-orders.orderLineList.orderWorkflow" />,
   acqUnit: <FormattedMessage id="ui-orders.order.acquisitionsUnit" />,
+  [EXPORT_DATE]: <FormattedMessage id="ui-orders.export.exportDate" />,
 };
 
 const DEFAULT_CUSTOM_FIELDS = [];
