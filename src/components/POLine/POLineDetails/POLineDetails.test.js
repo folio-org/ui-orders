@@ -4,11 +4,15 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { ACQUISITION_METHOD } from '@folio/stripes-acq-components';
 
+import { useAutomaticExportConfigs } from '../../../common/hooks/useAutomaticExportConfigs';
 import POLineDetails, {
   getAcquisitionMethodValue,
   getReceivingWorkflowValue,
 } from './POLineDetails';
 
+jest.mock('../../../common/hooks/useAutomaticExportConfigs', () => ({
+  useAutomaticExportConfigs: jest.fn(() => ({ configs: undefined })),
+}));
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useIsFundsRestrictedByLocationIds: jest.fn().mockReturnValue({ hasLocationRestrictedFund: true }),
@@ -53,6 +57,66 @@ describe('POLineDetails', () => {
     expect(screen.getByText('ui-orders.poLine.receivingWorkflow')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.cancellationRestrictionNote')).toBeInTheDocument();
     expect(screen.getByText('ui-orders.poLine.poLineDescription')).toBeInTheDocument();
+  });
+
+  describe('Automatic export hint', () => {
+    const line = {
+      automaticExport: true,
+      acquisitionMethod: 'acq-method-id',
+      vendorDetail: { vendorAccount: '12345' },
+    };
+    const config = {
+      id: 'config-id',
+      exportTypeSpecificParameters: { vendorEdiOrdersExportConfig: { configName: 'testConfig' } },
+    };
+
+    beforeEach(() => {
+      useAutomaticExportConfigs.mockClear().mockReturnValue({ configs: undefined });
+    });
+
+    it('should show the matching integration', () => {
+      useAutomaticExportConfigs.mockReturnValue({ configs: [config] });
+
+      renderPOLineDetails({ line, vendorId: 'vendor-id' });
+
+      expect(screen.getByText('ui-orders.poLine.automaticExport.exportVia')).toBeInTheDocument();
+      expect(useAutomaticExportConfigs).toHaveBeenCalledWith(
+        {
+          vendorId: 'vendor-id',
+          acquisitionMethod: line.acquisitionMethod,
+          vendorAccount: line.vendorDetail.vendorAccount,
+        },
+        { enabled: true },
+      );
+    });
+
+    it('should show a warning when no integration matches', () => {
+      useAutomaticExportConfigs.mockReturnValue({ configs: [] });
+
+      renderPOLineDetails({ line, vendorId: 'vendor-id' });
+
+      expect(screen.getByRole('button', { name: 'ui-orders.poLine.automaticExport.noIntegration' })).toBeInTheDocument();
+    });
+
+    it('should show nothing as long as there is no answer', () => {
+      renderPOLineDetails({ line, vendorId: 'vendor-id' });
+
+      expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    });
+
+    it('should not look up the integrations when automatic export is off', () => {
+      renderPOLineDetails({ line: { ...line, automaticExport: undefined }, vendorId: 'vendor-id' });
+
+      expect(useAutomaticExportConfigs).toHaveBeenCalledWith(expect.any(Object), { enabled: false });
+    });
+
+    it('should show the manual order info instead of the hint for a manual order', () => {
+      renderPOLineDetails({ line, vendorId: 'vendor-id', manualOrder: true });
+
+      expect(useAutomaticExportConfigs).toHaveBeenCalledWith(expect.any(Object), { enabled: false });
+      expect(screen.queryByText('ui-orders.poLine.automaticExport.exportVia')).not.toBeInTheDocument();
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
   });
 
   describe('getAcquisitionMethodValue', () => {

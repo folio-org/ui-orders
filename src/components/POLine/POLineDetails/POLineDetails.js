@@ -7,6 +7,7 @@ import { ClipCopy } from '@folio/stripes/smart-components';
 import {
   Checkbox,
   Col,
+  InfoPopover,
   KeyValue,
   Loading,
   NoValue,
@@ -25,7 +26,14 @@ import {
   PAYMENT_STATUS_TRANSLATED_VALUES,
   RECEIPT_STATUS_TRANSLATED_VALUES,
 } from '../../../common/constants';
-import { useAcqMethod } from '../../../common/hooks';
+import {
+  AutomaticExportIntegrationName,
+  AutomaticExportIntegrationsPopover,
+} from '../../../common/POLFields';
+import {
+  useAcqMethod,
+  useAutomaticExportConfigs,
+} from '../../../common/hooks';
 
 const invalidAcqMethod = <FormattedMessage id="ui-orders.acquisitionMethod.invalid" />;
 
@@ -52,10 +60,21 @@ const DEFAULT_LINE = {};
 const POLineDetails = ({
   hiddenFields = DEFAULT_HIDDEN_FIELDS,
   line = DEFAULT_LINE,
+  manualOrder = false,
+  vendorId,
 }) => {
   const intl = useIntl();
   const receiptDate = get(line, 'receiptDate');
   const { acqMethod, isLoading } = useAcqMethod(line.acquisitionMethod);
+
+  const { configs: automaticExportConfigs } = useAutomaticExportConfigs(
+    {
+      vendorId,
+      acquisitionMethod: line.acquisitionMethod,
+      vendorAccount: line.vendorDetail?.vendorAccount,
+    },
+    { enabled: Boolean(line.automaticExport) && !manualOrder },
+  );
 
   return (
     <>
@@ -99,9 +118,17 @@ const POLineDetails = ({
             <Checkbox
               checked={line.automaticExport}
               disabled
-              label={<FormattedMessage id="ui-orders.poLine.automaticExport" />}
+              label={(
+                <>
+                  <FormattedMessage id="ui-orders.poLine.automaticExport" />
+                  {manualOrder && <InfoPopover content={<FormattedMessage id="ui-orders.poLine.manualPO.info" />} />}
+                  <AutomaticExportIntegrationsPopover configs={automaticExportConfigs} />
+                </>
+              )}
               vertical
             />
+
+            <AutomaticExportIntegrationName configs={automaticExportConfigs} />
           </Col>
         </IfVisible>
 
@@ -343,6 +370,8 @@ const POLineDetails = ({
 POLineDetails.propTypes = {
   hiddenFields: PropTypes.object,
   line: PropTypes.object,
+  manualOrder: PropTypes.bool,
+  vendorId: PropTypes.string,
 };
 
 export default POLineDetails;

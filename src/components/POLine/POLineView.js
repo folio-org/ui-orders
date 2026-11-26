@@ -439,6 +439,8 @@ const POLineView = ({
                   <POLineDetails
                     line={line}
                     hiddenFields={hiddenFields}
+                    manualOrder={order?.manualPo}
+                    vendorId={order?.vendor}
                   />
                 </Accordion>
                 {isOngoing(order.orderType) && (
