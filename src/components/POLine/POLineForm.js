@@ -27,6 +27,7 @@ import {
   IfFieldVisible,
   selectOptionsShape,
   useInstanceHoldingsQuery,
+  useModalToggle,
 } from '@folio/stripes-acq-components';
 import {
   Accordion,
@@ -67,8 +68,10 @@ import {
   SCOPE_CUSTOM_FIELDS_MANAGE,
   SUBMIT_ACTION_FIELD,
 } from '../../common/constants';
+import { DeprecatedAcqMethodsOpenOrderModal } from '../../common/DeprecatedAcqMethodsOpenOrderModal';
 import {
   useAccordionErrorTrigger,
+  useDeprecatedAcqMethods,
   useFundDistributionValidation,
 } from '../../common/hooks';
 import {
@@ -270,10 +273,33 @@ function POLineForm({
     handleSubmit();
   }, [change, handleSubmit]);
 
+  const { acquisitionMethod, poLineNumber } = formValues;
+  const orderLinesAfterSave = useMemo(() => {
+    const formLine = { id: lineId, acquisitionMethod, poLineNumber };
+    const orderLines = order.poLines || [];
+
+    return lineId
+      ? orderLines.map((line) => (line.id === lineId ? formLine : line))
+      : [...orderLines, formLine];
+  }, [order.poLines, lineId, acquisitionMethod, poLineNumber]);
+  const { deprecatedAcqMethods } = useDeprecatedAcqMethods(orderLinesAfterSave);
+  const [isDeprecatedAcqMethodsModalOpen, toggleDeprecatedAcqMethodsModal] = useModalToggle();
+
   const onSaveAndOpen = useCallback(() => {
+    if (form.getState().hasValidationErrors) return handleSubmit();
+
+    if (deprecatedAcqMethods.length) return toggleDeprecatedAcqMethodsModal();
+
+    change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndOpen);
+
+    return handleSubmit();
+  }, [change, deprecatedAcqMethods, form, handleSubmit, toggleDeprecatedAcqMethodsModal]);
+
+  const onDeprecatedAcqMethodsConfirm = useCallback(() => {
+    toggleDeprecatedAcqMethodsModal();
     change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndOpen);
     handleSubmit();
-  }, [change, handleSubmit]);
+  }, [change, handleSubmit, toggleDeprecatedAcqMethodsModal]);
 
   const onSaveAndKeepEditing = useCallback(() => {
     change(SUBMIT_ACTION_FIELD, SUBMIT_ACTION.saveAndKeepEditing);
@@ -760,6 +786,15 @@ function POLineForm({
             </form>
           </AccordionStatus>
         </Pane>
+
+        {isDeprecatedAcqMethodsModalOpen && (
+          <DeprecatedAcqMethodsOpenOrderModal
+            deprecatedAcqMethods={deprecatedAcqMethods}
+            onCancel={toggleDeprecatedAcqMethodsModal}
+            onSubmit={onDeprecatedAcqMethodsConfirm}
+            orderNumber={order.poNumber}
+          />
+        )}
       </Paneset>
     </HasCommand>
   );
