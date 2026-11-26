@@ -21,7 +21,7 @@ export const COLUMN_MAPPING = {
 
 export const RESULTS_FORMATTER = {
   jobName: item => <Link to={`${EXPORT_MANAGER_EDI_JOBS_ROUTE}/${item.exportJobId}`}>{item.jobName}</Link>,
-  exportDate: item => <FolioFormattedDate value={item.exportDate} />,
+  exportDate: item => <FolioFormattedDate value={item.exportDate} utc={false} />,
   exportFileName: item => item.exportFileName,
   exportMethod: item => item.exportMethod,
 };
